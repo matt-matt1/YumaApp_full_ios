@@ -14,6 +14,10 @@
 		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
 		CFAFC0A8201F6DA1002CBC1B /* YumaAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */; };
+		CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */; };
+		CFAFC0E8201F86CE002CBC1B /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */; };
+		CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EA201F9142002CBC1B /* Slides.swift */; };
+		CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EC201F9292002CBC1B /* IconPanel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		CFAFC0A3201F6DA1002CBC1B /* YumaAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YumaAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YumaAppUITests.swift; sourceTree = "<group>"; };
 		CFAFC0A9201F6DA1002CBC1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		CFAFC0EA201F9142002CBC1B /* Slides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slides.swift; sourceTree = "<group>"; };
+		CFAFC0EC201F9292002CBC1B /* IconPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPanel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +85,8 @@
 		CFAFC07B201F6DA1002CBC1B = {
 			isa = PBXGroup;
 			children = (
+				CFAFC0E9201F911D002CBC1B /* Models */,
+				CFAFC0B5201F7857002CBC1B /* Fonts */,
 				CFAFC086201F6DA1002CBC1B /* YumaApp */,
 				CFAFC09B201F6DA1002CBC1B /* YumaAppTests */,
 				CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */,
@@ -101,6 +111,7 @@
 				CFAFC089201F6DA1002CBC1B /* ViewController.swift */,
 				CFAFC08B201F6DA1002CBC1B /* Main.storyboard */,
 				CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */,
+				CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */,
 				CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */,
 				CFAFC093201F6DA1002CBC1B /* Info.plist */,
 			);
@@ -123,6 +134,23 @@
 				CFAFC0A9201F6DA1002CBC1B /* Info.plist */,
 			);
 			path = YumaAppUITests;
+			sourceTree = "<group>";
+		};
+		CFAFC0B5201F7857002CBC1B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		CFAFC0E9201F911D002CBC1B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC0EA201F9142002CBC1B /* Slides.swift */,
+				CFAFC0EC201F9292002CBC1B /* IconPanel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +263,7 @@
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
 				CFAFC08F201F6DA1002CBC1B /* Assets.xcassets in Resources */,
 				CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */,
+				CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +288,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFAFC0E8201F86CE002CBC1B /* ItemViewController.swift in Sources */,
 				CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */,
+				CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */,
+				CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +461,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JED4EB54LQ;
 				INFOPLIST_FILE = YumaApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,6 +477,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JED4EB54LQ;
 				INFOPLIST_FILE = YumaApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
