@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
+		CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC089201F6DA1002CBC1B /* ViewController.swift */; };
+		CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC08B201F6DA1002CBC1B /* Main.storyboard */; };
+		CFAFC08F201F6DA1002CBC1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */; };
+		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
+		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
+		CFAFC0A8201F6DA1002CBC1B /* YumaAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CFAFC099201F6DA1002CBC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFAFC07C201F6DA1002CBC1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFAFC083201F6DA1002CBC1B;
+			remoteInfo = YumaApp;
+		};
+		CFAFC0A4201F6DA1002CBC1B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFAFC07C201F6DA1002CBC1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFAFC083201F6DA1002CBC1B;
+			remoteInfo = YumaApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CFAFC089201F6DA1002CBC1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CFAFC08C201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CFAFC091201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CFAFC093201F6DA1002CBC1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFAFC098201F6DA1002CBC1B /* YumaAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YumaAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YumaAppTests.swift; sourceTree = "<group>"; };
+		CFAFC09E201F6DA1002CBC1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFAFC0A3201F6DA1002CBC1B /* YumaAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YumaAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YumaAppUITests.swift; sourceTree = "<group>"; };
+		CFAFC0A9201F6DA1002CBC1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFAFC081201F6DA1002CBC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC095201F6DA1002CBC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC0A0201F6DA1002CBC1B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CFAFC07B201F6DA1002CBC1B = {
+			isa = PBXGroup;
+			children = (
+				CFAFC086201F6DA1002CBC1B /* YumaApp */,
+				CFAFC09B201F6DA1002CBC1B /* YumaAppTests */,
+				CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */,
+				CFAFC085201F6DA1002CBC1B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CFAFC085201F6DA1002CBC1B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC084201F6DA1002CBC1B /* YumaApp.app */,
+				CFAFC098201F6DA1002CBC1B /* YumaAppTests.xctest */,
+				CFAFC0A3201F6DA1002CBC1B /* YumaAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */,
+				CFAFC089201F6DA1002CBC1B /* ViewController.swift */,
+				CFAFC08B201F6DA1002CBC1B /* Main.storyboard */,
+				CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */,
+				CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */,
+				CFAFC093201F6DA1002CBC1B /* Info.plist */,
+			);
+			path = YumaApp;
+			sourceTree = "<group>";
+		};
+		CFAFC09B201F6DA1002CBC1B /* YumaAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */,
+				CFAFC09E201F6DA1002CBC1B /* Info.plist */,
+			);
+			path = YumaAppTests;
+			sourceTree = "<group>";
+		};
+		CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */,
+				CFAFC0A9201F6DA1002CBC1B /* Info.plist */,
+			);
+			path = YumaAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CFAFC083201F6DA1002CBC1B /* YumaApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFAFC0AC201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaApp" */;
+			buildPhases = (
+				CFAFC080201F6DA1002CBC1B /* Sources */,
+				CFAFC081201F6DA1002CBC1B /* Frameworks */,
+				CFAFC082201F6DA1002CBC1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YumaApp;
+			productName = YumaApp;
+			productReference = CFAFC084201F6DA1002CBC1B /* YumaApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CFAFC097201F6DA1002CBC1B /* YumaAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFAFC0AF201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppTests" */;
+			buildPhases = (
+				CFAFC094201F6DA1002CBC1B /* Sources */,
+				CFAFC095201F6DA1002CBC1B /* Frameworks */,
+				CFAFC096201F6DA1002CBC1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFAFC09A201F6DA1002CBC1B /* PBXTargetDependency */,
+			);
+			name = YumaAppTests;
+			productName = YumaAppTests;
+			productReference = CFAFC098201F6DA1002CBC1B /* YumaAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CFAFC0A2201F6DA1002CBC1B /* YumaAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFAFC0B2201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppUITests" */;
+			buildPhases = (
+				CFAFC09F201F6DA1002CBC1B /* Sources */,
+				CFAFC0A0201F6DA1002CBC1B /* Frameworks */,
+				CFAFC0A1201F6DA1002CBC1B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFAFC0A5201F6DA1002CBC1B /* PBXTargetDependency */,
+			);
+			name = YumaAppUITests;
+			productName = YumaAppUITests;
+			productReference = CFAFC0A3201F6DA1002CBC1B /* YumaAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFAFC07C201F6DA1002CBC1B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "Yuma Usa";
+				TargetAttributes = {
+					CFAFC083201F6DA1002CBC1B = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					CFAFC097201F6DA1002CBC1B = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CFAFC083201F6DA1002CBC1B;
+					};
+					CFAFC0A2201F6DA1002CBC1B = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CFAFC083201F6DA1002CBC1B;
+					};
+				};
+			};
+			buildConfigurationList = CFAFC07F201F6DA1002CBC1B /* Build configuration list for PBXProject "YumaApp" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CFAFC07B201F6DA1002CBC1B;
+			productRefGroup = CFAFC085201F6DA1002CBC1B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFAFC083201F6DA1002CBC1B /* YumaApp */,
+				CFAFC097201F6DA1002CBC1B /* YumaAppTests */,
+				CFAFC0A2201F6DA1002CBC1B /* YumaAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFAFC082201F6DA1002CBC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
+				CFAFC08F201F6DA1002CBC1B /* Assets.xcassets in Resources */,
+				CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC096201F6DA1002CBC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC0A1201F6DA1002CBC1B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFAFC080201F6DA1002CBC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */,
+				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC094201F6DA1002CBC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFAFC09F201F6DA1002CBC1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFAFC0A8201F6DA1002CBC1B /* YumaAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CFAFC09A201F6DA1002CBC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFAFC083201F6DA1002CBC1B /* YumaApp */;
+			targetProxy = CFAFC099201F6DA1002CBC1B /* PBXContainerItemProxy */;
+		};
+		CFAFC0A5201F6DA1002CBC1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFAFC083201F6DA1002CBC1B /* YumaApp */;
+			targetProxy = CFAFC0A4201F6DA1002CBC1B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CFAFC08B201F6DA1002CBC1B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFAFC08C201F6DA1002CBC1B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFAFC091201F6DA1002CBC1B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CFAFC0AA201F6DA1002CBC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CFAFC0AB201F6DA1002CBC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CFAFC0AD201F6DA1002CBC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFAFC0AE201F6DA1002CBC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CFAFC0B0201F6DA1002CBC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YumaApp.app/YumaApp";
+			};
+			name = Debug;
+		};
+		CFAFC0B1201F6DA1002CBC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YumaApp.app/YumaApp";
+			};
+			name = Release;
+		};
+		CFAFC0B3201F6DA1002CBC1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = YumaApp;
+			};
+			name = Debug;
+		};
+		CFAFC0B4201F6DA1002CBC1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = JED4EB54LQ;
+				INFOPLIST_FILE = YumaAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = YumaApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFAFC07F201F6DA1002CBC1B /* Build configuration list for PBXProject "YumaApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFAFC0AA201F6DA1002CBC1B /* Debug */,
+				CFAFC0AB201F6DA1002CBC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFAFC0AC201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFAFC0AD201F6DA1002CBC1B /* Debug */,
+				CFAFC0AE201F6DA1002CBC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFAFC0AF201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFAFC0B0201F6DA1002CBC1B /* Debug */,
+				CFAFC0B1201F6DA1002CBC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFAFC0B2201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFAFC0B3201F6DA1002CBC1B /* Debug */,
+				CFAFC0B4201F6DA1002CBC1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CFAFC07C201F6DA1002CBC1B /* Project object */;
+}
