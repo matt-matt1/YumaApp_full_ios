@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */; };
+		905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */; };
+		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
+		CFA221AF202234DE00557C42 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA221AE202234DD00557C42 /* R.generated.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC089201F6DA1002CBC1B /* ViewController.swift */; };
 		CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC08B201F6DA1002CBC1B /* Main.storyboard */; };
@@ -15,7 +19,6 @@
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
 		CFAFC0A8201F6DA1002CBC1B /* YumaAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */; };
 		CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */; };
-		CFAFC0E8201F86CE002CBC1B /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */; };
 		CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EA201F9142002CBC1B /* Slides.swift */; };
 		CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EC201F9292002CBC1B /* IconPanel.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		057A747F0261C5418B078353 /* Pods-YumaApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.debug.xcconfig"; sourceTree = "<group>"; };
+		392768AA0A60F91FDDB5AB8B /* Pods-YumaAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F16076F5CC5D486C6868E0A /* Pods-YumaAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		5B61A020F0F62CB2AC7C5093 /* Pods-YumaAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.release.xcconfig"; sourceTree = "<group>"; };
+		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFA221AE202234DD00557C42 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC089201F6DA1002CBC1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -52,7 +65,6 @@
 		CFAFC0A7201F6DA1002CBC1B /* YumaAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YumaAppUITests.swift; sourceTree = "<group>"; };
 		CFAFC0A9201F6DA1002CBC1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		CFAFC0EA201F9142002CBC1B /* Slides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slides.swift; sourceTree = "<group>"; };
 		CFAFC0EC201F9292002CBC1B /* IconPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPanel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,21 +90,48 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		015ADD46E14F669CF22CA313 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				057A747F0261C5418B078353 /* Pods-YumaApp.debug.xcconfig */,
+				AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */,
+				392768AA0A60F91FDDB5AB8B /* Pods-YumaAppTests.debug.xcconfig */,
+				4F16076F5CC5D486C6868E0A /* Pods-YumaAppTests.release.xcconfig */,
+				7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */,
+				5B61A020F0F62CB2AC7C5093 /* Pods-YumaAppUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		28DB1A0CACEC912941C15AC3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */,
+				450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */,
+				5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CFAFC07B201F6DA1002CBC1B = {
 			isa = PBXGroup;
 			children = (
+				CFA221AE202234DD00557C42 /* R.generated.swift */,
 				CFAFC0E9201F911D002CBC1B /* Models */,
 				CFAFC0B5201F7857002CBC1B /* Fonts */,
 				CFAFC086201F6DA1002CBC1B /* YumaApp */,
 				CFAFC09B201F6DA1002CBC1B /* YumaAppTests */,
 				CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */,
 				CFAFC085201F6DA1002CBC1B /* Products */,
+				015ADD46E14F669CF22CA313 /* Pods */,
+				28DB1A0CACEC912941C15AC3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,7 +152,6 @@
 				CFAFC089201F6DA1002CBC1B /* ViewController.swift */,
 				CFAFC08B201F6DA1002CBC1B /* Main.storyboard */,
 				CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */,
-				CFAFC0E7201F86CE002CBC1B /* ItemViewController.swift */,
 				CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */,
 				CFAFC093201F6DA1002CBC1B /* Info.plist */,
 			);
@@ -160,9 +200,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFAFC0AC201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaApp" */;
 			buildPhases = (
+				CFA221AD2022336100557C42 /* ShellScript */,
+				15784A9F3066C5EC026E8F57 /* [CP] Check Pods Manifest.lock */,
 				CFAFC080201F6DA1002CBC1B /* Sources */,
 				CFAFC081201F6DA1002CBC1B /* Frameworks */,
 				CFAFC082201F6DA1002CBC1B /* Resources */,
+				D6AFC8110EC5A5A664BEAB02 /* [CP] Embed Pods Frameworks */,
+				BDDE96B069BD7EF930801DFC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -177,9 +221,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFAFC0AF201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppTests" */;
 			buildPhases = (
+				7CC52F587C44702D969AA467 /* [CP] Check Pods Manifest.lock */,
 				CFAFC094201F6DA1002CBC1B /* Sources */,
 				CFAFC095201F6DA1002CBC1B /* Frameworks */,
 				CFAFC096201F6DA1002CBC1B /* Resources */,
+				87D8AF0704538539E140DB4C /* [CP] Embed Pods Frameworks */,
+				C2C087027B4AB483337C6D86 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -195,9 +242,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CFAFC0B2201F6DA1002CBC1B /* Build configuration list for PBXNativeTarget "YumaAppUITests" */;
 			buildPhases = (
+				28888132D54E7A45635E9F91 /* [CP] Check Pods Manifest.lock */,
 				CFAFC09F201F6DA1002CBC1B /* Sources */,
 				CFAFC0A0201F6DA1002CBC1B /* Frameworks */,
 				CFAFC0A1201F6DA1002CBC1B /* Resources */,
+				1261E962EF387282181461AD /* [CP] Embed Pods Frameworks */,
+				0904CA2E46F8DCAA71017A33 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,16 +333,179 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0904CA2E46F8DCAA71017A33 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1261E962EF387282181461AD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		15784A9F3066C5EC026E8F57 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YumaApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		28888132D54E7A45635E9F91 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YumaAppUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7CC52F587C44702D969AA467 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YumaAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		87D8AF0704538539E140DB4C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDDE96B069BD7EF930801DFC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C2C087027B4AB483337C6D86 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFA221AD2022336100557C42 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT\"";
+		};
+		D6AFC8110EC5A5A664BEAB02 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CFAFC080201F6DA1002CBC1B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFAFC0E8201F86CE002CBC1B /* ItemViewController.swift in Sources */,
 				CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */,
 				CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */,
 				CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
+				CFA221AF202234DE00557C42 /* R.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +669,7 @@
 		};
 		CFAFC0AD201F6DA1002CBC1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 057A747F0261C5418B078353 /* Pods-YumaApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -472,6 +686,7 @@
 		};
 		CFAFC0AE201F6DA1002CBC1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -488,6 +703,7 @@
 		};
 		CFAFC0B0201F6DA1002CBC1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 392768AA0A60F91FDDB5AB8B /* Pods-YumaAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -505,6 +721,7 @@
 		};
 		CFAFC0B1201F6DA1002CBC1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F16076F5CC5D486C6868E0A /* Pods-YumaAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -522,6 +739,7 @@
 		};
 		CFAFC0B3201F6DA1002CBC1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -538,6 +756,7 @@
 		};
 		CFAFC0B4201F6DA1002CBC1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B61A020F0F62CB2AC7C5093 /* Pods-YumaAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -19,7 +19,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="SKView" customModule="SpriteKit">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -95,50 +95,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="ICIcon" destination="Rdw-dd-gp1" id="Afs-qC-YRj"/>
+                        <outlet property="ICText" destination="4WT-xM-2e9" id="Yf9-sQ-riu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="143" y="117"/>
-        </scene>
-        <!--Page View Controller-->
-        <scene sceneID="WuA-Od-4ns">
-            <objects>
-                <pageViewController storyboardIdentifier="PageController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="6b0-ud-ABf" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="P7y-L6-pd6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="586" y="116"/>
-        </scene>
-        <!--Item View Controller-->
-        <scene sceneID="cQe-d4-9Gf">
-            <objects>
-                <viewController storyboardIdentifier="ItemController" id="rAb-IR-Gf8" customClass="ItemViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="snb-4p-lga">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RLM-vF-sgm">
-                                <rect key="frame" x="0.0" y="200" width="374" height="267"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <accessibilityTraits key="traits" notEnabled="YES"/>
-                        </accessibility>
-                        <constraints>
-                            <constraint firstItem="RLM-vF-sgm" firstAttribute="leading" secondItem="so0-6E-jJC" secondAttribute="leading" id="Ohu-n7-mVz"/>
-                            <constraint firstItem="RLM-vF-sgm" firstAttribute="centerY" secondItem="snb-4p-lga" secondAttribute="centerY" id="hMa-rt-C6R"/>
-                            <constraint firstItem="RLM-vF-sgm" firstAttribute="top" secondItem="so0-6E-jJC" secondAttribute="top" constant="180" id="lBh-v8-xfs"/>
-                            <constraint firstItem="RLM-vF-sgm" firstAttribute="centerX" secondItem="snb-4p-lga" secondAttribute="centerX" id="xBu-0o-br3"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="so0-6E-jJC"/>
-                    </view>
-                    <connections>
-                        <outlet property="contentImageView" destination="RLM-vF-sgm" id="Rga-M8-voi"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="idr-9C-znE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1031" y="116"/>
         </scene>
     </scenes>
     <resources>
