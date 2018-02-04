@@ -14,12 +14,17 @@ public class Slide {
 	public var caption1: String
 	public var caption2: String
 	public var target: String
+	public var width: Int
+	public var height: Int
 	
-	init(id: Int, image: String, caption1: String, caption2: String, target: String) {
+	init(id: Int, image: String, caption1: String, caption2: String, target: String, width: Int, height: Int) {
 		self.id = id
 		self.image = image
 		self.caption1 = caption1
 		self.caption2 = caption2
 		self.target = target
+		self.width = width
+		self.height = height
 	}
 }
+
