@@ -15,10 +15,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--MainVC-->
+        <!--Main-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MainStory" title="MainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Main" title="Main" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="SKView" customModule="SpriteKit">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -725,7 +725,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kDP-Ga-fek"/>
                     <connections>
                         <outlet property="AboutBtn" destination="nYl-fF-hZr" id="ire-X6-MVc"/>
                         <outlet property="CartBtn" destination="HCP-s2-1xa" id="Sgw-DD-ILx"/>
@@ -744,15 +743,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="484" y="116.74876847290641"/>
-        </scene>
-        <!--LaptopsVC-->
-        <scene sceneID="jhp-f2-wMJ">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FFf-eD-EfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewControllerPlaceholder storyboardIdentifier="Laptops" storyboardName="Laptops" referencedIdentifier="LaptopsVC" id="ZXg-Qg-CDz" sceneMemberID="viewController"/>
-            </objects>
-            <point key="canvasLocation" x="971" y="-129"/>
+            <point key="canvasLocation" x="141.59999999999999" y="116.74876847290641"/>
         </scene>
     </scenes>
     <resources>

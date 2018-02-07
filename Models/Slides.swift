@@ -16,8 +16,9 @@ public class Slide {
 	public var target: String
 	public var width: Int
 	public var height: Int
+	//public func callMethodDirectly() {}
 	
-	init(id: Int, image: String, caption1: String, caption2: String, target: String, width: Int, height: Int) {
+	init(id: Int, image: String, caption1: String, caption2: String, target: String, width: Int, height: Int/*, callMethodDirectly: CGFunction*/) {
 		self.id = id
 		self.image = image
 		self.caption1 = caption1
@@ -25,6 +26,7 @@ public class Slide {
 		self.target = target
 		self.width = width
 		self.height = height
+		//self.callMethodDirectly = callMethodDirectly
 	}
 }
 
