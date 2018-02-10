@@ -10,6 +10,7 @@
 		77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */; };
 		905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */; };
 		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
+		CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */; };
 		CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8634202908010014B787 /* PrintersViewController.swift */; };
 		CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8635202908010014B787 /* PrintersViewController.xib */; };
 		CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */; };
@@ -25,6 +26,8 @@
 		CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8667202B88570014B787 /* LoginViewController.swift */; };
 		CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8668202B88570014B787 /* LoginViewController.xib */; };
 		CF7E866C202B8C9F0014B787 /* EN.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF7E866B202B8C9F0014B787 /* EN.storyboard */; };
+		CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */; };
+		CF7E8670202CFB920014B787 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E866F202CFB920014B787 /* ProductViewController.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC089201F6DA1002CBC1B /* ViewController.swift */; };
 		CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC08B201F6DA1002CBC1B /* Main.storyboard */; };
@@ -64,6 +67,7 @@
 		7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.release.xcconfig"; sourceTree = "<group>"; };
 		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopsViewController.swift; sourceTree = "<group>"; };
 		CF7E86332028F66E0014B787 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF7E8634202908010014B787 /* PrintersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintersViewController.swift; sourceTree = "<group>"; };
 		CF7E8635202908010014B787 /* PrintersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrintersViewController.xib; sourceTree = "<group>"; };
@@ -80,6 +84,9 @@
 		CF7E8667202B88570014B787 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7E8668202B88570014B787 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		CF7E866B202B8C9F0014B787 /* EN.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EN.storyboard; sourceTree = "<group>"; };
+		CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTemplate.xib; sourceTree = "<group>"; };
+		CF7E866F202CFB920014B787 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC089201F6DA1002CBC1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -152,12 +159,18 @@
 		CF7E863E2029EA760014B787 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CF7E865F202A44950014B787 /* HeaderController.swift */,
+				CF7E865D202A42800014B787 /* HeaderView.xib */,
+				CF7E866F202CFB920014B787 /* ProductViewController.swift */,
+				CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */,
 				CF7E8634202908010014B787 /* PrintersViewController.swift */,
 				CF7E8635202908010014B787 /* PrintersViewController.xib */,
 				CF7E863A2029E83D0014B787 /* ContactUsViewController.swift */,
 				CF7E863B2029E83D0014B787 /* ContactUsViewController.xib */,
 				CF7E8667202B88570014B787 /* LoginViewController.swift */,
 				CF7E8668202B88570014B787 /* LoginViewController.xib */,
+				CF7E8661202B404E0014B787 /* Laptops.storyboard */,
+				CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -167,8 +180,6 @@
 			children = (
 				CF7E8665202B86C00014B787 /* Webservices.swift */,
 				CF7E8663202B62A90014B787 /* R.swift */,
-				CF7E865F202A44950014B787 /* HeaderController.swift */,
-				CF7E865D202A42800014B787 /* HeaderView.xib */,
 				CF7E863E2029EA760014B787 /* Views */,
 				CFAFC0E9201F911D002CBC1B /* Models */,
 				CFAFC0B5201F7857002CBC1B /* Fonts */,
@@ -194,13 +205,13 @@
 		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF7E8675202E1D860014B787 /* YumaApp.entitlements */,
 				CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */,
 				CFAFC089201F6DA1002CBC1B /* ViewController.swift */,
 				CFAFC08B201F6DA1002CBC1B /* Main.storyboard */,
 				CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */,
 				CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */,
 				CFAFC093201F6DA1002CBC1B /* Info.plist */,
-				CF7E8661202B404E0014B787 /* Laptops.storyboard */,
 				CF7E866B202B8C9F0014B787 /* EN.storyboard */,
 			);
 			path = YumaApp;
@@ -322,6 +333,20 @@
 					CFAFC083201F6DA1002CBC1B = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.HomeKit = {
+								enabled = 0;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 					CFAFC097201F6DA1002CBC1B = {
 						CreatedOnToolsVersion = 9.2;
@@ -361,6 +386,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
+				CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */,
 				CFAFC08F201F6DA1002CBC1B /* Assets.xcassets in Resources */,
 				CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */,
 				CF7E863D2029E83D0014B787 /* ContactUsViewController.xib in Resources */,
@@ -554,9 +580,11 @@
 				CF7E864C202A0FBA0014B787 /* countries.swift in Sources */,
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
+				CF7E8670202CFB920014B787 /* ProductViewController.swift in Sources */,
 				CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
 				CF7E864E202A13440014B787 /* Names_Countries.swift in Sources */,
+				CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

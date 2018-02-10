@@ -53,10 +53,15 @@ struct R {
 	
 	struct color {
 		static let YumaRed = UIColor(red: 0.66666666669999997, green: 0.0, blue: 0.094117647060000004, alpha: 1)
+		//aa0018
 		static let YumaYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
+		//f5bf2b
+		static let YumaDRed = UIColor(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
+		// #colorLiteral(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
+		//static let YumaDRed2 = UIColor(hex: "#2d0202")
 
-		static let myRed = UIColor(red: 0.66666666669999997, green: 0.0, blue: 0.094117647060000004, alpha: 1)
-		static let myYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
+		//static let myRed = UIColor(red: 0.66666666669999997, green: 0.0, blue: 0.094117647060000004, alpha: 1)
+		//static let myYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
 
 		fileprivate init() {}
 	}
@@ -74,6 +79,12 @@ struct R {
 	
 	struct font {
 		//static let fontAwesome = Rswift.FontResource(fontName: "FontAwesome")
+		//static let fontAwesome = UIFont(name: "FontAwesome", size: )
+
+		static func fontAwesome(pointSize: Int) -> UIFont
+		{
+			return UIFont(name: "FontAwesome", size: CGFloat(pointSize))!
+		}
 		
 		//static func fontAwesome(size: CGFloat) -> UIKit.UIFont? {
 		//	return UIKit.UIFont(resource: fontAwesome, size: size)
@@ -422,4 +433,29 @@ struct R {
 	fileprivate class Class {}
 	
 	fileprivate init() {}
+}
+
+
+extension UIColor
+{
+	convenience init(hex: String, alpha: CGFloat = 1.0)
+	{
+		var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+		
+		if (cString.hasPrefix("#")) { 	cString.removeFirst() 	}
+		
+		if ((cString.count) != 6)
+		{
+			self.init(hex: "ff0000") // return red color for wrong hex input
+			return
+		}
+		
+		var rgbValue: UInt32 = 0
+		Scanner(string: cString).scanHexInt32(&rgbValue)
+		
+		self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+				  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+				  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+				  alpha: alpha)
+	}
 }

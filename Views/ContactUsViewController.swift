@@ -7,9 +7,29 @@
 //
 
 import UIKit
+import MessageUI
+import MapKit
 
-class ContactUsViewController: UIViewController {
-	
+class ContactUsViewController: UIViewController, MFMailComposeViewControllerDelegate
+{
+	@IBOutlet weak var navBar: UINavigationBar!
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var phoneIcon: UILabel!
+	@IBOutlet weak var phoneNumber: UILabel!
+	@IBOutlet weak var phoneBtn: UIButton!
+	@IBOutlet weak var emailIcon: UILabel!
+	@IBOutlet weak var emailAddr: UILabel!
+	@IBOutlet weak var emailBtn: UIButton!
+	@IBOutlet weak var addrIcon: UILabel!
+	@IBOutlet weak var addrText: UILabel!
+	@IBOutlet weak var addrBtn: UIButton!
+	@IBOutlet weak var zoomPlusIcon: UIButton!
+	@IBOutlet weak var zoomMinusIcon: UIButton!
+	@IBOutlet weak var myMap: MKMapView!
+	@IBOutlet weak var mapZoomSlider: UISlider!
+	//var span_l = 0.075
+	var zoomLevel = 6400
 	//	var myCustomView: UserCoinView?
 	
 	//	override func viewDidLayoutSubviews() {
@@ -23,11 +43,55 @@ class ContactUsViewController: UIViewController {
 	//		}
 	//	}
 	
-	override func viewDidLoad() {
+	override func viewDidLoad()
+	{
 		super.viewDidLoad()
+		//set label/buttons to our strings
+		//navBar.gr
+		//addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 1)
+		navTitle.title = R.string.contact
+		//navClose.title = FontAwesome.close.rawValue
+		phoneIcon.text = FontAwesome.phone.rawValue
+		phoneNumber.text = R.string.our_ph
+		phoneBtn.setTitle(R.string.phoneAct, for: .normal)
+//		phoneBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel], gradientOrientation: GradientOrientation.vertical)
+		//phoneBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel], locations: [1.0, 0.0])
+		//t(withColours: [R.color.YumaRed, R.color.YumaYel])
+//		phoneBtn.layer.borderWidth = 2
+//		phoneBtn.layer.borderColor = R.color.YumaDRed.cgColor
+//		phoneBtn.layer.cornerRadius = 3
+		emailIcon.text = FontAwesome.envelopeO.rawValue
+		emailAddr.text = R.string.our_email
+		emailBtn.setTitle(R.string.emailAct, for: .normal)
+//		emailBtn.layer.cornerRadius = 3
+		addrIcon.text = FontAwesome.mapPin.rawValue
+		addrText.text = R.string.our_addr
+		//addrBtn.title(for: .normal) = R.string.
+//		addrBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel])
+//		addrBtn.layer.cornerRadius = 3
+//		addrBtn.layer.borderColor = R.color.YumaDRed.cgColor
+//		addrBtn.layer.borderWidth = 2
+		addrBtn.setTitle(R.string.map_big, for: .normal)
+
+		emailBtn.layer.addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 2)
+	//myMap.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.our_lat)!, longitude: CLLocationDegrees(R.string.our_long)!), span: MKCoordinateSpanMake(span_l, span_l)), animated: false)
+		//myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), 300, 300), animated: false)
+		myMap.showsScale = true
+		myMap.showsPointsOfInterest = true
+//		mapZoomSlider.maximumValue = 0
+//		mapZoomSlider.maximumValue = 1
+		mapZoomSlider.maximumValue = 300
+		mapZoomSlider.maximumValue = 10000000
+//		mapZoomSlider.setValue(Float(span_l), animated: false)
+		mapZoomSlider.setValue(Float(zoomLevel), animated: false)
+		myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)//max15000000
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
+	}
+	
+	override func viewDidAppear(_ animated: Bool)
+	{
 		
 		//let header = UINib(nibName: "myHeader", bundle: nil).instantiate(withOwner: nil, options: nil) as! YumaHeader
 		//let headerView: header = header(frame: CGRect(x: 0, y: UIScreen.main.bounds.size.height - 280, width: UIScreen.main.bounds.size.width, height: 280))
@@ -91,18 +155,114 @@ class ContactUsViewController: UIViewController {
 		mainStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 	}
 	
+	@IBAction func phoneBtnAct(_ sender: Any)
+	{
+		let cleanPhNum = R.string.our_ph.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
+		if let url = URL(string: "tel://\(cleanPhNum)"), UIApplication.shared.canOpenURL(url)
+		{
+			if #available(iOS 10, *)
+			{
+				UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			}
+			else
+			{
+				UIApplication.shared.openURL(url as URL)
+			}
+		}
+	}
+	@IBAction func emailBtnAct(_ sender: Any)
+	{
+		if MFMailComposeViewController.canSendMail()
+		{
+			let mail = MFMailComposeViewController()
+			mail.mailComposeDelegate = self
+			mail.setToRecipients([R.string.our_email])
+			mail.setMessageBody("", isHTML: true)
+			present(mail, animated: true)
+		}
+		else
+		{
+			print("\(R.string.err) \(R.string.cancel) \(R.string.email)")
+		}
+	}
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
+	{
+		controller.dismiss(animated: true)
+	}
+	@IBAction func addrBtnAct(_ sender: Any)
+	{
+		//show map
+	}
+	@IBAction func directionsAct(_ sender: Any)
+	{
+		myMap.showsUserLocation = true
+		myMap.setUserTrackingMode(.follow, animated: true)
+	}
+	@IBAction func zoomPlusBtnAct(_ sender: Any)
+	{
+		if zoomLevel > 300
+		//if span_l > 0.03
+		{
+			zoomLevel -= 300
+//			span_l -= 0.03
+			//drawMap(map: myMap)
+			let currentRegion = self.myMap.region
+			self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
+//			currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
+//			self.myMap.region = currentRegion
+//			myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+		}
+		mapZoomSlider.setValue(Float(zoomLevel), animated: true)
+	}
+	@IBAction func zoomMinusBtnAct(_ sender: Any)
+	{
+		if zoomLevel < 10000000
+		//if span_l < 1
+		{
+//			span_l += 0.03
+			zoomLevel += 300
+			//drawMap(map: myMap)
+			let currentRegion = self.myMap.region
+			self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
+			//currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
+			//self.myMap.region = currentRegion
+//			myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+		}
+		mapZoomSlider.setValue(Float(zoomLevel), animated: true)
+	}
+	@IBAction func zoomSliderAct(_ sender: Any)
+	{
+		//mapZoomSlider.setValue(Float(span_lat), animated: true)
+//		let miles = Double(self.mapZoomSlider.value)
+//		let delta = miles / 69.0
+		
+		let currentRegion = self.myMap.region
+		self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
+		//var currentRegion = self.myMap.region
+//		currentRegion.span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
+		//currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
+		//self.myMap.region = currentRegion
+		
+		//travelRadius.text = "\(Int(round(miles))) miles"
+		
+		//let (lat, long) = (currentRegion.center.latitude, currentRegion.center.longitude)
+		//currentLocationLabel.text = "Current location: \(lat), \(long))"
+		//myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+	}
 	@IBAction func closeView(sender: AnyObject)
 	{
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	override func didReceiveMemoryWarning() {
+	override func didReceiveMemoryWarning()
+	{
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	
 	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+	{
 		//let dest = segue.destination as! ContactUsViewController
 		// Pass the selected object to the new view controller.
 	}
@@ -113,5 +273,31 @@ class ContactUsViewController: UIViewController {
 //		headerView.label.text = "Contact"
 //		return headerView
 //	}
+	
+	func drawMap(map: MKMapView)
+	{
+		let currentRegion = self.myMap.region
+		//currentRegion.span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
+
+		let span = MKCoordinateSpanMake(0.075, 0.075)
+		map.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), span), animated: true)
+//		map.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), span), animated: true)
+	}
 }
+
+
+//@IBDesignable
+//class DesignableView: UIView
+//{
+//}
+//
+//@IBDesignable
+//class DesignableButton: UIButton
+//{
+//}
+//
+//@IBDesignable
+//class DesignableLabel: UILabel
+//{
+//}
 

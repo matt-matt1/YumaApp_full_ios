@@ -376,3 +376,342 @@ extension UIViewController
 		}
 	}
 }
+
+
+//typealias GradientPoints = (startPoint: CGPoint, endPoint: CGPoint)
+//
+//enum GradientOrientation
+//{
+//	case topRightBottomLeft
+//	case topLeftBottomRight
+//	case horizontal
+//	case vertical
+//
+//	var startPoint: CGPoint
+//	{
+//		return points.startPoint
+//	}
+//
+//	var endPoint: CGPoint
+//	{
+//		return points.endPoint
+//	}
+//
+//	var points: GradientPoints
+//	{
+//		switch self
+//		{
+//		case .topRightBottomLeft:
+//			return (CGPoint.init(x: 0.0, y: 1.0), CGPoint.init(x: 1.0, y: 0.0))
+//		case .topLeftBottomRight:
+//			return (CGPoint.init(x: 0.0, y: 0.0), CGPoint.init(x: 1, y: 1))
+//		case .horizontal:
+//			return (CGPoint.init(x: 0.0, y: 0.5), CGPoint.init(x: 1.0, y: 0.5))
+//		case .vertical:
+//			return (CGPoint.init(x: 0.0, y: 0.0), CGPoint.init(x: 0.0, y: 1.0))
+//		}
+//	}
+//}
+//
+//extension UIView {
+//
+//	func applyGradient(withColours colours: [UIColor], locations: [NSNumber]? = nil)
+//	{
+//		let gradient: CAGradientLayer = CAGradientLayer()
+//		gradient.frame = self.bounds
+//		gradient.colors = colours.map { 	$0.cgColor 	}
+//		gradient.locations = locations
+//
+//		let shape = CAShapeLayer()
+//		shape.lineWidth = 2
+//		shape.path = UIBezierPath(rect: self.bounds).cgPath
+//		shape.strokeColor = UIColor.black.cgColor
+//		shape.fillColor = UIColor.clear.cgColor
+//		gradient.mask = shape
+//
+//		self.layer.insertSublayer(gradient, at: 0)
+////		self.layer.borderWidth = 2
+////		self.layer.borderColor = R.color.YumaDRed.cgColor
+////		self.layer.cornerRadius = 3
+//	}
+//
+//	func applyGradient(withColours colours: [UIColor], gradientOrientation orientation: GradientOrientation)
+//	{
+//		let shape = CAShapeLayer()
+//		shape.lineWidth = 2
+//		shape.path = UIBezierPath(rect: self.bounds).cgPath
+//		shape.strokeColor = UIColor.black.cgColor
+//		shape.fillColor = UIColor.clear.cgColor
+//		self.layer.cornerRadius = 3
+//		self.layer.insertSublayer(shape, at: 0)
+//
+////		let gradient: CAGradientLayer = CAGradientLayer()
+////		gradient.frame = self.bounds
+////		gradient.colors = colours.map { 	$0.cgColor 	}
+////		gradient.startPoint = orientation.startPoint
+////		gradient.endPoint = orientation.endPoint
+////		self.layer.insertSublayer(gradient, at: 0)
+//
+////		let gradient2: CAGradientLayer = CAGradientLayer()
+////		gradient2.frame = self.bounds
+////		gradient2.colors = colours.map { 	$0.cgColor 	}
+////		gradient2.startPoint = orientation.endPoint
+////		gradient2.endPoint = orientation.startPoint
+////		let shape2 = CAShapeLayer()
+////		shape2.lineWidth = 2
+////		shape2.path = UIBezierPath(rect: self.bounds).cgPath
+////		shape2.strokeColor = UIColor.black.cgColor
+////		shape2.fillColor = UIColor.clear.cgColor
+////		gradient2.mask = shape2
+////		self.layer.insertSublayer(gradient2, at: 0)
+//	}
+//}
+
+
+//extension UIView
+//{
+//	func applyGradient(colours: [UIColor]) -> Void
+//	{
+//		self.applyGradient(colours: colours, locations: nil)
+//	}
+//
+//	func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> Void
+//	{
+//		let gradient: CAGradientLayer = CAGradientLayer()
+//		gradient.frame = self.bounds
+//		gradient.colors = colours.map { 	$0.cgColor 	}
+//		gradient.locations = locations
+//		self.layer.insertSublayer(gradient, at: 0)
+//	}
+//}
+
+
+@IBDesignable
+class GradientButton: UIButton
+{
+	let gradientLayer = CAGradientLayer()
+	
+	@IBInspectable
+	var topGradientColor: UIColor?
+	{
+		didSet
+		{
+			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
+		}
+	}
+	
+	@IBInspectable
+	var bottomGradientColor: UIColor?
+	{
+		didSet
+		{
+			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
+		}
+	}
+	
+	private func setGradient(topGradientColor: UIColor?, bottomGradientColor: UIColor?)
+	{
+		if let topGradientColor = topGradientColor, let bottomGradientColor = bottomGradientColor
+		{
+			gradientLayer.frame = bounds
+			gradientLayer.colors = [topGradientColor.cgColor, bottomGradientColor.cgColor]
+			gradientLayer.borderColor = layer.borderColor
+			gradientLayer.borderWidth = layer.borderWidth
+			gradientLayer.cornerRadius = layer.cornerRadius
+			layer.insertSublayer(gradientLayer, at: 0)
+		}
+		else
+		{
+			gradientLayer.removeFromSuperlayer()
+		}
+	}
+
+	//////////////////////////////////////////////////////
+	
+//	let gradientBorderLayer = CAGradientLayer()
+//
+//	@IBInspectable
+//	var topGradientBorderColor: UIColor?
+//	{
+//		didSet
+//		{
+//			addGradienBorder(topGradientBorderColor: topGradientBorderColor, bottomGradientBorderColor: bottomGradientBorderColor, width: gradientBorderWidth)
+//		}
+//	}
+//	
+//	@IBInspectable
+//	var bottomGradientBorderColor: UIColor?
+//	{
+//		didSet
+//		{
+//			addGradienBorder(topGradientBorderColor: topGradientBorderColor, bottomGradientBorderColor: bottomGradientBorderColor, width: gradientBorderWidth)
+//		}
+//	}
+//	
+//	@IBInspectable
+//	var gradientBorderWidth: CGFloat
+//	{
+//		didSet
+//		{
+//			addGradienBorder(topGradientBorderColor: topGradientBorderColor, bottomGradientBorderColor: bottomGradientBorderColor, width: gradientBorderWidth)
+//		}
+//	}
+//
+//	
+//	func addGradienBorder(topGradientBorderColor: UIColor?, bottomGradientBorderColor: UIColor?, width: CGFloat)
+//	{
+//		if let topGradientBorderColor = topGradientBorderColor, let bottomGradientBorderColor = bottomGradientBorderColor
+//		{
+//			gradientBorderLayer.frame = CGRect(origin: .zero, size: self.bounds.size)
+//			gradientBorderLayer.startPoint = CGPoint(x:0.0, y:0.5)
+//			gradientBorderLayer.endPoint = CGPoint(x:1.0, y:0.5)
+//			gradientBorderLayer.colors = [topGradientBorderColor.cgColor, bottomGradientBorderColor.cgColor]
+//			
+//			let shapeLayer = CAShapeLayer()
+//			shapeLayer.lineWidth = width
+//			shapeLayer.path = UIBezierPath(rect: self.bounds).cgPath
+//			shapeLayer.fillColor = nil
+//			shapeLayer.strokeColor = UIColor.black.cgColor
+//			gradientBorderLayer.mask = shapeLayer
+//			
+//			layer.addSublayer(gradientLayer)
+//		}
+//	}
+}
+
+
+extension UIView
+{
+	@IBInspectable
+	var borderWidth: CGFloat
+	{
+		get
+		{
+			return layer.borderWidth
+		}
+		set
+		{
+			layer.borderWidth = newValue
+		}
+	}
+	
+	@IBInspectable
+	var borderColor: UIColor?
+	{
+		get
+		{
+			if let color = layer.borderColor
+			{
+				return UIColor(cgColor: color)
+			}
+			return nil
+		}
+		set
+		{
+			if let color = newValue
+			{
+				layer.borderColor = color.cgColor
+			}
+			else
+			{
+				layer.borderColor = nil
+			}
+		}
+	}
+	
+	@IBInspectable
+	var cornerRadius: CGFloat
+	{
+		get
+		{
+			return layer.cornerRadius
+		}
+		set
+		{
+			layer.cornerRadius = newValue
+		}
+	}
+	
+	@IBInspectable
+	var shadowRadius: CGFloat
+	{
+		get
+		{
+			return layer.shadowRadius
+		}
+		set
+		{
+			layer.shadowRadius = newValue
+		}
+	}
+	
+	@IBInspectable
+	var shadowOpacity: Float
+	{
+		get
+		{
+			return layer.shadowOpacity
+		}
+		set
+		{
+			layer.shadowOpacity = newValue
+		}
+	}
+	
+	@IBInspectable
+	var shadowOffset: CGSize
+	{
+		get
+		{
+			return layer.shadowOffset
+		}
+		set
+		{
+			layer.shadowOffset = newValue
+		}
+	}
+	
+	@IBInspectable
+	var shadowColor: UIColor?
+	{
+		get
+		{
+			if let color = layer.shadowColor
+			{
+				return UIColor(cgColor: color)
+			}
+			return nil
+		}
+		set {
+			if let color = newValue
+			{
+				layer.shadowColor = color.cgColor
+			}
+			else
+			{
+				layer.shadowColor = nil
+			}
+		}
+	}
+}
+
+extension CALayer
+{
+	func addGradienBorder(colors:[UIColor] = [UIColor.red,UIColor.blue], width:CGFloat = 1)
+	{
+		let gradientLayer = CAGradientLayer()
+		gradientLayer.frame =  CGRect(origin: .zero, size: self.bounds.size)
+		gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
+		gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+		gradientLayer.colors = colors.map({$0.cgColor})
+		
+		let shapeLayer = CAShapeLayer()
+		shapeLayer.lineWidth = width
+		shapeLayer.path = UIBezierPath(rect: self.bounds).cgPath
+		shapeLayer.fillColor = nil
+		shapeLayer.strokeColor = UIColor.black.cgColor
+		gradientLayer.mask = shapeLayer
+		
+		self.addSublayer(gradientLayer)
+	}
+}
