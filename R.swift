@@ -59,9 +59,7 @@ struct R {
 		static let YumaDRed = UIColor(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
 		// #colorLiteral(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
 		//static let YumaDRed2 = UIColor(hex: "#2d0202")
-
-		//static let myRed = UIColor(red: 0.66666666669999997, green: 0.0, blue: 0.094117647060000004, alpha: 1)
-		//static let myYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
+		static let YumaDRedTransparent = UIColor(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 0)
 
 		fileprivate init() {}
 	}
@@ -81,7 +79,7 @@ struct R {
 		//static let fontAwesome = Rswift.FontResource(fontName: "FontAwesome")
 		//static let fontAwesome = UIFont(name: "FontAwesome", size: )
 
-		static func fontAwesome(pointSize: Int) -> UIFont
+		static func FontAwesomeOfSize(pointSize: Int) -> UIFont
 		{
 			return UIFont(name: "FontAwesome", size: CGFloat(pointSize))!
 		}

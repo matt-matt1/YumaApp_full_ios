@@ -10,8 +10,14 @@ import UIKit
 import MessageUI
 import MapKit
 
+let MERCATOR_OFFSET = 268435456.0
+let MERCATOR_RADIUS = 85445659.44705395
+let DEGREES = 180.0
+
+
 class ContactUsViewController: UIViewController, MFMailComposeViewControllerDelegate
 {
+	@IBOutlet weak var tempLabel: UILabel!
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
@@ -28,8 +34,8 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	@IBOutlet weak var zoomMinusIcon: UIButton!
 	@IBOutlet weak var myMap: MKMapView!
 	@IBOutlet weak var mapZoomSlider: UISlider!
-	//var span_l = 0.075
-	var zoomLevel = 6400
+	var myZoomLevel: Double = 11
+	
 	//	var myCustomView: UserCoinView?
 	
 	//	override func viewDidLayoutSubviews() {
@@ -47,9 +53,18 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	{
 		super.viewDidLoad()
 		//set label/buttons to our strings
-		//navBar.gr
+		//navBar.
 		//addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 1)
 		navTitle.title = R.string.contact
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		let myImage = UIImage(contentsOfFile: FontAwesome.close.rawValue)
+//		let myStyle = UIBarButtonItemStyle(rawValue: 30)
+//		let myMetrics = UIBarMetrics(rawValue: 30)
+//		navClose.setBackgroundImage(<#T##backgroundImage: UIImage?##UIImage?#>, for: <#T##UIControlState#>, style: <#T##UIBarButtonItemStyle#>, barMetrics: <#T##UIBarMetrics#>)
+//		NSMutableAttributedString.fixAttributes(<#T##NSMutableAttributedString#>)
+//		let attributes = [NSAttributedString: UIFont.fontNames(forFamilyName: "FontAwesome") as [String : Any]]
+//		navClose.setTitleTextAttributes(attributes, for: .normal)
+		navClose.title = FontAwesome.close.rawValue
 		//navClose.title = FontAwesome.close.rawValue
 		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
@@ -74,17 +89,13 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		addrBtn.setTitle(R.string.map_big, for: .normal)
 
 		emailBtn.layer.addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 2)
-	//myMap.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.our_lat)!, longitude: CLLocationDegrees(R.string.our_long)!), span: MKCoordinateSpanMake(span_l, span_l)), animated: false)
-		//myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), 300, 300), animated: false)
 		myMap.showsScale = true
 		myMap.showsPointsOfInterest = true
-//		mapZoomSlider.maximumValue = 0
-//		mapZoomSlider.maximumValue = 1
-		mapZoomSlider.maximumValue = 300
-		mapZoomSlider.maximumValue = 10000000
-//		mapZoomSlider.setValue(Float(span_l), animated: false)
-		mapZoomSlider.setValue(Float(zoomLevel), animated: false)
-		myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)//max15000000
+		mapZoomSlider.maximumValue = 3
+		mapZoomSlider.maximumValue = 17
+		mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
+		mapZoomTo(myZoomLevel)
+//		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), zoomLevel: mnbayanZoomLevel, animated: false)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -200,54 +211,26 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	}
 	@IBAction func zoomPlusBtnAct(_ sender: Any)
 	{
-		if zoomLevel > 300
-		//if span_l > 0.03
+		if myZoomLevel < Double(mapZoomSlider.maximumValue)
 		{
-			zoomLevel -= 300
-//			span_l -= 0.03
-			//drawMap(map: myMap)
-			let currentRegion = self.myMap.region
-			self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
-//			currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
-//			self.myMap.region = currentRegion
-//			myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+			myZoomLevel += 1
+			mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
+			mapZoomTo(myZoomLevel)
 		}
-		mapZoomSlider.setValue(Float(zoomLevel), animated: true)
 	}
 	@IBAction func zoomMinusBtnAct(_ sender: Any)
 	{
-		if zoomLevel < 10000000
-		//if span_l < 1
+		if myZoomLevel > Double(mapZoomSlider.minimumValue)
 		{
-//			span_l += 0.03
-			zoomLevel += 300
-			//drawMap(map: myMap)
-			let currentRegion = self.myMap.region
-			self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
-			//currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
-			//self.myMap.region = currentRegion
-//			myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+			myZoomLevel -= 1
+			mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
+			mapZoomTo(myZoomLevel)
 		}
-		mapZoomSlider.setValue(Float(zoomLevel), animated: true)
 	}
 	@IBAction func zoomSliderAct(_ sender: Any)
 	{
-		//mapZoomSlider.setValue(Float(span_lat), animated: true)
-//		let miles = Double(self.mapZoomSlider.value)
-//		let delta = miles / 69.0
-		
-		let currentRegion = self.myMap.region
-		self.myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), CLLocationDistance(zoomLevel), CLLocationDistance(zoomLevel)), animated: true)
-		//var currentRegion = self.myMap.region
-//		currentRegion.span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-		//currentRegion.span = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(mapZoomSlider.value), longitudeDelta: CLLocationDegrees(mapZoomSlider.value))
-		//self.myMap.region = currentRegion
-		
-		//travelRadius.text = "\(Int(round(miles))) miles"
-		
-		//let (lat, long) = (currentRegion.center.latitude, currentRegion.center.longitude)
-		//currentLocationLabel.text = "Current location: \(lat), \(long))"
-		//myMap.setRegion(MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), CLLocationDistance(zoom), CLLocationDistance(zoom)), animated: true)//max15000000
+		myZoomLevel = Double(mapZoomSlider.value)
+		mapZoomTo(Double(mapZoomSlider.value))
 	}
 	@IBAction func closeView(sender: AnyObject)
 	{
@@ -274,30 +257,82 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 //		return headerView
 //	}
 	
-	func drawMap(map: MKMapView)
+	func mapZoomTo(_ zoomLevel: Double)
 	{
 		let currentRegion = self.myMap.region
-		//currentRegion.span = MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-
-		let span = MKCoordinateSpanMake(0.075, 0.075)
-		map.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), span), animated: true)
-//		map.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), span), animated: true)
+		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), zoomLevel: zoomLevel, animated: true)
 	}
 }
 
 
-//@IBDesignable
-//class DesignableView: UIView
-//{
-//}
-//
-//@IBDesignable
-//class DesignableButton: UIButton
-//{
-//}
-//
-//@IBDesignable
-//class DesignableLabel: UILabel
-//{
-//}
-
+extension MKMapView
+{
+	private func longitudeToPixelSpaceX(longitude:Double)->Double
+	{
+		return round(MERCATOR_OFFSET + MERCATOR_RADIUS * longitude * Double.pi / DEGREES)
+	}
+	
+	private func latitudeToPixelSpaceY(latitude:Double)->Double
+	{
+		return round(MERCATOR_OFFSET - MERCATOR_RADIUS * log((1 + sin(latitude * Double.pi / DEGREES)) / (1 - sin(latitude * Double.pi / DEGREES))) / 2.0)
+	}
+	
+	private func pixelSpaceXToLongitude(pixelX:Double)->Double
+	{
+		return ((round(pixelX) - MERCATOR_OFFSET) / MERCATOR_RADIUS) * DEGREES / Double.pi
+	}
+	
+	private func pixelSpaceYToLatitude(pixelY:Double)->Double
+	{
+		return (Double.pi / 2.0 - 2.0 * atan(exp((round(pixelY) - MERCATOR_OFFSET) / MERCATOR_RADIUS))) * DEGREES / Double.pi
+	}
+	
+	private func coordinateSpanWithCenterCoordinate(centerCoordinate:CLLocationCoordinate2D, zoomLevel:Double)->MKCoordinateSpan
+	{
+		// convert center coordiate to pixel space
+		let centerPixelX = longitudeToPixelSpaceX(longitude: centerCoordinate.longitude)
+		let centerPixelY = latitudeToPixelSpaceY(latitude: centerCoordinate.latitude)
+		
+		// determine the scale value from the zoom level
+		let zoomExponent:Double = 20.0 - zoomLevel
+		let zoomScale:Double = pow(2.0, zoomExponent)
+		
+		// scale the map’s size in pixel space
+		let mapSizeInPixels = self.bounds.size
+		let scaledMapWidth = Double(mapSizeInPixels.width) * zoomScale
+		let scaledMapHeight = Double(mapSizeInPixels.height) * zoomScale
+		
+		// figure out the position of the top-left pixel
+		let topLeftPixelX = centerPixelX - (scaledMapWidth / 2.0)
+		let topLeftPixelY = centerPixelY - (scaledMapHeight / 2.0)
+		
+		// find delta between left and right longitudes
+		let minLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX)
+		let maxLng = pixelSpaceXToLongitude(pixelX: topLeftPixelX + scaledMapWidth)
+		let longitudeDelta = maxLng - minLng
+		
+		let minLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY)
+		let maxLat = pixelSpaceYToLatitude(pixelY: topLeftPixelY + scaledMapHeight)
+		let latitudeDelta = -1.0 * (maxLat - minLat)
+		
+		return MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+	}
+	
+	func setCenterCoordinate(centerCoordinate:CLLocationCoordinate2D, zoomLevel:Double, animated:Bool)
+	{
+		// clamp large numbers to 28
+		var zoomLevel = zoomLevel
+		zoomLevel = min(zoomLevel, 28)
+		
+		// use the zoom level to compute the region
+		let span = self.coordinateSpanWithCenterCoordinate(centerCoordinate: centerCoordinate, zoomLevel: zoomLevel)
+		let region = MKCoordinateRegionMake(centerCoordinate, span)
+		if region.center.longitude == -180.00000000
+		{
+			print("Invalid Region")
+		}
+		else{
+			self.setRegion(region, animated: animated)
+		}
+	}
+}

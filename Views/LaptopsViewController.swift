@@ -10,10 +10,25 @@ import UIKit
 
 class LaptopsViewController: UIViewController {
 
-    override func viewDidLoad() {
+	@IBOutlet weak var pageControl: UIPageControl!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var addToCartBtn: GradientButton!
+	@IBOutlet weak var scrollView: UIScrollView!
+	@IBOutlet weak var backgroundImage: UIImageView!
+	@IBOutlet weak var navBar: UINavigationBar!
+
+	
+	override func viewWillAppear(_ animated: Bool)
+	{
+		navTitle.title = R.string.laptops
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+	}
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,7 +37,15 @@ class LaptopsViewController: UIViewController {
     }
     
 
-    /*
+	@IBAction func addToCartBtnAct(_ sender: Any) {
+	}
+	
+	@IBAction func closeView(sender: AnyObject)
+	{
+		self.dismiss(animated: true, completion: nil)
+	}
+
+	/*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

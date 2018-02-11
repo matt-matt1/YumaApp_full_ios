@@ -12,6 +12,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PrintersViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
+                <outlet property="backgroungImage" destination="JI5-hc-dvN" id="seW-A5-OD7"/>
+                <outlet property="navBar" destination="CoM-nn-oIb" id="hUx-2x-1k9"/>
+                <outlet property="pageControll" destination="0Em-DM-2u9" id="hLc-mi-8yD"/>
+                <outlet property="scrollView" destination="IKA-fZ-PT8" id="5Dm-g3-uOt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,11 +31,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="734"/>
                             <subviews>
                                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CoM-nn-oIb">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                                     <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="47" id="3T7-Gh-doS"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="47" id="dj2-gi-wRo"/>
+                                        <constraint firstAttribute="height" constant="46" id="mJ9-yd-5Mc"/>
                                     </constraints>
                                     <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <textAttributes key="titleTextAttributes">
@@ -44,6 +47,9 @@
                                         <navigationItem title="Printers" id="gJ1-sO-nai">
                                             <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="hfj-1i-Erz">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="closeViewWithSender:" destination="-1" id="E6y-NJ-2z1"/>
+                                                </connections>
                                             </barButtonItem>
                                             <barButtonItem key="rightBarButtonItem" title="help" style="done" id="HVv-1i-3ca">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -52,31 +58,31 @@
                                     </items>
                                 </navigationBar>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ucV-ar-XFW">
-                                    <rect key="frame" x="0.0" y="47" width="375" height="687"/>
+                                    <rect key="frame" x="0.0" y="46" width="375" height="688"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-slider-printers" translatesAutoresizingMaskIntoConstraints="NO" id="JI5-hc-dvN">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="175" id="4r0-na-tnn"/>
+                                                <constraint firstAttribute="height" constant="125" id="MbM-tS-nap"/>
                                             </constraints>
                                         </imageView>
                                         <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0Em-DM-2u9">
-                                            <rect key="frame" x="0.0" y="175" width="375" height="58"/>
+                                            <rect key="frame" x="0.0" y="125" width="375" height="50"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="H1l-a6-NP9"/>
+                                            </constraints>
                                             <color key="pageIndicatorTintColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="currentPageIndicatorTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </pageControl>
                                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKA-fZ-PT8">
-                                            <rect key="frame" x="0.0" y="233" width="375" height="404"/>
+                                            <rect key="frame" x="0.0" y="175" width="375" height="463"/>
                                         </scrollView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KO2-Jh-78f">
-                                            <rect key="frame" x="0.0" y="637" width="375" height="50"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KO2-Jh-78f">
+                                            <rect key="frame" x="0.0" y="638" width="375" height="50"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ktK-1i-dNo" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                    <rect key="frame" x="88" y="0.0" width="199" height="50"/>
                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="M2o-hX-pJz"/>
-                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                     <size key="titleShadowOffset" width="1" height="1"/>
                                                     <state key="normal" title="ADD TO CART">
@@ -112,48 +118,42 @@
                                                             <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="addToCartBtnAct:" destination="-1" eventType="touchUpInside" id="bjm-4N-mws"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="ktK-1i-dNo" firstAttribute="centerX" secondItem="KO2-Jh-78f" secondAttribute="centerX" id="H1A-6L-epv"/>
-                                                <constraint firstAttribute="height" constant="50" id="tn9-Lw-zPT"/>
+                                                <constraint firstItem="ktK-1i-dNo" firstAttribute="leading" secondItem="KO2-Jh-78f" secondAttribute="leading" constant="88" id="xOF-a3-dvR"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="JI5-hc-dvN" firstAttribute="leading" secondItem="ucV-ar-XFW" secondAttribute="leading" id="0Be-SL-Mk6"/>
-                                        <constraint firstAttribute="trailing" secondItem="JI5-hc-dvN" secondAttribute="trailing" id="EdB-Eb-J2b"/>
-                                        <constraint firstItem="JI5-hc-dvN" firstAttribute="top" secondItem="ucV-ar-XFW" secondAttribute="top" id="RCX-cL-wT4"/>
-                                        <constraint firstAttribute="trailing" secondItem="IKA-fZ-PT8" secondAttribute="trailing" id="YJm-cA-ve5"/>
-                                        <constraint firstItem="KO2-Jh-78f" firstAttribute="leading" secondItem="ucV-ar-XFW" secondAttribute="leading" id="hA3-bH-PSi"/>
-                                        <constraint firstItem="IKA-fZ-PT8" firstAttribute="leading" secondItem="ucV-ar-XFW" secondAttribute="leading" id="p9V-br-6gt"/>
-                                        <constraint firstAttribute="trailing" secondItem="KO2-Jh-78f" secondAttribute="trailing" id="w3d-1c-edd"/>
+                                        <constraint firstItem="KO2-Jh-78f" firstAttribute="top" secondItem="ucV-ar-XFW" secondAttribute="top" constant="638" id="oTc-pr-loR"/>
                                     </constraints>
                                 </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="ucV-ar-XFW" firstAttribute="leading" secondItem="XG1-L1-VgS" secondAttribute="leading" id="IVh-uA-ULH"/>
-                                <constraint firstAttribute="bottom" secondItem="ucV-ar-XFW" secondAttribute="bottom" id="XDV-Ht-7tZ"/>
-                                <constraint firstItem="ucV-ar-XFW" firstAttribute="top" secondItem="CoM-nn-oIb" secondAttribute="bottom" id="dcK-cd-ZT1"/>
-                                <constraint firstAttribute="trailing" secondItem="ucV-ar-XFW" secondAttribute="trailing" id="pzE-gs-Upg"/>
+                                <constraint firstItem="CoM-nn-oIb" firstAttribute="leading" secondItem="XG1-L1-VgS" secondAttribute="leading" id="6Qc-ef-ICL"/>
+                                <constraint firstItem="CoM-nn-oIb" firstAttribute="leading" secondItem="ucV-ar-XFW" secondAttribute="leading" id="Sf3-Fj-gob"/>
                             </constraints>
                         </stackView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="XG1-L1-VgS" secondAttribute="bottom" id="MQH-1R-cxM"/>
-                        <constraint firstItem="XG1-L1-VgS" firstAttribute="top" secondItem="WIh-HJ-Rpp" secondAttribute="top" id="TVn-V5-VBa"/>
-                        <constraint firstItem="XG1-L1-VgS" firstAttribute="leading" secondItem="WIh-HJ-Rpp" secondAttribute="leading" id="hvW-jX-tCN"/>
-                        <constraint firstAttribute="trailing" secondItem="XG1-L1-VgS" secondAttribute="trailing" id="zR3-9H-Biv"/>
+                        <constraint firstItem="XG1-L1-VgS" firstAttribute="top" secondItem="WIh-HJ-Rpp" secondAttribute="top" id="DdZ-jH-WyG"/>
+                        <constraint firstItem="XG1-L1-VgS" firstAttribute="leading" secondItem="WIh-HJ-Rpp" secondAttribute="leading" id="F7p-Pg-Lx0"/>
+                        <constraint firstAttribute="trailing" secondItem="XG1-L1-VgS" secondAttribute="trailing" id="hXP-Tk-Gpx"/>
+                        <constraint firstAttribute="bottom" secondItem="XG1-L1-VgS" secondAttribute="bottom" id="n7R-sx-myH"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="WIh-HJ-Rpp" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="RWy-an-QRk"/>
-                <constraint firstItem="WIh-HJ-Rpp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="aWq-Ie-XGE"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WIh-HJ-Rpp" secondAttribute="trailing" id="r7e-gr-ZPC"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="WIh-HJ-Rpp" secondAttribute="bottom" id="rOb-3X-dyd"/>
+                <constraint firstItem="WIh-HJ-Rpp" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="4Ks-d6-6xD"/>
+                <constraint firstAttribute="trailing" secondItem="WIh-HJ-Rpp" secondAttribute="trailing" id="4dd-sH-Jsu"/>
+                <constraint firstItem="WIh-HJ-Rpp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mnC-lO-DZy"/>
+                <constraint firstItem="WIh-HJ-Rpp" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="wgJ-tj-Yja"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="25.5" y="59"/>
