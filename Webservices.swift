@@ -70,12 +70,81 @@ class WebServices: NSObject
 	
 	class func getPrinters(completion: @escaping (_ response : AnyObject?, _ message: String?, _ success: Bool)-> ())
 	{
-		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)"
+		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let params = ["":""]
+		WebServices.alamofireFunction(urlString: url, method: .get, paramters: params as [String : AnyObject])
+		{
+			(response, message, status) in
+
+			print(response ?? "Output (getPrinters)")
+			let result = WebServices()
+			if let data = response as? NSDictionary
+			{
+				print(data)
+				result.Data = data
+				completion(result, "Success", true)
+			}
+			else
+			{
+				completion("" as AnyObject?, "Failed", false)
+			}
+		}
+	}
+	
+	class func getLaptops(completion: @escaping (_ response : AnyObject?, _ message: String?, _ success: Bool)-> ())
+	{
+		let url = "\(R.string.WSbase)products?filter[id_category_default]=[14]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		//&\(R.string.APIjson)
 		//&\(R.string.APIfull)
 		let params = ["":""]
-		WebServices.postWebService(urlString: url, params: params as [String : AnyObject]) { (response, message, status) in
-			print(response ?? "Output (getPrinters)")
+		WebServices.alamofireFunction(urlString: url, method: .get, paramters: params as [String : AnyObject])
+		{
+			(response, message, status) in
+
+			let result = WebServices()
+			if let data = response as? NSDictionary
+			{
+				print(data)
+				result.Data = data
+				completion(result, "Success", true)
+			}
+			else
+			{
+				completion("" as AnyObject?, "Failed", false)
+			}
+		}
+	}
+	
+	class func getServices(completion: @escaping (_ response : AnyObject?, _ message: String?, _ success: Bool)-> ())
+	{
+		let url = "\(R.string.WSbase)products?filter[id_category_default]=[15]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let params = ["":""]
+		WebServices.alamofireFunction(urlString: url, method: .get, paramters: params as [String : AnyObject])
+		{
+			(response, message, status) in
+			
+			let result = WebServices()
+			if let data = response as? NSDictionary
+			{
+				print(data)
+				result.Data = data
+				completion(result, "Success", true)
+			}
+			else
+			{
+				completion("" as AnyObject?, "Failed", false)
+			}
+		}
+	}
+	
+	class func getToners(completion: @escaping (_ response : AnyObject?, _ message: String?, _ success: Bool)-> ())
+	{
+		let url = "\(R.string.WSbase)products?filter[id_category_default]=[14]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let params = ["":""]
+		WebServices.alamofireFunction(urlString: url, method: .get, paramters: params as [String : AnyObject])
+		{
+			(response, message, status) in
+			
 			let result = WebServices()
 			if let data = response as? NSDictionary
 			{

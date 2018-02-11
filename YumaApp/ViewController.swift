@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIScrollViewDelegate {
-
+class ViewController: UIViewController, UIScrollViewDelegate
+{
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var SVView: UIView!
 	@IBOutlet weak var SVSlider: UIScrollView!
@@ -27,8 +27,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	var slides: [Slide] = []
 	var current: Int = 0
 
-	
-	override func viewDidLoad() {
+
+////////////////////////////////////////////////////// Overrides
+	override func viewDidLoad()
+	{
 		super.viewDidLoad()
 		makeSlides()
 		//setupPageControl()
@@ -44,11 +46,21 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 //		printHTTPdata(url: "\(R.string.WSbase)countries?\(R.string.APIjson)&\(R.string.APIfull)&ws_key=\(R.string.APIkey)", params: params, headers: headers, cache: URLRequest.CachePolicy.reloadIgnoringCacheData)
 	}
 	
-	//override func viewDidAppear() {
-		//
-	//}
+//	override func viewDidAppear()
+//	{
+//
+//	}
 	
-	func makeSlides() {
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+
+	
+//////////////////////////////////////////////////////MARK: My Methods
+	func makeSlides()
+	{
 		SVSlider.delegate = self			//the delegate function will be in this class
 		SVSlider.frame = view.frame			//scrollView frame is the same size as the entire view
 		//SVSlider.isPagingEnabled = true		//enable scrolling by page (slide)
@@ -59,10 +71,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		slides.append(slide1)
 		slides.append(slide2)
 		slides.append(slide3)
-		SVSlider.subviews.forEach({ $0.removeFromSuperview() })
-		//SVSlider.subviews.map({ $0.removeFromSuperview() })
+		SVSlider.subviews.forEach({ 	$0.removeFromSuperview() 	})
+		//SVSlider.subviews.map({ 	$0.removeFromSuperview() 	})
 		//SVSlider.translatesAutoresizingMaskIntoConstraints = false
-		for (index, slide) in slides.enumerated() {
+		for (index, slide) in slides.enumerated()
+		{
 		//(slides as NSArray).enumerateObjects { (slide, index) -> Void in
 			let imageView = UIImageView()
 			imageView.image = UIImage(named: slide.image)		//set the imageView with the imageName in this slide
@@ -91,45 +104,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		SVSlider.addGestureRecognizer(swipeRight)
 	}
 	
-	@objc func slideAction(_ sender: UITapGestureRecognizer) {
-		//let selName = NSClassFromString(slides[(sender.view?.tag)!].target)
-		//let selName = slides[(sender.view?.tag)!].target
-//		let selName = slides[(sender.view?.tag)!]
-		//let dest = slides[current].target
-		//NSObject.perform(Selector(selName))
-		//selName.callMethodDirectly()
-	}
-	
-	@objc func moveToNextPage() {
-		current += 1
-		if current == slides.count {
-			current = 0
-		}
-		let ScrollToX: CGFloat = CGFloat(current * Int(SVSlider.frame.width))
-		self.SVSlider.setContentOffset(CGPoint(x: ScrollToX, y: self.SVSlider.frame.origin.y), animated: true)
-		putCaptions()
-		pageControl.currentPage = current
-	}
-	
-	@objc func moveToPrevPage() {
-		current -= 1
-		if current == slides.count {
-			current = 0
-		}
-		let ScrollToX: CGFloat = CGFloat(current * Int(SVSlider.frame.width))
-		self.SVSlider.setContentOffset(CGPoint(x: ScrollToX, y: self.SVSlider.frame.origin.y), animated: true)
-		putCaptions()
-		pageControl.currentPage = current
-	}
-	
-	func putCaptions() {
+	func putCaptions()
+	{
 		let caption1 = UILabel()
 		caption1.text = "hello"//slides[current].caption1
 		caption1.frame = CGRect(x: 10, y: -200, width: caption1.frame.width, height: caption1.frame.height)
 		SVView.addSubview(caption1)
 	}
 	
-	func setupPageControl() {
+	func setupPageControl()
+	{
 		let appearance = UIPageControl.appearance()
 		appearance.pageIndicatorTintColor = R.color.YumaYel
 		appearance.currentPageIndicatorTintColor = R.color.YumaRed
@@ -138,18 +122,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		pageControl.bottomAnchor.constraint(equalTo: SVSlider.topAnchor).isActive = true
 	}
 
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-
-	// function which is triggered when handleTap is called
-	//@objc func handleTap(_ sender: UITapGestureRecognizer) {
-	//	print("Hello World")
-	//	PrintersBtn.backgroundColor = UIColor.green
-	//}
-
-	func addGesturesToBtns() {
+	func addGesturesToBtns()
+	{
 		let tapPrinters = UITapGestureRecognizer(target: self, action: #selector(gotoPrinters(_:)))
 		PrintersBtn.addGestureRecognizer(tapPrinters)
 		PrintersBtn.isUserInteractionEnabled = true
@@ -181,12 +155,57 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		CartBtn.addGestureRecognizer(tapCart)
 		CartBtn.isUserInteractionEnabled = true
 		//SVSlider.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(slides[current].target)))
-		//for index in 0..<slides.count {
+		//for index in 0..<slides.count
+		//{
 		//	SVSlider[index]
 		//}
 	}
 	
-	@objc func gotoPrinters(_ sender: UITapGestureRecognizer) {
+//////////////////////////////////////////////////////objc Methods
+	@objc func slideAction(_ sender: UITapGestureRecognizer)
+	{
+		//let selName = NSClassFromString(slides[(sender.view?.tag)!].target)
+		//let selName = slides[(sender.view?.tag)!].target
+//		let selName = slides[(sender.view?.tag)!]
+		//let dest = slides[current].target
+		//NSObject.perform(Selector(selName))
+		//selName.callMethodDirectly()
+	}
+	
+	@objc func moveToNextPage()
+	{
+		current += 1
+		if current == slides.count
+		{
+			current = 0
+		}
+		let ScrollToX: CGFloat = CGFloat(current * Int(SVSlider.frame.width))
+		self.SVSlider.setContentOffset(CGPoint(x: ScrollToX, y: self.SVSlider.frame.origin.y), animated: true)
+		putCaptions()
+		pageControl.currentPage = current
+	}
+	@objc func moveToPrevPage()
+	{
+		current -= 1
+		if current == slides.count
+		{
+			current = 0
+		}
+		let ScrollToX: CGFloat = CGFloat(current * Int(SVSlider.frame.width))
+		self.SVSlider.setContentOffset(CGPoint(x: ScrollToX, y: self.SVSlider.frame.origin.y), animated: true)
+		putCaptions()
+		pageControl.currentPage = current
+	}
+
+	// function which is triggered when handleTap is called
+	//@objc func handleTap(_ sender: UITapGestureRecognizer)
+	//{
+	//	print("Hello World")
+	//	PrintersBtn.backgroundColor = UIColor.green
+	//}
+
+	@objc func gotoPrinters(_ sender: UITapGestureRecognizer)
+	{
 		guard sender.view != nil else { return }
 		if sender.state == .ended {      // Move the view down and to the right when tapped.
 		//	let animator = UIViewPropertyAnimator(duration: 0.2, curve: .easeInOut, animations: {
@@ -195,109 +214,133 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 		//	})
 		//	animator.startAnimation()
 			sender.view?.backgroundColor = R.color.YumaRed
-			UIView.animate(withDuration: 1, animations: {
+			UIView.animate(withDuration: 1, animations:
+			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 			})
-			self.present(PrintersViewController(), animated: false, completion: (() -> Void)? {
+			self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
+			{
 				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				sender.view?.backgroundColor = UIColor.white
-				})
+			})
 		}
 	}
-	@objc func gotoLaptops(_ sender: UITapGestureRecognizer) {
+	@objc func gotoLaptops(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		//let alertController = UIAlertController(title: nil, message: "You tapped at \(sender.location(in: self.view))", preferredStyle: .alert)
 		//alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in }))
 		//self.present(alertController, animated: true, completion: nil)
 		//let story = UIStoryboard(name: "Laptops", bundle: nil)
-		let vc:UIViewController = (R.story.laps).instantiateViewController(withIdentifier: "LaptopsVC")
+//		let vc:UIViewController = (R.story.laps).instantiateViewController(withIdentifier: "LaptopsVC")
 		//story.instantiateInitialViewController() as! UIViewController
 		//let vc = story.instantiateViewController(withIdentifier: "LaptopsVC") as UIViewController
 //		present(vc, animated: true, completion: nil)
-//		self.present(LaptopsVC(), animated: false, completion: (() -> Void)? {
+		self.present(LaptopsViewController(), animated: false, completion: (() -> Void)?
+		{
+			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			sender.view?.backgroundColor = UIColor.white
+		})
+//		self.present(vc, animated: true, completion: (() -> Void)? {
 //			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //			sender.view?.backgroundColor = UIColor.white
 //			})
-		self.present(vc, animated: true, completion: (() -> Void)? {
-			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-			sender.view?.backgroundColor = UIColor.white
-			})
 	}
-	@objc func gotoServices(_ sender: UITapGestureRecognizer) {
+	@objc func gotoServices(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-			})
+		})
 		print ("gotoServices")
 	}
-	@objc func gotoToners(_ sender: UITapGestureRecognizer) {
+	@objc func gotoToners(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoToners")
 	}
-	@objc func gotoEN(_ sender: UITapGestureRecognizer) {
+	@objc func gotoEN(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoEN")
 	}
-	@objc func gotoAbout(_ sender: UITapGestureRecognizer) {
+	@objc func gotoAbout(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoAbout")
 	}
-	@objc func gotoQC(_ sender: UITapGestureRecognizer) {
+	@objc func gotoQC(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoQC")
 	}
-	@objc func gotoContact(_ sender: UITapGestureRecognizer) {
+	@objc func gotoContact(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		let mySegue: ContactUsViewController = ContactUsViewController()
-		self.present(mySegue, animated: false, completion: (() -> Void)? {
+		self.present(mySegue, animated: false, completion: (() -> Void)?
+		{
 			sender.view?.backgroundColor = UIColor.white
-			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)})
+			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+		})
 	}
-	@objc func gotoLogin(_ sender: UITapGestureRecognizer) {
+	@objc func gotoLogin(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		self.present(LoginViewController(), animated: false, completion: (() -> Void)? {
+		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 			sender.view?.backgroundColor = UIColor.white
-			})
+		})
 	}
-	@objc func gotoCart(_ sender: UITapGestureRecognizer) {
+	@objc func gotoCart(_ sender: UITapGestureRecognizer)
+	{
 		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations: {
+		UIView.animate(withDuration: 1, animations:
+		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoCart")
 	}
 	
-	func switchToViewController(identifier: String, useModal: Bool) {
-		let viewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as UIViewController!
-		if useModal == true {
-			self.showDetailViewController(viewController!, sender: self)
-		}
-		else {
-			self.navigationController?.setViewControllers([viewController!], animated: false)
-		}
-	}
+//	func switchToViewController(identifier: String, useModal: Bool) {
+//		let viewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as UIViewController!
+//		if useModal == true {
+//			self.showDetailViewController(viewController!, sender: self)
+//		}
+//		else {
+//			self.navigationController?.setViewControllers([viewController!], animated: false)
+//		}
+//	}
 	
 //	func printHTTPdata(url: String, params: Dictionary<String, String>, headers: Dictionary<String, String>, cache: URLRequest.CachePolicy) {
 //		//let params: Dictionary<String, String> = [:]
@@ -344,6 +387,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 	
 }
 
+
+//////////////////////////////////////////////////////MARK: My Extentions
 
 //extension NSObject {
 //	func tryAddObserver(anObserver: NSObject!,
@@ -472,47 +517,46 @@ extension UIViewController
 //}
 
 
-@IBDesignable
-class GradientButton: UIButton
-{
-	let gradientLayer = CAGradientLayer()
-	
-	@IBInspectable
-	var topGradientColor: UIColor?
-	{
-		didSet
-		{
-			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
-		}
-	}
-	
-	@IBInspectable
-	var bottomGradientColor: UIColor?
-	{
-		didSet
-		{
-			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
-		}
-	}
-	
-	private func setGradient(topGradientColor: UIColor?, bottomGradientColor: UIColor?)
-	{
-		if let topGradientColor = topGradientColor, let bottomGradientColor = bottomGradientColor
-		{
-			gradientLayer.frame = bounds
-			gradientLayer.colors = [topGradientColor.cgColor, bottomGradientColor.cgColor]
-			gradientLayer.borderColor = layer.borderColor
-			gradientLayer.borderWidth = layer.borderWidth
-			gradientLayer.cornerRadius = layer.cornerRadius
-			layer.insertSublayer(gradientLayer, at: 0)
-		}
-		else
-		{
-			gradientLayer.removeFromSuperlayer()
-		}
-	}
+//@IBDesignable
+//class GradientButton: UIButton
+//{
+//	let gradientLayer = CAGradientLayer()
+//	
+//	@IBInspectable
+//	var topGradientColor: UIColor?
+//	{
+//		didSet
+//		{
+//			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
+//		}
+//	}
+//	
+//	@IBInspectable
+//	var bottomGradientColor: UIColor?
+//	{
+//		didSet
+//		{
+//			setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
+//		}
+//	}
+//	
+//	private func setGradient(topGradientColor: UIColor?, bottomGradientColor: UIColor?)
+//	{
+//		if let topGradientColor = topGradientColor, let bottomGradientColor = bottomGradientColor
+//		{
+//			gradientLayer.frame = bounds
+//			gradientLayer.colors = [topGradientColor.cgColor, bottomGradientColor.cgColor]
+//			gradientLayer.borderColor = layer.borderColor
+//			gradientLayer.borderWidth = layer.borderWidth
+//			gradientLayer.cornerRadius = layer.cornerRadius
+//			layer.insertSublayer(gradientLayer, at: 0)
+//		}
+//		else
+//		{
+//			gradientLayer.removeFromSuperlayer()
+//		}
+//	}
 
-	//////////////////////////////////////////////////////
 	
 //	let gradientBorderLayer = CAGradientLayer()
 //
@@ -563,7 +607,7 @@ class GradientButton: UIButton
 //			layer.addSublayer(gradientLayer)
 //		}
 //	}
-}
+//}
 
 
 extension UIView
@@ -681,6 +725,7 @@ extension UIView
 	}
 }
 
+
 extension CALayer
 {
 	func addGradienBorder(colors:[UIColor] = [UIColor.red,UIColor.blue], width:CGFloat = 1)
@@ -726,7 +771,7 @@ extension UINavigationBar
 		UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
 		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
 		defer { 	UIGraphicsEndImageContext() 	}
-		var locations : [CGFloat] = [0.0, 1.0]
+		var locations: [CGFloat] = [0.0, 1.0]
 		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
 		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: size.width, y: 0.0), options: [])
 		return UIGraphicsGetImageFromCurrentImageContext()
@@ -738,7 +783,7 @@ extension UINavigationBar
 		UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
 		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
 		defer { 	UIGraphicsEndImageContext() 	}
-		var locations : [CGFloat] = [0.0, 1.0]
+		var locations: [CGFloat] = [0.0, 1.0]
 		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
 		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: 0.0, y: size.height), options: [])
 		return UIGraphicsGetImageFromCurrentImageContext()

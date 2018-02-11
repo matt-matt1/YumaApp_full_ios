@@ -91,11 +91,10 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		emailBtn.layer.addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 2)
 		myMap.showsScale = true
 		myMap.showsPointsOfInterest = true
-		mapZoomSlider.maximumValue = 3
-		mapZoomSlider.maximumValue = 17
+		mapZoomSlider.minimumValue = 1
+		mapZoomSlider.maximumValue = 16
 		mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
-		mapZoomTo(myZoomLevel)
-//		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), zoomLevel: mnbayanZoomLevel, animated: false)
+		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), zoomLevel: myZoomLevel, animated: false)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -260,6 +259,7 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	func mapZoomTo(_ zoomLevel: Double)
 	{
 		let currentRegion = self.myMap.region
+//		tempLabel.text = "myZoom=\(myZoomLevel) : slider=\(mapZoomSlider.value)"
 		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: currentRegion.center.latitude, longitude: currentRegion.center.longitude), zoomLevel: zoomLevel, animated: true)
 	}
 }

@@ -28,19 +28,19 @@ class LoginViewController: UIViewController
 	var passwordVisible: Bool = false
 
 	
-	//MARK: Overrides
+//MARK: Overrides
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
 		emailLabel.text = R.string.emailAddr
 		passwordLabel.text = R.string.txtPass
 		rememberLabel.text = R.string.remember
-		//forgotBtn.titleLabel = R.string.forgotPW
-		//createBtn.titleLabel = R.string.createAcc
+		forgotBtn.setTitle(R.string.forgotPW, for: .normal)
+		createBtn.setTitle(R.string.createAcc, for: .normal)
 		//closeBtn.
 		//helpBtn.
 		loginBtn.setTitle(R.string.login, for: UIControlState.normal)
-//		loginBtn.bor
+//		loginBtn.
 		showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
 		
 		//if logged in
@@ -72,7 +72,7 @@ class LoginViewController: UIViewController
 	}
 
 	
-	//MARK: Actions
+//MARK: Actions
 	@IBAction func remeberSwitchAct(_ sender: Any) {
 	}
 	@objc func showPassAct(_ sender: Any)
@@ -99,7 +99,6 @@ class LoginViewController: UIViewController
 	@IBAction func loginButtonClicked(_ sender: Any)
 	{
 		let sv = UIViewController.displaySpinner(onView: self.view)
-		//WebServices.userLogin(userName: usernameTextField.text!, password: passwordTextField.text!, userType: usertypeStr) {(result, message, status) in
 		WebServices.myLogin(userName: usernameTextField.text!, password: passwordTextField.text!)
 		{
 			(result, message, status) in
@@ -107,13 +106,14 @@ class LoginViewController: UIViewController
 			{
 				let loginDetails = result as? WebServices
 				self.loginDictionary = loginDetails?.loginData
-//				let status = self.loginDictionary?["status"] as? String
 				if self.loginDictionary?["deleted"] as? Bool == true
 				{
+					UIViewController.removeSpinner(spinner: sv)
 					self.alertMessage(alerttitle: R.string.acc, R.string.deld)
 				}
 				else if self.loginDictionary?["active"] as? Bool == false
 				{
+					UIViewController.removeSpinner(spinner: sv)
 					self.alertMessage(alerttitle: R.string.acc, R.string.notAct)
 				}
 				else
@@ -125,6 +125,7 @@ class LoginViewController: UIViewController
 
 						var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 						docURL = docURL?.appendingPathComponent("logged.json")
+						UIViewController.removeSpinner(spinner: sv)
 //						try self.loginDictionary?.write(to: docURL, atomically: true)
 ////						do
 ////						{
@@ -135,12 +136,14 @@ class LoginViewController: UIViewController
 ////							print("error trying to write to logged.json : \(error)")
 ////						}
 					}
+					let sv2 = UIViewController.displaySpinner(onView: self.view)
 					let id: Int = Int((self.loginDictionary?["id_customer"] as? String!)!)!
 					WebServices.getAddresses(id_customer: id) {(result, message, status) in
 						if status
 						{
 							let addrDetails = result as? WebServices
 							self.addrDictionary = addrDetails?.addrData
+							UIViewController.removeSpinner(spinner: sv2)
 							if self.addrDictionary != nil
 							{
 								print(self.addrDictionary!)
@@ -155,9 +158,7 @@ class LoginViewController: UIViewController
 				self.alertMessage(alerttitle: R.string.acc, R.string.err)
 			}
 		}
-		UIViewController.removeSpinner(spinner: sv)
 	}
-	
 	@IBAction func forgotBtnAct(_ sender: Any)
 	{
 		//load VC
@@ -168,7 +169,7 @@ class LoginViewController: UIViewController
 	}
 
 	
-	//MARK: Methods
+//MARK: Methods
 	func alertMessage(alerttitle: String, _ message: String)
 	{
 		let alertViewController = UIAlertController(title: alerttitle, message: message, preferredStyle: .alert)
