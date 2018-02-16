@@ -26,7 +26,7 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 	override func viewWillAppear(_ animated: Bool)
 	{
 		navTitle.title = R.string.laptops
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
 	}
 	
 	override func viewDidLoad()
@@ -34,21 +34,21 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
         super.viewDidLoad()
 		//obtain array of products in cat laqptops
 		let sv = UIViewController.displaySpinner(onView: self.view)
-		WebServices.getLaptops() {
-			(result, message, status) in
-			if status
-			{
-				let Details = result as? WebServices
-				self.laptopsDictionary = Details?.Data
+//		WebServices.getLaptops() {
+//			(result, message, status) in
+//			if status
+//			{
+//				let Details = result as? WebServices
+//				self.laptopsDictionary = Details?.Data
 				UIViewController.removeSpinner(spinner: sv)
-				self.setSlider()
-			}
-			else
-			{
-				UIViewController.removeSpinner(spinner: sv)
-				print("error with getLaptops")
-			}
-		}
+//				self.setSlider()
+//			}
+//			else
+//			{
+//				UIViewController.removeSpinner(spinner: sv)
+//				print("error with getLaptops")
+//			}
+//		}
     }
 
     override func didReceiveMemoryWarning()
@@ -110,7 +110,7 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 		pageControl.numberOfPages = (laptopsDictionary?.count)!
 		//var laptops: Set<Laptop> = []
 		let value = laptopsDictionary!["products"] as? [String : AnyObject]
-		let count = value?.count
+		_ = value?.count
 		for (key, value) in laptopsDictionary!
 		{
 			print("\(key)=\(value)")

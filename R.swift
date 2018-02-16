@@ -93,10 +93,11 @@ struct R {
 		//}
 	}
 	
-	struct image {
-		//static let homeSliderCartridges = Rswift.ImageResource(bundle: R.hostingBundle, name: "home-slider-cartridges")
-		//static let homeSliderLaptops = Rswift.ImageResource(bundle: R.hostingBundle, name: "home-slider-laptops")
-		//static let homeSliderPrinters = Rswift.ImageResource(bundle: R.hostingBundle, name: "home-slider-printers")
+	struct image
+	{
+		static let homeSliderCartridges = UIImage(named: "home-slider-cartridges")
+		static let homeSliderLaptops = UIImage(named: "home-slider-laptops")
+		static let homeSliderPrinters = UIImage(named: "home-slider-printers")
 		//static let logo = Rswift.ImageResource(bundle: R.hostingBundle, name: "logo")
 		
 //		static func homeSliderCartridges(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {

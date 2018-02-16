@@ -12,6 +12,18 @@
 		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
 		CF182DB42030C32C0070B9E5 /* LaptopsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF182DB32030C32C0070B9E5 /* LaptopsViewController.xib */; };
 		CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DB52030F4C90070B9E5 /* GradientButton.swift */; };
+		CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */; };
+		CF182DBA2030F7FB0070B9E5 /* WebpageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */; };
+		CF182DBC2031E8A90070B9E5 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DBB2031E8A90070B9E5 /* CollectionViewController.swift */; };
+		CF182DBE2031EFE30070B9E5 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DBD2031EFE30070B9E5 /* CollectionViewCell.swift */; };
+		CF182DC02031FA9E0070B9E5 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DBF2031FA9E0070B9E5 /* Product.swift */; };
+		CF182DC4203219900070B9E5 /* CartsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DC3203219900070B9E5 /* CartsJSON.swift */; };
+		CF182DC820321DD70070B9E5 /* OrdersJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DC720321DD70070B9E5 /* OrdersJSON.swift */; };
+		CF182DCC20331DA00070B9E5 /* ProductsJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DCB20331DA00070B9E5 /* ProductsJSON.swift */; };
+		CF182DCE203327880070B9E5 /* CustomerJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DCD203327880070B9E5 /* CustomerJSON.swift */; };
+		CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DCF203340E50070B9E5 /* PSWebServices.swift */; };
+		CF182DD2203344C00070B9E5 /* AddressesJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DD1203344C00070B9E5 /* AddressesJSON.swift */; };
+		CF182DD4203380B70070B9E5 /* ProductsMyFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DD3203380B70070B9E5 /* ProductsMyFeeder.swift */; };
 		CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */; };
 		CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8634202908010014B787 /* PrintersViewController.swift */; };
 		CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8635202908010014B787 /* PrintersViewController.xib */; };
@@ -23,12 +35,18 @@
 		CF7E865E202A42800014B787 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E865D202A42800014B787 /* HeaderView.xib */; };
 		CF7E8660202A44950014B787 /* HeaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E865F202A44950014B787 /* HeaderController.swift */; };
 		CF7E8664202B62A90014B787 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8663202B62A90014B787 /* R.swift */; };
-		CF7E8666202B86C00014B787 /* Webservices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8665202B86C00014B787 /* Webservices.swift */; };
 		CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8667202B88570014B787 /* LoginViewController.swift */; };
 		CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8668202B88570014B787 /* LoginViewController.xib */; };
-		CF7E866C202B8C9F0014B787 /* EN.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF7E866B202B8C9F0014B787 /* EN.storyboard */; };
 		CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */; };
-		CF7E8670202CFB920014B787 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E866F202CFB920014B787 /* ProductViewController.swift */; };
+		CF7E8670202CFB920014B787 /* ProductViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E866F202CFB920014B787 /* ProductViewCell.swift */; };
+		CF9231BE2035FEFD00D44BB6 /* MyAccInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */; };
+		CF9231BF2035FEFD00D44BB6 /* MyAccInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */; };
+		CF9231C22035FF2900D44BB6 /* MyAccAddrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231C02035FF2900D44BB6 /* MyAccAddrViewController.swift */; };
+		CF9231C32035FF2900D44BB6 /* MyAccAddrViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C12035FF2900D44BB6 /* MyAccAddrViewController.xib */; };
+		CF9231C62035FF4600D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231C42035FF4600D44BB6 /* MyAccOHViewController.swift */; };
+		CF9231C72035FF4600D44BB6 /* MyAccOHViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C52035FF4600D44BB6 /* MyAccOHViewController.xib */; };
+		CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */; };
+		CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC089201F6DA1002CBC1B /* ViewController.swift */; };
 		CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC08B201F6DA1002CBC1B /* Main.storyboard */; };
@@ -39,6 +57,11 @@
 		CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */; };
 		CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EA201F9142002CBC1B /* Slides.swift */; };
 		CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EC201F9292002CBC1B /* IconPanel.swift */; };
+		CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */; };
+		CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */; };
+		CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB52034E48600BEDEE4 /* DataStore.swift */; };
+		CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */; };
+		CFF3CFBA2035F00F00BEDEE4 /* MyAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF3CFB82035F00F00BEDEE4 /* MyAccountViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +93,18 @@
 		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF182DB32030C32C0070B9E5 /* LaptopsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LaptopsViewController.xib; sourceTree = "<group>"; };
 		CF182DB52030F4C90070B9E5 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpageViewController.swift; sourceTree = "<group>"; };
+		CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebpageViewController.xib; sourceTree = "<group>"; };
+		CF182DBB2031E8A90070B9E5 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		CF182DBD2031EFE30070B9E5 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		CF182DBF2031FA9E0070B9E5 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		CF182DC3203219900070B9E5 /* CartsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartsJSON.swift; sourceTree = "<group>"; };
+		CF182DC720321DD70070B9E5 /* OrdersJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersJSON.swift; sourceTree = "<group>"; };
+		CF182DCB20331DA00070B9E5 /* ProductsJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsJSON.swift; sourceTree = "<group>"; };
+		CF182DCD203327880070B9E5 /* CustomerJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerJSON.swift; sourceTree = "<group>"; };
+		CF182DCF203340E50070B9E5 /* PSWebServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSWebServices.swift; sourceTree = "<group>"; };
+		CF182DD1203344C00070B9E5 /* AddressesJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesJSON.swift; sourceTree = "<group>"; };
+		CF182DD3203380B70070B9E5 /* ProductsMyFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsMyFeeder.swift; sourceTree = "<group>"; };
 		CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopsViewController.swift; sourceTree = "<group>"; };
 		CF7E86332028F66E0014B787 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF7E8634202908010014B787 /* PrintersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintersViewController.swift; sourceTree = "<group>"; };
@@ -82,13 +117,19 @@
 		CF7E865D202A42800014B787 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		CF7E865F202A44950014B787 /* HeaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderController.swift; sourceTree = "<group>"; };
 		CF7E8663202B62A90014B787 /* R.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.swift; sourceTree = "<group>"; };
-		CF7E8665202B86C00014B787 /* Webservices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservices.swift; sourceTree = "<group>"; };
 		CF7E8667202B88570014B787 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7E8668202B88570014B787 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
-		CF7E866B202B8C9F0014B787 /* EN.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EN.storyboard; sourceTree = "<group>"; };
 		CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTemplate.xib; sourceTree = "<group>"; };
-		CF7E866F202CFB920014B787 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		CF7E866F202CFB920014B787 /* ProductViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewCell.swift; sourceTree = "<group>"; };
 		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
+		CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccInfoViewController.swift; sourceTree = "<group>"; };
+		CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccInfoViewController.xib; sourceTree = "<group>"; };
+		CF9231C02035FF2900D44BB6 /* MyAccAddrViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccAddrViewController.swift; sourceTree = "<group>"; };
+		CF9231C12035FF2900D44BB6 /* MyAccAddrViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccAddrViewController.xib; sourceTree = "<group>"; };
+		CF9231C42035FF4600D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
+		CF9231C52035FF4600D44BB6 /* MyAccOHViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccOHViewController.xib; sourceTree = "<group>"; };
+		CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCSViewController.swift; sourceTree = "<group>"; };
+		CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccCSViewController.xib; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC089201F6DA1002CBC1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +146,12 @@
 		CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		CFAFC0EA201F9142002CBC1B /* Slides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slides.swift; sourceTree = "<group>"; };
 		CFAFC0EC201F9292002CBC1B /* IconPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPanel.swift; sourceTree = "<group>"; };
+		CFF3CFB02034C48700BEDEE4 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = "../../../../Users/yumausa/Library/Developer/Xcode/DerivedData/YumaApp-avolzrtwtmhajogusyiczqivwtce/Build/Products/Debug-iphoneos/Eureka.framework"; sourceTree = "<group>"; };
+		CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCollectionView.swift; sourceTree = "<group>"; };
+		CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressCollectionView.xib; sourceTree = "<group>"; };
+		CFF3CFB52034E48600BEDEE4 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
+		CFF3CFB82035F00F00BEDEE4 /* MyAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccountViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +198,7 @@
 		28DB1A0CACEC912941C15AC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFF3CFB02034C48700BEDEE4 /* Eureka.framework */,
 				C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */,
 				450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */,
 				5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */,
@@ -158,12 +206,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF182DC1203205F80070B9E5 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				CF182DBB2031E8A90070B9E5 /* CollectionViewController.swift */,
+				CF182DB52030F4C90070B9E5 /* GradientButton.swift */,
+				CF182DCF203340E50070B9E5 /* PSWebServices.swift */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		CF182DC22032064E0070B9E5 /* unused */ = {
+			isa = PBXGroup;
+			children = (
+				CF182DBD2031EFE30070B9E5 /* CollectionViewCell.swift */,
+			);
+			path = unused;
+			sourceTree = "<group>";
+		};
 		CF7E863E2029EA760014B787 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */,
 				CF7E865F202A44950014B787 /* HeaderController.swift */,
 				CF7E865D202A42800014B787 /* HeaderView.xib */,
-				CF7E866F202CFB920014B787 /* ProductViewController.swift */,
+				CF7E866F202CFB920014B787 /* ProductViewCell.swift */,
 				CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */,
 				CF7E8634202908010014B787 /* PrintersViewController.swift */,
 				CF7E8635202908010014B787 /* PrintersViewController.xib */,
@@ -173,6 +240,20 @@
 				CF7E8668202B88570014B787 /* LoginViewController.xib */,
 				CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */,
 				CF182DB32030C32C0070B9E5 /* LaptopsViewController.xib */,
+				CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */,
+				CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */,
+				CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */,
+				CFF3CFB52034E48600BEDEE4 /* DataStore.swift */,
+				CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */,
+				CFF3CFB82035F00F00BEDEE4 /* MyAccountViewController.xib */,
+				CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */,
+				CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */,
+				CF9231C02035FF2900D44BB6 /* MyAccAddrViewController.swift */,
+				CF9231C12035FF2900D44BB6 /* MyAccAddrViewController.xib */,
+				CF9231C42035FF4600D44BB6 /* MyAccOHViewController.swift */,
+				CF9231C52035FF4600D44BB6 /* MyAccOHViewController.xib */,
+				CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */,
+				CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,11 +261,7 @@
 		CFAFC07B201F6DA1002CBC1B = {
 			isa = PBXGroup;
 			children = (
-				CF7E8665202B86C00014B787 /* Webservices.swift */,
 				CF7E8663202B62A90014B787 /* R.swift */,
-				CF7E863E2029EA760014B787 /* Views */,
-				CFAFC0E9201F911D002CBC1B /* Models */,
-				CFAFC0B5201F7857002CBC1B /* Fonts */,
 				CFAFC086201F6DA1002CBC1B /* YumaApp */,
 				CFAFC09B201F6DA1002CBC1B /* YumaAppTests */,
 				CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */,
@@ -207,7 +284,6 @@
 		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
 			isa = PBXGroup;
 			children = (
-				CF182DB52030F4C90070B9E5 /* GradientButton.swift */,
 				CF7E8675202E1D860014B787 /* YumaApp.entitlements */,
 				CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */,
 				CFAFC089201F6DA1002CBC1B /* ViewController.swift */,
@@ -215,7 +291,11 @@
 				CFAFC08E201F6DA1002CBC1B /* Assets.xcassets */,
 				CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */,
 				CFAFC093201F6DA1002CBC1B /* Info.plist */,
-				CF7E866B202B8C9F0014B787 /* EN.storyboard */,
+				CF7E863E2029EA760014B787 /* Views */,
+				CF182DC1203205F80070B9E5 /* Controls */,
+				CFAFC0E9201F911D002CBC1B /* Models */,
+				CFAFC0B5201F7857002CBC1B /* Fonts */,
+				CF182DC22032064E0070B9E5 /* unused */,
 			);
 			path = YumaApp;
 			sourceTree = "<group>";
@@ -254,6 +334,13 @@
 				CFAFC0EC201F9292002CBC1B /* IconPanel.swift */,
 				CF7E864B202A0FBA0014B787 /* countries.swift */,
 				CF7E864D202A13440014B787 /* Names_Countries.swift */,
+				CF182DBF2031FA9E0070B9E5 /* Product.swift */,
+				CF182DC3203219900070B9E5 /* CartsJSON.swift */,
+				CF182DC720321DD70070B9E5 /* OrdersJSON.swift */,
+				CF182DCB20331DA00070B9E5 /* ProductsJSON.swift */,
+				CF182DCD203327880070B9E5 /* CustomerJSON.swift */,
+				CF182DD1203344C00070B9E5 /* AddressesJSON.swift */,
+				CF182DD3203380B70070B9E5 /* ProductsMyFeeder.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -390,13 +477,19 @@
 			files = (
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
 				CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */,
+				CF9231C32035FF2900D44BB6 /* MyAccAddrViewController.xib in Resources */,
+				CF9231BF2035FEFD00D44BB6 /* MyAccInfoViewController.xib in Resources */,
 				CFAFC08F201F6DA1002CBC1B /* Assets.xcassets in Resources */,
+				CFF3CFBA2035F00F00BEDEE4 /* MyAccountViewController.xib in Resources */,
 				CFAFC08D201F6DA1002CBC1B /* Main.storyboard in Resources */,
 				CF7E863D2029E83D0014B787 /* ContactUsViewController.xib in Resources */,
-				CF7E866C202B8C9F0014B787 /* EN.storyboard in Resources */,
 				CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */,
 				CF182DB42030C32C0070B9E5 /* LaptopsViewController.xib in Resources */,
+				CF182DBA2030F7FB0070B9E5 /* WebpageViewController.xib in Resources */,
 				CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */,
+				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
+				CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */,
+				CF9231C72035FF4600D44BB6 /* MyAccOHViewController.xib in Resources */,
 				CF7E865E202A42800014B787 /* HeaderView.xib in Resources */,
 				CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */,
 			);
@@ -555,11 +648,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -573,22 +666,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF182DBC2031E8A90070B9E5 /* CollectionViewController.swift in Sources */,
+				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
 				CF7E8664202B62A90014B787 /* R.swift in Sources */,
+				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
 				CFAFC08A201F6DA1002CBC1B /* ViewController.swift in Sources */,
 				CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */,
 				CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */,
+				CF9231BE2035FEFD00D44BB6 /* MyAccInfoViewController.swift in Sources */,
 				CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */,
+				CF182DD2203344C00070B9E5 /* AddressesJSON.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
-				CF7E8666202B86C00014B787 /* Webservices.swift in Sources */,
+				CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */,
+				CF182DC820321DD70070B9E5 /* OrdersJSON.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* countries.swift in Sources */,
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
+				CF182DBE2031EFE30070B9E5 /* CollectionViewCell.swift in Sources */,
+				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
+				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
+				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
-				CF7E8670202CFB920014B787 /* ProductViewController.swift in Sources */,
+				CF182DD4203380B70070B9E5 /* ProductsMyFeeder.swift in Sources */,
+				CF7E8670202CFB920014B787 /* ProductViewCell.swift in Sources */,
+				CF182DCC20331DA00070B9E5 /* ProductsJSON.swift in Sources */,
+				CF182DCE203327880070B9E5 /* CustomerJSON.swift in Sources */,
 				CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
+				CF182DC02031FA9E0070B9E5 /* Product.swift in Sources */,
 				CF7E864E202A13440014B787 /* Names_Countries.swift in Sources */,
+				CF182DC4203219900070B9E5 /* CartsJSON.swift in Sources */,
 				CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */,
+				CF9231C62035FF4600D44BB6 /* MyAccOHViewController.swift in Sources */,
+				CF9231C22035FF2900D44BB6 /* MyAccAddrViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +867,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_ACTIVITY_MODE = "";
+				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = default;
 				DEVELOPMENT_TEAM = JED4EB54LQ;
 				INFOPLIST_FILE = YumaApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -774,6 +886,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = JED4EB54LQ;
 				INFOPLIST_FILE = YumaApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;

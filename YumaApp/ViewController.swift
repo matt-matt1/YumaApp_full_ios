@@ -46,6 +46,13 @@ class ViewController: UIViewController, UIScrollViewDelegate
 //		printHTTPdata(url: "\(R.string.WSbase)countries?\(R.string.APIjson)&\(R.string.APIfull)&ws_key=\(R.string.APIkey)", params: params, headers: headers, cache: URLRequest.CachePolicy.reloadIgnoringCacheData)
 	}
 	
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+	{
+//		print("\(targetContentOffset.pointee.x) \(view.frame.width) \(Int(ceil(targetContentOffset.pointee.x / view.frame.width)))")
+//		pageControl.currentPage = Int(ceil(targetContentOffset.pointee.x / view.frame.width))
+		moveToNextPage()
+	}
+	
 //	override func viewDidAppear()
 //	{
 //
@@ -204,6 +211,80 @@ class ViewController: UIViewController, UIScrollViewDelegate
 	//	PrintersBtn.backgroundColor = UIColor.green
 	//}
 
+	@objc func gotoLogin(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		})
+		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				sender.view?.backgroundColor = UIColor.white
+			})
+	}
+	@objc func gotoCart(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+			})
+//		self.present(MyAccountViewController(), animated: false, completion: (() -> Void)?
+//			{
+//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+//				sender.view?.backgroundColor = UIColor.white
+//			})
+	}
+	@objc func gotoEN(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		})
+		let webPage = WebpageViewController()
+		//webPage.setTitle(string: R.string.en)
+		webPage.loadWebpage(URLstring: R.string.enweb)
+		self.present(webPage, animated: true, completion: (() -> Void)?
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				sender.view?.backgroundColor = UIColor.white
+			})
+	}
+	@objc func gotoAbout(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		})
+		print ("gotoAbout")
+	}
+	@objc func gotoQC(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		})
+		print ("gotoQC")
+	}
+	@objc func gotoContact(_ sender: UITapGestureRecognizer)
+	{
+		sender.view?.backgroundColor = R.color.YumaRed
+		UIView.animate(withDuration: 1, animations:
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		})
+		let mySegue: ContactUsViewController = ContactUsViewController()
+		self.present(mySegue, animated: false, completion: (() -> Void)?
+			{
+				sender.view?.backgroundColor = UIColor.white
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			})
+	}
 	@objc func gotoPrinters(_ sender: UITapGestureRecognizer)
 	{
 		guard sender.view != nil else { return }
@@ -218,11 +299,16 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 			})
+//			self.present(collection, animated: false, completion: (() -> Void)?
+//			{
+//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+//				sender.view?.backgroundColor = UIColor.white
+//			})
 			self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
 		}
 	}
 	@objc func gotoLaptops(_ sender: UITapGestureRecognizer)
@@ -267,69 +353,6 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
 		print ("gotoToners")
-	}
-	@objc func gotoEN(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		print ("gotoEN")
-	}
-	@objc func gotoAbout(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		print ("gotoAbout")
-	}
-	@objc func gotoQC(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		print ("gotoQC")
-	}
-	@objc func gotoContact(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		let mySegue: ContactUsViewController = ContactUsViewController()
-		self.present(mySegue, animated: false, completion: (() -> Void)?
-		{
-			sender.view?.backgroundColor = UIColor.white
-			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-		})
-	}
-	@objc func gotoLogin(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-			sender.view?.backgroundColor = UIColor.white
-		})
-	}
-	@objc func gotoCart(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-		{
-			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		print ("gotoCart")
 	}
 	
 //	func switchToViewController(identifier: String, useModal: Bool) {
