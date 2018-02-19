@@ -25,6 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //		let collection = CollectionViewController(collectionViewLayout: layout)
 //
 //		window?.rootViewController = collection
+		
+		let navBarAppearance = UINavigationBar.appearance()
+		navBarAppearance.tintColor = UIColor.white
+		navBarAppearance.barTintColor = R.color.YumaRed
+		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor:R.color.YumaYel]
+
+		UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+		
 		return true
 	}
 

@@ -18,6 +18,7 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 	@IBOutlet weak var backgroundImage: UIImageView!
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var scrollView: UIScrollView!
+	@IBOutlet weak var add2CartBtn: GradientButton!
 	
 	var laptopsDictionary: NSDictionary?
 	var cartDictionary: NSDictionary?
@@ -27,6 +28,7 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 	{
 		navTitle.title = R.string.laptops
 		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
+		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
 	override func viewDidLoad()

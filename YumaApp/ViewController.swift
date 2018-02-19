@@ -90,6 +90,7 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			let xPos = self.view.frame.width * CGFloat(index)	//calculate x depending upon slide index
 			imageView.frame = CGRect(x: xPos, y: -200, width: self.SVSlider.frame.width, height: self.SVSlider.frame.height)						//set the frame as 250 pixels less??????
 			SVSlider.contentSize.width = SVSlider.frame.width * CGFloat(index + 1)	//add slide image to scrollview
+			SVSlider.contentMode = UIViewContentMode.scaleAspectFit
 			SVSlider.addSubview(imageView)
 
 			//add tap function to slide
@@ -231,11 +232,11 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 			})
-//		self.present(MyAccountViewController(), animated: false, completion: (() -> Void)?
-//			{
-//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//				sender.view?.backgroundColor = UIColor.white
-//			})
+		self.present(MyAccountViewController(), animated: false, completion: (() -> Void)?
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				sender.view?.backgroundColor = UIColor.white
+			})
 	}
 	@objc func gotoEN(_ sender: UITapGestureRecognizer)
 	{
@@ -246,7 +247,9 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		})
 		let webPage = WebpageViewController()
 		//webPage.setTitle(string: R.string.en)
-		webPage.loadWebpage(URLstring: R.string.enweb)
+		webPage.pageTitle = R.string.en
+		//webPage.loadWebpage(URLstring: R.string.enweb)
+		webPage.pageURL = R.string.enweb
 		self.present(webPage, animated: true, completion: (() -> Void)?
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -260,7 +263,14 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		print ("gotoAbout")
+		let webPage = WebpageViewController()
+		webPage.pageTitle = R.string.about
+		webPage.pageURL = R.string.aboutweb
+		self.present(webPage, animated: true, completion: (() -> Void)?
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				sender.view?.backgroundColor = UIColor.white
+			})
 	}
 	@objc func gotoQC(_ sender: UITapGestureRecognizer)
 	{
@@ -269,7 +279,14 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		print ("gotoQC")
+		let webPage = WebpageViewController()
+		webPage.pageTitle = R.string.qc
+		webPage.pageURL = R.string.qcweb
+		self.present(webPage, animated: true, completion: (() -> Void)?
+			{
+				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				sender.view?.backgroundColor = UIColor.white
+			})
 	}
 	@objc func gotoContact(_ sender: UITapGestureRecognizer)
 	{
@@ -751,12 +768,47 @@ extension UIView
 
 extension CALayer
 {
-	func addGradienBorder(colors:[UIColor] = [UIColor.red,UIColor.blue], width:CGFloat = 1)
+	func addBackgroundGradient(colors: [UIColor] = [UIColor.red,UIColor.blue], isVertical: Bool)
+	{
+		let gradientLayer = CAGradientLayer()
+		gradientLayer.frame = CGRect(origin: .zero, size: self.bounds.size)
+		if isVertical
+		{
+			gradientLayer.startPoint = CGPoint(x:0.0, y:0.0)
+			gradientLayer.endPoint = CGPoint(x:0.0, y:1.0)
+		}
+		else
+		{
+			gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
+			gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+		}
+		if self.cornerRadius > 0
+		{
+			gradientLayer.cornerRadius = self.cornerRadius
+		}
+		gradientLayer.colors = colors.map({$0.cgColor})
+
+		self.addSublayer(gradientLayer)
+	}
+
+	func addGradienBorder(colors: [UIColor] = [UIColor.red,UIColor.blue], width: CGFloat = 1, isVertical: Bool)
 	{
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.frame =  CGRect(origin: .zero, size: self.bounds.size)
-		gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
-		gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+		if isVertical
+		{
+			gradientLayer.startPoint = CGPoint(x:0.0, y:0.0)
+			gradientLayer.endPoint = CGPoint(x:0.0, y:1.0)
+		}
+		else
+		{
+			gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
+			gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+		}
+		if self.cornerRadius > 0
+		{
+			gradientLayer.cornerRadius = self.cornerRadius
+		}
 		gradientLayer.colors = colors.map({$0.cgColor})
 		
 		let shapeLayer = CAShapeLayer()

@@ -29,12 +29,6 @@ class LoginViewController: UIViewController
 	@IBOutlet weak var invalidUsername: UILabel!
 	@IBOutlet weak var invalidPassword: UILabel!
 	
-//	@IBOutlet weak var MANavBar: UINavigationBar!
-//	@IBOutlet weak var MAInfo: GradientButton!
-//	@IBOutlet weak var MAAddr: GradientButton!
-//	@IBOutlet weak var MAOH: GradientButton!
-//	@IBOutlet weak var MACS: GradientButton!
-//
 	var rememberSwitchIsOn: Bool = true
 	var passwordVisible: Bool = false
 	let url = "\(R.string.URLbase)en/module/my_login/json"
@@ -57,8 +51,8 @@ class LoginViewController: UIViewController
 	}
 	func addFormEntry(isOneLine: Bool, label: String?, labelColor: UIColor?, labelBackgroundColor: UIColor?, editLeftMargin: CGFloat?, editTopMargin: CGFloat?, editRightMargin: CGFloat?, editBottomMargin: CGFloat?, editLeftPadding: CGFloat?, editTopPadding: CGFloat?, editRightPadding: CGFloat?, editBottomPadding: CGFloat?, editColor: UIColor?, editBackgroundColor: UIColor?, editBorderWidth: CGFloat?, editBorderColor: UIColor?, placeholder: String?, errorMessage: String?, horizontalSpacing: CGFloat?, verticalSpacing: CGFloat?, hasShowHidePassword: Bool) -> UIView
 	{
-		var entry = UIView()
-		var stack = UIStackView()
+		let entry = UIView()
+		let stack = UIStackView()
 		
 		if isOneLine
 		{
@@ -193,14 +187,14 @@ class LoginViewController: UIViewController
 	}
 	fileprivate func configureView()
 	{
-		if view.frame.width > 500
-		{
-			drawLayoutWide()
-		}
-		else
-		{
-			drawLayoutNarrow()
-		}
+//		if view.frame.width > 500
+//		{
+//			drawLayoutWide()
+//		}
+//		else
+//		{
+//			drawLayoutNarrow()
+//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		emailLabel.text = R.string.emailAddr							//set labals for my language
 		passwordLabel.text = R.string.txtPass
@@ -211,6 +205,7 @@ class LoginViewController: UIViewController
 		//closeBtn.
 		//helpBtn.
 		loginBtn.setTitle(R.string.login, for: UIControlState.normal)
+		loginBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		errorUsernameBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
 		errorPasswordBorder.layer.borderColor = UIColor.white.cgColor
 		invalidUsername.text = ""
@@ -245,8 +240,6 @@ class LoginViewController: UIViewController
 				(customer) in
 				
 				UIViewController.removeSpinner(spinner: sv)
-				//			DispatchQueue.main.async//OperationQueue.main.addOperation
-				//				{
 				if customer.deleted != "0"
 				{
 					self.alertMessage(alerttitle: R.string.acc, R.string.deld)
@@ -257,18 +250,18 @@ class LoginViewController: UIViewController
 				}
 				else
 				{
-					self.successfullyGotCustomer("", customer)
-					//					self.successfullyGotCustomer(dataString!, customer)
+					self.successfullyGotCustomer(customer)
 				}
 		})
 	}
 	
-	fileprivate func successfullyGotCustomer(_ dataString: String, _ customer: Customer)
+	fileprivate func successfullyGotCustomer(_ customer: Customer)
 	{
+		print("customer logged-in with ID:\(customer.id_customer ?? customer.id ?? "0")")//String(describing: customer))")
 		if rememberSwitchIsOn
 		{
 			//write json string to file
-			UserDefaults.standard.set(dataString, forKey: "customer")
+			UserDefaults.standard.set(String(describing: customer), forKey: "customer")
 			
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")
@@ -283,45 +276,28 @@ class LoginViewController: UIViewController
 			////				print("error trying to write to logged.json : \(error)")
 			////			}
 		}
-		getAddresses(customer: customer)
+		let id = customer.id == nil ? Int(customer.id_customer!) : Int(customer.id!)
+		getAddresses(id_customer: id!)
 	}
 
-	func getAddresses(customer: Customer)
+	func getAddresses(id_customer: Int)
 	{
 		//		let sv2 = UIViewController.displaySpinner(onView: self.view)
-		if (customer.id != nil)
-		{
-			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
-				{
-					(addresses) in
-					
-					//				UIViewController.removeSpinner(spinner: sv2)
-					//print(addresses)
-					//print("got \(addresses.addresses.count) addresses")
-					//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-					OperationQueue.main.addOperation
-						{
-							self.successfullyGotAddresses(addresses: addresses)
-					}
-			})
-		}
-		else if customer.id_customer != nil
-		{
-			PSWebServices.getAddresses(id_customer: Int(customer.id_customer!)!, completionHandler:
-				{
-					(addresses) in
-					
-					//				UIViewController.removeSpinner(spinner: sv2)
-					//print(addresses)
-					//print("*got \(addresses.addresses.count) addresses")
-					//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-					OperationQueue.main.addOperation
-						{
-							self.successfullyGotAddresses(addresses: addresses)
-					}
-			})
-		}
-		self.present(MyAccountViewController(), animated: true, completion: nil)
+		store.callGetAddressesDetails(id_customer: id_customer, completion:
+//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
+			{
+				(addresses) in
+
+				//				UIViewController.removeSpinner(spinner: sv2)
+				//print(addresses)
+				//print("got \(addresses.addresses.count) addresses")
+				//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
+				OperationQueue.main.addOperation
+					{
+						self.successfullyGotAddresses(addresses: addresses)
+				}
+			}
+		)
 		//with storyboard
 		//		let displayMA = self.storyboard?.instantiateViewController(withIdentifier: "MyAccountVC") as! MyAccountVC
 		//		self.navigationController?.pushViewController(displayMA, animated: true)
@@ -333,15 +309,7 @@ class LoginViewController: UIViewController
 	{
 		print("got \(addresses.addresses.count) addresses")
 		UserDefaults.standard.set(String(describing: addresses), forKey: "CustomerAddresses")
-//		self.present(MyAccountViewController(), animated: true, completion: nil)
-//		var customerAddressesFormed: [String] = []
-//		for addr in addresses.addresses
-//		{
-//			let formed = store.formatAddress(addr)
-//			customerAddressesFormed.append(formed)
-//			print(formed)
-//		}
-		//print(UserDefaults.standard.string(forKey: "CustomerAddresses")!)
+		self.present(MyAccountViewController(), animated: true, completion: nil)
 	}
 	
 	
@@ -351,11 +319,20 @@ class LoginViewController: UIViewController
 		super.viewDidLoad()
 
 		//logged in?
+		let customer = store.customer
+		if customer.count > 0
+		{
+			self.present(MyAccountViewController(), animated: false, completion: nil)
+		}
+//////
 		let logged = UserDefaults.standard.object(forKey: "logged")
 		if logged != nil
 		{			//YES
 //			let customer = store.customer
-			//if let id_customer = customer[0].id_customer
+//			if customer[0].id_customer != nil
+//			{
+//				self.present(MyAccountViewController(), animated: false, completion: nil)
+//			}
 		}
 		else		//DataStore?
 		{
@@ -367,6 +344,19 @@ class LoginViewController: UIViewController
 			//IN A FILE?
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")
+			var contents = ""
+			do
+			{
+				contents = try String(contentsOf: docURL!, encoding: .utf8)
+				if contents != ""
+				{
+					print(contents)
+				}
+			}
+			catch let e
+			{
+				print("file read error:\(e)")
+			}
 			if false
 			{
 				//if customer["id_customer"] > -1
@@ -401,6 +391,7 @@ class LoginViewController: UIViewController
 	}
 	@objc func showPassAct(_ sender: Any)
 	{
+		//passwordTextField.updateFocusIfNeeded()
 		if passwordVisible
 		{
 			passwordTextField.isSecureTextEntry = true
@@ -411,6 +402,7 @@ class LoginViewController: UIViewController
 			passwordTextField.isSecureTextEntry = false
 			showPass.text = FontAwesome.eyeSlash.rawValue
 		}
+		passwordTextField.becomeFirstResponder()
 		passwordVisible = !passwordVisible
 	}
 	@IBAction func helpBtnAct(_ sender: Any)
@@ -446,32 +438,12 @@ class LoginViewController: UIViewController
 	}
 	@IBAction func forgotBtnAct(_ sender: Any)
 	{
-		//self.present(ForgotPWViewController(), animated: true, completion: nil)
+		self.present(ForgotPWViewController(), animated: true, completion: nil)
 	}
 	@IBAction func createBtnAct(_ sender: Any)
 	{
-		//self.present(CreateAccViewController(), animated: true, completion: nil)
+		self.present(MyAccInfoViewController(), animated: true, completion: nil)
 	}
-//	@IBAction func MAInfoAct(_ sender: Any)
-//	{
-//	}
-//	@IBAction func MAAddrAct(_ sender: Any)
-//	{
-//	}
-//	@IBAction func MAOHAct(_ sender: Any)
-//	{
-//	}
-//	@IBAction func MACSAct(_ sender: Any)
-//	{
-//	}
 
 }
 
-//extension String
-//{
-//	func isValidEmail() -> Bool
-//	{
-//		let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
-//		return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: characters.count)) != nil
-//	}
-//}

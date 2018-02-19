@@ -10,11 +10,11 @@ import UIKit
 
 class MyAccInfoViewController: UIViewController
 {
+	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
 	@IBOutlet weak var genderSwitch: UISegmentedControl!
-	@IBOutlet weak var genderInvalid: UILabel!
 	@IBOutlet weak var genderBorder: UIView!
 	@IBOutlet weak var fieldLabel1: UILabel!
 	@IBOutlet weak var fieldEdit1: UITextField!
@@ -54,28 +54,47 @@ class MyAccInfoViewController: UIViewController
 	
 	func setLabels()
 	{
-		genderInvalid.text = ""
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		genderBorder.layer.borderColor = UIColor.white.cgColor
 		fieldInvalid1.text = ""
 		fieldLabel1.text = R.string.fName
+		fieldEdit1.textColor = R.color.YumaRed
 		fieldBorder1.layer.borderColor = UIColor.white.cgColor
 		field2Invalid.text = ""
 		field2Label.text = R.string.lName
+		field2Edit.textColor = R.color.YumaRed
 		field2Border.layer.borderColor = UIColor.white.cgColor
 		field3Invalid.text = ""
 		field3Label.text = R.string.emailAddr
+		field3Edit.textColor = R.color.YumaRed
 		field3Border.layer.borderColor = UIColor.white.cgColor
 		field4Invalid.text = ""
 		field4Label.text = R.string.emailAddr
+		field4Edit.textColor = R.color.YumaRed
 		field4Border.layer.borderColor = UIColor.white.cgColor
 		passwordInvalid.text = ""
 		passwordLabel.text = R.string.emailAddr
+		passwordEdit.textColor = R.color.YumaRed
 		passwordBorder.layer.borderColor = UIColor.white.cgColor
 		switch0Label.text = R.string.offersFromPartners
 		switch1Label.text = R.string.SignUpNewsletter
 		switch1Label2.text = R.string.SignUpNewsletterMore
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
+		alreadyLabel.text = R.string.alreadyAcc
+		loginLabel.text = R.string.login
+		loginLabel.textColor = R.color.YumaRed
+		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
+	}
+	
+	func setEmailField()
+	{
+		//field3Edit.superview?.backgroundColor = UIColor.black
+		field3Edit.superview?.backgroundColor = UIColor.clear
+		field3Edit.backgroundColor = UIColor.clear
+		field3Edit.superview?.layer.borderWidth = 2
+		field3Edit.superview?.layer.borderColor = UIColor.black.cgColor
+		field3Edit.isEnabled = false
 	}
 	
 	func fillFields()
@@ -101,13 +120,22 @@ class MyAccInfoViewController: UIViewController
 		//}
 	}
 	
+	@objc func loginButtonAct(_ sender: Any)
+	{
+		self.present(LoginViewController(), animated: false, completion: nil)
+	}
+	
 	
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
 
         setLabels()
-		fillFields()
+		if store.customer.count > 0
+		{
+			setEmailField()
+			fillFields()
+		}
     }
 
     override func didReceiveMemoryWarning()

@@ -33,7 +33,7 @@ struct Customer: Decodable
 	let passwd: String?
 	let lastname: String?
 	let firstname: String?
-	let email: String?
+	let email: String
 	let id_gender: String?
 	let birthday: String?
 	let newsletter: String?

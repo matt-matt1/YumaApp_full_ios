@@ -2,7 +2,7 @@
 //  MyAccOHViewController.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-02-15.
+//  Created by Yuma Usa on 2018-02-17.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 

@@ -17,6 +17,7 @@ class PrintersViewController: UIViewController
 	@IBOutlet weak var labelLeft: UILabel!
 	@IBOutlet weak var labelCenter: UILabel!
 	@IBOutlet weak var labelRight: UILabel!
+	@IBOutlet weak var add2CartBtn: GradientButton!
 	var printersDictionary: NSDictionary?
 	var products: NSDictionary?
 	
@@ -25,6 +26,7 @@ class PrintersViewController: UIViewController
 	{
         super.viewDidLoad()
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		refresh()
     }
 	

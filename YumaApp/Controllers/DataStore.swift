@@ -103,9 +103,9 @@ final class DataStore
 		{
 			formed.append("\n")
 		}
-		if address.address1 != nil && address.address1 != ""
+		if address.address1 != ""
 		{
-			formed.append("\(address.address1!)\n")
+			formed.append("\(address.address1)\n")
 		}
 		if address.address2 != nil && address.address2 != ""
 		{

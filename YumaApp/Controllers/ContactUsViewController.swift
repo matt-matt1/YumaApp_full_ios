@@ -53,42 +53,27 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	{
 		super.viewDidLoad()
 		//set label/buttons to our strings
-		//navBar.
-		//addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 1)
 		navTitle.title = R.string.contact
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-//		let myImage = UIImage(contentsOfFile: FontAwesome.close.rawValue)
-//		let myStyle = UIBarButtonItemStyle(rawValue: 30)
-//		let myMetrics = UIBarMetrics(rawValue: 30)
-//		navClose.setBackgroundImage(<#T##backgroundImage: UIImage?##UIImage?#>, for: <#T##UIControlState#>, style: <#T##UIBarButtonItemStyle#>, barMetrics: <#T##UIBarMetrics#>)
-//		NSMutableAttributedString.fixAttributes(<#T##NSMutableAttributedString#>)
-//		let attributes = [NSAttributedString: UIFont.fontNames(forFamilyName: "FontAwesome") as [String : Any]]
-//		navClose.setTitleTextAttributes(attributes, for: .normal)
 		navClose.title = FontAwesome.close.rawValue
-		//navClose.title = FontAwesome.close.rawValue
 		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
-		phoneBtn.setTitle(R.string.phoneAct, for: .normal)
-//		phoneBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel], gradientOrientation: GradientOrientation.vertical)
-		//phoneBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel], locations: [1.0, 0.0])
-		//t(withColours: [R.color.YumaRed, R.color.YumaYel])
-//		phoneBtn.layer.borderWidth = 2
-//		phoneBtn.layer.borderColor = R.color.YumaDRed.cgColor
-//		phoneBtn.layer.cornerRadius = 3
+		phoneBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		phoneBtn.setTitle(R.string.phoneAct.uppercased(), for: .normal)
 		emailIcon.text = FontAwesome.envelopeO.rawValue
 		emailAddr.text = R.string.our_email
-		emailBtn.setTitle(R.string.emailAct, for: .normal)
-//		emailBtn.layer.cornerRadius = 3
+		emailBtn.isOpaque = false
+		emailBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		emailBtn.setTitle(R.string.emailAct.uppercased(), for: .normal)
+		//print("emailBtn has layers:\(emailBtn.layer)")
+		//let labelLayer = UILabel()
+		//labelLayer.text = R.string.emailAct
+		//emailBtn.addSubview(labelLayer)
 		addrIcon.text = FontAwesome.mapPin.rawValue
 		addrText.text = R.string.our_addr
-		//addrBtn.title(for: .normal) = R.string.
-//		addrBtn.applyGradient(withColours: [R.color.YumaRed, R.color.YumaYel])
-//		addrBtn.layer.cornerRadius = 3
-//		addrBtn.layer.borderColor = R.color.YumaDRed.cgColor
-//		addrBtn.layer.borderWidth = 2
-		addrBtn.setTitle(R.string.map_big, for: .normal)
+		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		addrBtn.setTitle(R.string.map_big.uppercased(), for: .normal)
 
-		emailBtn.layer.addGradienBorder(colors: [R.color.YumaRed, R.color.YumaYel], width: 2)
 		myMap.showsScale = true
 		myMap.showsPointsOfInterest = true
 		mapZoomSlider.minimumValue = 1

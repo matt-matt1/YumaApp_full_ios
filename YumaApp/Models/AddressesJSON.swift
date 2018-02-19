@@ -23,7 +23,7 @@ struct Address: Decodable
 	let lastname: String?
 	let firstname: String?
 	let vat_number: String?
-	let address1: String?
+	let address1: String
 	let address2: String?
 	let postcode: String?
 	let city: String?

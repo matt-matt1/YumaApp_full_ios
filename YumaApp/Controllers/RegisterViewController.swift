@@ -1,14 +1,14 @@
 //
-//  MyAccAddrViewController.swift
+//  RegisterViewController.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-02-15.
+//  Created by Yuma Usa on 2018-02-19.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
 import UIKit
 
-class MyAccAddrViewController: UIViewController {
+class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

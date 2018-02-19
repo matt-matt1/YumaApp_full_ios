@@ -17,11 +17,21 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	//@IBOutlet weak var webView: WKWebView!//Use of undeclared type 'WKWebView'
 	@IBOutlet weak var webView: UIWebView!
 	
+	var pageTitle: String = ""
+	var pageURL: String = ""
+	
+	
+	override func viewDidAppear(_ animated: Bool)
+	{
+		self.navigationItem.title = self.pageTitle
+		webView.loadRequest(URLRequest(url: URL(string: self.pageURL)!))
+	}
+	
 	
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-
+		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
         webView.delegate = self
     }
 
@@ -48,21 +58,30 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	}
 	
 	
-	func loadWebpage(URLstring: String)
-	{
-		if let requestURL = URL(string: URLstring)
-		{
-			let request = URLRequest(url: requestURL)
-			webView.loadRequest(request)
-		}
-	}
-	
-//	func setTitle(string: String)
+//	func loadWebpage(URLstring: String)
 //	{
-//		if let title = String(string)
+//		if let requestURL = URL(string: URLstring)
 //		{
-//			navTitle.title = string
+//			let request = URLRequest(url: requestURL)
+//			webView.loadRequest(request)
 //		}
 //	}
+	func loadWebpage(URLstring: String)
+	{
+		self.pageURL = URLstring
+//		if let requestURL = URL(string: URLstring)
+//		{
+//			let request = URLRequest(url: requestURL)
+//			webView.loadRequest(request)
+//		}
+	}
+
+	func setTitle(string: String)
+	{
+//		if let title = String(string?)
+//		{
+			self.pageTitle = string
+//		}
+	}
 	
 }
