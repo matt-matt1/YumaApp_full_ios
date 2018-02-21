@@ -205,6 +205,7 @@ struct R {
 		static let empty = "Empty"
 		static let internet = "Internet"
 		static let no_data = "Data unavailable"
+		static let unableConnect = "Unable to access the website (or Internet)"
 		static let no_local = "No local copy"
 		static let no_connect = "No connection"
 		static let noPrice = "Contact for price"

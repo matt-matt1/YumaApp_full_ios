@@ -16,6 +16,11 @@ final class DataStore
 
 	var customer: [Customer] = []
 	var addresses: [Addresses] = []
+	var products: [aProduct] = []
+	var printers2: [MyShops] = []
+	var printers: [aProduct] = []
+	var laptops: [aProduct] = []
+	var toners: [aProduct] = []
 	
 	
 	func getCustomerDetails(from: String, completion: @escaping (Customer) -> Void)
@@ -71,7 +76,62 @@ final class DataStore
 			}
 		)
 	}
-	
+
+	func getPrinters2(completion: @escaping (MyShops) -> Void)
+	{
+		PSWebServices.getPrinters2(completionHandler:
+			{
+				(printers) in
+				
+				self.printers2.append(printers)
+				completion(printers)
+			}
+		)
+	}
+	func callGetPrinters2(completion: @escaping (MyShops) -> Void)
+	{
+		self.getPrinters2(completion:
+			{
+				(printers) in
+				
+//				self.printers2.append(printers)
+				OperationQueue.main.addOperation
+					{
+						completion(printers)
+				}
+			}
+		)
+	}
+
+	func getPrinters(completion: @escaping ([aProduct]) -> Void)
+	{
+		PSWebServices.getPrinters(completionHandler:
+			{
+				(printers) in
+
+				self.printers = printers
+//				self.printers.append(printers)
+				completion(printers)
+			}
+		)
+	}
+	func callGetPrinters(completion: @escaping ([aProduct]) -> Void)
+	{
+		self.getPrinters(completion:
+			{
+				(printers) in
+				
+//				self.printers = printers
+//				self.printers.append(printers)
+				OperationQueue.main.addOperation
+					{
+						completion(printers)
+				}
+			}
+		)
+	}
+
+
 
 	func get(from: String, completion: @escaping (Customer) -> Void)
 	{

@@ -36,7 +36,7 @@ class ForgotPWViewController: UIViewController
 		//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		navTitle.title = R.string.forgotPW
-		fieldLabel.text = R.string.forgotPW							//set labals for my language
+		fieldLabel.text = R.string.emailAddr							//set labals for my language
 		button.setTitle(R.string.proceed.uppercased(), for: .normal)
 		//closeBtn.
 		//helpBtn.

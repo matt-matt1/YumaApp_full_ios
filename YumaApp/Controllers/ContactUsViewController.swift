@@ -36,6 +36,7 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	@IBOutlet weak var mapZoomSlider: UISlider!
 	var myZoomLevel: Double = 11
 	
+	
 	//	var myCustomView: UserCoinView?
 	
 	//	override func viewDidLayoutSubviews() {
@@ -54,6 +55,7 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		super.viewDidLoad()
 		//set label/buttons to our strings
 		navTitle.title = R.string.contact
+		tempLabel.isHidden = true
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		phoneIcon.text = FontAwesome.phone.rawValue
@@ -186,7 +188,20 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{
-		//show map
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
+			{
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: nil)
+				return
+			}
+			self.present(ExpandMapViewController(), animated: false, completion: nil)
+		}
 	}
 	@IBAction func directionsAct(_ sender: Any)
 	{

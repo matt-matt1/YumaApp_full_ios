@@ -32,7 +32,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
                             <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="46" id="RYa-jf-ngW"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="46" id="axH-io-g1t"/>
                             </constraints>
                             <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -61,14 +60,19 @@
                             <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </webView>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="gYR-Hu-dlo" secondAttribute="trailing" id="5qg-ch-Jsu"/>
+                        <constraint firstItem="gYR-Hu-dlo" firstAttribute="leading" secondItem="eCv-7Z-2zt" secondAttribute="leading" id="ldu-hn-VDM"/>
+                    </constraints>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="eCv-7Z-2zt" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="EPb-Ls-gU7"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="QKS-0D-c5S"/>
+                <constraint firstItem="eCv-7Z-2zt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZrP-5T-6f8"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="10" id="e7Y-De-SYa"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="iUU-9E-Q82"/>
-                <constraint firstItem="eCv-7Z-2zt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tid-20-GSv"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="25.5" y="51.5"/>

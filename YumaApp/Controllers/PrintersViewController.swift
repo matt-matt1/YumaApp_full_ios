@@ -20,6 +20,7 @@ class PrintersViewController: UIViewController
 	@IBOutlet weak var add2CartBtn: GradientButton!
 	var printersDictionary: NSDictionary?
 	var products: NSDictionary?
+	var store = DataStore.sharedInstance
 	
 
 	override func viewDidLoad()
@@ -124,10 +125,13 @@ class PrintersViewController: UIViewController
 		labelCenter.text = "\(R.string.updating) ..."
 		labelRight.text = ""
 		pageControll.isHidden = true
-		PSWebServices.getPrinters(completionHandler: { (printers) in
+//		store.callGetPrinters2(completion:
+		store.callGetPrinters(completion:
+			{
+			(printers) in
+//		PSWebServices.getPrinters(completionHandler: { (printers) in
 			UIViewController.removeSpinner(spinner: sv)
 //		PSWebServices.getPrinters2(completionHandler: { (printers) in
-//			UIViewController.removeSpinner(spinner: sv)
 			//print("got \(printers) printers")
 			
 			//UILabel.text must be used from main thread only
@@ -141,12 +145,13 @@ class PrintersViewController: UIViewController
 			self.labelRight.text = "\(df.string(from: date)) "
 			self.pageControll.isHidden = false
 			//self.haveJSON(printers)
-		})
+			}
+		)
 	}
 
-	func haveJSON(_ printers: [aProduct])
-	{
-		print(printers)
-	}
+//	func haveJSON(_ printers: [aProduct])
+//	{
+//		print(printers)
+//	}
 
 }

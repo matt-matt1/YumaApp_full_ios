@@ -24,6 +24,7 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	override func viewDidAppear(_ animated: Bool)
 	{
 		self.navigationItem.title = self.pageTitle
+		navTitle.title = self.pageTitle
 		webView.loadRequest(URLRequest(url: URL(string: self.pageURL)!))
 	}
 	
@@ -31,7 +32,7 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
         webView.delegate = self
     }
 

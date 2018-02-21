@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="FontAwesome.ttf">
+            <string>FontAwesome</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExpandMapViewController" customModule="YumaApp" customModuleProvider="target">
+            <connections>
+                <outlet property="mapZoomSlider" destination="K8F-56-qzx" id="zg4-oj-jrg"/>
+                <outlet property="myMap" destination="SvV-vo-4Hd" id="9Wz-E8-NRk"/>
+                <outlet property="navBar" destination="wLy-NW-hC3" id="7XG-kt-D1g"/>
+                <outlet property="navClose" destination="ZrV-a6-Klg" id="Wag-Rc-aw4"/>
+                <outlet property="navHelp" destination="oHR-Se-Sgy" id="ZSP-co-jj6"/>
+                <outlet property="navTitle" destination="aa2-6T-6S7" id="xQR-dy-TdP"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Su4-kJ-3JY">
+                    <rect key="frame" x="0.0" y="40" width="414" height="696"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fxa-In-2s0">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="696"/>
+                            <subviews>
+                                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wLy-NW-hC3">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
+                                    <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="46" id="Chq-qy-yqg"/>
+                                    </constraints>
+                                    <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <textAttributes key="titleTextAttributes">
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textShadowColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <offsetWrapper key="textShadowOffset" horizontal="2" vertical="2"/>
+                                    </textAttributes>
+                                    <items>
+                                        <navigationItem title="Big Map" id="aa2-6T-6S7">
+                                            <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="ZrV-a6-Klg">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="navCloseAct:" destination="-1" id="duD-eF-uR0"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem key="rightBarButtonItem" title="help" style="done" id="oHR-Se-Sgy">
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="navHelpAct:" destination="-1" id="NbJ-Zo-Mmw"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </navigationItem>
+                                    </items>
+                                </navigationBar>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sdB-tc-gKP">
+                                    <rect key="frame" x="5" y="46" width="404" height="650"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Hxp-62-Hu2">
+                                            <rect key="frame" x="0.0" y="0.0" width="404" height="650"/>
+                                            <subviews>
+                                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SvV-vo-4Hd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="404" height="600"/>
+                                                </mapView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="V8Y-5w-NWt">
+                                                    <rect key="frame" x="0.0" y="600" width="404" height="50"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="242-rY-DM0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="jW8-Tb-jJN"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="32"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="mapZoomMinusAct:" destination="-1" eventType="touchUpInside" id="LUK-Eb-uYW"/>
+                                                            </connections>
+                                                        </button>
+                                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="K8F-56-qzx">
+                                                            <rect key="frame" x="58" y="0.0" width="288" height="51"/>
+                                                            <color key="tintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <connections>
+                                                                <action selector="mapZoomSliderAct:" destination="-1" eventType="valueChanged" id="JBz-tf-afB"/>
+                                                            </connections>
+                                                        </slider>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUP-6B-CZo">
+                                                            <rect key="frame" x="354" y="0.0" width="50" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="sAO-EV-QLu"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="32"/>
+                                                            <state key="normal" title="">
+                                                                <color key="titleColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="mapZoomPlusAct:" destination="-1" eventType="touchUpInside" id="rRP-Ad-xGQ"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="WkO-4d-YJm"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="Hxp-62-Hu2" secondAttribute="trailing" id="AB6-ql-6VD"/>
+                                        <constraint firstItem="Hxp-62-Hu2" firstAttribute="top" secondItem="sdB-tc-gKP" secondAttribute="top" id="bJD-z0-5du"/>
+                                        <constraint firstAttribute="bottom" secondItem="Hxp-62-Hu2" secondAttribute="bottom" id="fp9-PH-7wJ"/>
+                                        <constraint firstItem="Hxp-62-Hu2" firstAttribute="leading" secondItem="sdB-tc-gKP" secondAttribute="leading" id="j4b-kk-ZwL"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                            <size key="value" width="0.0" height="0.0"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="sdB-tc-gKP" secondAttribute="trailing" constant="5" id="NHE-iD-0dd"/>
+                                <constraint firstItem="sdB-tc-gKP" firstAttribute="top" secondItem="wLy-NW-hC3" secondAttribute="bottom" id="UUc-VY-a15"/>
+                                <constraint firstAttribute="bottom" secondItem="sdB-tc-gKP" secondAttribute="bottom" id="fWU-h2-HRE"/>
+                                <constraint firstItem="sdB-tc-gKP" firstAttribute="leading" secondItem="Fxa-In-2s0" secondAttribute="leading" constant="5" id="lCh-Vx-pjA"/>
+                                <constraint firstItem="wLy-NW-hC3" firstAttribute="leading" secondItem="Fxa-In-2s0" secondAttribute="leading" id="pwz-BN-egB"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Fxa-In-2s0" secondAttribute="trailing" id="8Dl-Lz-lBp"/>
+                        <constraint firstItem="Fxa-In-2s0" firstAttribute="top" secondItem="Su4-kJ-3JY" secondAttribute="top" id="Sjh-GH-Tga"/>
+                        <constraint firstItem="Fxa-In-2s0" firstAttribute="leading" secondItem="Su4-kJ-3JY" secondAttribute="leading" id="Wvs-Hk-HUX"/>
+                        <constraint firstAttribute="bottom" secondItem="Fxa-In-2s0" secondAttribute="bottom" id="tJQ-YG-M2b"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Su4-kJ-3JY" secondAttribute="bottom" id="1lv-j1-M3a"/>
+                <constraint firstItem="Su4-kJ-3JY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="DvH-0N-Gef"/>
+                <constraint firstItem="Su4-kJ-3JY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkr-Pz-pex"/>
+                <constraint firstAttribute="trailing" secondItem="Su4-kJ-3JY" secondAttribute="trailing" id="ZBk-Ia-xsI"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="24" y="51"/>
+        </view>
+    </objects>
+</document>

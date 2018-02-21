@@ -266,14 +266,14 @@ struct EmbeddedAttributes: Decodable
 	let packItems: [String]?
 	let nopackprice: String?//Int
 	let customization_required: String?//Bool
-	let attributes: [Attributes]?
+	let attributes: [Attributes]
 	let rate: String?//Int
 	let tax_name: String?
 	let ecotax_rate: String?//Int
 	let unit_price: String?//Int
 }
 
-struct Product: Decodable
+struct FeedProduct: Decodable
 {
 	let id_product: String?
 	let id_supplier: String?
@@ -286,7 +286,7 @@ struct Product: Decodable
 	let ean13: String?
 	let isbn: String?
 	let upc: String?
-	let ecotax: [Ecotax]?
+	let ecotax: Ecotax
 	let quantity: String?//Int
 	let minimal_quantity: String?
 	let price: String?
@@ -368,8 +368,8 @@ struct Product: Decodable
 	let id_lang: String?
 	let id: String?
 	let weight_unit: String?
-	let images: [Image2]?
-	let cover: [Cover]?
+	let images: [Image2]
+	let cover: [Cover]
 	let url: String?
 	let canonical_url: String?
 	let has_discount: String?//Bool
@@ -385,14 +385,14 @@ struct Product: Decodable
 	let add_to_cart_url: String?
 	let main_variants: [String]?
 	let flags: [String]?
-	let labels: [Labels]?
+	let labels: [Labels]
 	let show_availability: String?//Bool
 	let availability_message: String?
 	let availability_date: String?//AnyString
 	let availability: String?
 	let quantity_discounts: [String]?
 	let reference_to_display: String?//AnyString
-	let embedded_attributes: [EmbeddedAttributes]?
+	let embedded_attributes: [EmbeddedAttributes]
 }
 
 struct Shop: Decodable
@@ -403,13 +403,19 @@ struct Shop: Decodable
 	let generator: String?
 	let webMaster: String?
 	let language: String?
-	let image: [Image]?
+	let image: ProdImage?
 	let id_category: String?
 	let n_products: String?
-	let products: [Product]?
+	let products: [FeedProduct]
 }
 
 struct MyShops: Decodable
 {
-	let shop: [Shop]?
+	let shop: Shop
 }
+
+//enum CodingKeys: String, CodingKey
+//{
+//	case <#case#>
+//}
+

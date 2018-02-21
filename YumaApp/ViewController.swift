@@ -219,11 +219,28 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
 			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			self.present(LoginViewController(), animated: false, completion: (() -> Void)?
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
+		}
 	}
 	@objc func gotoCart(_ sender: UITapGestureRecognizer)
 	{
@@ -245,16 +262,31 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let webPage = WebpageViewController()
-		//webPage.setTitle(string: R.string.en)
-		webPage.pageTitle = R.string.en
-		//webPage.loadWebpage(URLstring: R.string.enweb)
-		webPage.pageURL = R.string.enweb
-		self.present(webPage, animated: true, completion: (() -> Void)?
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
 			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			let webPage = WebpageViewController()
+			webPage.pageTitle = R.string.en
+			webPage.pageURL = R.string.enweb
+			self.present(webPage, animated: true, completion: (() -> Void)?
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
+		}
 	}
 	@objc func gotoAbout(_ sender: UITapGestureRecognizer)
 	{
@@ -263,14 +295,31 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let webPage = WebpageViewController()
-		webPage.pageTitle = R.string.about
-		webPage.pageURL = R.string.aboutweb
-		self.present(webPage, animated: true, completion: (() -> Void)?
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
 			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			let webPage = WebpageViewController()
+			webPage.pageTitle = R.string.about
+			webPage.pageURL = R.string.aboutweb
+			self.present(webPage, animated: true, completion: (() -> Void)?
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
+		}
 	}
 	@objc func gotoQC(_ sender: UITapGestureRecognizer)
 	{
@@ -279,14 +328,31 @@ class ViewController: UIViewController, UIScrollViewDelegate
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let webPage = WebpageViewController()
-		webPage.pageTitle = R.string.qc
-		webPage.pageURL = R.string.qcweb
-		self.present(webPage, animated: true, completion: (() -> Void)?
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
 			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			let webPage = WebpageViewController()
+			webPage.pageTitle = R.string.qc
+			webPage.pageURL = R.string.qcweb
+			self.present(webPage, animated: true, completion: (() -> Void)?
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
+		}
 	}
 	@objc func gotoContact(_ sender: UITapGestureRecognizer)
 	{
@@ -321,11 +387,28 @@ class ViewController: UIViewController, UIScrollViewDelegate
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 //			})
-			self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
+			Reachability.isInternetAvailable(website: R.string.URLbase)
+			{
+				(available) in
+				
+				guard available else
 				{
-					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-					sender.view?.backgroundColor = UIColor.white
-				})
+					let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+					let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+					alertC.addAction(OKAct)
+					self.present(alertC, animated: true, completion: (() -> Void)?
+						{
+							sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+							sender.view?.backgroundColor = UIColor.white
+						})
+					return
+				}
+				self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+			}
 		}
 	}
 	@objc func gotoLaptops(_ sender: UITapGestureRecognizer)
@@ -335,6 +418,7 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
+		
 		//let alertController = UIAlertController(title: nil, message: "You tapped at \(sender.location(in: self.view))", preferredStyle: .alert)
 		//alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: { _ in }))
 		//self.present(alertController, animated: true, completion: nil)
@@ -343,15 +427,32 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		//story.instantiateInitialViewController() as! UIViewController
 		//let vc = story.instantiateViewController(withIdentifier: "LaptopsVC") as UIViewController
 //		present(vc, animated: true, completion: nil)
-		self.present(LaptopsViewController(), animated: false, completion: (() -> Void)?
+		Reachability.isInternetAvailable(website: R.string.URLbase)
 		{
-			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-			sender.view?.backgroundColor = UIColor.white
-		})
-//		self.present(vc, animated: true, completion: (() -> Void)? {
-//			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//			sender.view?.backgroundColor = UIColor.white
-//			})
+			(available) in
+			
+			guard available else
+			{
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			self.present(LaptopsViewController(), animated: false, completion: (() -> Void)?
+				{
+					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					sender.view?.backgroundColor = UIColor.white
+				})
+			//		self.present(vc, animated: true, completion: (() -> Void)? {
+			//			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			//			sender.view?.backgroundColor = UIColor.white
+			//			})
+		}
 	}
 	@objc func gotoServices(_ sender: UITapGestureRecognizer)
 	{
@@ -360,6 +461,25 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
+			{
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			self.present(ExpandMapViewController(), animated: false, completion: nil)
+		}
+
 		print ("gotoServices")
 	}
 	@objc func gotoToners(_ sender: UITapGestureRecognizer)
@@ -369,6 +489,25 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		{
 			sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
+		Reachability.isInternetAvailable(website: R.string.URLbase)
+		{
+			(available) in
+			
+			guard available else
+			{
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: (() -> Void)?
+					{
+						sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+						sender.view?.backgroundColor = UIColor.white
+					})
+				return
+			}
+			self.present(ExpandMapViewController(), animated: false, completion: nil)
+		}
+
 		print ("gotoToners")
 	}
 	

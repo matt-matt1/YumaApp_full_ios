@@ -64,7 +64,7 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ucV-ar-XFW">
                                     <rect key="frame" x="0.0" y="46" width="414" height="640"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-slider-printers" translatesAutoresizingMaskIntoConstraints="NO" id="JI5-hc-dvN">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home-slider-printers" translatesAutoresizingMaskIntoConstraints="NO" id="JI5-hc-dvN">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="125" id="0CL-3S-C1v"/>
@@ -185,7 +185,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="WIh-HJ-Rpp" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="3u4-eH-seh"/>
                 <constraint firstItem="WIh-HJ-Rpp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4ut-ln-QO8"/>

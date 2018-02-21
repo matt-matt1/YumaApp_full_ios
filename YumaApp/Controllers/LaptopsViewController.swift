@@ -19,6 +19,9 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var add2CartBtn: GradientButton!
+	@IBOutlet weak var leftLabel: UILabel!
+	@IBOutlet weak var centerLabel: UILabel!
+	@IBOutlet weak var rightLabel: UILabel!
 	
 	var laptopsDictionary: NSDictionary?
 	var cartDictionary: NSDictionary?
@@ -27,30 +30,14 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 	override func viewWillAppear(_ animated: Bool)
 	{
 		navTitle.title = R.string.laptops
-		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
-		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		//obtain array of products in cat laqptops
-		let sv = UIViewController.displaySpinner(onView: self.view)
-//		WebServices.getLaptops() {
-//			(result, message, status) in
-//			if status
-//			{
-//				let Details = result as? WebServices
-//				self.laptopsDictionary = Details?.Data
-				UIViewController.removeSpinner(spinner: sv)
-//				self.setSlider()
-//			}
-//			else
-//			{
-//				UIViewController.removeSpinner(spinner: sv)
-//				print("error with getLaptops")
-//			}
-//		}
+		navBar.applyNavigationGradient(colors: [R.color.YumaRed, R.color.YumaDRed], isVertical: true)
+		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		refresh()
     }
 
     override func didReceiveMemoryWarning()
@@ -122,5 +109,32 @@ class LaptopsViewController: UIViewController, UIScrollViewDelegate
 //			let a = laptops.customMirror
 //		}
 	}
-
+	
+	func refresh()
+	{
+		let sv = UIViewController.displaySpinner(onView: self.view)
+		leftLabel.text = ""
+		centerLabel.text = "\(R.string.updating) ..."
+		rightLabel.text = ""
+		pageControl.isHidden = true
+		PSWebServices.getPrinters(completionHandler: { (printers) in
+			UIViewController.removeSpinner(spinner: sv)
+			//		PSWebServices.getPrinters2(completionHandler: { (printers) in
+			//			UIViewController.removeSpinner(spinner: sv)
+			//print("got \(printers) printers")
+			
+			//UILabel.text must be used from main thread only
+			self.leftLabel.text = " \(R.string.updated)"
+			self.centerLabel.text = FontAwesome.repeat.rawValue
+			self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 30)
+			let date = Date()
+			let df = DateFormatter()
+			df.locale = Locale(identifier: "en_CA")
+			df.dateFormat = "dd MMM YYYY  h:mm:ss a"
+			self.rightLabel.text = "\(df.string(from: date)) "
+			self.pageControl.isHidden = false
+			//self.haveJSON(printers)
+		})
+	}
+	
 }

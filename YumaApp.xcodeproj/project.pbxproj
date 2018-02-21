@@ -64,6 +64,11 @@
 		CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */; };
 		CFC1D1FF203B44F600343B25 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D1FD203B44F600343B25 /* RegisterViewController.swift */; };
 		CFC1D200203B44F600343B25 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D1FE203B44F600343B25 /* RegisterViewController.xib */; };
+		CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D202203C569000343B25 /* ExpandMapViewController.swift */; };
+		CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D203203C569000343B25 /* ExpandMapViewController.xib */; };
+		CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B2C203DD1FA00F98C57 /* Entry.swift */; };
+		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
+		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
 		CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */; };
 		CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */; };
 		CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB52034E48600BEDEE4 /* DataStore.swift */; };
@@ -159,6 +164,11 @@
 		CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForgotPWViewController.xib; sourceTree = "<group>"; };
 		CFC1D1FD203B44F600343B25 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CFC1D1FE203B44F600343B25 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		CFC1D202203C569000343B25 /* ExpandMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandMapViewController.swift; sourceTree = "<group>"; };
+		CFC1D203203C569000343B25 /* ExpandMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandMapViewController.xib; sourceTree = "<group>"; };
+		CFEC7B2C203DD1FA00F98C57 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
+		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		CFF3CFB02034C48700BEDEE4 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = "../../../../Users/yumausa/Library/Developer/Xcode/DerivedData/YumaApp-avolzrtwtmhajogusyiczqivwtce/Build/Products/Debug-iphoneos/Eureka.framework"; sourceTree = "<group>"; };
 		CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCollectionView.swift; sourceTree = "<group>"; };
 		CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressCollectionView.xib; sourceTree = "<group>"; };
@@ -221,6 +231,7 @@
 		CF182DC1203205F80070B9E5 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				CFEC7B30203DFD3300F98C57 /* Reachability.swift */,
 				CF182DBB2031E8A90070B9E5 /* CollectionViewController.swift */,
 				CF182DB52030F4C90070B9E5 /* GradientButton.swift */,
 				CF182DCF203340E50070B9E5 /* PSWebServices.swift */,
@@ -254,6 +265,9 @@
 				CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */,
 				CF9231CD20386CDF00D44BB6 /* MyAccOHViewController.xib */,
 				CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */,
+				CFC1D203203C569000343B25 /* ExpandMapViewController.xib */,
+				CFEC7B2C203DD1FA00F98C57 /* Entry.swift */,
+				CFEC7B2E203DD33100F98C57 /* Entry.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,6 +381,7 @@
 				CFC1D1F9203B442500343B25 /* ForgotPWViewController.swift */,
 				CFC1D1FD203B44F600343B25 /* RegisterViewController.swift */,
 				CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */,
+				CFC1D202203C569000343B25 /* ExpandMapViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -510,8 +525,10 @@
 				CF337F372038E35600C93FAF /* MyAccountViewController.xib in Resources */,
 				CF7E863D2029E83D0014B787 /* ContactUsViewController.xib in Resources */,
 				CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */,
+				CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */,
 				CF182DB42030C32C0070B9E5 /* LaptopsViewController.xib in Resources */,
 				CF182DBA2030F7FB0070B9E5 /* WebpageViewController.xib in Resources */,
+				CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */,
 				CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */,
 				CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */,
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
@@ -709,12 +726,14 @@
 				CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* OrdersJSON.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* countries.swift in Sources */,
+				CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */,
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CFC1D1FF203B44F600343B25 /* RegisterViewController.swift in Sources */,
 				CF182DBE2031EFE30070B9E5 /* CollectionViewCell.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CF337F3B2039CFE000C93FAF /* MyAccAddrCell.swift in Sources */,
+				CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
@@ -730,6 +749,7 @@
 				CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */,
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,
 				CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */,
+				CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */,
 				CF9231C22035FF2900D44BB6 /* MyAccAddrViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

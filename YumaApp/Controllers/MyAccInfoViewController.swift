@@ -14,6 +14,8 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
+	@IBOutlet weak var alreadyLabel: UILabel!
+	@IBOutlet weak var loginLabel: UILabel!
 	@IBOutlet weak var genderSwitch: UISegmentedControl!
 	@IBOutlet weak var genderBorder: UIView!
 	@IBOutlet weak var fieldLabel1: UILabel!
@@ -28,12 +30,6 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var field3Edit: UITextField!
 	@IBOutlet weak var field3Invalid: UILabel!
 	@IBOutlet weak var field3Border: UIView!
-	@IBOutlet weak var buttonText: GradientButton!
-	@IBOutlet weak var alreadyLabel: UILabel!
-	@IBOutlet weak var loginLabel: UILabel!
-	@IBOutlet weak var switch0Label: UILabel!
-	@IBOutlet weak var switch1Label: UILabel!
-	@IBOutlet weak var switch2Label: UILabel!
 	@IBOutlet weak var field4Border: UIView!
 	@IBOutlet weak var field4Label: UILabel!
 	@IBOutlet weak var field4Edit: UITextField!
@@ -46,9 +42,13 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var switch0: UISwitch!
 	@IBOutlet weak var switch1: UISwitch!
 	@IBOutlet weak var switch2: UISwitch!
+	@IBOutlet weak var switch0Label: UILabel!
+	@IBOutlet weak var switch1Label: UILabel!
+	@IBOutlet weak var switch2Label: UILabel!
 	@IBOutlet weak var switch1Label2: UILabel!
 	@IBOutlet weak var switch2Label2: UILabel!
-	
+	@IBOutlet weak var buttonText: GradientButton!
+
 	let store = DataStore.sharedInstance
 	
 	
@@ -69,11 +69,11 @@ class MyAccInfoViewController: UIViewController
 		field3Edit.textColor = R.color.YumaRed
 		field3Border.layer.borderColor = UIColor.white.cgColor
 		field4Invalid.text = ""
-		field4Label.text = R.string.emailAddr
+		field4Label.text = R.string.bDate
 		field4Edit.textColor = R.color.YumaRed
 		field4Border.layer.borderColor = UIColor.white.cgColor
 		passwordInvalid.text = ""
-		passwordLabel.text = R.string.emailAddr
+		passwordLabel.text = R.string.txtPass
 		passwordEdit.textColor = R.color.YumaRed
 		passwordBorder.layer.borderColor = UIColor.white.cgColor
 		switch0Label.text = R.string.offersFromPartners
@@ -82,14 +82,64 @@ class MyAccInfoViewController: UIViewController
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
 		alreadyLabel.text = R.string.alreadyAcc
-		loginLabel.text = R.string.login
+		loginLabel.text = R.string.loginInstead
 		loginLabel.textColor = R.color.YumaRed
 		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
 	}
 	
+	private func getSubviewsOf<T : UIView>(view:UIView) -> [T]
+	{
+		var subviews = [T]()
+		
+		for subview in view.subviews
+		{
+			subviews += getSubviewsOf(view: subview) as [T]
+			
+			if let subview = subview as? T
+			{
+				subviews.append(subview)
+			}
+		}
+		return subviews
+	}
+	
+	func convertEntryToHorizontal(_ width: CGFloat)
+	{
+		let allStacks: [UIStackView] = getSubviewsOf(view: self.view)
+		for myView in allStacks
+		{
+			if !(myView.superview?.isKind(of: UIStackView.self))! && !(myView.superview?.isKind(of: UIScrollView.self))! && myView.arrangedSubviews.count == 3
+			{
+				let eLabel = myView.arrangedSubviews[0]
+				let eView = myView.arrangedSubviews[1]
+				let stack = UIStackView()
+				stack.axis = UILayoutConstraintAxis.horizontal
+				stack.distribution = UIStackViewDistribution.fill
+				stack.spacing = 10
+				stack.bounds = eLabel.bounds
+				eLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
+				//eLabel.aligntextright
+				stack.addArrangedSubview(eLabel)
+				stack.addArrangedSubview(eView)
+				myView.insertArrangedSubview(stack, at: 0)
+			}
+		}
+	}
+	
+	@objc func alertMe(_ sender : Any)
+	{
+		print(sender)
+	}
+	
+	func switchAlertMore()
+	{
+		switch0Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		switch1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		switch2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+	}
+	
 	func setEmailField()
 	{
-		//field3Edit.superview?.backgroundColor = UIColor.black
 		field3Edit.superview?.backgroundColor = UIColor.clear
 		field3Edit.backgroundColor = UIColor.clear
 		field3Edit.superview?.layer.borderWidth = 2
@@ -99,9 +149,6 @@ class MyAccInfoViewController: UIViewController
 	
 	func fillFields()
 	{
-		//var customer: Customer = store.customer[0]
-		//let customer: Customer = store.customer[0] as Customer
-		//{
 		genderSwitch.setEnabled(true, forSegmentAt: Int(store.customer[0].id_gender!)!)
 			fieldEdit1.text = store.customer[0].firstname
 		field2Edit.text = store.customer[0].lastname
@@ -117,24 +164,39 @@ class MyAccInfoViewController: UIViewController
 			switch0.setOn((store.customer[0].newsletter == "1"), animated: false)
 		}
 		switch0.setOn(false, animated: false)
-		//}
 	}
 	
 	@objc func loginButtonAct(_ sender: Any)
 	{
-		self.present(LoginViewController(), animated: false, completion: nil)
+		self.dismiss(animated: false, completion: nil)
 	}
 	
+	@IBAction func buttonAct(_ sender: Any)
+	{
+	}
+	@IBAction func navCloseAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
 	
+
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-
+		if self.view.frame.width > 400
+		{
+			convertEntryToHorizontal(125)
+		}
+		switchAlertMore()
         setLabels()
 		if store.customer.count > 0
 		{
 			setEmailField()
 			fillFields()
+		}
+		else
+		{
+			navTitle.title = R.string.createAcc
 		}
     }
 
@@ -154,12 +216,4 @@ class MyAccInfoViewController: UIViewController
         // Pass the selected object to the new view controller.
     }
     */
-	@IBAction func buttonAct(_ sender: Any)
-	{
-	}
-	@IBAction func navCloseAct(_ sender: Any)
-	{
-		self.dismiss(animated: false, completion: nil)
-	}
-	
 }

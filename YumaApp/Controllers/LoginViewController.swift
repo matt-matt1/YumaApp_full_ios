@@ -414,26 +414,39 @@ class LoginViewController: UIViewController
 	}
 	@IBAction func loginButtonClicked(_ sender: Any)
 	{
-		errorUsernameBorder.layer.borderColor = UIColor.white.cgColor
-		errorPasswordBorder.layer.borderColor = UIColor.white.cgColor
-		invalidUsername.text = ""
-		invalidPassword.text = ""
-		var proceed = true
-		if !(isValidEmail(usernameTextField.text!))
+		Reachability.isInternetAvailable(website: R.string.WSbase)
 		{
-			errorUsernameBorder.layer.borderColor = UIColor.red.cgColor
-			invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr)"
-			proceed = false
-		}
-		if (passwordTextField.text?.count)! < 5
-		{
-			errorPasswordBorder.layer.borderColor = UIColor.red.cgColor
-			invalidPassword.text = "\(R.string.invalid) \(R.string.txtPass)"
-			proceed = false
-		}
-		if proceed
-		{
-			getCustomerDetails()
+			(available) in
+			
+			guard available else
+			{
+				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+				alertC.addAction(OKAct)
+				self.present(alertC, animated: true, completion: nil)
+				return
+			}
+			self.errorUsernameBorder.layer.borderColor = UIColor.white.cgColor
+			self.errorPasswordBorder.layer.borderColor = UIColor.white.cgColor
+			self.invalidUsername.text = ""
+			self.invalidPassword.text = ""
+			var proceed = true
+			if !(self.isValidEmail(self.usernameTextField.text!))
+			{
+				self.errorUsernameBorder.layer.borderColor = UIColor.red.cgColor
+				self.invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr)"
+				proceed = false
+			}
+			if (self.passwordTextField.text?.count)! < 5
+			{
+				self.errorPasswordBorder.layer.borderColor = UIColor.red.cgColor
+				self.invalidPassword.text = "\(R.string.invalid) \(R.string.txtPass)"
+				proceed = false
+			}
+			if proceed
+			{
+				self.getCustomerDetails()
+			}
 		}
 	}
 	@IBAction func forgotBtnAct(_ sender: Any)

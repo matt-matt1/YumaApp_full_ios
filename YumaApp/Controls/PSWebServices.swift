@@ -30,19 +30,26 @@ class PSWebServices: NSObject
 				//else if response.status_code != 200
 				if let data = data
 				{
-					//let dataString = String(data: data, encoding: .utf8)
-					do
+					if data.count < 3
 					{
-						let customer = try JSONDecoder().decode(Customer.self, from: data)
-							//let _ = Global.customer.init(customer: customer)
-							//UserDefaults.standard.set(customer, forKey: "Customer")
-							//UserDefaults.standard.set(dataString, forKey: "CustomerString")
-						completionHandler(customer)
-					}
-					catch let JSONerr
-					{
-						print("\(R.string.err) \(JSONerr)")
 						return
+					}
+					else
+					{
+						//let dataString = String(data: data, encoding: .utf8)
+						do
+						{
+							let customer = try JSONDecoder().decode(Customer.self, from: data)
+								//let _ = Global.customer.init(customer: customer)
+								//UserDefaults.standard.set(customer, forKey: "Customer")
+								//UserDefaults.standard.set(dataString, forKey: "CustomerString")
+							completionHandler(customer)
+						}
+						catch let JSONerr
+						{
+							print("\(R.string.err) \(JSONerr)")
+							return
+						}
 					}
 				}
 			}.resume()
@@ -74,6 +81,7 @@ class PSWebServices: NSObject
 						print("\(R.string.err) \(JSONerr)")
 					}
 				}
+				return
 			}.resume()
 		}
 	}
@@ -91,18 +99,56 @@ class PSWebServices: NSObject
 					print(dataString ?? R.string.err)
 					do
 					{
+						guard let products = try? JSONDecoder().decode(JSONProducts.self, from: data)
+							else
+							{
+								print("Error: couldn't decode JSON")
+								return
+							}
+						let printers = products.products
+						print("number of printers: \(String(describing: printers?.count))")
+//						let result = try JSONDecoder().decode(JSONProducts.self, from: data)
+//						{
+//						var todo = self
 						//CRASHES:let printers = try JSONDecoder().decode(JSONProducts.self, from: data)
-						guard let printers = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any] else {	return 	}
-						completionHandler(printers["products"]! as! [aProduct])
+//						guard let printers = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any] else {	return 	}
+//							completionHandler(printers["products"]! as! [aProduct])
+//						completionHandler(result.products!)
+//						}
 					}
 					catch let JSONerr
 					{
 						print("\(R.string.err) \(JSONerr)")
 					}
 				}
-				}.resume()
+			}.resume()
 		}
 	}
+//	class func getPrinters(completionHandler: @escaping ([aProduct]) -> Void)
+//	{
+//		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+//		if let myUrl = URL(string: url)
+//		{
+//			URLSession.shared.dataTask(with: myUrl)
+//			{ (data, response, err) in
+//				if let data = data
+//				{
+//					let dataString = String(data: data, encoding: .utf8)
+//					print(dataString ?? R.string.err)
+//					do
+//					{
+//						//CRASHES:let printers = try JSONDecoder().decode(JSONProducts.self, from: data)
+//						guard let printers = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any] else {	return 	}
+//						completionHandler(printers["products"]! as! [aProduct])
+//					}
+//					catch let JSONerr
+//					{
+//						print("\(R.string.err) \(JSONerr)")
+//					}
+//				}
+//				}.resume()
+//		}
+//	}
 	class func getPrinters2(completionHandler: @escaping (MyShops) -> Void)
 	{
 		let url = "http://yumatechnical.com/en/module/my_feeder/prodjson?id_category=12&orderby=position&orderway=asc"
