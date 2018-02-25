@@ -8,60 +8,80 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
 
-
-class MyAccAddrViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout
+class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
 {
+	@IBOutlet weak var buttonLeft: GradientButton!
+	@IBOutlet weak var buttonRight: GradientButton!
+	@IBOutlet weak var navBar: UINavigationBar!
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
+	
 	let store = DataStore.sharedInstance
 	var addresses: [Address] = []
-
-	var collView: UICollectionView!
-//	var myProducts: [myProduct] = [
-//		myProduct(id: 1, name: "Hello", imageName: "sdf", price: "$23.00", desc: ""),
-//		myProduct(id: 2, name: "Again", imageName: "sdf", price: "$42.00", desc: ""),
-//		myProduct(id: 3, name: "Pkl", imageName: "sdf", price: "$1.00", desc: "")
-//	]
-//	let alarmCollectionView:UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
-//	let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
+	let addr1: Address = Address(id: 1, id_customer: "0", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias1", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "11", address2: "22", postcode: "pc", city: "c", other: "o", phone: "ph", phone_mobile: "phm", dni: "", deleted: "0", date_add: "", date_upd: "")
+	let addr2: Address = Address(id: 2, id_customer: "3", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias2", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "1111", address2: "2222", postcode: "pc", city: "c", other: "o", phone: "p", phone_mobile: "pm", dni: "", deleted: "0", date_add: "", date_upd: "")
+//	var collView: UICollectionView!
 	
 	
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		
-		// Uncomment the following line to preserve selection between presentations
-		// self.clearsSelectionOnViewWillAppear = false
-		
-		//collectionView?.backgroundColor = .white
-		
-//		layout.scrollDirection = UICollectionViewScrollDirection.vertical
-//		alarmCollectionView.setCollectionViewLayout(layout, animated: true)
-//		alarmCollectionView.delegate = self
-//		alarmCollectionView.dataSource = self
-//		alarmCollectionView.backgroundColor = UIColor.clear
-//		//self.addSubview(alarmCollectionView)
-		
-		let layout = UICollectionViewFlowLayout()
-		layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-		layout.itemSize = CGSize(width: 222, height: 411)
-		
-//		collView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-		collView.delegate   = self
-		collView.dataSource = self
-		collView.isPagingEnabled = true
-		collView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-		collView.backgroundColor = UIColor.white
-//		self.view.addSubview(collView)
-		
-		//collectionView?.isPagingEnabled = true
-		//self.collectionView!.register(ProductViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+		let caddr = UserDefaults.standard.string(forKey: "Customer")
+		do
+		{
+			//let customer = try JSONDecoder().decode(Customer.self, from: data)
+			let data = caddr?.data(using: .utf8)
+			let CustAddr = try JSONDecoder().decode([Address].self, from: data!)
+		}
+		catch let jsonErr
+		{
+			print("error: can't parse json '\(jsonErr)'")
+		}
+		//let CustAddr = NSKeyedArchiver.unarcheiveObject(with: caddr) as! [Address]
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
+		buttonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
+		buttonRight.setTitle(R.string.delete.uppercased(), for: .normal)
+//		// Uncomment the following line to preserve selection between presentations
+//		// self.clearsSelectionOnViewWillAppear = false
+//
+//		//collectionView?.backgroundColor = .white
+//
+////		layout.scrollDirection = UICollectionViewScrollDirection.vertical
+////		alarmCollectionView.setCollectionViewLayout(layout, animated: true)
+////		alarmCollectionView.delegate = self
+////		alarmCollectionView.dataSource = self
+////		alarmCollectionView.backgroundColor = UIColor.clear
+////		//self.addSubview(alarmCollectionView)
+//
+//		let layout = UICollectionViewFlowLayout()
+//		layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+//		layout.itemSize = CGSize(width: 222, height: 411)
+//
+////		collView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+//		collView.delegate   = self
+//		collView.dataSource = self
+//		collView.isPagingEnabled = true
+//		collView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+//		collView.backgroundColor = UIColor.white
+////		self.view.addSubview(collView)
+//
+//		//collectionView?.isPagingEnabled = true
+//		//self.collectionView!.register(ProductViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//		for addr in store.addresses
+//		{
+//			self.addresses.append(contentsOf: addr.addresses)
+//		}
+//		//self.addresses.append(contentsOf: store.addresses)
+		self.addresses.append(addr1)
+		self.addresses.append(addr2)
 	}
 	
-	override func didReceiveMemoryWarning()
-	{
-		super.didReceiveMemoryWarning()
-	}
+//	override func didReceiveMemoryWarning()
+//	{
+//		super.didReceiveMemoryWarning()
+//	}
 	
 	/*
 	// MARK: - Navigation
@@ -75,21 +95,21 @@ class MyAccAddrViewController: UICollectionViewController, UICollectionViewDeleg
 	
 	// MARK: UICollectionViewDataSource
 	
-	override func numberOfSections(in collectionView: UICollectionView) -> Int
-	{
-		return 1
-	}
+//	override func numberOfSections(in collectionView: UICollectionView) -> Int
+//	{
+//		return 1
+//	}
 	
 	
-	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+	/*override*/ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
 	{
 		return addresses.count
 	}
 	
-	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+	/*override*/ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyAccAddrCell
-		cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addressCell", for: indexPath) as! MyAccAddrCell
+		//cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
 		let page = addresses[indexPath.item]
 		cell.aliasField.text = page.alias
 		cell.addressField.text = R.formatAddress(page)
@@ -101,10 +121,10 @@ class MyAccAddrViewController: UICollectionViewController, UICollectionViewDeleg
 		return cell
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
-	{
-		return 0
-	}
+//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
+//	{
+//		return 0
+//	}
 	
 	// MARK: UICollectionViewDelegateFlowLayout
 	
@@ -143,6 +163,23 @@ class MyAccAddrViewController: UICollectionViewController, UICollectionViewDeleg
 	
 	}
 	*/
+	
+	@IBAction func navCloseAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
+	}
+	@IBAction func buttonLeftAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func buttonRightAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+
 	
 }
 

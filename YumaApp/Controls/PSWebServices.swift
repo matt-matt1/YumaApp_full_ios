@@ -20,7 +20,7 @@ class PSWebServices: NSObject
 //		return String(mySub)
 //	}
 
-	class func getCustomer(from: String, completionHandler: @escaping (Customer) -> Void)
+	class func getCustomer(from: String, completionHandler: @escaping (Any) -> Void)
 	{
 		if let myUrl = URL(string: from)
 		{
@@ -30,12 +30,14 @@ class PSWebServices: NSObject
 				//else if response.status_code != 200
 				if let data = data
 				{
-					if data.count < 3
+					if data.count < 4
 					{
+						completionHandler(false)
 						return
 					}
 					else
 					{
+						UserDefaults.standard.set(String(data: data, encoding: .utf8), forKey: "Customer")
 						//let dataString = String(data: data, encoding: .utf8)
 						do
 						{
@@ -57,6 +59,20 @@ class PSWebServices: NSObject
 	}
 
 	
+//	func decodeJSONData(_ jsonData: Data) -> Any// Addresses
+//	{
+//		do
+//		{
+//			let addresses = try JSONDecoder().decode(Addresses.self, from: jsonData)
+//			return addresses
+//		}
+//		catch let JSONerr
+//		{
+//			print("\(R.string.err) \(JSONerr)")
+//		}
+//		return false
+//	}
+	
 	class func getAddresses(id_customer: Int, completionHandler: @escaping (Addresses) -> Void)
 	{
 		let url = "\(R.string.WSbase)/addresses"
@@ -69,11 +85,25 @@ class PSWebServices: NSObject
 //				else if response.status_code != 200
 				if let data = data
 				{
+					let wholeStr = String(data: data, encoding: .utf8)
+					let trimmed = wholeStr?.substringBetween("[", "]")
+					UserDefaults.standard.set(trimmed, forKey: "CustAddr")
 //					let dataString = String(data: data, encoding: .utf8)
 //					print(dataString ?? R.string.err)
+//					let addresses = decodeJSONData(json: data)
+//					if addresses as Bool == false
+//					{
+//						return
+//					}
+//					else
+//					{
+//						completionHandler(Addresses)
+//					}
 					do
 					{
-						let addresses = try JSONDecoder().decode(Addresses.self, from: data)
+						//let data: Data = Data(trimmed)
+						//let addresses = try JSONDecoder().decode(Addresses.self, from: data)
+						let addresses = try JSONDecoder().decode(Addresses.self, from: (trimmed?.data(using: .utf8))!)
 						completionHandler(addresses)
 					}
 					catch let JSONerr
@@ -85,6 +115,38 @@ class PSWebServices: NSObject
 			}.resume()
 		}
 	}
+	
+	class func getPrinters3(url: String, completionHandler: @escaping (Addresses) -> Void)
+	{
+		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				//				if err
+				//				else if response.status_code != 200
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let addresses = try JSONDecoder().decode(Addresses.self, from: data)
+						completionHandler(addresses)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+	
+
 	
 	class func getPrinters(completionHandler: @escaping ([aProduct]) -> Void)
 	{
@@ -224,4 +286,30 @@ class PSWebServices: NSObject
 	}
 	
 
+}
+
+extension String
+{
+	func indexOf(_ character: Character) -> Int
+	{
+		return (index(of: character)?.encodedOffset)!
+	}
+	func lastIndexOf(_ character: String) -> Int?
+	{
+		guard let index = range(of: character, options: .backwards) else { 	return nil 	}
+		return self.distance(from: self.startIndex, to: index.lowerBound)
+	}
+	func substringBetween(_ fromCharacter: Character, _ toChartacter: String, exclusive: Bool = false) -> String
+	{
+		var pos1 = self.indexOf("[")
+		var pos2 = self.lastIndexOf("]")!+1
+		if exclusive
+		{
+			pos1 += 1
+			pos2 -= 1
+		}
+		let start = self.index(self.startIndex, offsetBy: pos1)
+		let end = self.index(self.startIndex, offsetBy: pos2)
+		return String(self[start..<end])
+	}
 }

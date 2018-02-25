@@ -72,24 +72,23 @@ public class Reachability
 			print("could not create url from: \(webAddress)")
 			return
 		}
-		
-		let urlRequest = URLRequest(url: url)
-		let session = URLSession.shared
-		let task = session.dataTask(with: urlRequest, completionHandler:
-		{
-			(data, response, error) in
-			
-			if error != nil || response == nil
-			{
-				completionHandler(false)
-			}
-			else
-			{
+
+//		let urlRequest = URLRequest(url: url)
+//		let session = URLSession.shared
+//		let task = session.dataTask(with: urlRequest, completionHandler:
+//		{
+//			(data, response, error) in
+//
+//			if error != nil || response == nil
+//			{
+//				completionHandler(false)
+//			}
+//			else
+//			{
 				completionHandler(true)
-			}
-		})
-		
-		task.resume()
+//			}
+//		})
+//		task.resume()
 	}
 
 }

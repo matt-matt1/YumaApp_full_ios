@@ -11,6 +11,8 @@ import UIKit
 @IBDesignable
 class Entry: UIView
 {
+	@IBOutlet var entryEntire: UIView!
+	@IBOutlet weak var entryViewInner: UIView!
 	@IBOutlet weak var entryLabel: UILabel!
 	@IBOutlet weak var entryEdit: UITextField!
 	@IBOutlet weak var entryFieldView: UIView!
@@ -27,13 +29,23 @@ class Entry: UIView
 	@IBInspectable var labelFieldSpace: CGFloat = 10
 	@IBInspectable var fieldInvalidSpace: CGFloat = 5
 	@IBInspectable var labelColor: UIColor = UIColor.black
+	@IBInspectable var entryBorderColor: UIColor = UIColor.red
+	@IBInspectable var invalidColor: UIColor = UIColor.red
 	@IBInspectable var hasPasswordShowHideButton: Bool = false
 	@IBInspectable var passwordShowText = ""
 	@IBInspectable var passowrdHideText = ""
+	@IBInspectable var fieldHeight: CGFloat = 45
 	@IBInspectable var fieldTopPadding: CGFloat = 2
 	@IBInspectable var fieldLeftPadding: CGFloat = 10
 	@IBInspectable var fieldBottomPadding: CGFloat = 2
 	@IBInspectable var fieldRightPadding: CGFloat = 10
+	@IBInspectable var fieldTextColor: UIColor = .darkGray
+	@IBInspectable var entryBorderWidth: CGFloat = 2
+	@IBInspectable var fieldBackgroundColor: UIColor = .lightGray
+	@IBInspectable var entryTopPadding: CGFloat = 5
+	@IBInspectable var entryLeftPadding: CGFloat = 5
+	@IBInspectable var entryBottomPadding: CGFloat = 5
+	@IBInspectable var entryRightPadding: CGFloat = 5
 	let nibName: String? = "Entry"
 	var contentView: UIView?
 	var showPassword = false
@@ -69,19 +81,31 @@ class Entry: UIView
 	
 	func dressXib()
 	{
+		// entryID
 		entryLabel.text = labelText
 		entryLabel.textColor = labelColor
 		entryInvalid.text = invalidText
-		entryPasswordHide.text = passowrdHideText
-		entryPasswordHide.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleShowHide(_:))))
-		entryEditStack.topAnchor.constraint(equalTo: entryFieldView.topAnchor, constant: fieldTopPadding).isActive = true
-		entryEditStack.leftAnchor.constraint(equalTo: entryFieldView.leftAnchor, constant: fieldLeftPadding).isActive = true
-		entryEditStack.bottomAnchor.constraint(equalTo: entryFieldView.bottomAnchor, constant: fieldBottomPadding).isActive = true
-		entryEditStack.rightAnchor.constraint(equalTo: entryFieldView.rightAnchor, constant: fieldRightPadding).isActive = true
+		entryInvalid.textColor = invalidColor
+		entryView.layer.borderColor = entryBorderColor.cgColor
+		entryView.layer.borderWidth = entryBorderWidth
+		if hasPasswordShowHideButton
+		{
+			entryPasswordHide.text = passowrdHideText
+			entryPasswordHide.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleShowHide(_:))))
+		}
+		//entryEditStack.topAnchor.constraint(equalTo: entryFieldView.topAnchor, constant: fieldTopPadding).isActive = true
+		//entryEditStack.leftAnchor.constraint(equalTo: entryFieldView.leftAnchor, constant: fieldLeftPadding).isActive = true
+		//entryEditStack.bottomAnchor.constraint(equalTo: entryFieldView.bottomAnchor, constant: fieldBottomPadding).isActive = true
+		//entryEditStack.rightAnchor.constraint(equalTo: entryFieldView.rightAnchor, constant: fieldRightPadding).isActive = true
 		entryLabel.widthAnchor.constraint(equalToConstant: labelsWidth).isActive = true
 		entryEditStack.spacing = labelFieldSpace
 		entryStack.spacing = fieldInvalidSpace
 		entryEdit.placeholder = placeholderText
+		entryView.topAnchor.constraint(equalTo: entryViewInner.topAnchor, constant: entryTopPadding).isActive = true
+		entryView.leftAnchor.constraint(equalTo: entryViewInner.leftAnchor, constant: entryLeftPadding).isActive = true
+		entryView.bottomAnchor.constraint(equalTo: entryViewInner.bottomAnchor, constant: entryBottomPadding).isActive = true
+		//entryView.rightAnchor.constraint(equalTo: entryViewInner.rightAnchor, constant: entryRightPadding).isActive = true
+		entryEdit.heightAnchor.constraint(equalToConstant: fieldHeight)
 	}
 	
 	override func awakeFromNib()

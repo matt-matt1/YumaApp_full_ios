@@ -212,13 +212,6 @@ class LoginViewController: UIViewController
 		invalidPassword.text = ""
 	}
 	
-	func alertMessage(alerttitle: String, _ message: String)
-	{
-		let alertViewController = UIAlertController(title: alerttitle, message: message, preferredStyle: .alert)
-		alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-		present(alertViewController, animated: true, completion: nil)
-	}
-	
 	func isValidEmail(_ email: String) -> Bool
 	{
 		let emailRegEx = "(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"+"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"+"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"+"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"+"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"+"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"+"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
@@ -240,17 +233,32 @@ class LoginViewController: UIViewController
 				(customer) in
 				
 				UIViewController.removeSpinner(spinner: sv)
-				if customer.deleted != "0"
+				if let _ = customer as? Bool
 				{
-					self.alertMessage(alerttitle: R.string.acc, R.string.deld)
-				}
-				else if customer.active != "1"
-				{
-					self.alertMessage(alerttitle: R.string.acc, R.string.notAct)
+					let alertViewController = UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
+					alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+					var dwi2: DispatchWorkItem?
+					dwi2 = DispatchWorkItem
+					{
+						self.present(alertViewController, animated: true, completion: (() -> Void)? {	dwi2?.cancel()	})
+					}
+					DispatchQueue.main.async(execute: dwi2!)
 				}
 				else
 				{
-					self.successfullyGotCustomer(customer)
+					let cust = customer as! Customer
+					if cust.deleted != "0"
+					{
+						self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.deld)
+					}
+					else if cust.active != "1"
+					{
+						self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.notAct)
+					}
+					else
+					{
+						self.successfullyGotCustomer(cust)
+					}
 				}
 		})
 	}
@@ -283,7 +291,7 @@ class LoginViewController: UIViewController
 	func getAddresses(id_customer: Int)
 	{
 		//		let sv2 = UIViewController.displaySpinner(onView: self.view)
-		store.callGetAddressesDetails(id_customer: id_customer, completion:
+		store.callGetAddresses(id_customer: id_customer, completion:
 //			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
 			{
 				(addresses) in
@@ -307,8 +315,10 @@ class LoginViewController: UIViewController
 
 	fileprivate func successfullyGotAddresses(addresses: Addresses)
 	{
-		print("got \(addresses.addresses.count) addresses")
-		UserDefaults.standard.set(String(describing: addresses), forKey: "CustomerAddresses")
+		//print("got \(addresses.addresses.count) addresses")
+		let addr = addresses.addresses
+		print("got \(addr.count) addresses")
+		UserDefaults.standard.set(String(describing: addr), forKey: "CustomerAddresses")
 		self.present(MyAccountViewController(), animated: true, completion: nil)
 	}
 	

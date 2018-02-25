@@ -11,22 +11,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccAddressViewController" customModule="YumaApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccAddrViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
-                <outlet property="buttonLeft" destination="z9g-C8-EWf" id="3o0-Nf-aUG"/>
-                <outlet property="buttonLeftAct" destination="z9g-C8-EWf" id="Ioc-D1-6lY"/>
+                <outlet property="buttonLeft" destination="z9g-C8-EWf" id="eOv-B8-OJo"/>
                 <outlet property="buttonRight" destination="cQg-fL-G3K" id="xzD-xV-rCb"/>
-                <outlet property="buttonRightAct" destination="z9g-C8-EWf" id="iN6-x1-5AN"/>
-                <outlet property="collView" destination="klg-NA-AY2" id="j43-Qf-zcJ"/>
-                <outlet property="navBar" destination="jeU-xc-lYk" id="xl9-HJ-68o"/>
-                <outlet property="navClose" destination="KCV-SR-OOD" id="fip-V8-PJt"/>
-                <outlet property="navHelp" destination="ep5-3o-g4T" id="OoO-ij-NPg"/>
-                <outlet property="navTitle" destination="jeU-xc-lYk" id="mSV-7g-Oef"/>
+                <outlet property="navBar" destination="dO9-Gm-LbW" id="SIl-N5-RFQ"/>
+                <outlet property="navClose" destination="KCV-SR-OOD" id="QGO-6O-GaO"/>
+                <outlet property="navHelp" destination="ep5-3o-g4T" id="dMr-g5-Map"/>
+                <outlet property="navTitle" destination="jeU-xc-lYk" id="M3v-OR-eAY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT" customClass="MyAccAddrCell" customModule="YumaApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -54,13 +51,13 @@
                                             <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="KCV-SR-OOD">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
-                                                    <action selector="navCloseAct:" destination="-1" id="XMM-Tv-4Ex"/>
+                                                    <action selector="navCloseAct:" destination="-1" id="KxI-6M-WtA"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem key="rightBarButtonItem" title="help" style="done" id="ep5-3o-g4T">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
-                                                    <action selector="navHelpAct:" destination="-1" id="gWe-Qu-ygS"/>
+                                                    <action selector="navHelpAct:" destination="-1" id="3uw-zx-ZPu"/>
                                                 </connections>
                                             </barButtonItem>
                                         </navigationItem>
@@ -132,8 +129,7 @@
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                             <connections>
-                                                                                <action selector="buttonLeftAAct:" destination="-1" eventType="touchUpInside" id="RFR-UW-se5"/>
-                                                                                <action selector="buttonLeftAct:" destination="-1" eventType="touchUpInside" id="PQm-M9-T53"/>
+                                                                                <action selector="buttonLeftAct:" destination="-1" eventType="touchUpInside" id="pLE-M1-k0h"/>
                                                                             </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQg-fL-G3K" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
@@ -177,7 +173,7 @@
                                                                                 </userDefinedRuntimeAttribute>
                                                                             </userDefinedRuntimeAttributes>
                                                                             <connections>
-                                                                                <action selector="buttonRightAct:" destination="-1" eventType="touchUpInside" id="84n-6m-oId"/>
+                                                                                <action selector="buttonRightAct:" destination="-1" eventType="touchUpInside" id="IUs-o7-p76"/>
                                                                             </connections>
                                                                         </button>
                                                                     </subviews>
@@ -217,20 +213,6 @@
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                    <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                    <size key="value" width="0.0" height="0.0"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                    <real key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                    <real key="value" value="5"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
                                         </stackView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -267,7 +249,7 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="26.5" y="651.5"/>
         </view>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AddressCell" id="twx-Q5-xgu" customClass="MyAccAddrCell" customModule="YumaApp" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addressCell" id="twx-Q5-xgu" customClass="MyAccAddrCell" customModule="YumaApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="316" height="499"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -434,20 +416,6 @@
                                                     </view>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                                        <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                        <size key="value" width="0.0" height="0.0"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                        <real key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

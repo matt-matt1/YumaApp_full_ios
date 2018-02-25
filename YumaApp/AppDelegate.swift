@@ -17,14 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
 	{
-//		window = UIWindow()
-//		window?.makeKeyAndVisible()
-//
-//		let layout = UICollectionViewFlowLayout()
-//		layout.scrollDirection = .horizontal
-//		let collection = CollectionViewController(collectionViewLayout: layout)
-//
-//		window?.rootViewController = collection
+		window = UIWindow()
+		window?.makeKeyAndVisible()
+
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		//let collection = CollectionViewController(collectionViewLayout: layout)
+		let collection = SwipingController(collectionViewLayout: layout)
+		window?.rootViewController = collection
+		
+//		let myView = UIViewController()
+//		myView.view.backgroundColor = .purple
+//		window?.rootViewController = myView
 		
 		let navBarAppearance = UINavigationBar.appearance()
 		navBarAppearance.tintColor = UIColor.white

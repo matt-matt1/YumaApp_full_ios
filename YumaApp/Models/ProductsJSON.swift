@@ -113,7 +113,7 @@ struct aProduct: Decodable
 	let new: String?//AnyObject
 	let cache_default_attribute: String?
 	let id_default_image: String?
-	let id_default_combination: String?
+	let id_default_combination: String?//Int?	//Index0:Int,Index1:String
 	//^
 	//...Int?:Expected to decode Int but found a string/data instead
 	//...String?:Expected to decode String but found a number instead
@@ -174,6 +174,87 @@ struct aProduct: Decodable
 	let available_now: [AvailableNow]?
 	let available_later: [AvailableLater]?
 	let associations: AssociationsProducts?
+	
+//	var parent:String?
+//
+//	if let parentId = dict.value(forKey:"parent") as? Int {
+//		parent = "\(parentId)"
+//	} else if let parentId = dict.value(forKey:"parent") as? String {
+//		parent =  parentId
+//	}
+	
+//	init(json: [String : Any])
+//	{
+//		id = json["id"] as? Int ?? -1
+//		let id_manufacturer: String?
+//		let id_supplier: String?
+//		let id_category_default: String?
+//		let new: String?//AnyObject
+//		let cache_default_attribute: String?
+//		let id_default_image: String?
+//		let id_default_combination: Int?//String?
+//		//^
+//		//...Int?:Expected to decode Int but found a string/data instead
+//		//...String?:Expected to decode String but found a number instead
+//		let id_tax_rules_group: String?
+//		let position_in_category: String?
+//		let manufacturer_name: String?
+//		let quantity: String?
+//		let type: String?
+//		let id_shop_default: String?
+//		let reference: String?//AnyObject
+//		let supplier_reference: String?//AnyObject
+//		let location: String?//AnyObject
+//		let width: String?
+//		let height: String?
+//		let depth: String?
+//		let weight: String?
+//		let quantity_discount: String?
+//		let ean13: String?//AnyObject
+//		let isbn: String?//AnyObject
+//		let upc: String?//AnyObject
+//		let cache_is_pack: String?
+//		let cache_has_attachments: String?
+//		let is_virtual: String?
+//		let state: String?
+//		let on_sale: String?
+//		let online_only: String?
+//		let ecotax: String?
+//		let minimal_quantity: String?
+//		let price: String?
+//		let wholesale_price: String?
+//		let unity: String?//AnyObject
+//		let unit_price_ratio: String?
+//		let additional_shipping_cost: String?
+//		let customizable: String?
+//		let text_fields: String?
+//		let uploadable_files: String?
+//		let active: String?
+//		let redirect_type: String?
+//		let id_type_redirected: String?
+//		let available_for_order: String?
+//		let available_date: String?
+//		let show_condition: String?
+//		let condition: String?
+//		let show_price: String?
+//		let indexed: String?
+//		let visibility: String?
+//		let advanced_stock_management: String?
+//		let date_add: String?
+//		let date_upd: String?
+//		let pack_stock_type: String?
+//		let meta_description: [MetaDescription]?
+//		let meta_keywords: [MetaKeyword]?
+//		let meta_title: [MetaTitle]?
+//		let link_rewrite: [LinkRewrite]?
+//		let name: [Name]?
+//		let description: [Description]?
+//		let description_short: [DescriptionShort]?
+//		let available_now: [AvailableNow]?
+//		let available_later: [AvailableLater]?
+//		let associations: AssociationsProducts?
+//
+//	}
 }
 
 struct JSONProducts: Decodable

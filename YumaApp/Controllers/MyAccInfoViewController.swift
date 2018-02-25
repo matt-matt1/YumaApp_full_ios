@@ -55,6 +55,11 @@ class MyAccInfoViewController: UIViewController
 	func setLabels()
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
+		//let segmentedItem = [R.string.mr, R.string.mrs]
+		genderSwitch.removeAllSegments()
+		genderSwitch.insertSegment(withTitle: R.string.mr, at: 0, animated: false)
+		genderSwitch.insertSegment(withTitle: R.string.mrs, at: 1, animated: false)
+		genderSwitch.selectedSegmentIndex = 0
 		genderBorder.layer.borderColor = UIColor.white.cgColor
 		fieldInvalid1.text = ""
 		fieldLabel1.text = R.string.fName
@@ -85,6 +90,7 @@ class MyAccInfoViewController: UIViewController
 		loginLabel.text = R.string.loginInstead
 		loginLabel.textColor = R.color.YumaRed
 		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
+		buttonText.setTitle(R.string.save, for: .normal)
 	}
 	
 	private func getSubviewsOf<T : UIView>(view:UIView) -> [T]
@@ -129,13 +135,18 @@ class MyAccInfoViewController: UIViewController
 	@objc func alertMe(_ sender : Any)
 	{
 		print(sender)
-	}
-	
-	func switchAlertMore()
-	{
-		switch0Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
-		switch1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
-		switch2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		var mTitle: String, mMessage: String
+		switch (sender)
+		{
+		case nil:
+			mTitle = ""
+			mMessage = ""
+			break
+		default:
+			mTitle = ""
+			mMessage = ""
+		}
+		let _ = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
 	}
 	
 	func setEmailField()
@@ -183,15 +194,18 @@ class MyAccInfoViewController: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		if self.view.frame.width > 400
-		{
-			convertEntryToHorizontal(125)
-		}
-		switchAlertMore()
+//		if self.view.frame.width > 400
+//		{
+//			convertEntryToHorizontal(125)
+//		}
+		switch0Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		switch1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		switch2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
         setLabels()
 		if store.customer.count > 0
 		{
 			setEmailField()
+			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
 			fillFields()
 		}
 		else

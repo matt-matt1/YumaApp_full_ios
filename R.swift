@@ -18,6 +18,37 @@ struct R {
 	//	try intern.validate()
 	//}
 	
+	struct attribute
+	{
+		static let iconText: [NSAttributedStringKey : Any] = [
+			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
+			NSAttributedStringKey.font: UIFont(name: "FontAwesome", size: 40)!,
+//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+		]
+
+		static let labelText: [NSAttributedStringKey : Any] = [
+			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
+			NSAttributedStringKey.font: UIFont(name: "FontAwesome", size: 20)!,
+//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+		]
+
+		static let caption1: [NSAttributedStringKey : Any] = [
+			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
+			NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
+//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+			NSAttributedStringKey.strokeColor: R.color.YumaRed,
+			NSAttributedStringKey.strokeWidth: 3
+		]
+
+		static let caption2: [NSAttributedStringKey : Any] = [
+			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
+			NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: 10),
+//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+			NSAttributedStringKey.strokeColor: R.color.YumaRed,
+			NSAttributedStringKey.strokeWidth: 1
+		]
+	}
+	
 	struct array {
 		static let help_product_list_guide: [String] = [
 			"Swipe left or right to view products/services",
@@ -130,6 +161,25 @@ struct R {
 		fileprivate init() {}
 	}
 	
+	struct shadow
+	{
+		static let darkGray5_downright1 =
+		{
+			let shadow = NSShadow()
+			shadow.shadowBlurRadius = 5
+			shadow.shadowOffset = CGSize(width: 1, height: 1)
+			shadow.shadowColor = UIColor.darkGray
+		}
+
+		static let darkGray5_downright2 =
+		{
+			let shadow = NSShadow()
+			shadow.shadowBlurRadius = 5
+			shadow.shadowOffset = CGSize(width: 2, height: 2)
+			shadow.shadowColor = UIColor.darkGray
+		}
+	}
+	
 	struct story {
 		static let main = UIStoryboard(name: "Main", bundle: nil)
 		static let launchScreen = UIStoryboard(name: "LaunchScreen", bundle: nil)
@@ -193,6 +243,8 @@ struct R {
 		static let title_activity_tab_view = "TabView"
 		static let section_format = "Hello World from section: %1$d"
 		//		<!--general-->
+		static let male = "male"
+		static let female = "female"
 		static let dismiss = "dismiss"
 		static let load = "Loading"
 		static let customer = "Customer"

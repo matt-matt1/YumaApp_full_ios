@@ -248,8 +248,8 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		UIView.animate(withDuration: 1, animations:
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-			})
-		self.present(MyAccountViewController(), animated: false, completion: (() -> Void)?
+			})//CartContentsViewController
+		self.present(SwipingController(), animated: false, completion: (() -> Void)?
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				sender.view?.backgroundColor = UIColor.white
@@ -265,7 +265,7 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		Reachability.isInternetAvailable(website: R.string.URLbase)
 		{
 			(available) in
-			
+
 			guard available else
 			{
 				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
@@ -278,9 +278,10 @@ class ViewController: UIViewController, UIScrollViewDelegate
 					})
 				return
 			}
-			let webPage = WebpageViewController()
+ 			let webPage = WebpageViewController()
 			webPage.pageTitle = R.string.en
 			webPage.pageURL = R.string.enweb
+//			self.present(webPage, animated: true, completion: nil)
 			self.present(webPage, animated: true, completion: (() -> Void)?
 				{
 					sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
