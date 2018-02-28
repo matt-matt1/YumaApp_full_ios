@@ -9,7 +9,7 @@
 import UIKit
 
 
-private let reuseIdentifier = "Cell"
+private let productReuseIdentifier = "Cell"
 
 
 class CollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout
@@ -30,7 +30,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
 
 		//collectionView?.backgroundColor = .white
 		collectionView?.isPagingEnabled = true
-        self.collectionView!.register(ProductViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(ProductViewCell.self, forCellWithReuseIdentifier: productReuseIdentifier)
     }
 
     override func didReceiveMemoryWarning()
@@ -63,7 +63,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ProductViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: productReuseIdentifier, for: indexPath) as! ProductViewCell
 		cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
 		let page = myProducts[indexPath.item]
 		cell.page = page

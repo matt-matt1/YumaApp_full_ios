@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="buttonLeft" destination="z9g-C8-EWf" id="eOv-B8-OJo"/>
                 <outlet property="buttonRight" destination="cQg-fL-G3K" id="xzD-xV-rCb"/>
+                <outlet property="collectionView" destination="klg-NA-AY2" id="Awx-5v-3RC"/>
                 <outlet property="navBar" destination="dO9-Gm-LbW" id="SIl-N5-RFQ"/>
                 <outlet property="navClose" destination="KCV-SR-OOD" id="QGO-6O-GaO"/>
                 <outlet property="navHelp" destination="ep5-3o-g4T" id="dMr-g5-Map"/>
@@ -247,6 +248,10 @@
                 <constraint firstItem="8yI-PK-SQN" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="yu5-W4-UPG"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <connections>
+                <outlet property="addressInvalid" destination="2kG-Pr-pLY" id="Mn0-H9-4gD"/>
+                <outlet property="aliasInvalid" destination="nxV-mz-baE" id="Ml5-6m-b2J"/>
+            </connections>
             <point key="canvasLocation" x="26.5" y="651.5"/>
         </view>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addressCell" id="twx-Q5-xgu" customClass="MyAccAddrCell" customModule="YumaApp" customModuleProvider="target">

@@ -74,6 +74,7 @@ class PSWebServices: NSObject
 //	}
 	
 	class func getAddresses(id_customer: Int, completionHandler: @escaping (Addresses) -> Void)
+	//class func getAddresses(id_customer: Int, completionHandler: @escaping ([Address]) -> Void)
 	{
 		let url = "\(R.string.WSbase)/addresses"
 		let myUrl = "\(url)?filter[id_customer]=[\(id_customer)]&\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
@@ -85,9 +86,9 @@ class PSWebServices: NSObject
 //				else if response.status_code != 200
 				if let data = data
 				{
-					let wholeStr = String(data: data, encoding: .utf8)
-					let trimmed = wholeStr?.substringBetween("[", "]")
-					UserDefaults.standard.set(trimmed, forKey: "CustAddr")
+					//let wholeStr = String(data: data, encoding: .utf8)
+					//let trimmed = wholeStr?.substringBetween("[", "]")
+					//UserDefaults.standard.set(trimmed, forKey: "CustAddr")
 //					let dataString = String(data: data, encoding: .utf8)
 //					print(dataString ?? R.string.err)
 //					let addresses = decodeJSONData(json: data)
@@ -99,11 +100,14 @@ class PSWebServices: NSObject
 //					{
 //						completionHandler(Addresses)
 //					}
+//					let str = String(data: data, encoding: .utf8)
+//					UserDefaults.standard.set(str, forKey: "CustomerAddresses")
+					UserDefaults.standard.set(String(data: data, encoding: .utf8), forKey: "CustomerAddresses")
 					do
 					{
 						//let data: Data = Data(trimmed)
-						//let addresses = try JSONDecoder().decode(Addresses.self, from: data)
-						let addresses = try JSONDecoder().decode(Addresses.self, from: (trimmed?.data(using: .utf8))!)
+						let addresses = try JSONDecoder().decode(Addresses.self, from: data)
+						//let addresses = try JSONDecoder().decode([Address].self, from: (trimmed?.data(using: .utf8))!)
 						completionHandler(addresses)
 					}
 					catch let JSONerr
@@ -161,14 +165,15 @@ class PSWebServices: NSObject
 					print(dataString ?? R.string.err)
 					do
 					{
-						guard let products = try? JSONDecoder().decode(JSONProducts.self, from: data)
-							else
+						/*guard*/ let products = try JSONDecoder().decode(JSONProducts.self, from: data)
+						print(products)
+							/*else
 							{
 								print("Error: couldn't decode JSON")
 								return
-							}
-						let printers = products.products
-						print("number of printers: \(String(describing: printers?.count))")
+							}*/
+						//let printers = products.products
+						//print("number of printers: \(String(describing: printers?.count))")
 //						let result = try JSONDecoder().decode(JSONProducts.self, from: data)
 //						{
 //						var todo = self
@@ -312,4 +317,43 @@ extension String
 		let end = self.index(self.startIndex, offsetBy: pos2)
 		return String(self[start..<end])
 	}
+}
+
+public extension KeyedDecodingContainer
+{
+//	public func decode(_ type: Float.Type, forKey key: Key) throws -> Float
+//	{
+//		let stringValue = try self.decode(String.self, forKey: key)
+//		guard let floatValue = Float(stringValue) else
+//		{
+//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Float")
+//			throw DecodingError.dataCorrupted(context)
+//		}
+//		return floatValue
+//	}
+
+	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
+	{
+		let stringValue = try self.decode(String.self, forKey: key)
+		guard let floatValue = Int(stringValue) else
+		{
+			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
+			throw DecodingError.dataCorrupted(context)
+		}
+		return floatValue
+	}
+
+//	public func decode(_ type: String.Type, forKey key: Key) throws -> String
+//	{
+//		let intValue = try self.decode(Int.self, forKey: key)
+//		{
+//			let stringValue = "\(intValue)"
+//		}/* else
+//		{
+//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
+//			throw DecodingError.dataCorrupted(context)
+//		}*/
+//		return stringValue
+//	}
+
 }

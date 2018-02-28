@@ -22,30 +22,30 @@ struct R {
 	{
 		static let iconText: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont(name: "FontAwesome", size: 40)!,
+			NSAttributedStringKey.font: UIFont(name: "FontAwesome", size: 42)!,
 //			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
 		]
 
 		static let labelText: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont(name: "FontAwesome", size: 20)!,
+			NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)
 //			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
 		]
 
 		static let caption1: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont.systemFont(ofSize: 30),
+			NSAttributedStringKey.font: UIFont.systemFont(ofSize: 38),
 //			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
-			NSAttributedStringKey.strokeColor: R.color.YumaRed,
-			NSAttributedStringKey.strokeWidth: 3
+//			NSAttributedStringKey.strokeColor: R.color.YumaRed,
+//			NSAttributedStringKey.strokeWidth: 3
 		]
 
 		static let caption2: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: 10),
+			NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: 18),
 //			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
-			NSAttributedStringKey.strokeColor: R.color.YumaRed,
-			NSAttributedStringKey.strokeWidth: 1
+//			NSAttributedStringKey.strokeColor: R.color.YumaRed,
+//			NSAttributedStringKey.strokeWidth: 1
 		]
 	}
 	

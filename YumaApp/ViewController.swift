@@ -72,12 +72,12 @@ class ViewController: UIViewController, UIScrollViewDelegate
 		SVSlider.frame = view.frame			//scrollView frame is the same size as the entire view
 		//SVSlider.isPagingEnabled = true		//enable scrolling by page (slide)
 		SVSlider.showsHorizontalScrollIndicator = false
-		let slide1 = Slide(id: 1, image: "home-slider-printers", 	caption1: "Laser Printers", 	caption2: "", 		target: "gotoPrinters:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {gotoPrinters(UITapGestureRecognizer(target: Any?, action: Selector?))}*/)
-		let slide2 = Slide(id: 2, image: "home-slider-cartridges", 	caption1: "Toner Cartridges", 	caption2: "that last", target: "gotoToners:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {}*/)
-		let slide3 = Slide(id: 3, image: "home-slider-laptops", 	caption1: "Laptop Computers", 	caption2: "", 		target: "gotoLaptops:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {}*/)
-		slides.append(slide1)
-		slides.append(slide2)
-		slides.append(slide3)
+//		let slide1 = Slide(id: 1, image: "home-slider-printers", 	caption1: "Laser Printers", 	caption2: "", 		target: "gotoPrinters:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {gotoPrinters(UITapGestureRecognizer(target: Any?, action: Selector?))}*/)
+//		let slide2 = Slide(id: 2, image: "home-slider-cartridges", 	caption1: "Toner Cartridges", 	caption2: "that last", target: "gotoToners:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {}*/)
+//		let slide3 = Slide(id: 3, image: "home-slider-laptops", 	caption1: "Laptop Computers", 	caption2: "", 		target: "gotoLaptops:", 	width: 1110, 	height: 638/*, 	callMethodDirectly: {}*/)
+//		slides.append(slide1)
+//		slides.append(slide2)
+//		slides.append(slide3)
 		SVSlider.subviews.forEach({ 	$0.removeFromSuperview() 	})
 		//SVSlider.subviews.map({ 	$0.removeFromSuperview() 	})
 		//SVSlider.translatesAutoresizingMaskIntoConstraints = false

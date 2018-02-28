@@ -26,17 +26,9 @@
 		CF182DD4203380B70070B9E5 /* ProductsMyFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF182DD3203380B70070B9E5 /* ProductsMyFeeder.swift */; };
 		CF337F372038E35600C93FAF /* MyAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF337F362038E35600C93FAF /* MyAccountViewController.xib */; };
 		CF337F3B2039CFE000C93FAF /* MyAccAddrCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF337F3A2039CFE000C93FAF /* MyAccAddrCell.swift */; };
-		CF4051922040B1B000AE21BC /* CartCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051902040B1B000AE21BC /* CartCollectionViewCell.swift */; };
-		CF4051932040B1B000AE21BC /* CartCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4051912040B1B000AE21BC /* CartCollectionViewCell.xib */; };
-		CF4051962040B23E00AE21BC /* CartContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051942040B23E00AE21BC /* CartContentsViewController.swift */; };
-		CF4051972040B23E00AE21BC /* CartContentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4051952040B23E00AE21BC /* CartContentsViewController.xib */; };
-		CF4051A12040D06400AE21BC /* CartStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF4051A02040D06400AE21BC /* CartStoryboard.storyboard */; };
-		CF4051A32040D0EF00AE21BC /* CartSBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A22040D0EF00AE21BC /* CartSBViewController.swift */; };
-		CF4051A52040DE8E00AE21BC /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A42040DE8E00AE21BC /* CartTableViewCell.swift */; };
 		CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A620419A8C00AE21BC /* SwipingController.swift */; };
 		CF4051A92041A15600AE21BC /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A82041A15600AE21BC /* PageCell.swift */; };
 		CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */; };
-		CF65C5C6204093BE00517432 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF65C5C5204093BE00517432 /* CartViewController.xib */; };
 		CF65C5C820409ABD00517432 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF65C5C720409ABD00517432 /* SwiftyJSON.swift */; };
 		CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8634202908010014B787 /* PrintersViewController.swift */; };
 		CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8635202908010014B787 /* PrintersViewController.xib */; };
@@ -82,6 +74,11 @@
 		CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B2C203DD1FA00F98C57 /* Entry.swift */; };
 		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
 		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
+		CFEE3AAA2047004800526D92 /* AddressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEE3AA92047004800526D92 /* AddressCollectionViewCell.swift */; };
+		CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEE3AAD2047444700526D92 /* CartViewController.swift */; };
+		CFEE3AB02047444700526D92 /* CartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEE3AAE2047444700526D92 /* CartViewController.xib */; };
+		CFEE3AB32047483100526D92 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEE3AB12047483100526D92 /* TableViewCell.swift */; };
+		CFEE3AB42047483100526D92 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEE3AB22047483100526D92 /* TableViewCell.xib */; };
 		CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */; };
 		CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */; };
 		CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB52034E48600BEDEE4 /* DataStore.swift */; };
@@ -131,17 +128,9 @@
 		CF182DD3203380B70070B9E5 /* ProductsMyFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsMyFeeder.swift; sourceTree = "<group>"; };
 		CF337F362038E35600C93FAF /* MyAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccountViewController.xib; sourceTree = "<group>"; };
 		CF337F3A2039CFE000C93FAF /* MyAccAddrCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccAddrCell.swift; sourceTree = "<group>"; };
-		CF4051902040B1B000AE21BC /* CartCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionViewCell.swift; sourceTree = "<group>"; };
-		CF4051912040B1B000AE21BC /* CartCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartCollectionViewCell.xib; sourceTree = "<group>"; };
-		CF4051942040B23E00AE21BC /* CartContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartContentsViewController.swift; sourceTree = "<group>"; };
-		CF4051952040B23E00AE21BC /* CartContentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartContentsViewController.xib; sourceTree = "<group>"; };
-		CF4051A02040D06400AE21BC /* CartStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CartStoryboard.storyboard; sourceTree = "<group>"; };
-		CF4051A22040D0EF00AE21BC /* CartSBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartSBViewController.swift; sourceTree = "<group>"; };
-		CF4051A42040DE8E00AE21BC /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
 		CF4051A620419A8C00AE21BC /* SwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingController.swift; sourceTree = "<group>"; };
 		CF4051A82041A15600AE21BC /* PageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
 		CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopsViewController.swift; sourceTree = "<group>"; };
-		CF65C5C5204093BE00517432 /* CartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartViewController.xib; sourceTree = "<group>"; };
 		CF65C5C720409ABD00517432 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Pods/SwiftyJSON/../../SwiftyJSON.swift; sourceTree = "<group>"; };
 		CF7E86332028F66E0014B787 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF7E8634202908010014B787 /* PrintersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintersViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +184,11 @@
 		CFEC7B2C203DD1FA00F98C57 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
 		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		CFEE3AA92047004800526D92 /* AddressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCollectionViewCell.swift; sourceTree = "<group>"; };
+		CFEE3AAD2047444700526D92 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		CFEE3AAE2047444700526D92 /* CartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CartViewController.xib; sourceTree = "<group>"; };
+		CFEE3AB12047483100526D92 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		CFEE3AB22047483100526D92 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		CFF3CFB02034C48700BEDEE4 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = "../../../../Users/yumausa/Library/Developer/Xcode/DerivedData/YumaApp-avolzrtwtmhajogusyiczqivwtce/Build/Products/Debug-iphoneos/Eureka.framework"; sourceTree = "<group>"; };
 		CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCollectionView.swift; sourceTree = "<group>"; };
 		CFF3CFB32034DC4300BEDEE4 /* AddressCollectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressCollectionView.xib; sourceTree = "<group>"; };
@@ -301,17 +295,14 @@
 		CFAFC07B201F6DA1002CBC1B = {
 			isa = PBXGroup;
 			children = (
+				CFEE3AB12047483100526D92 /* TableViewCell.swift */,
+				CFEE3AB22047483100526D92 /* TableViewCell.xib */,
+				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
+				CFEE3AAE2047444700526D92 /* CartViewController.xib */,
+				CFEE3AA92047004800526D92 /* AddressCollectionViewCell.swift */,
 				CF4051A620419A8C00AE21BC /* SwipingController.swift */,
 				CF4051A82041A15600AE21BC /* PageCell.swift */,
-				CF4051A42040DE8E00AE21BC /* CartTableViewCell.swift */,
-				CF4051A22040D0EF00AE21BC /* CartSBViewController.swift */,
-				CF4051A02040D06400AE21BC /* CartStoryboard.storyboard */,
-				CF4051942040B23E00AE21BC /* CartContentsViewController.swift */,
-				CF4051952040B23E00AE21BC /* CartContentsViewController.xib */,
 				CF65C5C720409ABD00517432 /* SwiftyJSON.swift */,
-				CF4051902040B1B000AE21BC /* CartCollectionViewCell.swift */,
-				CF4051912040B1B000AE21BC /* CartCollectionViewCell.xib */,
-				CF65C5C5204093BE00517432 /* CartViewController.xib */,
 				CFDC9A5E203F74A6003E8F73 /* MyViewController.swift */,
 				CFDC9A5F203F74A6003E8F73 /* MyViewController.xib */,
 				CF7E8663202B62A90014B787 /* R.swift */,
@@ -556,7 +547,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFDC9A61203F74A6003E8F73 /* MyViewController.xib in Resources */,
-				CF4051A12040D06400AE21BC /* CartStoryboard.storyboard in Resources */,
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
 				CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */,
 				CF9231C32035FF2900D44BB6 /* MyAccAddrViewController.xib in Resources */,
@@ -568,13 +558,12 @@
 				CFAFC0B7201F7943002CBC1B /* FontAwesome.ttf in Resources */,
 				CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */,
 				CF182DB42030C32C0070B9E5 /* LaptopsViewController.xib in Resources */,
-				CF4051972040B23E00AE21BC /* CartContentsViewController.xib in Resources */,
-				CF4051932040B1B000AE21BC /* CartCollectionViewCell.xib in Resources */,
 				CF182DBA2030F7FB0070B9E5 /* WebpageViewController.xib in Resources */,
+				CFEE3AB42047483100526D92 /* TableViewCell.xib in Resources */,
 				CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */,
 				CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */,
 				CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */,
-				CF65C5C6204093BE00517432 /* CartViewController.xib in Resources */,
+				CFEE3AB02047444700526D92 /* CartViewController.xib in Resources */,
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
 				CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */,
 				CF9231CF20386CDF00D44BB6 /* MyAccOHViewController.xib in Resources */,
@@ -767,15 +756,16 @@
 				CF182DD2203344C00070B9E5 /* AddressesJSON.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
 				CFF3CFB22034DB7800BEDEE4 /* AddressCollectionView.swift in Sources */,
-				CF4051962040B23E00AE21BC /* CartContentsViewController.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* OrdersJSON.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* countries.swift in Sources */,
-				CF4051A52040DE8E00AE21BC /* CartTableViewCell.swift in Sources */,
+				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
 				CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */,
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
+				CFEE3AAA2047004800526D92 /* AddressCollectionViewCell.swift in Sources */,
 				CFDC9A60203F74A6003E8F73 /* MyViewController.swift in Sources */,
 				CFC1D1FF203B44F600343B25 /* RegisterViewController.swift in Sources */,
 				CF182DBE2031EFE30070B9E5 /* CollectionViewCell.swift in Sources */,
+				CFEE3AB32047483100526D92 /* TableViewCell.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CF337F3B2039CFE000C93FAF /* MyAccAddrCell.swift in Sources */,
@@ -791,12 +781,10 @@
 				CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */,
 				CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
-				CF4051A32040D0EF00AE21BC /* CartSBViewController.swift in Sources */,
 				CF65C5C820409ABD00517432 /* SwiftyJSON.swift in Sources */,
 				CF4051A92041A15600AE21BC /* PageCell.swift in Sources */,
 				CF182DC02031FA9E0070B9E5 /* Product.swift in Sources */,
 				CF7E864E202A13440014B787 /* Names_Countries.swift in Sources */,
-				CF4051922040B1B000AE21BC /* CartCollectionViewCell.swift in Sources */,
 				CF182DC4203219900070B9E5 /* CartsJSON.swift in Sources */,
 				CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */,
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,

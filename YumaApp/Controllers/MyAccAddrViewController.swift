@@ -9,7 +9,10 @@
 import UIKit
 
 
-class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
+
+//class MyAccAddrViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout
+//class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
+class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 {
 	@IBOutlet weak var buttonLeft: GradientButton!
 	@IBOutlet weak var buttonRight: GradientButton!
@@ -17,28 +20,38 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
+	@IBOutlet weak var collectionView: UICollectionView!
 	
 	let store = DataStore.sharedInstance
+	let cellId = "addressCell"
 	var addresses: [Address] = []
 	let addr1: Address = Address(id: 1, id_customer: "0", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias1", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "11", address2: "22", postcode: "pc", city: "c", other: "o", phone: "ph", phone_mobile: "phm", dni: "", deleted: "0", date_add: "", date_upd: "")
 	let addr2: Address = Address(id: 2, id_customer: "3", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias2", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "1111", address2: "2222", postcode: "pc", city: "c", other: "o", phone: "p", phone_mobile: "pm", dni: "", deleted: "0", date_add: "", date_upd: "")
-//	var collView: UICollectionView!
+	var collView: UICollectionView!
+	var id_customer = 3
 	
 	
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		let caddr = UserDefaults.standard.string(forKey: "Customer")
-		do
-		{
-			//let customer = try JSONDecoder().decode(Customer.self, from: data)
-			let data = caddr?.data(using: .utf8)
-			let CustAddr = try JSONDecoder().decode([Address].self, from: data!)
-		}
-		catch let jsonErr
-		{
-			print("error: can't parse json '\(jsonErr)'")
-		}
+//		guard store.customer.count > 0 else
+//		{
+//			return
+//		}
+		getAddress()
+//		collectionView?.register(AddressCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+//		collectionView?.isPagingEnabled = true
+		//let caddr = UserDefaults.standard.string(forKey: "Customer")
+//		do
+//		{
+//			//let customer = try JSONDecoder().decode(Customer.self, from: data)
+//		//	let data = caddr?.data(using: .utf8)
+//		//	let CustAddr = try JSONDecoder().decode(Customer.self, from: data!)
+//		}
+//		catch let jsonErr
+//		{
+//			print("error: can't parse json '\(jsonErr)'")
+//		}
 		//let CustAddr = NSKeyedArchiver.unarcheiveObject(with: caddr) as! [Address]
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		buttonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
@@ -74,8 +87,59 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 //			self.addresses.append(contentsOf: addr.addresses)
 //		}
 //		//self.addresses.append(contentsOf: store.addresses)
-		self.addresses.append(addr1)
-		self.addresses.append(addr2)
+		//self.addresses.append(addr1)
+		//self.addresses.append(addr2)
+	}
+	
+	func getAddress()
+	{
+		if store.addresses.count < 1
+		{
+			//			if store.customer.count > 0
+			//			{
+			//				//id_customer = Int(store.customer[0].id_customer!) ?? 3
+			//				id_customer = Int(store.customer[0].id_customer!)!
+			//			}
+			//			else
+			//			{
+			//				id_customer = 3
+			//			}
+			let caStr = UserDefaults.standard.string(forKey: "CustAddr")
+			//			let caStr = UserDefaults.standard.string(forKey: "CustomerAddresses")
+			if caStr == ""
+			{
+				let loading = UIViewController.displaySpinner(onView: self.view)
+				//if store.addresses.count == 0
+				store.callGetAddresses(id_customer: id_customer)
+				{
+					(addresses) in
+					
+					for address in addresses.addresses
+					{
+						self.addresses.append(address)
+					}
+					UIViewController.removeSpinner(spinner: loading)
+					//print(self.addresses)
+				}
+			}
+			else
+			{
+				var decoded: [Address]
+				do
+				{
+					decoded = try JSONDecoder().decode([Address].self, from: (caStr?.data(using: .utf8))!)
+					self.addresses = decoded
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+				}
+			}
+		}
+		else
+		{
+			self.addresses = store.addresses
+		}
 	}
 	
 //	override func didReceiveMemoryWarning()
@@ -100,7 +164,7 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 //		return 1
 //	}
 	
-	
+	//UICollectionViewDatasource methods
 	/*override*/ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
 	{
 		return addresses.count
@@ -110,9 +174,10 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addressCell", for: indexPath) as! MyAccAddrCell
 		//cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
-		let page = addresses[indexPath.item]
-		cell.aliasField.text = page.alias
-		cell.addressField.text = R.formatAddress(page)
+		cell.page = addresses[indexPath.item]
+		//cell.page = pageContent[indexPath.item]
+		//cell.aliasField.text = page.alias
+		//cell.addressField.text = R.formatAddress(page)
 
 //		cell.page = page
 		//		cell.prodImage = UIImageView(image: UIImage(named: page.imageName))
@@ -127,6 +192,13 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 //	}
 	
 	// MARK: UICollectionViewDelegateFlowLayout
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+		return 4
+	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		return 1
+	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{

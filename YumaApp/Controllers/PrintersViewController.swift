@@ -126,8 +126,8 @@ class PrintersViewController: UIViewController
 		labelRight.text = ""
 		pageControll.isHidden = true
 //		store.callGetPrinters2(completion:
-//		store.callGetPrinters(completion:
-		store.getPrinters3(completion:
+		store.callGetPrinters(completion:
+//		store.getPrinters3(completion:
 			{
 			(printers) in
 //		PSWebServices.getPrinters(completionHandler: { (printers) in

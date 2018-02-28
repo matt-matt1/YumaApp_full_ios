@@ -16,7 +16,8 @@ final class DataStore
 	fileprivate init() {}
 
 	var customer: [Customer] = []
-	var addresses: [Addresses] = []
+//	var addresses: [Addresses] = []
+	var addresses: [Address] = []
 	var products: [aProduct] = []
 	var printers2: [MyShops] = []
 	var printers: [aProduct] = []
@@ -26,7 +27,7 @@ final class DataStore
 	//var returnData: AnyObject
 	
 	
-	func getCustomerDetails(from: String, completion: @escaping (Any) -> Void)
+	private func getCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getCustomer(from: from, completionHandler:
 			{
@@ -68,12 +69,16 @@ final class DataStore
 	}
 	
 	func getAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
+	//func getAddresses(id_customer: Int, completion: @escaping ([Address]) -> Void)
 	{
 		PSWebServices.getAddresses(id_customer: id_customer, completionHandler:
 			{
 				(addresses) in
 				
-				self.addresses.append(addresses)
+				for addresses in addresses.addresses
+				{
+					self.addresses.append(addresses)
+				}
 				//UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: addresses), forKey: "CustomerAddr")
 				//UserDefaults.standard.set(addresses, forKey: "CustomerAddr")
 				//UserDefaults.standard.synchronize()
@@ -116,10 +121,10 @@ final class DataStore
 		{
 			(data, response, err) in
 
-			guard let data = data else {	return	}
+			//guard let data = data else {	return	}
 			do
 			{
-				let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+				let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
 //				json.
 				print(json)
 			}
@@ -416,7 +421,7 @@ final class DataStore
 		let start = string.index(string.startIndex, offsetBy: pos1)
 		let end = string.index(string.startIndex, offsetBy: pos2)
 		let sub = string[start..<end]
-		print(sub)
+		//print(sub)
 		return String(sub)
 	}
 
@@ -434,29 +439,29 @@ extension URLResponse
 	}
 }
 
-public extension KeyedDecodingContainer
-{
-	public func decode(_ type: Float.Type, forKey key: Key) throws -> Float
-	{
-		let stringValue = try self.decode(String.self, forKey: key)
-		guard let floatValue = Float(stringValue) else
-		{
-			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Float")
-			throw DecodingError.dataCorrupted(context)
-		}
-		return floatValue
-	}
-
-	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
-	{
-		let stringValue = try self.decode(String.self, forKey: key)
-		guard let floatValue = Int(stringValue) else
-		{
-			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
-			throw DecodingError.dataCorrupted(context)
-		}
-		return floatValue
-	}
+//public extension KeyedDecodingContainer
+//{
+//	public func decode(_ type: Float.Type, forKey key: Key) throws -> Float
+//	{
+//		let stringValue = try self.decode(String.self, forKey: key)
+//		guard let floatValue = Float(stringValue) else
+//		{
+//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Float")
+//			throw DecodingError.dataCorrupted(context)
+//		}
+//		return floatValue
+//	}
+//
+//	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
+//	{
+//		let stringValue = try self.decode(String.self, forKey: key)
+//		guard let floatValue = Int(stringValue) else
+//		{
+//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
+//			throw DecodingError.dataCorrupted(context)
+//		}
+//		return floatValue
+//	}
 
 //	public func decode(_ type: String.Type, forKey key: Key) throws -> String
 //	{
@@ -470,4 +475,6 @@ public extension KeyedDecodingContainer
 //		}*/
 //		return stringValue
 //	}
-}
+
+//}
+

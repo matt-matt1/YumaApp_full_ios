@@ -461,17 +461,17 @@ class MyAccountViewController: UIViewController
         //drawXIB2()
 		let store = DataStore.sharedInstance
 		//print("\n\(store.addresses)\n\n")
-		do
-		{
+//		do
+//		{
 			let dataStr = UserDefaults.standard.string(forKey: "CustAddr")
 			//let data = try JSONEncoder().encode(store.addresses)
 			//let dataStr = String(data: data, encoding: .utf8)!
-			store.trimJSONValueToArray(string: dataStr!)
-		}
-		catch let jsonErr
-		{
-			print(jsonErr)
-		}
+			UserDefaults.standard.set(store.trimJSONValueToArray(string: dataStr!), forKey: "CustAddr")
+//		}
+//		catch let jsonErr
+//		{
+//			print(jsonErr)
+//		}
     }
 
     override func didReceiveMemoryWarning()
