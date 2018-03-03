@@ -33,7 +33,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6l4-Mc-kKG" userLabel="Stack View all">
-                            <rect key="frame" x="0.0" y="25" width="375" height="642"/>
+                            <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             <subviews>
                                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AmB-bw-upM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
@@ -66,7 +66,7 @@
                                     </items>
                                 </navigationBar>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ir-vS-2mf" userLabel="View lower">
-                                    <rect key="frame" x="0.0" y="46" width="375" height="596"/>
+                                    <rect key="frame" x="0.0" y="46" width="375" height="601"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nGh-hY-cdg" userLabel="Stack View panel">
                                             <rect key="frame" x="5" y="0.0" width="365" height="300"/>
@@ -307,7 +307,7 @@
                         <constraint firstItem="6l4-Mc-kKG" firstAttribute="leading" secondItem="NX3-Hf-Rwy" secondAttribute="leading" id="761-F4-gne"/>
                         <constraint firstAttribute="bottom" secondItem="6l4-Mc-kKG" secondAttribute="bottom" id="Hbb-QB-hyd"/>
                         <constraint firstAttribute="trailing" secondItem="6l4-Mc-kKG" secondAttribute="trailing" id="LUX-xe-t7E"/>
-                        <constraint firstItem="6l4-Mc-kKG" firstAttribute="topMargin" secondItem="NX3-Hf-Rwy" secondAttribute="top" constant="25" id="NDR-e4-eeE"/>
+                        <constraint firstItem="6l4-Mc-kKG" firstAttribute="topMargin" secondItem="NX3-Hf-Rwy" secondAttribute="top" constant="20" id="NDR-e4-eeE"/>
                     </constraints>
                 </view>
             </subviews>

@@ -26,6 +26,11 @@ class PrintersViewController: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
+		if #available(iOS 11.0, *) {
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		refresh()

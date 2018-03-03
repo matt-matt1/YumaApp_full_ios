@@ -9,12 +9,12 @@
 import Foundation
 
 
-struct AssociationsOrders
+struct AssociationsOrders: Decodable
 {
 	var order_rows: [OrderRow]
 }
 
-struct OrderRow
+struct OrderRow: Decodable
 {
 	var id: Int
 	var product_id: String
@@ -30,7 +30,7 @@ struct OrderRow
 	var unit_price_tax_excl: String
 }
 
-struct Orders
+struct Orders: Decodable
 {
 	var id: Int
 	var id_address_delivery: String

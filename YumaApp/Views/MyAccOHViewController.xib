@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccOHViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
+                <outlet property="navBar" destination="Da1-ru-fpc" id="HAj-2s-7Zj"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

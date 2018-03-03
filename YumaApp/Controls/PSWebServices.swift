@@ -120,6 +120,67 @@ class PSWebServices: NSObject
 		}
 	}
 	
+	class func getCarriers(from: String, completionHandler: @escaping ([Carrier]) -> Void)
+	{
+		if let myUrl = URL(string: from)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+//					if saveName != nil && saveName != ""
+//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+						UserDefaults.standard.set(dataStr, forKey: "Carriers")
+//					}
+					do
+					{
+						let myData = try JSONDecoder().decode([Carrier].self, from: myData)
+						completionHandler(myData)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+	
+	class func convertJSONToObject<T>(fromUrl: String, toObject: T, saveName: String?, completionHandler: @escaping (Any) -> Void)
+	{
+		if let myUrl = URL(string: fromUrl)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					if saveName != nil && saveName != ""
+					{
+						UserDefaults.standard.set(String(data: myData, encoding: .utf8), forKey: saveName!)
+					}
+					do
+					{
+//						let myData = try JSONDecoder().decode(T, from: myData)
+						completionHandler(myData)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+	
 	class func getPrinters3(url: String, completionHandler: @escaping (Addresses) -> Void)
 	{
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
@@ -356,4 +417,58 @@ public extension KeyedDecodingContainer
 //		return stringValue
 //	}
 
+}
+
+
+public protocol JSONDecodable
+{
+//	typealias DecodableType // (Swift 2.2)
+	associatedtype DecodableType// (Swift 2.3)
+	
+	static func decode(json: JSON) -> DecodableType?
+	static func decode(json: JSON?) -> DecodableType?
+	static func decode(json: [JSON]) -> [DecodableType?]
+	static func decode(json: [JSON]?) -> [DecodableType?]
+}
+//extension Location: JSONDecodable {
+//
+//	static func decode(json: JSON) -> Location? {
+//		let label = parseString(json, key: "label")
+//		let data = LocationData.decode(json["data"] as? JSON)
+//		return Location(label: label,
+//						data: data)
+//	}
+//}
+public extension JSONDecodable
+{
+	static func decode(json: JSON?) -> DecodableType? {
+		guard let json = json else { return nil }
+		return decode(json: json)
+	}
+	static func decode(json: [JSON]) -> [DecodableType?] {
+		return json.map(decode)
+	}
+	static func decode(json: [JSON]?) -> [DecodableType?] {
+		guard let json = json else { return [] }
+		return decode(json: json)
+	}
+	
+//	public func parseString(input: JSON, key: String) -> String? {
+//		return input[key] >>>= { $0 as? String }
+//	}
+//	func parseNumber(input: JSON, key: String) -> NSNumber? {
+//		return input[key] >>>= { $0 as? NSNumber }
+//	}
+//	public func parseBool(input: JSON, key: String) -> Bool? {
+//		return parseNumber(input: input, key: key).map { $0.boolValue }
+//	}
+//	public func parseInt(input: JSON, key: String) -> Int? {
+//		return parseNumber(input: input, key: key).map { $0.intValue }
+//	}
+//	public func parseFloat(input: JSON, key: String) -> Float? {
+//		return parseNumber(input: input, key: key).map { $0.floatValue }
+//	}
+//	public func parseDouble(input: JSON, key: String) -> Double? {
+//		return parseNumber(input: input, key: key).map { $0.doubleValue }
+//	}
 }

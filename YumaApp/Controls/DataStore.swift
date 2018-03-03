@@ -25,6 +25,7 @@ final class DataStore
 	var toners: [aProduct] = []
 	var myPrinters = [JSONProducts]()
 	//var returnData: AnyObject
+	var carriers: [Carrier] = []
 	
 	
 	private func getCustomerDetails(from: String, completion: @escaping (Any) -> Void)
@@ -46,7 +47,6 @@ final class DataStore
 			}
 		)
 	}
-	
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{
 		self.getCustomerDetails(from: from, completion:
@@ -68,6 +68,51 @@ final class DataStore
 		)
 	}
 	
+	private func getCarriers(completion: @escaping (Any) -> Void)
+	{
+		let url = "\(R.string.WSbase)/carriers"
+		let myUrl = "\(url)?\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
+		PSWebServices.getCarriers(from: myUrl, completionHandler:
+			{
+				(response) in
+				
+//				if let _ = response as? Bool
+//				{
+//					completion(false)
+//				}
+//				else
+//				{
+//					let carrier = response as! CarrierList
+//					for member in response
+//					{
+//						self.carriers.append(member)
+//					}
+					completion(response)
+//				}
+			}
+		)
+	}
+	func callGetCarriers(completion: @escaping (Any) -> Void)
+	{
+		self.getCarriers(completion:
+			{
+				(customer) in
+				
+				if let _ = customer as? Bool
+				{
+					completion(false)
+				}
+				else
+				{
+					OperationQueue.main.addOperation
+					{
+						completion(customer as! Customer)
+					}
+				}
+			}
+		)
+	}
+
 	func getAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
 	//func getAddresses(id_customer: Int, completion: @escaping ([Address]) -> Void)
 	{

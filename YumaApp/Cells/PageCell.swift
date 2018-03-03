@@ -16,8 +16,8 @@ class PageCell: UICollectionViewCell
 			{
 				guard let unwrappedPage = page else 	{ 	return 	}
 				myImage.image = UIImage(named: unwrappedPage.image)
-				myMain.attributedText = NSMutableAttributedString(string: unwrappedPage.caption1, attributes: R.attribute.caption1)
-				mySub.attributedText = NSMutableAttributedString(string: unwrappedPage.caption2, attributes: R.attribute.caption2)
+				myMain.attributedText = NSMutableAttributedString(string: unwrappedPage.caption1.uppercased(), attributes: R.attribute.caption1)
+				mySub.attributedText = NSMutableAttributedString(string: unwrappedPage.caption2.uppercased(), attributes: R.attribute.caption2)
 			}
 	}
 	
@@ -68,6 +68,7 @@ class PageCell: UICollectionViewCell
 //		}, completion: nil)
 		//self.mySub.layer.removeAllAnimations()
 		addSubview(mySub)
+		//print("self is \(self.frame.width) x \(self.frame.height)")
 		NSLayoutConstraint.activate([
 			myImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			myImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 150),
@@ -79,20 +80,20 @@ class PageCell: UICollectionViewCell
 			])
 		NSLayoutConstraint.activate([
 //			myMainView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-			myMain.topAnchor.constraint(equalTo: self.topAnchor, constant: 333/*self.frame.height/2*/),//caption1 finish x
+			myMain.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height/2.3/*320*/),//caption1 finish y
 //			myMainView.topAnchor.constraint(equalTo: myImage.topAnchor, constant: 200),//myMainView.frame.height),
 			myMain.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -260),
 //			myMainView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
 //			myMainView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
 			//myMain.topAnchor.constraint(equalTo: myImage.topAnchor, constant: -myMain.frame.height),
-			myMain.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),//caption1 y
+			myMain.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: self.frame.width/8.2/*50*/),//caption1 y
 			myMain.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
 			])
 		NSLayoutConstraint.activate([
 			//mySub.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-			mySub.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50/*-mySub.frame.width*/),//caption2 finish x
+			mySub.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: self.frame.width/8.2/*50*/),//caption2 finish x
 			//mySub.topAnchor.constraint(equalTo: myImage.topAnchor, constant: myImage.frame.height),//300),//self.frame.height*2/3),
-			mySub.topAnchor.constraint(equalTo: self.topAnchor, constant: 375),//caption2 y
+			mySub.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height/2/*365*/),//caption2 y
 			mySub.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
 			mySub.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -260),
 			])

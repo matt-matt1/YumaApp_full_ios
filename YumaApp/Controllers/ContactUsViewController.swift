@@ -56,6 +56,11 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		//set label/buttons to our strings
 		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
+		if #available(iOS 11.0, *) {
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		phoneIcon.text = FontAwesome.phone.rawValue

@@ -66,7 +66,8 @@ public class Reachability
 		{
 			webAddress = website!
 		}
-		guard let url = URL(string: webAddress) else
+		//guard let url = URL(string: webAddress) else
+		guard URL(string: webAddress) != nil else
 		{
 			completionHandler(false)
 			print("could not create url from: \(webAddress)")

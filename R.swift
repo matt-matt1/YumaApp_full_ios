@@ -28,14 +28,17 @@ struct R {
 
 		static let labelText: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)
+			//NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)
+			NSAttributedStringKey.font: UIFont(name: "AvenirNext-DemiBold", size: 16)!
 //			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
 		]
 
 		static let caption1: [NSAttributedStringKey : Any] = [
-			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
-			NSAttributedStringKey.font: UIFont.systemFont(ofSize: 38),
-//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+			NSAttributedStringKey.foregroundColor: R.color.YumaYel,
+			NSAttributedStringKey.strokeColor: R.color.YumaRed,
+			NSAttributedStringKey.strokeWidth: -4.0,
+			NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 35),
+			NSAttributedStringKey.shadow: R.shadow.darkGray3_downright1()
 //			NSAttributedStringKey.strokeColor: R.color.YumaRed,
 //			NSAttributedStringKey.strokeWidth: 3
 		]
@@ -43,7 +46,7 @@ struct R {
 		static let caption2: [NSAttributedStringKey : Any] = [
 			NSAttributedStringKey.foregroundColor: R.color.YumaRed,
 			NSAttributedStringKey.font: UIFont.italicSystemFont(ofSize: 18),
-//			NSAttributedStringKey.shadow: R.shadow.darkGray5_downright1
+//			NSAttributedStringKey.shadow: R.shadow.darkGray3_downright1()
 //			NSAttributedStringKey.strokeColor: R.color.YumaRed,
 //			NSAttributedStringKey.strokeWidth: 1
 		]
@@ -163,20 +166,31 @@ struct R {
 	
 	struct shadow
 	{
-		static let darkGray5_downright1 =
+		static func darkGray3_downright1() -> NSShadow
+		{
+			let shadow = NSShadow()
+			shadow.shadowBlurRadius = 3
+			shadow.shadowOffset = CGSize(width: 1, height: 1)
+			shadow.shadowColor = UIColor.gray
+			return shadow
+		}
+
+		static func darkGray5_downright1() -> NSShadow
 		{
 			let shadow = NSShadow()
 			shadow.shadowBlurRadius = 5
 			shadow.shadowOffset = CGSize(width: 1, height: 1)
-			shadow.shadowColor = UIColor.darkGray
+			shadow.shadowColor = UIColor.gray
+			return shadow
 		}
-
-		static let darkGray5_downright2 =
+		
+		static func darkGray5_downright2() -> NSShadow
 		{
 			let shadow = NSShadow()
-			shadow.shadowBlurRadius = 5
+			shadow.shadowBlurRadius = 10
 			shadow.shadowOffset = CGSize(width: 2, height: 2)
-			shadow.shadowColor = UIColor.darkGray
+			shadow.shadowColor = UIColor.gray
+			return shadow
 		}
 	}
 	

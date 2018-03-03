@@ -9,10 +9,7 @@
 import UIKit
 
 
-
-//class MyAccAddrViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout
-//class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate
-class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+class MyAccAddrViewController: UIViewController
 {
 	@IBOutlet weak var buttonLeft: GradientButton!
 	@IBOutlet weak var buttonRight: GradientButton!
@@ -21,74 +18,33 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var pageControl: UIPageControl!
 	
 	let store = DataStore.sharedInstance
-	let cellId = "addressCell"
+	var cellID = "addrCell"
 	var addresses: [Address] = []
-	let addr1: Address = Address(id: 1, id_customer: "0", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias1", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "11", address2: "22", postcode: "pc", city: "c", other: "o", phone: "ph", phone_mobile: "phm", dni: "", deleted: "0", date_add: "", date_upd: "")
-	let addr2: Address = Address(id: 2, id_customer: "3", id_manufacturer: "0", id_supplier: "0", id_warehouse: "0", id_country: "0", id_state: "0", alias: "alias2", company: "co", lastname: "ln", firstname: "fn", vat_number: "", address1: "1111", address2: "2222", postcode: "pc", city: "c", other: "o", phone: "p", phone_mobile: "pm", dni: "", deleted: "0", date_add: "", date_upd: "")
-	var collView: UICollectionView!
 	var id_customer = 3
 	
 	
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-//		guard store.customer.count > 0 else
-//		{
-//			return
-//		}
+		if #available(iOS 11.0, *) {
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		getAddress()
-//		collectionView?.register(AddressCollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-//		collectionView?.isPagingEnabled = true
-		//let caddr = UserDefaults.standard.string(forKey: "Customer")
-//		do
-//		{
-//			//let customer = try JSONDecoder().decode(Customer.self, from: data)
-//		//	let data = caddr?.data(using: .utf8)
-//		//	let CustAddr = try JSONDecoder().decode(Customer.self, from: data!)
-//		}
-//		catch let jsonErr
-//		{
-//			print("error: can't parse json '\(jsonErr)'")
-//		}
-		//let CustAddr = NSKeyedArchiver.unarcheiveObject(with: caddr) as! [Address]
+		pageControl.numberOfPages = addresses.count
+		pageControl.currentPage = 0
+		collectionView?.isPagingEnabled = true
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		collectionView.collectionViewLayout = layout
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
+		navTitle.title = "\(R.string.my_account) \(R.string.Addr)"
 		buttonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
 		buttonRight.setTitle(R.string.delete.uppercased(), for: .normal)
-//		// Uncomment the following line to preserve selection between presentations
-//		// self.clearsSelectionOnViewWillAppear = false
-//
-//		//collectionView?.backgroundColor = .white
-//
-////		layout.scrollDirection = UICollectionViewScrollDirection.vertical
-////		alarmCollectionView.setCollectionViewLayout(layout, animated: true)
-////		alarmCollectionView.delegate = self
-////		alarmCollectionView.dataSource = self
-////		alarmCollectionView.backgroundColor = UIColor.clear
-////		//self.addSubview(alarmCollectionView)
-//
-//		let layout = UICollectionViewFlowLayout()
-//		layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-//		layout.itemSize = CGSize(width: 222, height: 411)
-//
-////		collView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-//		collView.delegate   = self
-//		collView.dataSource = self
-//		collView.isPagingEnabled = true
-//		collView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-//		collView.backgroundColor = UIColor.white
-////		self.view.addSubview(collView)
-//
-//		//collectionView?.isPagingEnabled = true
-//		//self.collectionView!.register(ProductViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-//		for addr in store.addresses
-//		{
-//			self.addresses.append(contentsOf: addr.addresses)
-//		}
-//		//self.addresses.append(contentsOf: store.addresses)
-		//self.addresses.append(addr1)
-		//self.addresses.append(addr2)
 	}
 	
 	func getAddress()
@@ -164,45 +120,58 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 //		return 1
 //	}
 	
+	
+	@IBAction func navCloseAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
+	}
+	@IBAction func buttonLeftAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func buttonRightAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+
+	
+}
+
+extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+{
 	//UICollectionViewDatasource methods
-	/*override*/ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
 	{
 		return addresses.count
 	}
 	
-	/*override*/ func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "addressCell", for: indexPath) as! MyAccAddrCell
-		//cell.backgroundColor = indexPath.item % 2 == 0 ? .red : .green
-		cell.page = addresses[indexPath.item]
-		//cell.page = pageContent[indexPath.item]
-		//cell.aliasField.text = page.alias
-		//cell.addressField.text = R.formatAddress(page)
-
-//		cell.page = page
-		//		cell.prodImage = UIImageView(image: UIImage(named: page.imageName))
-		//		cell.prodName.text = page.name
-		//		cell.prodPrice.text = page.price
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AddrCollectionViewCell
+		cell.setup(address: addresses[indexPath.item])
 		return cell
 	}
 	
-//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
-//	{
-//		return 0
-//	}
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
+	{
+		return 0
+	}
 	
 	// MARK: UICollectionViewDelegateFlowLayout
 	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-		return 4
-	}
+//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//		return 4
+//	}
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
 		return 1
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width, height: view.frame.height)
+		return CGSize(width: view.frame.width-20, height: view.frame.height-220)
 	}
 	
 	// MARK: UICollectionViewDelegate
@@ -235,24 +204,6 @@ class MyAccAddrViewController: UIViewController, UICollectionViewDataSource, UIC
 	
 	}
 	*/
-	
-	@IBAction func navCloseAct(_ sender: Any)
-	{
-		self.dismiss(animated: false, completion: nil)
-	}
-	@IBAction func navHelpAct(_ sender: Any)
-	{
-	}
-	@IBAction func buttonLeftAct(_ sender: Any)
-	{
-		self.dismiss(animated: false, completion: nil)
-	}
-	@IBAction func buttonRightAct(_ sender: Any)
-	{
-		self.dismiss(animated: false, completion: nil)
-	}
-
-	
 }
 
 

@@ -351,6 +351,11 @@ class LoginViewController: UIViewController
 //				//print(customer!)
 //				self.present(MyAccountViewController(), animated: false, completion: nil)
 //			}
+			if #available(iOS 11.0, *) {
+				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+			} else {
+				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+			}
 			//IN A FILE?
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")

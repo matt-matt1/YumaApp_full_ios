@@ -451,6 +451,11 @@ class MyAccountViewController: UIViewController
     override func viewDidLoad()
 	{
         super.viewDidLoad()
+		if #available(iOS 11.0, *) {
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		self.navigationItem.title = R.string.my_account//not working
 		navTitle.title = R.string.my_account
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
@@ -472,6 +477,11 @@ class MyAccountViewController: UIViewController
 //		{
 //			print(jsonErr)
 //		}
+		store.callGetCarriers()
+		{
+			(carriers) in
+			print(carriers)
+		}
     }
 
     override func didReceiveMemoryWarning()
@@ -505,7 +515,11 @@ class MyAccountViewController: UIViewController
 	@IBAction func addrBtnAct(_ sender: Any)
 	{
 		print("MyAccAddrViewController")
-		self.present(MyAccAddrViewController(), animated: true, completion: nil)
+		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController!
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		//self.present(MyAccAddrViewController(), animated: true, completion: nil)
+		self.present(vc!/*(collectViewLayout: layout)*/, animated: true, completion: nil)
 	}
 	@IBAction func infoBtnAct(_ sender: Any)
 	{

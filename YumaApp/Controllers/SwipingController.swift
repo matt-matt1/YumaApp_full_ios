@@ -10,6 +10,11 @@ import UIKit
 
 class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout
 {
+	//EXTENSION FILES:
+		//SwipingControllerCollection
+		//SwipingControllerTaps
+	
+	//MARK: Properties
 	var cellId = "cellID"
 	let pageContent: [Slide] = [
 		Slide(id: 1, image: "home-slider-printers", caption1: "Laser Printers", caption2: "", target: #selector(printTapped(_:))),
@@ -31,7 +36,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
 		return button
 	}()
-	private lazy var pageControl: UIPageControl =
+	lazy var pageControl: UIPageControl =
 	{
 		let pc = UIPageControl()
 		pc.numberOfPages = pageContent.count
@@ -40,6 +45,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		pc.pageIndicatorTintColor = R.color.YumaYel
 		return pc
 	}()
+	
+	
+	//MARK: Methods
 	
 	override func viewDidLoad()
 	{
@@ -51,11 +59,12 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.backgroundColor = UIColor.white
 		collectionView?.register(PageCell.self, forCellWithReuseIdentifier: cellId)
 		collectionView?.isPagingEnabled = true
-		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor/*, constant: self.view.frame.height/2*/).isActive = true
+		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
 	
+	//MARK: Swiping Controls
 	@objc private func handlePrev()
 	{
 		let nextId = max(pageControl.currentPage - 1, 0)
@@ -71,7 +80,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		pageControl.currentPage = nextId
 		collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 	}
-
+	
 	@objc private func handleCycle()
 	{
 		var nextId = pageControl.currentPage + 1
@@ -88,6 +97,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 	}
 	
+	//MARK: Drawing Methods
 	fileprivate func setUpControls() -> UIStackView
 	{
 //		prevBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -171,7 +181,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		let myViewInner = UIView()
 		myViewInner.translatesAutoresizingMaskIntoConstraints = false
 		myViewInner.layer.borderColor = UIColor.lightGray.cgColor
-		myViewInner.layer.borderWidth = 2
+		myViewInner.layer.borderWidth = 1
 		myViewInner.addSubview(myViewStack)
 		NSLayoutConstraint.activate([
 			myViewStack.topAnchor.constraint(equalTo: myViewInner.topAnchor, constant: 2),
@@ -179,10 +189,22 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			myViewStack.bottomAnchor.constraint(equalTo: myViewInner.bottomAnchor, constant: -2),
 			myViewStack.trailingAnchor.constraint(equalTo: myViewInner.trailingAnchor, constant: -2)
 			])
-		
+
+		let myViewOuter = UIView()
+		myViewOuter.translatesAutoresizingMaskIntoConstraints = false
+		myViewOuter.layer.borderColor = UIColor.lightGray.cgColor
+		myViewOuter.layer.borderWidth = 1
+		myViewOuter.addSubview(myViewInner)
+		NSLayoutConstraint.activate([
+			myViewInner.topAnchor.constraint(equalTo: myViewOuter.topAnchor, constant: 2),
+			myViewInner.leadingAnchor.constraint(equalTo: myViewOuter.leadingAnchor, constant: 2),
+			myViewInner.bottomAnchor.constraint(equalTo: myViewOuter.bottomAnchor, constant: -2),
+			myViewInner.trailingAnchor.constraint(equalTo: myViewOuter.trailingAnchor, constant: -2)
+			])
+
 		let myView = UIView()
 		myView.translatesAutoresizingMaskIntoConstraints = false
-		myView.addSubview(myViewInner)
+		myView.addSubview(myViewOuter)
 		NSLayoutConstraint.activate([
 			myViewStack.topAnchor.constraint(equalTo: myView.topAnchor, constant: 3),
 			myViewStack.leadingAnchor.constraint(equalTo: myView.leadingAnchor, constant: 3),
@@ -227,151 +249,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		return topStack
 	}
 	
-	@objc func loginTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func cartTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})//CartContentsViewController
-		//SwipingController
-		//MyAccAddrViewController
-//		let sb = UIStoryboard(name: "CartStoryboard", bundle: nil)
-//		let vc = sb.instantiateViewController(withIdentifier: "VC") as UIViewController
-		self.present(CartViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-		//		self.present(ContactUsViewController(), animated: true, completion: nil)
-	}
-	
-	@objc func enTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(WebpageViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func aboutTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(WebpageViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func qcTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(WebpageViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func contactTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(ContactUsViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func printTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func laptopTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		self.present(LaptopsViewController(), animated: false, completion: (() -> Void)?
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-			})
-	}
-	
-	@objc func servicesTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-//		self.present(ViewController(), animated: false, completion: (() -> Void)?
-//			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-//			})
-	}
-	
-	@objc func tonersTapped(_ sender: UITapGestureRecognizer)
-	{
-		sender.view?.backgroundColor = R.color.YumaRed
-		UIView.animate(withDuration: 1, animations:
-			{
-				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-//		self.present(ViewController(), animated: false, completion: (() -> Void)?
-//			{
-				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-				sender.view?.backgroundColor = UIColor.white
-//			})
-	}
-
 	func drawButtonsTop() -> UIStackView
 	{
 		let topRow = UIStackView(arrangedSubviews: [
@@ -382,6 +259,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			])
 		topRow.translatesAutoresizingMaskIntoConstraints = false
 		topRow.distribution = UIStackViewDistribution.fillEqually
+		topRow.spacing = 2
 		return topRow
 	}
 
@@ -395,6 +273,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			])
 		bottomRow.translatesAutoresizingMaskIntoConstraints = false
 		bottomRow.distribution = UIStackViewDistribution.fillEqually
+		bottomRow.spacing = 2
 		return bottomRow
 	}
 		
@@ -411,6 +290,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		let buttons = UIStackView(arrangedSubviews: [buttonsTop, buttonsBottom])
 		buttons.translatesAutoresizingMaskIntoConstraints = false
 		buttons.distribution = UIStackViewDistribution.equalCentering
+		buttons.spacing = 0
 		if self.view.frame.height > self.view.frame.width	// do on rotate...
 		{
 			buttons.axis = UILayoutConstraintAxis.vertical
@@ -525,44 +405,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			}
 //		}
 	}
-
-	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
-	{
-		super.viewWillTransition(to: size, with: coordinator)
-		collectionView?.collectionViewLayout.invalidateLayout()
-	}
-	override func numberOfSections(in collectionView: UICollectionView) -> Int
-	{
-		return 1
-	}
-	
-	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return pageContent.count
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
-	{
-		return 0
-	}
-	
-	@objc /*override*/ func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-	{
-		return CGSize(width: view.frame.width, height: view.frame.height)
-		//return CGSize(width: UICollectionViewFlowLayout.collectionViewWidthWithoutInsets, height: view.frame.height)
-	}
-	
-	@objc override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-	{
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PageCell
-		cell.page = pageContent[indexPath.item]
-		cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: pageContent[indexPath.item].target))
-		return cell
-	}
-	
-//	override func shouldInvalidateLayoutForBoundsChange()
-//	{
-//		return true
-//	}
 	
 }
 
@@ -585,20 +427,3 @@ class VerticalTopAlignLabel: UILabel
 	}
 	
 }
-
-//extension UICollectionViewFlowLayout
-//{
-//	var collectionViewWidthWithoutInsets: CGFloat
-//	{
-//		get
-//		{
-//			guard let collectionView = self.collectionView else { return 0 }
-//			let collectionViewSize = collectionView.bounds.size
-//			let widthWithoutInsets = collectionViewSize.width
-//				- self.sectionInset.left - self.sectionInset.right
-//				- collectionView.contentInset.left - collectionView.contentInset.right
-//			return widthWithoutInsets
-//		}
-//	}
-//}
-

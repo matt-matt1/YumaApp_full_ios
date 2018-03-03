@@ -94,6 +94,23 @@ struct StockAvailable: Decodable
 	let id_product_attribute: String?
 }
 
+struct Product_Accessory
+{
+	let id: Int
+}
+
+//struct Product_Associations
+//{
+//	let categories: Product_Category
+//	let productImages: Product_Image
+//	let productCombinations: Product_Combination
+//	let product_option_values: Product_OptionValue
+//	let product_features: Product_Feature
+//	let productTags: Product_Tag
+//	let stock_available: Product_StockAvailable
+//	let accessories: Product_Accessory
+//	let product_bundles: Product_Bundle
+//}
 struct AssociationsProducts: Decodable
 {
 	let categories: [Category]?
@@ -102,6 +119,50 @@ struct AssociationsProducts: Decodable
 	let product_option_values: [ProductOptionValue]?
 	let tags: [Tag]?
 	let stock_availables: [StockAvailable]?
+}
+
+struct Product_Bundle
+{
+	let id: Int
+	let quantity: Int
+}
+struct Product_Category
+{
+	let id: Int
+}
+struct Product_Combination
+{
+	let id: Int
+}
+struct Product_Feature
+{
+	let id: Int
+	let id_feature_value: Int
+}
+struct Product_Image
+{
+	let id: Int
+}
+struct Product_OptionValue
+{
+	let id: Int
+}
+struct Product_StockAvailable
+{
+	let id: Int
+	let id_product_attribute: Int
+}
+struct Product_Tag
+{
+	let id: Int
+}
+struct Product_Tax
+{
+	let id: Int
+	let rate: String
+	let active: String
+	let deleted: String
+	let name: String
 }
 
 struct aProduct: Decodable

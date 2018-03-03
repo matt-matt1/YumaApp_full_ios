@@ -9,14 +9,14 @@
 import Foundation
 
 
-struct cart_rows
+struct CartRow: Decodable
 {
-	var id_product: String
-	var id_product_attribute: String
-	var id_address_delivery: String
-	var quantity: String
+	var id_product: String//Int
+	var id_product_attribute: String//Int
+	var id_address_delivery: String//Int
+	var quantity: String//Int
 }
-struct Carts
+struct Carts: Decodable
 {
 	var id: Int
 	var id_address_delivery: String
@@ -37,6 +37,6 @@ struct Carts
 	var allow_seperated_package: String
 	var date_add: String
 	var date_upd: String
-	var associations: NSDictionary
-	var cart_rows: [cart_rows]
+//	var associations: NSDictionary
+	var cart_rows: [CartRow]
 }
