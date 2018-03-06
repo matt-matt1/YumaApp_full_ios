@@ -9,22 +9,26 @@
 import Foundation
 
 
+struct OrderState: Decodable
+{
+	let id: 			Int?//!
+	let unremovable: 	String?//Bool
+	let delivery: 		String?//Bool
+	let hidden: 		String?//Bool
+	let send_email: 	String?//Bool
+	let module_name: 	String?//object
+	let invoice: 		String?//Bool
+	let color: 			String?
+	let logable: 		String?//Bool
+	let shipped: 		String?//Bool
+	let paid: 			String?//Bool
+	let pdf_delivery: 	String?//Bool
+	let pdf_invoice: 	String?//Bool
+	let deleted: 		String?//Bool
+	let name: 			[IdValue]?//!..64
+	let template: 		[IdValue]?//..64
+}
 struct OrderStates: Decodable
 {
-	let id: Int//":2,"
-	let unremovable: String
-	let delivery: String
-	let hidden: String
-	let send_email: String
-	let module_name: String//object
-	let invoice: String
-	let color: String//":"#32CD32","
-	let logable: String
-	let shipped: String
-	let paid: String
-	let pdf_delivery: String
-	let pdf_invoice: String
-	let deleted: String
-	let name: IdValue//":[{"id":"1","value":"Payment accepted"},{"id":"2","value":"Paiement accepté"}]
-	let template: IdValue//":[{"id":"1","value":"payment"},{"id":"2","value":"payment"}]
+	let order_states: [OrderState]?
 }

@@ -9,12 +9,16 @@
 import Foundation
 
 
-struct States: Decodable
+struct CountryState: Decodable
 {
-	let id: String
-	let id_zone: String
-	let id_country: String
-	let iso_code: String
-	let name: String
-	let active: String
+	let id: 			Int?//!
+	let id_zone: 		String?//!
+	let id_country: 	String?//!
+	let iso_code: 		String?//!..7
+	let name: 			String?//!..32
+	let active: 		String?//Bool
+}
+struct CountryStates: Decodable
+{
+	let states: [CountryState]?
 }

@@ -10,16 +10,16 @@ import UIKit
 
 class PrintersViewController: UIViewController
 {
-	@IBOutlet weak var backgroungImage: UIImageView!
-	@IBOutlet weak var pageControll: UIPageControl!
-	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var navBar: UINavigationBar!
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
+	@IBOutlet weak var backgroungImage: UIImageView!
+	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var labelLeft: UILabel!
 	@IBOutlet weak var labelCenter: UILabel!
 	@IBOutlet weak var labelRight: UILabel!
 	@IBOutlet weak var add2CartBtn: GradientButton!
-	var printersDictionary: NSDictionary?
-	var products: NSDictionary?
 	var store = DataStore.sharedInstance
 	
 
@@ -123,34 +123,37 @@ class PrintersViewController: UIViewController
 		self.dismiss(animated: true, completion: nil)
 	}
 	
+	@IBAction func navHelpAct(_ sender: Any) {
+	}
 	func refresh()
 	{
 		let sv = UIViewController.displaySpinner(onView: self.view)
 		labelLeft.text = ""
 		labelCenter.text = "\(R.string.updating) ..."
 		labelRight.text = ""
-		pageControll.isHidden = true
+		pageControl.isHidden = true
 //		store.callGetPrinters2(completion:
 		store.callGetPrinters(completion:
 //		store.getPrinters3(completion:
 			{
-			(printers) in
-//		PSWebServices.getPrinters(completionHandler: { (printers) in
-			UIViewController.removeSpinner(spinner: sv)
-//		PSWebServices.getPrinters2(completionHandler: { (printers) in
-			//print("got \(printers) printers")
-			
-			//UILabel.text must be used from main thread only
-			self.labelLeft.text = " \(R.string.updated)"
-			self.labelCenter.text = FontAwesome.repeat.rawValue
-			self.labelCenter.font = R.font.FontAwesomeOfSize(pointSize: 30)
-			let date = Date()
-			let df = DateFormatter()
-			df.locale = Locale(identifier: "en_CA")
-			df.dateFormat = "dd MMM YYYY  h:mm:ss a"
-			self.labelRight.text = "\(df.string(from: date)) "
-			self.pageControll.isHidden = false
-			//self.haveJSON(printers)
+				(printers) in
+	//		PSWebServices.getPrinters(completionHandler: { (printers) in
+				UIViewController.removeSpinner(spinner: sv)
+	//		PSWebServices.getPrinters2(completionHandler: { (printers) in
+				//print("got \(printers) printers")
+				
+				//UILabel.text must be used from main thread only
+				self.labelLeft.text = " \(R.string.updated)"
+				self.labelCenter.text = FontAwesome.repeat.rawValue
+				self.labelCenter.font = R.font.FontAwesomeOfSize(pointSize: 30)
+				let date = Date()
+				let df = DateFormatter()
+				df.locale = Locale(identifier: "en_CA")
+				df.dateFormat = "dd MMM YYYY  h:mm:ss a"
+				self.labelRight.text = "\(df.string(from: date)) "
+				self.pageControl.isHidden = false
+				//self.haveJSON(printers)
+				self.pageControl.numberOfPages = self.store.products.count
 			}
 		)
 	}

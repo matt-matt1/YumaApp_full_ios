@@ -33,9 +33,12 @@ class CartViewController: UIViewController
 	{
         super.viewDidLoad()
 
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11.0, *)
+		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
+		}
+		else
+		{
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)

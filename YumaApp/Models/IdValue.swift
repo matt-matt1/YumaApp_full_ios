@@ -11,6 +11,6 @@ import Foundation
 
 struct IdValue: Decodable
 {
-	let id: String
-	let value: String
+	let id: 	String?
+	let value: 	String?
 }

@@ -85,7 +85,7 @@
                             <rect key="frame" x="0.0" y="47" width="414" height="669"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iRV-5B-OTi">
-                                    <rect key="frame" x="5" y="0.0" width="404" height="512"/>
+                                    <rect key="frame" x="5" y="0.0" width="404" height="507"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Vwg-y7-k7M" userLabel="Stack View window">
                                             <rect key="frame" x="5" y="0.0" width="394" height="492"/>
@@ -362,7 +362,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="Vwg-y7-k7M" firstAttribute="leading" secondItem="iRV-5B-OTi" secondAttribute="leading" constant="5" id="DNO-VZ-IZz"/>
-                                        <constraint firstAttribute="bottom" secondItem="Vwg-y7-k7M" secondAttribute="bottom" constant="20" id="Wdi-0O-p1K"/>
+                                        <constraint firstAttribute="bottom" secondItem="Vwg-y7-k7M" secondAttribute="bottom" constant="15" id="Wdi-0O-p1K"/>
                                         <constraint firstItem="Vwg-y7-k7M" firstAttribute="top" secondItem="iRV-5B-OTi" secondAttribute="top" id="mpH-LO-K5k"/>
                                         <constraint firstItem="Vwg-y7-k7M" firstAttribute="centerX" secondItem="iRV-5B-OTi" secondAttribute="centerX" id="mwq-UK-j8f"/>
                                     </constraints>

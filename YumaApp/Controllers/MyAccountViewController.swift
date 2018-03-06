@@ -18,7 +18,8 @@ class MyAccountViewController: UIViewController
 	@IBOutlet weak var addrBtn: UIButton!
 	@IBOutlet weak var orderHistBtn: UIButton!
 	@IBOutlet weak var creditSlipsBtn: UIButton!
-	
+
+/*
 	func coverStackOpen() -> UIStackView
 	{
 		let allStack = UIStackView(frame: CGRect(x: 0, y: 0, width: 375, height: 647))
@@ -447,13 +448,16 @@ class MyAccountViewController: UIViewController
 	//		<point key="canvasLocation" x="25.5" y="59"/>
 		self.view.addSubview(mainView)
 	}
-	
+*/
     override func viewDidLoad()
 	{
         super.viewDidLoad()
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11.0, *)
+		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
+		}
+		else
+		{
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		self.navigationItem.title = R.string.my_account//not working
@@ -468,10 +472,10 @@ class MyAccountViewController: UIViewController
 		//print("\n\(store.addresses)\n\n")
 //		do
 //		{
-			let dataStr = UserDefaults.standard.string(forKey: "CustAddr")
+	//		let dataStr = UserDefaults.standard.string(forKey: "AddressesCustomer\(store.customer?.id_customer)")
 			//let data = try JSONEncoder().encode(store.addresses)
 			//let dataStr = String(data: data, encoding: .utf8)!
-			UserDefaults.standard.set(store.trimJSONValueToArray(string: dataStr!), forKey: "CustAddr")
+	//		UserDefaults.standard.set(store.trimJSONValueToArray(string: dataStr!), forKey: "AddressesCustomer\(store.customer?.id_customer)")
 //		}
 //		catch let jsonErr
 //		{
@@ -480,7 +484,7 @@ class MyAccountViewController: UIViewController
 		store.callGetCarriers()
 		{
 			(carriers) in
-			print(carriers)
+//			print(carriers)
 		}
     }
 

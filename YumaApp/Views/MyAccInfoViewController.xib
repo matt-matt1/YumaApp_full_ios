@@ -111,7 +111,7 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lrG-Cb-t6Q" userLabel="Stack View elements">
                                                                     <rect key="frame" x="5" y="20" width="394" height="871"/>
                                                                     <subviews>
-                                                                        <stackView opaque="NO" contentMode="left" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HYs-7v-Ty9">
+                                                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HYs-7v-Ty9">
                                                                             <rect key="frame" x="5" y="0.0" width="384" height="30"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ABX-KH-VLt">
@@ -229,6 +229,7 @@
                                                                                         </label>
                                                                                     </subviews>
                                                                                     <constraints>
+                                                                                        <constraint firstItem="XMj-10-fYb" firstAttribute="leading" secondItem="6HP-Zk-a6B" secondAttribute="leading" id="YUQ-TX-v6E"/>
                                                                                         <constraint firstAttribute="trailing" secondItem="XMj-10-fYb" secondAttribute="trailing" id="eyh-L0-u1k"/>
                                                                                     </constraints>
                                                                                 </stackView>
@@ -236,6 +237,7 @@
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstItem="6HP-Zk-a6B" firstAttribute="top" secondItem="h8T-s5-sIN" secondAttribute="top" constant="5" id="O15-Ke-c75"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="6HP-Zk-a6B" secondAttribute="trailing" constant="5" id="lBs-Xp-oaM"/>
                                                                                 <constraint firstItem="6HP-Zk-a6B" firstAttribute="leading" secondItem="h8T-s5-sIN" secondAttribute="leading" constant="5" id="npE-Vl-JjG"/>
                                                                                 <constraint firstItem="6HP-Zk-a6B" firstAttribute="centerY" secondItem="h8T-s5-sIN" secondAttribute="centerY" id="zYJ-RW-z3z"/>
                                                                             </constraints>
@@ -285,10 +287,14 @@
                                                                                                         <constraint firstItem="bmb-xa-rPq" firstAttribute="leading" secondItem="7XN-7n-eXk" secondAttribute="leading" constant="10" id="5tX-nO-a9F"/>
                                                                                                         <constraint firstItem="bmb-xa-rPq" firstAttribute="centerY" secondItem="7XN-7n-eXk" secondAttribute="centerY" id="LMX-9o-vGF"/>
                                                                                                         <constraint firstItem="bmb-xa-rPq" firstAttribute="centerX" secondItem="7XN-7n-eXk" secondAttribute="centerX" id="TTd-nK-xiI"/>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="bmb-xa-rPq" secondAttribute="trailing" constant="10" id="UUp-L8-Gsp"/>
                                                                                                         <constraint firstItem="bmb-xa-rPq" firstAttribute="top" secondItem="7XN-7n-eXk" secondAttribute="top" constant="2" id="ja2-qa-35S"/>
                                                                                                     </constraints>
                                                                                                 </view>
                                                                                             </subviews>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="trailing" secondItem="7XN-7n-eXk" secondAttribute="trailing" id="1XY-vr-NKX"/>
+                                                                                            </constraints>
                                                                                         </stackView>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZI-S4-jhD">
                                                                                             <rect key="frame" x="0.0" y="45" width="384" height="50"/>
@@ -297,10 +303,14 @@
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                     </subviews>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="trailing" secondItem="A0o-QK-j32" secondAttribute="trailing" id="vuo-ag-sI9"/>
+                                                                                    </constraints>
                                                                                 </stackView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
+                                                                                <constraint firstAttribute="trailing" secondItem="ETz-pv-HNs" secondAttribute="trailing" constant="5" id="Cyd-S3-yZ5"/>
                                                                                 <constraint firstItem="ETz-pv-HNs" firstAttribute="leading" secondItem="3YE-3o-2PH" secondAttribute="leading" constant="5" id="Q3B-Tv-9in"/>
                                                                                 <constraint firstItem="ETz-pv-HNs" firstAttribute="top" secondItem="3YE-3o-2PH" secondAttribute="top" constant="5" id="U2h-A7-xhN"/>
                                                                                 <constraint firstItem="ETz-pv-HNs" firstAttribute="centerY" secondItem="3YE-3o-2PH" secondAttribute="centerY" id="Urh-v7-Igk"/>
@@ -348,12 +358,16 @@
                                                                                                     <constraints>
                                                                                                         <constraint firstAttribute="height" constant="45" id="AIE-pN-c0N"/>
                                                                                                         <constraint firstItem="fQ8-8S-TCO" firstAttribute="top" secondItem="2eg-KS-Ob8" secondAttribute="top" constant="2" id="GUy-C8-4Ns"/>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="fQ8-8S-TCO" secondAttribute="trailing" constant="10" id="NdT-1G-hL3"/>
                                                                                                         <constraint firstItem="fQ8-8S-TCO" firstAttribute="centerY" secondItem="2eg-KS-Ob8" secondAttribute="centerY" id="SoB-Yu-M2y"/>
                                                                                                         <constraint firstItem="fQ8-8S-TCO" firstAttribute="leading" secondItem="2eg-KS-Ob8" secondAttribute="leading" constant="10" id="UD9-4Q-bfU"/>
                                                                                                         <constraint firstItem="fQ8-8S-TCO" firstAttribute="centerX" secondItem="2eg-KS-Ob8" secondAttribute="centerX" id="w4c-UY-JOt"/>
                                                                                                     </constraints>
                                                                                                 </view>
                                                                                             </subviews>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="trailing" secondItem="2eg-KS-Ob8" secondAttribute="trailing" id="S6z-2a-2Ex"/>
+                                                                                            </constraints>
                                                                                         </stackView>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiM-Z0-pfC">
                                                                                             <rect key="frame" x="0.0" y="45" width="384" height="50"/>
@@ -362,10 +376,14 @@
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                     </subviews>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="trailing" secondItem="RtJ-Gb-cIi" secondAttribute="trailing" id="Xse-SC-ZI2"/>
+                                                                                    </constraints>
                                                                                 </stackView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
+                                                                                <constraint firstAttribute="trailing" secondItem="zrA-0X-Pt7" secondAttribute="trailing" constant="5" id="33C-Eh-ewN"/>
                                                                                 <constraint firstItem="zrA-0X-Pt7" firstAttribute="top" secondItem="atr-9m-RhA" secondAttribute="top" constant="5" id="34C-4U-eV2"/>
                                                                                 <constraint firstItem="zrA-0X-Pt7" firstAttribute="centerY" secondItem="atr-9m-RhA" secondAttribute="centerY" id="GL2-Kc-CCe"/>
                                                                                 <constraint firstItem="zrA-0X-Pt7" firstAttribute="leading" secondItem="atr-9m-RhA" secondAttribute="leading" constant="5" id="jdm-TJ-nNa"/>
@@ -422,6 +440,9 @@
                                                                                                                     <nil key="highlightedColor"/>
                                                                                                                 </label>
                                                                                                             </subviews>
+                                                                                                            <constraints>
+                                                                                                                <constraint firstAttribute="trailing" secondItem="rc2-s0-0cg" secondAttribute="trailing" constant="50" id="dhm-K6-35Y"/>
+                                                                                                            </constraints>
                                                                                                         </stackView>
                                                                                                     </subviews>
                                                                                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -434,6 +455,9 @@
                                                                                                     </constraints>
                                                                                                 </view>
                                                                                             </subviews>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="trailing" secondItem="DGc-a0-VEC" secondAttribute="trailing" id="J0n-Wl-8Nm"/>
+                                                                                            </constraints>
                                                                                         </stackView>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ibZ-xz-yA9">
                                                                                             <rect key="frame" x="0.0" y="45" width="384" height="50"/>
@@ -442,12 +466,16 @@
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                     </subviews>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="trailing" secondItem="E9Y-W3-RM2" secondAttribute="trailing" id="Nwd-Tm-OjO"/>
+                                                                                    </constraints>
                                                                                 </stackView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstItem="VJR-bY-VAa" firstAttribute="centerY" secondItem="tq9-dn-LvH" secondAttribute="centerY" id="AMY-of-KXx"/>
                                                                                 <constraint firstItem="VJR-bY-VAa" firstAttribute="top" secondItem="tq9-dn-LvH" secondAttribute="top" constant="5" id="G0W-nY-uFl"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="VJR-bY-VAa" secondAttribute="trailing" constant="5" id="KSB-DK-Nrr"/>
                                                                                 <constraint firstItem="VJR-bY-VAa" firstAttribute="leading" secondItem="tq9-dn-LvH" secondAttribute="leading" constant="5" id="gK7-lK-oK2"/>
                                                                             </constraints>
                                                                             <userDefinedRuntimeAttributes>
@@ -494,11 +522,15 @@
                                                                                                         <constraint firstItem="n1z-jd-06i" firstAttribute="centerX" secondItem="9bU-Uq-gwo" secondAttribute="centerX" id="8tS-gT-fYM"/>
                                                                                                         <constraint firstItem="n1z-jd-06i" firstAttribute="centerY" secondItem="9bU-Uq-gwo" secondAttribute="centerY" id="GAv-gQ-30E"/>
                                                                                                         <constraint firstItem="n1z-jd-06i" firstAttribute="top" secondItem="9bU-Uq-gwo" secondAttribute="top" constant="2" id="OKg-VL-1lH"/>
+                                                                                                        <constraint firstAttribute="trailing" secondItem="n1z-jd-06i" secondAttribute="trailing" constant="10" id="Ph2-Gj-2H4"/>
                                                                                                         <constraint firstItem="n1z-jd-06i" firstAttribute="leading" secondItem="9bU-Uq-gwo" secondAttribute="leading" constant="10" id="SGi-WX-bpC"/>
                                                                                                         <constraint firstAttribute="height" constant="45" id="Zru-mF-8bR"/>
                                                                                                     </constraints>
                                                                                                 </view>
                                                                                             </subviews>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="trailing" secondItem="9bU-Uq-gwo" secondAttribute="trailing" id="ikh-bx-wHt"/>
+                                                                                            </constraints>
                                                                                         </stackView>
                                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiK-Zw-7u6">
                                                                                             <rect key="frame" x="0.0" y="45" width="384" height="50"/>
@@ -507,11 +539,15 @@
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
                                                                                     </subviews>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="trailing" secondItem="qRu-4H-OfA" secondAttribute="trailing" id="ZZP-iN-NgP"/>
+                                                                                    </constraints>
                                                                                 </stackView>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstItem="bjM-zo-ooc" firstAttribute="centerY" secondItem="cqV-sj-H5b" secondAttribute="centerY" id="E37-Ay-aYi"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="bjM-zo-ooc" secondAttribute="trailing" constant="5" id="b7B-tR-vrv"/>
                                                                                 <constraint firstItem="bjM-zo-ooc" firstAttribute="leading" secondItem="cqV-sj-H5b" secondAttribute="leading" constant="5" id="cJP-Ig-QzA"/>
                                                                                 <constraint firstItem="bjM-zo-ooc" firstAttribute="top" secondItem="cqV-sj-H5b" secondAttribute="top" constant="5" id="u7x-if-tK6"/>
                                                                             </constraints>
@@ -663,6 +699,7 @@
                                                                         <constraint firstItem="atr-9m-RhA" firstAttribute="leading" secondItem="tq9-dn-LvH" secondAttribute="leading" id="58K-a3-WKD"/>
                                                                         <constraint firstItem="Ufn-HJ-4Fa" firstAttribute="leading" secondItem="lrG-Cb-t6Q" secondAttribute="leading" id="6et-Mg-i9L"/>
                                                                         <constraint firstItem="h8T-s5-sIN" firstAttribute="leading" secondItem="3YE-3o-2PH" secondAttribute="leading" id="785-CO-Pdm"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="h8T-s5-sIN" secondAttribute="trailing" id="8nQ-kS-Ixy"/>
                                                                         <constraint firstItem="Ufn-HJ-4Fa" firstAttribute="leading" secondItem="h8T-s5-sIN" secondAttribute="leading" id="9wn-Fk-xMr"/>
                                                                         <constraint firstItem="HYs-7v-Ty9" firstAttribute="leading" secondItem="lrG-Cb-t6Q" secondAttribute="leading" constant="5" id="9yI-YP-hR9"/>
                                                                         <constraint firstItem="tq9-dn-LvH" firstAttribute="leading" secondItem="cqV-sj-H5b" secondAttribute="leading" id="HXZ-JH-05z"/>
@@ -674,6 +711,7 @@
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="lrG-Cb-t6Q" secondAttribute="trailing" constant="5" id="Oae-KB-D2d"/>
                                                                 <constraint firstItem="lrG-Cb-t6Q" firstAttribute="centerX" secondItem="hxR-eb-S2V" secondAttribute="centerX" id="b5R-sE-0LI"/>
                                                                 <constraint firstItem="lrG-Cb-t6Q" firstAttribute="top" secondItem="hxR-eb-S2V" secondAttribute="top" constant="20" id="cGC-Ch-Qt7"/>
                                                                 <constraint firstItem="lrG-Cb-t6Q" firstAttribute="leading" secondItem="hxR-eb-S2V" secondAttribute="leading" constant="5" id="u4C-T9-qUL"/>
@@ -695,6 +733,9 @@
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="hxR-eb-S2V" secondAttribute="trailing" id="iYH-Pu-pIx"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>

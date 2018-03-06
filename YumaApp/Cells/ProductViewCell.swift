@@ -22,8 +22,8 @@ class ProductViewCell: UICollectionViewCell
 	@IBOutlet weak var prodCats: UIView!
 	@IBOutlet weak var prodShare: UIView!
 	@IBOutlet weak var mainBtn: UIButton!
-	
-	var page: myProduct?
+	var id_lang = 0
+	var page: aProduct?
 	{
 		didSet
 		{
@@ -32,12 +32,28 @@ class ProductViewCell: UICollectionViewCell
 			{
 				return
 			}
-//			prodName.text = unwrap.name
-//			prodName2.text = unwrap.name
-//			prodImage.image = UIImage(named: unwrap.imageName)
-//			prodPrice.text = unwrap.price
-//			prodPrice2.text = unwrap.price
-//			prodDesc.text = unwrap.desc
+			prodName.text = unwrap.name![id_lang].value
+			prodName2.text = unwrap.name![id_lang].value
+//			prodImage.image = UIImage(named: unwrap.imageName)//id_default_image
+			if unwrap.showPrice == "1"
+			{
+				prodPrice.text = unwrap.price
+				prodPrice2.text = unwrap.price
+			}
+			prodDesc.text = "\(unwrap.description![id_lang].value) \n\(unwrap.descriptionShort![id_lang].value)"
+			if unwrap.idManufacturer != ""
+			{
+				//
+			}
+			if unwrap.idSupplier != ""
+			{
+				//
+			}
+			var cats: String = ""
+			for cat in (unwrap.associations?.categories)!
+			{
+				cats += cat.id
+			}
 			let _ = unwrap.id
 		}
 	}
@@ -45,7 +61,7 @@ class ProductViewCell: UICollectionViewCell
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)
-		backgroundColor = .green
+		//backgroundColor = .green
 		prodImage = UIImageView(image: R.image.homeSliderCartridges)
 //		addSubview(prodImage)
 //		prodName.text = "Product Name"

@@ -11,9 +11,13 @@ import Foundation
 
 struct Tax: Decodable
 {
-	let id: String
+	let id: 		Int
+	let rate: 		String//Float
+	let active: 	String?
+	let deleted: 	String?
+	let name: 		[IdValue]
 }
 struct Taxes: Decodable
 {
-	let taxes: [Tax]
+	let taxes: [Tax]?
 }

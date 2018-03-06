@@ -60,9 +60,9 @@ class MyAccAddrViewController: UIViewController
 			//			{
 			//				id_customer = 3
 			//			}
-			let caStr = UserDefaults.standard.string(forKey: "CustAddr")
+			let caStr = UserDefaults.standard.string(forKey: "AddressesCustomer\(store.customer?.id_customer ?? "0")")
 			//			let caStr = UserDefaults.standard.string(forKey: "CustomerAddresses")
-			if caStr == ""
+			if caStr == nil || caStr == ""
 			{
 				let loading = UIViewController.displaySpinner(onView: self.view)
 				//if store.addresses.count == 0
@@ -70,7 +70,7 @@ class MyAccAddrViewController: UIViewController
 				{
 					(addresses) in
 					
-					for address in addresses.addresses
+					for address in addresses.addresses!
 					{
 						self.addresses.append(address)
 					}
@@ -152,7 +152,13 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AddrCollectionViewCell
 		cell.setup(address: addresses[indexPath.item])
+		//pageControl.currentPage = indexPath.item
 		return cell
+	}
+	
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+	{
+		pageControl.currentPage = Int(ceil(targetContentOffset.pointee.x / collectionView.frame.width))
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat

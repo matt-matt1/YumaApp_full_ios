@@ -6,53 +6,38 @@
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
-struct Countries {
-	public var id: Int
-	public var id_zone: String
-	public var id_currency: String
-	public var call_prefix: String
-	public var iso_code: String
-	public var active: String
-	public var contains_states: String
-	public var need_identification_number: String
-	public var need_zip_code: String
-	public var zip_code_format: String
-	public var display_tax_label: String
-	public var name: Names_Countries
-	
-//	init(id: Int,
-//		id_zone: String,
-//		id_currency: String,
-//		call_prefix: String,
-//		iso_code: String,
-//		active: String,
-//		contains_states: String,
-//		need_identification_number: String,
-//		need_zip_code: String,
-//		zip_code_format: String,
-//		display_tax_label: String,
-//		name: Names_Countries) {
-//		self.id = id
-//		self.id_zone = id_zone
-//		self.id_currency = id_currency
-//		self.call_prefix = call_prefix
-//		self.iso_code = iso_code
-//		self.active = active
-//		self.contains_states = contains_states
-//		self.need_identification_number = need_identification_number
-//		self.need_zip_code = need_zip_code
-//		self.zip_code_format = zip_code_format
-//		self.display_tax_label = display_tax_label
-//		self.name = name
-//	}
+struct Country: Decodable
+{
+	public var id: 							Int?//!
+	public var idZone: 						String?
+	public var idCurrency: 					String?
+	public var callPrefix: 					String?
+	public var isoCode: 					String?//!..3
+	public var active: 						String?//Bool
+	public var containsStates: 				String?//!Bool
+	public var needIdentificationNumber: 	String?//!Bool
+	public var needZipCode: 				String?//Bool
+	public var zipCodeFormat: 				String?
+	public var displayTaxLabel: 			String?//!Bool
+	public var name: 						[IdValue]?//!..64
+
+	enum MemberKeys: String, CodingKey
+	{
+		case id
+		case idZone = 						"id_zone"
+		case idCurrency = 					"id_currency"
+		case callPrefix = 					"call_prefix"
+		case isoCode = 						"iso_code"
+		case active
+		case containsStates = 				"contains_states"
+		case needIdentificationNumber = 	"need_identification_number"
+		case needZipCode = 					"need_zip_code"
+		case zipCodeFormat = 				"zip_code_format"
+		case displayTaxLabel = 				"display_tax_label"
+		case name
+	}
 }
-
-//extension Countries {
-//	init?(jsonDictionary: [String : AnyObject]) {
-//		guard let parseName = jsonDictionary["iso_code"] as? String else {
-//			return nil
-//		}
-//		iso_code = parseName
-//	}
-//}
-
+struct Countries: Decodable
+{
+	let countries: [Country]
+}

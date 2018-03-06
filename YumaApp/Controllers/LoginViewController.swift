@@ -269,7 +269,7 @@ class LoginViewController: UIViewController
 		if rememberSwitchIsOn
 		{
 			//write json string to file
-			UserDefaults.standard.set(String(describing: customer), forKey: "customer")
+//			UserDefaults.standard.set(String(data: customer, encoding: .utf8), forKey: "Customer")
 			
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")
@@ -285,40 +285,59 @@ class LoginViewController: UIViewController
 			////			}
 		}
 		let id = customer.id == nil ? Int(customer.id_customer!) : Int(customer.id!)
-		getAddresses(id_customer: id!)
+		getDetails(id_customer: id!)
 	}
 
-	func getAddresses(id_customer: Int)
+	func getDetails(id_customer: Int)
 	{
-		//		let sv2 = UIViewController.displaySpinner(onView: self.view)
-		store.callGetAddresses(id_customer: id_customer, completion:
-//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
-			{
-				(addresses) in
+		print("getDetails")
+//		let sv2 = UIViewController.displaySpinner(onView: self.view)
+		let addr = UserDefaults.standard.string(forKey: "AddressesCustomer\(id_customer)")
+		if addr == nil || addr == ""
+		{
+			store.callGetAddresses(id_customer: id_customer, completion:
+	//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
+				{
+					(addresses) in
 
-				//				UIViewController.removeSpinner(spinner: sv2)
-				//print(addresses)
-				//print("got \(addresses.addresses.count) addresses")
-				//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-				OperationQueue.main.addOperation
-					{
-						self.successfullyGotAddresses(addresses: addresses)
+//				UIViewController.removeSpinner(spinner: sv2)
+					//print(addresses)
+					//print("got \(addresses.addresses.count) addresses")
+					//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
+					let addr = addresses.addresses
+					print("got \(String(describing: addr?.count)) addresses")
+//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
+//					OperationQueue.main.addOperation
+//						{
+//							self.successfullyGotAddresses(id_customer: id_customer, addresses: addresses)
+//						}
 				}
-			}
-		)
+			)
+		}
 		//with storyboard
 		//		let displayMA = self.storyboard?.instantiateViewController(withIdentifier: "MyAccountVC") as! MyAccountVC
 		//		self.navigationController?.pushViewController(displayMA, animated: true)
 		//without storyboard
 		//		let displayMA = ViewController(nibName: "MyAccount", bundle: nil)
+		let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+		if ord == nil || ord == ""
+//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
+		{
+			store.getOrders(id_customer: id_customer) { (orders, err) in
+				let ord = orders as? [Orders]
+				let ords = ord?.count
+				print("got \(String(describing: ords)) orders")
+			}
+		}
+		successfullyGotDetails(id_customer: id_customer)
 	}
 
-	fileprivate func successfullyGotAddresses(addresses: Addresses)
+	fileprivate func successfullyGotDetails(id_customer: Int/*, addresses: Addresses*/)
 	{
 		//print("got \(addresses.addresses.count) addresses")
-		let addr = addresses.addresses
-		print("got \(addr.count) addresses")
-		UserDefaults.standard.set(String(describing: addr), forKey: "CustomerAddresses")
+//		let addr = addresses.addresses
+//		print("got \(String(describing: addr?.count)) addresses")
+//		UserDefaults.standard.set(String(describing: addr), forKey: "AddressesCustomer\(id_customer)")
 		self.present(MyAccountViewController(), animated: true, completion: nil)
 	}
 	
@@ -329,19 +348,21 @@ class LoginViewController: UIViewController
 		super.viewDidLoad()
 
 		//logged in?
-		let customer = store.customer
-		if customer.count > 0
+//		let customer = store.customer
+//		if customer.count > 0
+		if store.customer != nil && store.customer?.lastname != ""
 		{
-			self.present(MyAccountViewController(), animated: false, completion: nil)
+			swapout()
 		}
 //////
-		let logged = UserDefaults.standard.object(forKey: "logged")
-		if logged != nil
+//		let logged = UserDefaults.standard.object(forKey: "Customer")//"logged")
+//		if logged != nil
+		if false && UserDefaults.standard.object(forKey: "Customer") != nil
 		{			//YES
 //			let customer = store.customer
 //			if customer[0].id_customer != nil
 //			{
-//				self.present(MyAccountViewController(), animated: false, completion: nil)
+			swapout()
 //			}
 		}
 		else		//DataStore?
@@ -351,9 +372,12 @@ class LoginViewController: UIViewController
 //				//print(customer!)
 //				self.present(MyAccountViewController(), animated: false, completion: nil)
 //			}
-			if #available(iOS 11.0, *) {
+			if #available(iOS 11.0, *)
+			{
 				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-			} else {
+			}
+			else
+			{
 				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 			}
 			//IN A FILE?
@@ -368,9 +392,9 @@ class LoginViewController: UIViewController
 					print(contents)
 				}
 			}
-			catch let e
+			catch _
 			{
-				print("file read error:\(e)")
+				print("file read error")//:\(e)")
 			}
 			if false
 			{
@@ -386,6 +410,19 @@ class LoginViewController: UIViewController
 				showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
 			}
 		}
+	}
+	
+	@objc func swapout()
+	{
+		OperationQueue.main.addOperation
+			{
+				weak var presentingViewController = self.presentingViewController
+				self.dismiss(animated: false, completion: {
+//					LoginViewController().dismiss(animated: false, completion: {
+//						self.present(MyAccountViewController(nibName: "MyAccountViewController", bundle: Bundle.main), animated: false, completion: nil)
+					presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
+				})
+			}
 	}
 	
 	override func viewWillAppear(_ animated: Bool)

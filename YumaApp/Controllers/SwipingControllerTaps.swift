@@ -121,7 +121,13 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
+		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		vc?.pageTitle = R.string.printers
+		vc?.pageImage = #imageLiteral(resourceName: "home-slider-printers")
+//		self.present(PrintersViewController(), animated: false, completion: (() -> Void)?
+		self.present(vc!, animated: true, completion: (() -> Void)?
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				sender.view?.backgroundColor = UIColor.white
@@ -135,7 +141,12 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		self.present(LaptopsViewController(), animated: false, completion: (() -> Void)?
+		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		vc?.pageTitle = R.string.laptops
+		vc?.pageImage = #imageLiteral(resourceName: "home-slider-laptops")
+		self.present(vc!, animated: true, completion: (() -> Void)?
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				sender.view?.backgroundColor = UIColor.white
@@ -149,11 +160,16 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		//		self.present(ViewController(), animated: false, completion: (() -> Void)?
-		//			{
-		sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-		sender.view?.backgroundColor = UIColor.white
-		//			})
+		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		vc?.pageTitle = R.string.services
+		//vc?.pageImage =
+		self.present(vc!, animated: true, completion: (() -> Void)?
+		{
+			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			sender.view?.backgroundColor = UIColor.white
+		})
 	}
 
 	@objc func tonersTapped(_ sender: UITapGestureRecognizer)
@@ -163,11 +179,16 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		//		self.present(ViewController(), animated: false, completion: (() -> Void)?
-		//			{
-		sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-		sender.view?.backgroundColor = UIColor.white
-		//			})
+		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		vc?.pageTitle = R.string.toners
+		vc?.pageImage = #imageLiteral(resourceName: "home-slider-cartridges")
+		self.present(vc!, animated: true, completion: (() -> Void)?
+		{
+			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+			sender.view?.backgroundColor = UIColor.white
+		})
 	}
 
 }

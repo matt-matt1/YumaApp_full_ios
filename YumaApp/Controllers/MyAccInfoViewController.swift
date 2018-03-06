@@ -50,6 +50,7 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var buttonText: GradientButton!
 
 	let store = DataStore.sharedInstance
+	var customer: Customer?
 	
 	
 	func setLabels()
@@ -158,21 +159,64 @@ class MyAccInfoViewController: UIViewController
 		field3Edit.isEnabled = false
 	}
 	
+	func getCustomer()
+	{
+		if store.customer == nil || store.customer?.lastname == ""
+		{
+			//			if store.customer.count > 0
+			//			{
+			//				//id_customer = Int(store.customer[0].id_customer!) ?? 3
+			//				id_customer = Int(store.customer[0].id_customer!)!
+			//			}
+			//			else
+			//			{
+			//				id_customer = 3
+			//			}
+			let caStr = UserDefaults.standard.string(forKey: "Customer")
+			//			let caStr = UserDefaults.standard.string(forKey: "CustomerAddresses")
+//			if caStr == ""
+//			{
+//				let loading = UIViewController.displaySpinner(onView: self.view)
+//				//if store.addresses.count == 0
+//				store.
+//			}
+//			else
+//			{
+				var decoded: Customer
+				do
+				{
+					decoded = try JSONDecoder().decode(Customer.self, from: (caStr?.data(using: .utf8))!)
+					self.customer = decoded
+					store.customer = decoded
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+				}
+//			}
+		}
+		else
+		{
+			self.customer = store.customer
+		}
+	}
+
+	
 	func fillFields()
 	{
-		genderSwitch.setEnabled(true, forSegmentAt: Int(store.customer[0].id_gender!)!)
-			fieldEdit1.text = store.customer[0].firstname
-		field2Edit.text = store.customer[0].lastname
-		field3Edit.text = store.customer[0].email
+		genderSwitch.setEnabled(true, forSegmentAt: Int((self.customer?.id_gender!)!)!)
+		fieldEdit1.text = self.customer?.firstname
+		field2Edit.text = self.customer?.lastname
+		field3Edit.text = self.customer?.email
 		field3Label.isHidden = true
-		field4Edit.text = store.customer[0].birthday
-		if store.customer[0].optin != nil
+		field4Edit.text = self.customer?.birthday
+		if self.customer?.optin != nil
 		{
-			switch0.setOn((store.customer[0].optin == "1"), animated: false)
+			switch0.setOn((self.customer?.optin == "1"), animated: false)
 		}
-		if store.customer[0].newsletter != nil
+		if self.customer?.newsletter != nil
 		{
-			switch0.setOn((store.customer[0].newsletter == "1"), animated: false)
+			switch0.setOn((self.customer?.newsletter == "1"), animated: false)
 		}
 		switch0.setOn(false, animated: false)
 	}
@@ -194,9 +238,13 @@ class MyAccInfoViewController: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		if #available(iOS 11.0, *) {
+		getCustomer()
+		if #available(iOS 11.0, *)
+		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
+		}
+		else
+		{
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 //		if self.view.frame.width > 400
@@ -207,7 +255,7 @@ class MyAccInfoViewController: UIViewController
 		switch1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
 		switch2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
         setLabels()
-		if store.customer.count > 0
+		if store.customer != nil && store.customer?.lastname != ""
 		{
 			setEmailField()
 			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)

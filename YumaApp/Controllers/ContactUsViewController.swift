@@ -56,9 +56,12 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		//set label/buttons to our strings
 		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11.0, *)
+		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
+		}
+		else
+		{
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
@@ -82,6 +85,7 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		addrBtn.setTitle(R.string.map_big.uppercased(), for: .normal)
 
 		myMap.showsScale = true
+		myMap.showsCompass = false
 		myMap.showsPointsOfInterest = true
 		mapZoomSlider.minimumValue = 1
 		mapZoomSlider.maximumValue = 16

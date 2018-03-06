@@ -26,6 +26,6 @@ class AddrCollectionViewCell: UICollectionViewCell
 		addressBorder.borderColor = UIColor.white
 		addressBorder.borderWidth = 2
 		aliasEdit.text = address.alias
-		addressEdit.text = R.formatAddress(address)
+		addressEdit.text = DataStore.sharedInstance.formatAddress(address)//R.formatAddress(address)
 	}
 }

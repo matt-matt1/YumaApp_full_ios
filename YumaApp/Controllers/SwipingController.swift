@@ -61,8 +61,25 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
+		store.callGetCountries { (countries) in
+			print("got countries OK")
+		}
+		store.callGetStates(id_country: 0) { (states) in
+			print("got states OK")
+		}
+		store.getOrderStates { (os, err) in
+			if err == nil
+			{
+				print("got order states OK")
+			}
+			else
+			{
+				print("Error getting order states: \(String(describing: err))")
+			}
+		}
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
+	
 	
 	//MARK: Swiping Controls
 	@objc private func handlePrev()
@@ -248,6 +265,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			])
 		return topStack
 	}
+	
+	
 	
 	func drawButtonsTop() -> UIStackView
 	{
