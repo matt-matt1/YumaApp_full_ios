@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-//import SwiftyJSON
 
 final class DataStore
 {
@@ -16,42 +15,20 @@ final class DataStore
 	fileprivate init() {}
 
 	var customer: Customer?
-//	var addresses: [Addresses] = []
 	var addresses: [Address] = []
 	var products: [aProduct] = []
-	//var printers2: [MyShops] = []
 	var printers: [aProduct] = []
 	var laptops: [aProduct] = []
 	var toners: [aProduct] = []
 	var services: [aProduct] = []
-	//var myPrinters = [JSONProducts]()
-	//var returnData: AnyObject
 	var carriers: [Carrier] = []
 	var states: [CountryState] = []
 	var countries: [Country] = []
 	var orderStates: [OrderState] = []
 	var orders: [Orders] = []
+	var myOrder: [OrderRow] = []
 	
 	
-//	private func getCustomerDetails(from: String, completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getCustomer(from: from, completionHandler:
-//			{
-//				(customer) in
-//
-//				if let _ = customer as? Bool
-//				{
-//					completion(false)
-//				}
-//				else
-//				{
-//					//let cust = customer as! Customer
-//					self.customer = customer as? Customer//.append(cust)
-//					completion(customer)//completion(cust)
-//				}
-//			}
-//		)
-//	}
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getCustomer(from: from, completionHandler:
@@ -69,52 +46,8 @@ final class DataStore
 				}
 			}
 		)
-//		self.getCustomerDetails(from: from, completion:
-//			{
-//				(customer) in
-//
-//				if let _ = customer as? Bool
-//				{
-//					completion(false)
-//				}
-//				else
-//				{
-//					OperationQueue.main.addOperation
-//						{
-//							completion(customer as! Customer)
-//						}
-//				}
-//			}
-//		)
 	}
 	
-//	private func getCarriers(completion: @escaping (Any) -> Void)
-//	{
-//		let url = "\(R.string.WSbase)/carriers"
-//		let myUrl = "\(url)?\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
-//		PSWebServices.getCarriers(from: myUrl, /*to: CarrierList.self,*/ completionHandler:
-//			{
-//				(object) in//)(dataStr, object) in
-//
-//				let dataStr = UserDefaults.standard.string(forKey: "Carriers")
-//				let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-//				let tempObj: [Carrier]
-//				do
-//				{
-//					tempObj = try JSONDecoder().decode([Carrier].self, from: tempCarr.data(using: .utf8)!)
-//					for carr in tempObj
-//					{
-//						self.carriers.append(carr)
-//					}
-//					completion(tempObj)
-//				}
-//				catch let jsonErr
-//				{
-//					print(jsonErr)
-//				}
-//			}
-//		)
-//	}
 	func callGetCarriers(completion: @escaping (Any) -> Void)
 	{
 		let url = "\(R.string.WSbase)/carriers"
@@ -141,43 +74,8 @@ final class DataStore
 				}
 			}
 		)
-//		self.getCarriers(completion:
-//			{
-//				(response) in
-//
-//				if let _ = response as? Bool
-//				{
-//					completion(false)
-//				}
-//				else
-//				{
-//					OperationQueue.main.addOperation
-//					{
-//						completion(response as! [Carrier])
-//					}
-//				}
-//			}
-//		)
 	}
 
-//	func getAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
-//	//func getAddresses(id_customer: Int, completion: @escaping ([Address]) -> Void)
-//	{
-//		PSWebServices.getAddresses(id_customer: id_customer, completionHandler:
-//			{
-//				(addresses) in
-//
-//				for addresses in addresses.addresses!
-//				{
-//					self.addresses.append(addresses)
-//				}
-//				//UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: addresses), forKey: "CustomerAddr")
-//				//UserDefaults.standard.set(addresses, forKey: "CustomerAddr")
-//				//UserDefaults.standard.synchronize()
-//				completion(addresses)
-//			}
-//		)
-//	}
 	
 	func callGetAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
 	{
@@ -192,16 +90,6 @@ final class DataStore
 				completion(addresses)
 			}
 		)
-//		self.getAddresses(id_customer: id_customer, completion:
-//			{
-//				(addresses) in
-//
-//				OperationQueue.main.addOperation
-//					{
-//							completion(addresses)
-//					}
-//			}
-//		)
 	}
 	
 	func parse(JSON json: String) throws -> [String]?
@@ -216,18 +104,6 @@ final class DataStore
 			.map{ $0["nama_produk"] as! String }
 	}
 
-//	func getCountries(completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getCountries(completionHandler:
-//			{
-//				(countries) in
-//
-//				self.countries = countries
-////				self.printers.append(printers)
-//				completion(countries)
-//			}
-//		)
-//	}
 	func callGetCountries(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getCountries(completionHandler:
@@ -238,29 +114,8 @@ final class DataStore
 				completion(countries)
 			}
 		)
-//		self.getCountries(completion:
-//			{
-//				(countries) in
-//
-//				OperationQueue.main.addOperation
-//				{
-//					completion(countries)
-//				}
-//			}
-//		)
 	}
 
-//	func getStates(id_country: Int, completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getStates(id_country: id_country, completionHandler:
-//			{
-//				(states) in
-//
-//				self.states = states
-//				completion(states)
-//			}
-//		)
-//	}
 	func callGetStates(id_country: Int, completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getStates(id_country: id_country, completionHandler:
@@ -271,16 +126,6 @@ final class DataStore
 				completion(states)
 			}
 		)
-//		self.getStates(id_country: id_country, completion:
-//			{
-//				(states) in
-//
-//				OperationQueue.main.addOperation
-//					{
-//						completion(states)
-//				}
-//			}
-//		)
 	}
 
 	func getOrders(id_customer: Int, completion: @escaping (Any?, Error?) -> Void)
@@ -369,19 +214,6 @@ final class DataStore
 		)
 	}
 
-//	func getPrinters(completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getPrinters(completionHandler:
-//			{
-//				(printers) in
-//
-//				self.printers = printers
-//				self.products = printers
-//				//				self.printers.append(printers)
-//				completion(printers)
-//		}
-//		)
-//	}
 	func callGetPrinters(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getPrinters(completionHandler:
@@ -390,35 +222,11 @@ final class DataStore
 				
 				self.printers = printers
 				self.products = printers
-				//				self.printers.append(printers)
 				completion(printers)
 			}
 		)
-//		self.getPrinters(completion:
-//			{
-//				(printers) in
-//
-//				OperationQueue.main.addOperation
-//					{
-//						completion(printers)
-//				}
-//		}
-//		)
 	}
 
-//	func getLaptops(completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getLaptops(completionHandler:
-//			{
-//				(laptops) in
-//
-//				self.laptops = laptops
-//				self.products = laptops
-////				self.laptops.append(laptops)
-//				completion(laptops)
-//			}
-//		)
-//	}
 	func callGetLaptops(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getLaptops(completionHandler:
@@ -427,35 +235,11 @@ final class DataStore
 				
 				self.laptops = laptops
 				self.products = laptops
-				//				self.laptops.append(laptops)
 				completion(laptops)
 			}
 		)
-//		self.getLaptops(completion:
-//			{
-//				(laptops) in
-//
-//				OperationQueue.main.addOperation
-//				{
-//					completion(laptops)
-//				}
-//			}
-//		)
 	}
 	
-//	func getServices(completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getServices(completionHandler:
-//			{
-//				(services) in
-//
-//				self.services = services
-//				self.products = services
-////				self.services.append(services)
-//				completion(services)
-//			}
-//		)
-//	}
 	func callGetServices(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getServices(completionHandler:
@@ -464,35 +248,11 @@ final class DataStore
 				
 				self.services = services
 				self.products = services
-				//				self.services.append(services)
 				completion(services)
 			}
 		)
-//		self.getServices(completion:
-//			{
-//				(services) in
-//
-//				OperationQueue.main.addOperation
-//				{
-//					completion(services)
-//				}
-//			}
-//		)
 	}
 	
-//	func getToners(completion: @escaping (Any) -> Void)
-//	{
-//		PSWebServices.getToners(completionHandler:
-//			{
-//				(toners) in
-//
-//				self.toners = toners
-//				self.products = toners
-////				self.toners.append(toners)
-//				completion(toners)
-//			}
-//		)
-//	}
 	func callGetToners(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getToners(completionHandler:
@@ -501,20 +261,9 @@ final class DataStore
 				
 				self.toners = toners
 				self.products = toners
-				//				self.toners.append(toners)
 				completion(toners)
 			}
 		)
-//		self.getToners(completion:
-//			{
-//				(toners) in
-//
-//				OperationQueue.main.addOperation
-//				{
-//					completion(toners)
-//				}
-//			}
-//		)
 	}
 
 
@@ -703,43 +452,3 @@ extension URLResponse
 		return nil
 	}
 }
-
-//public extension KeyedDecodingContainer
-//{
-//	public func decode(_ type: Float.Type, forKey key: Key) throws -> Float
-//	{
-//		let stringValue = try self.decode(String.self, forKey: key)
-//		guard let floatValue = Float(stringValue) else
-//		{
-//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Float")
-//			throw DecodingError.dataCorrupted(context)
-//		}
-//		return floatValue
-//	}
-//
-//	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
-//	{
-//		let stringValue = try self.decode(String.self, forKey: key)
-//		guard let floatValue = Int(stringValue) else
-//		{
-//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
-//			throw DecodingError.dataCorrupted(context)
-//		}
-//		return floatValue
-//	}
-
-//	public func decode(_ type: String.Type, forKey key: Key) throws -> String
-//	{
-//		if let intValue = try self.decode(Int.self, forKey: key) as? Int
-//		{
-//			let stringValue = "\(intValue)"
-//		}/* else
-//		{
-//			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
-//			throw DecodingError.dataCorrupted(context)
-//		}*/
-//		return stringValue
-//	}
-
-//}
-

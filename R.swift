@@ -290,6 +290,7 @@ struct R {
 		static let noRes = "Resource not found"
 		static let date = "Date"
 		static let status = "Status"
+		static let plotMe = "Plot from my location"
 		static let inv = "Invoice"
 		static let details = "Details"
 		static let choose = "-- please choose --"

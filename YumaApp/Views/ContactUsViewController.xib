@@ -23,6 +23,7 @@
                 <outlet property="emailAddr" destination="5Pa-r1-JDn" id="GH0-Tn-TTv"/>
                 <outlet property="emailBtn" destination="jB3-U5-awO" id="UBe-4B-v9K"/>
                 <outlet property="emailIcon" destination="3B4-c5-QMQ" id="V3F-Ou-xp6"/>
+                <outlet property="labelMyLocation" destination="wVw-Vd-b0B" id="slv-uk-dXv"/>
                 <outlet property="mapZoomSlider" destination="YpU-dY-ouD" id="GK7-6t-tQ3"/>
                 <outlet property="myMap" destination="gYX-p5-9Yn" id="CIG-aN-bQc"/>
                 <outlet property="navBar" destination="2Sk-ZW-fqK" id="mSb-TX-mmE"/>
@@ -346,14 +347,14 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="404" height="347"/>
                                                         </mapView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVw-Vd-b0B">
-                                                            <rect key="frame" x="0.0" y="357" width="404" height="0.0"/>
+                                                            <rect key="frame" x="0.0" y="357" width="404" height="20"/>
                                                             <state key="normal" title="My Location"/>
                                                             <connections>
                                                                 <action selector="directionsAct:" destination="-1" eventType="touchUpInside" id="aQl-Y2-B0C"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6dj-ea-NaR">
-                                                            <rect key="frame" x="0.0" y="367" width="404" height="20"/>
+                                                            <rect key="frame" x="0.0" y="387" width="404" height="0.0"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>

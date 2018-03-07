@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 extension UINavigationBar
 {
 	/// Applies a background gradient with the given colors
@@ -20,11 +21,19 @@ extension UINavigationBar
 		var frameAndStatusBar: CGRect = self.bounds
 		frameAndStatusBar.size.height += 20 // add 20 to account for the status bar
 		
-		setBackgroundImage(UINavigationBar.gradient(size: frameAndStatusBar.size, colors: colors, isVertical: isVertical), for: .default)
+		if (isVertical)
+		{
+			setBackgroundImage(UINavigationBar.gradientV(size: frameAndStatusBar.size, colors: colors), for: .default)
+		}
+		else
+		{
+			setBackgroundImage(UINavigationBar.gradientH(size: frameAndStatusBar.size, colors: colors), for: .default)
+		}
 	}
 	
 	/// Creates a gradient image with the given settings
-	static func gradient(size : CGSize, colors : [UIColor], isVertical: Bool) -> UIImage?
+
+	static func gradientH(size : CGSize, colors : [UIColor]) -> UIImage?
 	{
 		let cgcolors = colors.map { 	$0.cgColor 	}
 		UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
@@ -32,14 +41,19 @@ extension UINavigationBar
 		defer { 	UIGraphicsEndImageContext() 	}
 		var locations: [CGFloat] = [0.0, 1.0]
 		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
-		if isVertical
-		{
-			context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: 0, y: size.height), options: [])
-		}
-		else
-		{
-			context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: size.width, y: 0.0), options: [])
-		}
+		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: size.width, y: 0.0), options: [])
+		return UIGraphicsGetImageFromCurrentImageContext()
+	}
+	
+	static func gradientV(size : CGSize, colors : [UIColor]) -> UIImage?
+	{
+		let cgcolors = colors.map { 	$0.cgColor 	}
+		UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
+		defer { 	UIGraphicsEndImageContext() 	}
+		var locations: [CGFloat] = [0.0, 1.0]
+		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
+		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: 0.0, y: size.height), options: [])
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 }
@@ -57,25 +71,7 @@ extension UIView
 		self.layer.insertSublayer(layer, at: 0)
 		return layer
 	}
-//	func layerGradient()
-//	{
-//		let layer : CAGradientLayer = CAGradientLayer()
-//		layer.frame.size = self.frame.size
-//		layer.frame.origin = CGPoint(x: 0, y: 0)
-//		layer.cornerRadius = CGFloat(frame.width / 20)
-//
-//		let color0 = UIColor(red:250.0/255, green:250.0/255, blue:250.0/255, alpha:0.5).cgColor
-//		let color1 = UIColor(red:200.0/255, green:200.0/255, blue: 200.0/255, alpha:0.1).cgColor
-//		let color2 = UIColor(red:150.0/255, green:150.0/255, blue: 150.0/255, alpha:0.1).cgColor
-//		let color3 = UIColor(red:100.0/255, green:100.0/255, blue: 100.0/255, alpha:0.1).cgColor
-//		let color4 = UIColor(red:50.0/255, green:50.0/255, blue:50.0/255, alpha:0.1).cgColor
-//		let color5 = UIColor(red:0.0/255, green:0.0/255, blue:0.0/255, alpha:0.1).cgColor
-//		let color6 = UIColor(red:150.0/255, green:150.0/255, blue:150.0/255, alpha:0.1).cgColor
-//
-//		layer.colors = [color0,color1,color2,color3,color4,color5,color6]
-//		self.layer.insertSublayer(layer, at: 0)
-//	}
-	
+
 	@IBInspectable
 	var cornerRadius: CGFloat {
 		get {
@@ -85,7 +81,7 @@ extension UIView
 			layer.cornerRadius = newValue
 		}
 	}
-	
+
 	@IBInspectable
 	var borderWidth: CGFloat {
 		get {
@@ -178,6 +174,10 @@ extension CALayer
 			gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
 			gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
 		}
+		if self.cornerRadius > 0
+		{
+			gradientLayer.cornerRadius = self.cornerRadius
+		}
 		gradientLayer.colors = colors.map({$0.cgColor})
 		
 		let shapeLayer = CAShapeLayer()
@@ -189,7 +189,7 @@ extension CALayer
 		
 		self.addSublayer(gradientLayer)
 	}
-	
+
 	func addBackgroundGradient(colors:[UIColor] = [UIColor.red,UIColor.blue], width: CGFloat = 1, isVertical: Bool)
 	{
 		let gradientLayer = CAGradientLayer()
@@ -203,6 +203,10 @@ extension CALayer
 		{
 			gradientLayer.startPoint = CGPoint(x:0.0, y:0.5)
 			gradientLayer.endPoint = CGPoint(x:1.0, y:0.5)
+		}
+		if self.cornerRadius > 0
+		{
+			gradientLayer.cornerRadius = self.cornerRadius
 		}
 		gradientLayer.colors = colors.map({$0.cgColor})
 		

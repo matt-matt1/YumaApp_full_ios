@@ -120,8 +120,8 @@ extension SwipingController
 		UIView.animate(withDuration: 1, animations:
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		})//ProductsStoryboard//ProductsViewController
+		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.printers
@@ -140,8 +140,8 @@ extension SwipingController
 		UIView.animate(withDuration: 1, animations:
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		})//ProductsStoryboard//ProductsViewController
+		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.laptops
@@ -159,12 +159,13 @@ extension SwipingController
 		UIView.animate(withDuration: 1, animations:
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		})
-		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		})//ServicesStoryboard//ServicesViewController
+		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		//vc?.navTitle.title = R.string.services
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.services
-		//vc?.pageImage =
+		vc?.pageImage = #imageLiteral(resourceName: "logo")
 		self.present(vc!, animated: true, completion: (() -> Void)?
 		{
 			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -179,11 +180,12 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.toners
 		vc?.pageImage = #imageLiteral(resourceName: "home-slider-cartridges")
+		//vc!.navTitle.title = R.string.toners
 		self.present(vc!, animated: true, completion: (() -> Void)?
 		{
 			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)

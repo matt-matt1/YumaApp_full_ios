@@ -1,20 +1,21 @@
 //
-//  ProductViewController.swift
+//  ServicesCell.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-02-08.
+//  Created by Yuma Usa on 2018-03-06.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
 import UIKit
 
-class ProductViewCell: UICollectionViewCell
+class ServicesCell: UICollectionViewCell
 {
 	@IBOutlet weak var prodImage: UIImageView!
 	@IBOutlet weak var prodPrice: UILabel!
 	@IBOutlet weak var prodName: UILabel!
 	@IBOutlet weak var detailBtn: UIButton!
 	
+	@IBOutlet weak var prodImage2: UIImageView!
 	@IBOutlet weak var prodName2: UILabel!
 	@IBOutlet weak var prodPrice2: UILabel!
 	@IBOutlet weak var prodDesc: UILabel!
@@ -34,7 +35,7 @@ class ProductViewCell: UICollectionViewCell
 			}
 			prodName.text = unwrap.name![id_lang].value
 			prodName2.text = unwrap.name![id_lang].value
-//			prodImage.image = UIImage(named: unwrap.imageName)//id_default_image
+			//			prodImage.image = UIImage(named: unwrap.imageName)//id_default_image
 			if unwrap.showPrice == "1"
 			{
 				prodPrice.text = unwrap.price
@@ -63,8 +64,8 @@ class ProductViewCell: UICollectionViewCell
 		super.init(frame: frame)
 		//backgroundColor = .green
 		prodImage = UIImageView(image: R.image.homeSliderCartridges)
-//		addSubview(prodImage)
-//		prodName.text = "Product Name"
+		//		addSubview(prodImage)
+		//		prodName.text = "Product Name"
 	}
 	
 	required init?(coder aDecoder: NSCoder)
@@ -83,4 +84,3 @@ class ProductViewCell: UICollectionViewCell
 		//show main page
 	}
 }
-

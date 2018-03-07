@@ -9,13 +9,14 @@
 import UIKit
 import MessageUI
 import MapKit
+import CoreLocation
 
 let MERCATOR_OFFSET = 268435456.0
 let MERCATOR_RADIUS = 85445659.44705395
 let DEGREES = 180.0
 
 
-class ContactUsViewController: UIViewController, MFMailComposeViewControllerDelegate
+class ContactUsViewController: UIViewController
 {
 	@IBOutlet weak var tempLabel: UILabel!
 	@IBOutlet weak var navBar: UINavigationBar!
@@ -34,7 +35,10 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	@IBOutlet weak var zoomMinusIcon: UIButton!
 	@IBOutlet weak var myMap: MKMapView!
 	@IBOutlet weak var mapZoomSlider: UISlider!
+	@IBOutlet weak var labelMyLocation: UIButton!
 	var myZoomLevel: Double = 11
+	let location = CLLocationManager()
+	var pin: AnnotationPin!
 	
 	
 	//	var myCustomView: UserCoinView?
@@ -53,6 +57,60 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
+		
+		let coords = CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!)
+		location.delegate = self
+		location.requestWhenInUseAuthorization()
+		location.requestAlwaysAuthorization()
+		if CLLocationManager.locationServicesEnabled()
+		{
+			location.delegate = self
+			location.desiredAccuracy = kCLLocationAccuracyBest
+			location.startUpdatingLocation()
+			labelMyLocation.setTitle(R.string.plotMe, for: .normal)
+			
+			let userLocation = location.location?.coordinate
+			let ourPlace: MKPlacemark
+			let userPlace: MKPlacemark
+			if #available(iOS 10.0, *)
+			{
+				ourPlace = MKPlacemark(coordinate: coords)
+				userPlace = MKPlacemark(coordinate: userLocation!)
+			}
+			else
+			{
+				ourPlace = MKPlacemark(coordinate: coords, addressDictionary: nil)
+				userPlace = MKPlacemark(coordinate: userLocation!, addressDictionary: nil)
+			}
+			let ourItem = MKMapItem(placemark: ourPlace)
+			let userItem = MKMapItem(placemark: userPlace)
+			
+			let directionRequest = MKDirectionsRequest()
+			directionRequest.source = userItem
+			directionRequest.destination = ourItem
+			directionRequest.transportType = .any
+			
+			let directions = MKDirections(request: directionRequest)
+			directions.calculate(completionHandler:
+				{
+					(response, error) in
+				guard let response = response else
+				{
+					if let error = error
+					{
+						print("\(R.string.err) \(error)")
+					}
+					return
+				}
+					let route = response.routes[0]
+					self.myMap.add(route.polyline, level: .aboveRoads)
+					self.myMap.setRegion(MKCoordinateRegionForMapRect(route.polyline.boundingMapRect), animated: true)
+			})
+		}
+		else
+		{
+			labelMyLocation.isHidden = true
+		}
 		//set label/buttons to our strings
 		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
@@ -87,10 +145,13 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		myMap.showsScale = true
 		myMap.showsCompass = false
 		myMap.showsPointsOfInterest = true
+		myMap.delegate = self
 		mapZoomSlider.minimumValue = 1
 		mapZoomSlider.maximumValue = 16
 		mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
-		myMap.setCenterCoordinate(centerCoordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!), zoomLevel: myZoomLevel, animated: false)
+		myMap.setCenterCoordinate(centerCoordinate: coords, zoomLevel: myZoomLevel, animated: false)
+		pin = AnnotationPin(title: R.string.our_bus, subtitle: "Printers, Cartridges, Laptops ...", coord: coords)
+		myMap.addAnnotation(pin)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -191,10 +252,6 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 			print("\(R.string.err) \(R.string.cancel) \(R.string.email)")
 		}
 	}
-	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
-	{
-		controller.dismiss(animated: true)
-	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{
 		Reachability.isInternetAvailable(website: R.string.URLbase)
@@ -245,25 +302,19 @@ class ContactUsViewController: UIViewController, MFMailComposeViewControllerDele
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	override func didReceiveMemoryWarning()
-	{
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-	
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-	{
-		//let dest = segue.destination as! ContactUsViewController
-		// Pass the selected object to the new view controller.
-	}
-	
-	
-//	func tableView(_ tableView: UITableView, viewForHeaderFooterInSection section: Int) -> UIView? {
-//		let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MyHeader") as! MyHeader
-//		headerView.label.text = "Contact"
-//		return headerView
+//	override func didReceiveMemoryWarning()
+//	{
+//		super.didReceiveMemoryWarning()
+//		// Dispose of any resources that can be recreated.
 //	}
+	
+	
+//	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+//	{
+//		//let dest = segue.destination as! ContactUsViewController
+//		// Pass the selected object to the new view controller.
+//	}
+	
 	
 	func mapZoomTo(_ zoomLevel: Double)
 	{
@@ -343,5 +394,47 @@ extension MKMapView
 		else{
 			self.setRegion(region, animated: animated)
 		}
+	}
+}
+
+
+extension ContactUsViewController: CLLocationManagerDelegate
+{
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+	{
+		let center = locations[0].coordinate
+		let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+		let region = MKCoordinateRegion(center: center, span: span)
+		myMap.setRegion(region, animated: true)
+		myMap.showsUserLocation = true
+	}
+}
+
+
+extension ContactUsViewController: MFMailComposeViewControllerDelegate
+{
+	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
+	{
+		controller.dismiss(animated: true)
+	}
+}
+
+
+extension ContactUsViewController: MKMapViewDelegate
+{
+//	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?
+//	{
+//		let annotationView = MKAnnotationView(annotation: pin, reuseIdentifier: "myPin")
+//		annotationView.image = #imageLiteral(resourceName: "logoPin")
+//		annotationView.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+//		return annotationView
+//	}
+	
+	func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer
+	{
+		let rend = MKPolylineRenderer(overlay: overlay)
+		rend.strokeColor = R.color.YumaRed
+		rend.lineWidth = 5.0
+		return rend
 	}
 }
