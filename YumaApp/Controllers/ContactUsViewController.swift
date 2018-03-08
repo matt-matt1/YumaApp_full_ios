@@ -75,7 +75,8 @@ class ContactUsViewController: UIViewController
 			if #available(iOS 10.0, *)
 			{
 				ourPlace = MKPlacemark(coordinate: coords)
-				userPlace = MKPlacemark(coordinate: userLocation!)
+				//userPlace = MKPlacemark(coordinate: userLocation!)
+				//Fatal error: Unexpectedly found nil while unwrapping an Optional value
 			}
 			else
 			{
@@ -83,10 +84,10 @@ class ContactUsViewController: UIViewController
 				userPlace = MKPlacemark(coordinate: userLocation!, addressDictionary: nil)
 			}
 			let ourItem = MKMapItem(placemark: ourPlace)
-			let userItem = MKMapItem(placemark: userPlace)
+			//let userItem = MKMapItem(placemark: userPlace)
 			
 			let directionRequest = MKDirectionsRequest()
-			directionRequest.source = userItem
+			//directionRequest.source = userItem
 			directionRequest.destination = ourItem
 			directionRequest.transportType = .any
 			

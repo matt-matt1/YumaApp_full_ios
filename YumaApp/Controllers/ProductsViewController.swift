@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ProductsViewController: UIViewController, UIScrollViewDelegate
+class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageViewControllerDelegate*/
 {
+	@IBOutlet weak var viewCartBtn: GradientButton!
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -35,17 +36,18 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		navTitle.title = pageTitle
 		topImage.image = pageImage
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		viewCartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		centerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
 		refresh()
 	}
 
-	
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
 		if scrollView == scrollView
 		{
-			self.pageControl.currentPage = scrollView.tag - 10
+			pageControl.currentPage = Int(floor(scrollView.contentOffset.x / self.view.frame.width))
 		}
 	}
 	
@@ -97,47 +99,60 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
+	@IBAction func viewCartBtnAct(_ sender: Any)
+	{
+		guard viewCartBtn.alpha == 1 else { 	return 	}
+//		sender.view?.backgroundColor = R.color.YumaRed
+//		UIView.animate(withDuration: 1, animations:
+//			{
+//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//			})
+		let vc = UIStoryboard(name: "CartStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController!
+		self.present(vc!, animated: false, completion: (() -> Void)?
+			{
+//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+//				sender.view?.backgroundColor = UIColor.white
+			})
+	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: false, completion: nil)
 	}
 	@IBAction func add2CartBtnAct(_ sender: Any)
 	{
-		let prod = sender
-		let row = OrderRow(id: "\(prod)", productId: "", productAttributeId: "", productQuantity: "", productName: "", productReference: "", productEan13: "", productIsbn: "", productUpc: "", productPrice: "", unitPriceTaxIncl: "", unitPriceTaxExcl: "")
-		store.myOrder.append(row)
-	}
-	
-	func getImageFromUrl(url: URL, session: URLSession, completion: @escaping (Data?, URLResponse?, Error?) -> ())
-	{
-		let task = session.dataTask(with: url)
+		var qty = 1
+		var count = 0
+		var found = false
+		//let prod = ((sender as! UIButton).superview as! UIStackView).superview as! UIStackView
+		let num = Int(floor(scrollView.contentOffset.x / self.view.frame.width))
+		let prod: aProduct = store.products[num]
+		count = max(store.myOrderRows.count, 0)
+		for i in 0..<store.myOrderRows.count
 		{
-			(data, response, error) in
-			
-			if let e = error
+			//check if product already exists
+			if Int(store.myOrderRows[i].productId!) == prod.id
 			{
-				print("Error Occurred: \(e)")
-			}
-			else
-			{
-				if (response as? HTTPURLResponse) != nil
-				{
-					if let _ = data
-					{
-						completion(data, response, error)
-					}
-					else
-					{
-						print("Image file is currupted")
-					}
-				}
-				else
-				{
-					print("No response from server")
-				}
+				qty = Int(store.myOrderRows[i].productQuantity!)!
+				print("qty was \(qty)")
+				store.myOrderRows[i].productQuantity = "\(qty + 1)"
+				found = true
+				print("update cart: \(qty) x \(prod.name![0].value ?? "")")
+				break
 			}
 		}
-		task.resume()
+		if found == false
+		{
+			print("add 2 cart: \(qty) x \(prod.name![0].value ?? "")")
+			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cacheHasAttachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")")
+			store.myOrderRows.append(row)
+		}
+		//print(store.myOrderRows)
+		let dblPrice = Double(prod.price!)!
+		if dblPrice > 0 && viewCartBtn.alpha != 1
+		{
+			viewCartBtn.alpha = 1
+		}
+		return
 	}
 
 	
@@ -149,7 +164,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
 			view.prodName.text = prod.name![0].value
 			view.prodName.tag = prod.id!
-			if prod.showPrice == "1"
+			if prod.showPrice != "0" && Double(prod.price!)! > 0
 			{
 				view.prodPrice.text = prod.price
 			}
@@ -165,7 +180,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				imageName.append("/\(ch)")
 			}
 			imageName.append("/\(imgName ?? "").jpg")
-			getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
 				{
 					(data, response, error) in
 					
@@ -182,6 +197,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 }
+
 
 
 class CustomView: UIView

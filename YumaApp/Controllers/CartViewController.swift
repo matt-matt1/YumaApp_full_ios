@@ -10,7 +10,11 @@ import UIKit
 
 class CartViewController: UIViewController
 {
-//	@IBOutlet weak var cellLabel: UILabel!
+	@IBOutlet weak var totalAmt: UILabel!
+	@IBOutlet weak var totalLbl: UILabel!
+	@IBOutlet weak var totalPcsLbl: UILabel!
+	@IBOutlet weak var totalQty: UITextField!
+	//	@IBOutlet weak var cellLabel: UILabel!
 	//MARK: Properties
 	@IBOutlet weak var tableView: UITableView!
 	//@IBOutlet weak var tableCell: UITableViewCell!
@@ -20,13 +24,14 @@ class CartViewController: UIViewController
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
-
+	@IBOutlet weak var chkoutBtn: GradientButton!
+	let store = DataStore.sharedInstance
 	let cellID = "cartCell"
-	private var contents = ["Apple", "Apricot", "Banana", "Blueberry", "Cantaloupe", "Cherry",
-				  "Clementine", "Coconut", "Cranberry", "Fig", "Grape", "Grapefruit",
-				  "Kiwi fruit", "Lemon", "Lime", "Lychee", "Mandarine", "Mango",
-				  "Melon", "Nectarine", "Olive", "Orange", "Papaya", "Peach",
-				  "Pear", "Pineapple", "Raspberry", "Strawberry"]
+//	private var contents = ["Apple", "Apricot", "Banana", "Blueberry", "Cantaloupe", "Cherry",
+//				  "Clementine", "Coconut", "Cranberry", "Fig", "Grape", "Grapefruit",
+//				  "Kiwi fruit", "Lemon", "Lime", "Lychee", "Mandarine", "Mango",
+//				  "Melon", "Nectarine", "Olive", "Orange", "Papaya", "Peach",
+//				  "Pear", "Pineapple", "Raspberry", "Strawberry"]
 	
 	
 	override func viewDidLoad()
@@ -42,10 +47,27 @@ class CartViewController: UIViewController
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		navigationItem.title = R.string.cart
 
-		//tableView.dataSource = self//done in sb
+		totalLbl.text = R.string.Total.uppercased()
+		totalPcsLbl.text = R.string.pieces
+		var total: Double = 0
+		var pcs: Int = 0
+		var wt: Double = 0
+		for row in store.myOrderRows
+		{
+			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
+			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+			pcs = pcs + Int(row.productQuantity!)!
+			//wt = wt + Double(row.productId)
+		}
+		totalAmt.text = "\(total)"
+		totalQty.text = "\(pcs)"
+		let date = Date()
+		store.myOrder = [Orders(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))]
+		print(store.myOrder)
     }
 	
 
@@ -56,7 +78,10 @@ class CartViewController: UIViewController
 	@IBAction func navHelpAct(_ sender: Any)
 	{
 	}
-
+	@IBAction func chkoutBtnAct(_ sender: Any)
+	{
+	}
+	
 }
 
 extension CartViewController: UITableViewDataSource, UITableViewDelegate
@@ -68,7 +93,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-		return contents.count
+		return store.myOrderRows.count//contents.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -78,8 +103,8 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 		//			fatalError("table dequeue error")
 		//		}
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellID/*, for: indexPath*/) as! CartViewCell
-		let text = contents[indexPath.row]
-		cell.setup(string: text)
+		//let text = contents[indexPath.row]
+		cell.setup(store.myOrderRows[indexPath.row])//cell.setup(string: text)
 		//cell.cellLabel.text = text
 		//cell.textLabel?.text = text//.cellLabel?.text = text
 		return cell

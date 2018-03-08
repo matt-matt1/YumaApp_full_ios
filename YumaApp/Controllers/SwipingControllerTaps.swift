@@ -121,7 +121,7 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})//ProductsStoryboard//ProductsViewController
-		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.printers
@@ -141,7 +141,7 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})//ProductsStoryboard//ProductsViewController
-		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.laptops
@@ -160,7 +160,7 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})//ServicesStoryboard//ServicesViewController
-		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		//vc?.navTitle.title = R.string.services
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -180,7 +180,7 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let vc = UIStoryboard(name: "TonersStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.toners

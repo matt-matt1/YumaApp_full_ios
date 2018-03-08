@@ -27,14 +27,12 @@ class ProductViewCell: UICollectionViewCell
 	{
 		didSet
 		{
-			//print(page?.name ?? "getting page")
 			guard let unwrap = page else
 			{
 				return
 			}
 			prodName.text = unwrap.name![id_lang].value
 			prodName2.text = unwrap.name![id_lang].value
-//			prodImage.image = UIImage(named: unwrap.imageName)//id_default_image
 			if unwrap.showPrice == "1"
 			{
 				prodPrice.text = unwrap.price
@@ -61,10 +59,7 @@ class ProductViewCell: UICollectionViewCell
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)
-		//backgroundColor = .green
 		prodImage = UIImageView(image: R.image.homeSliderCartridges)
-//		addSubview(prodImage)
-//		prodName.text = "Product Name"
 	}
 	
 	required init?(coder aDecoder: NSCoder)

@@ -26,7 +26,10 @@ final class DataStore
 	var countries: [Country] = []
 	var orderStates: [OrderState] = []
 	var orders: [Orders] = []
-	var myOrder: [OrderRow] = []
+	var myOrderRows: [OrderRow] = []
+	var myCartRows: [CartRow] = []
+	var myOrder: [Orders] = []
+	var myCart: [Carts] = []
 	
 	
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
@@ -426,6 +429,39 @@ final class DataStore
 		return formed
 	}
 	
+	
+	func getImageFromUrl(url: URL, session: URLSession, completion: @escaping (Data?, URLResponse?, Error?) -> ())
+	{
+		let task = session.dataTask(with: url)
+		{
+			(data, response, error) in
+			
+			if let e = error
+			{
+				print("Error Occurred: \(e)")
+			}
+			else
+			{
+				if (response as? HTTPURLResponse) != nil
+				{
+					if let _ = data
+					{
+						completion(data, response, error)
+					}
+					else
+					{
+						print("Image file is currupted")
+					}
+				}
+				else
+				{
+					print("No response from server")
+				}
+			}
+		}
+		task.resume()
+	}
+
 	
 	func trimJSONValueToArray(string: String) -> String
 	{

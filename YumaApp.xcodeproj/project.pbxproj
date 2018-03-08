@@ -80,7 +80,7 @@
 		CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EA201F9142002CBC1B /* Slides.swift */; };
 		CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC0EC201F9292002CBC1B /* IconPanel.swift */; };
 		CFB02E3A204F0E2000429798 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB02E39204F0E2000429798 /* Info.plist */; };
-		CFB02E3C204F42ED00429798 /* TonersStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFB02E3B204F42ED00429798 /* TonersStoryboard.storyboard */; };
+		CFB02E3C204F42ED00429798 /* Products.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFB02E3B204F42ED00429798 /* Products.storyboard */; };
 		CFB02E3E204F445A00429798 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB02E3D204F445A00429798 /* ProductsViewController.swift */; };
 		CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D1F9203B442500343B25 /* ForgotPWViewController.swift */; };
 		CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */; };
@@ -205,7 +205,7 @@
 		CFAFC0EA201F9142002CBC1B /* Slides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slides.swift; sourceTree = "<group>"; };
 		CFAFC0EC201F9292002CBC1B /* IconPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPanel.swift; sourceTree = "<group>"; };
 		CFB02E39204F0E2000429798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CFB02E3B204F42ED00429798 /* TonersStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TonersStoryboard.storyboard; sourceTree = "<group>"; };
+		CFB02E3B204F42ED00429798 /* Products.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Products.storyboard; sourceTree = "<group>"; };
 		CFB02E3D204F445A00429798 /* ProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		CFC1D1F9203B442500343B25 /* ForgotPWViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPWViewController.swift; sourceTree = "<group>"; };
 		CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForgotPWViewController.xib; sourceTree = "<group>"; };
@@ -458,7 +458,7 @@
 				CFF4A7E2204EE5D1005AE5C8 /* ServicesViewController.swift */,
 				CFF4A8C1204F01A8005AE5C8 /* AnnotationPin.swift */,
 				CF7E863A2029E83D0014B787 /* ContactUsViewController.swift */,
-				CFB02E3B204F42ED00429798 /* TonersStoryboard.storyboard */,
+				CFB02E3B204F42ED00429798 /* Products.storyboard */,
 				CFB02E3D204F445A00429798 /* ProductsViewController.swift */,
 			);
 			path = Controllers;
@@ -596,7 +596,7 @@
 			files = (
 				CF6019EB2049CE4E00217025 /* AddrStoryboard.storyboard in Resources */,
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
-				CFB02E3C204F42ED00429798 /* TonersStoryboard.storyboard in Resources */,
+				CFB02E3C204F42ED00429798 /* Products.storyboard in Resources */,
 				CF5C73092049AB32008763DB /* CartStoryboard.storyboard in Resources */,
 				CF7E866E202CBA5B0014B787 /* ProductTemplate.xib in Resources */,
 				CFF4A8C0204EFFFB005AE5C8 /* Assets.xcassets in Resources */,
