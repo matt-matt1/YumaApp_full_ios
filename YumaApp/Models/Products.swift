@@ -9,46 +9,46 @@
 import Foundation
 
 
-struct CategoryID: Decodable
+struct CategoryID: Codable
 {
 	let id: String
 }
-struct ImageID: Decodable
+struct ImageID: Codable
 {
 	let id: String
 }
-struct CombinationID: Decodable
+struct CombinationID: Codable
 {
 	let id: String
 }
-struct ProductOptionValueID: Decodable
+struct ProductOptionValueID: Codable
 {
 	let id: String
 }
-struct ProductFeatureID: Decodable
+struct ProductFeatureID: Codable
 {
 	let id: String
 	let id_feature_value: String
 }
-struct TagID: Decodable
+struct TagID: Codable
 {
 	let id: String
 }
-struct StockAvailable: Decodable
+struct StockAvailable: Codable
 {
 	let id: String
 	let id_product_attribute: String
 }
-struct Accessories: Decodable
+struct Accessories: Codable
 {
 	let id: String
 }
-struct ProductBundle: Decodable
+struct ProductBundle: Codable
 {
 	let id: String
 	let quantity: String?
 }
-struct Associations_Products: Decodable
+struct Associations_Products: Codable
 {
 	let categories: 			[CategoryID]?
 	let images: 				[ImageID]?
@@ -68,7 +68,7 @@ struct Associations_Products: Decodable
 //	let deleted: String
 //	let name: String
 //}
-struct aProduct: Decodable
+struct aProduct: Codable
 {
 	let id: 						Int?//!
 	let idManufacturer: 			String?
@@ -204,7 +204,7 @@ struct aProduct: Decodable
 		case associations
 	}
 }
-struct JSONProducts: Decodable
+struct JSONProducts: Codable
 {
 	let products: [aProduct]?
 }

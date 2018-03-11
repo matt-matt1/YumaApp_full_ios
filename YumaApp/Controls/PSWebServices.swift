@@ -58,12 +58,13 @@ class PSWebServices: NSObject
 		if let myUrl = URL(string: myUrl)
 		{
 			URLSession.shared.dataTask(with: myUrl)
-			{ (data, response, err) in
+			{ 	(data, response, err) in
 //				if err
 //				else if response.status_code != 200
 				if let data = data
 				{
-					UserDefaults.standard.set(String(data: data, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
+					let dataStr = String(data: data, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "AddressesCustomer\(id_customer)")
 					do
 					{
 						let addresses = try JSONDecoder().decode(Addresses.self, from: data)

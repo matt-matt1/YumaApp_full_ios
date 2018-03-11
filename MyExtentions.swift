@@ -61,6 +61,15 @@ extension UINavigationBar
 
 extension UIView
 {
+	func animateConstraintWithDuration(duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], completion: ((Bool) -> Void)? = nil)
+	{
+		UIView.animate(withDuration: duration, delay:delay, options:options, animations:
+			{
+			[weak self] in
+			self?.layoutIfNeeded() ?? ()
+			}, completion: completion)
+	}
+	
 	func addBackgroundGradient(colors c:[CGColor])->CAGradientLayer
 	{
 		self.layer.sublayers = self.layer.sublayers?.filter(){!($0 is CAGradientLayer)}

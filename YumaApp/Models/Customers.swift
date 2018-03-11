@@ -9,15 +9,15 @@
 import Foundation
 
 
-struct Group: Decodable
+struct Group: Codable
 {
 	let id: String?
 }
-struct AssociationsCustomer: Decodable
+struct AssociationsCustomer: Codable
 {
 	let groups: [Group]?
 }
-struct Customer: Decodable
+struct Customer: Codable
 {
 	let id: 						String?
 	let id_customer: 				String?

@@ -461,6 +461,22 @@ final class DataStore
 		}
 		task.resume()
 	}
+	
+	
+	func flexView(view: UIView)
+	{
+		view.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+		UIView.animate(withDuration: 1.0,
+					   delay: 0,
+					   usingSpringWithDamping: CGFloat(0.20),
+					   initialSpringVelocity: CGFloat(6.0),
+					   options: UIViewAnimationOptions.allowUserInteraction,
+					   animations: {
+							view.transform = CGAffineTransform.identity
+		},
+					   completion: { Void in()  }
+		)
+	}
 
 	
 	func trimJSONValueToArray(string: String) -> String

@@ -470,17 +470,6 @@ class MyAccountViewController: UIViewController
         //drawXIB2()
 		let store = DataStore.sharedInstance
 		//print("\n\(store.addresses)\n\n")
-//		do
-//		{
-	//		let dataStr = UserDefaults.standard.string(forKey: "AddressesCustomer\(store.customer?.id_customer)")
-			//let data = try JSONEncoder().encode(store.addresses)
-			//let dataStr = String(data: data, encoding: .utf8)!
-	//		UserDefaults.standard.set(store.trimJSONValueToArray(string: dataStr!), forKey: "AddressesCustomer\(store.customer?.id_customer)")
-//		}
-//		catch let jsonErr
-//		{
-//			print(jsonErr)
-//		}
 		store.callGetCarriers()
 		{
 			(carriers) in

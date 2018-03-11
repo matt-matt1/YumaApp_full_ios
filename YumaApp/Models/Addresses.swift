@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct Address: Decodable
+struct Address: Codable
 {
 	let id: 				Int?
 	let id_customer: 		String?
@@ -35,7 +35,7 @@ struct Address: Decodable
 	let date_add: 			String?//date
 	let date_upd: 			String?//date
 }
-struct Addresses: Decodable
+struct Addresses: Codable
 {
 	let addresses: [Address]?
 }

@@ -321,6 +321,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		buttonsTop.topAnchor.constraint(equalTo: buttons.topAnchor, constant: 0).isActive = true
 		buttonsBottom.bottomAnchor.constraint(equalTo: buttons.bottomAnchor).isActive = true
+		buttonsTop.widthAnchor.constraint(equalTo: buttonsBottom.widthAnchor, multiplier: 1).isActive = true
 		//view.addSubview(buttons)
 
 		let controls = setUpControls()

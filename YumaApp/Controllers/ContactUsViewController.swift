@@ -225,6 +225,7 @@ class ContactUsViewController: UIViewController
 	
 	@IBAction func phoneBtnAct(_ sender: Any)
 	{
+		DataStore.sharedInstance.flexView(view: phoneBtn)
 		let cleanPhNum = R.string.our_ph.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "")
 		if let url = URL(string: "tel://\(cleanPhNum)"), UIApplication.shared.canOpenURL(url)
 		{
@@ -240,6 +241,7 @@ class ContactUsViewController: UIViewController
 	}
 	@IBAction func emailBtnAct(_ sender: Any)
 	{
+		DataStore.sharedInstance.flexView(view: emailBtn)
 		if MFMailComposeViewController.canSendMail()
 		{
 			let mail = MFMailComposeViewController()
@@ -261,6 +263,7 @@ class ContactUsViewController: UIViewController
 			
 			guard available else
 			{
+				DataStore.sharedInstance.flexView(view: self.addrBtn)
 				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
 				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
 				alertC.addAction(OKAct)

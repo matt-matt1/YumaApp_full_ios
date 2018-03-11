@@ -16,7 +16,6 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
-	@IBOutlet weak var topImage: UIImageView!
 	@IBOutlet weak var leftLabel: UILabel!
 	@IBOutlet weak var centerLabel: UILabel!
 	@IBOutlet weak var rightLabel: UILabel!
@@ -25,6 +24,16 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	var pageTitle: String = ""
 	var pageImage = UIImage()
 	let store = DataStore.sharedInstance
+	/////tableView
+	@IBOutlet weak var stackRight: UIStackView!
+	@IBOutlet weak var totalAmt: UILabel!
+	@IBOutlet weak var totalLbl: UILabel!
+	@IBOutlet weak var totalPcs: UILabel!
+	@IBOutlet weak var totalPcsLbl: UILabel!
+	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var chkoutBtn: GradientButton!
+	let cellID = "cartCell"
+	/////
 	
 	
 	override func viewDidLoad()
@@ -33,21 +42,66 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 
 		scrollView.delegate = self
 		scrollView.isPagingEnabled = true
+		//tableView.delegate = self
 		navTitle.title = pageTitle
-		topImage.image = pageImage
+		if #available(iOS 11.0, *)
+		{
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		}
+		else
+		{
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		viewCartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		centerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
+		if self.view.frame.width > 400
+		{
+			stackRight.widthAnchor.constraint(lessThanOrEqualToConstant: 300).isActive = true
+		}
+		else
+		{
+			stackRight.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+		}
 		refresh()
+/////tableView
+		totalLbl.text = R.string.Total.uppercased()
+		totalPcsLbl.text = R.string.pieces
+		putItemInCart()
+/////
 	}
+	
+	
+	/////tableView
+	func putItemInCart()
+	{
+		var total: Double = 0
+		var pcs: Int = 0
+		var wt: Double = 0
+		for row in store.myOrderRows
+		{
+			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
+			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+			pcs = pcs + Int(row.productQuantity!)!
+			//wt = wt + Double(row.productId)
+		}
+		totalAmt.text = "\(total)"
+		totalPcs.text = "\(pcs)"
+		let date = Date()
+		store.myOrder = [Orders(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))]
+		print(store.myOrder)
+	}
+	/////
 
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
 		if scrollView == scrollView
 		{
-			pageControl.currentPage = Int(floor(scrollView.contentOffset.x / self.view.frame.width))
+			pageControl.currentPage = Int(/*floor(*/scrollView.contentOffset.x / self.scrollView.frame.width)/*)*/
+//			print("scrollOffsetX=\(scrollView.contentOffset.x)(self.view.frame.width=\(self.scrollView.frame.width)), ans=\(scrollView.contentOffset.x / self.scrollView.frame.width)")
 		}
 	}
 	
@@ -99,9 +153,29 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		}
 	}
 	
+
+	/////tableView
+	@IBAction func chkoutBtnAct(_ sender: Any)
+	{
+		guard viewCartBtn.alpha == 1 else { 	return 	}
+//		store.flexView(view: self.viewCartBtn)
+		//		sender.view?.backgroundColor = R.color.YumaRed
+		//		UIView.animate(withDuration: 1, animations:
+		//			{
+		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		//			})
+		let vc = UIStoryboard(name: "CheckoutViewController", bundle: nil).instantiateInitialViewController() as UIViewController!
+		self.present(vc!, animated: false, completion: (() -> Void)?
+			{
+				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				//				sender.view?.backgroundColor = UIColor.white
+			})
+	}
+	/////
 	@IBAction func viewCartBtnAct(_ sender: Any)
 	{
 		guard viewCartBtn.alpha == 1 else { 	return 	}
+		store.flexView(view: self.viewCartBtn)
 //		sender.view?.backgroundColor = R.color.YumaRed
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -120,12 +194,13 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	}
 	@IBAction func add2CartBtnAct(_ sender: Any)
 	{
+		store.flexView(view: self.add2CartBtn)
 		var qty = 1
 		var count = 0
 		var found = false
 		//let prod = ((sender as! UIButton).superview as! UIStackView).superview as! UIStackView
-		let num = Int(floor(scrollView.contentOffset.x / self.view.frame.width))
-		let prod: aProduct = store.products[num]
+		//let num = Int(scrollView.contentOffset.x / self.scrollView.frame.width)
+		let prod: aProduct = store.products[pageControl.currentPage]
 		count = max(store.myOrderRows.count, 0)
 		for i in 0..<store.myOrderRows.count
 		{
@@ -133,7 +208,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 			if Int(store.myOrderRows[i].productId!) == prod.id
 			{
 				qty = Int(store.myOrderRows[i].productQuantity!)!
-				print("qty was \(qty)")
+				//print("qty was \(qty)")
 				store.myOrderRows[i].productQuantity = "\(qty + 1)"
 				found = true
 				print("update cart: \(qty) x \(prod.name![0].value ?? "")")
@@ -152,7 +227,38 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		{
 			viewCartBtn.alpha = 1
 		}
-		return
+//		let originalTransform = self.scrollView.transform
+//		let scaledTransform = originalTransform.scaledBy(x: 0.1, y: 0.1)
+//		let bothTransform = scaledTransform.translatedBy(x: 100.0, y: 100.0)
+//		UIView.animate(withDuration: 3.7, animations: {
+//			self.scrollView.transform = bothTransform
+//		})
+//		print("view cart: \((viewCartBtn.convert(viewCartBtn.frame.origin, to: nil)).x) x \((viewCartBtn.convert(viewCartBtn.frame.origin, to: nil)).y) : \(viewCartBtn.frame.width)w x \(viewCartBtn.frame.height)h")
+//		UIView.animate(withDuration: 0.5, animations:
+//		{
+//			//self.scrollView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+//			//self.scrollView.frame.origin.width = self.viewCartBtn.frame.width
+//			//self.scrollView.frame.height = self.viewCartBtn.frame.height
+//			//self.scrollView.frame = self.viewCartBtn.frame
+//			//scale scrollView to (aspect) size of viewCartBtn
+//			self.scrollView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//		},
+//					   completion:
+//		{
+//			_ in
+//
+//			//self.scrollView.transform = CGAffineTransform(translationX: 100, y: 100)
+//			//self.scrollView.frame.origin.x += self.viewCartBtn.frame.origin.x
+//			//self.scrollView.frame.origin.y += self.viewCartBtn.frame.origin.y
+//			//move scrollView to position of viewCartBtn
+//			UIView.animate(withDuration: 0.5, animations:
+//			{
+//				self.scrollView.transform = CGAffineTransform.identity
+//			})
+//		})
+		store.flexView(view: self.scrollView)
+		putItemInCart()
+		DispatchQueue.main.async { 	self.tableView.reloadData() 	}
 	}
 
 	
@@ -200,7 +306,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 
 
 
-class CustomView: UIView
+class CustomView: UIView	// product cell view
 {
 	let prodImage: UIImageView =
 	{
@@ -329,3 +435,27 @@ class CustomView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 }
+
+
+/////tableView
+extension ProductsViewController: UITableViewDataSource, UITableViewDelegate
+{
+	func numberOfSections(in tableView: UITableView) -> Int
+	{
+		return 1
+	}
+
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	{
+		return store.myOrderRows.count//contents.count
+	}
+
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+	{
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! CartViewCell
+		cell.setup(store.myOrderRows[indexPath.row])
+		return cell
+	}
+
+}
+

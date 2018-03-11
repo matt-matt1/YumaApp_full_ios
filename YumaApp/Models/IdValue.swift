@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct IdValue: Decodable
+struct IdValue: Codable
 {
 	let id: 	String?
 	let value: 	String?

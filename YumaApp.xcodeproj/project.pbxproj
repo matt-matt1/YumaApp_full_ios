@@ -72,6 +72,8 @@
 		CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */; };
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
 		CF9231CF20386CDF00D44BB6 /* MyAccOHViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231CD20386CDF00D44BB6 /* MyAccOHViewController.xib */; };
+		CFAB48BA2052C56300BF9E7D /* Checkout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAB48B92052C56300BF9E7D /* Checkout.storyboard */; };
+		CFAB48BC2052EA8100BF9E7D /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB48BB2052EA8100BF9E7D /* CheckoutViewController.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
@@ -192,6 +194,8 @@
 		CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccCSViewController.xib; sourceTree = "<group>"; };
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
 		CF9231CD20386CDF00D44BB6 /* MyAccOHViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccOHViewController.xib; sourceTree = "<group>"; };
+		CFAB48B92052C56300BF9E7D /* Checkout.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Checkout.storyboard; sourceTree = "<group>"; };
+		CFAB48BB2052EA8100BF9E7D /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC091201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -308,6 +312,7 @@
 		CF7E863E2029EA760014B787 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CFB02E3B204F42ED00429798 /* Products.storyboard */,
 				CF6019EA2049CE4E00217025 /* AddrStoryboard.storyboard */,
 				CF5C73082049AB32008763DB /* CartStoryboard.storyboard */,
 				CF7E865D202A42800014B787 /* HeaderView.xib */,
@@ -327,6 +332,7 @@
 				CFC1D203203C569000343B25 /* ExpandMapViewController.xib */,
 				CF126939204B38EB008EFD04 /* ProductsStoryboard.storyboard */,
 				CFF4A7E0204EE568005AE5C8 /* ServicesStoryboard.storyboard */,
+				CFAB48B92052C56300BF9E7D /* Checkout.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -458,8 +464,8 @@
 				CFF4A7E2204EE5D1005AE5C8 /* ServicesViewController.swift */,
 				CFF4A8C1204F01A8005AE5C8 /* AnnotationPin.swift */,
 				CF7E863A2029E83D0014B787 /* ContactUsViewController.swift */,
-				CFB02E3B204F42ED00429798 /* Products.storyboard */,
 				CFB02E3D204F445A00429798 /* ProductsViewController.swift */,
+				CFAB48BB2052EA8100BF9E7D /* CheckoutViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -616,6 +622,7 @@
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
 				CF12693A204B38EB008EFD04 /* ProductsStoryboard.storyboard in Resources */,
 				CFF3CFB42034DC4300BEDEE4 /* AddressCollectionView.xib in Resources */,
+				CFAB48BA2052C56300BF9E7D /* Checkout.storyboard in Resources */,
 				CF9231CF20386CDF00D44BB6 /* MyAccOHViewController.xib in Resources */,
 				CF7E865E202A42800014B787 /* HeaderView.xib in Resources */,
 				CFB02E3A204F0E2000429798 /* Info.plist in Resources */,
@@ -828,6 +835,7 @@
 				CF12694A204C8CF2008EFD04 /* Manufacturers.swift in Sources */,
 				CF6019ED2049D61700217025 /* AddrCollectionViewCell.swift in Sources */,
 				CF601A16204AE61500217025 /* OrderPayments.swift in Sources */,
+				CFAB48BC2052EA8100BF9E7D /* CheckoutViewController.swift in Sources */,
 				CF7E8670202CFB920014B787 /* ProductViewCell.swift in Sources */,
 				CF182DCC20331DA00070B9E5 /* Products.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,

@@ -13,7 +13,7 @@ class CartViewController: UIViewController
 	@IBOutlet weak var totalAmt: UILabel!
 	@IBOutlet weak var totalLbl: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
-	@IBOutlet weak var totalQty: UITextField!
+	@IBOutlet weak var totalPcs: UILabel!
 	//	@IBOutlet weak var cellLabel: UILabel!
 	//MARK: Properties
 	@IBOutlet weak var tableView: UITableView!
@@ -53,22 +53,51 @@ class CartViewController: UIViewController
 
 		totalLbl.text = R.string.Total.uppercased()
 		totalPcsLbl.text = R.string.pieces
-		var total: Double = 0
-		var pcs: Int = 0
-		var wt: Double = 0
-		for row in store.myOrderRows
+		if store.myOrderRows.count < 1
 		{
-			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
-			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
-			pcs = pcs + Int(row.productQuantity!)!
-			//wt = wt + Double(row.productId)
+			alertEmpty()
 		}
-		totalAmt.text = "\(total)"
-		totalQty.text = "\(pcs)"
-		let date = Date()
-		store.myOrder = [Orders(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))]
-		print(store.myOrder)
+		else
+		{
+			var total: Double = 0
+			var pcs: Int = 0
+			var wt: Double = 0
+			for row in store.myOrderRows
+			{
+				//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
+				total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+				pcs = pcs + Int(row.productQuantity!)!
+				//wt = wt + Double(row.productId)
+			}
+			if total < 1
+			{
+				alertEmpty()
+			}
+			else
+			{
+				totalAmt.text = "\(total)"
+				totalPcs.text = "\(pcs)"
+				let date = Date()
+				store.myOrder = [Orders(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))]
+				print(store.myOrder)
+			}
+		}
     }
+	
+	
+	func alertEmpty()
+	{
+		let alert = UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: R.string.back, style: .default, handler: nil))
+		self.present(alert, animated: true, completion:
+			{
+				DispatchQueue.main.async
+					{
+						self.dismiss(animated: false, completion: nil)
+					}
+			}
+		)
+	}
 	
 
 	@IBAction func navCloseAct(_ sender: Any)
@@ -80,6 +109,9 @@ class CartViewController: UIViewController
 	}
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
+		store.flexView(view: chkoutBtn)
+		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController!
+		self.present(vc!, animated: false, completion: nil)
 	}
 	
 }

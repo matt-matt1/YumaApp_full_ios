@@ -292,27 +292,47 @@ class LoginViewController: UIViewController
 	{
 		print("getDetails")
 //		let sv2 = UIViewController.displaySpinner(onView: self.view)
-		let addr = UserDefaults.standard.string(forKey: "AddressesCustomer\(id_customer)")
-		if addr == nil || addr == ""
+		if store.addresses.count < 1
 		{
-			store.callGetAddresses(id_customer: id_customer, completion:
-	//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
-				{
-					(addresses) in
+			let addr = UserDefaults.standard.string(forKey: "AddressesCustomer\(id_customer)")
+			if addr == nil || addr == ""
+			{
+				store.callGetAddresses(id_customer: id_customer, completion:
+		//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
+					{
+						(addresses) in
 
-//				UIViewController.removeSpinner(spinner: sv2)
-					//print(addresses)
-					//print("got \(addresses.addresses.count) addresses")
-					//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-					let addr = addresses.addresses
-					print("got \(String(describing: addr?.count)) addresses")
-//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
-//					OperationQueue.main.addOperation
-//						{
-//							self.successfullyGotAddresses(id_customer: id_customer, addresses: addresses)
-//						}
+	//				UIViewController.removeSpinner(spinner: sv2)
+						//print(addresses)
+						//print("got \(addresses.addresses.count) addresses")
+						//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
+						let addr = addresses.addresses
+						print("got \(String(describing: addr?.count)) addresses")
+	//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
+	//					OperationQueue.main.addOperation
+	//						{
+	//							self.successfullyGotAddresses(id_customer: id_customer, addresses: addresses)
+	//						}
+					}
+				)
+			}
+			else
+			{
+				let dataStr = addr?.data(using: .utf8)
+				do
+				{
+					let addresses = try JSONDecoder().decode(Addresses.self, from: dataStr!)
+					store.addresses = addresses.addresses!
+//					for add in 0..<addresses.addresses
+//					{
+//					store.addresses.append(add)
+//					}
 				}
-			)
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
 		}
 		//with storyboard
 		//		let displayMA = self.storyboard?.instantiateViewController(withIdentifier: "MyAccountVC") as! MyAccountVC
@@ -323,22 +343,33 @@ class LoginViewController: UIViewController
 		if ord == nil || ord == ""
 //		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
 		{
-			store.getOrders(id_customer: id_customer) { (orders, err) in
-				let ord = orders as? [Orders]
-				let ords = ord?.count
-				print("got \(String(describing: ords)) orders")
+			store.getOrders(id_customer: id_customer)
+			{
+				(orders, err) in
+				
+				if err != nil
+				{
+					print(err!)
+					return
+				}
+				if let orders = orders
+				{
+					let ord = orders as? [Orders]
+					let ords = ord?.count
+					print("got \(String(describing: ords)) orders")
+				}
 			}
 		}
-		successfullyGotDetails(id_customer: id_customer)
+		self.successfullyGotDetails(id_customer: id_customer)
 	}
 
-	fileprivate func successfullyGotDetails(id_customer: Int/*, addresses: Addresses*/)
+	fileprivate func successfullyGotDetails(id_customer: Int)
 	{
-		//print("got \(addresses.addresses.count) addresses")
-//		let addr = addresses.addresses
-//		print("got \(String(describing: addr?.count)) addresses")
-//		UserDefaults.standard.set(String(describing: addr), forKey: "AddressesCustomer\(id_customer)")
-		self.present(MyAccountViewController(), animated: true, completion: nil)
+		weak var presentingViewController = self.presentingViewController
+		self.dismiss(animated: false)
+		{
+			presentingViewController?.present(MyAccountViewController(), animated: true, completion: nil)
+		}
 	}
 	
 	
@@ -472,6 +503,7 @@ class LoginViewController: UIViewController
 			
 			guard available else
 			{
+				self.store.flexView(view: self.loginBtn)
 				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
 				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
 				alertC.addAction(OKAct)
