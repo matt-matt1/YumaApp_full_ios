@@ -44,7 +44,9 @@ class MyAccAddrViewController: UIViewController
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		navTitle.title = "\(R.string.my_account) \(R.string.Addr)"
 		buttonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
+		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		buttonRight.setTitle(R.string.delete.uppercased(), for: .normal)
+		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
 	func getAddress()
@@ -177,7 +179,7 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width-20, height: view.frame.height-220)
+		return CGSize(width: view.frame.width-20, height: max(300, view.frame.height-220))
 	}
 	
 	// MARK: UICollectionViewDelegate

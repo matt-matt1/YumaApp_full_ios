@@ -142,10 +142,11 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1GQ-I9-NeB" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="77.5" y="120" width="200" height="50"/>
+                                                                    <rect key="frame" x="128.5" y="120" width="98" height="50"/>
                                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" constant="200" id="AzZ-ZF-oxr"/>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="AzZ-ZF-oxr"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="WNu-ES-GbL"/>
                                                                         <constraint firstAttribute="height" constant="50" id="prI-l0-cVN"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>

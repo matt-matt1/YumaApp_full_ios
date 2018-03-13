@@ -18,7 +18,9 @@ class MyAccountViewController: UIViewController
 	@IBOutlet weak var addrBtn: UIButton!
 	@IBOutlet weak var orderHistBtn: UIButton!
 	@IBOutlet weak var creditSlipsBtn: UIButton!
-
+	@IBOutlet weak var signOutBtn: UIButton!
+	let store = DataStore.sharedInstance
+	
 /*
 	func coverStackOpen() -> UIStackView
 	{
@@ -467,6 +469,7 @@ class MyAccountViewController: UIViewController
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		//signOutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
         //drawXIB2()
 		let store = DataStore.sharedInstance
 		//print("\n\(store.addresses)\n\n")
@@ -495,19 +498,35 @@ class MyAccountViewController: UIViewController
     */
 
 	
+	@IBAction func signOutBtnAct(_ sender: Any)
+	{
+		store.flexView(view: self.signOutBtn)
+		store.customer = nil
+		store.addresses = []
+		OperationQueue.main.addOperation
+			{
+				weak var presentingViewController = self.presentingViewController
+				self.dismiss(animated: false, completion: {
+					presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+				})
+			}
+	}
 	@IBAction func CSBtnAct(_ sender: Any)
 	{
 		print("MyAccCSViewController")
+		store.flexView(view: self.creditSlipsBtn)
 		self.present(MyAccCSViewController(), animated: true, completion: nil)
 	}
 	@IBAction func OHBtnAct(_ sender: Any)
 	{
 		print("MyAccOHViewController")
+		store.flexView(view: self.orderHistBtn)
 		self.present(MyAccOHViewController(), animated: true, completion: nil)
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{
 		print("MyAccAddrViewController")
+		store.flexView(view: self.addrBtn)
 		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -517,6 +536,7 @@ class MyAccountViewController: UIViewController
 	@IBAction func infoBtnAct(_ sender: Any)
 	{
 		print("MyAccInfoViewController")
+		store.flexView(view: self.infoBtn)
 		self.present(MyAccInfoViewController(), animated: true, completion: nil)
 	}
 	@IBAction func navHelpAct(_ sender: Any)

@@ -61,6 +61,12 @@ extension UINavigationBar
 
 extension UIView
 {
+	func copyView<T: UIView>() -> T
+	{
+//		return NSKeyedArchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
+		return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
+	}
+	
 	func animateConstraintWithDuration(duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], completion: ((Bool) -> Void)? = nil)
 	{
 		UIView.animate(withDuration: duration, delay:delay, options:options, animations:
@@ -70,13 +76,27 @@ extension UIView
 			}, completion: completion)
 	}
 	
-	func addBackgroundGradient(colors c:[CGColor])->CAGradientLayer
+	func addBackgroundGradient(colors c:[CGColor], isVertical: Bool = true) -> CAGradientLayer
 	{
-		self.layer.sublayers = self.layer.sublayers?.filter(){!($0 is CAGradientLayer)}
+		self.layer.sublayers = self.layer.sublayers?.filter() { 	!($0 is CAGradientLayer) 	}
 		let layer : CAGradientLayer = CAGradientLayer()
 		layer.frame.size = self.frame.size
 		layer.frame.origin = CGPoint(x: 0, y: 0)
 		layer.colors = c
+		if isVertical
+		{
+			layer.startPoint = CGPoint(x:0.5, y:0.0)
+			layer.endPoint = CGPoint(x:0.5, y:1.0)
+		}
+		else
+		{
+			layer.startPoint = CGPoint(x:0.0, y:0.5)
+			layer.endPoint = CGPoint(x:1.0, y:0.5)
+		}
+		if self.cornerRadius > 0
+		{
+			layer.cornerRadius = self.cornerRadius
+		}
 		self.layer.insertSublayer(layer, at: 0)
 		return layer
 	}
@@ -217,7 +237,7 @@ extension CALayer
 		{
 			gradientLayer.cornerRadius = self.cornerRadius
 		}
-		gradientLayer.colors = colors.map({$0.cgColor})
+		gradientLayer.colors = colors.map(	{ 	$0.cgColor 	}	)
 		
 		self.addSublayer(gradientLayer)
 	}

@@ -14,8 +14,8 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
-	@IBOutlet weak var alreadyLabel: UILabel!
-	@IBOutlet weak var loginLabel: UILabel!
+//	@IBOutlet weak var alreadyLabel: UILabel!
+//	@IBOutlet weak var loginLabel: UILabel!
 	@IBOutlet weak var genderSwitch: UISegmentedControl!
 	@IBOutlet weak var genderBorder: UIView!
 	@IBOutlet weak var fieldLabel1: UILabel!
@@ -87,11 +87,12 @@ class MyAccInfoViewController: UIViewController
 		switch1Label2.text = R.string.SignUpNewsletterMore
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
-		alreadyLabel.text = R.string.alreadyAcc
-		loginLabel.text = R.string.loginInstead
-		loginLabel.textColor = R.color.YumaRed
-		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
+//		alreadyLabel.text = R.string.alreadyAcc
+//		loginLabel.text = R.string.loginInstead
+//		loginLabel.textColor = R.color.YumaRed
+//		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
 		buttonText.setTitle(R.string.save, for: .normal)
+		buttonText.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
 	private func getSubviewsOf<T : UIView>(view:UIView) -> [T]
@@ -245,7 +246,12 @@ class MyAccInfoViewController: UIViewController
 		}
 		else
 		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//			navBar.superview?.constraints.forEach({ (constraint) in
+//				if constraint.firstAnchor === navBar && constraint.firstAttribute == .top
+//				{
+					navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//				}
+//			})
 		}
 //		if self.view.frame.width > 400
 //		{
@@ -260,10 +266,13 @@ class MyAccInfoViewController: UIViewController
 			setEmailField()
 			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
 			fillFields()
+//			alreadyLabel.isHidden = true
+//			loginLabel.isHidden = true
 		}
 		else
 		{
 			navTitle.title = R.string.createAcc
+			buttonText.setTitle(R.string.createAcc, for: .normal)
 		}
     }
 

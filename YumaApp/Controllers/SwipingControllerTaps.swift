@@ -186,7 +186,8 @@ extension SwipingController
 			{
 				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		})
-		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+//		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.toners
