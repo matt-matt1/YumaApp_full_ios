@@ -58,6 +58,26 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		//viewCartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
+		navClose.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
+		if UIScreen.main.scale < 2
+		{
+			let spacer = UIBarButtonItem(title: "|", style: .plain, target: self, action: nil)
+			spacer.setTitleTextAttributes([
+				NSAttributedStringKey.foregroundColor : R.color.YumaRed//UIColor.darkGray,
+				], for: UIControlState.normal)
+			navTitle.rightBarButtonItems?.append(spacer)
+		}
+		let cart = UIBarButtonItem(title: FontAwesome.shoppingCart.rawValue, style: .plain, target: self, action: #selector(navCartAct(_:)))
+		cart.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
+		navTitle.rightBarButtonItems?.append(cart)
 		centerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
 //		if self.view.frame.width > 400
 //		{
@@ -67,7 +87,15 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 //		{
 //			stackRight.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
 //		}
-		refresh()
+		store.locale = "en_CA"	//configure locale
+		if store.customer != nil && store.langs.count > 0
+		{
+			store.locale = "\(store.langs[Int((store.customer?.id_lang)!)!].isoCode ?? "")_\(store.countries[Int(store.addresses[0].id_country)!].isoCode ?? "")"//combine lang iso with country iso
+		}
+		if store.products.count < 1
+		{
+			refresh()	//load products
+		}
 /////tableView
 		totalLbl.text = R.string.Total.uppercased()
 		totalPcsLbl.text = R.string.pieces
@@ -89,9 +117,15 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
 			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
 			pcs = pcs + Int(row.productQuantity!)!
-			//wt = wt + Double(row.productId)
+			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
+			if let prodWeight = prodWeight
+			{
+				wt = wt + Double(prodWeight)
+			}
 		}
-		totalAmt.text = "\(total)"
+		let totalDbl = total as NSNumber
+		let totalStr = store.formatCurrency(amount: totalDbl, iso: store.locale)
+		totalAmt.text = totalStr
 		totalPcs.text = "\(pcs)"
 		if store.products.count > 0
 		{
@@ -116,7 +150,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	//			view.prodPrice.text = R.string.noPrice
 	//		}
 			view.prodImage.contentMode = UIViewContentMode.scaleAspectFit
-			let imgName = prod.associations?.images?[0].id
+			let imgName = prod.associations?.images![0].id
 			var imageName = "\(R.string.URLbase)img/p"
 			for ch in imgName!
 			{
@@ -136,6 +170,15 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 			)
 			view.prodQty.text = prod.quantity
 			self.cartScroll.addSubview(view)
+			//prod_2
+			var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
+			if store.categories.count > 0
+			{
+				for catId in (prod.associations?.categories)!
+				{
+					categoryStr.append("> \(store.categories[Int(catId.id!)!]) ")
+				}
+			}
 		}
 	}
 	/////
@@ -167,7 +210,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 					self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
 					let date = Date()
 					let df = DateFormatter()
-					df.locale = Locale(identifier: "en_CA")
+					df.locale = Locale(identifier: self.store.locale)
 					df.dateFormat = "dd MMM YYYY  h:mm:ss a"
 					self.rightLabel.text = "\(df.string(from: date)) "
 					self.pageControl.isHidden = false
@@ -231,6 +274,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 ////				sender.view?.backgroundColor = UIColor.white
 //			})
 //	}
+	@objc func navCartAct(_ sender: Any)
+	{
+		let vc = UIStoryboard(name: "CartStoryboard", bundle: nil).instantiateInitialViewController() as! CartViewController!
+		self.present(vc!, animated: false, completion: nil)
+	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: false, completion: nil)
@@ -244,6 +292,10 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		//let prod = ((sender as! UIButton).superview as! UIStackView).superview as! UIStackView
 		//let num = Int(scrollView.contentOffset.x / self.scrollView.frame.width)
 		let prod: aProduct = store.products[pageControl.currentPage]
+		if Int((NumberFormatter().number(from: prod.price!)?.doubleValue)!) > 0 && chkoutBtn.alpha != 1
+		{
+			chkoutBtn.alpha = 1
+		}
 		count = max(store.myOrderRows.count, 0)
 		for i in 0..<store.myOrderRows.count
 		{
@@ -261,7 +313,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		if found == false
 		{
 			print("add 2 cart: \(qty) x \(prod.name![0].value ?? "")")
-			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cacheHasAttachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")")
+			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cache_has_attachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")")
 			//let row2 = CartRow(idProduct: "\(prod.id ?? 0)", idProductAttribute: , idAddressDelivery: <#T##String?#>, quantity: <#T##String?#>)
 			store.myOrderRows.append(row)
 		}
@@ -326,41 +378,247 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	func insertData()
 	{
 		var i = 0
+		let id_lang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		for prod in store.products
 		{
-			let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
-			view.prodName.text = prod.name![0].value
-			view.prodName.tag = prod.id!
-			if prod.showPrice != "0" && Double(prod.price!)! > 0
+			if prod.active == "1"
 			{
-				view.prodPrice.text = prod.price
-			}
-			else
-			{
-				view.prodPrice.text = R.string.noPrice
-			}
-			view.prodImage.contentMode = UIViewContentMode.scaleAspectFit
-			let imgName = prod.associations?.images?[0].id
-			var imageName = "\(R.string.URLbase)img/p"
-			for ch in imgName!
-			{
-				imageName.append("/\(ch)")
-			}
-			imageName.append("/\(imgName ?? "").jpg")
-			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
+//				print("language id:\(id_lang)")
+				view.prodName.text = prod.name![id_lang].value
+				view.prodName.textColor = R.color.YumaRed
+				view.prodName.tag = prod.id!
+				if prod.showPrice != "0" && Double(prod.price!)! > 0
 				{
-					(data, response, error) in
-					
-					guard let data = data, error == nil else { return }
-					DispatchQueue.main.async()
+					let prodPrice = NumberFormatter().number(from: prod.price!)?.doubleValue
+					view.prodPrice.text = store.formatCurrency(amount: prodPrice! as NSNumber, iso: store.locale)
+				}
+				else
+				{
+					view.prodPrice.text = R.string.noPrice
+				}
+				view.prodImage.contentMode = UIViewContentMode.scaleAspectFit
+	//			view.imageFrame.shadowColor = UIColor.gray
+	//			view.imageFrame.shadowOffset = CGSize(width: 3, height: 3)
+	//			view.imageFrame.shadowRadius = 5
+	//			view.imageFrame.shadowOpacity = 1
+				let imgName = prod.associations?.images![0].id//primary image
+				var imageName = "\(R.string.URLbase)img/p"
+				for ch in imgName!
+				{
+					imageName.append("/\(ch)")
+				}
+				imageName.append("/\(imgName ?? "").jpg")
+				store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
 					{
-						view.prodImage.image = UIImage(data: data)
+						(data, response, error) in
+						
+						guard let data = data, error == nil else { return }
+						DispatchQueue.main.async()
+						{
+							view.prodImage.image = UIImage(data: data)
+						}
+				})
+//				view.detailsBtn.text = R.string.details
+				//second section
+	//			let view2 = CustomView2(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
+	//			view2.desc.text = prod.description![id_lang].value
+	//			view2.desc.isEditable = false
+	//			view2.descShort.text = prod.descriptionShort![id_lang].value
+	//			view2.descShort.isEditable = false
+	//			//let image = store.manufacturers[Int(prod.idManufacturer!)!]
+	//			if (prod.associations?.categories)!.count > 0
+	//			{
+	//				for cat in (prod.associations?.categories)!
+	//				{
+	//					if let num = Int(cat.id)
+	//					{
+	//						let myCat = store.categories[num]
+	//						let label = UILabel()
+	//						label.text = myCat.name![id_lang].value
+	//						view2.catsSV.addArrangedSubview(label)
+	//					}
+	//				}
+	//			}
+	//			if (prod.associations?.tags)!.count > 0
+	//			{
+	//				for tag in (prod.associations?.tags)!
+	//				{
+	//					if let num = Int(tag.id)
+	//					{
+	//						let myCat = store.tags[num]
+	//						let label = UILabel()
+	//						label.text = myCat.name
+	//						view2.tagsSV.addArrangedSubview(label)
+	//					}
+	//				}
+	//			}
+	//			if store.shares.count > 0
+	//			{
+	//				for share in store.shares
+	//				{
+	//					if share.thumb != nil && share.link != nil
+	//					{
+	//						let image = UIImageView()	//append image if has a thumb & link
+	//						image.image = UIImage(data: (share.thumb?.data(using: .utf8))!)
+	//						image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickShare(_:))))
+	//						image.tag = share.id
+	//						view2.tagsSV.addArrangedSubview(image)
+	//					}
+	//					else
+	//					{
+	//						let label = UILabel()	//otherwise append a name label
+	//						label.text = share.name[id_lang].value
+	//						label.tag = share.id
+	//						view2.tagsSV.addArrangedSubview(label)
+	//					}
+	//				}
+	//			}
+				var attrText: NSAttributedString
+				if prod.description != nil && prod.description![id_lang].value != nil
+				{
+					attrText = try! NSAttributedString(
+						data: (prod.description![id_lang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
+						documentAttributes: nil)
+					view.descLong.attributedText = attrText
+					view.descLong.numberOfLines = 0
+					view.descLong.lineBreakMode = NSLineBreakMode.byTruncatingTail
+					view.descLong.sizeToFit()
+				}
+				if prod.description_short != nil && prod.description_short![id_lang].value != nil
+				{
+					attrText = try! NSAttributedString(
+						data: (prod.description_short![id_lang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
+						documentAttributes: nil)
+					view.descShort.attributedText = attrText
+					view.descShort.numberOfLines = 0
+					view.descShort.lineBreakMode = NSLineBreakMode.byTruncatingTail
+					view.descShort.sizeToFit()
+				}
+				view.linkRewrite = prod.link_rewrite![id_lang].value!
+				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
+				{
+	//				print("prod:\(String(describing: prod.name![id_lang].value))")
+					var prodTags: [String] = []
+					for prodTag in (prod.associations?.tags)!
+					{
+						let find = Int(prodTag.id!)!
+						if find < store.tags.count
+						{
+							for storeTag in store.tags
+							{
+								if storeTag.id == find
+								{
+									prodTags.append(storeTag.name!)
+									break
+								}
+							}
+						}
 					}
-			})
-			view.detailsBtn.text = R.string.details
-			view.tag = i + 10
-			self.scrollView.addSubview(view)
-			i += 1
+					view.tags = prodTags
+				}
+				if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
+				{
+					for prodCat in (prod.associations?.categories)!
+					{
+						let find = Int(prodCat.id!)!
+						if find < store.categories.count
+						{
+							for cat in store.categories
+							{
+								if cat.id == find
+								{
+									view.categories.append(cat)
+									break
+								}
+							}
+						}
+					}
+				}
+				if prod.associations != nil && prod.associations?.combinations != nil && (prod.associations?.combinations?.count)! > 0
+				{
+					for prodComb in (prod.associations?.combinations)!
+					{
+						let find = Int(prodComb.id!)!
+						if find < store.combinations.count
+						{
+							for co in store.combinations
+							{
+								if co.id == find
+								{
+									view.combinations.append(co)
+									break
+								}
+							}
+						}
+					}
+				}
+				if prod.associations != nil && prod.associations?.images != nil && (prod.associations?.images?.count)! > 0
+				{
+//					for prodComb in (prod.associations?.images)!
+//					{
+//						let find = Int(prodComb.id)!
+//						if find < store.images.count
+//						{
+//							for co in store.images
+//							{
+//								if co.id == find
+//								{
+//									view.imagesWidgets.append(co)
+//									break
+//								}
+//							}
+//						}
+//					}
+				}
+				if prod.associations != nil && prod.associations?.product_option_values != nil && (prod.associations?.product_option_values?.count)! > 0
+				{
+					for prodOpt in (prod.associations?.product_option_values)!
+					{
+						let find = Int(prodOpt.id!)!
+						if find < store.productOptionValues.count
+						{
+							for co in store.productOptionValues
+							{
+								if co.id == find
+								{
+									let lbl = UILabel()
+									lbl.translatesAutoresizingMaskIntoConstraints = false
+									lbl.text = String(describing: co)
+									view.productOptionValuesView.addArrangedSubview(lbl)
+									break
+								}
+							}
+						}
+					}
+				}
+				view.tag = i + 10
+				self.scrollView.addSubview(view)
+				i += 1
+			}
+		}
+	}
+	
+	@objc func clickShare(_ sender: UITapGestureRecognizer)
+	{
+		let asdf = sender.view?.superview?.subviews
+		let share: Int = (sender.view?.subviews.count)!
+		let url = URL(string: store.shares[share].link!)
+		let label = UILabel()
+		label.text = ""
+		print("share: \(share) link to:\(String(describing: url))")
+		URLSession.shared.dataTask(with: url!)
+		{
+			(data, response, error) in
+//			if error != nil
+//			{
+//				if let data = data
+//				{
+//
+//				}
+//			}
 		}
 	}
 }
@@ -388,3 +646,25 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 //
 //}
 
+extension String
+{
+	func findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
+	{
+		var i: Int = 0;
+		var found: Int = -1
+		for obj in inArray
+		{
+//			let pair = obj as! Dictionary
+//			for element in pair
+//			{
+//				if pair.key == findValue
+//			}
+			if obj.elementType == searchElements.elementType //&& obj.element(searchElements) == findValue
+			{
+				found = i//return i
+			}
+			i+=1
+		}
+		return found
+	}
+}

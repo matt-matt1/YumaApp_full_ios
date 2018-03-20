@@ -9,6 +9,10 @@
 import Foundation
 
 
+//struct IdAsString: Codable
+//{
+//	let id: String
+//}
 struct CategoryID: Codable
 {
 	let id: String
@@ -28,7 +32,7 @@ struct ProductOptionValueID: Codable
 struct ProductFeatureID: Codable
 {
 	let id: String
-	let id_feature_value: String
+	let id_feature_value: String?
 }
 struct TagID: Codable
 {
@@ -37,7 +41,7 @@ struct TagID: Codable
 struct StockAvailable: Codable
 {
 	let id: String
-	let id_product_attribute: String
+	let id_product_attribute: String?
 }
 struct Accessories: Codable
 {
@@ -50,12 +54,12 @@ struct ProductBundle: Codable
 }
 struct Associations_Products: Codable
 {
-	let categories: 			[CategoryID]?
-	let images: 				[ImageID]?
-	let combinations: 			[CombinationID]?
-	let product_option_values: 	[ProductOptionValueID]?
-	let product_features: 		[ProductFeatureID]?
-	let tags: 					[TagID]?
+	let categories: 			[IdAsString]?//[CategoryID]?
+	let images: 				[IdAsString]?//[ImageID]?
+	let combinations: 			[IdAsString]?//[CombinationID]?
+	let product_option_values: 	[IdAsString]?//[ProductOptionValueID]?
+	let product_features: 		[IdAsString]?//[ProductFeatureID]?
+	let tags: 					[IdAsString]?//[TagID]?
 	let stock_availables: 		[StockAvailable]?
 	let accessories:			[Accessories]?
 	let product_bundle:			[ProductBundle]?
@@ -71,33 +75,33 @@ struct Associations_Products: Codable
 struct aProduct: Codable
 {
 	let id: 						Int?//!
-	let idManufacturer: 			String?
-	let idSupplier: 				String?
-	let idCategoryDefault: 			String?
+	let id_manufacturer/*idManufacturer*/: 			String?
+	let id_supplier/*idSupplier*/: 				String?
+	let id_category_default/*idCategoryDefault*/: 			String?
 	let new: 						String?
-	let cacheDefaultAttribute: 		String?
-	let idDefaultHmage: 			String?
-	let idDefaultCombination: 		Int?
-	let idTaxRulesGroup: 			String?
-	let positionInCategory: 		String?
-	let manufacturerName: 			String?//read_only
+	let cache_default_attribute/*cacheDefaultAttribute*/: 		String?
+	let id_default_image/*idDefaultImage*/: 			String?
+	let /*id_default_combination*/idDefaultCombination: 		Int?
+	let id_tax_rules_group/*idTaxRulesGroup*/: 			String?
+	let position_in_category/*positionInCategory*/: 		String?
+	let manufacturer_name/*manufacturerName*/: 			String?//read_only
 	let quantity: 					String?//read_only
 	let type: 						String?
-	let idShopDefault: 				String?
+	let id_shop_default/*idShopDefault*/: 				String?
 	let reference: 					String?//..32
-	let supplierReference: 			String?//..32
+	let supplier_reference/*supplierReference*/: 			String?//..32
 	let location: 					String?//..64
 	let width: 						String?//Float
 	let height: 					String?//Float
 	let depth: 						String?//Float
 	let weight: 					String?//Float
-	let quantityDiscount: 			String?//Bool
+	let quantity_discount/*quantityDiscount*/: 			String?//Bool
 	let ean13: 						String?//..13
 	let isbn: 						String?//..32
 	let upc: 						String?//..12
-	let cacheIsPack: 				String?//Bool
-	let cacheHasAttachments: 		String?//Bool
-	let isVirtual: 					String?//Bool
+	let cache_is_pack/*cacheIsPack*/: 				String?//Bool
+	let cache_has_attachments/*cacheHasAttachments*/: 		String?//Bool
+	let is_virtual/*isVirtual*/: 					String?//Bool
 	let state: 						String?
 	let onSale: 					String?//Bool
 	let onlineOnly: 				String?//Bool
@@ -128,10 +132,10 @@ struct aProduct: Codable
 	let metaDescription: 			[IdValue]?//..255
 	let metaKeywords: 				[IdValue]?//..255
 	let metaTitle: 					[IdValue]?//..128
-	let linkRewrite: 				[IdValue]?//..128
+	let link_rewrite: 				[IdValue]?//..128
 	let name: 						[IdValue]?//..128
 	let description: 				[IdValue]?//html
-	let descriptionShort: 			[IdValue]?//html
+	let description_short/*descriptionShort*/: 			[IdValue]?//html
 	let availableNow: 				[IdValue]?//..255
 	let availableLater: 			[IdValue]?//..255
 	let associations: 				Associations_Products?
@@ -143,7 +147,7 @@ struct aProduct: Codable
 		case idCategoryDefault = 		"id_category_default"
 		case new
 		case cacheDefaultAttribute = 	"cache_default_attribute"
-		case idDefaultHmage = 			"id_default_image"
+		case idDefaultImage = 			"id_default_image"
 		case idDefaultCombination = 	"id_default_combination"
 		case idTaxRulesGroup = 			"id_tax_rules_group"
 		case positionInCategory = 		"position_in_category"

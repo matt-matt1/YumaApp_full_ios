@@ -454,6 +454,21 @@ class MyAccountViewController: UIViewController
     override func viewDidLoad()
 	{
         super.viewDidLoad()
+		/*
+Unable to simultaneously satisfy constraints.
+Probably at least one of the constraints in the following list is one you don't want.
+Try this:
+(1) look at each constraint and try to figure out which you don't expect;
+(2) find the code that added the unwanted constraint or constraints and fix it.
+(
+"<NSLayoutConstraint:0x18242b10 V:|-(0)-[UIStackView:0x16ea3180]   (Names: '|':UIView:0x16e98fa0 )>",
+"<NSLayoutConstraint:0x18147800 UINavigationBar:0x18150560.top == UIView:0x16e98fa0.top + 20>",
+"<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>"
+)
+
+Will attempt to recover by breaking constraint
+<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>
+*/
 		if #available(iOS 11.0, *)
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -473,10 +488,13 @@ class MyAccountViewController: UIViewController
         //drawXIB2()
 		let store = DataStore.sharedInstance
 		//print("\n\(store.addresses)\n\n")
-		store.callGetCarriers()
+		if store.carriers.count < 1
 		{
-			(carriers) in
-//			print(carriers)
+			store.callGetCarriers()
+			{
+				(carriers, err) in
+	//			print(carriers)
+			}
 		}
     }
 
@@ -503,6 +521,7 @@ class MyAccountViewController: UIViewController
 		store.flexView(view: self.signOutBtn)
 		store.customer = nil
 		store.addresses = []
+		UserDefaults.standard.removeObject(forKey: "Customer")
 		OperationQueue.main.addOperation
 			{
 				weak var presentingViewController = self.presentingViewController
@@ -521,7 +540,14 @@ class MyAccountViewController: UIViewController
 	{
 		print("MyAccOHViewController")
 		store.flexView(view: self.orderHistBtn)
-		self.present(MyAccOHViewController(), animated: true, completion: nil)
+//		print("rows:\(store.orders.count)")
+//		for row in 0..<store.orders.count
+//		{
+//			print("row: \(row), id:\(String(describing: store.orders[row].id))")
+//		}
+		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController!
+//		self.present(MyAccOHViewController(), animated: true, completion: nil)
+		self.present(vc!, animated: true, completion: nil)
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{

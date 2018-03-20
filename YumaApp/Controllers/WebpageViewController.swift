@@ -32,14 +32,25 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		activitySpinner.hidesWhenStopped = true
 		self.navigationItem.title = self.pageTitle
 		navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
-		webView.delegate = self
-		if pageURL == ""
+		if Reachability.isConnectedToNetwork()
 		{
-			webView.loadRequest(URLRequest(url: URL(string: R.string.our_web)!))
+			webView.delegate = self
+			if pageURL == ""
+			{
+				webView.loadRequest(URLRequest(url: URL(string: R.string.our_web)!))
+			}
+			else
+			{
+				webView.loadRequest(URLRequest(url: URL(string: self.pageURL)!))
+			}
 		}
 		else
 		{
-			webView.loadRequest(URLRequest(url: URL(string: self.pageURL)!))
+			let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+			self.present(alert, animated: false, completion: {
+				self.dismiss(animated: false, completion: nil)
+			})
 		}
 	}
 	

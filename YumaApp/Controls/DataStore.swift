@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 
+
 final class DataStore
 {
 	static let sharedInstance = DataStore()
+//	private let myClient = MyClient()
 	fileprivate init() {}
 
 	var customer: Customer?
@@ -30,7 +32,28 @@ final class DataStore
 	var myCartRows: [CartRow] = []
 	var myOrder: [Orders] = []
 	var myCart: [Carts] = []
+	var orderDetails: [OrderDetail] = []
+	var carts: [Carts] = []
+	var langs: [Language] = []
+	var manufacturers: [Manufacturer] = []
+	var categories: [aCategory] = []
+	var combinations: [Combination] = []
+	var currencies: [Currency] = []
+	var locale = "en_CA"
+	var taxes: [Tax] = []
+	var tags: [myTag] = []
+	var shares: [ScoialMedia] = []
+	var productOptionValues: [ProductOptionValue] = []
 	
+	
+	func initShares()
+	{
+		self.shares.append(ScoialMedia(id: 0, name: [IdValue(id: "0", value: "Share")]))
+		self.shares.append(ScoialMedia(id: 1, name: [IdValue(id: "0", value: "Facebook")], link: "https://www.facebook.com/sharer.php?u=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjI2IiBoZWlnaHQ9IjQyIiB4bGluazpocmVmPSJENzk1Q0EyOS5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDggMCkiPgoJPC9pbWFnZT4KCTxnPgoJCTxwYXRoIGZpbGw9IiNhY2FhYTYiIGQ9Ik0yMi4yLDI3LjJ2LTcuMmgyYzEuNSwwLDIsMCwyLTAuMWMwLTAuMSwwLjEtMSwwLjItMi4xYzAuMS0xLjEsMC4yLTIuMiwwLjItMi40bDAtMC40bC0yLjIsMGwtMi4yLDAKCQkJbDAtMS42YzAtMC45LDAuMS0xLjgsMC4yLTEuOWMwLjItMC41LDAuNy0wLjcsMi42LTAuN2gxLjdWOC4zVjUuOEgyNGMtMywwLTMuOCwwLjEtNSwwLjdjLTAuOCwwLjQtMS42LDEuMi0yLDEuOQoJCQljLTAuNSwxLjEtMC43LDEuOC0wLjcsNC4zTDE2LjIsMTVoLTEuNWgtMS41djIuNXYyLjVoMS41aDEuNXY3LjJ2Ny4yaDNoM1YyNy4yeiIvPgoJPC9nPgo8L2c+Cjwvc3ZnPgo="))
+		self.shares.append(ScoialMedia(id: 2, name: [IdValue(id: "0", value: "Twitter")], link: "https://twitter.com/intent/tweet?text=%ProdName%2BprodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjQyIiBoZWlnaHQ9IjM2IiB4bGluazpocmVmPSI0M0Q2OUZCMS5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDEgMykiPgoJPC9pbWFnZT4KCTxnPgoJCTxwYXRoIGZpbGw9IiNhY2FhYTYiIGQ9Ik0yNS43LDhMMjUuNyw4bDAuNywwaDAuN2wwLjUsMC4xYzAuMywwLjEsMC42LDAuMiwwLjksMC4zczAuNSwwLjIsMC44LDAuNEMyOS42LDguOSwyOS44LDksMzAsOS4yCgkJCWMwLjIsMC4xLDAuNCwwLjMsMC42LDAuNWMwLjIsMC4yLDAuNCwwLjIsMC44LDAuMWMwLjMtMC4xLDAuNy0wLjIsMS4xLTAuM2MwLjQtMC4xLDAuOC0wLjMsMS4yLTAuNWMwLjQtMC4yLDAuNi0wLjMsMC43LTAuMwoJCQljMC4xLDAsMC4xLTAuMSwwLjEtMC4xbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwYzAsMCwwLDAuMSwwLDAuMQoJCQlTMzQuNSw5LDM0LjMsOS4zcy0wLjQsMC42LTAuNiwwLjljLTAuMiwwLjMtMC41LDAuNi0wLjYsMC43Yy0wLjIsMC4yLTAuMywwLjMtMC40LDAuM2MtMC4xLDAuMS0wLjEsMC4xLTAuMiwwLjJsLTAuMSwwLjFsMCwwbDAsMAoJCQlsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGgwLjFoMC4xbDAuNy0wLjJjMC41LTAuMSwxLTAuMiwxLjQtMC40YzAuNS0wLjIsMC43LTAuMiwwLjctMC4yCgkJCWMwLDAsMC4xLDAsMC4xLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjEsMGwwLjEsMHYwdjBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDAKCQkJYzAsMC0wLjEsMC4yLTAuMywwLjVjLTAuMiwwLjMtMC4zLDAuNC0wLjQsMC41YzAsMCwwLDAtMC4xLDAuMWMwLDAtMC4yLDAuMi0wLjYsMC42Yy0wLjMsMC4zLTAuNywwLjctMSwwLjkKCQkJYy0wLjMsMC4zLTAuNSwwLjYtMC41LDFjMCwwLjQsMCwwLjgtMC4xLDEuM2MwLDAuNS0wLjEsMS0wLjIsMS42Yy0wLjEsMC42LTAuMiwxLjItMC41LDJjLTAuMiwwLjctMC41LDEuNC0wLjcsMi4xCgkJCWMtMC4zLDAuNy0wLjYsMS4zLTAuOSwxLjlzLTAuNiwxLTAuOSwxLjRjLTAuMywwLjQtMC41LDAuNy0wLjgsMS4xYy0wLjMsMC4zLTAuNiwwLjctMSwxLjFjLTAuNCwwLjQtMC43LDAuNi0wLjcsMC43CgkJCWMwLDAtMC4yLDAuMi0wLjUsMC40Yy0wLjMsMC4zLTAuNiwwLjUtMSwwLjhjLTAuMywwLjMtMC43LDAuNS0xLDAuNmMtMC4zLDAuMi0wLjYsMC40LTEuMSwwLjZjLTAuNCwwLjItMC45LDAuNC0xLjMsMC42CgkJCWMtMC41LDAuMi0xLDAuNC0xLjUsMC41Yy0wLjUsMC4yLTEsMC4zLTEuNSwwLjRjLTAuNSwwLjEtMS4xLDAuMi0xLjcsMC4ybC0wLjksMC4xdjB2MGgtMC45aC0wLjl2MHYwbC0wLjIsMGMtMC4yLDAtMC4zLDAtMC40LDAKCQkJcy0wLjUtMC4xLTEuMS0wLjFjLTAuNi0wLjEtMS4xLTAuMi0xLjUtMC4zcy0wLjktMC4zLTEuNi0wLjVjLTAuNy0wLjItMS4zLTAuNS0xLjgtMC44Yy0wLjUtMC4zLTAuOC0wLjQtMS0wLjUKCQkJYy0wLjEtMC4xLTAuMy0wLjEtMC40LTAuMmwtMC4yLTAuMWwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGgwaDB2MHYwbDAsMGwwLDBsMC4xLDBjMC4xLDAsMC4zLDAsMC43LDAKCQkJczAuNywwLDEuMSwwczAuOC0wLjEsMS4yLTAuMWMwLjQtMC4xLDAuOS0wLjIsMS41LTAuM2MwLjYtMC4yLDEuMS0wLjMsMS42LTAuNWMwLjUtMC4yLDAuOC0wLjQsMS0wLjVjMC4yLTAuMSwwLjUtMC4zLDAuOS0wLjYKCQkJbDAuNi0wLjRsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwtMC4yLDBjLTAuMSwwLTAuMywwLTAuNCwwcy0wLjMsMC0wLjYtMC4xCgkJCWMtMC4zLTAuMS0wLjYtMC4yLTAuOS0wLjNjLTAuMy0wLjEtMC42LTAuMy0xLTAuNXMtMC41LTAuNC0wLjctMC41Yy0wLjEtMC4xLTAuMy0wLjMtMC41LTAuNWMtMC4yLTAuMi0wLjQtMC41LTAuNi0wLjcKCQkJYy0wLjItMC4yLTAuMy0wLjUtMC41LTAuOWwtMC4yLTAuNWwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjMsMGMwLjIsMCwwLjUsMCwwLjksMHMwLjcsMCwwLjktMC4xYzAuMiwwLDAuMywwLDAuMy0wLjFsMC4xLDAKCQkJbDAuMSwwbDAuMSwwbDAsMGwwLDBsMCwwbDAsMGwtMC4xLDBsLTAuMSwwbC0wLjEsMGwtMC4xLDBsLTAuMSwwYzAsMC0wLjEsMC0wLjItMC4xcy0wLjMtMC4xLTAuNy0wLjNjLTAuNC0wLjItMC43LTAuMy0wLjktMC41CgkJCWMtMC4yLTAuMi0wLjQtMC4zLTAuNy0wLjVjLTAuMi0wLjItMC40LTAuNC0wLjctMC43Yy0wLjItMC4zLTAuNS0wLjctMC43LTFjLTAuMi0wLjQtMC4zLTAuOC0wLjQtMS4xYy0wLjEtMC40LTAuMi0wLjctMC4yLTEuMQoJCQlsMC0wLjZsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMC40LDAuMmMwLjMsMC4xLDAuNiwwLjIsMSwwLjNzMC43LDAuMSwwLjcsMC4xbDAuMSwwaDAuMWgwLjFsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMAoJCQlsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBjMCwwLTAuMS0wLjEtMC4yLTAuMmMtMC4xLTAuMS0wLjMtMC4zLTAuNS0wLjRjLTAuMi0wLjItMC4zLTAuNC0wLjUtMC42cy0wLjMtMC40LTAuNC0wLjYKCQkJQzgsMTUsNy44LDE0LjcsNy43LDE0LjRjLTAuMS0wLjMtMC4yLTAuNy0wLjMtMWMtMC4xLTAuMy0wLjEtMC43LTAuMS0xYzAtMC4zLDAtMC42LDAtMC45YzAtMC4yLDAuMS0wLjUsMC4yLTAuOHMwLjItMC42LDAuMy0xCgkJCUw4LDkuMmwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjQsMC40YzAuMiwwLjMsMC41LDAuNiwwLjgsMC45CgkJCUM5LjcsMTAuOCw5LjksMTEsOS45LDExYzAsMCwwLjEsMC4xLDAuMSwwLjFjMC4xLDAuMSwwLjIsMC4yLDAuNSwwLjVjMC4zLDAuMiwwLjcsMC41LDEuMiwwLjlzMSwwLjcsMS42LDEKCQkJYzAuNiwwLjMsMS4yLDAuNiwxLjksMC45YzAuNywwLjMsMS4yLDAuNCwxLjQsMC41YzAuMywwLjEsMC43LDAuMiwxLjQsMC4zYzAuNywwLjEsMS4yLDAuMiwxLjUsMC4yczAuNiwwLjEsMC43LDAuMWwwLjIsMGwwLDAKCQkJbDAsMEwyMC40LDE1YzAtMC4yLTAuMS0wLjUtMC4xLTAuOXMwLTAuOCwwLjEtMS4xYzAuMS0wLjMsMC4yLTAuNywwLjMtMWMwLjEtMC4zLDAuMi0wLjYsMC40LTAuOGMwLjEtMC4yLDAuMy0wLjQsMC41LTAuNwoJCQljMC4yLTAuMywwLjQtMC41LDAuOC0wLjhjMC4zLTAuMywwLjctMC41LDEuMS0wLjhjMC40LTAuMiwwLjgtMC40LDEuMS0wLjVjMC4zLTAuMSwwLjYtMC4yLDAuOC0wLjJTMjUuNyw4LDI1LjcsOHoiLz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
+		self.shares.append(ScoialMedia(id: 3, name: [IdValue(id: "0", value: "Google+")], link: "https://plus.google.com/share?url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjM0IiB4bGluazpocmVmPSJDRTYxRDA0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIC0yIDQpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE0LDE4LjF2NC4yYzAsMCw0LDAsNS43LDBjLTAuOSwyLjctMi4zLDQuMi01LjcsNC4yYy0zLjQsMC02LjEtMi44LTYuMS02LjJTMTAuNSwxNCwxNCwxNAoJCQkJYzEuOCwwLDMsMC42LDQuMSwxLjVjMC45LTAuOSwwLjgtMSwzLTMuMWMtMS45LTEuNy00LjMtMi43LTcuMS0yLjdjLTUuOCwwLTEwLjUsNC43LTEwLjUsMTAuNUMzLjUsMjYsOC4yLDMwLjcsMTQsMzAuNwoJCQkJYzguNywwLDEwLjgtNy41LDEwLjEtMTIuNkMyMiwxOC4xLDE0LDE4LjEsMTQsMTguMXogTTMyLjksMTguNHYtMy42aC0yLjZ2My42aC0zLjd2Mi42aDMuN3YzLjdoMi42di0zLjdoMy42di0yLjZIMzIuOXoiLz4KCQk8L2c+Cgk8L2c+CjwvZz4KPC9zdmc+Cg=="))
+		self.shares.append(ScoialMedia(id: 4, name: [IdValue(id: "0", value: "Pinerest")], link: "https://www.pinerest.com/pin/create/button/?media=%prodImage%&url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjQ2IiB4bGluazpocmVmPSI4REY2NkQ0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDIgLTEpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE4LjcsNS4xQzEzLjQsNS42LDguMSwxMCw3LjgsMTYuMWMtMC4xLDMuOCwwLjksNi42LDQuNSw3LjRjMS42LTIuNy0wLjUtMy4zLTAuOC01LjMKCQkJCWMtMS4zLTguMSw5LjQtMTMuNywxNS04YzMuOSwzLjksMS4zLDE2LTQuOSwxNC44Yy02LTEuMiwyLjktMTAuOC0xLjgtMTIuN2MtMy45LTEuNS01LjksNC43LTQuMSw3LjhjLTEuMSw1LjMtMy40LDEwLjMtMi41LDE3CgkJCQljMy4xLTIuMiw0LjEtNi41LDQuOS0xMC45YzEuNSwwLjksMi40LDEuOSw0LjMsMi4xYzcuMiwwLjYsMTEuMi03LjIsMTAuMy0xNC40QzMxLjgsNy41LDI1LjUsNC4zLDE4LjcsNS4xeiIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
+	}
 	
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{
@@ -51,13 +74,13 @@ final class DataStore
 		)
 	}
 	
-	func callGetCarriers(completion: @escaping (Any) -> Void)
+	func callGetCarriers(completion: @escaping ([Carrier]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)/carriers"
 		let myUrl = "\(url)?\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
 		PSWebServices.getCarriers(from: myUrl, /*to: CarrierList.self,*/ completionHandler:
 			{
-				(object) in//)(dataStr, object) in
+				(object, err) in//)(dataStr, object) in
 				
 				let dataStr = UserDefaults.standard.string(forKey: "Carriers")
 				let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
@@ -69,13 +92,41 @@ final class DataStore
 					{
 						self.carriers.append(carr)
 					}
-					completion(tempObj)
+					completion(tempObj, nil)
 				}
 				catch let jsonErr
 				{
 					print(jsonErr)
+					completion(nil, err)//"\(err?.localizedDescription) - \(jsonErr)")
 				}
 			}
+		)
+	}
+	
+	func callGetCarts(id_customer: Int, completion: @escaping ([Carts]?, Error?) -> Void)
+	{
+		PSWebServices.getCarts(id_customer: id_customer, completionHandler:
+			{
+				(object, err) in//)(dataStr, object) in
+				
+				let dataStr = UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
+				let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
+				let tempObj: [Carts]
+				do
+				{
+					tempObj = try JSONDecoder().decode([Carts].self, from: tempCarr.data(using: .utf8)!)
+					for carr in tempObj
+					{
+						self.carts.append(carr)
+					}
+					completion(tempObj, nil)
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+					completion(nil, err)//"\(err?.localizedDescription) - \(jsonErr)")
+				}
+		}
 		)
 	}
 
@@ -137,17 +188,17 @@ final class DataStore
 			{
 				(result, err) in
 				
-				if err != nil
+				if err != nil	//if has error
 				{
-					let dataStr = UserDefaults.standard.string(forKey: "OrderStates")
+					let dataStr = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
 					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
 					let tempObj: [Orders]
 					do
 					{
 						tempObj = try JSONDecoder().decode([Orders].self, from: tempCarr.data(using: .utf8)!)
-						for os in tempObj
+						for ords in tempObj
 						{
-							self.orders.append(os)
+							self.orders.append(ords)
 						}
 						OperationQueue.main.addOperation
 							{
@@ -167,8 +218,58 @@ final class DataStore
 				{
 					OperationQueue.main.addOperation
 						{
-							completion(nil, err)
+							completion(result, nil)
 						}
+				}
+			}
+		)
+	}
+
+	func getOrderDetails(id_order: Int, completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getOrderDetails(id_order: id_order, completionHandler:
+			{
+				(result, err) in
+				
+				if err != nil	//if has error
+				{
+					let dataStr = UserDefaults.standard.string(forKey: "OrderDetailsOrder\(id_order)")
+					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: [OrderDetail]
+					do
+					{
+						tempObj = try JSONDecoder().decode([OrderDetail].self, from: tempCarr.data(using: .utf8)!)
+						for ords in tempObj
+						{
+							self.orderDetails.append(ords)
+						}
+						OperationQueue.main.addOperation
+							{
+								completion(tempObj, nil)
+						}
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+						OperationQueue.main.addOperation
+							{
+								completion(nil, jsonErr)
+						}
+					}
+				}
+				else
+				{
+					if let result = result
+					{
+//						let dataStr = String(data: result, encoding: .utf8)
+//						UserDefaults.standard.set(dataStr, forKey: "Order\(id_order)Details")
+						let array = result.orderDetails
+						OperationQueue.main.addOperation
+							{
+								//completion(result, nil)
+								completion(array, nil)
+							}
+					}
 				}
 			}
 		)
@@ -180,14 +281,16 @@ final class DataStore
 			{
 				(states, err) in
 				
-				if err != nil
+				if err != nil	//only if error
 				{
 					let dataStr = UserDefaults.standard.string(forKey: "OrderStates")
 					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-					let tempObj: [OrderState]
+					let tempObj: [OrderState]	//^remove wrapper - use inner array
 					do
 					{
 						tempObj = try JSONDecoder().decode([OrderState].self, from: tempCarr.data(using: .utf8)!)
+//						let array = tempObj.order_states
+//						for os in array!
 						for os in tempObj
 						{
 							self.orderStates.append(os)
@@ -210,10 +313,221 @@ final class DataStore
 				{
 					OperationQueue.main.addOperation
 						{
-							completion(nil, err)
+							completion(states, nil)
 						}
 				}
 			}
+		)
+	}
+	
+	func callGetLanguages(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getLangauages(completionHandler:
+			{
+				(langs, err) in
+				
+				if err == nil
+				{
+					if langs != nil
+					{
+						for lang in (langs?.languages)!
+						{
+							self.langs.append(lang)
+						}
+						completion(self.langs, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+	
+	
+	func callGetCombinations(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getCombinations(completionHandler:
+			{
+				(combs, err) in
+				
+				if err == nil
+				{
+					if combs != nil
+					{
+						for comb in (combs?.combinations)!
+						{
+							self.combinations.append(comb)
+						}
+						completion(self.combinations, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+	
+
+	func callGetManufacturers(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getManufacturers(completionHandler:
+			{
+				(manus, err) in
+				
+				if err == nil
+				{
+					if manus != nil
+					{
+						for man in (manus?.manufacturers)!
+						{
+							self.manufacturers.append(man)
+						}
+						completion(self.manufacturers, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+
+	func callGetCurrencies(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getCurrencies(completionHandler:
+			{
+				(currs, err) in
+				
+				if err == nil
+				{
+					if currs != nil
+					{
+						for curr in (currs?.currencies)!
+						{
+							self.currencies.append(curr)
+						}
+						completion(self.currencies, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+		}
+		)
+	}
+	
+	func callGetCategories(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getCategories(completionHandler:
+			{
+				(cats, err) in
+				
+				if err == nil
+				{
+					if cats != nil
+					{
+						for cat in (cats?.categories)!
+						{
+							self.categories.append(cat)
+						}
+						completion(self.categories, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+	
+	func callGetTaxes(completion: @escaping ([Tax]?, Error?) -> Void)
+	{
+		PSWebServices.getTaxes(completionHandler:
+			{
+				(taxes, err) in
+				
+				if err == nil
+				{
+					if taxes != nil
+					{
+						if (taxes?.taxes) != nil
+						{
+							for tax in (taxes?.taxes!)!
+							{
+								self.taxes.append(tax)
+							}
+						}
+						completion(self.taxes, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+		}
+		)
+	}
+	
+	func callGetTags(completion: @escaping ([myTag]?, Error?) -> Void)
+	{
+		PSWebServices.getTags(completionHandler:
+			{
+				(tags, err) in
+				
+				if err == nil
+				{
+					if tags != nil
+					{
+						if (tags?.tags) != nil
+						{
+							for tag in (tags?.tags!)!
+							{
+								self.tags.append(tag)
+							}
+						}
+						completion(self.tags, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+	
+	func callGetProductOptionValues(completion: @escaping ([ProductOptionValue]?, Error?) -> Void)
+	{
+		PSWebServices.getProductOptionValues(completionHandler:
+			{
+				(productOptionValues, err) in
+				
+				if err == nil
+				{
+					if productOptionValues != nil
+					{
+						if (productOptionValues?.product_option_values) != nil
+						{
+							for tag in (productOptionValues?.product_option_values)!
+							{
+								self.productOptionValues.append(tag)
+							}
+						}
+						completion(self.productOptionValues, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+		}
 		)
 	}
 
@@ -490,6 +804,26 @@ final class DataStore
 		//print(sub)
 		return String(sub)
 	}
+	
+//	func getSymbolForCurrencyCode(code: String) -> String?
+//	{
+//		let locale = NSLocale(localeIdentifier: code)
+//		if locale.displayName(forKey: .currencySymbol, value: code) == code
+//		{
+//			let newlocale = NSLocale(localeIdentifier: code.characters.dropLast() + "_en")
+//			return newlocale.displayName(forKey: .currencySymbol, value: code)
+//		}
+//		return locale.displayName(forKey: .currencySymbol, value: code)
+//	}
+	
+	func formatCurrency(amount: NSNumber, iso/*lang_country*/: String? = "en_CA") -> String
+	{
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .currency
+		formatter.locale = Locale(identifier: iso!)
+		return formatter.string(from: amount)!
+	}
+
 }
 
 

@@ -9,6 +9,8 @@
 import Foundation
 
 
+private struct DummyCodable: Codable {}
+
 struct aCategory: Decodable//, Comparable
 	{
 	//	public static func <(lhs: Carrier, rhs: Carrier) -> Bool
@@ -21,24 +23,60 @@ struct aCategory: Decodable//, Comparable
 	//		<#code#>
 	//	}
 	
-	let id: 					Int
-	let idParent: 				String?
-	let levelDepth: 			String?//read_only
-	let nbProductsRecursive: 	String?//read_only
-	let active: 				String//Bool
-	let idShopDefault: 			String?
-	let isRootCategory: 		String?//Bool
-	let position: 				String?
-	let dateAdd: 				String?//date
-	let dateUpd: 				String?//date
-	let name: 					[IdValue]//..128
-	let linkRewrite: 			[IdValue]//..128
-	let description: 			[IdValue]?//html
-	let metaTitle: 				[IdValue]?//..128
-	let metaDescription: 		[IdValue]?//..255
-	let metaKeywords: 			[IdValue]?//..255
-	let associations: 			Associations_Categories?
+	var id: 					Int?
+	var idParent: 				String?
+	var /*level_depth*/levelDepth: 			String?//read_only
+	var /*nb_products_recursive*/nbProductsRecursive: 	String?//read_only//sometimes -1(Int)
+	var active: 				String?//!Bool
+	var idShopDefault: 			String?
+	var isRootCategory: 		String?//Bool
+	var position: 				String?
+	var dateAdd: 				String?//date
+	var dateUpd: 				String?//date
+	var name: 					[IdValue]?//!..128
+	var linkRewrite: 			[IdValue]?//!..128
+	var description: 			[IdValue]?//html
+	var metaTitle: 				[IdValue]?//..128
+	var metaDescription: 		[IdValue]?//..255
+	var metaKeywords: 			[IdValue]?//..255
+	var associations: 			Associations_Categories?
 	
+	init(from decoder: Decoder) throws
+	{
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		if let str = try? values.decode(Int.self, forKey: .id)
+		{
+			id = str
+		}
+		else if let int = try? values.decode(String.self, forKey: .id)
+		{
+			id = Int(int)!
+		}
+		idParent = try values.decodeIfPresent(String.self, forKey: .idParent) ?? ""
+		levelDepth = try? values.decodeIfPresent(String.self, forKey: .levelDepth) ?? ""
+		if let str = try? values.decodeIfPresent(String.self, forKey: .nbProductsRecursive)
+		{
+			nbProductsRecursive = str
+		}
+		else if let int = try values.decodeIfPresent(Int.self, forKey: .nbProductsRecursive)
+		{
+			nbProductsRecursive = "\(int)"
+		}
+		active = try values.decode(String.self, forKey: .active)
+		idShopDefault = try values.decodeIfPresent(String.self, forKey: .idShopDefault) ?? ""
+		isRootCategory = try values.decodeIfPresent(String.self, forKey: .isRootCategory) ?? ""
+		position = try values.decodeIfPresent(String.self, forKey: .position) ?? ""
+		dateAdd = try values.decodeIfPresent(String.self, forKey: .dateAdd) ?? ""
+		dateUpd = try values.decodeIfPresent(String.self, forKey: .dateUpd) ?? ""
+		name = try values.decodeIfPresent([IdValue].self, forKey: .name) ?? nil
+		linkRewrite = try values.decodeIfPresent([IdValue].self, forKey: .linkRewrite) ?? nil
+		description = try values.decodeIfPresent([IdValue].self, forKey: .description) ?? nil
+		metaTitle = try values.decodeIfPresent([IdValue].self, forKey: .metaTitle) ?? nil
+		metaDescription = try values.decodeIfPresent([IdValue].self, forKey: .metaDescription) ?? nil
+		metaKeywords = try values.decodeIfPresent([IdValue].self, forKey: .metaKeywords) ?? nil
+		associations = try values.decodeIfPresent(Associations_Categories.self, forKey: .associations) ?? nil
+	}
+
 	private enum CodingKeys: String, CodingKey
 	{
 		case id

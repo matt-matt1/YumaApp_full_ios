@@ -18,7 +18,8 @@ target 'YumaApp' do
 #pod 'SwiftyFORM'
 #pod 'Eureka'
 #pod 'AngleGradientLayer', '~> 1.0'
-pod 'SwiftyJSON'
+#pod 'SwiftyJSON'
+#pod "SwiftDataTables"
 
   target 'YumaAppTests' do
     inherit! :search_paths

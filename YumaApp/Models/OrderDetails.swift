@@ -11,8 +11,8 @@ import Foundation
 
 public struct OrderDetail: Decodable
 {
-	let id: 							Int
-	let id_order: 						String
+	let id: 							Int?//!
+	let id_order: 						String?//!
 	let product_id: 					String?
 	let product_attribute_id: 			String?
 	let product_quantity_reinjected: 	String?
@@ -21,15 +21,15 @@ public struct OrderDetail: Decodable
 	let download_hash: 					String?//object
 	let download_deadline: 				String?
 	let id_order_invoice: 				String?
-	let id_warehouse: 					String
-	let id_shop: 						String
+	let id_warehouse: 					String?//!
+	let id_shop: 						String?//!
 	let id_customization: 				String?
-	let product_name: 					String
-	let product_quantity: 				String//Int
+	let product_name: 					String?//!
+	let product_quantity: 				String?//!Int
 	let product_quantity_in_stock: 		String?//Int
 	let product_quantity_return: 		String?//Int
 	let product_quantity_refunded: 		String?//Int
-	let product_price: 					String
+	let product_price: 					String?//!
 	let reduction_percent: 				String?//Float
 	let reduction_amount: 				String?
 	let reduction_amount_tax_incl: 		String?
@@ -57,7 +57,7 @@ public struct OrderDetail: Decodable
 	let original_wholesale_price: 		String?
 	let taxes: 							Tax?
 }
-struct orderDetails: Decodable
+struct OrderDetails: Decodable
 {
 	let orderDetails: [OrderDetail]?
 }

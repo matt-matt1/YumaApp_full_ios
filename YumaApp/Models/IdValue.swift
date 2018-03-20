@@ -9,8 +9,19 @@
 import Foundation
 
 
-struct IdValue: Codable
+public struct IdValue: Codable
 {
 	let id: 	String?
 	let value: 	String?
+	
+//	init(id: String, value: String)
+//	{
+//		self.id = id
+//		self.value = value
+//	}
+}
+
+public struct IdAsString: Codable
+{
+	let id: String?
 }

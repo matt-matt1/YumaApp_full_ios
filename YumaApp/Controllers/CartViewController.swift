@@ -71,7 +71,9 @@ class CartViewController: UIViewController
 			}
 			if total < 1
 			{
-				alertEmpty()
+				DispatchQueue.main.async {
+					self.alertEmpty()
+				}
 			}
 			else
 			{

@@ -272,7 +272,7 @@ struct R {
 		static let empty = "Empty"
 		static let internet = "Internet"
 		static let no_data = "Data unavailable"
-		static let unableConnect = "Unable to access the website (or Internet)"
+		static let unableConnect = "Unable to access the website"// establish a connection
 		static let no_local = "No local copy"
 		static let no_connect = "No connection"
 		static let noPrice = "Contact for price"
@@ -350,7 +350,7 @@ struct R {
 		static let txtForgotPW = "Please enter the email address you used to register. You will receive a temporary link to reset your password."
 		static let emailAddr = "Email Address"
 		static let sendResetLink = "Send reset link"
-		static let noRemem = "Don\'t remember me"
+//		static let noRemem = "Don't remember me"
 		//		<!--search-->
 		static let action_search = "search"
 		static let searchResults = "Search results"
@@ -380,7 +380,7 @@ struct R {
 		static let OrderGuest = "Order as a guest"
 		static let delTo = "Deliver to"
 		static let invTo = "Invoice to"
-		static let orderHistoryTop = "Here are the orders you\'ve placed since your account was created."
+		static let orderHistoryTop = "Here are the orders you've placed since your account was created."
 		static let noOrderHist = "No past orders have been made."
 		static let ordRef = "Order reference"
 		static let ordFoll = "Follow your order status (step-by-step)"
@@ -464,11 +464,6 @@ struct R {
 		static let payByCash = "Pay by cash"
 		static let obligation = "Order with an obligation to pay"
 		static let chkInstr = "Choose a %s, then press Next"
-		//
-		static let id_label = "the id is"
-		static let id_value = "[id]"
-		static let content_label = "The Content is"
-		static let content_value = "[content]"
 		//		<!--prestashop-->
 		static let cookie_key = "DtMUx3asc8KUPENVAjmaWBNjZWQ8ONsInyIPeYevCnjManedCdobyVr8"
 		static let secret = "dv0YPxjVdDNn6f2RFQ7IgX63BJa9gdpcqHwO4JcuchMQKUrgqTSQvmr6"
@@ -481,11 +476,15 @@ struct R {
 		//		<!--<string name="APIparams = "ws_key=UUXXLG3ZSDLFI86JC2USB919UHEQU7AP&amp;output_format=JSON</string>-->
 		static let APIjson = "output_format=JSON"
 		static let APIfull = "display=full"
-
 		//		<!--help-->
 		static let help = "Assistance"
 		static let section_name = "section name"
 		static let help2 = "All Guides"
+		//		<!--orders-->
+		static let order = "Order"
+		static let ref = "reference"
+		static let tPrice = "Total Price"
+		static let payment = "Payment"
 
 		fileprivate init() {}
 	}

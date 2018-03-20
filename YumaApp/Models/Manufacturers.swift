@@ -15,10 +15,10 @@ struct Manufacturers: Decodable
 }
 struct Manufacturer: Decodable
 {
-	let id:					Int
+	let id:					Int?//!
 	let active: 			String?
 	let linkRewrite: 		String?//read_only
-	let name: 				String//..64
+	let name: 				String?//!..64
 	let dateAdd: 			String?
 	let dateUpd: 			String?
 	let description: 		[IdValue]?

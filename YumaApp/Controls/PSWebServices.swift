@@ -81,9 +81,9 @@ class PSWebServices: NSObject
 	}
 	
 	///return an Object containing a list of the orders
-	class func getOrders(id_customer: Int, completionHandler: @escaping (Orders?, Error?) -> Void)
+	class func getOrders(id_customer: Int, completionHandler: @escaping (OrderDetails?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)orders?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let url = "\(R.string.WSbase)order_details?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
 			URLSession.shared.dataTask(with: myUrl)
@@ -96,11 +96,11 @@ class PSWebServices: NSObject
 //					if saveName != nil && saveName != ""
 //					{
 					let dataStr = String(data: myData, encoding: .utf8)
-						UserDefaults.standard.set(dataStr, forKey: "Orders\(id_customer)")
+						UserDefaults.standard.set(dataStr, forKey: "OrderDetailsCustomer\(id_customer)")
 //					}
 					do
 					{
-						let myData = try JSONDecoder().decode(Orders.self, from: myData)
+						let myData = try JSONDecoder().decode(OrderDetails.self, from: myData)
 //						print(myData)
 						completionHandler(myData, nil)
 					}
@@ -115,6 +115,217 @@ class PSWebServices: NSObject
 		}
 	}
 	
+	///return an Object containing a list of the languages
+	class func getLangauages(completionHandler: @escaping (Languages?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)languages?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Languages")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Languages.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+	
+	///return an Object containing a list of the combinations
+	class func getCurrencies(completionHandler: @escaping (Currencies?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)currencies?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Currencies")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Currencies.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+			}.resume()
+		}
+	}
+	
+	
+	///return an Object containing a list of the combinations
+	class func getCombinations(completionHandler: @escaping (Combinations?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)combinations?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Combinations")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Combinations.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+			}.resume()
+		}
+	}
+
+	///return an Object containing a list of the manufacturers
+	class func getManufacturers(completionHandler: @escaping (Manufacturers?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)manufacturers?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Manufacturers")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Manufacturers.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+	
+	///return an Object containing a list of the categories
+	class func getCategories(completionHandler: @escaping (Categories?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)categories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Categories")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Categories.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+
+	///return an Object containing a list of the order details
+	class func getOrderDetails(id_order: Int, completionHandler: @escaping (OrderDetails?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)order_details?filter[id_order]=[\(id_order)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "Order\(id_order)Details")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(OrderDetails.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+
 	///return an Object containing a list of the order states
 	class func getOrderStates(completionHandler: @escaping (OrderStates?, Error?) -> Void)
 	{
@@ -150,6 +361,41 @@ class PSWebServices: NSObject
 		}
 	}
 
+	///return an Object containing a list of the carts
+	class func getCarts(id_customer: Int, completionHandler: @escaping (Carts?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)carts?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "CartsCustomer\(id_customer)")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(Carts.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
+
 //	func buildAnswer(keys: [String]) throws -> Data
 //	{
 //		var result = [String: Any](minimumCapacity: keys.count)
@@ -163,7 +409,7 @@ class PSWebServices: NSObject
 //	}
 	
 	///return an Object containing a list of the carriers
-	class func getCarriers(from: String, completionHandler: @escaping (/*String,*/ CarrierList) -> Void)
+	class func getCarriers(from: String, completionHandler: @escaping (CarrierList?, Error?) -> Void)
 	{
 		if let myUrl = URL(string: from)
 		{
@@ -183,11 +429,12 @@ class PSWebServices: NSObject
 					{
 						let myData = try JSONDecoder().decode(CarrierList.self, from: myData)
 //						print(myData)
-						completionHandler(/*dataStr!,*/ myData)
+						completionHandler(myData, nil)
 					}
 					catch let JSONerr
 					{
 						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				return
@@ -226,8 +473,51 @@ class PSWebServices: NSObject
 		}
 	}
 	
+	struct FailableDecodable<Base : Decodable> : Decodable
+	{
+		let base: Base?
+		
+		init(from decoder: Decoder) throws
+		{
+			let container = try decoder.singleValueContainer()
+			self.base = try? container.decode(Base.self)
+		}
+	}
+	struct FailableCodableArray<Element : Codable> : Codable
+	{
+		var elements: [Element]
+		
+		init(from decoder: Decoder) throws
+		{
+			var container = try decoder.unkeyedContainer()
+			
+			var elements = [Element]()
+			if let count = container.count
+			{
+				elements.reserveCapacity(count)
+			}
+			
+			while !container.isAtEnd
+			{
+				if let element = try container
+					.decode(FailableDecodable<Element>.self).base
+				{
+					elements.append(element)
+				}
+			}
+			
+			self.elements = elements
+		}
+		
+		func encode(to encoder: Encoder) throws
+		{
+			var container = encoder.singleValueContainer()
+			try container.encode(elements)
+		}
+	}
+		
 	///return an Object containing a list of all categories
-	class func getCategories(completionHandler: @escaping ([aProduct]) -> Void)
+	class func getCategories(completionHandler: @escaping (Any) -> Void)
 	{
 		let url = "\(R.string.WSbase)categories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -236,14 +526,14 @@ class PSWebServices: NSObject
 			{
 				(data, response, err) in
 				
-				if let data = data
+				if let data = try? JSONSerialization.data(withJSONObject: data!, options: [])//data
 				{
 //					let dataString = String(data: data, encoding: .utf8)
 //					print(dataString ?? R.string.err)
 					do
 					{
-						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!)
+						let result = try JSONDecoder().decode([FailableDecodable<aCategory>].self, from: data).flatMap { $0.base }
+						completionHandler(result)
 					}
 					catch let JSONerr
 					{
@@ -309,6 +599,93 @@ class PSWebServices: NSObject
 					catch let JSONerr
 					{
 						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				}.resume()
+		}
+	}
+
+	///return an object of the taxes
+	class func getTaxes(completionHandler: @escaping (Taxes?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)taxes?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let taxes = try JSONDecoder().decode(Taxes.self, from: data)
+						completionHandler(taxes, nil)
+					}
+					catch let JSONerr
+					{
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				}.resume()
+		}
+	}
+
+	///return an object of the tags
+	class func getTags(completionHandler: @escaping (Tags?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)tags?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let tags = try JSONDecoder().decode(Tags.self, from: data)
+						completionHandler(tags, nil)
+					}
+					catch let JSONerr
+					{
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				}.resume()
+		}
+	}
+
+	///return an object of the tags
+	class func getProductOptionValues(completionHandler: @escaping (ProductOptionValues?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)product_option_values?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let tags = try JSONDecoder().decode(ProductOptionValues.self, from: data)
+						completionHandler(tags, nil)
+					}
+					catch let JSONerr
+					{
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				}.resume()
@@ -443,10 +820,9 @@ class PSWebServices: NSObject
 	}
 	
 	///try
-	class func get__(id_customer: Int, completionHandler: @escaping (Addresses) -> Void)
+	class func get__(resource: String, param: String?, decodeType: Any?, completionHandler: @escaping (Any?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)/addresses"
-		let myUrl = "\(url)?filter[id_customer]=[\(id_customer)]&\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
+		let myUrl = "\(R.string.WSbase)\(resource)?\(param ?? "a=1")&\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
 		if let myUrl = URL(string: myUrl)
 		{
 			URLSession.shared.dataTask(with: myUrl)
@@ -455,15 +831,16 @@ class PSWebServices: NSObject
 				{
 					do
 					{
-						let addresses = try JSONDecoder().decode(Addresses.self, from: data)
-						completionHandler(addresses)
+						//let result = try JSONDecoder().decode(decodeType!, from: data)
+						//completionHandler(result, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
-				}.resume()
+			}.resume()
 		}
 	}
 	

@@ -28,7 +28,7 @@ class CartViewCell: UITableViewCell
 			if "\(DataStore.sharedInstance.products[i].id ?? 0)" == object.productId
 			{
 				let prod = DataStore.sharedInstance.products[i]
-				let imgName = prod.associations?.images?[0].id
+				let imgName = prod.associations?.images![0].id
 				var imageName = "\(R.string.URLbase)img/p"
 				for ch in imgName!
 				{
@@ -57,7 +57,7 @@ class CartViewCell: UITableViewCell
 				if "\(DataStore.sharedInstance.printers[i].id ?? 0)" == object.productId
 				{
 					let prod = DataStore.sharedInstance.printers[i]
-					let imgName = prod.associations?.images?[0].id
+					let imgName = prod.associations?.images![0].id
 					var imageName = "\(R.string.URLbase)img/p"
 					for ch in imgName!
 					{
@@ -87,7 +87,7 @@ class CartViewCell: UITableViewCell
 				if "\(DataStore.sharedInstance.laptops[i].id ?? 0)" == object.productId
 				{
 					let prod = DataStore.sharedInstance.laptops[i]
-					let imgName = prod.associations?.images?[0].id
+					let imgName = prod.associations?.images![0].id
 					var imageName = "\(R.string.URLbase)img/p"
 					for ch in imgName!
 					{
@@ -117,7 +117,7 @@ class CartViewCell: UITableViewCell
 				if "\(DataStore.sharedInstance.services[i].id ?? 0)" == object.productId
 				{
 					let prod = DataStore.sharedInstance.services[i]
-					let imgName = prod.associations?.images?[0].id
+					let imgName = prod.associations?.images![0].id
 					var imageName = "\(R.string.URLbase)img/p"
 					for ch in imgName!
 					{
@@ -147,7 +147,7 @@ class CartViewCell: UITableViewCell
 				if "\(DataStore.sharedInstance.toners[i].id ?? 0)" == object.productId
 				{
 					let prod = DataStore.sharedInstance.toners[i]
-					let imgName = prod.associations?.images?[0].id
+					let imgName = prod.associations?.images![0].id
 					var imageName = "\(R.string.URLbase)img/p"
 					for ch in imgName!
 					{

@@ -11,13 +11,13 @@ import Foundation
 
 struct Currencies: Decodable
 {
-	let currency: [Currency]?
+	let currencies: [Currency]?
 }
 struct Currency: Decodable
 {
-	let name: 			String//..64
-	let isoCode: 		String//..3
-	let conversionRate: String//Float
+	let name: 			String?//!..64
+	let isoCode: 		String?//!..3
+	let conversionRate: String?//!Float
 	let deleted: 		String?//Bool
 	let active: 		String?//Bool
 	

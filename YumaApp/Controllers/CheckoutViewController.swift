@@ -88,6 +88,14 @@ class CheckoutViewController: UIViewController
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		navClose.title = FontAwesome.close.rawValue
+		navClose.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
 		/////cart table
 //		totalAmtLbl.text = R.string.Total.uppercased()
 //		totalPcsLbl.text = R.string.pieces

@@ -61,20 +61,130 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 
-		store.callGetCountries { (countries) in
-			print("got countries OK")
-		}
-		store.callGetStates(id_country: 0) { (states) in
-			print("got states OK")
-		}
-		store.getOrderStates { (os, err) in
-			if err == nil
-			{
-				print("got order states OK")
+		if Reachability.isConnectedToNetwork()
+		{
+			store.callGetCountries { (countries) in
+				print("got \((countries as! [Country]).count) countries")
 			}
-			else
-			{
-				print("Error getting order states: \(String(describing: err))")
+			store.callGetStates(id_country: 0) { (states) in
+				print("got \((states as! [CountryState]).count) states")
+			}
+			store.callGetCarriers { (carriers, err) in
+				if err == nil
+				{
+					print("got \((carriers as [Carrier]!).count) carriers")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.getOrderStates { (os, err) in	//a pair of errors
+				if err == nil
+				{
+					let array = (os as! OrderStates).order_states
+					print("got \(array?.count ?? 0) order states")
+				}
+				else
+				{
+					print("Error getting order states: \(String(describing: err))")
+				}
+			}
+			store.callGetLanguages { (lang, err) in
+				if err == nil
+				{
+					print("got \((lang as! [Language]).count) languages")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetManufacturers { (manus, err) in
+				if err == nil
+				{
+					print("got \((manus as! [Manufacturer]).count) manufacturers")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetCategories { (cats, err) in
+				if err == nil
+				{
+					print("got \((cats as! [aCategory]).count) categories")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetCombinations { (combs, err) in
+				if err == nil
+				{
+					print("got \((combs as! [Combination]).count) combinations")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetCurrencies { (currs, err) in
+				if err == nil
+				{
+					print("got \((currs as! [Currency]).count) currencies")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			let myClient = MyClient()
+//			myClient.getREST(from: , completion: { (<#Result<Address?, APIError>#>) in
+//				<#code#>
+//			})
+			myClient.getREST(from: .addresses(filters: [
+				Addresses_filter.idCustomer : "3",
+				Addresses_filter.idCountry : "4",
+				//Addresses_filter.idManufacturer : "0",
+				]), completion: { (addr) in
+				//
+			})
+//			myClient.getREST(from: .addresses(nil, nil), completion: { (addr) in
+//				//
+//			})
+			//let str = collect.addresses(addresses_filter.idCustomer, "3")
+			//print("\(str)")
+			store.callGetTaxes { (taxes, err) in
+				if err == nil
+				{
+					print("got \((taxes as [Tax]!).count) taxes")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetTags { (tags, err) in
+				if err == nil
+				{
+					print("got \((tags as [myTag]!).count) tags")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
+			store.callGetProductOptionValues{ (opts, err) in
+				if err == nil
+				{
+					print("got \((opts as [ProductOptionValue]!).count) product option values")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
 			}
 		}
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)

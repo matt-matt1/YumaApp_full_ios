@@ -29,9 +29,28 @@ class MyAccAddrViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		if #available(iOS 11.0, *) {
+		/*
+Unable to simultaneously satisfy constraints.
+Probably at least one of the constraints in the following list is one you don't want.
+Try this:
+(1) look at each constraint and try to figure out which you don't expect;
+(2) find the code that added the unwanted constraint or constraints and fix it.
+(
+"<NSLayoutConstraint:0x16d1ff80 V:|-(0)-[UIStackView:0x18199b50]   (Names: '|':UIView:0x16e9ddf0 )>",
+"<NSLayoutConstraint:0x16db2650 UIView:0x16e9ddf0.top == UIView:0x16ed6830.topMargin>",
+"<NSLayoutConstraint:0x16db2680 UINavigationBar:0x16d14490.top == UIView:0x16ed6830.top + 20>",
+"<NSLayoutConstraint:0x16edc880 'UISV-canvas-connection' UIStackView:0x18199b50.top == UINavigationBar:0x16d14490.top>"
+)
+
+Will attempt to recover by breaking constraint
+<NSLayoutConstraint:0x16edc880 'UISV-canvas-connection' UIStackView:0x18199b50.top == UINavigationBar:0x16d14490.top>
+*/
+		if #available(iOS 11.0, *)
+		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
+		}
+		else
+		{
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		getAddress()
@@ -179,7 +198,7 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width-20, height: max(300, view.frame.height-220))
+		return CGSize(width: view.frame.width-20, height: /*max(300,*/ view.frame.height-220/*)*/)
 	}
 	
 	// MARK: UICollectionViewDelegate

@@ -813,10 +813,10 @@
                                                                                                                 <rect key="frame" x="0.0" y="0.0" width="463" height="50"/>
                                                                                                                 <subviews>
                                                                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TTV-fX-xwX" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                                                                        <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                                                                                                        <rect key="frame" x="0.0" y="0.0" width="98" height="50"/>
                                                                                                                         <constraints>
                                                                                                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="c4X-eN-9nQ"/>
-                                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="nNw-XY-ilB"/>
+                                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="nNw-XY-ilB"/>
                                                                                                                         </constraints>
                                                                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                                                                         <size key="titleShadowOffset" width="1" height="1"/>
@@ -858,10 +858,10 @@
                                                                                                                         </connections>
                                                                                                                     </button>
                                                                                                                     <button opaque="NO" alpha="0.25" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s1t-gw-FjJ" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                                                                        <rect key="frame" x="263" y="0.0" width="200" height="50"/>
+                                                                                                                        <rect key="frame" x="365" y="0.0" width="98" height="50"/>
                                                                                                                         <constraints>
-                                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Atd-qw-cxF"/>
-                                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="RzP-Wa-cmI"/>
+                                                                                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="Atd-qw-cxF"/>
+                                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="RzP-Wa-cmI"/>
                                                                                                                         </constraints>
                                                                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                                                                         <size key="titleShadowOffset" width="1" height="1"/>

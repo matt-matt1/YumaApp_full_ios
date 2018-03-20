@@ -9,6 +9,20 @@
 import Foundation
 
 
+protocol PropertyNames
+{
+	func propertyNames() -> [String]
+}
+
+extension PropertyNames
+{
+	func propertyNames() -> [String]
+	{
+		return Mirror(reflecting: self).children.flatMap { $0.label }
+	}
+}
+
+
 struct AssociationsOrders: Decodable
 {
 	var order_rows: [OrderRow]
@@ -49,7 +63,7 @@ struct Associations_OrderRows: Decodable
 {
 	let order_rows: [OrderRow]?
 }
-struct Orders: Decodable
+struct Orders: Decodable, PropertyNames
 {
 	var id: 					Int?//!
 	var idAddressDelivery: 		String?//!

@@ -11,9 +11,9 @@ import Foundation
 
 struct myTag: Decodable
 {
-	let id: 		Int
-	let id_lang: 	String
-	let name: 		String//..32
+	let id: 		Int?
+	let id_lang: 	String?
+	let name: 		String?//..32
 }
 struct Tags: Decodable
 {

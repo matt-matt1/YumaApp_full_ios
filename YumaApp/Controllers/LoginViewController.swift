@@ -323,6 +323,7 @@ class LoginViewController: UIViewController
 				{
 					let addresses = try JSONDecoder().decode(Addresses.self, from: dataStr!)
 					store.addresses = addresses.addresses!
+					print("decoded \(String(describing: store.addresses.count)) addresses")
 //					for add in 0..<addresses.addresses
 //					{
 //					store.addresses.append(add)
@@ -339,24 +340,107 @@ class LoginViewController: UIViewController
 		//		self.navigationController?.pushViewController(displayMA, animated: true)
 		//without storyboard
 		//		let displayMA = ViewController(nibName: "MyAccount", bundle: nil)
-		let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
-		if ord == nil || ord == ""
-//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
+		if store.customer != nil && store.orders.count < 1
 		{
-			store.getOrders(id_customer: id_customer)
-			{
-				(orders, err) in
-				
-				if err != nil
+			let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+			if ord == nil || ord == ""
+	//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
+			{	//perform http get
+				store.getOrders(id_customer: id_customer)
 				{
-					print(err!)
-					return
+					(orders, err) in
+					
+					if err != nil
+					{
+						print(err!)
+						return
+					}
+					if let orders = orders
+					{
+						let ord = orders as? [Orders]
+						let ords = ord?.count
+						print("got \(String(describing: ords)) orders")
+					}
 				}
-				if let orders = orders
+			}
+			else
+			{
+				//decode json string "ord"
+				let tempStr: String = store.trimJSONValueToArray(string: ord!)
+				let tempObj: [Orders]
+				do
 				{
-					let ord = orders as? [Orders]
-					let ords = ord?.count
-					print("got \(String(describing: ords)) orders")
+					tempObj = try JSONDecoder().decode([Orders].self, from: tempStr.data(using: .utf8)!)
+					for ords in tempObj
+					{
+						store.orders.append(ords)
+					}
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+				}
+				print("decoded \(store.orders.count) orders")
+			}
+		}
+		if store.customer != nil && store.orderDetails.count < 1
+		{
+			for order in store.orders
+			{
+				let id_order = Int(order.id!)
+				let ord = UserDefaults.standard.string(forKey: "Order\(id_order)Details")
+				if ord == nil || ord == ""
+					//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
+				{	//perform http get
+					store.getOrderDetails(id_order: id_order)
+					{
+						(orders, err) in
+						
+						if err != nil
+						{
+							print(err!)
+							return
+						}
+						if let orders = orders
+						{
+							let array = (orders as? OrderDetails)?.orderDetails
+							for member in array!
+							{
+								self.store.orderDetails.append(member)
+							}
+							//let ords = ord?.count
+							print("got an order detail")
+						}
+					}
+				}
+				else
+				{
+					//decode json string "ord"
+					let tempStr: String = store.trimJSONValueToArray(string: ord!)
+					let tempObj: [OrderDetail]
+					do
+					{
+						tempObj = try JSONDecoder().decode([OrderDetail].self, from: tempStr.data(using: .utf8)!)
+						for ords in tempObj
+						{
+							store.orderDetails.append(ords)
+						}
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+					}
+					print("decoding an order detail")
+				}
+			}
+			print("getting \(store.orderDetails.count) order details")
+		}
+		if store.customer?.lastname != ""
+		{
+			store.callGetCarts(id_customer: id_customer) { (carts, err) in
+				if err == nil
+				{
+					print("got \((carts as [Carts]!).count) carts")
 				}
 			}
 		}
@@ -410,7 +494,20 @@ class LoginViewController: UIViewController
 			else
 			{
 				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-			}
+			}//***WARNING:***
+			/*Unable to simultaneously satisfy constraints.
+			Probably at least one of the constraints in the following list is one you don't want.
+			Try this:
+			(1) look at each constraint and try to figure out which you don't expect;
+			(2) find the code that added the unwanted constraint or constraints and fix it.
+			(
+			"<NSLayoutConstraint:0x145ca3a0 V:|-(0)-[UIStackView:0x146faff0]   (Names: '|':UIView:0x146faf00 )>",
+			"<NSLayoutConstraint:0x145d45d0 UINavigationBar:0x146eae60.top == UIView:0x146faf00.top + 20>",
+			"<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>"
+			)
+			
+			Will attempt to recover by breaking constraint
+			<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>*/
 			//IN A FILE?
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")
@@ -437,8 +534,22 @@ class LoginViewController: UIViewController
 			else	//NEITHER = not logged in
 			{
 				configureView()
-				//		loginBtn.
-				showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
+				if Reachability.isConnectedToNetwork()
+				{
+					showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
+					usernameTextField.delegate = self
+					passwordTextField.delegate = self
+					usernameTextField.returnKeyType = .next
+					passwordTextField.returnKeyType = .done
+				}
+				else
+				{
+					let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+					self.present(alert, animated: false, completion: {
+						self.dismiss(animated: false, completion: nil)
+					})
+				}
 			}
 		}
 	}
@@ -517,15 +628,21 @@ class LoginViewController: UIViewController
 			var proceed = true
 			if !(self.isValidEmail(self.usernameTextField.text!))
 			{
-				self.errorUsernameBorder.layer.borderColor = UIColor.red.cgColor
-				self.invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr)"
+				self.markUsernameBad()
 				proceed = false
+			}
+			else
+			{
+				self.markUsernameGood()
 			}
 			if (self.passwordTextField.text?.count)! < 5
 			{
-				self.errorPasswordBorder.layer.borderColor = UIColor.red.cgColor
-				self.invalidPassword.text = "\(R.string.invalid) \(R.string.txtPass)"
+				self.markPasswordBad()
 				proceed = false
+			}
+			else
+			{
+				self.markPasswordGood()
 			}
 			if proceed
 			{
@@ -542,5 +659,61 @@ class LoginViewController: UIViewController
 		self.present(MyAccInfoViewController(), animated: true, completion: nil)
 	}
 
+	
+	func markUsernameBad()
+	{
+		self.errorUsernameBorder.layer.borderColor = UIColor.red.cgColor
+		self.invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr)"
+	}
+
+	func markUsernameGood()
+	{
+		self.errorUsernameBorder.layer.borderColor = UIColor.clear.cgColor
+		self.invalidUsername.text = ""
+	}
+	
+	func markPasswordBad()
+	{
+		self.errorPasswordBorder.layer.borderColor = UIColor.red.cgColor
+		self.invalidPassword.text = "\(R.string.invalid) \(R.string.emailAddr)"
+	}
+	
+	func markPasswordGood()
+	{
+		self.errorPasswordBorder.layer.borderColor = UIColor.clear.cgColor
+		self.invalidPassword.text = ""
+	}
 }
 
+
+extension LoginViewController: UITextFieldDelegate
+{
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool
+	{
+		if textField === self.usernameTextField
+		{
+			if !(self.isValidEmail(self.usernameTextField.text!))
+			{
+				markUsernameBad()
+			}
+			else
+			{
+				markUsernameGood()
+				passwordTextField.becomeFirstResponder()
+			}
+		}
+		else
+		{
+			if (self.passwordTextField.text?.count)! < 5
+			{
+				markPasswordBad()
+			}
+			else
+			{
+				markPasswordGood()
+				self.getCustomerDetails()
+			}
+		}
+		return true
+	}
+}

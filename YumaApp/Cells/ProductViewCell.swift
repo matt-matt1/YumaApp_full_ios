@@ -38,19 +38,19 @@ class ProductViewCell: UICollectionViewCell
 				prodPrice.text = unwrap.price
 				prodPrice2.text = unwrap.price
 			}
-			prodDesc.text = "\(unwrap.description![id_lang].value ?? "") \n\(unwrap.descriptionShort![id_lang].value ?? "")"
-			if unwrap.idManufacturer != ""
+			prodDesc.text = "\(unwrap.description![id_lang].value ?? "") \n\(unwrap.description_short![id_lang].value ?? "")"
+			if unwrap.id_manufacturer != ""
 			{
 				//
 			}
-			if unwrap.idSupplier != ""
+			if unwrap.id_supplier != ""
 			{
 				//
 			}
 			var cats: String = ""
 			for cat in (unwrap.associations?.categories)!
 			{
-				cats += cat.id
+				cats += cat.id!
 			}
 			let _ = unwrap.id
 		}

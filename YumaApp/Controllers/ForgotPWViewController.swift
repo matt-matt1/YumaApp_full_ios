@@ -64,6 +64,21 @@ class ForgotPWViewController: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
+		
+/*Unable to simultaneously satisfy constraints.
+Probably at least one of the constraints in the following list is one you don't want.
+Try this:
+(1) look at each constraint and try to figure out which you don't expect;
+(2) find the code that added the unwanted constraint or constraints and fix it.
+(
+"<NSLayoutConstraint:0x146336e0 V:|-(0)-[UIStackView:0x14631a10]   (Names: '|':UIView:0x14631920 )>",
+"<NSLayoutConstraint:0x14633920 UIView:0x14631920.top == UIView:0x14631830.topMargin>",
+"<NSLayoutConstraint:0x146a0e10 UINavigationBar:0x145ba260.top == UIView:0x14631830.top + 20>",
+"<NSLayoutConstraint:0x14633ca0 'UISV-canvas-connection' UIStackView:0x14631a10.top == UINavigationBar:0x145ba260.top>"
+)
+
+Will attempt to recover by breaking constraint
+<NSLayoutConstraint:0x14633ca0 'UISV-canvas-connection' UIStackView:0x14631a10.top == UINavigationBar:0x145ba260.top>*/
 
 		if #available(iOS 11.0, *) {
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

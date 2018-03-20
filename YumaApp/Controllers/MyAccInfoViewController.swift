@@ -14,8 +14,6 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
-//	@IBOutlet weak var alreadyLabel: UILabel!
-//	@IBOutlet weak var loginLabel: UILabel!
 	@IBOutlet weak var genderSwitch: UISegmentedControl!
 	@IBOutlet weak var genderBorder: UIView!
 	@IBOutlet weak var fieldLabel1: UILabel!
@@ -46,7 +44,9 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var switch1Label: UILabel!
 	@IBOutlet weak var switch2Label: UILabel!
 	@IBOutlet weak var switch1Label2: UILabel!
+	@IBOutlet weak var switch1Group: UIView!
 	@IBOutlet weak var switch2Label2: UILabel!
+	@IBOutlet weak var switch2Group: UIView!
 	@IBOutlet weak var buttonText: GradientButton!
 
 	let store = DataStore.sharedInstance
@@ -87,68 +87,70 @@ class MyAccInfoViewController: UIViewController
 		switch1Label2.text = R.string.SignUpNewsletterMore
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
-//		alreadyLabel.text = R.string.alreadyAcc
-//		loginLabel.text = R.string.loginInstead
-//		loginLabel.textColor = R.color.YumaRed
-//		loginLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(loginButtonAct(_:))))
 		buttonText.setTitle(R.string.save, for: .normal)
 		buttonText.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
-	private func getSubviewsOf<T : UIView>(view:UIView) -> [T]
-	{
-		var subviews = [T]()
-		
-		for subview in view.subviews
-		{
-			subviews += getSubviewsOf(view: subview) as [T]
-			
-			if let subview = subview as? T
-			{
-				subviews.append(subview)
-			}
-		}
-		return subviews
-	}
+//	private func getSubviewsOf<T : UIView>(view:UIView) -> [T]
+//	{
+//		var subviews = [T]()
+//
+//		for subview in view.subviews
+//		{
+//			subviews += getSubviewsOf(view: subview) as [T]
+//
+//			if let subview = subview as? T
+//			{
+//				subviews.append(subview)
+//			}
+//		}
+//		return subviews
+//	}
+//
+//	func convertEntryToHorizontal(_ width: CGFloat)
+//	{
+//		let allStacks: [UIStackView] = getSubviewsOf(view: self.view)
+//		for myView in allStacks
+//		{
+//			if !(myView.superview?.isKind(of: UIStackView.self))! && !(myView.superview?.isKind(of: UIScrollView.self))! && myView.arrangedSubviews.count == 3
+//			{
+//				let eLabel = myView.arrangedSubviews[0]
+//				let eView = myView.arrangedSubviews[1]
+//				let stack = UIStackView()
+//				stack.axis = UILayoutConstraintAxis.horizontal
+//				stack.distribution = UIStackViewDistribution.fill
+//				stack.spacing = 10
+//				stack.bounds = eLabel.bounds
+//				eLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
+//				//eLabel.aligntextright
+//				stack.addArrangedSubview(eLabel)
+//				stack.addArrangedSubview(eView)
+//				myView.insertArrangedSubview(stack, at: 0)
+//			}
+//		}
+//	}
 	
-	func convertEntryToHorizontal(_ width: CGFloat)
+	@objc func alertMe(_ sender: UITapGestureRecognizer)
 	{
-		let allStacks: [UIStackView] = getSubviewsOf(view: self.view)
-		for myView in allStacks
-		{
-			if !(myView.superview?.isKind(of: UIStackView.self))! && !(myView.superview?.isKind(of: UIScrollView.self))! && myView.arrangedSubviews.count == 3
-			{
-				let eLabel = myView.arrangedSubviews[0]
-				let eView = myView.arrangedSubviews[1]
-				let stack = UIStackView()
-				stack.axis = UILayoutConstraintAxis.horizontal
-				stack.distribution = UIStackViewDistribution.fill
-				stack.spacing = 10
-				stack.bounds = eLabel.bounds
-				eLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
-				//eLabel.aligntextright
-				stack.addArrangedSubview(eLabel)
-				stack.addArrangedSubview(eView)
-				myView.insertArrangedSubview(stack, at: 0)
-			}
-		}
-	}
-	
-	@objc func alertMe(_ sender : Any)
-	{
-		print(sender)
+		let str = (sender.view?.subviews[0].subviews[0] as! UILabel).text!
 		var mTitle: String, mMessage: String
-		switch (sender)
+		switch (str)
 		{
-		case nil:
-			mTitle = ""
-			mMessage = ""
+		case switch1Label.text!:
+			mTitle = switch1Label.text!
+			mMessage = switch1Label2.text!
+			break
+		case switch2Label.text!:
+			mTitle = switch2Label.text!
+			mMessage = switch2Label2.text!
 			break
 		default:
 			mTitle = ""
 			mMessage = ""
 		}
-		let _ = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
+		let alert = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+		self.present(alert, animated: true, completion: nil)
 	}
 	
 	func setEmailField()
@@ -239,6 +241,35 @@ class MyAccInfoViewController: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
+		/*
+Unable to simultaneously satisfy constraints.
+Probably at least one of the constraints in the following list is one you don't want.
+Try this:
+(1) look at each constraint and try to figure out which you don't expect;
+(2) find the code that added the unwanted constraint or constraints and fix it.
+(
+"<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>",
+"<NSLayoutConstraint:0x145fa9b0 'UISV-hiding' H:[UILabel:0x14632db0'Email Address'(0)]>"
+)
+
+Will attempt to recover by breaking constraint
+<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>
+
+Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
+2018-03-13 09:29:53.420 YumaApp[485:15120] Unable to simultaneously satisfy constraints.
+Probably at least one of the constraints in the following list is one you don't want.
+Try this:
+(1) look at each constraint and try to figure out which you don't expect;
+(2) find the code that added the unwanted constraint or constraints and fix it.
+(
+"<NSLayoutConstraint:0x1461a580 UIStackView:0x1461eda0.top == UIView:0x1461eeb0.topMargin>",
+"<NSLayoutConstraint:0x14535960 UINavigationBar:0x14538250.top == UIView:0x1461eeb0.top + 20>",
+"<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>"
+)
+
+Will attempt to recover by breaking constraint
+<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>*/
 		getCustomer()
 		if #available(iOS 11.0, *)
 		{
@@ -257,17 +288,14 @@ class MyAccInfoViewController: UIViewController
 //		{
 //			convertEntryToHorizontal(125)
 //		}
-		switch0Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
-		switch1Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
-		switch2Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
+		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
         setLabels()
 		if store.customer != nil && store.customer?.lastname != ""
 		{
 			setEmailField()
 			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
 			fillFields()
-//			alreadyLabel.isHidden = true
-//			loginLabel.isHidden = true
 		}
 		else
 		{

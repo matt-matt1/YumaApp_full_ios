@@ -34,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		navBarAppearance.tintColor = UIColor.white
 		navBarAppearance.barTintColor = R.color.YumaRed
 		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor:R.color.YumaYel]
+		//UIBarButtonItem.appearance().setTitleTextAttributes([
+		//	NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 30)
+		//	], for: .normal)
 
 		UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 		
