@@ -449,6 +449,7 @@ class LoginViewController: UIViewController
 
 	fileprivate func successfullyGotDetails(id_customer: Int)
 	{
+		store.myLang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		weak var presentingViewController = self.presentingViewController
 		self.dismiss(animated: false)
 		{

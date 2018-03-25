@@ -130,6 +130,17 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
 				}
 			}
+			Alert(self, title: "Hello there!! 👋🏻👋🏻", message: "message", shadowColor: R.color.YumaDRed)
+			store.callGetProductOptions { (opts, err) in
+				if err == nil
+				{
+					print("got \((opts as! [ProductOption]).count) product options")
+				}
+				else
+				{
+					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+				}
+			}
 			store.callGetCurrencies { (currs, err) in
 				if err == nil
 				{
@@ -188,6 +199,145 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			}
 		}
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
+	}
+	
+	
+	func Alert(_ fromView: 			UIViewController,
+			   title: 				String,
+			   titleColor: 			UIColor? = 		.black,
+			   titleFont: 			UIFont? = 		UIFont(name: "AlNile-Bold", size: 16),//.boldSystemFont(ofSize: 16),
+			   message: 			String,
+			   messageColor: 		UIColor? = 		.darkGray,
+			   messageFont: 		UIFont? = 		UIFont(name: "AvenirNext-Regular", size: 15),//.systemFont(ofSize: 14),
+			   backgroundColor: 	UIColor? = 		.white,
+			   borderColor: 		UIColor? = 		.clear,
+			   borderWidth: 		CGFloat? = 		0,
+			   buttonColor: 		UIColor? = 		UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1),
+			   cornerRadius: 		CGFloat? = 		10,
+			   shadowColor: 		UIColor? = 		.black,
+			   shadowOffset: 		CGSize? = 		.zero,
+			   shadowOpacity: 		Float? = 		1,
+			   shadowRadius: 		CGFloat? = 		8,
+			   alpha: 				CGFloat? = 		1,
+			   hasOKButton: 		Bool = 			true,
+			   OKButtonTitle: 		String? = 		"OK",
+			   OKButtonFont: 		UIFont? = 		UIFont(name: "AvenirNext-Regular", size: 16),
+			   OKAction: 			(() -> Void)? = nil,
+			   hasCancelButton: 	Bool = 			false,
+			   cancelButtonTitle: 	String? = 		"Cancel")
+	{
+		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+		//var titleAttr: NSMutableAttributedString
+		var titleAttr: [NSAttributedStringKey : Any?] = [:]
+		if titleFont != nil
+		{
+			//titleAttr.addAttribute(.font, value: titleFont!, range: NSRange.init(location: 0, length: title.count))
+			titleAttr.updateValue(titleFont, forKey: .font)// [NSAttributedStringKey.font : titleFont]
+		}
+		if titleColor != nil
+		{
+//			titleAttr.addAttribute(.foregroundColor, value: titleColor!, range: NSRange.init(location: 0, length: title.count))
+			titleAttr.updateValue(titleColor, forKey: .foregroundColor)
+		}
+		let titleString = NSAttributedString(string: title, attributes: titleAttr)
+		alertController.setValue(titleString, forKey: "attributedTitle")
+
+		//var messageAttr: NSMutableAttributedString
+		var messageAttr: [NSAttributedStringKey : Any?]? = [:]
+		if messageFont != nil
+		{
+			//messageAttr.addAttribute(.font, value: messageFont!, range: NSRange.init(location: 0, length: title.count))
+			messageAttr?.updateValue(messageFont, forKey: .font)
+		}
+		if messageColor != nil
+		{
+			//messageAttr.addAttribute(.foregroundColor, value: messageColor!, range: NSRange.init(location: 0, length: title.count))
+			messageAttr?.updateValue(messageColor, forKey: .foregroundColor)
+		}
+		let messageString = NSAttributedString(string: message, attributes: messageAttr)
+		alertController.setValue(messageString, forKey: "attributedMessage")
+		
+		if hasOKButton
+		{
+			let okAction = UIAlertAction(title: "OK", style: .default)
+			{
+				(action) in
+
+				fromView.dismiss(animated: false, completion: nil)
+				if OKAction != nil
+				{
+					OKAction
+				}
+			}
+			alertController.addAction(okAction)
+		}
+		if hasCancelButton
+		{
+			let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+			alertController.addAction(cancelAction)
+		}
+		if shadowColor != nil
+		{
+			alertController.view.shadowColor = shadowColor!
+		}
+		if shadowOffset != nil
+		{
+			alertController.view.shadowOffset = shadowOffset!
+		}
+		if shadowOpacity != nil
+		{
+			alertController.view.shadowOpacity = shadowOpacity!
+		}
+		if shadowRadius != nil
+		{
+			alertController.view.shadowRadius = shadowRadius!
+		}
+		if cornerRadius != nil
+		{
+			alertController.view.cornerRadius = cornerRadius!
+		}
+		if backgroundColor != nil
+		{
+			alertController.view.backgroundColor = backgroundColor
+		}
+		if borderWidth != nil
+		{
+			alertController.view.borderWidth = borderWidth!
+		}
+		if borderColor != nil
+		{
+			alertController.view.borderColor = borderColor!
+		}
+		if cornerRadius != nil
+		{
+			alertController.view.cornerRadius = cornerRadius!
+		}
+		if alpha != nil
+		{
+			alertController.view.alpha = alpha!
+		}
+		if buttonColor != nil
+		{
+			alertController.view.tintColor = buttonColor!
+		}
+		
+//		let subview = alertController.view.subviews.first! as UIView
+//		let alertContentView = subview.subviews.first! as UIView
+//		alertContentView.backgroundColor = BackgroundColor
+//		alertContentView.layer.cornerRadius = 10
+//		alertContentView.alpha = 1
+//		alertContentView.layer.borderWidth = 1
+//		alertContentView.layer.borderColor = BorderColor.cgColor
+		
+		//alertContentView.tintColor = UIColor.whiteColor()
+//		alertController.view.tintColor = ButtonColor
+
+		DispatchQueue.main.async {
+			fromView.present(alertController, animated: true) {
+				// ...
+			}
+		}
 	}
 	
 	

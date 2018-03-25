@@ -61,6 +61,15 @@ extension UINavigationBar
 
 extension UIView
 {
+	///eg. someView.round(corners: [.topLeft, .topRight], radius: 5)
+	func justRound(corners: UIRectCorner, radius: CGFloat)
+	{
+		let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+		let mask = CAShapeLayer()
+		mask.path = path.cgPath
+		self.layer.mask = mask
+	}
+	
 	func copyView<T: UIView>() -> T
 	{
 //		return NSKeyedArchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
@@ -280,3 +289,48 @@ extension String
 		return NumberFormatter().number(from: self)?.doubleValue
 	}
 }
+
+
+extension UIImage
+{
+	//https://stackoverflow.com/questions/40882487/how-to-rotate-image-in-swift-3
+	//
+	//eg. let rotatedImage = image.rotate(radians: .pi)
+	//
+	func rotate(radians: CGFloat) -> UIImage
+	{
+		let rotatedSize = CGRect(origin: .zero, size: size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).integral.size
+		UIGraphicsBeginImageContext(rotatedSize)
+		if let context = UIGraphicsGetCurrentContext()
+		{
+			let origin = CGPoint(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0)
+			context.translateBy(x: origin.x, y: origin.y)
+			context.rotate(by: radians)
+			draw(in: CGRect(x: -origin.x, y: -origin.y, width: size.width, height: size.height))
+			let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+			UIGraphicsEndImageContext()
+			
+			return rotatedImage ?? self
+		}
+		return self
+	}
+	func rotate(degrees: CGFloat) -> UIImage
+	{
+		let rotatedSize = CGRect(origin: .zero, size: size).applying(CGAffineTransform(rotationAngle: CGFloat(degrees * .pi/180))).integral.size
+		UIGraphicsBeginImageContext(rotatedSize)
+		if let context = UIGraphicsGetCurrentContext()
+		{
+			let origin = CGPoint(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0)
+			context.translateBy(x: origin.x, y: origin.y)
+			context.rotate(by: degrees * .pi/180)
+			draw(in: CGRect(x: -origin.x, y: -origin.y, width: size.width, height: size.height))
+			let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+			UIGraphicsEndImageContext()
+			
+			return rotatedImage ?? self
+		}
+		return self
+	}
+
+}
+

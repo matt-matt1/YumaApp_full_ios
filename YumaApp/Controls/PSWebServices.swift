@@ -257,6 +257,7 @@ class PSWebServices: NSObject
 	}
 	
 	///return an Object containing a list of the categories
+	//class func getCategories(completionHandler: @escaping ([aCategory]?, Error?) -> Void)
 	class func getCategories(completionHandler: @escaping (Categories?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)categories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
@@ -276,6 +277,10 @@ class PSWebServices: NSObject
 					//					}
 					do
 					{
+//						let myData = try JSONSerialization.jsonObject(with: myData, options: []) as! Categories//[String:AnyObject]
+						//let array = result["categories"] as? [aCategory]
+						//completionHandler(array, nil)
+						//let myData = result as! Categories
 						let myData = try JSONDecoder().decode(Categories.self, from: myData)
 						//						print(myData)
 						completionHandler(myData, nil)
@@ -393,6 +398,41 @@ class PSWebServices: NSObject
 				}
 				return
 				}.resume()
+		}
+	}
+
+	///return an Object containing a list of the product options
+	class func getProductOptions(completionHandler: @escaping (ProductOptions?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)product_options?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "ProductOptions")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(ProductOptions.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+			}.resume()
 		}
 	}
 

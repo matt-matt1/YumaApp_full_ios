@@ -92,8 +92,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		{
 			store.locale = "\(store.langs[Int((store.customer?.id_lang)!)!].isoCode ?? "")_\(store.countries[Int(store.addresses[0].id_country)!].isoCode ?? "")"//combine lang iso with country iso
 		}
-		if store.products.count < 1
+		if store.products.count < 1 || store.forceRefresh
 		{
+			store.forceRefresh = false
 			refresh()	//load products
 		}
 /////tableView
@@ -174,14 +175,23 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 			var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
 			if store.categories.count > 0
 			{
+				var catList: [String] = []
 				for catId in (prod.associations?.categories)!
 				{
-					categoryStr.append("> \(store.categories[Int(catId.id!)!]) ")
+					for c in store.categories
+					{
+						if c.id == Int(catId.id)
+						{
+							let name = c.name![store.myLang].value!
+							catList.append(name)
+							categoryStr.append("> \(name) ")
+						}
+					}
+					//categoryStr.append("> \(store.categories[Int(catId.id!)!]) ")
 				}
 			}
 		}
 	}
-	/////
 
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
@@ -235,7 +245,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 			store.callGetServices(completion: completeionFunc)
 			break
 		default:
-			print("bad instantantion of products VC")
+			completeionFunc(store.products)
+			//print("bad instantantion of products VC")
 		}
 	}
 	
@@ -373,19 +384,21 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		putItemInCart()
 		//DispatchQueue.main.async { 	self.tableView.reloadData() 	}
 	}
-
 	
 	func insertData()
 	{
 		var i = 0
-		let id_lang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
+		//let id_lang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		for prod in store.products
 		{
 			if prod.active == "1"
 			{
 				let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
+				print("self:\(self.view.frame.width), scroll:\(self.scrollView.frame.width)")
 //				print("language id:\(id_lang)")
-				view.prodName.text = prod.name![id_lang].value
+				view.clipsToBounds = true
+				view.sizeToFit()
+				view.prodName.text = prod.name![store.myLang].value
 				view.prodName.textColor = R.color.YumaRed
 				view.prodName.tag = prod.id!
 				if prod.showPrice != "0" && Double(prod.price!)! > 0
@@ -474,125 +487,59 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 	//					}
 	//				}
 	//			}
+				if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
+				{
+					//let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
+					view.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
+				}
+				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
+				{
+					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
+//					NSLayoutConstraint.activate([
+//						//										stack.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 0),
+//						//stack.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 3),
+//						//stack.heightAnchor.constraint(equalToConstant: 5),
+//						//stack.widthAnchor.constraint(equalToConstant: self.scrollView.frame.width),
+//						stack.widthAnchor.constraint(equalToConstant: view.tagsView.frame.width),
+//						])
+				}
 				var attrText: NSAttributedString
-				if prod.description != nil && prod.description![id_lang].value != nil
+				if prod.description != nil && prod.description![store.myLang].value != nil
 				{
 					attrText = try! NSAttributedString(
-						data: (prod.description![id_lang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						data: (prod.description![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
 						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
 						documentAttributes: nil)
 					view.descLong.attributedText = attrText
+					view.descLong.textColor = UIColor.gray
 					view.descLong.numberOfLines = 0
 					view.descLong.lineBreakMode = NSLineBreakMode.byTruncatingTail
 					view.descLong.sizeToFit()
 				}
-				if prod.description_short != nil && prod.description_short![id_lang].value != nil
+				if prod.description_short != nil && prod.description_short![store.myLang].value != nil
 				{
 					attrText = try! NSAttributedString(
-						data: (prod.description_short![id_lang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
-						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
+						data: (prod.description_short![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,],
 						documentAttributes: nil)
 					view.descShort.attributedText = attrText
+					view.descShort.textColor = UIColor.gray
 					view.descShort.numberOfLines = 0
 					view.descShort.lineBreakMode = NSLineBreakMode.byTruncatingTail
 					view.descShort.sizeToFit()
 				}
-				view.linkRewrite = prod.link_rewrite![id_lang].value!
-				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
-				{
-	//				print("prod:\(String(describing: prod.name![id_lang].value))")
-					var prodTags: [String] = []
-					for prodTag in (prod.associations?.tags)!
-					{
-						let find = Int(prodTag.id!)!
-						if find < store.tags.count
-						{
-							for storeTag in store.tags
-							{
-								if storeTag.id == find
-								{
-									prodTags.append(storeTag.name!)
-									break
-								}
-							}
-						}
-					}
-					view.tags = prodTags
-				}
-				if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
-				{
-					for prodCat in (prod.associations?.categories)!
-					{
-						let find = Int(prodCat.id!)!
-						if find < store.categories.count
-						{
-							for cat in store.categories
-							{
-								if cat.id == find
-								{
-									view.categories.append(cat)
-									break
-								}
-							}
-						}
-					}
-				}
+//				view.linkRewrite = prod.link_rewrite![store.myLang].value!
 				if prod.associations != nil && prod.associations?.combinations != nil && (prod.associations?.combinations?.count)! > 0
 				{
-					for prodComb in (prod.associations?.combinations)!
-					{
-						let find = Int(prodComb.id!)!
-						if find < store.combinations.count
-						{
-							for co in store.combinations
-							{
-								if co.id == find
-								{
-									view.combinations.append(co)
-									break
-								}
-							}
-						}
-					}
+					view.combinationsView.addArrangedSubview(formCombinationView(combinationsIDs: (prod.associations?.combinations)!))
 				}
 				if prod.associations != nil && prod.associations?.images != nil && (prod.associations?.images?.count)! > 0
 				{
-//					for prodComb in (prod.associations?.images)!
-//					{
-//						let find = Int(prodComb.id)!
-//						if find < store.images.count
-//						{
-//							for co in store.images
-//							{
-//								if co.id == find
-//								{
-//									view.imagesWidgets.append(co)
-//									break
-//								}
-//							}
-//						}
-//					}
+					view.imagesView.addArrangedSubview(formImageViews(imageIDs: (prod.associations?.images)!))
 				}
 				if prod.associations != nil && prod.associations?.product_option_values != nil && (prod.associations?.product_option_values?.count)! > 0
 				{
-					for prodOpt in (prod.associations?.product_option_values)!
-					{
-						let find = Int(prodOpt.id!)!
-						if find < store.productOptionValues.count
-						{
-							for co in store.productOptionValues
-							{
-								if co.id == find
-								{
-									let lbl = UILabel()
-									lbl.translatesAutoresizingMaskIntoConstraints = false
-									lbl.text = String(describing: co)
-									view.productOptionValuesView.addArrangedSubview(lbl)
-									break
-								}
-							}
-						}
-					}
+					view.productOptionValuesView.addArrangedSubview(formProductOptionValues(ValueIDs: (prod.associations?.product_option_values)!))
 				}
 				view.tag = i + 10
 				self.scrollView.addSubview(view)
@@ -601,9 +548,155 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 		}
 	}
 	
-	@objc func clickShare(_ sender: UITapGestureRecognizer)
+	fileprivate func formProductOptionValues(ValueIDs: [IdAsString]) -> UIStackView
 	{
-		let asdf = sender.view?.superview?.subviews
+		let stack = UIStackView()
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		for prodOpt in ValueIDs
+		{
+			let find = Int(prodOpt.id)!
+			if find < store.productOptionValues.count
+			{
+				for co in store.productOptionValues
+				{
+					if co.id == find
+					{
+						let lbl = UILabel()
+						lbl.translatesAutoresizingMaskIntoConstraints = false
+						lbl.text = String(describing: co)
+						stack.addArrangedSubview(lbl)
+						break
+					}
+				}
+			}
+			//view.productOptionValuesView.addArrangedSubview(stack)
+		}
+		return stack
+	}
+
+	fileprivate func formTagsView(tagIDs: [IdAsString]) -> UIStackView
+	{
+		let stack = UIStackView()
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.spacing = 8
+		stack.backgroundColor = UIColor.white
+		stack.distribution = .fill
+		for prodTag in tagIDs
+		{
+			let find = Int(prodTag.id)!
+			if find < store.tags.count
+			{
+				for storeTag in store.tags
+				{
+					if storeTag.id == find
+					{
+						let tagView = makeTag(string: storeTag.name!)
+						stack.addArrangedSubview(tagView)
+						break
+					}
+				}
+			}
+		}
+		return stack
+	}
+
+	fileprivate func formImageViews(imageIDs: [IdAsString]) -> UIStackView
+	{
+		let stack = UIStackView()
+		stack.translatesAutoresizingMaskIntoConstraints = false
+//		for prodComb in imageIDs
+//		{
+//			let find = Int(prodComb.id)!
+//			if find < store.images.count
+//			{
+//				for co in store.images
+//				{
+//					if co.id == find
+//					{
+//						view.imagesWidgets.append(co)
+//						break
+//					}
+//				}
+//			}
+//		}
+		return stack
+	}
+	
+	fileprivate func formCombinationView(combinationsIDs: [IdAsString]) -> UIStackView
+	{
+		let stack = UIStackView()
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		for prodComb in combinationsIDs
+		{
+			let find = Int(prodComb.id)!
+			if find < store.combinations.count
+			{
+				for co in store.combinations
+				{
+					if co.id == find
+					{
+						let lbl = UILabel()
+						lbl.translatesAutoresizingMaskIntoConstraints = false
+						lbl.text = String(describing: co)
+						stack.addArrangedSubview(lbl)
+						break
+					}
+				}
+			}
+		}
+		return stack
+	}
+	
+	fileprivate func formCategoriesView(categorieIDs: [IdAsString]) -> UIStackView
+	{
+		var first = true
+		let stack = UIStackView()
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.spacing = 2
+		for prodCat in categorieIDs
+		{
+			let find = Int(prodCat.id)!
+			if find < store.categories.count
+			{
+				for cat in store.categories
+				{
+					if cat.id == find
+					{
+						if first == false
+						{
+							first = false
+							let sep = UILabel()
+							sep.translatesAutoresizingMaskIntoConstraints = false
+							sep.text = " > "
+							sep.textColor = UIColor.gray
+							stack.addArrangedSubview(sep)
+						}
+						let wrapperLbl = UIView()
+						wrapperLbl.translatesAutoresizingMaskIntoConstraints = false
+						let lbl = UILabel()
+						lbl.translatesAutoresizingMaskIntoConstraints = false
+						lbl.text = cat.name![store.myLang].value
+						wrapperLbl.addSubview(lbl)
+						NSLayoutConstraint.activate([
+							wrapperLbl.topAnchor.constraint(equalTo: lbl.topAnchor),
+							wrapperLbl.leadingAnchor.constraint(equalTo: lbl.leadingAnchor),
+							wrapperLbl.bottomAnchor.constraint(equalTo: lbl.bottomAnchor),
+							wrapperLbl.trailingAnchor.constraint(equalTo: lbl.trailingAnchor),
+							])
+						wrapperLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displayCat(_:))))
+						stack.addArrangedSubview(wrapperLbl)
+						first = false
+						break
+					}
+				}
+			}
+		}
+		return stack
+	}
+	
+	@objc private func clickShare(_ sender: UITapGestureRecognizer)
+	{
+		//let asdf = sender.view?.superview?.subviews
 		let share: Int = (sender.view?.subviews.count)!
 		let url = URL(string: store.shares[share].link!)
 		let label = UILabel()
@@ -620,6 +713,153 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate/*, UIPageVi
 //				}
 //			}
 		}
+	}
+	
+	@objc private func displayCat(_ sender: UITapGestureRecognizer)
+	{
+		var prodList: [aProduct] = []
+		var label = ""
+		if sender.view?.subviews != nil
+		{	//is a tag
+			label = (sender.view?.subviews[0] as! UILabel).text!.trimmingCharacters(in: .whitespaces)
+			var tagId: Int = -1
+			for t in store.tags
+			{
+				if t.name == label
+				{
+					tagId = t.id!
+					break
+				}
+			}
+			for prod in store.products
+			{
+				if prod.associations != nil && prod.associations?.tags != nil
+				{
+					for t in (prod.associations?.tags)!
+					{
+						if t.id == "\(tagId)"
+						{
+							prodList.append(prod)
+						}
+					}
+				}
+			}
+		}
+		else
+		{	//is a category
+			label = (sender.view as! UILabel).text!
+			var catId: Int = -1
+			for c in store.tags
+			{
+				if c.name == label
+				{
+					catId = c.id!
+					break
+				}
+			}
+			for prod in store.products
+			{
+				if prod.associations != nil && prod.associations?.categories != nil
+				{
+					for t in (prod.associations?.categories)!
+					{
+						if t.id == "\(catId)"
+						{
+							prodList.append(prod)
+						}
+					}
+				}
+			}
+		}
+		if prodList.count > 0
+		{
+			store.flexView(view: sender.view!)
+			store.forceRefresh = true
+			//		UIView.animate(withDuration: 1, animations:
+			//			{
+			//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+			//		})//ProductsStoryboard//ProductsViewController
+			store.products = prodList
+			let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
+			let layout = UICollectionViewFlowLayout()
+			layout.scrollDirection = .horizontal
+			vc?.pageTitle = "\(R.string.printers)-\(label)"
+			self.present(vc!, animated: true, completion: (() -> Void)?
+				{
+					//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+					//				sender.view?.backgroundColor = UIColor.white
+				})
+		}
+		else
+		{
+			let alert = UIAlertController(title: "\(navTitle.title ?? "") \"\(label)\"", message: R.string.empty, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil/*{ (alertAct) in
+				self.dismiss(animated: false, completion: nil)
+			}*/))
+			self.present(alert, animated: false, completion: nil)
+		}
+	}
+	
+	func makeTag(string: String) -> UIView
+	{
+		let tagView = UIView()
+		tagView.translatesAutoresizingMaskIntoConstraints = false
+		tagView.backgroundColor = R.color.YumaRed
+		tagView.borderColor = R.color.YumaDRed
+		//tag.borderWidth = 1
+		tagView.cornerRadius = 5
+		let tagHole = UIView()
+		tagHole.translatesAutoresizingMaskIntoConstraints = false
+		tagHole.backgroundColor = UIColor.white
+		tagHole.borderColor = R.color.YumaDRed
+		//tagHole.borderWidth = 1
+		tagHole.shadowColor = UIColor.black
+		tagHole.shadowOffset = CGSize(width: -1, height: -1)
+		tagHole.shadowRadius = 2
+		tagHole.shadowOpacity = 1
+		let tagBlock1 = UIView()
+		tagBlock1.translatesAutoresizingMaskIntoConstraints = false
+		tagBlock1.backgroundColor = UIColor.white
+		let tagBlock2 = UIView()
+		tagBlock2.translatesAutoresizingMaskIntoConstraints = false
+		tagBlock2.backgroundColor = UIColor.white
+		let tagLbl = UILabel()
+		tagLbl.translatesAutoresizingMaskIntoConstraints = false
+		tagLbl.text = "   " + string + " "
+		tagLbl.textColor = R.color.YumaYel
+		tagLbl.font = UIFont.systemFont(ofSize: 11)
+		tagView.addSubview(tagLbl)
+		NSLayoutConstraint.activate([
+			tagLbl.topAnchor.constraint(equalTo: tagView.topAnchor, constant: 5.5),
+			tagLbl.leadingAnchor.constraint(equalTo: tagView.leadingAnchor, constant: 11),
+			tagLbl.bottomAnchor.constraint(equalTo: tagView.bottomAnchor, constant: -5.5),
+			tagLbl.trailingAnchor.constraint(equalTo: tagView.trailingAnchor, constant: -5),
+			])
+		tagView.addSubview(tagHole)
+		NSLayoutConstraint.activate([
+			tagHole.centerYAnchor.constraint(equalTo: tagView.centerYAnchor, constant: 0),
+			tagHole.leadingAnchor.constraint(equalTo: tagView.leadingAnchor, constant: 9),
+			tagHole.heightAnchor.constraint(equalToConstant: 4),
+			tagHole.widthAnchor.constraint(equalToConstant: 4),
+			])
+		tagHole.cornerRadius = 5 / 2
+		tagView.addSubview(tagBlock1)
+		tagView.addSubview(tagBlock2)
+		NSLayoutConstraint.activate([
+			tagBlock1.topAnchor.constraint(equalTo: tagView.topAnchor, constant: -5),
+			tagBlock1.leadingAnchor.constraint(equalTo: tagView.leadingAnchor, constant: -2),
+			tagBlock1.bottomAnchor.constraint(equalTo: tagView.centerYAnchor, constant: 0),
+			tagBlock1.widthAnchor.constraint(equalToConstant: 8),
+			
+			tagBlock2.topAnchor.constraint(equalTo: tagView.centerYAnchor, constant: 0),
+			tagBlock2.leadingAnchor.constraint(equalTo: tagView.leadingAnchor, constant: -2),
+			tagBlock2.bottomAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 5),
+			tagBlock2.widthAnchor.constraint(equalToConstant: 8),
+			])
+		tagBlock1.transform = CGAffineTransform(rotationAngle: .pi/180*45)
+		tagBlock2.transform = CGAffineTransform(rotationAngle: -.pi/180*45)
+		tagView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displayCat(_:))))
+		return tagView
 	}
 }
 
@@ -668,3 +908,23 @@ extension String
 		return found
 	}
 }
+
+/*
+class TagView: UIView
+{
+	override init(frame: CGRect)
+	{
+		super.init(frame: frame)
+	}
+	
+	init(string: String)
+	{
+//		super.init(frame: frame)
+
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+}
+*/

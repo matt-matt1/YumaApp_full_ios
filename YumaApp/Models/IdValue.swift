@@ -11,7 +11,7 @@ import Foundation
 
 public struct IdValue: Codable
 {
-	let id: 	String?
+	let id: 	String
 	let value: 	String?
 	
 //	init(id: String, value: String)
@@ -23,5 +23,5 @@ public struct IdValue: Codable
 
 public struct IdAsString: Codable
 {
-	let id: String?
+	let id: String
 }

@@ -44,6 +44,9 @@ final class DataStore
 	var tags: [myTag] = []
 	var shares: [ScoialMedia] = []
 	var productOptionValues: [ProductOptionValue] = []
+	var myLang: Int = 0
+	var forceRefresh = false
+	var productOptions: [ProductOption] = []
 	
 	
 	func initShares()
@@ -371,6 +374,31 @@ final class DataStore
 		)
 	}
 	
+	func callGetProductOptions(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getProductOptions(completionHandler:
+			{
+				(options, err) in
+				
+				if err == nil
+				{
+					if options != nil
+					{
+						for opt in (options?.product_options)!
+						{
+							self.productOptions.append(opt)
+						}
+						completion(self.productOptions, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+
 
 	func callGetManufacturers(completion: @escaping (Any?, Error?) -> Void)
 	{

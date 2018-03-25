@@ -50,7 +50,7 @@ class ProductViewCell: UICollectionViewCell
 			var cats: String = ""
 			for cat in (unwrap.associations?.categories)!
 			{
-				cats += cat.id!
+				cats += cat.id
 			}
 			let _ = unwrap.id
 		}

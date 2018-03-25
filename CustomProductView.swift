@@ -63,6 +63,12 @@ class CustomView: UIView	// product cell view
 	}()
 
 	var tags: [String] = []
+	let tagsView: UIStackView =
+	{
+		let sv = UIStackView()
+		sv.translatesAutoresizingMaskIntoConstraints = false
+		return sv
+	}()
 	let prodManImage: UIImageView =
 	{
 		let iv = UIImageView()
@@ -84,7 +90,12 @@ class CustomView: UIView	// product cell view
 		return lab
 	}()
 	var categories: [aCategory] = []
-	let categoriesView = UIStackView()
+	let categoriesView: UIStackView =
+	{
+		let sv = UIStackView()
+		sv.translatesAutoresizingMaskIntoConstraints = false
+		return sv
+	}()
 	var combinations: [Combination] = []
 	let combinationsView = UIStackView()
 	let shareView = UIStackView()
@@ -95,7 +106,13 @@ class CustomView: UIView	// product cell view
 		sv.translatesAutoresizingMaskIntoConstraints = false
 		return sv
 	}()
-
+	let imagesView: UIStackView =
+	{
+		let sv = UIStackView()
+		sv.translatesAutoresizingMaskIntoConstraints = false
+		return sv
+	}()
+	
 	
 	override init(frame: CGRect)
 	{
@@ -145,23 +162,46 @@ class CustomView: UIView	// product cell view
 				detailsBtn.heightAnchor.constraint(equalToConstant: 21),
 				])
 		}
-		
-		manufacturerView.translatesAutoresizingMaskIntoConstraints = false
-		descShort.translatesAutoresizingMaskIntoConstraints = false
-		descLong.translatesAutoresizingMaskIntoConstraints = false
+		//stack2
+		let stack2 = UIStackView()
+		stack2.axis = .vertical
+		stack2.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
+		stack2.translatesAutoresizingMaskIntoConstraints = false
+		stack2.distribution = UIStackViewDistribution.fill
+		stack2.backgroundColor = .gray
+
 		categoriesView.translatesAutoresizingMaskIntoConstraints = false
-		categoriesView.distribution = UIStackViewDistribution.fill
+		//categoriesView.distribution = UIStackViewDistribution.fill
 		categoriesView.spacing = 10
-		if categories.count > 0
+//		if categories.count > 0
+//		{
+//			for co in categories
+//			{
+//				let lbl = UILabel()
+//				lbl.text = String(describing: co)
+//				lbl.translatesAutoresizingMaskIntoConstraints = false
+//				categoriesView.addArrangedSubview(lbl)
+//			}
+			stack2.addArrangedSubview(categoriesView)
+//		}
+
+//		if tagsView.subviews.count > 0
+//		{
+			stack2.addArrangedSubview(tagsView)
+//		}
+
+		descLong.translatesAutoresizingMaskIntoConstraints = false
+//		if descLong.text != ""
+//		{
+//			stack2.addArrangedSubview(descLong)
+//		}
+
+		descShort.translatesAutoresizingMaskIntoConstraints = false
+		if descShort.text != ""
 		{
-			for co in categories
-			{
-				let lbl = UILabel()
-				lbl.text = String(describing: co)
-				lbl.translatesAutoresizingMaskIntoConstraints = false
-				categoriesView.addArrangedSubview(lbl)
-			}
+			stack2.addArrangedSubview(descShort)
 		}
+
 		combinationsView.translatesAutoresizingMaskIntoConstraints = false
 		combinationsView.spacing = 10
 		if combinations.count > 0
@@ -173,52 +213,23 @@ class CustomView: UIView	// product cell view
 				lbl.translatesAutoresizingMaskIntoConstraints = false
 				combinationsView.addArrangedSubview(lbl)
 			}
+			stack2.addArrangedSubview(combinationsView)
 		}
+
 		shareView.translatesAutoresizingMaskIntoConstraints = false
 		shareView.distribution = UIStackViewDistribution.fill
 		shareView.spacing = 5
-
-		let stack2 = UIStackView(arrangedSubviews: [manufacturerView, descLong, descShort, categoriesView, combinationsView, shareView])
-		stack2.axis = .vertical
-		stack2.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
-		stack2.translatesAutoresizingMaskIntoConstraints = false
-		stack2.distribution = UIStackViewDistribution.fill
-		stack2.backgroundColor = .gray
-
-		if self.tags.count > 0
+		if shareView.subviews.count > 0
 		{
-			stack2.addArrangedSubview(fillTags(tagNames: self.tags))
+			stack2.addArrangedSubview(shareView)
 		}
-//		let tagLabel = UIView()
-//		tagLabel.backgroundColor = R.color.YumaRed
-//		tagLabel.borderColor = R.color.YumaDRed
-//		tagLabel.shadowColor = UIColor.gray
-//		tagLabel.shadowOffset = CGSize(width: 3, height: 3)
-//		tagLabel.shadowRadius = 5
-//		tagLabel.shadowOpacity = 1
-//		tagLabel.cornerRadius = 5
-//		tagLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-//		tagLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
-//		let tagInnerCircle = UIView()
-//		tagInnerCircle.backgroundColor = UIColor.white
-//		tagInnerCircle.borderColor = R.color.YumaDRed
-//		tagInnerCircle.shadowColor = UIColor.gray
-//		tagInnerCircle.shadowOffset = CGSize(width: 3, height: 3)
-//		tagInnerCircle.shadowRadius = 5
-//		tagInnerCircle.shadowOpacity = 1
-//		tagInnerCircle.clipsToBounds = true
-//		let tagText = UILabel()
-//		tagText.translatesAutoresizingMaskIntoConstraints = false
-//		tagText.textColor = R.color.YumaYel
-//		tagLabel.addSubview(tagText)
-//		tagText.leadingAnchor.constraint(equalTo: tagLabel.leadingAnchor, constant: 5).isActive = true
-//		tagText.trailingAnchor.constraint(equalTo: tagLabel.trailingAnchor, constant: 10).isActive = true
-//		tagText.centerYAnchor.constraint(equalTo: tagLabel.centerYAnchor).isActive = true
-//		tagLabel.addSubview(tagInnerCircle)
-//		tagInnerCircle.centerYAnchor.constraint(equalTo: tagLabel.centerYAnchor).isActive = true
-//		tagInnerCircle.widthAnchor.constraint(equalToConstant: 10).isActive = true
-//		tagInnerCircle.heightAnchor.constraint(equalToConstant: 10).isActive = true
-//		tagInnerCircle.leftAnchor.constraint(equalTo: tagLabel.leftAnchor, constant: tagLabel.frame.width - 6).isActive = true
+
+		manufacturerView.translatesAutoresizingMaskIntoConstraints = false
+		if manufacturerView.subviews.count > 0
+		{
+			stack2.addArrangedSubview(manufacturerView)
+		}
+		//stack
 		let stack = UIStackView(arrangedSubviews: [stack1, stack2])
 		stack.axis = .vertical
 		stack.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
@@ -272,7 +283,7 @@ class CustomView: UIView	// product cell view
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+/*
 	func fillTags(tagNames: [String]) -> UIStackView
 	{
 		let tagsSV = UIStackView()
@@ -290,159 +301,11 @@ class CustomView: UIView	// product cell view
 		}
 		return tagsSV
 	}
-
+*/
 }
 
 
-//class CustomView2: UIView	// product cell view
-//{
-//	let prodName: UILabel =
-//	{
-//		let lbl = UILabel()
-//		lbl.translatesAutoresizingMaskIntoConstraints = false
-//		lbl.textAlignment = .center
-//		lbl.font = UIFont.boldSystemFont(ofSize: 25)
-//		return lbl
-//	}()
-//	let prodPrice: UILabel =
-//	{
-//		let lbl = UILabel()
-//		lbl.translatesAutoresizingMaskIntoConstraints = false
-//		lbl.font = UIFont.systemFont(ofSize: 21)
-//		lbl.textAlignment = .center
-//		return lbl
-//	}()
-//	let mainBtn: UILabel =
-//	{
-//		let btn = UILabel()
-//		btn.translatesAutoresizingMaskIntoConstraints = false
-//		btn.textColor = .white
-//		btn.backgroundColor = .red
-//		btn.textAlignment = .center
-//		return btn
-//	}()
-//	let mainView: UIView =
-//	{
-//		let view = UIView()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		return view
-//	}()
-//	let imageView: UIView =
-//	{
-//		let view = UIView()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		return view
-//	}()
-//	let imageFrame: UIView =
-//	{
-//		let view = UIView()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		return view
-//	}()
-//	let catsSV: UIStackView =
-//	{
-//		let stack = UIStackView()
-//		return stack
-//	}()
-//	let tagsSV: UIStackView =
-//	{
-//		let stack = UIStackView()
-//		return stack
-//	}()
-//	let descShort: UITextView =
-//	{
-//		let tv = UITextView()
-//		return tv
-//	}()
-//	let desc: UITextView =
-//	{
-//		let tv = UITextView()
-//		return tv
-//	}()
-//	let sharesSV: UIStackView =
-//	{
-//		let stack = UIStackView()
-//		return stack
-//	}()
-//
-//
-//	override init(frame: CGRect)
-//	{
-//		super.init(frame: frame)
-//
-//		mainView.addSubview(mainBtn)
-//		NSLayoutConstraint.activate([
-//			mainBtn.topAnchor.constraint(equalTo: mainView.topAnchor),
-//			mainBtn.trailingAnchor.constraint(equalTo: mainView.trailingAnchor),//, constant: 5),
-//			mainBtn.leadingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -80),
-//			mainBtn.heightAnchor.constraint(equalToConstant: 21),
-//			])
-//
-//		//		imageFrame.shadowColor = UIColor.gray
-//		//		imageFrame.shadowOffset = CGSize(width: 1, height: 1)
-//		//		imageFrame.shadowRadius = 5
-//		//		imageFrame.shadowOpacity = 1
-//		imageFrame.addSubview(prodManImage)
-//		NSLayoutConstraint.activate([
-//			prodManImage.topAnchor.constraint(equalTo: imageFrame.topAnchor/*, constant: 5*/),
-//			prodManImage.trailingAnchor.constraint(equalTo: imageFrame.trailingAnchor/*, constant: -5*/),
-//			prodManImage.leadingAnchor.constraint(equalTo: imageFrame.leadingAnchor/*, constant: 5*/),
-//			prodManImage.bottomAnchor.constraint(equalTo: imageFrame.bottomAnchor/*, constant: -5*/),
-//			])
-//
-//		//		imageView.shadowColor = UIColor.red
-//		//		imageView.shadowOffset = CGSize(width: 1, height: 1)
-//		//		imageView.shadowRadius = 5
-//		//		imageView.shadowOpacity = 1
-//		imageView.addSubview(imageFrame)
-//		NSLayoutConstraint.activate([
-//			imageFrame.topAnchor.constraint(equalTo: imageView.topAnchor/*, constant: 5*/),
-//			imageFrame.trailingAnchor.constraint(equalTo: imageView.trailingAnchor/*, constant: -5*/),
-//			imageFrame.leadingAnchor.constraint(equalTo: imageView.leadingAnchor/*, constant: 5*/),
-//			imageFrame.bottomAnchor.constraint(equalTo: imageView.bottomAnchor/*, constant: -5*/),
-//			])
-//
-//		let stack = UIStackView(arrangedSubviews: [imageView, prodName, prodPrice, mainView])
-//		stack.axis = .vertical
-//		stack.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
-//		stack.translatesAutoresizingMaskIntoConstraints = false
-//		stack.distribution = UIStackViewDistribution.fill
-//		//stack.alignment = UIStackViewAlignment.center
-//		stack.backgroundColor = .gray
-//
-//		NSLayoutConstraint.activate([
-//			prodManImage.leadingAnchor.constraint(equalTo: stack.leadingAnchor),//, constant: 5),//),//
-//			prodManImage.topAnchor.constraint(equalTo: stack.topAnchor),
-//			prodManImage.trailingAnchor.constraint(equalTo: stack.trailingAnchor),//, constant: 5),
-//
-//			prodName.leadingAnchor.constraint(equalTo: stack.leadingAnchor),//, constant: 5),
-//			prodName.trailingAnchor.constraint(equalTo: stack.trailingAnchor),//, constant: 5),
-//			prodName.heightAnchor.constraint(equalToConstant: 30),
-//
-//			prodPrice.leadingAnchor.constraint(equalTo: stack.leadingAnchor),//, constant: 5),
-//			prodPrice.trailingAnchor.constraint(equalTo: stack.trailingAnchor),//, constant: 5),
-//			prodPrice.heightAnchor.constraint(equalToConstant: 25),
-//
-//			mainView.leadingAnchor.constraint(equalTo: stack.leadingAnchor),//, constant: 5),
-//			mainView.trailingAnchor.constraint(equalTo: stack.trailingAnchor),//, constant: 5),
-//			mainView.heightAnchor.constraint(equalToConstant: 20),
-//			])
-//
-//		self.addSubview(stack)
-//		NSLayoutConstraint.activate([
-//			stack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//			stack.topAnchor.constraint(equalTo: self.topAnchor),
-//			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
-//			stack.widthAnchor.constraint(equalTo: self.widthAnchor/*, constant: -20*/),
-//			])
-//	}
-//
-//	required init?(coder aDecoder: NSCoder) {
-//		fatalError("init(coder:) has not been implemented")
-//	}
-//}
-
-
+/*
 class TagLabel: UIView
 {
 	var text = ""
@@ -507,3 +370,4 @@ class TagLabel: UIView
 	}
 	
 }
+*/
