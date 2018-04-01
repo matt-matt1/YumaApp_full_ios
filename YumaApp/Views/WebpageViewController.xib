@@ -9,10 +9,21 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-Regular</string>
+        </array>
+        <array key="FontAwesome.ttf">
+            <string>FontAwesome</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebpageViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
+                <outlet property="activityLabel" destination="z41-jL-FdM" id="hpw-2r-gvT"/>
                 <outlet property="activitySpinner" destination="NXq-F8-zeY" id="K7a-c4-6k2"/>
+                <outlet property="closeIcon" destination="5eB-vc-jeE" id="hhR-5m-EEI"/>
+                <outlet property="closeView" destination="pfP-z5-oo8" id="sdb-wr-V3y"/>
                 <outlet property="navBar" destination="emk-7G-DWE" id="Sl5-g7-gH5"/>
                 <outlet property="navClose" destination="vGF-eX-7bh" id="qMg-ZI-ppT"/>
                 <outlet property="navHelp" destination="7S5-px-SLP" id="csq-ik-SOF"/>
@@ -29,12 +40,9 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eCv-7Z-2zt">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
-                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emk-7G-DWE">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
+                        <navigationBar hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emk-7G-DWE">
+                            <rect key="frame" x="0.0" y="-20" width="375" height="0.0"/>
                             <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="46" id="axH-io-g1t"/>
-                            </constraints>
                             <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <textAttributes key="titleTextAttributes">
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -57,37 +65,70 @@
                             </items>
                         </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URE-0A-wue">
-                            <rect key="frame" x="0.0" y="46" width="375" height="601"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
                                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYR-Hu-dlo">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </webView>
-                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NXq-F8-zeY">
-                                    <rect key="frame" x="169" y="282" width="37" height="37"/>
-                                    <color key="color" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </activityIndicatorView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dne-y0-ffz">
+                                    <rect key="frame" x="0.0" y="287.5" width="375" height="73"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NXq-F8-zeY">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="37"/>
+                                            <color key="color" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z41-jL-FdM">
+                                            <rect key="frame" x="0.0" y="37" width="375" height="36"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="26"/>
+                                            <color key="textColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfP-z5-oo8">
+                                    <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5eB-vc-jeE">
+                                            <rect key="frame" x="16.5" y="14" width="16.5" height="21"/>
+                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="21"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="5eB-vc-jeE" firstAttribute="centerX" secondItem="pfP-z5-oo8" secondAttribute="centerX" id="ALF-CG-i6G"/>
+                                        <constraint firstAttribute="height" constant="49" id="Hfe-y2-42b"/>
+                                        <constraint firstAttribute="width" constant="49" id="N8H-nj-0VS"/>
+                                        <constraint firstItem="5eB-vc-jeE" firstAttribute="centerY" secondItem="pfP-z5-oo8" secondAttribute="centerY" id="aJi-ag-325"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="NXq-F8-zeY" firstAttribute="centerX" secondItem="URE-0A-wue" secondAttribute="centerX" id="7yd-jm-0nY"/>
+                                <constraint firstItem="pfP-z5-oo8" firstAttribute="top" secondItem="URE-0A-wue" secondAttribute="top" id="6EZ-wh-1Xr"/>
+                                <constraint firstItem="pfP-z5-oo8" firstAttribute="leading" secondItem="URE-0A-wue" secondAttribute="leading" id="9Pa-35-f29"/>
                                 <constraint firstAttribute="trailing" secondItem="gYR-Hu-dlo" secondAttribute="trailing" id="beV-ce-3G1"/>
                                 <constraint firstItem="gYR-Hu-dlo" firstAttribute="leading" secondItem="URE-0A-wue" secondAttribute="leading" id="feN-t5-yMf"/>
+                                <constraint firstItem="Dne-y0-ffz" firstAttribute="centerY" secondItem="URE-0A-wue" secondAttribute="centerY" id="qeY-ic-Is1"/>
                                 <constraint firstItem="gYR-Hu-dlo" firstAttribute="top" secondItem="URE-0A-wue" secondAttribute="top" id="sln-jY-OGx"/>
-                                <constraint firstItem="NXq-F8-zeY" firstAttribute="centerY" secondItem="URE-0A-wue" secondAttribute="centerY" id="xWM-W3-NVm"/>
+                                <constraint firstItem="Dne-y0-ffz" firstAttribute="centerX" secondItem="URE-0A-wue" secondAttribute="centerX" id="wMS-U1-qPn"/>
                                 <constraint firstAttribute="bottom" secondItem="gYR-Hu-dlo" secondAttribute="bottom" id="xtJ-Hv-2a8"/>
                             </constraints>
                         </view>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="Dne-y0-ffz" firstAttribute="width" secondItem="eCv-7Z-2zt" secondAttribute="width" id="g4m-lC-TfN"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="EPb-Ls-gU7"/>
-                <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="QKS-0D-c5S"/>
+                <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="QKS-0D-c5S"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZrP-5T-6f8"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="e7Y-De-SYa"/>
-                <constraint firstItem="eCv-7Z-2zt" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="iUU-9E-Q82"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="25.5" y="51.5"/>

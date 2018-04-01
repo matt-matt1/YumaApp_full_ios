@@ -31,8 +31,7 @@ extension UINavigationBar
 		}
 	}
 	
-	/// Creates a gradient image with the given settings
-
+	/// Creates a horizontal gradient image with the given settings
 	static func gradientH(size : CGSize, colors : [UIColor]) -> UIImage?
 	{
 		let cgcolors = colors.map { 	$0.cgColor 	}
@@ -45,6 +44,7 @@ extension UINavigationBar
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 	
+	/// Creates a vertical gradient image with the given settings
 	static func gradientV(size : CGSize, colors : [UIColor]) -> UIImage?
 	{
 		let cgcolors = colors.map { 	$0.cgColor 	}
@@ -59,9 +59,96 @@ extension UINavigationBar
 }
 
 
+///////////////////////////////////////////////////////////
 extension UIView
 {
-	///eg. someView.round(corners: [.topLeft, .topRight], radius: 5)
+	//https://stackoverflow.com/questions/32301336/swift-recursively-cycle-through-all-subviews-to-find-a-specific-class-and-appen
+	class func getAllSubviews<T: UIView>(view: UIView) -> [T] {
+		return view.subviews.flatMap { subView -> [T] in
+			var result = getAllSubviews(view: subView) as [T]
+			if let view = subView as? T {
+				result.append(view)
+			}
+			return result
+		}
+	}
+	
+	func getAllSubviews<T: UIView>() -> [T] {
+		return UIView.getAllSubviews(view: self) as [T]
+	}
+	
+	var safeTopAnchor: NSLayoutYAxisAnchor {
+		if #available(iOS 11.0, *) {
+			return self.safeAreaLayoutGuide.topAnchor
+		} else {
+			return self.topAnchor
+		}
+	}
+	
+//	var safeLeftAnchor: NSLayoutXAxisAnchor {
+//		if #available(iOS 11.0, *){
+//			return self.safeAreaLayoutGuide.leftAnchor
+//		}else {
+//			return self.leftAnchor
+//		}
+//	}
+//
+//	var safeRightAnchor: NSLayoutXAxisAnchor {
+//		if #available(iOS 11.0, *){
+//			return self.safeAreaLayoutGuide.rightAnchor
+//		}else {
+//			return self.rightAnchor
+//		}
+//	}
+	
+	var safeLeadingAnchor: NSLayoutXAxisAnchor {
+		if #available(iOS 11.0, *){
+			return self.safeAreaLayoutGuide.leadingAnchor
+		}else {
+			return self.leadingAnchor
+		}
+	}
+	
+	var safeTrailingAnchor: NSLayoutXAxisAnchor {
+		if #available(iOS 11.0, *){
+			return self.safeAreaLayoutGuide.trailingAnchor
+		}else {
+			return self.trailingAnchor
+		}
+	}
+
+	var safeBottomAnchor: NSLayoutYAxisAnchor {
+		if #available(iOS 11.0, *) {
+			return self.safeAreaLayoutGuide.bottomAnchor
+		} else {
+			return self.bottomAnchor
+		}
+	}
+//	var recursiveSubviews: [UIView]
+//	{
+//		var subviews = self.subviews.flatMap({$0})
+//		subviews.forEach { 	subviews.append(contentsOf: $0.recursiveSubviews) 	}
+//		return subviews
+//	}
+//	func searchVisualEffectsSubview() -> UIVisualEffectView?
+//	{
+//		if let visualEffectView = self as? UIVisualEffectView
+//		{
+//			return visualEffectView
+//		}
+//		else
+//		{
+//			for subview in subviews
+//			{
+//				if let found = subview.searchVisualEffectsSubview()
+//				{
+//					return found
+//				}
+//			}
+//		}
+//		return nil
+//	}
+	/// Round only specific corners. Eg. someView.round(corners: [.topLeft, .topRight], radius: 5)
 	func justRound(corners: UIRectCorner, radius: CGFloat)
 	{
 		let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
@@ -70,12 +157,13 @@ extension UIView
 		self.layer.mask = mask
 	}
 	
+	/// Dupicale an entire view
 	func copyView<T: UIView>() -> T
 	{
-//		return NSKeyedArchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
 		return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
 	}
 	
+	/// Applies an animation for a specific duration of time
 	func animateConstraintWithDuration(duration: TimeInterval = 0.5, delay: TimeInterval = 0.0, options: UIViewAnimationOptions = [], completion: ((Bool) -> Void)? = nil)
 	{
 		UIView.animate(withDuration: duration, delay:delay, options:options, animations:
@@ -85,6 +173,7 @@ extension UIView
 			}, completion: completion)
 	}
 	
+	/// Applies a range of colors (that merge) to the background
 	func addBackgroundGradient(colors c:[CGColor], isVertical: Bool = true) -> CAGradientLayer
 	{
 		self.layer.sublayers = self.layer.sublayers?.filter() { 	!($0 is CAGradientLayer) 	}
@@ -196,8 +285,10 @@ extension UIView
 }
 
 
+///////////////////////////////////////////////////////////
 extension CALayer
 {
+	/// Applies a range of colors (that merge) to the view's border
 	func addGradienBorder(colors:[UIColor] = [UIColor.red,UIColor.blue], width: CGFloat = 1, isVertical: Bool)
 	{
 		let gradientLayer = CAGradientLayer()
@@ -228,6 +319,7 @@ extension CALayer
 		self.addSublayer(gradientLayer)
 	}
 
+	/// Applies a range of colors (that merge) to the background
 	func addBackgroundGradient(colors:[UIColor] = [UIColor.red,UIColor.blue], width: CGFloat = 1, isVertical: Bool)
 	{
 		let gradientLayer = CAGradientLayer()
@@ -253,8 +345,10 @@ extension CALayer
 }
 
 
+///////////////////////////////////////////////////////////
 extension UIViewController
 {
+	/// Applies a spinner over the display
 	class func displaySpinner(onView : UIView) -> UIView
 	{
 		let spinnerView = UIView.init(frame: onView.bounds)
@@ -272,6 +366,7 @@ extension UIViewController
 		return spinnerView
 	}
 	
+	/// Removes the named spinner from the display
 	class func removeSpinner(spinner :UIView)
 	{
 		DispatchQueue.main.async
@@ -282,8 +377,10 @@ extension UIViewController
 }
 
 
+///////////////////////////////////////////////////////////
 extension String
 {
+	/// Converts a String to a double value
 	func toDouble() -> Double?
 	{
 		return NumberFormatter().number(from: self)?.doubleValue
@@ -291,12 +388,12 @@ extension String
 }
 
 
+///////////////////////////////////////////////////////////
 extension UIImage
 {
 	//https://stackoverflow.com/questions/40882487/how-to-rotate-image-in-swift-3
-	//
-	//eg. let rotatedImage = image.rotate(radians: .pi)
-	//
+
+	/// Rotates an image (by Radians). Eg. let rotatedImage = image.rotate(radians: .pi)
 	func rotate(radians: CGFloat) -> UIImage
 	{
 		let rotatedSize = CGRect(origin: .zero, size: size).applying(CGAffineTransform(rotationAngle: CGFloat(radians))).integral.size
@@ -314,6 +411,7 @@ extension UIImage
 		}
 		return self
 	}
+	/// Rotates an image with the amount in degrees
 	func rotate(degrees: CGFloat) -> UIImage
 	{
 		let rotatedSize = CGRect(origin: .zero, size: size).applying(CGAffineTransform(rotationAngle: CGFloat(degrees * .pi/180))).integral.size
@@ -334,3 +432,36 @@ extension UIImage
 
 }
 
+
+///////////////////////////////////////////////////////////
+extension URLResponse
+{
+	/// Return the status code in a URL response
+	func getStatusCode() -> Int?
+	{
+		if let httpResponse = self as? HTTPURLResponse
+		{
+			return httpResponse.statusCode
+		}
+		return nil
+	}
+}
+
+
+///////////////////////////////////////////////////////////
+extension Dictionary where Key: ExpressibleByStringLiteral
+{
+	subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String
+	{
+		get {	return self[index.rawValue as! Key]			}
+		set {	self[index.rawValue as! Key] = newValue		}
+	}
+}
+
+
+///////////////////////////////////////////////////////////
+extension UIColor
+{
+	/// A color object whose RGB values are 0.1, 0.5, and 0.9 and whose alpha value is 1.
+	static let blueApple = UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1)
+}

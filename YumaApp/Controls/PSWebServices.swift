@@ -572,7 +572,7 @@ class PSWebServices: NSObject
 //					print(dataString ?? R.string.err)
 					do
 					{
-						let result = try JSONDecoder().decode([FailableDecodable<aCategory>].self, from: data).flatMap { $0.base }
+						let result = try JSONDecoder().decode([FailableDecodable<aCategory>].self, from: data).compactMap { $0.base }
 						completionHandler(result)
 					}
 					catch let JSONerr
@@ -867,20 +867,20 @@ class PSWebServices: NSObject
 		{
 			URLSession.shared.dataTask(with: myUrl)
 			{ (data, response, err) in
-				if let data = data
-				{
-					do
-					{
-						//let result = try JSONDecoder().decode(decodeType!, from: data)
-						//completionHandler(result, nil)
-					}
-					catch let JSONerr
-					{
-						//print("\(R.string.err) \(JSONerr)")
-						completionHandler(nil, JSONerr)
-					}
-				}
-			}.resume()
+//				if data != nil//let data = data
+//				{
+//					do
+//					{
+//						//let result = try JSONDecoder().decode(decodeType!, from: data)
+//						//completionHandler(result, nil)
+//					}
+//					catch let JSONerr
+//					{
+//						//print("\(R.string.err) \(JSONerr)")
+//						completionHandler(nil, JSONerr)
+//					}
+//				}
+				}.resume()
 		}
 	}
 	

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MGSwipeTableCell
+
 
 class CartViewController: UIViewController
 {
@@ -67,6 +69,18 @@ class CartViewController: UIViewController
 				//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
 				total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
 				pcs = pcs + Int(row.productQuantity!)!
+				var prod: aProduct?
+				for p in store.products
+				{
+					if String(p.id!) == row.productId!
+					{
+						prod = p
+					}
+				}
+				if prod != nil
+				{
+					wt += Double((prod?.weight!)!)!
+				}
 				//wt = wt + Double(row.productId)
 			}
 			if total < 1
@@ -78,10 +92,10 @@ class CartViewController: UIViewController
 			else
 			{
 				totalAmt.text = "\(total)"
-				totalPcs.text = "\(pcs)"
+				totalPcs.text = "\(pcs) (\(wt)kg)"
 				let date = Date()
-				store.myOrder = [Orders(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))]
-				print(store.myOrder)
+				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+				//print(store.myOrder)
 			}
 		}
     }
@@ -112,11 +126,12 @@ class CartViewController: UIViewController
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: chkoutBtn)
-		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController!
+		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
 		self.present(vc!, animated: false, completion: nil)
 	}
 	
 }
+
 
 extension CartViewController: UITableViewDataSource, UITableViewDelegate
 {
@@ -141,6 +156,23 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 		cell.setup(store.myOrderRows[indexPath.row])//cell.setup(string: text)
 		//cell.cellLabel.text = text
 		//cell.textLabel?.text = text//.cellLabel?.text = text
+		cell.rightButtons = [MGSwipeButton(title: R.string.delete, backgroundColor: .red) {
+			(sender: MGSwipeTableCell!) -> Bool in
+			
+			/*self.store.Alert(fromView: <#T##UIViewController#>, title: <#T##String?#>, titleColor: <#T##UIColor?#>, titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>, message: <#T##String?#>, messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>, dialogBackgroundColor: <#T##UIColor?#>, backgroundBackgroundColor: <#T##UIColor?#>, backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>, borderColor: <#T##UIColor?#>, borderWidth: <#T##CGFloat?#>, cornerRadius: <#T##CGFloat?#>, shadowColor: <#T##UIColor?#>, shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>, hasButton1: <#T##Bool#>, button1Title: <#T##String?#>, button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>, hasButton2: <#T##Bool#>, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>)*/
+			self.store.Alert(fromView: self, title: R.string.rusure, titleColor: R.color.YumaRed, message: "", dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaDRed, borderColor: R.color.YumaRed, borderWidth: 1, shadowColor: R.color.YumaDRed, shadowRadius: 8, hasButton1: true, button1Title: R.string.delete.uppercased(), button1Style: .destructive, /*button1Color: .green,*/ button1Action:
+				{
+					() -> Void in
+					
+					print("delete item:\(indexPath.row)")
+					self.store.myOrderRows.remove(at: indexPath.row)
+					DispatchQueue.main.async {
+						tableView.reloadSections([0], with: UITableViewRowAnimation.fade)
+					}
+					return
+			}, hasButton2: true, button2Title: R.string.cancel.uppercased()/* ,button2Style: .cancel, button2Color: .red*/)
+			return true
+			}]
 		return cell
 	}
 

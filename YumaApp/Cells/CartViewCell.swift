@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import MGSwipeTableCell
 
-class CartViewCell: UITableViewCell
+
+class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 {
 	@IBOutlet weak var prodQtyBorder: UIView!
 	@IBOutlet weak var prodQtyEdit: UITextField!

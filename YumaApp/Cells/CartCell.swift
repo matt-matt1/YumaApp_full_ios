@@ -15,6 +15,7 @@ class CartCell: UIView
 	{
 		let iv = UIImageView(/*frame: CGRect(x: 0, y: 0, width: 253, height: 100)*/)
 		iv.translatesAutoresizingMaskIntoConstraints = false
+		//iv.sizeToFit()
 		return iv
 	}()
 	let prodName: UILabel =
@@ -22,15 +23,16 @@ class CartCell: UIView
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
 		lbl.isUserInteractionEnabled = false
-		lbl.lineBreakMode = NSLineBreakMode.byTruncatingTail
-		lbl.adjustsFontSizeToFitWidth = true
+		lbl.lineBreakMode = NSLineBreakMode.byTruncatingHead
+		//lbl.adjustsFontSizeToFitWidth = true
 		lbl.textAlignment = .center
-		lbl.font = UIFont.init(name: "AvenirNext-Bold", size: 16)//.boldSystemFont(ofSize: 25)
+		lbl.font = UIFont.init(name: "AvenirNext-Bold", size: 14)//.boldSystemFont(ofSize: 25)
 		lbl.textColor = R.color.YumaRed
 		lbl.shadowColor = R.color.YumaYel
 		lbl.shadowOffset = CGSize(width: 1, height: 1)
-		lbl.shadowRadius = 5.0
-		lbl.shadowOpacity = 1
+		lbl.shadowRadius = 4.0
+		//lbl.shadowOpacity = 1
+		//lbl.sizeToFit()
 		return lbl
 	}()
 	//	let prodPrice: UILabel =
@@ -65,17 +67,27 @@ class CartCell: UIView
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
-	let prodQty: UITextView =
+	private let prodQtyView: UIView =
 	{
-		let view = UITextView(/*frame: CGRect(x: 0, y: 0, width: 20, height: 20)*/)
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = R.color.YumaRed
+		view.cornerRadius = 10//view.frame.width/3
+		//view.justRound(corners: [UIRectCorner.bottomRight], radius: 10)//view.frame.width/3)
+		return view
+	}()
+	let prodQty: UILabel =
+	{
+		let view = UILabel()//UITextView(/*frame: CGRect(x: 0, y: 0, width: 20, height: 20)*/)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.isUserInteractionEnabled = false
+		view.lineBreakMode = NSLineBreakMode.byTruncatingTail
 		view.textAlignment = .center
 		view.font = UIFont.boldSystemFont(ofSize: 9)
 		view.textColor = R.color.YumaYel
-		view.backgroundColor = R.color.YumaRed
-		view.cornerRadius = view.frame.width/3
-		//view.contentVerticalAlignment = .center
+		view.shadowColor = R.color.YumaDRed
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowRadius = 3
 		return view
 	}()
 	
@@ -145,29 +157,64 @@ class CartCell: UIView
 		</stackView>
 		*/
 		imageView.addSubview(prodImage)
-		imageView.addSubview(prodQty)
+		prodQtyView.addSubview(prodQty)
+		imageView.addSubview(prodQtyView)
 		NSLayoutConstraint.activate([
 			prodImage.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-			prodQty.topAnchor.constraint(equalTo: imageView.topAnchor),
 			prodImage.topAnchor.constraint(equalTo: imageView.topAnchor),
-			prodQty.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
 			prodImage.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+			prodImage.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+
+			prodQty.leadingAnchor.constraint(equalTo: prodQtyView.leadingAnchor),
+			prodQty.topAnchor.constraint(equalTo: prodQtyView.topAnchor),
+			prodQty.trailingAnchor.constraint(equalTo: prodQtyView.trailingAnchor),
+			prodQty.bottomAnchor.constraint(equalTo: prodQtyView.bottomAnchor),
+			
+			prodQtyView.topAnchor.constraint(equalTo: imageView.topAnchor),
+			prodQtyView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+			prodQtyView.widthAnchor.constraint(equalToConstant: 20),
+			prodQtyView.heightAnchor.constraint(equalToConstant: 20),
 			])
-		
+
 		prodGap.heightAnchor.constraint(equalToConstant: 3).isActive = true
-		prodLine.backgroundColor = UIColor.gray
+		prodLine.backgroundColor = UIColor(hex: "#DCDCDC", alpha: 1)
+		prodLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
 		
-		let stack = UIStackView(arrangedSubviews: [prodName, imageView, prodGap, prodLine])
+		let stack = UIStackView(arrangedSubviews: [prodName, imageView, /*prodGap,*/ prodLine])
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.axis = .vertical
 		
 		self.addSubview(stack)
 		NSLayoutConstraint.activate([
+			prodName.topAnchor.constraint(equalTo: stack.topAnchor),
+			prodName.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+			prodName.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+//			prodName.bottomAnchor.constraint(equalTo: imageView.topAnchor),
+			
+			imageView.topAnchor.constraint(equalTo: prodName.bottomAnchor),
+			imageView.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+			imageView.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+//			imageView.bottomAnchor.constraint(equalTo: prodGap.topAnchor),
+			imageView.bottomAnchor.constraint(equalTo: prodLine.topAnchor),
+			//imageView.heightAnchor.constraint(equalToConstant: stack.frame.height-prodGap.frame.height-prodLine.frame.height-prodName.frame.height),
+			
+//			prodGap.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+			//prodGap.topAnchor.constraint(equalTo: stack.topAnchor),
+//			prodGap.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+			
+			prodLine.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+			//prodLine.topAnchor.constraint(equalTo: stack.topAnchor),
+			prodLine.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+			prodLine.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			
 			stack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			stack.topAnchor.constraint(equalTo: self.topAnchor),
-			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor/*, constant: -50*/),
+			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 5),
 			stack.widthAnchor.constraint(equalTo: self.widthAnchor/*, constant: -20*/),
+			
+			//prodImage.heightAnchor.constraint(lessThanOrEqualToConstant: stack.frame.height),
 			])
+		//print("gap=\(prodGap.bounds.height), line=\(prodLine.bounds.height), name=\(prodName.bounds.height)")
 	}
 	
 	required init?(coder aDecoder: NSCoder)

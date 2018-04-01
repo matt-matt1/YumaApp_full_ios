@@ -16,39 +16,40 @@ final class DataStore
 //	private let myClient = MyClient()
 	fileprivate init() {}
 
-	var customer: Customer?
-	var addresses: [Address] = []
-	var products: [aProduct] = []
-	var printers: [aProduct] = []
-	var laptops: [aProduct] = []
-	var toners: [aProduct] = []
-	var services: [aProduct] = []
-	var carriers: [Carrier] = []
-	var states: [CountryState] = []
-	var countries: [Country] = []
-	var orderStates: [OrderState] = []
-	var orders: [Orders] = []
-	var myOrderRows: [OrderRow] = []
-	var myCartRows: [CartRow] = []
-	var myOrder: [Orders] = []
-	var myCart: [Carts] = []
-	var orderDetails: [OrderDetail] = []
-	var carts: [Carts] = []
-	var langs: [Language] = []
-	var manufacturers: [Manufacturer] = []
-	var categories: [aCategory] = []
-	var combinations: [Combination] = []
-	var currencies: [Currency] = []
-	var locale = "en_CA"
-	var taxes: [Tax] = []
-	var tags: [myTag] = []
-	var shares: [ScoialMedia] = []
-	var productOptionValues: [ProductOptionValue] = []
-	var myLang: Int = 0
-	var forceRefresh = false
-	var productOptions: [ProductOption] = []
+	var customer: 				Customer?
+	var addresses: 				[Address] = 			[]
+	var products: 				[aProduct] = 			[]
+	var printers: 				[aProduct] = 			[]
+	var laptops: 				[aProduct] = 			[]
+	var toners: 				[aProduct] = 			[]
+	var services: 				[aProduct] = 			[]
+	var carriers: 				[Carrier] = 			[]
+	var states: 				[CountryState] = 		[]
+	var countries: 				[Country] = 			[]
+	var orderStates: 			[OrderState] = 			[]
+	var orders: 				[Order] = 				[]
+	var myOrderRows: 			[OrderRow] = 			[]
+	var myCartRows: 			[CartRow] = 			[]
+	var myOrder: 				Order?
+	var myCart: 				[Carts] = 				[]
+	var orderDetails: 			[OrderDetail] = 		[]
+	var carts: 					[Carts] = 				[]
+	var langs: 					[Language] = 			[]
+	var manufacturers: 			[Manufacturer] = 		[]
+	var categories: 			[aCategory] = 			[]
+	var combinations: 			[Combination] = 		[]
+	var currencies: 			[Currency] = 			[]
+	var locale = 										"en_CA"
+	var taxes: 					[Tax] = 				[]
+	var tags: 					[myTag] = 				[]
+	var shares: 				[ScoialMedia] = 		[]
+	var productOptionValues: 	[ProductOptionValue] = 	[]
+	var myLang: 				Int = 					0
+	var forceRefresh = 			false
+	var productOptions: 		[ProductOption] = 		[]
 	
 	
+	/// Sets the parameters for product shares
 	func initShares()
 	{
 		self.shares.append(ScoialMedia(id: 0, name: [IdValue(id: "0", value: "Share")]))
@@ -58,6 +59,7 @@ final class DataStore
 		self.shares.append(ScoialMedia(id: 4, name: [IdValue(id: "0", value: "Pinerest")], link: "https://www.pinerest.com/pin/create/button/?media=%prodImage%&url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjQ2IiB4bGluazpocmVmPSI4REY2NkQ0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDIgLTEpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE4LjcsNS4xQzEzLjQsNS42LDguMSwxMCw3LjgsMTYuMWMtMC4xLDMuOCwwLjksNi42LDQuNSw3LjRjMS42LTIuNy0wLjUtMy4zLTAuOC01LjMKCQkJCWMtMS4zLTguMSw5LjQtMTMuNywxNS04YzMuOSwzLjksMS4zLDE2LTQuOSwxNC44Yy02LTEuMiwyLjktMTAuOC0xLjgtMTIuN2MtMy45LTEuNS01LjksNC43LTQuMSw3LjhjLTEuMSw1LjMtMy40LDEwLjMtMi41LDE3CgkJCQljMy4xLTIuMiw0LjEtNi41LDQuOS0xMC45YzEuNSwwLjksMi40LDEuOSw0LjMsMi4xYzcuMiwwLjYsMTEuMi03LjIsMTAuMy0xNC40QzMxLjgsNy41LDI1LjUsNC4zLDE4LjcsNS4xeiIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
 	}
 	
+	/// Use the api to collect details about the logged-in customer, if any
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getCustomer(from: from, completionHandler:
@@ -77,6 +79,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect the carriers, if any
 	func callGetCarriers(completion: @escaping ([Carrier]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)/carriers"
@@ -85,9 +88,9 @@ final class DataStore
 			{
 				(object, err) in//)(dataStr, object) in
 				
-				let dataStr = UserDefaults.standard.string(forKey: "Carriers")
-				let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-				let tempObj: [Carrier]
+				let dataStr = 				UserDefaults.standard.string(forKey: "Carriers")
+				let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+				let tempObj: 	[Carrier]
 				do
 				{
 					tempObj = try JSONDecoder().decode([Carrier].self, from: tempCarr.data(using: .utf8)!)
@@ -106,15 +109,16 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect the customer's carts, if any
 	func callGetCarts(id_customer: Int, completion: @escaping ([Carts]?, Error?) -> Void)
 	{
 		PSWebServices.getCarts(id_customer: id_customer, completionHandler:
 			{
 				(object, err) in//)(dataStr, object) in
 				
-				let dataStr = UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
-				let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-				let tempObj: [Carts]
+				let dataStr = 				UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
+				let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+				let tempObj: 	[Carts]
 				do
 				{
 					tempObj = try JSONDecoder().decode([Carts].self, from: tempCarr.data(using: .utf8)!)
@@ -129,11 +133,11 @@ final class DataStore
 					print(jsonErr)
 					completion(nil, err)//"\(err?.localizedDescription) - \(jsonErr)")
 				}
-		}
+			}
 		)
 	}
-
 	
+	/// Use the api to collect addresses for the logged-in customer, if any
 	func callGetAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
 	{
 		PSWebServices.getAddresses(id_customer: id_customer, completionHandler:
@@ -149,6 +153,7 @@ final class DataStore
 		)
 	}
 	
+	/// Try to parse a JSON string and return a string
 	func parse(JSON json: String) throws -> [String]?
 	{
 		guard let data = json.data(using: .utf8) else { 	return nil 	}
@@ -157,10 +162,11 @@ final class DataStore
 			else { return nil }
 		
 		return rootArray
-			.filter{ $0["success"] as? Int == 1}
-			.map{ $0["nama_produk"] as! String }
+			.filter{ 	$0["success"] as? Int == 1 		}
+			.map{ 		$0["nama_produk"] as! String 	}
 	}
 
+	/// Use the api to collect the countries, if any
 	func callGetCountries(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getCountries(completionHandler:
@@ -173,6 +179,7 @@ final class DataStore
 		)
 	}
 
+	/// Use the api to collect the states, optionally belonging to a certain countryID, if any
 	func callGetStates(id_country: Int, completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getStates(id_country: id_country, completionHandler:
@@ -185,6 +192,7 @@ final class DataStore
 		)
 	}
 
+	/// Use the api to collect the orders for the logged-in customer, if any
 	func getOrders(id_customer: Int, completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getOrders(id_customer: id_customer, completionHandler:
@@ -193,41 +201,30 @@ final class DataStore
 				
 				if err != nil	//if has error
 				{
-					let dataStr = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
-					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-					let tempObj: [Orders]
+					let dataStr = 				UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[Order]
 					do
 					{
-						tempObj = try JSONDecoder().decode([Orders].self, from: tempCarr.data(using: .utf8)!)
-						for ords in tempObj
-						{
-							self.orders.append(ords)
-						}
-						OperationQueue.main.addOperation
-							{
-								completion(tempObj, nil)
-							}
+						tempObj = try JSONDecoder().decode([Order].self, from: tempCarr.data(using: .utf8)!)
+						for ords in tempObj					{	self.orders.append(ords)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
 					}
 					catch let jsonErr
 					{
 						print(jsonErr)
-						OperationQueue.main.addOperation
-							{
-								completion(nil, jsonErr)
-							}
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
 					}
 				}
 				else
 				{
-					OperationQueue.main.addOperation
-						{
-							completion(result, nil)
-						}
+					OperationQueue.main.addOperation		{	completion(result, nil)		}
 				}
 			}
 		)
 	}
 
+	/// Use the api to collect details about the orders made by the logged-in customer, if any
 	func getOrderDetails(id_order: Int, completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getOrderDetails(id_order: id_order, completionHandler:
@@ -236,48 +233,34 @@ final class DataStore
 				
 				if err != nil	//if has error
 				{
-					let dataStr = UserDefaults.standard.string(forKey: "OrderDetailsOrder\(id_order)")
-					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-					let tempObj: [OrderDetail]
+					let dataStr = 				UserDefaults.standard.string(forKey: "OrderDetailsOrder\(id_order)")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[OrderDetail]
 					do
 					{
 						tempObj = try JSONDecoder().decode([OrderDetail].self, from: tempCarr.data(using: .utf8)!)
-						for ords in tempObj
-						{
-							self.orderDetails.append(ords)
-						}
-						OperationQueue.main.addOperation
-							{
-								completion(tempObj, nil)
-						}
+						for ords in tempObj					{	self.orderDetails.append(ords)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)		}
 					}
 					catch let jsonErr
 					{
 						print(jsonErr)
-						OperationQueue.main.addOperation
-							{
-								completion(nil, jsonErr)
-						}
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)		}
 					}
 				}
 				else
 				{
 					if let result = result
 					{
-//						let dataStr = String(data: result, encoding: .utf8)
-//						UserDefaults.standard.set(dataStr, forKey: "Order\(id_order)Details")
 						let array = result.orderDetails
-						OperationQueue.main.addOperation
-							{
-								//completion(result, nil)
-								completion(array, nil)
-							}
+						OperationQueue.main.addOperation	{	completion(array, nil)			}
 					}
 				}
 			}
 		)
 	}
 
+	/// Use the api to collect a list of the status codes given to the state of each order, if any
 	func getOrderStates(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getOrderStates(completionHandler:
@@ -286,43 +269,32 @@ final class DataStore
 				
 				if err != nil	//only if error
 				{
-					let dataStr = UserDefaults.standard.string(forKey: "OrderStates")
-					let tempCarr: String = self.trimJSONValueToArray(string: dataStr!)
-					let tempObj: [OrderState]	//^remove wrapper - use inner array
+					let dataStr = 				UserDefaults.standard.string(forKey: "OrderStates")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[OrderState]	//^remove wrapper - use inner array
 					do
 					{
 						tempObj = try JSONDecoder().decode([OrderState].self, from: tempCarr.data(using: .utf8)!)
 //						let array = tempObj.order_states
 //						for os in array!
-						for os in tempObj
-						{
-							self.orderStates.append(os)
-						}
-						OperationQueue.main.addOperation
-							{
-								completion(tempObj, nil)
-							}
+						for os in tempObj					{	self.orderStates.append(os)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
 					}
 					catch let jsonErr
 					{
 						print(jsonErr)
-						OperationQueue.main.addOperation
-							{
-								completion(nil, jsonErr)
-							}
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
 					}
 				}
 				else
 				{
-					OperationQueue.main.addOperation
-						{
-							completion(states, nil)
-						}
+					OperationQueue.main.addOperation		{	completion(states, nil)		}
 				}
 			}
 		)
 	}
 	
+	/// Use the api to collect details about the languages, if any
 	func callGetLanguages(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getLangauages(completionHandler:
@@ -349,6 +321,7 @@ final class DataStore
 	}
 	
 	
+	/// Use the api to collect the combinations for every product, if any
 	func callGetCombinations(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getCombinations(completionHandler:
@@ -374,6 +347,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect the options for every product, if any
 	func callGetProductOptions(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getProductOptions(completionHandler:
@@ -400,6 +374,7 @@ final class DataStore
 	}
 
 
+	/// Use the api to collect details about the manufacturers, if any
 	func callGetManufacturers(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getManufacturers(completionHandler:
@@ -425,6 +400,7 @@ final class DataStore
 		)
 	}
 
+	/// Use the api to collect details about the currencies, if any
 	func callGetCurrencies(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getCurrencies(completionHandler:
@@ -446,10 +422,11 @@ final class DataStore
 				{
 					completion(nil, err)
 				}
-		}
+			}
 		)
 	}
 	
+	/// Use the api to collect details about the product categories, if any
 	func callGetCategories(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getCategories(completionHandler:
@@ -475,6 +452,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect details about the taxes, if any
 	func callGetTaxes(completion: @escaping ([Tax]?, Error?) -> Void)
 	{
 		PSWebServices.getTaxes(completionHandler:
@@ -499,10 +477,11 @@ final class DataStore
 				{
 					completion(nil, err)
 				}
-		}
+			}
 		)
 	}
 	
+	/// Use the api to collect details about the product tags, if any
 	func callGetTags(completion: @escaping ([myTag]?, Error?) -> Void)
 	{
 		PSWebServices.getTags(completionHandler:
@@ -531,6 +510,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect the values for every product option, if any
 	func callGetProductOptionValues(completion: @escaping ([ProductOptionValue]?, Error?) -> Void)
 	{
 		PSWebServices.getProductOptionValues(completionHandler:
@@ -555,10 +535,11 @@ final class DataStore
 				{
 					completion(nil, err)
 				}
-		}
+			}
 		)
 	}
 
+	/// Use the api to collect details about the products in the printers category, if any
 	func callGetPrinters(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getPrinters(completionHandler:
@@ -572,6 +553,7 @@ final class DataStore
 		)
 	}
 
+	/// Use the api to collect details about the products in the laptops category, if any
 	func callGetLaptops(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getLaptops(completionHandler:
@@ -585,6 +567,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect details about the products in the services category, if any
 	func callGetServices(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getServices(completionHandler:
@@ -598,6 +581,7 @@ final class DataStore
 		)
 	}
 	
+	/// Use the api to collect details about the products in the toners category, if any
 	func callGetToners(completion: @escaping (Any) -> Void)
 	{
 		PSWebServices.getToners(completionHandler:
@@ -610,7 +594,6 @@ final class DataStore
 			}
 		)
 	}
-
 
 	///try
 	func get(fromUrl: String, customHeaders: [String : String]?, sendCookies: [String : String]?, completion: @escaping (Any) -> Void)
@@ -648,17 +631,13 @@ final class DataStore
 				{
 					print("\(R.string.err) \(String(describing: error))")
 					completion(false)
-					//return
 				}
 				if let httpResponse = response as? HTTPURLResponse
 				{
 					switch(httpResponse.statusCode)
 					{
 					case 200:
-						guard let data = data else
-						{
-							return
-						}
+						guard let data = data else	{	return	}
 						completion(data)
 						break
 					case 401:
@@ -674,17 +653,16 @@ final class DataStore
 		}
 	}
 	
-	
-	//common methods
+	/// Displays a simple alert dialog
 	func alertMessage(sender: Any, alerttitle: String, _ message: String)
 	{
-		let alertViewController = UIAlertController(title: alerttitle, message: message, preferredStyle: .alert)
+		let alertViewController = 	UIAlertController(title: alerttitle, message: message, preferredStyle: .alert)
 		alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-		let vc = sender as! UIViewController
+		let vc = 					sender as! UIViewController
 		vc.present(alertViewController, animated: true, completion: nil)
 	}
 	
-	
+	/// Formats an address into a basic string (converting the countryID and the stateID)
 	func formatAddress(_ address: Address) -> String
 	{
 		var formed = ""
@@ -771,7 +749,7 @@ final class DataStore
 		return formed
 	}
 	
-	
+	/// Returns an image from the given URL
 	func getImageFromUrl(url: URL, session: URLSession, completion: @escaping (Data?, URLResponse?, Error?) -> ())
 	{
 		let task = session.dataTask(with: url)
@@ -804,65 +782,201 @@ final class DataStore
 		task.resume()
 	}
 	
-	
-	func flexView(view: UIView)
+	/// Performs a simple animation of the specified view
+	func flexView(view: UIView, completionHandler: ((Bool) -> Void)? = nil)
 	{
 		view.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
-		UIView.animate(withDuration: 1.0,
-					   delay: 0,
-					   usingSpringWithDamping: CGFloat(0.20),
-					   initialSpringVelocity: CGFloat(6.0),
-					   options: UIViewAnimationOptions.allowUserInteraction,
-					   animations: {
-							view.transform = CGAffineTransform.identity
-		},
-					   completion: { Void in()  }
+		UIView.animate(withDuration: 			1.0,
+					   delay: 					0,
+					   usingSpringWithDamping: 	CGFloat(0.20),
+					   initialSpringVelocity: 	CGFloat(6.0),
+					   options: 				UIViewAnimationOptions.allowUserInteraction,
+					   animations: {			view.transform = CGAffineTransform.identity	},
+					   completion: { 			completionHandler						}()
 		)
 	}
 
-	
+	/// Trims a JSON string, by removing the wrapper, returns the JSON array as a string
 	func trimJSONValueToArray(string: String) -> String
 	{
-		let pos1 = string.indexOf("[")
-		let pos2 = string.lastIndexOf("]")!+1
+		let pos1 = 	string.indexOf("[")
+		let pos2 = 	string.lastIndexOf("]")! + 1
 		//print("pos1: \(pos1), pos2: \(pos2)\nin \(string)")
 		let start = string.index(string.startIndex, offsetBy: pos1)
-		let end = string.index(string.startIndex, offsetBy: pos2)
-		let sub = string[start..<end]
+		let end = 	string.index(string.startIndex, offsetBy: pos2)
+		let sub = 	string[start..<end]
 		//print(sub)
-		return String(sub)
+		return 		String(sub)
 	}
 	
-//	func getSymbolForCurrencyCode(code: String) -> String?
-//	{
-//		let locale = NSLocale(localeIdentifier: code)
-//		if locale.displayName(forKey: .currencySymbol, value: code) == code
-//		{
-//			let newlocale = NSLocale(localeIdentifier: code.characters.dropLast() + "_en")
-//			return newlocale.displayName(forKey: .currencySymbol, value: code)
-//		}
-//		return locale.displayName(forKey: .currencySymbol, value: code)
-//	}
-	
+	/// Formats a NSNumber to a string using a specific country ISO
 	func formatCurrency(amount: NSNumber, iso/*lang_country*/: String? = "en_CA") -> String
 	{
-		let formatter = NumberFormatter()
+		let formatter = 		NumberFormatter()
 		formatter.numberStyle = .currency
-		formatter.locale = Locale(identifier: iso!)
-		return formatter.string(from: amount)!
+		formatter.locale = 		Locale(identifier: iso!)
+		return 					formatter.string(from: amount)!
 	}
+	
+	typealias Closure_Void = () -> Void
 
-}
-
-
-extension URLResponse
-{
-	func getStatusCode() -> Int?
+	/// Performs a system alert -shows a modal dialog, with customizations, including blur and colors
+	func Alert(fromView: 					UIViewController,
+			   title: 						String?,
+			   titleColor: 					UIColor? = 				.black,
+			   titleBackgroundColor: 		UIColor? = 				.clear,
+			   titleFont: 					UIFont? = 				UIFont(name: "AlNile-Bold", size: 16),
+			   message: 					String?,
+			   messageColor: 				UIColor? = 				.darkGray,
+			   messageBackgroundColor: 		UIColor? = 				.clear,
+			   messageFont: 				UIFont? = 				UIFont(name: "AvenirNext-Regular", size: 15),
+			   dialogBackgroundColor: 		UIColor? = 				.white,
+			   backgroundBackgroundColor: 	UIColor? =				.darkGray,
+			   backgroundBlurStyle: 		UIBlurEffectStyle? = 	.dark,
+			   backgroundBlurFactor:		CGFloat? = 				0.5,
+			   borderColor: 				UIColor? = 				.clear,
+			   borderWidth: 				CGFloat? = 				0,
+//			   buttonsColor: 				UIColor? = 				UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1),
+			   cornerRadius: 				CGFloat? = 				10,
+			   shadowColor: 				UIColor? = 				.black,
+			   shadowOffset: 				CGSize? = 				.zero,
+			   shadowOpacity: 				Float? = 				1,
+			   shadowRadius: 				CGFloat? = 				8,
+			   alpha: 						CGFloat? = 				1,
+			   hasButton1:	 				Bool = 					true,
+			   button1Title: 				String? = 				"OK",
+			   button1Style: 				UIAlertActionStyle? = 	.default,
+			   button1Color: 				UIColor? = 				R.color.AppleBlue,
+			   button1Font: 				UIFont? = 				UIFont(name: "AvenirNext-Regular", size: 16),
+			   button1Action: 				Closure_Void? = 		nil,
+			   hasButton2: 					Bool = 					false,
+			   button2Title: 				String? = 				"Cancel",
+			   button2Style: 				UIAlertActionStyle? = 	.default,
+			   button2Color: 				UIColor? = 				R.color.AppleBlue,
+			   button2Font: 				UIFont? = 				UIFont(name: "AvenirNext-Regular", size: 16),
+			   button2Action: 				Closure_Void? = 		nil
+			   )
 	{
-		if let httpResponse = self as? HTTPURLResponse
+		let coloredBG = 					UIView()
+		let blurFx = 						UIBlurEffect(style: backgroundBlurStyle!)
+		let blurFxView = 					UIVisualEffectView(effect: blurFx)
+//		let alertController = 				UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let alertController = 				CustomizableAlertController(title: title, message: message, preferredStyle: .alert)
+		//let subView = alertController.view.subviews.first!
+		//let alertContentView = subView.subviews.first!
+		//alertContentView.backgroundColor = tintBackgroundColor
+		//var titleAttr: NSMutableAttributedString
+		//alertController.view.subviews.first?.subviews.first?.subviews.last?.backgroundColor = .red
+		//alertController.blurStyle = .dark
+		if title != nil || title != ""
 		{
-			return httpResponse.statusCode
+			var titleAttr: 					[NSAttributedStringKey : Any?]? = [:]
+			if titleFont != nil				{	titleAttr?.updateValue(titleFont, forKey: .font)						}
+//			if titleFont != nil				{	alertController.titleAttributes += [
+//													StringAttribute(key: .font, value: titleFont!)]						}
+			if titleColor != nil			{	titleAttr?.updateValue(titleColor, forKey: .foregroundColor)			}
+			if titleBackgroundColor != nil	{	alertController.view.superview?.backgroundColor = titleBackgroundColor	}
+			let titleString = 				NSAttributedString(string: title!, attributes: titleAttr! as Any as? [NSAttributedStringKey : Any])
+			alertController.setValue(titleString, forKey: "attributedTitle")
 		}
-		return nil
+		if message != nil || message != ""
+		{
+			var messageAttr: 				[NSAttributedStringKey : Any?]? = [:]
+			if messageFont != nil			{	messageAttr?.updateValue(messageFont, forKey: .font)						}
+			if messageColor != nil			{	messageAttr?.updateValue(messageColor, forKey: .foregroundColor)			}
+			if messageBackgroundColor != nil{	messageAttr?.updateValue(messageBackgroundColor, forKey: .backgroundColor)	}
+//			if messageAttr != nil
+//			{
+				let messageString = 		NSAttributedString(string: message!, attributes: messageAttr! as Any as? [NSAttributedStringKey : Any])
+				alertController.setValue(messageString, forKey: "attributedMessage")
+//			}
+		}
+		if hasButton1
+		{
+//			if button1Color != nil			{	alertController.view.shadowColor = button1Color!					}
+			let wholeButton1Action = 		UIAlertAction(title: button1Title ?? "OK", style: button1Style!)
+			{
+				(action) in
+				
+//				alertController.dismiss(animated: false, completion: nil)
+				if backgroundBackgroundColor != nil								{	coloredBG.removeFromSuperview()		}
+				if backgroundBlurFactor != nil || backgroundBlurStyle != nil	{	blurFxView.removeFromSuperview()	}
+				if button1Action != nil											{	return _ = button1Action			}
+			}
+//			var button1Attr: 				[NSAttributedStringKey : Any?]? = [:]
+			if button1Font != nil			{	wholeButton1Action.titleAttributes += [
+				StringAttribute(key: .font, value: button1Font!)
+				]
+				/*button1Attr?.updateValue(button1Font, forKey: .font)*/				}
+			if button1Color != nil			{	wholeButton1Action.titleAttributes += [
+				StringAttribute(key: .foregroundColor, value: button1Color!)
+				]
+				/*button1Attr?.updateValue(button1Color, forKey: .foregroundColor)*/	}
+//			if button1BackgroundColor != nil	{	button1Attr?.updateValue(button1BackgroundColor, forKey: .backgroundColor)	}
+//			if button1Attr != nil
+//			{
+//				let button1String = 		NSAttributedString(string: button1Title ?? "OK", attributes: button1Attr! as Any as? [NSAttributedStringKey : Any])
+//				alertController.setValue(button1String, forKey: "attributedButton1")
+//				WholeButton1Action.setValue(button1String, forKey: "attributedTitle")
+//			}
+			alertController.addAction(wholeButton1Action)
+		}
+		if hasButton2
+		{
+//			if button2Color != nil			{	alertController.view.shadowColor = button2Color!					}
+			let wholeButton2Action = 		UIAlertAction(title: button2Title ?? "Cancel", style: button2Style!)
+			{
+				(action) in
+				
+//				alertController.dismiss(animated: false, completion: nil)
+				if backgroundBackgroundColor != nil								{	coloredBG.removeFromSuperview()		}
+				if backgroundBlurFactor != nil || backgroundBlurStyle != nil	{	blurFxView.removeFromSuperview()	}
+				if button2Action != nil											{	return _ = button2Action			}
+			}
+//			var button2Attr: 				[NSAttributedStringKey : Any?]? = [:]
+//			if button2Font != nil			{	button2Attr?.updateValue(button2Font, forKey: .font)				}
+//			if button2Color != nil			{	button2Attr?.updateValue(button2Color, forKey: .foregroundColor)	}
+			//			if button2BackgroundColor != nil	{	button2Attr?.updateValue(button2BackgroundColor, forKey: .backgroundColor)	}
+			if button2Font != nil			{	wholeButton2Action.titleAttributes += [
+				StringAttribute(key: .font, value: button2Font!)				]	}
+			if button2Color != nil			{	wholeButton2Action.titleAttributes += [
+				StringAttribute(key: .foregroundColor, value: button2Color!)	]	}
+//			if button2Attr != nil
+//			{
+//				let button2String = 		NSAttributedString(string: button2Title ?? "Cancel", attributes: button2Attr! as Any as? [NSAttributedStringKey : Any])
+//				alertController.setValue(button2String, forKey: "attributedButton2")
+//			}
+			alertController.addAction(wholeButton2Action)
+		}
+		if shadowColor != nil				{	alertController.view.shadowColor = shadowColor!					}
+		if shadowOffset != nil				{	alertController.view.shadowOffset = shadowOffset!				}
+		if shadowOpacity != nil				{	alertController.view.shadowOpacity = shadowOpacity!				}
+		if shadowRadius != nil				{	alertController.view.shadowRadius = shadowRadius!				}
+		if cornerRadius != nil				{	alertController.view.cornerRadius = cornerRadius!				}
+		if dialogBackgroundColor != nil		{	alertController.view.backgroundColor = dialogBackgroundColor	}
+		if borderWidth != nil				{	alertController.view.borderWidth = borderWidth!					}
+		if borderColor != nil				{	alertController.view.borderColor = borderColor!					}
+		if cornerRadius != nil				{	alertController.view.cornerRadius = cornerRadius!				}
+		if alpha != nil						{	alertController.view.alpha = alpha!								}
+//		if buttonsColor != nil				{	alertController.view.tintColor = buttonsColor!					}
+		if backgroundBackgroundColor != nil
+		{
+			coloredBG.backgroundColor = 	backgroundBackgroundColor
+			coloredBG.alpha = 				0.6
+			coloredBG.frame = 				fromView.view.bounds
+			fromView.view.addSubview(coloredBG)
+		}
+		if backgroundBlurFactor != nil || backgroundBlurStyle != nil
+		{
+			blurFxView.frame = 				fromView.view.bounds
+			blurFxView.alpha = 				backgroundBlurFactor!
+			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+			fromView.view.addSubview(blurFxView)
+		}
+		DispatchQueue.main.async {
+			fromView.present(alertController, animated: true, completion: {() -> Void in
+			})
+		}
 	}
+
 }

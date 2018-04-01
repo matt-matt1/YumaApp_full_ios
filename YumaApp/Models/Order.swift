@@ -42,6 +42,7 @@ struct OrderRow: Decodable
 	var productPrice: 			String?//read_only
 	var unitPriceTaxIncl: 		String?//read_only
 	var unitPriceTaxExcl: 		String?//read_only
+	var productImage:			Data?
 	
 	enum MemberKeys: String, CodingKey
 	{
@@ -57,6 +58,7 @@ struct OrderRow: Decodable
 		case productPrice = 		"product_price"
 		case unitPriceTaxIncl = 	"unit_price_tax_incl"
 		case unitPriceTaxExcl = 	"unit_price_tax_excl"
+		case productImage
 	}
 }
 struct Associations_OrderRows: Decodable
@@ -163,4 +165,8 @@ struct Order: Decodable, PropertyNames
 		case reference
 		case associations
 	}
+}
+struct Orders
+{
+	let orders: [Order]?
 }

@@ -94,6 +94,7 @@ struct R {
 		// #colorLiteral(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
 		//static let YumaDRed2 = UIColor(hex: "#2d0202")
 		static let YumaDRedTransparent = UIColor(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 0)
+		static let AppleBlue = UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1)
 
 		fileprivate init() {}
 	}

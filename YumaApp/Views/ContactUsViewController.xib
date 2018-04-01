@@ -283,7 +283,7 @@
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="FkH-MY-bBS"/>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="ceu-pp-xdT"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="ceu-pp-xdT"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -476,7 +476,7 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="O3q-Id-xFe" secondAttribute="bottom" id="2Di-Wl-NEP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="O3q-Id-xFe" secondAttribute="trailing" id="8vW-fh-KRz"/>
-                <constraint firstItem="O3q-Id-xFe" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="Hjs-Ap-4Xt"/>
+                <constraint firstItem="O3q-Id-xFe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="SN0-l2-cfa"/>
                 <constraint firstItem="O3q-Id-xFe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ekS-E3-IpT"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

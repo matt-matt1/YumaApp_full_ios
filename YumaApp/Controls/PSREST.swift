@@ -364,14 +364,4 @@ extension Resource: Endpoint
 	}
 }
 //var resource: Resource = .addresses(filters: [Addresses_filter.idCustomer: "3"])
-extension Dictionary where Key: ExpressibleByStringLiteral {
-	subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {
-		get {
-			return self[index.rawValue as! Key]
-		}
-		
-		set {
-			self[index.rawValue as! Key] = newValue
-		}
-	}
-}
+

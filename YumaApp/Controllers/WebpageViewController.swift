@@ -10,10 +10,13 @@ import UIKit
 
 class WebpageViewController: UIViewController, UIWebViewDelegate
 {
-	@IBOutlet weak var navBar: UINavigationBar!
-	@IBOutlet weak var navTitle: UINavigationItem!
-	@IBOutlet weak var navClose: UIBarButtonItem!
-	@IBOutlet weak var navHelp: UIBarButtonItem!
+	@IBOutlet weak var closeView: UIView!
+	@IBOutlet weak var closeIcon: UILabel!
+	@IBOutlet weak var activityLabel: UILabel!
+//	@IBOutlet weak var navBar: UINavigationBar!
+//	@IBOutlet weak var navTitle: UINavigationItem!
+//	@IBOutlet weak var navClose: UIBarButtonItem!
+//	@IBOutlet weak var navHelp: UIBarButtonItem!
 	//@IBOutlet weak var webView: WKWebView!//Use of undeclared type 'WKWebView'
 	@IBOutlet weak var webView: UIWebView!
 	@IBOutlet weak var activitySpinner: UIActivityIndicatorView!
@@ -31,7 +34,10 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		activitySpinner.tintColor = R.color.YumaRed
 		activitySpinner.hidesWhenStopped = true
 		self.navigationItem.title = self.pageTitle
-		navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
+		//navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
+		activityLabel.text = (pageTitle == "") ? R.string.our_bus : pageTitle
+		closeIcon.font = R.font.FontAwesomeOfSize(pointSize: 22)
+		closeIcon.text = FontAwesome.times.rawValue//.windowCloseO.rawValue
 		if Reachability.isConnectedToNetwork()
 		{
 			webView.delegate = self
@@ -66,6 +72,7 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	func webViewDidFinishLoad(_ webView: UIWebView)
 	{
 		activitySpinner.stopAnimating()
+		activityLabel.isHidden = true
 	}
 	
 	func webView(_ webView: UIWebView, didFailLoadWithError error: Error)
@@ -82,12 +89,13 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		if #available(iOS 11.0, *) {
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		} else {
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		if #available(iOS 11.0, *) {
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		} else {
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeView(sender:))))
         webView.delegate = self
     }
 

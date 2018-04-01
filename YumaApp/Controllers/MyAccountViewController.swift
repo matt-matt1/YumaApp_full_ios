@@ -545,7 +545,7 @@ Will attempt to recover by breaking constraint
 //		{
 //			print("row: \(row), id:\(String(describing: store.orders[row].id))")
 //		}
-		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController!
+		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController?
 //		self.present(MyAccOHViewController(), animated: true, completion: nil)
 		self.present(vc!, animated: true, completion: nil)
 	}
@@ -553,7 +553,7 @@ Will attempt to recover by breaking constraint
 	{
 		print("MyAccAddrViewController")
 		store.flexView(view: self.addrBtn)
-		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController!
+		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		//self.present(MyAccAddrViewController(), animated: true, completion: nil)

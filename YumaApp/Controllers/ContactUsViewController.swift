@@ -39,6 +39,7 @@ class ContactUsViewController: UIViewController
 	var myZoomLevel: Double = 11
 	let location = CLLocationManager()
 	var pin: AnnotationPin!
+	var coords: CLLocationCoordinate2D?
 	
 	
 	//	var myCustomView: UserCoinView?
@@ -58,60 +59,11 @@ class ContactUsViewController: UIViewController
 	{
 		super.viewDidLoad()
 		
-		let coords = CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!)
+		coords = CLLocationCoordinate2D(latitude: CLLocationDegrees(R.string.real_lat)!, longitude: CLLocationDegrees(R.string.real_long)!)
+		//let our_coords = CLLocationCoordinate2DMake(CLLocationDegrees(R.string.real_lat)!, CLLocationDegrees(R.string.real_long)!)
 		location.delegate = self
 		location.requestWhenInUseAuthorization()
 		location.requestAlwaysAuthorization()
-		if CLLocationManager.locationServicesEnabled()
-		{
-			location.delegate = self
-			location.desiredAccuracy = kCLLocationAccuracyBest
-			location.startUpdatingLocation()
-			labelMyLocation.setTitle(R.string.plotMe, for: .normal)
-			
-			let userLocation = location.location?.coordinate
-			let ourPlace: MKPlacemark
-			let userPlace: MKPlacemark
-			if #available(iOS 10.0, *)
-			{
-				ourPlace = MKPlacemark(coordinate: coords)
-				//userPlace = MKPlacemark(coordinate: userLocation!)
-				//Fatal error: Unexpectedly found nil while unwrapping an Optional value
-			}
-			else
-			{
-				ourPlace = MKPlacemark(coordinate: coords, addressDictionary: nil)
-				userPlace = MKPlacemark(coordinate: userLocation!, addressDictionary: nil)
-			}
-			let ourItem = MKMapItem(placemark: ourPlace)
-			//let userItem = MKMapItem(placemark: userPlace)
-			
-			let directionRequest = MKDirectionsRequest()
-			//directionRequest.source = userItem
-			directionRequest.destination = ourItem
-			directionRequest.transportType = .any
-			
-			let directions = MKDirections(request: directionRequest)
-			directions.calculate(completionHandler:
-				{
-					(response, error) in
-				guard let response = response else
-				{
-					if let error = error
-					{
-						print("\(R.string.err) \(error)")
-					}
-					return
-				}
-					let route = response.routes[0]
-					self.myMap.add(route.polyline, level: .aboveRoads)
-					self.myMap.setRegion(MKCoordinateRegionForMapRect(route.polyline.boundingMapRect), animated: true)
-			})
-		}
-		else
-		{
-			labelMyLocation.isHidden = true
-		}
 		//set label/buttons to our strings
 		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
@@ -121,7 +73,21 @@ class ContactUsViewController: UIViewController
 		}
 		else
 		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//			if #available(iOS 10.0, *) {
+//				navBar.superview?.constraints.forEach(
+//					{ (constraint) in
+//					if constraint.firstAnchor === navBar && constraint.firstAttribute == .top
+//					{
+						navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//					}})
+//			} else {
+//				navBar.superview?.constraints.forEach(
+//					{ (constraint) in
+//						if constraint.firstItem === navBar && constraint.firstAttribute == .top
+//						{
+//							navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//						}})
+//			}
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
@@ -143,6 +109,57 @@ class ContactUsViewController: UIViewController
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		addrBtn.setTitle(R.string.map_big.uppercased(), for: .normal)
 
+		if CLLocationManager.locationServicesEnabled()
+		{
+			location.delegate = self
+			location.desiredAccuracy = kCLLocationAccuracyBest
+			location.startUpdatingLocation()
+			myMap.showsUserLocation = true
+			labelMyLocation.setTitle(R.string.plotMe, for: .normal)
+			
+//			let userLocation = location.location?.coordinate
+//			let ourPlace: MKPlacemark
+//			let userPlace: MKPlacemark
+//			if #available(iOS 10.0, *)
+//			{
+//				ourPlace = MKPlacemark(coordinate: coords)
+//				userPlace = MKPlacemark(coordinate: userLocation!)
+//				//Fatal error: Unexpectedly found nil while unwrapping an Optional value
+//			}
+//			else
+//			{
+//				ourPlace = MKPlacemark(coordinate: coords, addressDictionary: nil)
+//				userPlace = MKPlacemark(coordinate: userLocation!, addressDictionary: nil)
+//			}
+//			let ourItem = MKMapItem(placemark: ourPlace)
+//			let userItem = MKMapItem(placemark: userPlace)
+			
+//			let directionRequest = MKDirectionsRequest()
+//			directionRequest.source = userItem
+//			directionRequest.destination = ourItem
+//			directionRequest.transportType = .any
+			
+//			let directions = MKDirections(request: directionRequest)
+//			directions.calculate(completionHandler:
+//				{
+//					(response, error) in
+//					guard let response = response else
+//					{
+//						if let error = error
+//						{
+//							print("\(R.string.err) \(error)")
+//						}
+//						return
+//					}
+//					let route = response.routes[0]
+//					self.myMap.add(route.polyline, level: .aboveRoads)
+//					self.myMap.setRegion(MKCoordinateRegionForMapRect(route.polyline.boundingMapRect), animated: true)
+//			})
+		}
+		else
+		{
+			labelMyLocation.isHidden = true
+		}
 		myMap.showsScale = true
 		myMap.showsCompass = false
 		myMap.showsPointsOfInterest = true
@@ -150,8 +167,8 @@ class ContactUsViewController: UIViewController
 		mapZoomSlider.minimumValue = 1
 		mapZoomSlider.maximumValue = 16
 		mapZoomSlider.setValue(Float(myZoomLevel), animated: false)
-		myMap.setCenterCoordinate(centerCoordinate: coords, zoomLevel: myZoomLevel, animated: false)
-		pin = AnnotationPin(title: R.string.our_bus, subtitle: "Printers, Cartridges, Laptops ...", coord: coords)
+		myMap.setCenterCoordinate(centerCoordinate: coords!, zoomLevel: myZoomLevel, animated: false)
+		pin = AnnotationPin(title: R.string.our_bus, subtitle: "Printers, Cartridges, Laptops ...", coord: coords!)
 		myMap.addAnnotation(pin)
 	}
 	
@@ -277,6 +294,48 @@ class ContactUsViewController: UIViewController
 	{
 		myMap.showsUserLocation = true
 		myMap.setUserTrackingMode(.follow, animated: true)
+		
+		if coords != nil && CLLocationManager.locationServicesEnabled()
+		{
+			let userLocation = location.location?.coordinate
+			let ourPlace: MKPlacemark
+			let userPlace: MKPlacemark
+			if #available(iOS 10.0, *)
+			{
+				ourPlace = MKPlacemark(coordinate: coords!)
+				userPlace = MKPlacemark(coordinate: userLocation!)
+				//Fatal error: Unexpectedly found nil while unwrapping an Optional value
+			}
+			else
+			{
+				ourPlace = MKPlacemark(coordinate: coords!, addressDictionary: nil)
+				userPlace = MKPlacemark(coordinate: userLocation!, addressDictionary: nil)
+			}
+			let ourItem = MKMapItem(placemark: ourPlace)
+			let userItem = MKMapItem(placemark: userPlace)
+
+			let directionRequest = MKDirectionsRequest()
+			directionRequest.source = userItem
+			directionRequest.destination = ourItem
+			directionRequest.transportType = .any
+
+			let directions = MKDirections(request: directionRequest)
+			directions.calculate(completionHandler:
+				{
+					(response, error) in
+					guard let response = response else
+					{
+						if let error = error
+						{
+							print("\(R.string.err) \(error)")
+						}
+						return
+					}
+					let route = response.routes[0]
+					self.myMap.add(route.polyline, level: .aboveRoads)
+					self.myMap.setRegion(MKCoordinateRegionForMapRect(route.polyline.boundingMapRect), animated: true)
+			})
+		}
 	}
 	@IBAction func zoomPlusBtnAct(_ sender: Any)
 	{

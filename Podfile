@@ -20,6 +20,8 @@ target 'YumaApp' do
 #pod 'AngleGradientLayer', '~> 1.0'
 #pod 'SwiftyJSON'
 #pod "SwiftDataTables"
+#pod 'PCLBlurEffectAlert'
+pod 'MGSwipeTableCell'
 
   target 'YumaAppTests' do
     inherit! :search_paths

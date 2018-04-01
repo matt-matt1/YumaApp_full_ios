@@ -357,7 +357,7 @@ class LoginViewController: UIViewController
 					}
 					if let orders = orders
 					{
-						let ord = orders as? [Orders]
+						let ord = orders as? [Order]
 						let ords = ord?.count
 						print("got \(String(describing: ords)) orders")
 					}
@@ -367,10 +367,10 @@ class LoginViewController: UIViewController
 			{
 				//decode json string "ord"
 				let tempStr: String = store.trimJSONValueToArray(string: ord!)
-				let tempObj: [Orders]
+				let tempObj: [Order]
 				do
 				{
-					tempObj = try JSONDecoder().decode([Orders].self, from: tempStr.data(using: .utf8)!)
+					tempObj = try JSONDecoder().decode([Order].self, from: tempStr.data(using: .utf8)!)
 					for ords in tempObj
 					{
 						store.orders.append(ords)
@@ -440,7 +440,7 @@ class LoginViewController: UIViewController
 			store.callGetCarts(id_customer: id_customer) { (carts, err) in
 				if err == nil
 				{
-					print("got \((carts as [Carts]!).count) carts")
+					print("got \((carts as [Carts]?)?.count ?? 0) carts")
 				}
 			}
 		}

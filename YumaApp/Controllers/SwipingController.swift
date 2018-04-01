@@ -7,40 +7,42 @@
 //
 
 import UIKit
+//import PCLBlurEffectAlert
+
 
 class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout
 {
-	//EXTENSION FILES:
+	//MARK: EXTENSION FILES:
 		//SwipingControllerCollection
 		//SwipingControllerTaps
 	
 	//MARK: Properties
-	var cellId = "cellID"
-	let pageContent: [Slide] = [
+	var cellId = 			"cellID"
+	let pageContent: 		[Slide] = [
 		Slide(id: 1, image: "home-slider-printers", caption1: "Laser Printers", caption2: "", target: #selector(printTapped(_:))),
 		Slide(id: 1, image: "home-slider-cartridges", caption1: "Toner Cartridges", caption2: "that last", target: #selector(tonersTapped(_:))),
 		Slide(id: 1, image: "home-slider-laptops", caption1: "Laptop Computers", caption2: "", target: #selector(laptopTapped(_:)))
 	]
 	let store = DataStore.sharedInstance
-	let prevBtn: UIButton =
+	let prevBtn: 			UIButton =
 	{
-		let button = UIButton(type: .system)
+		let button = 		UIButton(type: .system)
 		button.setTitle("PREV", for: .normal)
 		button.addTarget(self, action: #selector(handlePrev), for: .touchUpInside)
 		return button
 	}()
-	let nextBtn: UIButton =
+	let nextBtn: 			UIButton =
 	{
-		let button = UIButton(type: .system)
+		let button = 		UIButton(type: .system)
 		button.setTitle("NEXT", for: .normal)
 		button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
 		return button
 	}()
-	lazy var pageControl: UIPageControl =
+	lazy var pageControl: 	UIPageControl =
 	{
-		let pc = UIPageControl()
-		pc.numberOfPages = pageContent.count
-		pc.currentPage = 0
+		let pc = 			UIPageControl()
+		pc.numberOfPages = 	pageContent.count
+		pc.currentPage = 	0
 		pc.currentPageIndicatorTintColor = R.color.YumaRed
 		pc.pageIndicatorTintColor = R.color.YumaYel
 		return pc
@@ -48,7 +50,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	
 	
 	//MARK: Methods
-	
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -72,7 +73,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			store.callGetCarriers { (carriers, err) in
 				if err == nil
 				{
-					print("got \((carriers as [Carrier]!).count) carriers")
+					print("got \((carriers as [Carrier]?)?.count ?? 0) carriers")
 				}
 				else
 				{
@@ -130,7 +131,23 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
 				}
 			}
-			Alert(self, title: "Hello there!! 👋🏻👋🏻", message: "message", shadowColor: R.color.YumaDRed)
+//			let alert = PCLBlurEffectAlert.Controller(title: "Hello there!! 👋🏻👋🏻", message: "message", effect: UIBlurEffect(style: .light), style: .alert)
+//			let alertAct = PCLBlurEffectAlert.Action(title: "done", style: .cancel, handler: nil)
+//			alert.addAction(alertAct)
+//			alert.configure(overlayBackgroundColor: UIColor(hex: "#aa0018", alpha: 0.75))
+//			alert.configure(backgroundColor: UIColor.white)
+//			alert.configure(buttonBackgroundColor: UIColor.white)
+//			alert.configure(titleColor: R.color.YumaYel)
+//			alert.configure(cornerRadius: 15)
+			//alert.view.subviews[1].borderWidth = 4
+			//alert.view.subviews[1].borderColor = R.color.YumaDRed
+			//alert.view.shadowColor = R.color.YumaDRed
+			//alert.view.shadowOffset = .zero
+			//alert.view.shadowRadius = 8
+			//alert.view.shadowOpacity = 1
+//			addBlurArea(area: self.view.frame, style: .light, alpha: 0.6)
+//			alert.show()
+//			Alert(self, title: "Hello there!! 👋🏻👋🏻", titleColor: R.color.YumaYel, titleBackgroundColor: R.color.YumaRed, message: "message", shadowColor: R.color.YumaDRed)
 			store.callGetProductOptions { (opts, err) in
 				if err == nil
 				{
@@ -170,7 +187,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			store.callGetTaxes { (taxes, err) in
 				if err == nil
 				{
-					print("got \((taxes as [Tax]!).count) taxes")
+					print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
 				}
 				else
 				{
@@ -180,7 +197,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			store.callGetTags { (tags, err) in
 				if err == nil
 				{
-					print("got \((tags as [myTag]!).count) tags")
+					print("got \((tags as [myTag]?)?.count ?? 0) tags")
 				}
 				else
 				{
@@ -190,7 +207,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			store.callGetProductOptionValues{ (opts, err) in
 				if err == nil
 				{
-					print("got \((opts as [ProductOptionValue]!).count) product option values")
+					print("got \((opts as [ProductOptionValue]?)?.count ?? 0) product option values")
 				}
 				else
 				{
@@ -201,178 +218,49 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
 	
-	
-	func Alert(_ fromView: 			UIViewController,
-			   title: 				String,
-			   titleColor: 			UIColor? = 		.black,
-			   titleFont: 			UIFont? = 		UIFont(name: "AlNile-Bold", size: 16),//.boldSystemFont(ofSize: 16),
-			   message: 			String,
-			   messageColor: 		UIColor? = 		.darkGray,
-			   messageFont: 		UIFont? = 		UIFont(name: "AvenirNext-Regular", size: 15),//.systemFont(ofSize: 14),
-			   backgroundColor: 	UIColor? = 		.white,
-			   borderColor: 		UIColor? = 		.clear,
-			   borderWidth: 		CGFloat? = 		0,
-			   buttonColor: 		UIColor? = 		UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1),
-			   cornerRadius: 		CGFloat? = 		10,
-			   shadowColor: 		UIColor? = 		.black,
-			   shadowOffset: 		CGSize? = 		.zero,
-			   shadowOpacity: 		Float? = 		1,
-			   shadowRadius: 		CGFloat? = 		8,
-			   alpha: 				CGFloat? = 		1,
-			   hasOKButton: 		Bool = 			true,
-			   OKButtonTitle: 		String? = 		"OK",
-			   OKButtonFont: 		UIFont? = 		UIFont(name: "AvenirNext-Regular", size: 16),
-			   OKAction: 			(() -> Void)? = nil,
-			   hasCancelButton: 	Bool = 			false,
-			   cancelButtonTitle: 	String? = 		"Cancel")
-	{
-		let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-		//var titleAttr: NSMutableAttributedString
-		var titleAttr: [NSAttributedStringKey : Any?] = [:]
-		if titleFont != nil
-		{
-			//titleAttr.addAttribute(.font, value: titleFont!, range: NSRange.init(location: 0, length: title.count))
-			titleAttr.updateValue(titleFont, forKey: .font)// [NSAttributedStringKey.font : titleFont]
-		}
-		if titleColor != nil
-		{
-//			titleAttr.addAttribute(.foregroundColor, value: titleColor!, range: NSRange.init(location: 0, length: title.count))
-			titleAttr.updateValue(titleColor, forKey: .foregroundColor)
-		}
-		let titleString = NSAttributedString(string: title, attributes: titleAttr)
-		alertController.setValue(titleString, forKey: "attributedTitle")
-
-		//var messageAttr: NSMutableAttributedString
-		var messageAttr: [NSAttributedStringKey : Any?]? = [:]
-		if messageFont != nil
-		{
-			//messageAttr.addAttribute(.font, value: messageFont!, range: NSRange.init(location: 0, length: title.count))
-			messageAttr?.updateValue(messageFont, forKey: .font)
-		}
-		if messageColor != nil
-		{
-			//messageAttr.addAttribute(.foregroundColor, value: messageColor!, range: NSRange.init(location: 0, length: title.count))
-			messageAttr?.updateValue(messageColor, forKey: .foregroundColor)
-		}
-		let messageString = NSAttributedString(string: message, attributes: messageAttr)
-		alertController.setValue(messageString, forKey: "attributedMessage")
-		
-		if hasOKButton
-		{
-			let okAction = UIAlertAction(title: "OK", style: .default)
-			{
-				(action) in
-
-				fromView.dismiss(animated: false, completion: nil)
-				if OKAction != nil
-				{
-					OKAction
-				}
-			}
-			alertController.addAction(okAction)
-		}
-		if hasCancelButton
-		{
-			let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-			alertController.addAction(cancelAction)
-		}
-		if shadowColor != nil
-		{
-			alertController.view.shadowColor = shadowColor!
-		}
-		if shadowOffset != nil
-		{
-			alertController.view.shadowOffset = shadowOffset!
-		}
-		if shadowOpacity != nil
-		{
-			alertController.view.shadowOpacity = shadowOpacity!
-		}
-		if shadowRadius != nil
-		{
-			alertController.view.shadowRadius = shadowRadius!
-		}
-		if cornerRadius != nil
-		{
-			alertController.view.cornerRadius = cornerRadius!
-		}
-		if backgroundColor != nil
-		{
-			alertController.view.backgroundColor = backgroundColor
-		}
-		if borderWidth != nil
-		{
-			alertController.view.borderWidth = borderWidth!
-		}
-		if borderColor != nil
-		{
-			alertController.view.borderColor = borderColor!
-		}
-		if cornerRadius != nil
-		{
-			alertController.view.cornerRadius = cornerRadius!
-		}
-		if alpha != nil
-		{
-			alertController.view.alpha = alpha!
-		}
-		if buttonColor != nil
-		{
-			alertController.view.tintColor = buttonColor!
-		}
-		
-//		let subview = alertController.view.subviews.first! as UIView
-//		let alertContentView = subview.subviews.first! as UIView
-//		alertContentView.backgroundColor = BackgroundColor
-//		alertContentView.layer.cornerRadius = 10
-//		alertContentView.alpha = 1
-//		alertContentView.layer.borderWidth = 1
-//		alertContentView.layer.borderColor = BorderColor.cgColor
-		
-		//alertContentView.tintColor = UIColor.whiteColor()
-//		alertController.view.tintColor = ButtonColor
-
-		DispatchQueue.main.async {
-			fromView.present(alertController, animated: true) {
-				// ...
-			}
-		}
-	}
+//	func addBlurArea(area: CGRect, style: UIBlurEffectStyle, alpha: CGFloat)
+//	{
+//		let effect = UIBlurEffect(style: style)
+//		let blurView = UIVisualEffectView(effect: effect)
+//
+//		let container = UIView(frame: area)
+//		blurView.frame = CGRect(x: 0, y: 0, width: area.width, height: area.height)
+//		container.addSubview(blurView)
+//		container.alpha = alpha//0.8
+//		self.view.insertSubview(container, at: 1)
+//	}
 	
 	
 	//MARK: Swiping Controls
 	@objc private func handlePrev()
 	{
-		let nextId = max(pageControl.currentPage - 1, 0)
-		let indexPath = IndexPath(item: nextId, section: 0)
-		pageControl.currentPage = nextId
+		let nextId = 				max(pageControl.currentPage - 1, 0)
+		let indexPath = 			IndexPath(item: nextId, section: 0)
+		pageControl.currentPage = 	nextId
 		collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 	}
 	
 	@objc private func handleNext()
 	{
-		let nextId = min(pageControl.currentPage + 1, pageContent.count - 1)
-		let indexPath = IndexPath(item: nextId, section: 0)
-		pageControl.currentPage = nextId
+		let nextId = 				min(pageControl.currentPage + 1, pageContent.count - 1)
+		let indexPath = 			IndexPath(item: nextId, section: 0)
+		pageControl.currentPage = 	nextId
 		collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 	}
 	
 	@objc private func handleCycle()
 	{
-		var nextId = pageControl.currentPage + 1
-		if nextId > pageContent.count - 1
-		{
-			nextId = 0
-		}
-		let indexPath = IndexPath(item: nextId, section: 0)
-		pageControl.currentPage = nextId
+		var nextId = 				pageControl.currentPage + 1
+		if nextId > pageContent.count - 1		{	nextId = 0	}
+		let indexPath = 			IndexPath(item: nextId, section: 0)
+		pageControl.currentPage = 	nextId
 		//		UIView.animate(withDuration: 2, animations:
 		//			{
 		//				tv.transform = CGAffineTransform(translationX: tv.frame.maxX, y: 200)
 		//		})
 		collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
 	}
+	
 	
 	//MARK: Drawing Methods
 	fileprivate func setUpControls() -> UIStackView
@@ -525,7 +413,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			])
 		return topStack
 	}
-	
 	
 	
 	func drawButtonsTop() -> UIStackView

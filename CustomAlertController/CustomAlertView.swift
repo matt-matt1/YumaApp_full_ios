@@ -288,7 +288,7 @@ class CustomAlertView: UIView, AlertModal
 		self.button1Text = text
 		var dialogViews = self.dialogView.subviews//1:SV
 		let diaglogStack = dialogViews[0].subviews//5:L,V,L,V,V
-		var buttonsStackView = diaglogStack[4].subviews[0] as! UIStackView
+		let buttonsStackView = diaglogStack[4].subviews[0] as! UIStackView
 		var buttonsStack = buttonsStackView.subviews
 		//var primaryButton = buttonsStackView[0]//1:L
 		//var buttons = self.dialogView.subviews[0].subviews[4].subviews[0].subviews
