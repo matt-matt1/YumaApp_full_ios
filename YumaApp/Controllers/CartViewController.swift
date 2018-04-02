@@ -53,7 +53,6 @@ class CartViewController: UIViewController
 		navClose.title = FontAwesome.close.rawValue
 		navigationItem.title = R.string.cart
 
-		totalLbl.text = R.string.Total.uppercased()
 		totalPcsLbl.text = R.string.pieces
 		if store.myOrderRows.count < 1
 		{
@@ -67,8 +66,8 @@ class CartViewController: UIViewController
 			for row in store.myOrderRows
 			{
 				//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
-				total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
-				pcs = pcs + Int(row.productQuantity!)!
+				total += (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+				pcs += Int(row.productQuantity!)!
 				var prod: aProduct?
 				for p in store.products
 				{
@@ -81,7 +80,7 @@ class CartViewController: UIViewController
 				{
 					wt += Double((prod?.weight!)!)!
 				}
-				//wt = wt + Double(row.productId)
+				totalLbl.text = " (\(wt)kg)     ="//R.string.Total.uppercased()
 			}
 			if total < 1
 			{
@@ -91,8 +90,10 @@ class CartViewController: UIViewController
 			}
 			else
 			{
-				totalAmt.text = "\(total)"
-				totalPcs.text = "\(pcs) (\(wt)kg)"
+				//totalAmt.text = "\(total)"
+				let totalDbl = total as NSNumber
+				totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
+				totalPcs.text = "\(pcs)"
 				let date = Date()
 				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
 				//print(store.myOrder)

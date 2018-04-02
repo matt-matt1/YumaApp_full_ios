@@ -71,7 +71,7 @@ class CartCell: UIView
 	{
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = R.color.YumaRed
+		view.backgroundColor = R.color.YumaYel
 		view.cornerRadius = 10//view.frame.width/3
 		//view.justRound(corners: [UIRectCorner.bottomRight], radius: 10)//view.frame.width/3)
 		return view
@@ -83,8 +83,8 @@ class CartCell: UIView
 		view.isUserInteractionEnabled = false
 		view.lineBreakMode = NSLineBreakMode.byTruncatingTail
 		view.textAlignment = .center
-		view.font = UIFont.boldSystemFont(ofSize: 9)
-		view.textColor = R.color.YumaYel
+		view.font = UIFont.systemFont(ofSize: 10)
+		view.textColor = R.color.YumaRed
 		view.shadowColor = R.color.YumaDRed
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
@@ -189,6 +189,7 @@ class CartCell: UIView
 			prodName.topAnchor.constraint(equalTo: stack.topAnchor),
 			prodName.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
 			prodName.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+			prodName.heightAnchor.constraint(equalToConstant: 20),
 //			prodName.bottomAnchor.constraint(equalTo: imageView.topAnchor),
 			
 			imageView.topAnchor.constraint(equalTo: prodName.bottomAnchor),

@@ -63,6 +63,7 @@ struct Associations_Products: Codable
 	let stock_availables: 		[StockAvailable]?
 	let accessories:			[Accessories]?
 	let product_bundle:			[ProductBundle]?
+	var imageData:				Data?//ADDED - NOT IN API
 }
 //struct Product_Tax
 //{
@@ -138,7 +139,7 @@ struct aProduct: Codable
 	let description_short/*descriptionShort*/: 			[IdValue]?//html
 	let availableNow: 				[IdValue]?//..255
 	let availableLater: 			[IdValue]?//..255
-	let associations: 				Associations_Products?
+	var associations: 				Associations_Products?
 	
 	enum MemberKeys: String, CodingKey
 	{

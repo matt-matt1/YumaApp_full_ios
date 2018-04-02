@@ -37,7 +37,6 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	let cellID = "cartCell"
 	var latest: OrderRow?
 	var latestIsUpdate = false
-	var prod_image: Data?
 	var cartCellHeight: CGFloat = 100
 	var cartCellVSpace: CGFloat = 5
 
@@ -99,19 +98,20 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 //		if store.products.count < 1 || store.forceRefresh
 //		{
-		//DONT NEED TO REFRESH EVERYTIME!
+		//DONT NEvarTO REFRESH EVERYTIME!
 			store.forceRefresh = false
 			refresh()	//load products
 //		}
 /////tableView
-		totalLbl.text = R.string.Total.uppercased()
+		//totalLbl.text = R.string.Total.uppercased()
 		totalPcsLbl.text = R.string.pieces
 		stackRight.widthAnchor.constraint(equalToConstant: self.view.frame.width * 1/4).isActive = true
 		//tableView.delegate = self
-		_ = populateCart()
+		_ = populateCartTotal()
 		if store.myOrderRows.count > 0
 		{
-			for i in (0..<store.myOrderRows.count).reversed()
+			//for i in (0..<store.myOrderRows.count).reversed()
+			for i in 0..<store.myOrderRows.count
 			{
 				if store.myOrderRows.count > 1 && !latestIsUpdate
 				{
@@ -140,10 +140,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					}
 				}
 			}
+			chkoutBtn.alpha = 1
 		}
 	}
 	
-	func populateCart() -> (Double, Int)
+	func populateCartTotal() -> (Double, Int)
 	{
 		var total: Double = 0
 		var pcs: Int = 0
@@ -169,16 +170,16 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	
 	fileprivate func drawCartItem(_ i: Int? = nil)
 	{
+		print("cart cell width is:\(self.cartScroll.frame.width)")
 		let view = CartCell(frame: CGRect(x: 0, y: cartCellVSpace, width: min(300, self.cartScroll.frame.width), height: cartCellHeight))
-		self.cartScroll.contentSize.height += cartCellHeight + (2*cartCellVSpace)//104	//put next (future) item next
-		//print("cartScroll.contentSize=\(self.cartScroll.contentSize.width)x\(self.cartScroll.contentSize.height)")
-		//let thisOrder = store.myOrderRows[store.myOrderRows.count-1]
+		self.cartScroll.contentSize.height += cartCellHeight + (2*cartCellVSpace)
 		if i != nil
 		{
 			latest = store.myOrderRows[i!]
 		}
 		let name = self.latest?.productName//thisOrder.productName//prod.name![0].value
 		view.prodName.text = name
+		view.prodName.lineBreakMode = .byTruncatingHead
 		view.tag = Int((self.latest?.productId)!)!
 		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
 		//		{
@@ -195,11 +196,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//			let allImageViews = prodView.getAllSubviews() as [UIImageView]
 		//view.prodImage.image = allImageViews[0].image
 		//while (prod_image == nil) {}	//WAIT UNTIL prod_image IS NOT NIL
-		if self.prod_image != nil
-		{
-			view.prodImage.image = UIImage(data: self.prod_image!)
-		}
-		else if latest?.productImage != nil
+//		if self.prod_image != nil
+//		{
+//			view.prodImage.image = UIImage(data: self.prod_image!)
+//		}
+/*		else*/ if latest?.productImage != nil
 		{
 			view.prodImage.image = UIImage(data: (latest?.productImage)!)
 		}
@@ -230,7 +231,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	/////tableView
 	func putItemInCart()
 	{
-		let (wt, pcs) = populateCart()
+		let (wt, pcs) = populateCartTotal()
 		if store.products.count > 0
 		{
 			let date = Date()
@@ -289,9 +290,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
-		if scrollView == scrollView
+		if scrollView == self.scrollView
 		{
-			pageControl.currentPage = Int(scrollView.contentOffset.x / self.scrollView.frame.width)
+			//print("scrollViewDidScroll-self:\(self.view.frame.width), scroll:\(self.scrollView.frame.width), stack:\(self.stackLeft.frame.width), offset:\(scrollView.contentOffset.x)")
+//			pageControl.currentPage = Int(scrollView.contentOffset.x / self.scrollView.frame.width)
+			pageControl.currentPage = Int(round(scrollView.contentOffset.x / self.scrollView.frame.width))
 		}
 	}
 	
@@ -324,6 +327,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					self.pageControl.pageIndicatorTintColor = R.color.YumaYel
 					self.pageControl.numberOfPages = self.store.products.count
 					print("found \(self.store.products.count) products")
+					print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
 					self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
 					self.insertData()
 			}
@@ -394,6 +398,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	}
 	@IBAction func add2CartBtnAct(_ sender: Any)
 	{
+		var prod_image: Data?
 		store.flexView(view: self.add2CartBtn)
 //		let from = sender as! UIView
 		//let allScrollInners = self.scrollView.getAllSubviews()
@@ -405,23 +410,30 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//let num = Int(scrollView.contentOffset.x / self.scrollView.frame.width)
 		let prod: aProduct = store.products[pageControl.currentPage]
 		let imgName = prod.associations?.images![0].id
-		var imageName = "\(R.string.URLbase)img/p"
-		for ch in imgName!
+		if prod.associations?.imageData != nil
 		{
-			imageName.append("/\(ch)")
+			prod_image = prod.associations?.imageData
 		}
-		imageName.append("/\(imgName ?? "").jpg")
-		store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+		else
+		{
+			var imageName = "\(R.string.URLbase)img/p"
+			for ch in imgName!
 			{
-				(data, response, error) in
-				
-				guard let data = data, error == nil else { return }
-				DispatchQueue.main.async()
-					{
-						self.prod_image = data
-					}
+				imageName.append("/\(ch)")
 			}
-		)
+			imageName.append("/\(imgName ?? "").jpg")
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				{
+					(data, response, error) in
+					
+					guard let data = data, error == nil else { return }
+					DispatchQueue.main.async()
+						{
+							prod_image = data
+						}
+				}
+			)
+		}
 		if Int((NumberFormatter().number(from: prod.price!)?.doubleValue)!) > 0 && chkoutBtn.alpha != 1
 		{
 			chkoutBtn.alpha = 1
@@ -445,6 +457,33 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		if found == false
 		{
 			print("add 2 cart: \(qty) x \(prod.name![0].value ?? "")")
+//			if prod_image == nil
+//			{
+//				if prod.associations?.imageData != nil
+//				{
+//					self.prod_image = prod.associations?.imageData
+//				}
+//				else
+//				{
+//					var imageName = "\(R.string.URLbase)img/p"
+//					for ch in imgName!
+//					{
+//						imageName.append("/\(ch)")
+//					}
+//					imageName.append("/\(imgName ?? "").jpg")
+//					store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+//						{
+//							(data, response, error) in
+//
+//							guard let data = data, error == nil else { return }
+//							DispatchQueue.main.async()
+//								{
+//									self.prod_image = data
+//							}
+//						}
+//					)
+//				}
+//			}
 			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cache_has_attachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")", productImage: prod_image)
 			//let row2 = CartRow(idProduct: "\(prod.id ?? 0)", idProductAttribute: , idAddressDelivery: <#T##String?#>, quantity: <#T##String?#>)
 			store.myOrderRows.append(row)
@@ -606,7 +645,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				view.sizeToFit()
 				view.prodName.text = prod.name![store.myLang].value
 				view.prodName.textColor = R.color.YumaRed
-				view.prodName.tag = prod.id!
+				//view.prodName.tag = prod.id!
+				view.tag = i
+				view.prodId = prod.id!
 				if prod.showPrice != "0" && Double(prod.price!)! > 0
 				{
 					let prodPrice = NumberFormatter().number(from: prod.price!)?.doubleValue
@@ -621,23 +662,36 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	//			view.imageFrame.shadowOffset = CGSize(width: 3, height: 3)
 	//			view.imageFrame.shadowRadius = 5
 	//			view.imageFrame.shadowOpacity = 1
-				let imgName = prod.associations?.images![0].id//primary image
-				var imageName = "\(R.string.URLbase)img/p"
-				for ch in imgName!
+				if prod.associations?.imageData != nil
 				{
-					imageName.append("/\(ch)")
+					view.prodImage.image = UIImage(data: (prod.associations?.imageData)!)
 				}
-				imageName.append("/\(imgName ?? "").jpg")
-				store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				else
+				{
+					let imgName = prod.associations?.images![0].id//primary image
+					var imageName = "\(R.string.URLbase)img/p"
+					for ch in imgName!
 					{
-						(data, response, error) in
-						
-						guard let data = data, error == nil else { return }
-						DispatchQueue.main.async()
+						imageName.append("/\(ch)")
+					}
+					imageName.append("/\(imgName ?? "").jpg")
+					store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
 						{
-							view.prodImage.image = UIImage(data: data)
-						}
-				})
+							(data, response, error) in
+							
+							guard let data = data, error == nil else { return }
+							DispatchQueue.main.async()
+							{
+								let i = view.tag - 10
+								view.prodImage.image = UIImage(data: data)
+								//self.prod_image = data
+								if i < self.store.products.count
+								{
+									self.store.products[i].associations?.imageData = data
+								}
+							}
+					})
+				}
 //				view.detailsBtn.text = R.string.details
 				//second section
 	//			let view2 = CustomView2(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
@@ -1093,26 +1147,3 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //	}
 //
 //}
-
-extension String
-{
-	func findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
-	{
-		var i: Int = 0;
-		var found: Int = -1
-		for obj in inArray
-		{
-//			let pair = obj as! Dictionary
-//			for element in pair
-//			{
-//				if pair.key == findValue
-//			}
-			if obj.elementType == searchElements.elementType //&& obj.element(searchElements) == findValue
-			{
-				found = i//return i
-			}
-			i+=1
-		}
-		return found
-	}
-}

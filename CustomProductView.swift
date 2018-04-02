@@ -11,6 +11,7 @@ import UIKit
 
 class CustomView: UIView	// product cell view
 {
+	var prodId: Int = 0
 	let prodImage: UIImageView =
 	{
 		let iv = UIImageView()

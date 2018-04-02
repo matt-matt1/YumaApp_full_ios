@@ -380,6 +380,27 @@ extension UIViewController
 ///////////////////////////////////////////////////////////
 extension String
 {
+	///findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
+	func findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
+	{
+		var i: Int = 0;
+		var found: Int = -1
+		for obj in inArray
+		{
+			//			let pair = obj as! Dictionary
+			//			for element in pair
+			//			{
+			//				if pair.key == findValue
+			//			}
+			if obj.elementType == searchElements.elementType //&& obj.element(searchElements) == findValue
+			{
+				found = i//return i
+			}
+			i+=1
+		}
+		return found
+	}
+
 	/// Converts a String to a double value
 	func toDouble() -> Double?
 	{

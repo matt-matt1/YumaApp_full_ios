@@ -15,12 +15,14 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 //		})
 		self.present(LoginViewController(), animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -30,6 +32,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -45,6 +48,7 @@ extension SwipingController
 		let vc = UIStoryboard(name: "CartStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
 		self.present(vc!, animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -55,6 +59,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -64,6 +69,7 @@ extension SwipingController
 		vc.pageTitle = R.string.en
 		self.present(vc, animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -73,6 +79,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -82,6 +89,7 @@ extension SwipingController
 		vc.pageTitle = R.string.about
 		self.present(vc, animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -91,6 +99,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -100,6 +109,7 @@ extension SwipingController
 		vc.pageTitle = R.string.qc
 		self.present(vc, animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -109,12 +119,14 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 //		})
 		self.present(ContactUsViewController(), animated: false, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -124,6 +136,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -134,6 +147,7 @@ extension SwipingController
 		vc?.pageTitle = R.string.printers
 		self.present(vc!, animated: true, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -143,6 +157,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -153,6 +168,7 @@ extension SwipingController
 		vc?.pageTitle = R.string.laptops
 		self.present(vc!, animated: true, completion: (() -> Void)?
 			{
+				UIViewController.removeSpinner(spinner: spin)
 //				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //				sender.view?.backgroundColor = UIColor.white
 			})
@@ -162,6 +178,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -173,6 +190,7 @@ extension SwipingController
 		vc?.pageTitle = R.string.services
 		self.present(vc!, animated: true, completion: (() -> Void)?
 		{
+			UIViewController.removeSpinner(spinner: spin)
 //			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //			sender.view?.backgroundColor = UIColor.white
 		})
@@ -182,6 +200,7 @@ extension SwipingController
 	{
 		store.flexView(view: sender.view!)
 		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -194,6 +213,7 @@ extension SwipingController
 		//vc?.pageTitle = R.string.toners
 		self.present(vc!, animated: true, completion: (() -> Void)?
 		{
+			UIViewController.removeSpinner(spinner: spin)
 //			sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 //			sender.view?.backgroundColor = UIColor.white
 		})
