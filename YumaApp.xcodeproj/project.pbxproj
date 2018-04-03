@@ -71,6 +71,10 @@
 		CF63DD32206423BE00025007 /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD31206423BE00025007 /* AlertModal.swift */; };
 		CF63DD34206424AC00025007 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD33206424AC00025007 /* CustomAlertView.swift */; };
 		CF65C5C820409ABD00517432 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF65C5C720409ABD00517432 /* SwiftyJSON.swift */; };
+		CF72A5512072D99A00A86B8A /* CheckoutStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5502072D99A00A86B8A /* CheckoutStep1ViewController.swift */; };
+		CF72A5532072D9C500A86B8A /* CheckoutStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */; };
+		CF72A5552072D9D900A86B8A /* CheckoutStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */; };
+		CF72A5572072D9EE00A86B8A /* CheckoutStep4ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5562072D9EE00A86B8A /* CheckoutStep4ViewController.swift */; };
 		CF7E8636202908010014B787 /* PrintersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8634202908010014B787 /* PrintersViewController.swift */; };
 		CF7E8637202908010014B787 /* PrintersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8635202908010014B787 /* PrintersViewController.xib */; };
 		CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */; };
@@ -214,6 +218,10 @@
 		CF63DD31206423BE00025007 /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		CF63DD33206424AC00025007 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		CF65C5C720409ABD00517432 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Pods/SwiftyJSON/../../SwiftyJSON.swift; sourceTree = "<group>"; };
+		CF72A5502072D99A00A86B8A /* CheckoutStep1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep1ViewController.swift; sourceTree = "<group>"; };
+		CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep2ViewController.swift; sourceTree = "<group>"; };
+		CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep3ViewController.swift; sourceTree = "<group>"; };
+		CF72A5562072D9EE00A86B8A /* CheckoutStep4ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep4ViewController.swift; sourceTree = "<group>"; };
 		CF7E8634202908010014B787 /* PrintersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintersViewController.swift; sourceTree = "<group>"; };
 		CF7E8635202908010014B787 /* PrintersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PrintersViewController.xib; sourceTree = "<group>"; };
 		CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fontAwesomeIcons.swift; sourceTree = "<group>"; };
@@ -558,6 +566,10 @@
 				CF7E863A2029E83D0014B787 /* ContactUsViewController.swift */,
 				CFB02E3D204F445A00429798 /* ProductsViewController.swift */,
 				CFAB48BB2052EA8100BF9E7D /* CheckoutViewController.swift */,
+				CF72A5502072D99A00A86B8A /* CheckoutStep1ViewController.swift */,
+				CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */,
+				CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */,
+				CF72A5562072D9EE00A86B8A /* CheckoutStep4ViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -897,8 +909,10 @@
 				CF7E8664202B62A90014B787 /* R.swift in Sources */,
 				CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */,
 				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
+				CF72A5532072D9C500A86B8A /* CheckoutStep2ViewController.swift in Sources */,
 				CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */,
 				CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */,
+				CF72A5552072D9D900A86B8A /* CheckoutStep3ViewController.swift in Sources */,
 				CF904E432057FD190086068E /* CartCell.swift in Sources */,
 				CF453EA5206ABDB500E9FCE1 /* MobileDataItem.swift in Sources */,
 				CF5C72AB20485072008763DB /* SwipingControllerCollection.swift in Sources */,
@@ -957,6 +971,7 @@
 				CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */,
 				CF4D4FF620587AD30090544B /* CustomCollectionViewController.swift in Sources */,
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,
+				CF72A5572072D9EE00A86B8A /* CheckoutStep4ViewController.swift in Sources */,
 				CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */,
 				CF384BF2205EBB17005CCD57 /* APIError.swift in Sources */,
 				CF182DC4203219900070B9E5 /* Carts.swift in Sources */,
@@ -968,6 +983,7 @@
 				CFF4A7E5204EE5F9005AE5C8 /* ServicesCell.swift in Sources */,
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
 				CF26FFC420586CD300532C11 /* CustomCollectionViewCell.swift in Sources */,
+				CF72A5512072D99A00A86B8A /* CheckoutStep1ViewController.swift in Sources */,
 				CFF4A7E3204EE5D1005AE5C8 /* ServicesViewController.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,
 				CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */,

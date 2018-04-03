@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CheckoutViewController: UIViewController
+class CheckoutViewController: UIViewController, UIScrollViewDelegate
 {
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -18,45 +18,53 @@ class CheckoutViewController: UIViewController
 	@IBOutlet weak var tick1: UILabel!
 	@IBOutlet weak var title1: UILabel!
 	@IBOutlet weak var panel1: UIView!
-	@IBOutlet weak var panel1LoginBtn: UIButton!
-	@IBOutlet weak var panel1orLbl: UILabel!
-	@IBOutlet weak var panel1WithoutLbl: UILabel!
-	@IBOutlet weak var panel1LoggedAs: UILabel!
-	@IBOutlet weak var panel1LogoutBtn: UIButton!
+	@IBOutlet weak var panel1Contents: UIView!
 	@IBOutlet weak var title2Block: UIView!
 	@IBOutlet weak var tick2: UILabel!
 	@IBOutlet weak var title2: UILabel!
 	@IBOutlet weak var panel2: UIView!
+	@IBOutlet weak var panel2Contents: UIView!
 	@IBOutlet weak var title3Block: UIView!
 	@IBOutlet weak var tick3: UILabel!
 	@IBOutlet weak var title3: UILabel!
 	@IBOutlet weak var panel3: UIView!
+	@IBOutlet weak var panel3Contents: UIView!
 	@IBOutlet weak var title4Block: UIView!
 	@IBOutlet weak var tick4: UILabel!
 	@IBOutlet weak var title4: UILabel!
 	@IBOutlet weak var panel4: UIView!
+	@IBOutlet weak var panel4Contents: UIView!
 	@IBOutlet weak var buttonLeft: GradientButton!
 	@IBOutlet weak var buttonRight: GradientButton!
 	var panelHeight: CGFloat = 0
 	var panel: [UIView] = []
 	/////cart table
 	@IBOutlet weak var cartPanel: UIView!
+	@IBOutlet weak var cartScroll: UIScrollView!
 	@IBOutlet weak var totalPcs: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
-	@IBOutlet weak var totalAmtLbl: UILabel!
+	@IBOutlet weak var totalWt: UILabel!
+	@IBOutlet weak var totalWtLbl: UILabel!
+	//@IBOutlet weak var totalAmtLbl: UILabel!
 	@IBOutlet weak var totalAmt: UILabel!
-	@IBOutlet weak var tableView: UITableView!
+	//@IBOutlet weak var tableView: UITableView!
 	let store = DataStore.sharedInstance
 	let cellID = "cartCell"
-	/////
+	var latestIsUpdate = false
+	var latest: OrderRow? = nil
+	var cartCellHeight: CGFloat = 100
+	var cartCellVSpace: CGFloat = 5
 	
 	
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
 
+		cartScroll.delegate = self
 		panelHeight = panel1.frame.height
 		print("panelHeight=\(panelHeight)")
+		//cartScroll.layoutIfNeeded()
+		cartPanel.layoutIfNeeded()
 		title1.text = "\(R.string.s1) \(R.string.chk1.uppercased())"
 //		title1Block.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.openPanel1(_:))))
 		title1Block.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.openPanel)))
@@ -97,6 +105,48 @@ class CheckoutViewController: UIViewController
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.normal)
 		/////cart table
+		//let miniCart = ProductsViewController()
+		totalPcsLbl.text = R.string.pieces
+		totalWtLbl.text = R.string.kg
+		let (wt, pcs, tot) = populateCartTotal()//miniCart
+		totalPcs.text = "\(pcs)"
+		totalWt.text = "\(wt)"
+		totalAmt.text = tot
+		if store.myOrderRows.count > 0
+		{
+			//for i in (0..<store.myOrderRows.count).reversed()
+			for i in 0..<store.myOrderRows.count
+			{
+				if store.myOrderRows.count > 1 && !latestIsUpdate
+				{
+					for scr in self.cartScroll.subviews
+					{
+						if type(of: scr) == CartCell.self
+						{
+//							scr.frame.origin.y += miniCart.cartCellHeight + (2*miniCart.cartCellVSpace)//10//104
+							scr.frame.origin.y += cartCellHeight + (2*cartCellVSpace)//10//104
+						}
+					}
+					drawCartItem(i)//miniCart.drawCartItem(i)
+				}
+				else
+				{
+					if latestIsUpdate
+					{
+						let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
+						cell.prodQty.text = latest?.productQuantity
+						store.flexView(view: cell) { (done) in
+							self.store.flexView(view: cell.prodQty.superview!)
+						}
+					}
+					else
+					{
+						drawCartItem(i)//miniCart.drawCartItem(i)
+					}
+				}
+			}
+			//chkoutBtn.alpha = 1
+		}
 //		totalAmtLbl.text = R.string.Total.uppercased()
 //		totalPcsLbl.text = R.string.pieces
 //		tableView.delegate = self
@@ -108,10 +158,107 @@ class CheckoutViewController: UIViewController
 //		})
 //		fillCart()
 		/////
+		//panel1.subviews[0].addSubview(CheckoutStep1ViewController())
     }
 	
 	
 	/////cart table
+	func populateCartTotal() -> (Double, Int, String)
+	{
+		var total: Double = 0
+		var pcs: Int = 0
+		var wt: Double = 0
+		var i = 0
+		for row in store.myOrderRows
+		{
+			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
+			total += (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+			pcs += Int(row.productQuantity!)!
+			//			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
+			for p in store.products
+			{
+				if p.id! == Int(row.productId!)!
+				{
+					wt += (p.weight?.toDouble())!
+					break
+				}
+			}
+			let prodWeight = NumberFormatter().number(from: store.products[i].weight!)?.doubleValue
+			if let prodWeight = prodWeight
+			{
+				wt = wt + Double(prodWeight)
+			}
+			i += 1
+		}
+		let totalDbl = total as NSNumber
+		let totalStr = store.formatCurrency(amount: totalDbl, iso: store.locale)
+		//totalAmt.text = totalStr
+		//totalPcs.text = "\(pcs)"
+		return (wt, pcs, totalStr)
+	}
+
+	
+	fileprivate func drawCartItem(_ i: Int? = nil)
+	{
+		//cartScroll.widthAnchor.constraint(equalTo: cartPanel.widthAnchor).isActive = true
+		print("CHK cart cell width:\(cartScroll.frame.width), cartPanel width:\(cartPanel.frame.width)")
+		let view = CartCell(frame: CGRect(x: 0, y: cartCellVSpace, width: min(300, cartScroll.frame.width, cartPanel.frame.width), height: cartCellHeight))
+		cartScroll.contentSize.height += cartCellHeight + (2*cartCellVSpace)
+		if i != nil
+		{
+			latest = store.myOrderRows[i!]
+		}
+		let name = latest?.productName//thisOrder.productName//prod.name![0].value
+		view.prodName.text = name
+		view.prodName.lineBreakMode = .byTruncatingHead
+		view.tag = Int((latest?.productId)!)!
+		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
+		//		{
+		//			view.prodPrice.text = prod.price
+		//		}
+		//		else
+		//		{
+		//			view.prodPrice.text = R.string.noPrice
+		//		}
+		view.prodImage.contentMode = UIViewContentMode.scaleAspectFit
+		//let allScrollInners = self.scrollView.getAllSubviews() as! [CustomView]
+		//let prodView = allScrollInners[pageControl.currentPage]
+		//let allImageViews = self.scrollView.subviews[pageControl.currentPage+2].getAllSubviews() as [UIImageView]
+		//			let allImageViews = prodView.getAllSubviews() as [UIImageView]
+		//view.prodImage.image = allImageViews[0].image
+		//while (prod_image == nil) {}	//WAIT UNTIL prod_image IS NOT NIL
+		//		if self.prod_image != nil
+		//		{
+		//			view.prodImage.image = UIImage(data: self.prod_image!)
+		//		}
+		/*		else*/ if latest?.productImage != nil
+		{
+			view.prodImage.image = UIImage(data: (latest?.productImage)!)
+		}
+		//print("prod.quantity=\(prod.quantity)")
+		view.prodQty.text = latest?.productQuantity//thisOrder.productQuantity//prod.quantity
+		cartScroll.addSubview(view)
+		//prod_2
+		//		var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
+		//		if store.categories.count > 0
+		//		{
+		//			var catList: [String] = []
+		//			for catId in (prod.associations?.categories)!
+		//			{
+		//				for c in store.categories
+		//				{
+		//					if c.id == Int(catId.id)
+		//					{
+		//						let name = c.name![store.myLang].value!
+		//						catList.append(name)
+		//						categoryStr.append("> \(name) ")
+		//					}
+		//				}
+		//				//categoryStr.append("> \(store.categories[Int(catId.id!)!]) ")
+		//			}
+		//		}
+	}
+
 	func fillCart()
 	{
 		var total: Double = 0
@@ -279,15 +426,15 @@ class CheckoutViewController: UIViewController
 //        // Dispose of any resources that can be recreated.
 //    }
     
-	@IBAction func panel1LoginBtnAct(_ sender: Any)
-	{
-	}
-	@IBAction func panel1WithoutSwiAct(_ sender: Any)
-	{
-	}
-	@IBAction func panel1LogoutBtnAct(_ sender: Any)
-	{
-	}
+//	@IBAction func panel1LoginBtnAct(_ sender: Any)
+//	{
+//	}
+//	@IBAction func panel1WithoutSwiAct(_ sender: Any)
+//	{
+//	}
+//	@IBAction func panel1LogoutBtnAct(_ sender: Any)
+//	{
+//	}
 	@IBAction func buttonRightAct(_ sender: Any)
 	{
 	}

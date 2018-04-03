@@ -261,6 +261,7 @@ struct R {
 		static let male = "male"
 		static let female = "female"
 		static let pieces = "pcs."
+		static let kg = "kg"
 		static let dismiss = "dismiss"
 		static let load = "Loading"
 		static let customer = "Customer"

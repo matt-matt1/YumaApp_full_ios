@@ -204,7 +204,7 @@ class LoginViewController: UIViewController
 		createBtn.setTitle("\(R.string.accountMake)", for: .normal)
 		//closeBtn.
 		//helpBtn.
-		loginBtn.setTitle(R.string.login, for: UIControlState.normal)
+		loginBtn.setTitle(R.string.login.uppercased(), for: UIControlState.normal)
 		loginBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		errorUsernameBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
 		errorPasswordBorder.layer.borderColor = UIColor.white.cgColor

@@ -16,17 +16,19 @@ class CartViewController: UIViewController
 	@IBOutlet weak var totalLbl: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
 	@IBOutlet weak var totalPcs: UILabel!
-	//	@IBOutlet weak var cellLabel: UILabel!
-	//MARK: Properties
+	//@IBOutlet weak var cellLabel: UILabel!
+	@IBOutlet weak var totalWt: UILabel!
+	@IBOutlet weak var totalWtLbl: UILabel!
 	@IBOutlet weak var tableView: UITableView!
 	//@IBOutlet weak var tableCell: UITableViewCell!
-//	@IBOutlet weak var cellLabel: UILabel!
+	//@IBOutlet weak var cellLabel: UILabel!
 	@IBOutlet weak var navBar: UINavigationBar!
-//	@IBOutlet weak var table: UITableView!
+	//@IBOutlet weak var table: UITableView!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
 	@IBOutlet weak var navHelp: UIBarButtonItem!
 	@IBOutlet weak var chkoutBtn: GradientButton!
+	//MARK: Properties
 	let store = DataStore.sharedInstance
 	let cellID = "cartCell"
 //	private var contents = ["Apple", "Apricot", "Banana", "Blueberry", "Cantaloupe", "Cherry",
@@ -52,8 +54,10 @@ class CartViewController: UIViewController
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		navigationItem.title = R.string.cart
-
+		tableView.layoutIfNeeded()
 		totalPcsLbl.text = R.string.pieces
+		totalLbl.text = " = "
+		totalWtLbl.text = R.string.kg
 		if store.myOrderRows.count < 1
 		{
 			alertEmpty()
@@ -80,7 +84,8 @@ class CartViewController: UIViewController
 				{
 					wt += Double((prod?.weight!)!)!
 				}
-				totalLbl.text = " (\(wt)kg)     ="//R.string.Total.uppercased()
+				//R.string.Total.uppercased()
+				totalWt.text = "\(wt)"
 			}
 			if total < 1
 			{

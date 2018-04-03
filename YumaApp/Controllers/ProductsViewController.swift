@@ -106,6 +106,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//totalLbl.text = R.string.Total.uppercased()
 		totalPcsLbl.text = R.string.pieces
 		stackRight.widthAnchor.constraint(equalToConstant: self.view.frame.width * 1/4).isActive = true
+		stackRight.layoutIfNeeded()
+		stackLeft.layoutIfNeeded()
+		cartScroll.layoutIfNeeded()
 		//tableView.delegate = self
 		_ = populateCartTotal()
 		if store.myOrderRows.count > 0
@@ -144,43 +147,54 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
-	func populateCartTotal() -> (Double, Int)
+	func populateCartTotal() -> (Double, Int, String)
 	{
 		var total: Double = 0
 		var pcs: Int = 0
 		var wt: Double = 0
+		var i = 0
 		for row in store.myOrderRows
 		{
 			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
 			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
 			pcs = pcs + Int(row.productQuantity!)!
-			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
+//			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
+			for p in store.products
+			{
+				if p.id! == Int(row.productId!)!
+				{
+					wt += (p.weight?.toDouble())!
+					break
+				}
+			}
+			let prodWeight = NumberFormatter().number(from: store.products[i].weight!)?.doubleValue
 			if let prodWeight = prodWeight
 			{
 				wt = wt + Double(prodWeight)
 			}
+			i += 1
 		}
 		let totalDbl = total as NSNumber
 		let totalStr = store.formatCurrency(amount: totalDbl, iso: store.locale)
-		totalAmt.text = totalStr
-		totalPcs.text = "\(pcs)"
-		return (wt, pcs)
+		//totalAmt.text = totalStr
+		//totalPcs.text = "\(pcs)"
+		return (wt, pcs, totalStr)
 	}
 	
 	
 	fileprivate func drawCartItem(_ i: Int? = nil)
 	{
-		print("cart cell width is:\(self.cartScroll.frame.width)")
-		let view = CartCell(frame: CGRect(x: 0, y: cartCellVSpace, width: min(300, self.cartScroll.frame.width), height: cartCellHeight))
-		self.cartScroll.contentSize.height += cartCellHeight + (2*cartCellVSpace)
+		print("cart cell width is:\(cartScroll.frame.width)")
+		let view = CartCell(frame: CGRect(x: 0, y: cartCellVSpace, width: min(300, cartScroll.frame.width), height: cartCellHeight))
+		cartScroll.contentSize.height += cartCellHeight + (2*cartCellVSpace)
 		if i != nil
 		{
 			latest = store.myOrderRows[i!]
 		}
-		let name = self.latest?.productName//thisOrder.productName//prod.name![0].value
+		let name = latest?.productName//thisOrder.productName//prod.name![0].value
 		view.prodName.text = name
 		view.prodName.lineBreakMode = .byTruncatingHead
-		view.tag = Int((self.latest?.productId)!)!
+		view.tag = Int((latest?.productId)!)!
 		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
 		//		{
 		//			view.prodPrice.text = prod.price
@@ -205,8 +219,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			view.prodImage.image = UIImage(data: (latest?.productImage)!)
 		}
 		//print("prod.quantity=\(prod.quantity)")
-		view.prodQty.text = self.latest?.productQuantity//thisOrder.productQuantity//prod.quantity
-		self.cartScroll.addSubview(view)
+		view.prodQty.text = latest?.productQuantity//thisOrder.productQuantity//prod.quantity
+		cartScroll.addSubview(view)
 //prod_2
 //		var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
 //		if store.categories.count > 0
@@ -231,7 +245,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	/////tableView
 	func putItemInCart()
 	{
-		let (wt, pcs) = populateCartTotal()
+		let (wt, pcs, tot) = populateCartTotal()
+		totalAmt.text = tot
+		totalPcs.text = "\(pcs)"
 		if store.products.count > 0
 		{
 			let date = Date()
@@ -398,6 +414,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	}
 	@IBAction func add2CartBtnAct(_ sender: Any)
 	{
+		totalPcsLbl.alpha = 1
+		totalPcs.alpha = 1
 		var prod_image: Data?
 		store.flexView(view: self.add2CartBtn)
 //		let from = sender as! UIView

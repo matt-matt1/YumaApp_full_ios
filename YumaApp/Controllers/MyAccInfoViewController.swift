@@ -87,7 +87,7 @@ class MyAccInfoViewController: UIViewController
 		switch1Label2.text = R.string.SignUpNewsletterMore
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
-		buttonText.setTitle(R.string.save, for: .normal)
+		buttonText.setTitle(R.string.save.uppercased(), for: .normal)
 		buttonText.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
@@ -186,6 +186,8 @@ class MyAccInfoViewController: UIViewController
 //			else
 //			{
 				var decoded: Customer
+			if caStr != nil
+			{
 				do
 				{
 					decoded = try JSONDecoder().decode(Customer.self, from: (caStr?.data(using: .utf8))!)
@@ -196,7 +198,7 @@ class MyAccInfoViewController: UIViewController
 				{
 					print(jsonErr)
 				}
-//			}
+			}
 		}
 		else
 		{
@@ -300,7 +302,7 @@ Will attempt to recover by breaking constraint
 		else
 		{
 			navTitle.title = R.string.createAcc
-			buttonText.setTitle(R.string.createAcc, for: .normal)
+			buttonText.setTitle(R.string.createAcc.uppercased(), for: .normal)
 		}
     }
 
