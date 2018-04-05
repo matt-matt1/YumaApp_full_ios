@@ -33,7 +33,7 @@ final class DataStore
 	var myOrder: 				Order?
 	var myCart: 				[Carts] = 				[]
 	var orderDetails: 			[OrderDetail] = 		[]
-	var carts: 					[Carts] = 				[]
+	var carts: 					[aCart] = 				[]
 	var langs: 					[Language] = 			[]
 	var manufacturers: 			[Manufacturer] = 		[]
 	var categories: 			[aCategory] = 			[]
@@ -110,28 +110,39 @@ final class DataStore
 	}
 	
 	/// Use the api to collect the customer's carts, if any
-	func callGetCarts(id_customer: Int, completion: @escaping ([Carts]?, Error?) -> Void)
+	func callGetCarts(id_customer: Int, completion: @escaping ([aCart]?, Error?) -> Void)
 	{
 		PSWebServices.getCarts(id_customer: id_customer, completionHandler:
 			{
 				(object, err) in//)(dataStr, object) in
 				
-				let dataStr = 				UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
-				let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
-				let tempObj: 	[Carts]
-				do
+				if err != nil
 				{
-					tempObj = try JSONDecoder().decode([Carts].self, from: tempCarr.data(using: .utf8)!)
-					for carr in tempObj
+					let dataStr = 				UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[aCart]
+					do
+					{
+						tempObj = try JSONDecoder().decode([aCart].self, from: tempCarr.data(using: .utf8)!)
+						for carr in tempObj
+						{
+							self.carts.append(carr)
+						}
+						completion(tempObj, nil)
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+						completion(nil, err)//"\(err?.localizedDescription) - \(jsonErr)")
+					}
+				}
+				else
+				{
+					for carr in (object?.carts)!
 					{
 						self.carts.append(carr)
 					}
-					completion(tempObj, nil)
-				}
-				catch let jsonErr
-				{
-					print(jsonErr)
-					completion(nil, err)//"\(err?.localizedDescription) - \(jsonErr)")
+					completion(object?.carts, nil)
 				}
 			}
 		)
@@ -218,6 +229,7 @@ final class DataStore
 				}
 				else
 				{
+					for ords in (result?.orders)!			{	self.orders.append(ords)	}
 					OperationQueue.main.addOperation		{	completion(result, nil)		}
 				}
 			}

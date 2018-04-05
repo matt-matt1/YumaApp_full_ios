@@ -28,9 +28,9 @@ struct Associations_CartRows: Decodable
 {
 	let cart_rows: [CartRow]?
 }
-struct Carts: Decodable
+struct aCart: Decodable
 {
-	var id: 					Int
+	var id: 					Int?
 	var idAddressDelivery: 		String?
 	var idAddressInvoice: 		String?
 	var idCurrency: 			String?
@@ -75,4 +75,8 @@ struct Carts: Decodable
 		case associations
 		case cartRows = 				"cart_rows"
 	}
+}
+struct Carts: Decodable
+{
+	let carts: [aCart]?
 }

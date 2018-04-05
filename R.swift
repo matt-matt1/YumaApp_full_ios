@@ -302,6 +302,7 @@ struct R {
 		static let deld = "Deleted"
 		static let notAct = "Not Active"
 		static let or = "or"
+		static let ok = "OK"
 		//		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"

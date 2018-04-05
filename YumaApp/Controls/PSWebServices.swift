@@ -28,12 +28,26 @@ class PSWebServices: NSObject
 					}
 					else
 					{
+//						var regex = NSRegularExpression(pattern: "<!--[\\s\\S]*-->", options: NSRegularExpression.Options.caseInsensitive, error: nil)!
+						//let str = regex.stringByReplacingMatchesInString(data, options: nil, range: NSMakeRange(0, count(data)), withTemplate: "")
 						let dataString = String(data: data, encoding: .utf8)
-						UserDefaults.standard.set(dataString, forKey: "Customer")
+//						dataString = regex.stringByReplacingMatchesInString(dataString, options: nil, range: NSMakeRange(0, dataString?.count), withTemplate: "")
+						var str = dataString?.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+						str = str?.replacingOccurrences(of: "\n", with: "", options: .regularExpression, range: nil)
+						UserDefaults.standard.set(str, forKey: "Customer")
+						var myData: Data
+						if dataString != str && str != nil
+						{
+							myData = str!.data(using: .utf8, allowLossyConversion: true)!
+						}
+						else
+						{
+							myData = data
+						}
 						//UserDefaults.standard.set(String(data: data, encoding: .utf8), forKey: "Customer")
 						do
 						{
-							let customer = try JSONDecoder().decode(Customer.self, from: data)
+							let customer = try JSONDecoder().decode(Customer.self, from: myData)
 								//let _ = Global.customer.init(customer: customer)
 								//UserDefaults.standard.set(customer, forKey: "Customer")
 								//UserDefaults.standard.set(dataString, forKey: "CustomerString")
@@ -81,9 +95,9 @@ class PSWebServices: NSObject
 	}
 	
 	///return an Object containing a list of the orders
-	class func getOrders(id_customer: Int, completionHandler: @escaping (OrderDetails?, Error?) -> Void)
+	class func getOrders(id_customer: Int, completionHandler: @escaping (Orders?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)order_details?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let url = "\(R.string.WSbase)orders?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
 			URLSession.shared.dataTask(with: myUrl)
@@ -91,16 +105,16 @@ class PSWebServices: NSObject
 				(data, response, err) in
 				//				if err
 				//				else if response.status_code != 200
-				if let myData = data
+				if let data = data
 				{
 //					if saveName != nil && saveName != ""
 //					{
-					let dataStr = String(data: myData, encoding: .utf8)
-						UserDefaults.standard.set(dataStr, forKey: "OrderDetailsCustomer\(id_customer)")
+					let dataStr = String(data: data, encoding: .utf8)
+						UserDefaults.standard.set(dataStr, forKey: "OrderCustomer\(id_customer)")
 //					}
 					do
 					{
-						let myData = try JSONDecoder().decode(OrderDetails.self, from: myData)
+						let myData = try JSONDecoder().decode(Orders.self, from: data)
 //						print(myData)
 						completionHandler(myData, nil)
 					}
@@ -377,16 +391,16 @@ class PSWebServices: NSObject
 				(data, response, err) in
 				//				if err
 				//				else if response.status_code != 200
-				if let myData = data
+				if let data = data
 				{
 					//					if saveName != nil && saveName != ""
 					//					{
-					let dataStr = String(data: myData, encoding: .utf8)
+					let dataStr = String(data: data, encoding: .utf8)
 					UserDefaults.standard.set(dataStr, forKey: "CartsCustomer\(id_customer)")
 					//					}
 					do
 					{
-						let myData = try JSONDecoder().decode(Carts.self, from: myData)
+						let myData = try JSONDecoder().decode(Carts.self, from: data)
 						//						print(myData)
 						completionHandler(myData, nil)
 					}

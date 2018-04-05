@@ -12,19 +12,25 @@ import UIKit
 
 struct MyTable
 {
-	let caption: String?
-	let columns: [MyTableColumn]
+	let caption: 		String?
+	let captionGap: 	CGFloat?
+	let columnSpacing: 	CGFloat?
+	let headerRowGap:	CGFloat?	//Points
+	let dataRowSpacing: CGFloat?
+	let columns: 		[MyTableColumn]
 }
 
+typealias closureVoid = (Any) -> Void
 
 struct MyTableColumn
 {
-	let key: String?
-	let headerText: String?
-	let headerAttributes: [NSAttributedStringKey : Any]?
-	let dataLinkTo: Selector?
-	let dataReplaceWith: String?
-	let dataAttributes: [NSAttributedStringKey : Any]?
+	let key: 				String?
+	let headerText: 		String?
+	let headerAttributes: 	[NSAttributedStringKey : Any]?
+	let dataLinkTo: 		Selector?
+	let dataReplaceWith: 	String?
+	let dataAttributes: 	[NSAttributedStringKey : Any]?
+	let calculate:			/*(() -> Void)?*/closureVoid?
 }
 
 
@@ -44,26 +50,35 @@ class CustomerOrdersVC: UIViewController
 	
 	override func viewDidLoad()
 	{
-		//navBar add gradient
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navTitle.title = R.string.OrdHist
 		if store.orders.count > 0
 		{
 //			errorView.isHidden = true
 			errorView.removeFromSuperview()
-			let myTable = MakeTable()
+			let myTable = MakeTable()//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
 			myTable.data = store.orders
 			myTable.structure =
-				MyTable(caption: R.string.orderHistoryTop, columns: [
-					MyTableColumn(key: "reference", headerText: "\(R.string.order) \(R.string.ref)", headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: nil),
-					MyTableColumn(key: "dateAdd", headerText: R.string.date, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:]),
-					MyTableColumn(key: "totalPaid", headerText: R.string.tPrice, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:]),
-					MyTableColumn(key: "payment", headerText: R.string.payment, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:]),
-					MyTableColumn(key: "currentState", headerText: R.string.status, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:]),
-					MyTableColumn(key: "invoiceNumber", headerText: R.string.inv, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:]),
-					MyTableColumn(key: nil, headerText: nil, headerAttributes: nil, dataLinkTo: #selector(self.rowDetails(_:)), dataReplaceWith: R.string.details, dataAttributes: [NSAttributedStringKey.foregroundColor: R.color.YumaRed]),
-					MyTableColumn(key: nil, headerText: nil, headerAttributes: nil, dataLinkTo: #selector(self.rowReorder(_:)), dataReplaceWith: R.string.reorder, dataAttributes: [NSAttributedStringKey.foregroundColor: R.color.YumaRed]),
+				MyTable(caption: R.string.orderHistoryTop, captionGap: 10, columnSpacing: 5, headerRowGap: 15, dataRowSpacing: 5, columns: [
+					MyTableColumn(key: "reference", headerText: "\(R.string.order) \(R.string.ref)", headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: nil, calculate: { (data) in }),
+					MyTableColumn(key: "date_add", headerText: R.string.date, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:], calculate: { (data) in
+						let df = DateFormatter()
+						df.locale = Locale(identifier: self.store.locale)
+						df.dateFormat = "dd MMM YYYY"
+					}),
+					MyTableColumn(key: "total_paid", headerText: R.string.tPrice, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:], calculate: { (data) in
+						let currency = data as! NSNumber
+						let _ = self.store.formatCurrency(amount: currency, iso: self.store.locale)
+					}),//total_paid_tax_excl
+					MyTableColumn(key: "payment", headerText: R.string.payment, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:], calculate: { (data) in }),
+					MyTableColumn(key: "current_state", headerText: R.string.status, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:], calculate: { (data) in }),
+					MyTableColumn(key: "invoice_number", headerText: R.string.inv, headerAttributes: nil, dataLinkTo: nil, dataReplaceWith: nil, dataAttributes: [:], calculate: { (data) in }),
+					MyTableColumn(key: nil, headerText: nil, headerAttributes: nil, dataLinkTo: #selector(self.rowDetails(_:)), dataReplaceWith: R.string.details, dataAttributes: [NSAttributedStringKey.foregroundColor: R.color.YumaRed], calculate: { (data) in }),
+					MyTableColumn(key: nil, headerText: nil, headerAttributes: nil, dataLinkTo: #selector(self.rowReorder(_:)), dataReplaceWith: R.string.reorder, dataAttributes: [NSAttributedStringKey.foregroundColor: R.color.YumaRed], calculate: { (data) in }),
 					]
 			)
 			navTitle.title = R.string.OrdHist
+/*
 			let testLabel = UILabel()
 			testLabel.text = "store=\(store.orders[0].id ?? 0)|"
 			tableStack.addArrangedSubview(testLabel)
@@ -73,6 +88,16 @@ class CustomerOrdersVC: UIViewController
 			let testLabel1 = UILabel()
 			testLabel1.text = "data=\(myTable.data![0])|"
 			tableStack.addArrangedSubview(testLabel1)
+*/
+			//self.view.addSubview(myTable.buildView())
+			let built = myTable.buildView()
+			tableStack.addArrangedSubview(built)
+			NSLayoutConstraint.activate([
+				built.topAnchor.constraint(equalTo: tableStack.topAnchor),
+				built.leadingAnchor.constraint(equalTo: tableStack.leadingAnchor),
+//				built.bottomAnchor.constraint(equalTo: tableStack.bottomAnchor),
+//				built.trailingAnchor.constraint(equalTo: tableStack.trailingAnchor),
+				])
 		}
 		else
 		{
@@ -141,6 +166,7 @@ class MakeTable: UIView
 	fileprivate func buildCell(row: Any, col: MyTableColumn) -> UILabel
 	{
 		let cellData = UILabel()
+		cellData.translatesAutoresizingMaskIntoConstraints = false
 		if col.dataReplaceWith != nil
 		{
 			cellData.text = col.dataReplaceWith
@@ -148,7 +174,7 @@ class MakeTable: UIView
 		else
 		{
 			let rowStr = String(describing: row)
-			let findThis = "\(col.key ?? ""): Optional("// + "\\"// + "\""
+			let findThis = "\(col.key ?? ""): Optional"// + "\\"// + "\""
 			var foundFirst = ""
 			let pos = rowStr.range(of: findThis, options: .literal, range: rowStr.startIndex..<rowStr.endIndex, locale: nil)
 			var foundFinal = R.string.no_data
@@ -163,6 +189,9 @@ class MakeTable: UIView
 					foundFinal = String(foundFirst[foundFirst.startIndex..<start])
 				}
 			}
+			foundFinal = foundFinal.replacingOccurrences(of: "(\"", with: "")
+			foundFinal = foundFinal.replacingOccurrences(of: "\")", with: "")
+			foundFinal = foundFinal.replacingOccurrences(of: "Data unavailable", with: "-")
 			cellData.text = foundFinal
 		//cellData.text = "get \(col.key)"//" in \(row)"//**TODO**
 		//print("get \(col.key) in \(row)")
@@ -170,7 +199,7 @@ class MakeTable: UIView
 		//	print((row as AnyObject).value(forKey: col.key) as? String as Any)
 			print("Label \(cellData.text ?? "")")
 		}
-		if col.dataAttributes != nil || (col.dataAttributes?.count)! > 0
+		if col.dataAttributes != nil && (col.dataAttributes?.count)! > 0
 		{
 			let attributeStr = NSAttributedString(string: cellData.text!, attributes: col.dataAttributes)
 			cellData.attributedText = attributeStr
@@ -192,6 +221,7 @@ class MakeTable: UIView
 		{
 			colTitle.text = col?.headerText
 			print("Label header=\(col?.headerText! ?? "")")
+			//colTitle.translatesAutoresizingMaskIntoConstraints = false
 			if col?.headerAttributes != nil && (col?.headerAttributes?.count)! > 0
 			{
 				let attributeStr = NSAttributedString(string: colTitle.text!, attributes: col?.headerAttributes)
@@ -199,7 +229,9 @@ class MakeTable: UIView
 			}
 		}
 		let colData = UIStackView()
+		//colData.translatesAutoresizingMaskIntoConstraints = false
 		colData.axis = .vertical
+		colData.spacing = (structure?.dataRowSpacing)!
 		//for cell in DataStore.sharedInstance.orders//ordData
 		//for cellNum in 0 ..< DataStore.sharedInstance.orders[colNum].keys!
 		//let cell = DataStore.sharedInstance.orders[colNum]
@@ -212,6 +244,8 @@ class MakeTable: UIView
 			}
 //		}
 		let column = UIStackView(arrangedSubviews: [colTitle, colData])//UILabel + UIStack
+		column.spacing = (structure?.headerRowGap)!
+		//column.translatesAutoresizingMaskIntoConstraints = false
 		column.axis = .vertical
 		return column
 	}
@@ -220,16 +254,20 @@ class MakeTable: UIView
 	func buildView() -> UIView
 	{
 		let table = UIView()
+		//table.translatesAutoresizingMaskIntoConstraints = false
 //		let type = String(describing: data.self)
 //		print("type is \(type)|")
 		let tblCaption = UILabel()
+		//tblCaption.translatesAutoresizingMaskIntoConstraints = false
 		if structure?.caption != nil
 		{
 			//print("table caption:\(tblCaption.text)")
 			tblCaption.text = structure?.caption
 		}
 		let tblColumns = UIStackView()
+		//tblColumns.translatesAutoresizingMaskIntoConstraints = false
 		tblColumns.axis = .horizontal
+		tblColumns.spacing = (structure?.columnSpacing)!
 //		let keys = Orders().propertyNames()
 //		print("keys:\(keys)")
 		print("columns-")
@@ -238,8 +276,17 @@ class MakeTable: UIView
 			tblColumns.addArrangedSubview(buildColumn(colNum))//accumulate columns
 		}
 		let ordLayout = UIStackView(arrangedSubviews: [tblCaption, tblColumns])
+		ordLayout.spacing = (structure?.captionGap)!
+		ordLayout.translatesAutoresizingMaskIntoConstraints = false
 		ordLayout.axis = .vertical
 		table.addSubview(ordLayout)
+		//self.addSubview(table)
+//		NSLayoutConstraint.activate([
+//			table.topAnchor.constraint(equalTo: ordLayout.topAnchor),
+//			table.leadingAnchor.constraint(equalTo: ordLayout.leadingAnchor),
+//			table.bottomAnchor.constraint(equalTo: ordLayout.bottomAnchor),
+//			table.trailingAnchor.constraint(equalTo: ordLayout.trailingAnchor),
+//			])
 		return table
 	}
 

@@ -220,15 +220,13 @@ class LoginViewController: UIViewController
 		return emailTest.evaluate(with: email)
 	}
 	
+	
 	func getCustomerDetails()
 	{
 		let sv = UIViewController.displaySpinner(onView: self.view)
 		let myUrl = "\(url)?email=\(usernameTextField.text ?? "")&passwd=\(passwordTextField.text ?? "")"
 		//		rememberSwitchIsOn = rememberSwitch.isOn
-		
 		store.callGetCustomerDetails(from: myUrl, completion:
-			
-			//PSWebServices.getCustomer(from: myUrl)
 			{
 				(customer) in
 				
@@ -236,7 +234,7 @@ class LoginViewController: UIViewController
 				if let _ = customer as? Bool
 				{
 					let alertViewController = UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
-					alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+					alertViewController.addAction(UIAlertAction(title: R.string.ok, style: .default, handler: nil))
 					var dwi2: DispatchWorkItem?
 					dwi2 = DispatchWorkItem
 					{
@@ -249,11 +247,13 @@ class LoginViewController: UIViewController
 					let cust = customer as! Customer
 					if cust.deleted != "0"
 					{
-						self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.deld)
+						//self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.deld)
+						self.store.Alert(fromView: self, title: R.string.acc, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: R.string.deld, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 					}
 					else if cust.active != "1"
 					{
-						self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.notAct)
+						//self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.notAct)
+						self.store.Alert(fromView: self, title: R.string.acc, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: R.string.notAct, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 					}
 					else
 					{
@@ -262,6 +262,7 @@ class LoginViewController: UIViewController
 				}
 		})
 	}
+	
 	
 	fileprivate func successfullyGotCustomer(_ customer: Customer)
 	{
@@ -288,10 +289,82 @@ class LoginViewController: UIViewController
 		getDetails(id_customer: id!)
 	}
 
+	
 	func getDetails(id_customer: Int)
 	{
 		print("getDetails")
 //		let sv2 = UIViewController.displaySpinner(onView: self.view)
+		if store.customer != nil && store.orders.count < 1
+		{
+			let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+			if ord == nil || ord == ""
+				//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
+			{	//perform http get
+				store.getOrders(id_customer: id_customer)
+				{
+					(orders, err) in
+					
+					if err != nil
+					{
+						print(err!)
+						return
+					}
+					if let orders = orders
+					{
+						let ord = orders as? Orders
+						let ords = ord?.orders?.count
+						print("got \(ords ?? 0) orders")
+					}
+				}
+			}
+			else
+			{
+				//decode json string "ord"
+				let tempStr: String = store.trimJSONValueToArray(string: ord!)
+				let tempObj: [Order]
+				do
+				{
+					tempObj = try JSONDecoder().decode([Order].self, from: tempStr.data(using: .utf8)!)
+					for ords in tempObj
+					{
+						store.orders.append(ords)
+					}
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+				}
+				print("decoded \(store.orders.count) orders")
+			}
+		}
+		if store.customer != nil && store.customer?.lastname != ""
+		{
+			let addr = UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
+			if addr == nil || addr == ""
+			{
+				store.callGetCarts(id_customer: id_customer) { (carts, err) in
+					if err == nil
+					{
+						print("got \((carts as [aCart]?)?.count ?? 0) carts")
+						//print("got \((carts as [Carts]?)?.count ?? 0) carts")
+					}
+				}
+			}
+			else
+			{
+				let dataStr = addr?.data(using: .utf8)
+				do
+				{
+					let carts = try JSONDecoder().decode(Carts.self, from: dataStr!)
+					store.carts = carts.carts!
+					print("decoded \(store.carts.count) carts")
+				}
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
+		}
 		if store.addresses.count < 1
 		{
 			let addr = UserDefaults.standard.string(forKey: "AddressesCustomer\(id_customer)")
@@ -340,49 +413,6 @@ class LoginViewController: UIViewController
 		//		self.navigationController?.pushViewController(displayMA, animated: true)
 		//without storyboard
 		//		let displayMA = ViewController(nibName: "MyAccount", bundle: nil)
-		if store.customer != nil && store.orders.count < 1
-		{
-			let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
-			if ord == nil || ord == ""
-	//		if UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)") == ""
-			{	//perform http get
-				store.getOrders(id_customer: id_customer)
-				{
-					(orders, err) in
-					
-					if err != nil
-					{
-						print(err!)
-						return
-					}
-					if let orders = orders
-					{
-						let ord = orders as? [Order]
-						let ords = ord?.count
-						print("got \(String(describing: ords)) orders")
-					}
-				}
-			}
-			else
-			{
-				//decode json string "ord"
-				let tempStr: String = store.trimJSONValueToArray(string: ord!)
-				let tempObj: [Order]
-				do
-				{
-					tempObj = try JSONDecoder().decode([Order].self, from: tempStr.data(using: .utf8)!)
-					for ords in tempObj
-					{
-						store.orders.append(ords)
-					}
-				}
-				catch let jsonErr
-				{
-					print(jsonErr)
-				}
-				print("decoded \(store.orders.count) orders")
-			}
-		}
 		if store.customer != nil && store.orderDetails.count < 1
 		{
 			for order in store.orders
@@ -432,16 +462,7 @@ class LoginViewController: UIViewController
 					}
 					print("decoding an order detail")
 				}
-			}
-			print("getting \(store.orderDetails.count) order details")
-		}
-		if store.customer?.lastname != ""
-		{
-			store.callGetCarts(id_customer: id_customer) { (carts, err) in
-				if err == nil
-				{
-					print("got \((carts as [Carts]?)?.count ?? 0) carts")
-				}
+				print("getting \(store.orderDetails.count) order details")
 			}
 		}
 		self.successfullyGotDetails(id_customer: id_customer)
@@ -524,6 +545,28 @@ class LoginViewController: UIViewController
 			catch _
 			{
 				print("file read error")//:\(e)")
+				let ud = UserDefaults.standard.string(forKey: "Customer")
+				if ud != nil
+				{
+					let dataStr = ud?.data(using: .utf8)
+					//UIViewController.removeSpinner(spinner: sv)
+					do
+					{
+						let bits = try JSONDecoder().decode(Customer.self, from: dataStr!)
+						store.customer = bits
+						print("decoded customer (\(bits.id_customer ?? ""))")
+						self.successfullyGotCustomer(bits)
+						swapout()
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				else
+				{
+					print("no customer in user data")
+				}
 			}
 			if false
 			{

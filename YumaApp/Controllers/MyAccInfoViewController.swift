@@ -148,9 +148,10 @@ class MyAccInfoViewController: UIViewController
 			mTitle = ""
 			mMessage = ""
 		}
-		let alert = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
-		self.present(alert, animated: true, completion: nil)
+		//let alert = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
+		//alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+		//self.present(alert, animated: true, completion: nil)
+		store.Alert(fromView: self, title: mTitle, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: mMessage, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 	}
 	
 	func setEmailField()

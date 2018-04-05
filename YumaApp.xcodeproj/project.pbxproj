@@ -236,6 +236,7 @@
 		CF7E866D202CBA5B0014B787 /* ProductTemplate.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductTemplate.xib; sourceTree = "<group>"; };
 		CF7E866F202CFB920014B787 /* ProductViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewCell.swift; sourceTree = "<group>"; };
 		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
+		CF8DC9BF20765CBA00D06575 /* ISSUES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ISSUES.md; sourceTree = "<group>"; };
 		CF904E422057FD190086068E /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		CF904E46205850320086068E /* CustomerOrdersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersVC.swift; sourceTree = "<group>"; };
 		CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccInfoViewController.swift; sourceTree = "<group>"; };
@@ -442,6 +443,7 @@
 				CFAFC086201F6DA1002CBC1B /* YumaApp */,
 				CFF4A8C5204F0D58005AE5C8 /* Default-568h@2x.png */,
 				CFF4A8BF204EFFFA005AE5C8 /* Assets.xcassets */,
+				CF8DC9BF20765CBA00D06575 /* ISSUES.md */,
 				CFAFC09B201F6DA1002CBC1B /* YumaAppTests */,
 				CFAFC0A6201F6DA1002CBC1B /* YumaAppUITests */,
 				CFAFC085201F6DA1002CBC1B /* Products */,

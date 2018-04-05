@@ -64,9 +64,28 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 
 		if Reachability.isConnectedToNetwork()
 		{
-			store.callGetCountries { (countries) in
-				print("got \((countries as! [Country]).count) countries")
+			let ud = UserDefaults.standard.string(forKey: "Countries")
+			if ud == nil || ud == ""
+			{
+				store.callGetCountries { (countries) in
+					print("got \((countries as! [Country]).count) countries")
+				}
 			}
+			else
+			{
+				let dataStr = ud?.data(using: .utf8)
+				do
+				{
+					let bits = try JSONDecoder().decode([Country].self, from: dataStr!)
+					store.countries = bits
+					print("decoded \(bits.count) carts")
+				}
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
+
 			store.callGetStates(id_country: 0) { (states) in
 				print("got \((states as! [CountryState]).count) states")
 			}

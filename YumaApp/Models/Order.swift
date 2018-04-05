@@ -166,7 +166,7 @@ struct Order: Decodable, PropertyNames
 		case associations
 	}
 }
-struct Orders
+struct Orders: Decodable
 {
 	let orders: [Order]?
 }

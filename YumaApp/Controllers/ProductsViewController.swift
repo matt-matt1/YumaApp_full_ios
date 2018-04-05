@@ -150,6 +150,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
+	
 	func populateCartTotal() -> (Double, Int, String)
 	{
 		wt = 0
@@ -346,6 +347,12 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					self.pageControl.pageIndicatorTintColor = R.color.YumaYel
 					self.pageControl.numberOfPages = self.store.products.count
 					print("found \(self.store.products.count) products")
+					if self.store.products.count < 1
+					{
+						self.store.Alert(fromView: self, title: R.string.err, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.empty, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
+							self.dismiss(animated: false, completion: nil)
+						}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+					}
 					print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
 					self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
 					self.insertData()
