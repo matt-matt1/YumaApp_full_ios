@@ -39,6 +39,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	var latestIsUpdate = false
 	var cartCellHeight: CGFloat = 100
 	var cartCellVSpace: CGFloat = 5
+	var total: Double = 0
+	var pcs: Int = 0
+	var wt: Double = 0
 
 	
 	override func viewDidLoad()
@@ -149,9 +152,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	
 	func populateCartTotal() -> (Double, Int, String)
 	{
-		var total: Double = 0
-		var pcs: Int = 0
-		var wt: Double = 0
+		wt = 0
+		pcs = 0
+		total = 0
 		var i = 0
 		for row in store.myOrderRows
 		{
@@ -379,6 +382,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//			{
 		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		//			})
+		store.myOrder?.totalProductsWt = String(wt)
+		store.myOrder?.totalPaidTaxExcl = String(total)
+		store.myOrder?.totalProducts = String(pcs)
 		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
 		self.present(vc!, animated: false, completion: (() -> Void)?
 			{

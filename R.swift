@@ -301,6 +301,7 @@ struct R {
 		static let err = "Error:"
 		static let deld = "Deleted"
 		static let notAct = "Not Active"
+		static let or = "or"
 		//		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"
@@ -393,6 +394,9 @@ struct R {
 		static let wrong = "Incorrect Username / Password"
 		static let acc = "Account"
 		static let remember = "Remember Me"
+		static let logAs = "Logged-in as"
+		static let without = "Order without logging in"
+		static let withoutMore = "ie. Forget delerivy address"
 		//		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"
