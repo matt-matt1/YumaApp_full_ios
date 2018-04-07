@@ -303,6 +303,8 @@ struct R {
 		static let notAct = "Not Active"
 		static let or = "or"
 		static let ok = "OK"
+		static let tryAgain = "Try again"
+		static let nickName = "nick name"
 		//		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"
@@ -387,6 +389,7 @@ struct R {
 		static let orderHistoryTop = "Here are the orders you've placed since your account was created."
 		static let noOrderHist = "No past orders have been made."
 		static let ordRef = "Order reference"
+		static let placed = "placed"
 		static let ordFoll = "Follow your order status (step-by-step)"
 		static let delAddr = "Delivery address"
 		static let invAddr = "Invoice address"
@@ -450,6 +453,7 @@ struct R {
 		static let msgSucc = "Message successfully sent"
 		static let addMsg = "Add a message"
 		static let msgTop = "If you would like to add a comment about your order, please write it in the field below."
+		static let plsChoose = "-- please choose --"
 		//		<!--checkout-->
 		static let Chkout = "Checkout"
 		static let process = "process"

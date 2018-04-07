@@ -489,6 +489,7 @@ class LoginViewController: UIViewController
 //		if customer.count > 0
 		if store.customer != nil && store.customer?.lastname != ""
 		{
+			let _ = UIViewController.displaySpinner(onView: self.view)
 			swapout()
 		}
 //////
@@ -499,6 +500,7 @@ class LoginViewController: UIViewController
 //			let customer = store.customer
 //			if customer[0].id_customer != nil
 //			{
+			let _ = UIViewController.displaySpinner(onView: self.view)
 			swapout()
 //			}
 		}
@@ -548,6 +550,7 @@ class LoginViewController: UIViewController
 				let ud = UserDefaults.standard.string(forKey: "Customer")
 				if ud != nil
 				{
+					let _ = UIViewController.displaySpinner(onView: self.view)
 					let dataStr = ud?.data(using: .utf8)
 					//UIViewController.removeSpinner(spinner: sv)
 					do

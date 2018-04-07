@@ -151,11 +151,9 @@ Will attempt to recover by breaking constraint
 	}
 	@IBAction func buttonLeftAct(_ sender: Any)
 	{
-		self.dismiss(animated: false, completion: nil)
 	}
 	@IBAction func buttonRightAct(_ sender: Any)
 	{
-		self.dismiss(animated: false, completion: nil)
 	}
 
 	

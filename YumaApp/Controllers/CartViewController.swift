@@ -31,12 +31,10 @@ class CartViewController: UIViewController
 	//MARK: Properties
 	let store = DataStore.sharedInstance
 	let cellID = "cartCell"
-//	private var contents = ["Apple", "Apricot", "Banana", "Blueberry", "Cantaloupe", "Cherry",
-//				  "Clementine", "Coconut", "Cranberry", "Fig", "Grape", "Grapefruit",
-//				  "Kiwi fruit", "Lemon", "Lime", "Lychee", "Mandarine", "Mango",
-//				  "Melon", "Nectarine", "Olive", "Orange", "Papaya", "Peach",
-//				  "Pear", "Pineapple", "Raspberry", "Strawberry"]
-	
+	var total: Double = 0
+	var pcs: Int = 0
+	var wt: Double = 0
+
 	
 	override func viewDidLoad()
 	{
@@ -64,9 +62,6 @@ class CartViewController: UIViewController
 		}
 		else
 		{
-			var total: Double = 0
-			var pcs: Int = 0
-			var wt: Double = 0
 			for row in store.myOrderRows
 			{
 				//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
@@ -100,7 +95,7 @@ class CartViewController: UIViewController
 				totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
 				totalPcs.text = "\(pcs)"
 				let date = Date()
-				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "\(total)", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
 				//print(store.myOrder)
 			}
 		}
@@ -132,6 +127,9 @@ class CartViewController: UIViewController
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: chkoutBtn)
+		store.myOrder?.totalProductsWt = String(wt)
+		store.myOrder?.totalPaidTaxExcl = String(total)
+		store.myOrder?.totalProducts = String(pcs)
 		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
 		self.present(vc!, animated: false, completion: nil)
 	}

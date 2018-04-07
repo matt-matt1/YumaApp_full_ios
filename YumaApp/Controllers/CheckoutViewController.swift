@@ -67,7 +67,6 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 		print("panelHeight=\(panelHeight)")
 		//cartScroll.layoutIfNeeded()
 		cartPanel.layoutIfNeeded()
-		fillPanelsWithViews()
 		preparePanels()
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
@@ -80,7 +79,8 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.normal)
-		
+		fillPanelsWithViews()
+
 		/////cart table
 		prepareMiniCart()
 		/////
@@ -387,7 +387,7 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 				//let step = CheckoutStep1ViewController()
 				panel1Contents.layoutIfNeeded()
 				print("x:\(panel1Contents.frame.origin.x), y:\(panel1Contents.frame.origin.y), width:\(panel1Contents.frame.width), height:\(panel1Contents.frame.height)")
-				let stack = CheckoutStep1View(frame: CGRect(x: panel1Contents.frame.origin.x, y: panel1Contents.frame.origin.y, width: panel1Contents.frame.width, height: 100/*panel1Contents.frame.height*/))
+				let stack = CheckoutStep1View(frame: CGRect(x: panel1Contents.frame.origin.x, y: panel1Contents.frame.origin.y, width: panel1Contents.frame.width, height: 200/*panel1Contents.frame.height*/))
 				//stack.addArrangedSubview(step)
 				panel1Contents.addSubview(stack)
 			}
@@ -399,11 +399,29 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 	{
 		return view.superview?.frame.height != self.panelMinHeight
 	}
+	func hidePanel(view: UIView)
+	{
+		view.superview?.heightAnchor.constraint(equalToConstant: self.panelMinHeight).isActive = true
+	}
 	func is_closed(view: UIView) -> Bool
 	{
 		return view.superview?.frame.height != self.panelHeight
 	}
-	
+	func showPanel(view: UIView)
+	{
+		view.superview?.heightAnchor.constraint(equalToConstant: self.panelHeight).isActive = true
+	}
+	func hidePanelIfOpen(view: UIView) -> Bool
+	{
+		if self.is_open(view: view)
+		{
+			self.hidePanel(view: view)
+			print("closing panel \(view.tag+1)")
+			return true
+		}
+		return false
+	}
+
 	fileprivate func accordian(_ num: Int)
 	{
 		guard num > 0 && num < 5 else
@@ -515,7 +533,7 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 		})
 		*/
 /**/
-		UIView.animate(withDuration: 1.3, animations: {
+		UIView.animate(withDuration: 0.3, animations: {
 			for i in 0..<4
 			{
 				print(i+1)
@@ -523,11 +541,13 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 				if i != num-1
 				{
 					print("not num")
-					if self.is_open(view: self.panel[i])
-					{
-						self.panel[i].superview?.heightAnchor.constraint(equalToConstant: self.panelMinHeight).isActive = true
-						print("closing panel \(i+1)")
-					}
+					_ = self.hidePanelIfOpen(view: self.panel[i])
+//					if self.is_open(view: self.panel[i])
+//					{
+//						self.hidePanel(view: self.panel[i])
+//						//self.panel[i].superview?.heightAnchor.constraint(equalToConstant: self.panelMinHeight).isActive = true
+//						print("closing panel \(i+1)")
+//					}
 				}
 			}
 		})
@@ -735,6 +755,7 @@ extension CheckoutViewController: UITableViewDataSource, UITableViewDelegate
 
 class CheckoutStep1View: UIView
 {
+	let nameLabel = UILabel()
 	let store = DataStore.sharedInstance
 	let stack: UIStackView =
 	{
@@ -753,14 +774,14 @@ class CheckoutStep1View: UIView
 			//not logged-in
 			let loginBtn = UIButton()
 			loginBtn.setTitle(R.string.login, for: .normal)
-			loginBtn.translatesAutoresizingMaskIntoConstraints = false
+			//loginBtn.translatesAutoresizingMaskIntoConstraints = false
 			let orLabel = UILabel()
 			orLabel.text = "- or -"//R.string.or
 			orLabel.textAlignment = .center
-			orLabel.translatesAutoresizingMaskIntoConstraints = false
+			//orLabel.translatesAutoresizingMaskIntoConstraints = false
 			let withoutLabel = UILabel()
 			withoutLabel.text = R.string.without
-			withoutLabel.translatesAutoresizingMaskIntoConstraints = false
+			//withoutLabel.translatesAutoresizingMaskIntoConstraints = false
 			let withoutSwitch = UISwitch()
 			withoutSwitch.tintColor = R.color.YumaRed
 			withoutSwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -771,16 +792,15 @@ class CheckoutStep1View: UIView
 			let stack = UIStackView(arrangedSubviews: [loginBtn, orLabel, row])
 			stack.spacing = 20
 			stack.axis = UILayoutConstraintAxis.vertical
-			stack.translatesAutoresizingMaskIntoConstraints = false
+			//stack.translatesAutoresizingMaskIntoConstraints = false
 		}
 		else
 		{
 			//logged-in
 			let asLabel = UILabel()
 			asLabel.text = R.string.logAs
-			asLabel.translatesAutoresizingMaskIntoConstraints = false
-			let nameLabel = UILabel()
-			nameLabel.translatesAutoresizingMaskIntoConstraints = false
+			//asLabel.translatesAutoresizingMaskIntoConstraints = false
+			//nameLabel.translatesAutoresizingMaskIntoConstraints = false
 			if (store.customer?.lastname != nil && store.customer?.lastname != "" && store.customer?.firstname != nil && store.customer?.firstname != "")
 			{
 				nameLabel.text = (store.customer?.firstname)! + " " + (store.customer?.lastname)!
@@ -797,7 +817,7 @@ class CheckoutStep1View: UIView
 			signOutBtn.setTitle(R.string.SignOut, for: .normal)
 			signOutBtn.target(forAction: #selector(MyAccountViewController.signOutBtnAct(_:)), withSender: nil)
 			//signOutBtn.addTarget(self, action: #selector(MyAccountViewController.signOutBtnAct(_:)), for: .action)
-			signOutBtn.translatesAutoresizingMaskIntoConstraints = false
+			//signOutBtn.translatesAutoresizingMaskIntoConstraints = false
 			let stack = UIStackView(arrangedSubviews: [row, signOutBtn])
 			stack.spacing = 20
 			stack.axis = .vertical

@@ -45,9 +45,12 @@
 		CF453EA2206ABD3E00E9FCE1 /* UIAlertAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453E9F206ABD3D00E9FCE1 /* UIAlertAction+Extension.swift */; };
 		CF453EA3206ABD3E00E9FCE1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */; };
 		CF453EA5206ABDB500E9FCE1 /* MobileDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453EA4206ABDB500E9FCE1 /* MobileDataItem.swift */; };
+		CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4823E52076C80D00DF3DB8 /* MakeTable.swift */; };
 		CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */; };
 		CF4D4FF620587AD30090544B /* CustomCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D4FF520587AD30090544B /* CustomCollectionViewController.swift */; };
 		CF4D4FF8205883970090544B /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D4FF7205883970090544B /* CustomCollectionViewLayout.swift */; };
+		CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */; };
+		CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */; };
 		CF5C72AB20485072008763DB /* SwipingControllerCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C72AA20485072008763DB /* SwipingControllerCollection.swift */; };
 		CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */; };
 		CF5C73092049AB32008763DB /* CartStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF5C73082049AB32008763DB /* CartStoryboard.storyboard */; };
@@ -192,9 +195,12 @@
 		CF453E9F206ABD3D00E9FCE1 /* UIAlertAction+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+Extension.swift"; sourceTree = "<group>"; };
 		CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CF453EA4206ABDB500E9FCE1 /* MobileDataItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDataItem.swift; sourceTree = "<group>"; };
+		CF4823E52076C80D00DF3DB8 /* MakeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeTable.swift; sourceTree = "<group>"; };
 		CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopsViewController.swift; sourceTree = "<group>"; };
 		CF4D4FF520587AD30090544B /* CustomCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewController.swift; sourceTree = "<group>"; };
 		CF4D4FF7205883970090544B /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
+		CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
+		CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressExpandedViewController.swift; sourceTree = "<group>"; };
 		CF5C72AA20485072008763DB /* SwipingControllerCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingControllerCollection.swift; sourceTree = "<group>"; };
 		CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingControllerTaps.swift; sourceTree = "<group>"; };
 		CF5C73082049AB32008763DB /* CartStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CartStoryboard.storyboard; sourceTree = "<group>"; };
@@ -395,6 +401,7 @@
 				CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */,
 				CFF4A7E4204EE5F9005AE5C8 /* ServicesCell.swift */,
 				CF904E422057FD190086068E /* CartCell.swift */,
+				CF4823E52076C80D00DF3DB8 /* MakeTable.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -432,6 +439,7 @@
 				CF453EA6206ACF4800E9FCE1 /* CustomizableAlertController-Medium */,
 				CF453EA7206ACF8100E9FCE1 /* CustomAlertController */,
 				CF26FFC120586C1300532C11 /* CustomerOrders.storyboard */,
+				CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */,
 				CF4D4FF7205883970090544B /* CustomCollectionViewLayout.swift */,
 				CF4D4FF520587AD30090544B /* CustomCollectionViewController.swift */,
 				CF26FFC320586CD300532C11 /* CustomCollectionViewCell.swift */,
@@ -572,6 +580,7 @@
 				CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */,
 				CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */,
 				CF72A5562072D9EE00A86B8A /* CheckoutStep4ViewController.swift */,
+				CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -942,6 +951,7 @@
 				CF601A042049F87400217025 /* MyExtentions.swift in Sources */,
 				CF63DD34206424AC00025007 /* CustomAlertView.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
+				CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */,
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
@@ -959,6 +969,7 @@
 				CF4D4FF8205883970090544B /* CustomCollectionViewLayout.swift in Sources */,
 				CF7E8670202CFB920014B787 /* ProductViewCell.swift in Sources */,
 				CF182DCC20331DA00070B9E5 /* Products.swift in Sources */,
+				CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,
 				CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */,
 				CF126948204C8B63008EFD04 /* Currencies.swift in Sources */,
@@ -973,6 +984,7 @@
 				CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */,
 				CF4D4FF620587AD30090544B /* CustomCollectionViewController.swift in Sources */,
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,
+				CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */,
 				CF72A5572072D9EE00A86B8A /* CheckoutStep4ViewController.swift in Sources */,
 				CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */,
 				CF384BF2205EBB17005CCD57 /* APIError.swift in Sources */,
