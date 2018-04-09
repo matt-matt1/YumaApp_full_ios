@@ -19,8 +19,7 @@ class CustomerOrdersVC: UIViewController
 	@IBOutlet weak var mainStack: UIStackView!
 	@IBOutlet weak var errorView: UIView!
 	@IBOutlet weak var errorMessage: UILabel!
-	@IBOutlet weak var tableStack: UIStackView!
-	//var dataTable: SwiftDataTable! = nil!
+	@IBOutlet weak var insertHere: UIView!
 	let store = DataStore.sharedInstance
 	
 	
@@ -32,26 +31,42 @@ class CustomerOrdersVC: UIViewController
 		if store.orders.count > 0
 		{
 //			errorView.isHidden = true
-			errorView.removeFromSuperview()
+			errorView.superview?.removeFromSuperview()
+//			self.view.layoutIfNeeded()
+			errorView.superview?.layoutIfNeeded()
 			drawTable()
 		}
 		else
 		{
 			errorMessage.text = R.string.noOrderHist
-			let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (action) in
-				self.dismiss(animated: false, completion: nil)
-			}))
-			OperationQueue.main.addOperation {
-				self.present(alert, animated: false, completion: nil)
+			self.store.Alert(fromView: self, title: R.string.empty, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.tryAgain, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
+//				OperationQueue.main.addOperation {
+//					self.navigationController!.popViewController(animated: false)
+//					self.dismiss(animated: false, completion: nil)
+//				}
+//				return
+			}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+			{
+//				OperationQueue.main.addOperation {
+//					self.navigationController!.popViewController(animated: false)
+					self.dismiss(animated: false, completion: nil)
+//				}
+//				return
 			}
+//			let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+//			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (action) in
+//				self.dismiss(animated: false, completion: nil)
+//			}))
+//			OperationQueue.main.addOperation {
+//				self.present(alert, animated: false, completion: nil)
+//			}
 		}
 	}
 	
 	
 	func drawTable()
 	{
-		let myTable = MakeTable()//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
+		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
 		myTable.data = store.orders
 		myTable.structure =
 			MyTable(caption: R.string.orderHistoryTop,
@@ -139,21 +154,45 @@ class CustomerOrdersVC: UIViewController
 				]
 		)
 		//self.view.addSubview(myTable.buildView())
+//		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 		let built = myTable.buildView()
+		built.translatesAutoresizingMaskIntoConstraints = false
+//		print("x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
 		//			let built = myTable
-		self.tableStack.addArrangedSubview(built)
+//		let stack = UIStackView()
+//		stack.translatesAutoresizingMaskIntoConstraints = false
+//		stack.addArrangedSubview(built)
+//		scrollView.addSubview(stack)
+		insertHere.addSubview(built)
+		//self.tableStack.addArrangedSubview(built)
+		//print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 		//tableStack.superview?.addSubview(built)
-		/*			NSLayoutConstraint.activate([
-		//				built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
-		//				built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
-		//				built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
-		//				built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
+		NSLayoutConstraint.activate([
+//			built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
+//			built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
+//			built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
+//			built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
 		
-		built.topAnchor.constraint(equalTo: tableStack.topAnchor),
-		built.leadingAnchor.constraint(equalTo: tableStack.leadingAnchor),
-		built.bottomAnchor.constraint(equalTo: tableStack.bottomAnchor),
-		built.trailingAnchor.constraint(equalTo: tableStack.trailingAnchor),
-		])*/
+			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
+			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
+			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
+			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
+			
+//			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+//			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+//			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+//			stack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+		])
+//		self.tableStack.layoutIfNeeded()
+//		tableStack.superview?.constraints.forEach({ (constraint) in
+//			if constraint.firstAnchor == NSLayoutAnchor.constraint(heightAnchor
+//			{
+//				constraint.isActive = false
+//			}
+//		})
+//		tableStack.superview?.constraints.first { $0.firstAnchor == heightAnchor }?.isActive = false
+//		tableStack.superview?.removeConstraint(NSLayoutConstraint(item: <#T##Any#>, attribute: <#T##NSLayoutAttribute#>, relatedBy: <#T##NSLayoutRelation#>, toItem: <#T##Any?#>, attribute: <#T##NSLayoutAttribute#>, multiplier: <#T##CGFloat#>, constant: <#T##CGFloat#>))
+		//.heightAnchor.constraint(equalToConstant: built.frame.height).isActive = true
 	}
 	
 	
@@ -255,6 +294,13 @@ class CustomerOrdersVC: UIViewController
 	}
 	
 
+	@IBAction func tempDetailsAct(_ sender: Any)
+	{
+		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
+		vc.order = store.orders[0]
+		vc.details = store.orderDetails[0]
+		self.present(vc, animated: false, completion: nil)
+	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: false, completion: nil)

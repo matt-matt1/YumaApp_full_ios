@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,6 +28,7 @@
                 <outlet property="myMap" destination="gYX-p5-9Yn" id="CIG-aN-bQc"/>
                 <outlet property="navBar" destination="2Sk-ZW-fqK" id="mSb-TX-mmE"/>
                 <outlet property="navClose" destination="Lms-Bk-23t" id="oVv-SU-aXN"/>
+                <outlet property="navHelp" destination="Sad-ue-jp2" id="XH5-rH-2bL"/>
                 <outlet property="navTitle" destination="HG9-Lp-Rvo" id="dpK-vt-sjs"/>
                 <outlet property="phoneBtn" destination="WwN-Ty-50Z" id="79d-pv-KHp"/>
                 <outlet property="phoneIcon" destination="TCT-xv-sgx" id="co7-Uh-RFF"/>
@@ -47,10 +48,10 @@
                     <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                     <subviews>
                         <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Sk-ZW-fqK">
-                            <rect key="frame" x="0.0" y="0.0" width="768" height="47"/>
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="46"/>
                             <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="47" id="BzW-b4-tF1"/>
+                                <constraint firstAttribute="height" constant="46" id="BzW-b4-tF1"/>
                             </constraints>
                             <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <textAttributes key="titleTextAttributes">
@@ -69,15 +70,18 @@
                                     </barButtonItem>
                                     <barButtonItem key="rightBarButtonItem" title="help" id="Sad-ue-jp2">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="navHelpAct:" destination="-1" id="4ps-hF-upz"/>
+                                        </connections>
                                     </barButtonItem>
                                 </navigationItem>
                             </items>
                         </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sad-yE-exX">
-                            <rect key="frame" x="0.0" y="47" width="768" height="957"/>
+                            <rect key="frame" x="0.0" y="46" width="768" height="958"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="k0j-dd-37l">
-                                    <rect key="frame" x="5" y="0.0" width="758" height="957"/>
+                                    <rect key="frame" x="5" y="0.0" width="758" height="958"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fO9-VL-LNg">
                                             <rect key="frame" x="0.0" y="0.0" width="758" height="212"/>
@@ -363,29 +367,29 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gs6-67-bDG">
-                                            <rect key="frame" x="0.0" y="212" width="758" height="745"/>
+                                            <rect key="frame" x="0.0" y="212" width="758" height="746"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zp5-oS-C2E">
-                                                    <rect key="frame" x="0.0" y="0.0" width="758" height="735"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="758" height="736"/>
                                                     <subviews>
                                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gYX-p5-9Yn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="347"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="605.5"/>
                                                         </mapView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVw-Vd-b0B">
-                                                            <rect key="frame" x="0.0" y="357" width="758" height="287.5"/>
+                                                            <rect key="frame" x="0.0" y="615.5" width="758" height="30"/>
                                                             <state key="normal" title="My Location"/>
                                                             <connections>
                                                                 <action selector="directionsAct:" destination="-1" eventType="touchUpInside" id="aQl-Y2-B0C"/>
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6dj-ea-NaR">
-                                                            <rect key="frame" x="0.0" y="654.5" width="758" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="655.5" width="758" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vPq-dq-zJS">
-                                                            <rect key="frame" x="0.0" y="685" width="758" height="50"/>
+                                                            <rect key="frame" x="0.0" y="686" width="758" height="50"/>
                                                             <subviews>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHX-9V-wmf">
                                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>

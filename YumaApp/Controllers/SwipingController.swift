@@ -19,9 +19,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	//MARK: Properties
 	var cellId = 			"cellID"
 	let pageContent: 		[Slide] = [
-		Slide(id: 1, image: "home-slider-printers", caption1: "Laser Printers", caption2: "", target: #selector(printTapped(_:))),
-		Slide(id: 1, image: "home-slider-cartridges", caption1: "Toner Cartridges", caption2: "that last", target: #selector(tonersTapped(_:))),
-		Slide(id: 1, image: "home-slider-laptops", caption1: "Laptop Computers", caption2: "", target: #selector(laptopTapped(_:)))
+		Slide(id: 1, image: "home-slider-printers", caption1: "Laser Printers", caption2: "", target: #selector(printTapped)),
+		Slide(id: 1, image: "home-slider-cartridges", caption1: "Toner Cartridges", caption2: "that last", target: #selector(tonersTapped)),
+		Slide(id: 1, image: "home-slider-laptops", caption1: "Laptop Computers", caption2: "", target: #selector(laptopTapped))
 	]
 	let store = DataStore.sharedInstance
 	let prevBtn: 			UIButton =

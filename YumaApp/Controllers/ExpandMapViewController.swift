@@ -31,6 +31,8 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		navBar.translatesAutoresizingMaskIntoConstraints = false
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		if #available(iOS 11.0, *)
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

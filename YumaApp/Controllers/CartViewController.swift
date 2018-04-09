@@ -51,6 +51,8 @@ class CartViewController: UIViewController
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navigationItem.title = R.string.cart
 		tableView.layoutIfNeeded()
 		totalPcsLbl.text = R.string.pieces
@@ -62,58 +64,93 @@ class CartViewController: UIViewController
 		}
 		else
 		{
-			for row in store.myOrderRows
-			{
-				//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
-				total += (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
-				pcs += Int(row.productQuantity!)!
-				var prod: aProduct?
-				for p in store.products
-				{
-					if String(p.id!) == row.productId!
-					{
-						prod = p
-					}
-				}
-				if prod != nil
-				{
-					wt += Double((prod?.weight!)!)!
-				}
-				//R.string.Total.uppercased()
-				totalWt.text = "\(wt)"
-			}
-			if total < 1
-			{
-				DispatchQueue.main.async {
-					self.alertEmpty()
-				}
-			}
-			else
-			{
-				//totalAmt.text = "\(total)"
-				let totalDbl = total as NSNumber
-				totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
-				totalPcs.text = "\(pcs)"
-				let date = Date()
-				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "\(total)", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
-				//print(store.myOrder)
-			}
+			calcTotal()
 		}
     }
+
 	
+	fileprivate func calcTotal()
+	{
+		total = 0
+		pcs = 0
+		wt = 0
+		for row in store.myOrderRows
+		{
+			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
+			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			pcs += Int(row.product_quantity!)!
+			var prod: aProduct?
+			for p in store.products
+			{
+				if String(p.id!) == row.product_id!
+				{
+					prod = p
+				}
+			}
+			if prod != nil
+			{
+				wt += Double((prod?.weight!)!)!
+			}
+			//R.string.Total.uppercased()
+			totalWt.text = "\(wt)"
+		}
+		if total < 1
+		{
+			DispatchQueue.main.async {
+				self.alertEmpty()
+			}
+		}
+		else
+		{
+			//totalAmt.text = "\(total)"
+			let totalDbl = total as NSNumber
+			totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
+			totalPcs.text = "\(pcs)"
+			let date = Date()
+			store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "\(total)", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+			//				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "\(total)", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+			//print(store.myOrder)
+		}
+	}
+
 	
 	func alertEmpty()
 	{
-		let alert = UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: R.string.back, style: .default, handler: nil))
-		self.present(alert, animated: true, completion:
+		DispatchQueue.main.async
+		{
+			let alert = UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
+			let coloredBG = 					UIView()
+			let blurFx = 						UIBlurEffect(style: .dark)
+			let blurFxView = 					UIVisualEffectView(effect: blurFx)
+			alert.titleAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+			alert.messageAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+			alert.view.superview?.backgroundColor = R.color.YumaRed
+			alert.view.shadowColor = R.color.YumaDRed
+			alert.view.shadowOffset = .zero
+			alert.view.shadowRadius = 5
+			alert.view.shadowOpacity = 1
+			alert.view.backgroundColor = R.color.YumaYel
+			alert.view.cornerRadius = 15
+			coloredBG.backgroundColor = 	R.color.YumaRed
+			coloredBG.alpha = 				0.4
+			coloredBG.frame = 				self.view.bounds
+			self.view.addSubview(coloredBG)
+			blurFxView.frame = 				self.view.bounds
+			blurFxView.alpha = 				0.5
+			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+			self.view.addSubview(blurFxView)
+			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler: { (action) in
+				//				DispatchQueue.main.async
+				//					{
+				coloredBG.removeFromSuperview()
+				blurFxView.removeFromSuperview()
+				self.dismiss(animated: false, completion: nil)
+				//					}
+			}))
+			self.present(alert, animated: true, completion:
 			{
-				DispatchQueue.main.async
-					{
-						self.dismiss(animated: false, completion: nil)
-					}
-			}
-		)
+			})
+		}
 	}
 	
 
@@ -127,9 +164,9 @@ class CartViewController: UIViewController
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: chkoutBtn)
-		store.myOrder?.totalProductsWt = String(wt)
-		store.myOrder?.totalPaidTaxExcl = String(total)
-		store.myOrder?.totalProducts = String(pcs)
+		store.myOrder?.total_products_wt = String(wt)
+		store.myOrder?.total_paid_tax_excl = String(total)
+		store.myOrder?.total_products = String(pcs)
 		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
 		self.present(vc!, animated: false, completion: nil)
 	}
@@ -151,30 +188,50 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		//		guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? TableViewCell else
-		//		{
-		//			fatalError("table dequeue error")
-		//		}
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellID/*, for: indexPath*/) as! CartViewCell
-		//let text = contents[indexPath.row]
-		cell.setup(store.myOrderRows[indexPath.row])//cell.setup(string: text)
-		//cell.cellLabel.text = text
-		//cell.textLabel?.text = text//.cellLabel?.text = text
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! CartViewCell
+		cell.setup(store.myOrderRows[indexPath.row])
 		cell.rightButtons = [MGSwipeButton(title: R.string.delete, backgroundColor: .red) {
 			(sender: MGSwipeTableCell!) -> Bool in
 			
-			/*self.store.Alert(fromView: <#T##UIViewController#>, title: <#T##String?#>, titleColor: <#T##UIColor?#>, titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>, message: <#T##String?#>, messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>, dialogBackgroundColor: <#T##UIColor?#>, backgroundBackgroundColor: <#T##UIColor?#>, backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>, borderColor: <#T##UIColor?#>, borderWidth: <#T##CGFloat?#>, cornerRadius: <#T##CGFloat?#>, shadowColor: <#T##UIColor?#>, shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>, hasButton1: <#T##Bool#>, button1Title: <#T##String?#>, button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>, hasButton2: <#T##Bool#>, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>)*/
-			self.store.Alert(fromView: self, title: R.string.rusure, titleColor: R.color.YumaRed, message: "", dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaDRed, borderColor: R.color.YumaRed, borderWidth: 1, shadowColor: R.color.YumaDRed, shadowRadius: 8, hasButton1: true, button1Title: R.string.delete.uppercased(), button1Style: .destructive, /*button1Color: .green,*/ button1Action:
+			DispatchQueue.main.async
 				{
-					() -> Void in
-					
-					print("delete item:\(indexPath.row)")
-					self.store.myOrderRows.remove(at: indexPath.row)
-					DispatchQueue.main.async {
-						tableView.reloadSections([0], with: UITableViewRowAnimation.fade)
-					}
-					return
-			}, hasButton2: true, button2Title: R.string.cancel.uppercased()/* ,button2Style: .cancel, button2Color: .red*/)
+					let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(cell.prodTitle.text!)\"", preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = R.color.YumaDRed
+					alert.view.shadowOffset = .zero
+					alert.view.shadowRadius = 5
+					alert.view.shadowOpacity = 1
+					alert.view.backgroundColor = R.color.YumaYel
+					alert.view.cornerRadius = 15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.3
+					coloredBG.frame = 				self.view.bounds
+					self.view.addSubview(coloredBG)
+					blurFxView.frame = 				self.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					self.view.addSubview(blurFxView)
+					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+							coloredBG.removeFromSuperview()
+							blurFxView.removeFromSuperview()
+					}))
+					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+							print("delete item:\(indexPath.row)")
+							coloredBG.removeFromSuperview()
+							blurFxView.removeFromSuperview()
+							self.store.myOrderRows.remove(at: indexPath.row)
+							tableView.reloadSections([0], with: UITableViewRowAnimation.fade)
+							self.calcTotal()
+					}))
+					self.present(alert, animated: true, completion:
+						{
+					})
+			}
 			return true
 			}]
 		return cell

@@ -22,6 +22,7 @@ class ContactUsViewController: UIViewController
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
 	@IBOutlet weak var phoneIcon: UILabel!
 	@IBOutlet weak var phoneNumber: UILabel!
 	@IBOutlet weak var phoneBtn: UIButton!
@@ -91,6 +92,8 @@ class ContactUsViewController: UIViewController
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
 		phoneBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
@@ -363,6 +366,9 @@ class ContactUsViewController: UIViewController
 	@IBAction func closeView(sender: AnyObject)
 	{
 		self.dismiss(animated: true, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
 	}
 	
 //	override func didReceiveMemoryWarning()

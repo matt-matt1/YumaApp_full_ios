@@ -462,7 +462,7 @@ class LoginViewController: UIViewController
 					}
 					print("decoding an order detail")
 				}
-				print("getting \(store.orderDetails.count) order details")
+				//print("getting \(store.orderDetails.count) order details")
 			}
 		}
 		self.successfullyGotDetails(id_customer: id_customer)

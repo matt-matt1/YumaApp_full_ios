@@ -496,6 +496,7 @@ struct R {
 		static let ref = "reference"
 		static let tPrice = "Total Price"
 		static let payment = "Payment"
+		static let delivered = "delivered"
 
 		fileprivate init() {}
 	}

@@ -68,6 +68,7 @@ Will attempt to recover by breaking constraint
 		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 	
+	
 	func getAddress()
 	{
 		if store.addresses.count < 1
@@ -151,13 +152,21 @@ Will attempt to recover by breaking constraint
 	}
 	@IBAction func buttonLeftAct(_ sender: Any)
 	{
+		//let vc = AddressExpandedViewController()
+		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
+		vc.address = self.addresses[pageControl.currentPage]
+		present(vc, animated: false, completion: nil)
 	}
 	@IBAction func buttonRightAct(_ sender: Any)
 	{
+		store.Alert(fromView: self, title: R.string.rusure, titleColor: R.color.YumaRed, /*titleBackgroundColor: , titleFont: ,*/ message: nil, /*messageColor: , messageBackgroundColor: , messageFont: ,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaDRed, /*backgroundBlurStyle: , backgroundBlurFactor: ,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: ,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: , shadowOpacity: ,*/ shadowRadius: 5, /*alpha: ,*/ hasButton1: true, button1Title: R.string.delete.uppercased(), /*button1Style: , button1Color: , button1Font: ,*/ button1Action: {
+				self.addresses[self.pageControl.currentPage].deleted = "1"
+				print(R.string.deld)
+			}, hasButton2: true, button2Title: R.string.cancel.uppercased()/*, button2Style: , button2Color: , button2Font: , button2Action: */)
 	}
-
 	
 }
+
 
 extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
 {
@@ -170,7 +179,26 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AddrCollectionViewCell
-		cell.setup(address: addresses[indexPath.item])
+//		for i in indexPath.item ..< addresses.count
+//		{
+		var i = indexPath.item
+//		while i < addresses.count
+//		{
+//			if addresses[i].deleted == nil || addresses[i].deleted == ""
+//			{
+				cell.setup(address: addresses[i])
+//				break
+//			}
+//			i += 1
+//		}
+//		for addr in addresses
+//		{
+//			if addr.deleted == nil || addr.deleted != ""
+//			{
+//				cell.setup(address: addr)
+//			}
+//		}
+//		cell.setup(address: addresses[indexPath.item])
 		//pageControl.currentPage = indexPath.item
 		return cell
 	}
@@ -196,7 +224,7 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width-20, height: /*max(300,*/ view.frame.height-220/*)*/)
+		return CGSize(width: view.frame.width-20, height: /*max(300,*/ view.frame.height-300/*-220*//*)*/)
 	}
 	
 	// MARK: UICollectionViewDelegate

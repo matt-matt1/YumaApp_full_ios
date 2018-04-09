@@ -891,7 +891,7 @@ final class DataStore
 			let titleString = 				NSAttributedString(string: title!, attributes: titleAttr! as Any as? [NSAttributedStringKey : Any])
 			alertController.setValue(titleString, forKey: "attributedTitle")
 		}
-		if message != nil || message != ""
+		if message != nil && message != ""
 		{
 			var messageAttr: 				[NSAttributedStringKey : Any?]? = [:]
 			if messageFont != nil			{	messageAttr?.updateValue(messageFont, forKey: .font)						}

@@ -31,7 +31,7 @@ struct Address: Codable
 	let phone: 				String?//..32
 	let phone_mobile: 		String?//..32
 	let dni: 				String?//..16
-	let deleted: 			String?//Bool
+	var deleted: 			String?//Bool
 	let date_add: 			String?//date
 	let date_upd: 			String?//date
 }

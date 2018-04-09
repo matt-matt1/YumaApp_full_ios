@@ -134,8 +134,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				{
 					if latestIsUpdate
 					{
-						let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
-						cell.prodQty.text = latest?.productQuantity
+						let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell//let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
+						cell.prodQty.text = latest?.product_quantity//cell.prodQty.text = latest?.productQuantity
 						store.flexView(view: cell) { (done) in
 							self.store.flexView(view: cell.prodQty.superview!)
 						}
@@ -160,12 +160,12 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		for row in store.myOrderRows
 		{
 			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
-			total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
-			pcs = pcs + Int(row.productQuantity!)!
+			total = total + (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)//total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
+			pcs = pcs + Int(row.product_quantity!)!//pcs = pcs + Int(row.productQuantity!)!
 //			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
 			for p in store.products
 			{
-				if p.id! == Int(row.productId!)!
+				if p.id! == Int(row.product_id!)!//if p.id! == Int(row.productId!)!
 				{
 					wt += (p.weight?.toDouble())!
 					break
@@ -195,10 +195,10 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		{
 			latest = store.myOrderRows[i!]
 		}
-		let name = latest?.productName//thisOrder.productName//prod.name![0].value
+		let name = latest?.product_name//thisOrder.productName//prod.name![0].value
 		view.prodName.text = name
 		view.prodName.lineBreakMode = .byTruncatingHead
-		view.tag = Int((latest?.productId)!)!
+		view.tag = Int((latest?.product_id)!)!
 		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
 		//		{
 		//			view.prodPrice.text = prod.price
@@ -223,7 +223,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			view.prodImage.image = UIImage(data: (latest?.productImage)!)
 		}
 		//print("prod.quantity=\(prod.quantity)")
-		view.prodQty.text = latest?.productQuantity//thisOrder.productQuantity//prod.quantity
+		view.prodQty.text = latest?.product_quantity//thisOrder.productQuantity//prod.quantity
 		cartScroll.addSubview(view)
 //prod_2
 //		var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
@@ -264,7 +264,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			}
 			else															//create a new order
 			{
-				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+				store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+//				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
 			}
 			//print(store.myOrder)
 			//print("cartScroll.frame=\(self.cartScroll.frame.width)x\(self.cartScroll.frame.height)")
@@ -287,8 +288,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			{
 				if latestIsUpdate
 				{
-					let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
-					cell.prodQty.text = latest?.productQuantity
+					let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
+					cell.prodQty.text = latest?.product_quantity
 					store.flexView(view: cell) { (done) in
 						self.store.flexView(view: cell.prodQty.superview!)
 					}
@@ -389,9 +390,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//			{
 		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		//			})
-		store.myOrder?.totalProductsWt = String(wt)
-		store.myOrder?.totalPaidTaxExcl = String(total)
-		store.myOrder?.totalProducts = String(pcs)
+		store.myOrder?.total_products_wt = String(wt)
+		store.myOrder?.total_paid_tax_excl = String(total)
+		store.myOrder?.total_products = String(pcs)
 		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
 		self.present(vc!, animated: false, completion: (() -> Void)?
 			{
@@ -473,11 +474,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		for i in 0..<store.myOrderRows.count
 		{
 			//check if product already exists
-			if Int(store.myOrderRows[i].productId!) == prod.id
+			if Int(store.myOrderRows[i].product_id!) == prod.id
 			{
-				qty = Int(store.myOrderRows[i].productQuantity!)!
+				qty = Int(store.myOrderRows[i].product_quantity!)!
 				//print("qty was \(qty)")
-				store.myOrderRows[i].productQuantity = "\(qty + 1)"
+				store.myOrderRows[i].product_quantity = "\(qty + 1)"
 				latest = store.myOrderRows[i]
 				latestIsUpdate = true
 				found = true
@@ -515,7 +516,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //					)
 //				}
 //			}
-			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cache_has_attachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")", productImage: prod_image)
+			let row = OrderRow(id: "\(count)", product_id: "\(prod.id ?? 0)", product_attribute_id: "\(prod.cache_has_attachments ?? "")", product_quantity: "\(qty)", product_name: "\(prod.name![0].value ?? "")", product_reference: "\(prod.reference ?? "")", product_ean13: "\(prod.ean13 ?? "")", product_isbn: "\(prod.isbn ?? "")", product_upc: "\(prod.upc ?? "")", product_price: "\(prod.price ?? "")", unit_price_tax_incl: "\(prod.price ?? "")", unit_price_tax_excl: "\(prod.price ?? "")", productImage: prod_image)
+//			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cache_has_attachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")", productImage: prod_image)
 			//let row2 = CartRow(idProduct: "\(prod.id ?? 0)", idProductAttribute: , idAddressDelivery: <#T##String?#>, quantity: <#T##String?#>)
 			store.myOrderRows.append(row)
 			latest = row

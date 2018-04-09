@@ -141,10 +141,10 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 		totalPcsLbl.text = R.string.pieces
 		totalWtLbl.text = R.string.kg
 		//let (wt, pcs, tot) = populateCartTotal()//miniCart
-		totalPcs.text = /* "\(pcs)" */store.myOrder?.totalProducts
-		totalWt.text = /* "\(wt)" */store.myOrder?.totalProductsWt
+		totalPcs.text = /* "\(pcs)" */store.myOrder?.total_products
+		totalWt.text = /* "\(wt)" */store.myOrder?.total_products_wt
 //		totalAmt.text = /* tot */store.myOrder?.totalPaidTaxExcl
-		let totalDbl = (store.myOrder?.totalPaidTaxExcl?.toDouble()!)! as NSNumber
+		let totalDbl = (store.myOrder?.total_paid_tax_excl?.toDouble()!)! as NSNumber
 		totalAmt.text = store.formatCurrency(amount: totalDbl, iso: store.locale)
 		if store.myOrderRows.count > 0
 		{
@@ -167,8 +167,8 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 				{
 					if latestIsUpdate
 					{
-						let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
-						cell.prodQty.text = latest?.productQuantity
+						let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
+						cell.prodQty.text = latest?.product_quantity
 						store.flexView(view: cell) { (done) in
 							self.store.flexView(view: cell.prodQty.superview!)
 						}
@@ -274,10 +274,10 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 		{
 			latest = store.myOrderRows[i!]
 		}
-		let name = latest?.productName//thisOrder.productName//prod.name![0].value
+		let name = latest?.product_name//thisOrder.productName//prod.name![0].value
 		view.prodName.text = name
 		view.prodName.lineBreakMode = .byTruncatingHead
-		view.tag = Int((latest?.productId)!)!
+		view.tag = Int((latest?.product_id)!)!
 		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
 		//		{
 		//			view.prodPrice.text = prod.price
@@ -302,7 +302,7 @@ class CheckoutViewController: UIViewController, UIScrollViewDelegate
 			view.prodImage.image = UIImage(data: (latest?.productImage)!)
 		}
 		//print("prod.quantity=\(prod.quantity)")
-		view.prodQty.text = latest?.productQuantity//thisOrder.productQuantity//prod.quantity
+		view.prodQty.text = latest?.product_quantity//thisOrder.productQuantity//prod.quantity
 		cartScroll.addSubview(view)
 		//prod_2
 		//		var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"

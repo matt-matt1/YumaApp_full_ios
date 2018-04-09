@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="AvenirNext.ttc">
-            <string>AvenirNext-Regular</string>
-        </array>
         <array key="FontAwesome.ttf">
             <string>FontAwesome</string>
         </array>
@@ -24,10 +21,6 @@
                 <outlet property="activitySpinner" destination="NXq-F8-zeY" id="K7a-c4-6k2"/>
                 <outlet property="closeIcon" destination="5eB-vc-jeE" id="hhR-5m-EEI"/>
                 <outlet property="closeView" destination="pfP-z5-oo8" id="sdb-wr-V3y"/>
-                <outlet property="navBar" destination="emk-7G-DWE" id="Sl5-g7-gH5"/>
-                <outlet property="navClose" destination="vGF-eX-7bh" id="qMg-ZI-ppT"/>
-                <outlet property="navHelp" destination="7S5-px-SLP" id="csq-ik-SOF"/>
-                <outlet property="navTitle" destination="T6B-oZ-7L4" id="IqW-40-yFW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webView" destination="gYR-Hu-dlo" id="dC8-he-l9c"/>
             </connections>
@@ -40,30 +33,6 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eCv-7Z-2zt">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
-                        <navigationBar hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emk-7G-DWE">
-                            <rect key="frame" x="0.0" y="-20" width="375" height="0.0"/>
-                            <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textShadowColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <offsetWrapper key="textShadowOffset" horizontal="2" vertical="2"/>
-                            </textAttributes>
-                            <items>
-                                <navigationItem title="Webpage" id="T6B-oZ-7L4">
-                                    <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="vGF-eX-7bh">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="closeViewWithSender:" destination="-1" id="YXG-xx-OO2"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem key="rightBarButtonItem" title="help" style="done" id="7S5-px-SLP">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URE-0A-wue">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
@@ -126,7 +95,7 @@
             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="EPb-Ls-gU7"/>
-                <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="QKS-0D-c5S"/>
+                <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="QKS-0D-c5S"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZrP-5T-6f8"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="e7Y-De-SYa"/>
             </constraints>
