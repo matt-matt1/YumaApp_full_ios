@@ -36,15 +36,22 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eCv-7Z-2zt">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vsK-WK-QlG" userLabel="top line">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                            <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="yhb-gD-CdO"/>
+                            </constraints>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URE-0A-wue">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                            <rect key="frame" x="0.0" y="1" width="375" height="646"/>
                             <subviews>
                                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYR-Hu-dlo">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="646"/>
                                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </webView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dne-y0-ffz">
-                                    <rect key="frame" x="0.0" y="287.5" width="375" height="73"/>
+                                    <rect key="frame" x="0.0" y="286.5" width="375" height="73"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NXq-F8-zeY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="37"/>
@@ -91,6 +98,9 @@
                         </view>
                     </subviews>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="vsK-WK-QlG" secondAttribute="trailing" id="2RM-Ye-rdU"/>
+                        <constraint firstItem="vsK-WK-QlG" firstAttribute="top" secondItem="eCv-7Z-2zt" secondAttribute="top" id="DVn-fs-pIf"/>
+                        <constraint firstItem="vsK-WK-QlG" firstAttribute="leading" secondItem="eCv-7Z-2zt" secondAttribute="leading" id="He2-aA-h1Z"/>
                         <constraint firstItem="Dne-y0-ffz" firstAttribute="width" secondItem="eCv-7Z-2zt" secondAttribute="width" id="g4m-lC-TfN"/>
                     </constraints>
                 </stackView>
@@ -101,7 +111,7 @@
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" priority="250" id="QKS-0D-c5S"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZrP-5T-6f8"/>
                 <constraint firstItem="eCv-7Z-2zt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="20" id="bON-am-lSe"/>
-                <constraint firstItem="eCv-7Z-2zt" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="e7Y-De-SYa"/>
+                <constraint firstItem="eCv-7Z-2zt" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" id="qKD-6i-JLs"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="25.5" y="51.5"/>

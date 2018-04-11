@@ -85,7 +85,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navTitle.title = R.string.order + " " + R.string.details
 		prepareLabels()
-//		fillData()
+		fillData()
 		picker.dataSource = self
 		picker.delegate = self
 		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
@@ -163,7 +163,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		addMessageArrow.font = R.font.FontAwesomeOfSize(pointSize: 21)
 		addMessageArrow.textAlignment = .center
 		addMessageArrow.center.y = (addMessageArrow.superview?.center.y)!
-		button.setTitle(R.string.send, for: .normal)
+		button.setTitle(R.string.send.uppercased(), for: .normal)
 	}
 	
 	
@@ -184,14 +184,14 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
 	{
-		return R.string.prod
+		return pickerData[row]//R.string.prod
 	}
 	
 
 	func fillData()
 	{
 		guard order != nil else { 	return 	}
-		var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0
+		var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0, handling: Double = 0
 		if order?.reference != nil
 		{
 			orderRefValue.text = order?.reference
@@ -201,11 +201,15 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		{
 			let df = DateFormatter()
 			df.locale = Locale(identifier: self.store.locale)
-			df.dateFormat = "dd MMM YYYY"
-//			if let date = df.date(from: (order?.date_add)!)
-//			{
-//				placedOnValue.text = " \(df.string(from: date))"
-//			}
+			//df.dateFormat = "dd MMM YYYY"
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			if let date = df.date(from: (order?.date_add)!)
+			{
+				//let df = DateFormatter().
+				df.dateFormat = "dd MMM yyyy"
+				df.string(from: date)
+				placedOnValue.text = df.string(from: date)
+			}
 			//placedOnValue.text = df.string(from: try! Date(from: order?.date_add as! Decoder))
 		}
 		if order?.id_carrier != nil
@@ -215,14 +219,29 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				if order?.id_carrier != nil && carr.id! == Int((order?.id_carrier)!)!
 				{
 					carrier.text = carr.name!
-					var handling: Double = 0
-					if carr.shippingHandling != nil && (carr.isFree == nil || carr.isFree != "")
-					{
-						handling = Double(carr.shippingHandling!)!
-					}
-					total += handling
-					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
+//					if carr.shippingHandling != nil && (carr.isFree == nil || carr.isFree != "")
+//					{
+//						handling = Double(carr.shippingHandling!)!
+//					}
+//					total += handling
+//					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
 				}
+				else
+				{
+					carrier.text = "DELETED (was #" + (order?.id_carrier)! + ")"
+				}
+			}
+		}
+		if store.orderCarriers.count > 0
+		{
+			for carr in store.orderCarriers
+			{
+				if (order?.id!)! == Int(carr.id_order!)!
+				{
+					handling = Double(carr.shipping_cost_tax_excl!)!
+				}
+				total += handling
+				orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
 			}
 		}
 		payment.text = order?.payment
@@ -337,21 +356,21 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //			])
 //		picker.sizeToFit()
 //		picker.layoutIfNeeded()
-//		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-//		let vc = sb.instantiateInitialViewController() as? PickerViewController
-//		//let vc = PickerViewController()
-//		if vc != nil
-//		{
-//			self.present(vc!, animated: true, completion: nil)
-//			vc?.dialog.layer.cornerRadius = 20
-//			vc?.titleLbl.text = R.string.prod
-//			vc?.button.setTitle(R.string.select, for: .normal)
-//			//vc.pickerView = self.pickerData
-//		}
-//		else
-//		{
-//			print("HelpStoryboard has no initial view controller")
-//		}
+		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+		let vc = sb.instantiateInitialViewController() as? PickerViewController
+		//let vc = PickerViewController()
+		if vc != nil
+		{
+			self.present(vc!, animated: true, completion: nil)
+			vc?.dialog.layer.cornerRadius = 20
+			//vc?.titleLbl.text = pickerData[row]//R.string.prod
+			vc?.button.setTitle(R.string.select, for: .normal)
+			//vc.pickerView = self.pickerData
+		}
+		else
+		{
+			print("HelpStoryboard has no initial view controller")
+		}
 	}
 	
 	

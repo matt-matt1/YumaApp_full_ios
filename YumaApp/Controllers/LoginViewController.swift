@@ -599,7 +599,7 @@ class LoginViewController: UIViewController
 					{
 						print(jsonErr)
 					}
-					print("decoding an order detail")
+					print("decoding details for order \(order.id ?? 0)")
 				}
 				//print("getting \(store.orderDetails.count) order details")
 			}

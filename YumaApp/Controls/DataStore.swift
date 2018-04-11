@@ -47,6 +47,7 @@ final class DataStore
 	var myLang: 				Int = 					0
 	var forceRefresh = 			false
 	var productOptions: 		[ProductOption] = 		[]
+	var orderCarriers: 			[OrderCarrier] = 		[]
 	
 	
 	/// Sets the parameters for product shares
@@ -305,7 +306,41 @@ final class DataStore
 			}
 		)
 	}
-	
+
+	/// Use the api to collect a list of the order carriers, if any
+	func getOrderCarriers(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getOrderCarriers(completionHandler:
+			{
+				(carrs, err) in
+				
+				if err != nil	//only if error
+				{
+					let dataStr = 				UserDefaults.standard.string(forKey: "OrderCarriers")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[OrderCarrier]	//^remove wrapper - use inner array
+					do
+					{
+						tempObj = try JSONDecoder().decode([OrderCarrier].self, from: tempCarr.data(using: .utf8)!)
+						//						let array = tempObj.order_states
+						//						for os in array!
+						for carr in tempObj					{	self.orderCarriers.append(carr)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
+					}
+				}
+				else
+				{
+					OperationQueue.main.addOperation		{	completion(carrs, nil)		}
+				}
+			}
+		)
+	}
+
 	/// Use the api to collect details about the languages, if any
 	func callGetLanguages(completion: @escaping (Any?, Error?) -> Void)
 	{

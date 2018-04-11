@@ -150,6 +150,9 @@
                                                                     <constraint firstAttribute="height" constant="30" id="ofB-7Z-txb"/>
                                                                 </constraints>
                                                                 <state key="normal" title="temp Details"/>
+                                                                <connections>
+                                                                    <action selector="tempDetailsAct:" destination="uyv-He-NX7" eventType="touchUpInside" id="yb8-Zw-A5U"/>
+                                                                </connections>
                                                             </button>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -908,7 +911,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNf-hd-rUl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1461" y="511"/>
+            <point key="canvasLocation" x="1265" y="511"/>
         </scene>
     </scenes>
 </document>

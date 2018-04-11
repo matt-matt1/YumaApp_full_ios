@@ -9,11 +9,11 @@
 import Foundation
 
 
-public struct OrderCarrier: Decodable
+struct OrderCarrier: Decodable
 {
-	let id: 					Int
-	let id_order: 				String
-	let id_carrier: 			String
+	let id: 					Int?//!
+	let id_order: 				String?//!
+	let id_carrier: 			String?//!
 	let id_order_invoice: 		String?
 	let weight: 				String?//Float
 	let shipping_cost_tax_excl: String?//Float
@@ -21,7 +21,7 @@ public struct OrderCarrier: Decodable
 	let tracking_number: 		String?
 	let date_add: 				String?//date
 }
-struct orderCarriers: Decodable
+struct OrderCarriers: Decodable
 {
 	let orderCarriers: [OrderCarrier]?
 }

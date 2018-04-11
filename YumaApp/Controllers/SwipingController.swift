@@ -150,6 +150,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
 				}
 			}
+//			store.getOrderCarriers { (carrs, err) in
+//				if err == nil
+//				{
+//					print("got \((carrs as! [OrderCarrier]).count) order carriers")
+//				}
+//				else
+//				{
+//					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+//				}
+//			}
 //			let alert = PCLBlurEffectAlert.Controller(title: "Hello there!! 👋🏻👋🏻", message: "message", effect: UIBlurEffect(style: .light), style: .alert)
 //			let alertAct = PCLBlurEffectAlert.Action(title: "done", style: .cancel, handler: nil)
 //			alert.addAction(alertAct)

@@ -14,7 +14,7 @@ class AddrCollectionViewCell: UICollectionViewCell
 	@IBOutlet weak var aliasInvalid: UILabel!
 	@IBOutlet weak var aliasBorder: UIView!
 	@IBOutlet weak var addressEdit: UITextView!
-	@IBOutlet weak var addressInvalid: UILabel!
+//	@IBOutlet weak var addressInvalid: UILabel!
 	@IBOutlet weak var addressBorder: UIView!
 	
 	func setup(address: Address)
@@ -22,7 +22,7 @@ class AddrCollectionViewCell: UICollectionViewCell
 		aliasInvalid.text = ""
 		aliasBorder.borderColor = UIColor.white
 		aliasBorder.borderWidth = 2
-		addressInvalid.text = ""
+//		addressInvalid.text = ""
 		addressBorder.borderColor = UIColor.white
 		addressBorder.borderWidth = 2
 		aliasEdit.text = address.alias

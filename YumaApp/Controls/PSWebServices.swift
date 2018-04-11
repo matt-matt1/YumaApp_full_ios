@@ -379,6 +379,41 @@ class PSWebServices: NSObject
 				}.resume()
 		}
 	}
+	
+	///return an Object containing a list of the order carriers
+	class func getOrderCarriers(completionHandler: @escaping (OrderCarriers?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)order_carriers?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				//				if err
+				//				else if response.status_code != 200
+				if let myData = data
+				{
+					//					if saveName != nil && saveName != ""
+					//					{
+					let dataStr = String(data: myData, encoding: .utf8)
+					UserDefaults.standard.set(dataStr, forKey: "OrderCarriers")
+					//					}
+					do
+					{
+						let myData = try JSONDecoder().decode(OrderCarriers.self, from: myData)
+						//						print(myData)
+						completionHandler(myData, nil)
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				return
+				}.resume()
+		}
+	}
 
 	///return an Object containing a list of the carts
 	class func getCarts(id_customer: Int, completionHandler: @escaping (Carts?, Error?) -> Void)
