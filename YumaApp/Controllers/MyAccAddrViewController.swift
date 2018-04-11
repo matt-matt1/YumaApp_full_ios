@@ -45,14 +45,14 @@ Try this:
 Will attempt to recover by breaking constraint
 <NSLayoutConstraint:0x16edc880 'UISV-canvas-connection' UIStackView:0x18199b50.top == UINavigationBar:0x16d14490.top>
 */
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
 		getAddress()
 		pageControl.numberOfPages = addresses.count
 		pageControl.currentPage = 0
@@ -62,6 +62,8 @@ Will attempt to recover by breaking constraint
 		collectionView.collectionViewLayout = layout
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		navTitle.title = "\(R.string.my_account) \(R.string.Addr)"
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		buttonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
 		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		buttonRight.setTitle(R.string.delete.uppercased(), for: .normal)
@@ -159,10 +161,47 @@ Will attempt to recover by breaking constraint
 	}
 	@IBAction func buttonRightAct(_ sender: Any)
 	{
-		store.Alert(fromView: self, title: R.string.rusure, titleColor: R.color.YumaRed, /*titleBackgroundColor: , titleFont: ,*/ message: nil, /*messageColor: , messageBackgroundColor: , messageFont: ,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaDRed, /*backgroundBlurStyle: , backgroundBlurFactor: ,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: ,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: , shadowOpacity: ,*/ shadowRadius: 5, /*alpha: ,*/ hasButton1: true, button1Title: R.string.delete.uppercased(), /*button1Style: , button1Color: , button1Font: ,*/ button1Action: {
-				self.addresses[self.pageControl.currentPage].deleted = "1"
-				print(R.string.deld)
-			}, hasButton2: true, button2Title: R.string.cancel.uppercased()/*, button2Style: , button2Color: , button2Font: , button2Action: */)
+		DispatchQueue.main.async
+			{
+				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias)\"", preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.3
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+					print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					self.addresses[self.pageControl.currentPage].deleted = "1"
+				}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+		}
+//		store.Alert(fromView: self, title: R.string.rusure, titleColor: R.color.YumaRed, /*titleBackgroundColor: , titleFont: ,*/ message: nil, /*messageColor: , messageBackgroundColor: , messageFont: ,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaDRed, /*backgroundBlurStyle: , backgroundBlurFactor: ,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: ,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: , shadowOpacity: ,*/ shadowRadius: 5, /*alpha: ,*/ hasButton1: true, button1Title: R.string.delete.uppercased(), /*button1Style: , button1Color: , button1Font: ,*/ button1Action: {
+//				self.addresses[self.pageControl.currentPage].deleted = "1"
+//				print(R.string.deld)
+//			}, hasButton2: true, button2Title: R.string.cancel.uppercased()/*, button2Style: , button2Color: , button2Font: , button2Action: */)
 	}
 	
 }

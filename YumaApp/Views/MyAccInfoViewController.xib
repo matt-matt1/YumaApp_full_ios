@@ -757,7 +757,8 @@
                 <constraint firstItem="tzl-qG-dJF" firstAttribute="bottom" secondItem="Qju-f7-UQs" secondAttribute="bottom" id="EAE-yZ-t1N"/>
                 <constraint firstItem="tzl-qG-dJF" firstAttribute="trailing" secondItem="Qju-f7-UQs" secondAttribute="trailing" id="W1f-dI-pSa"/>
                 <constraint firstItem="Qju-f7-UQs" firstAttribute="leading" secondItem="tzl-qG-dJF" secondAttribute="leading" id="cuF-yx-YEw"/>
-                <constraint firstItem="Qju-f7-UQs" firstAttribute="top" secondItem="udj-sT-lUr" secondAttribute="topMargin" id="f7T-X2-JVO"/>
+                <constraint firstItem="Qju-f7-UQs" firstAttribute="top" secondItem="udj-sT-lUr" secondAttribute="topMargin" priority="250" id="f7T-X2-JVO"/>
+                <constraint firstItem="Qju-f7-UQs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="udj-sT-lUr" secondAttribute="top" priority="750" constant="20" id="loI-4Y-3je"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="tzl-qG-dJF"/>
             <point key="canvasLocation" x="25.5" y="59"/>

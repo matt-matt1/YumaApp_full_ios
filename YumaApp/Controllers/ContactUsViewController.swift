@@ -90,6 +90,12 @@ class ContactUsViewController: UIViewController
 //						}})
 //			}
 		}
+//		var i = 0
+//		view.constraints.forEach { (constraint) in
+//			//view.removeConstraint(constraint)
+//			print("constraint\(i):1stItem=\"\(constraint.firstItem)\", 1stAttr=\"\(constraint.firstAttribute)\"")
+//			i += 1
+//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		navHelp.title = FontAwesome.questionCircle.rawValue
@@ -369,6 +375,8 @@ class ContactUsViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let vc = HelpVC() as! UIViewController
+		self.present(vc, animated: false, completion: nil)
 	}
 	
 //	override func didReceiveMemoryWarning()

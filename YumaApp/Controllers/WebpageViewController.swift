@@ -10,6 +10,8 @@ import UIKit
 
 class WebpageViewController: UIViewController, UIWebViewDelegate
 {
+	@IBOutlet weak var allStack: UIStackView!
+	@IBOutlet weak var allView: UIView!
 	@IBOutlet weak var closeView: UIView!
 	@IBOutlet weak var closeIcon: UILabel!
 	@IBOutlet weak var activityLabel: UILabel!
@@ -33,6 +35,14 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		//progress.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 		activitySpinner.tintColor = R.color.YumaRed
 		activitySpinner.hidesWhenStopped = true
+		if #available(iOS 11.0, *)
+		{
+			allStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		}
+		else
+		{
+			allStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
 		self.navigationItem.title = self.pageTitle
 		//navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
 		activityLabel.text = (pageTitle == "") ? R.string.our_bus : pageTitle

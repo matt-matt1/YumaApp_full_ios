@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -317,7 +318,8 @@
                 <constraint firstItem="6l4-Mc-kKG" firstAttribute="leading" secondItem="sJL-NH-OFV" secondAttribute="leading" id="48R-BR-gh4"/>
                 <constraint firstItem="sJL-NH-OFV" firstAttribute="bottom" secondItem="6l4-Mc-kKG" secondAttribute="bottom" id="AUB-ER-M90"/>
                 <constraint firstItem="sJL-NH-OFV" firstAttribute="trailing" secondItem="6l4-Mc-kKG" secondAttribute="trailing" id="Yv8-OQ-V1i"/>
-                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" secondItem="sJL-NH-OFV" secondAttribute="top" id="soK-fW-Bis"/>
+                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" secondItem="VCb-57-A10" secondAttribute="topMargin" priority="250" id="soK-fW-Bis"/>
+                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VCb-57-A10" secondAttribute="top" priority="750" constant="20" id="zdS-v1-dJ9"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="sJL-NH-OFV"/>
             <point key="canvasLocation" x="27.5" y="-681.5"/>

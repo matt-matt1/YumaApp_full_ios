@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -473,7 +474,8 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="zZF-gv-CUY" firstAttribute="trailing" secondItem="4QK-G0-FY3" secondAttribute="trailing" id="5qB-Kv-hXM"/>
-                            <constraint firstItem="4QK-G0-FY3" firstAttribute="top" secondItem="zZF-gv-CUY" secondAttribute="top" id="OIO-VD-pk9"/>
+                            <constraint firstItem="4QK-G0-FY3" firstAttribute="top" secondItem="dtP-8K-JSZ" secondAttribute="topMargin" priority="250" id="OIO-VD-pk9"/>
+                            <constraint firstItem="4QK-G0-FY3" firstAttribute="top" relation="greaterThanOrEqual" secondItem="dtP-8K-JSZ" secondAttribute="top" priority="750" constant="20" id="TdB-Ff-VpO"/>
                             <constraint firstItem="zZF-gv-CUY" firstAttribute="bottom" secondItem="4QK-G0-FY3" secondAttribute="bottom" id="mIZ-yx-lm0"/>
                             <constraint firstItem="4QK-G0-FY3" firstAttribute="leading" secondItem="zZF-gv-CUY" secondAttribute="leading" id="oar-y3-oOi"/>
                         </constraints>

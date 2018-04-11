@@ -37,15 +37,16 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		}
-//		else
-//		{
+		else
+		{
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 //			navBar.superview?.constraints.forEach(
 //				{ (constraint) in
 //					if constraint.firstItem === navBar && constraint.firstAttribute == .top
 //					{
 //						navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 //					}})
-//		}
+		}
 		myMap.showsScale = true
 		myMap.showsPointsOfInterest = true
 		myMap.showsUserLocation = true

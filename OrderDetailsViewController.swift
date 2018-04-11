@@ -66,6 +66,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	var details: OrderDetail? = nil
 	let picker = UIPickerView()
 	var pickerData: [String] = [String]()
+	var observer: NSObjectProtocol?
 
 	
 	override func viewDidLoad()
@@ -84,11 +85,47 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navTitle.title = R.string.order + " " + R.string.details
 		prepareLabels()
-		fillData()
+//		fillData()
 		picker.dataSource = self
 		picker.delegate = self
 		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
     }
+	
+	override func viewDidAppear(_ animated: Bool)
+	{
+		super.viewDidAppear(animated)
+		
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		navTitle.title = R.string.order + " " + R.string.details
+//		prepareLabels()
+		fillData()
+//		picker.dataSource = self
+//		picker.delegate = self
+		//NotificationCenter.default.addObserver(self, selector: #selector(writeSelectedProduct(notification:)), name: .gotNameFromPopup, object: nil)
+		observer = NotificationCenter.default.addObserver(forName: .gotNameFromPopup, object: nil, queue: OperationQueue.main) { (notification) in
+			let data = notification.object as! PickerViewController
+			self.addMessageField.text = String(data.pickerView.selectedRow(inComponent: 0))
+		}
+//		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
+	}
+	
+	override func viewDidDisappear(_ animated: Bool)
+	{
+		super.viewDidDisappear(animated)
+		if let observer = observer
+		{
+			NotificationCenter.default.removeObserver(observer)
+		}
+	}
 	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -102,7 +139,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		orderRef.text = R.string.ordRef
-		placedOn.text = R.string.placed
+		placedOn.text = R.string.placed.capitalized
 		carrierLabel.text = R.string.carr
 		paymentLabel.text = R.string.payment
 		followSteps.text = R.string.ordFoll
@@ -122,15 +159,6 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		addMessageLabel.text = R.string.addMsg
 		addMessageCaption.text = R.string.msgTop
 		addMessageProd.text = R.string.prod
-//		if self.order != nil && self.order?.associations != nil && self.order?.associations?.order_rows != nil
-//		{
-//			for i in 0..<(self.order?.associations?.order_rows?.count)!
-//			{
-//				let item = self.order?.associations?.order_rows![i]
-//				//products.updateValue(i+1, forKey: (item?.productName)!)
-//				//^Fatal error: Unexpectedly found nil while unwrapping an Optional value
-//			}
-//		}
 		addMessageArrow.text = FontAwesome.caretDown.rawValue
 		addMessageArrow.font = R.font.FontAwesomeOfSize(pointSize: 21)
 		addMessageArrow.textAlignment = .center
@@ -163,11 +191,12 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	func fillData()
 	{
 		guard order != nil else { 	return 	}
-		placedOnValue.text = ""
+		var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0
 		if order?.reference != nil
 		{
 			orderRefValue.text = order?.reference
 		}
+		placedOnValue.text = ""
 		if self.order?.date_add != nil && self.order?.date_add != ""
 		{
 			let df = DateFormatter()
@@ -177,7 +206,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //			{
 //				placedOnValue.text = " \(df.string(from: date))"
 //			}
-			placedOnValue.text = df.string(from: try! Date(from: order?.date_add as! Decoder))
+			//placedOnValue.text = df.string(from: try! Date(from: order?.date_add as! Decoder))
 		}
 		if order?.id_carrier != nil
 		{
@@ -186,6 +215,13 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				if order?.id_carrier != nil && carr.id! == Int((order?.id_carrier)!)!
 				{
 					carrier.text = carr.name!
+					var handling: Double = 0
+					if carr.shippingHandling != nil && (carr.isFree == nil || carr.isFree != "")
+					{
+						handling = Double(carr.shippingHandling!)!
+					}
+					total += handling
+					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
 				}
 			}
 		}
@@ -225,7 +261,6 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			}
 			invoiceAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
 		}
-		var sub: Double = 0
 		if order?.associations?.order_rows != nil && (order?.associations?.order_rows?.count)! > 0
 		{
 			var pos = 1
@@ -241,20 +276,24 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				let up = UILabel()
 				up.textColor = R.color.YumaRed
 				up.textAlignment = .right
-				if let currency = Double(((row.unit_price_tax_incl != nil) ? row.unit_price_tax_incl : row.unit_price_tax_excl)!)
+				if let currency = Double(row.unit_price_tax_excl!)
 				{
 					up.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+					unit = currency
 				}
 				let tp = UILabel()
 				tp.textAlignment = .right
+				tp.textColor = R.color.YumaRed
 				if let currency = Double(row.product_price!)
 				{
 					tp.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+					sub += currency
+					total += sub
+					tax += Double(row.unit_price_tax_incl!)! - unit
 				}
 				let stack = UIStackView(arrangedSubviews: [prod, qty, up, tp])
 				stack.distribution = .fillEqually
 				orderListAdd2.insertArrangedSubview(stack, at: pos)
-				//sub += (tp.text?.toDouble())!
 				pickerData.append(row.product_name!)
 //				var msgs: [String] = [String]()
 //				if row.productReference != nil
@@ -272,18 +311,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		{
 			orderSubtotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
 		}
-		if let currency = Double(String(0))
-		{
-			orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-		}
-		if let currency = Double(String(sub * 13 / 100))
-		{
-			orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-		}
-		if let currency = Double(String(sub + 0 + (sub * 13 / 100)))
-		{
-			orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-		}
+		total += tax
+		orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: tax), iso: self.store.locale)
+		orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: total), iso: self.store.locale)
 		if order?.associations != nil
 		{
 //			for msg in order?.associations.messages
@@ -296,13 +326,49 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	
 	@objc func dropdownList(_ sender: UITapGestureRecognizer)
 	{
-		//picker.
+		//print("x:\(picker.frame.origin.x), y:\(picker.frame.origin.y), w:\(picker.frame.width), h:\(picker.frame.height)")
+		//	x:0.0, y:0.0, w:320.0, h:216.0
+		//print("x:\(self.view.frame.origin.x), y:\(self.view.frame.origin.y), w:\(self.view.frame.width), h:\(self.view.frame.height)")
+		//x:0.0, y:0.0, w:375.0, h:812.0
+		self.view.addSubview(picker)
+//		NSLayoutConstraint.activate([
+//			picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+//			picker.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+//			])
+//		picker.sizeToFit()
+//		picker.layoutIfNeeded()
+//		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//		let vc = sb.instantiateInitialViewController() as? PickerViewController
+//		//let vc = PickerViewController()
+//		if vc != nil
+//		{
+//			self.present(vc!, animated: true, completion: nil)
+//			vc?.dialog.layer.cornerRadius = 20
+//			vc?.titleLbl.text = R.string.prod
+//			vc?.button.setTitle(R.string.select, for: .normal)
+//			//vc.pickerView = self.pickerData
+//		}
+//		else
+//		{
+//			print("HelpStoryboard has no initial view controller")
+//		}
 	}
 	
 	
-	@IBAction func navCloseAct(_ sender: Any) {
+	@objc func writeSelectedProduct(notification: Notification)
+	{
+		let data = notification.object as! PickerViewController
+		self.addMessageField.text = String(data.pickerView.selectedRow(inComponent: 0))
+		//popup ask for message
 	}
-	@IBAction func navHelpAct(_ sender: Any) {
+	
+	
+	@IBAction func navCloseAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
 	}
 	@IBAction func buttonAct(_ sender: Any)
 	{

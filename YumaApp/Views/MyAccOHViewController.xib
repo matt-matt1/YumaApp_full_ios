@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,6 +14,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccOHViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
                 <outlet property="navBar" destination="Da1-ru-fpc" id="HAj-2s-7Zj"/>
+                <outlet property="navClose" destination="r1l-af-Jvo" id="buu-kR-Nnb"/>
+                <outlet property="navHelp" destination="RyW-ew-6M1" id="JCJ-Cp-PPx"/>
+                <outlet property="navTitle" destination="mcP-I2-FKg" id="vb2-e9-6aG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,7 +35,18 @@
                                 <constraint firstAttribute="height" constant="46" id="3se-SH-qCG"/>
                             </constraints>
                             <items>
-                                <navigationItem title="Title" id="mcP-I2-FKg"/>
+                                <navigationItem title="Title" id="mcP-I2-FKg">
+                                    <barButtonItem key="leftBarButtonItem" title="Item" id="r1l-af-Jvo">
+                                        <connections>
+                                            <action selector="navCloseAct:" destination="-1" id="s75-LQ-qPA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem key="rightBarButtonItem" title="Item" id="RyW-ew-6M1">
+                                        <connections>
+                                            <action selector="navHelpAct:" destination="-1" id="jLg-If-1gN"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
                             </items>
                         </navigationBar>
                     </subviews>

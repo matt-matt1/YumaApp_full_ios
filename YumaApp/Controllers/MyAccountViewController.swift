@@ -20,6 +20,70 @@ class MyAccountViewController: UIViewController
 	@IBOutlet weak var creditSlipsBtn: UIButton!
 	@IBOutlet weak var signOutBtn: UIButton!
 	let store = DataStore.sharedInstance
+	let helpPageControl: UIPageControl =
+	{
+		let view = UIPageControl()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	let helpArray = R.array.help_product_list_guide
+	let helpScroll = UIScrollView()
+
+
+	override func viewDidLoad()
+	{
+		super.viewDidLoad()
+		/*
+		Unable to simultaneously satisfy constraints.
+		Probably at least one of the constraints in the following list is one you don't want.
+		Try this:
+		(1) look at each constraint and try to figure out which you don't expect;
+		(2) find the code that added the unwanted constraint or constraints and fix it.
+		(
+		"<NSLayoutConstraint:0x18242b10 V:|-(0)-[UIStackView:0x16ea3180]   (Names: '|':UIView:0x16e98fa0 )>",
+		"<NSLayoutConstraint:0x18147800 UINavigationBar:0x18150560.top == UIView:0x16e98fa0.top + 20>",
+		"<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>"
+		)
+		
+		Will attempt to recover by breaking constraint
+		<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>
+		*/
+		if #available(iOS 11.0, *)
+		{
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		}
+		else
+		{
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		}
+		self.navigationItem.title = R.string.my_account//not working
+		navTitle.title = R.string.my_account
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		infoBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		//signOutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		//drawXIB2()
+//		let store = DataStore.sharedInstance
+		//print("\n\(store.addresses)\n\n")
+//		if store.carriers.count < 1
+//		{
+//			store.callGetCarriers()
+//				{
+//					(carriers, err) in
+//					//			print(carriers)
+//			}
+//		}
+	}
+
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
 	
 /*
 	func coverStackOpen() -> UIStackView
@@ -451,69 +515,6 @@ class MyAccountViewController: UIViewController
 		self.view.addSubview(mainView)
 	}
 */
-    override func viewDidLoad()
-	{
-        super.viewDidLoad()
-		/*
-Unable to simultaneously satisfy constraints.
-Probably at least one of the constraints in the following list is one you don't want.
-Try this:
-(1) look at each constraint and try to figure out which you don't expect;
-(2) find the code that added the unwanted constraint or constraints and fix it.
-(
-"<NSLayoutConstraint:0x18242b10 V:|-(0)-[UIStackView:0x16ea3180]   (Names: '|':UIView:0x16e98fa0 )>",
-"<NSLayoutConstraint:0x18147800 UINavigationBar:0x18150560.top == UIView:0x16e98fa0.top + 20>",
-"<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>"
-)
-
-Will attempt to recover by breaking constraint
-<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>
-*/
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
-		self.navigationItem.title = R.string.my_account//not working
-		navTitle.title = R.string.my_account
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		infoBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		//signOutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-        //drawXIB2()
-		let store = DataStore.sharedInstance
-		//print("\n\(store.addresses)\n\n")
-		if store.carriers.count < 1
-		{
-			store.callGetCarriers()
-			{
-				(carriers, err) in
-	//			print(carriers)
-			}
-		}
-    }
-
-    override func didReceiveMemoryWarning()
-	{
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 	
 	@IBAction func signOutBtnAct(_ sender: Any)
@@ -567,10 +568,336 @@ Will attempt to recover by breaking constraint
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		helpScroll.contentSize.width = helpScroll.frame.width * CGFloat(helpArray.count)
+		helpScroll.contentSize.height = helpScroll.frame.height
+		//print("x:\(helpScroll.frame.origin.x), y:\(helpScroll.frame.origin.y), w:\(helpScroll.frame.width), h:\(helpScroll.frame.height)")
+		//	0, 0, 0, 0
+		//print("w:\(helpScroll.contentSize.width), h:\(helpScroll.contentSize.height)")
+		//	0, 0
+		var i = 0
+		for line in helpArray
+		{
+			let view = HelpPanel(frame: CGRect(x: 5 + (helpScroll.frame.width * CGFloat(i)), y: 22, width: helpScroll.frame.width - 10, height: helpScroll.frame.height - 50))
+			view.backgroundColor = UIColor.white
+			view.msg.text = line
+			view.msg.textColor = UIColor.blue
+			if i != 0					//not the first
+			{
+				view.buttonLeft.setTitle(R.string.prev, for: .normal)
+				view.buttonLeft.addTarget(self, action: #selector(helpBack), for: .touchUpInside)
+			}
+			if i < helpArray.count-1	//not the last
+			{
+				view.buttonRight.setTitle(R.string.next, for: .normal)
+				view.buttonRight.addTarget(self, action: #selector(helpNext), for: .touchUpInside)
+			}
+			else	//ie last
+			{
+				view.buttonRight.setTitle(R.string.dismiss, for: .normal)
+				//view.buttonRight.addTarget(self, action: #selector(helpNext), for: .touchUpInside)
+				//break
+			}
+			i += 1
+			//print("x:\(view.frame.origin.x), y:\(view.frame.origin.y), w:\(view.frame.width), h:\(view.frame.height)")
+			//	-5, -28, 10, 50
+			helpScroll.addSubview(view)
+		}
+		let vc = UIViewController()
+		//print("x:\(vc.view.frame.origin.x), y:\(vc.view.frame.origin.y), w:\(vc.view.frame.width), h:\(vc.view.frame.height)")
+		//	0, 0, 1024 768
+		vc.view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.6)
+		//////helpPageControl//////
+		helpScroll.translatesAutoresizingMaskIntoConstraints = false
+		//print("x:\(helpScroll.bounds.origin.x), y:\(helpScroll.bounds.origin.y), w:\(helpScroll.bounds.width), h:\(helpScroll.bounds.height)")
+		//	0, 0, 0, 0
+		//scroll.backgroundColor = UIColor.green
+		vc.view.addSubview(helpScroll)
+		//helpScroll.layoutIfNeeded()
+		NSLayoutConstraint.activate([
+			helpScroll.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 100),
+			helpScroll.leftAnchor.constraint(equalTo: vc.view.leftAnchor, constant: 100),
+			//helpScroll.widthAnchor.constraint(equalToConstant: helpScroll.bounds.width),
+			//helpScroll.heightAnchor.constraint(equalToConstant: helpScroll.bounds.height),
+			helpScroll.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: -100),
+			helpScroll.rightAnchor.constraint(equalTo: vc.view.rightAnchor, constant: -100),
+			])
+		vc.modalPresentationStyle = .overCurrentContext
+		self.present(vc, animated: false, completion: nil)
+		//self.view.addSubview(scroll)
+		
+//		var helpData = [HelpPage]()
+//		let scrollView = UIScrollView()
+//		let alert = UIAlertController(title: R.string.help, message: "unknown", preferredStyle: .alert)
+//		scrollView.contentSize.width = alert.view.frame.width * CGFloat(helpData.count)
+//		var i = 0;
+//		var change = false
+//		//for data in helpData
+//		while i < helpData.count
+//		{
+//			alert.message = R.array.help_product_list_guide[i]
+//			if i != 0
+//			{
+//				change = true
+//				alert.addAction(UIAlertAction(title: R.string.prev, style: .default, handler: { (prev) in
+//					i -= 1
+//				}))
+//			}
+//			if i < helpData.count-1
+//			{
+//				change = true
+//				alert.addAction(UIAlertAction(title: R.string.next, style: .default, handler: { (next) in
+//					i += 1
+//				}))
+//			}
+//			else
+//			{
+//				change = true
+//				alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (close) in
+//					self.dismiss(animated: false, completion: nil)
+//				}))
+//				break
+//			}
+//			if change
+//			{
+//				i += 1
+//				change = false
+//			}
+//			//let view = showHelp(frame: CGRect(x: alert.view.frame.width * CGFloat(i), y: 20, width: alert.view.frame.width-10, height: alert.view.frame.height-50))
+//			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+//		}
+//		self.present(alert, animated: false, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: true, completion: nil)
 	}
 	
+	@objc func helpBack()
+	{
+		helpPageControl.currentPage -= 1
+	}
+	
+	@objc func helpNext()
+	{
+		helpPageControl.currentPage += 1
+	}
+	
+	@objc func helpDismiss()
+	{
+		
+	}
+
 }
+
+
+struct HelpButton
+{
+	let title: String?
+	let action: Selector?
+}
+struct HelpPage
+{
+	let upperImage: UIImageView?
+	let title: String?
+	let message: String?
+	let lowerImage: UIImageView?
+	let buttons: [HelpButton]?
+}
+
+
+class HelpPanel: UIView
+{
+	let upperImage: UIImageView =
+	{
+		let view = UIImageView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.contentMode = .scaleAspectFit
+		return view
+	}()
+	let til: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	let msg: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	let buttonLeft: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	let buttonRight: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+	let lowerImage: UIImageView =
+	{
+		let view = UIImageView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.contentMode = .scaleAspectFit
+		return view
+	}()
+
+	
+	override init(frame: CGRect)
+	{
+		super.init(frame: frame)
+		//buildView()
+		let buttons = UIStackView(arrangedSubviews: [buttonLeft, buttonRight])
+		buttons.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			buttonLeft.topAnchor.constraint(equalTo: buttons.topAnchor),
+			buttonLeft.leftAnchor.constraint(equalTo: buttons.leftAnchor),
+			buttonLeft.bottomAnchor.constraint(equalTo: buttons.bottomAnchor),
+			//buttonLeft.rightAnchor.constraint(equalTo: buttons.rightAnchor),
+			
+			buttonRight.topAnchor.constraint(equalTo: buttons.topAnchor),
+			//buttonRight.leftAnchor.constraint(equalTo: buttons.leftAnchor),
+			buttonRight.bottomAnchor.constraint(equalTo: buttons.bottomAnchor),
+			buttonRight.rightAnchor.constraint(equalTo: buttons.rightAnchor),
+			])
+		let stack = UIStackView(arrangedSubviews: [upperImage, til, msg, lowerImage, buttons])
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.axis = .vertical
+		stack.alignment = .center
+		NSLayoutConstraint.activate([
+			upperImage.topAnchor.constraint(equalTo: stack.topAnchor),
+			upperImage.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//upperImage.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			upperImage.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			
+			//til.topAnchor.constraint(equalTo: upperImage.bottomAnchor),
+			
+			//til.topAnchor.constraint(equalTo: stack.topAnchor),
+			til.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//til.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			til.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			
+			//msg.topAnchor.constraint(equalTo: til.bottomAnchor),
+			
+			//msg.topAnchor.constraint(equalTo: stack.topAnchor),
+			msg.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//msg.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			msg.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			
+			//lowerImage.topAnchor.constraint(equalTo: msg.bottomAnchor),
+			
+			//lowerImage.topAnchor.constraint(equalTo: stack.topAnchor),
+			lowerImage.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//lowerImage.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			lowerImage.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			
+			//lowerImage.bottomAnchor.constraint(equalTo: buttons.topAnchor),
+			
+			//buttons.topAnchor.constraint(equalTo: stack.topAnchor),
+			buttons.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			buttons.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			buttons.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			])
+		self.addSubview(stack)
+		NSLayoutConstraint.activate([
+			stack.topAnchor.constraint(equalTo: self.topAnchor),
+			stack.leftAnchor.constraint(equalTo: self.leftAnchor),
+			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			stack.rightAnchor.constraint(equalTo: self.rightAnchor),
+			])
+		self.addSubview(til)
+	}
+	
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	
+	func jared()
+	{
+		let buttons = UIStackView(arrangedSubviews: [buttonLeft, buttonRight])
+		buttons.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			buttonLeft.topAnchor.constraint(equalTo: buttons.topAnchor),
+			buttonLeft.leftAnchor.constraint(equalTo: buttons.leftAnchor),
+			buttonLeft.bottomAnchor.constraint(equalTo: buttons.bottomAnchor),
+			//buttonLeft.rightAnchor.constraint(equalTo: buttons.rightAnchor),
+
+			buttonRight.topAnchor.constraint(equalTo: buttons.topAnchor),
+			//buttonRight.leftAnchor.constraint(equalTo: buttons.leftAnchor),
+			buttonRight.bottomAnchor.constraint(equalTo: buttons.bottomAnchor),
+			buttonRight.rightAnchor.constraint(equalTo: buttons.rightAnchor),
+			])
+		let stack = UIStackView(arrangedSubviews: [upperImage, til, msg, lowerImage, buttons])
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.alignment = .center
+		NSLayoutConstraint.activate([
+			upperImage.topAnchor.constraint(equalTo: stack.topAnchor),
+			upperImage.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//upperImage.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			upperImage.rightAnchor.constraint(equalTo: stack.rightAnchor),
+
+			//til.topAnchor.constraint(equalTo: stack.topAnchor),
+			til.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//til.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			til.rightAnchor.constraint(equalTo: stack.rightAnchor),
+
+			//msg.topAnchor.constraint(equalTo: stack.topAnchor),
+			msg.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//msg.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			msg.rightAnchor.constraint(equalTo: stack.rightAnchor),
+
+			//lowerImage.topAnchor.constraint(equalTo: stack.topAnchor),
+			lowerImage.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			//lowerImage.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			lowerImage.rightAnchor.constraint(equalTo: stack.rightAnchor),
+
+			//buttons.topAnchor.constraint(equalTo: stack.topAnchor),
+			buttons.leftAnchor.constraint(equalTo: stack.leftAnchor),
+			buttons.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+			buttons.rightAnchor.constraint(equalTo: stack.rightAnchor),
+			])
+		self.addSubview(stack)
+		NSLayoutConstraint.activate([
+			stack.topAnchor.constraint(equalTo: self.topAnchor),
+			stack.leftAnchor.constraint(equalTo: self.leftAnchor),
+			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			stack.rightAnchor.constraint(equalTo: self.rightAnchor),
+			])
+		self.addSubview(til)
+	}
+	
+//	func buildView()
+//	{
+//		pageStack.addArrangedSubview(pageControl)
+//		pageStack.axis = UILayoutConstraintAxis.vertical
+//		pageStack.alignment = .center
+//		for i in 0 ..< pages.count
+//		{
+//			if pages[i].upperImage != nil
+//			{
+//				scrollView.addSubview(upperImage)
+//			}
+//		}
+//		scrollView.addSubview(upperImage)
+//		pageStack.addArrangedSubview(scrollView)
+//		self.addSubview(pageStack)
+//		NSLayoutConstraint.activate([
+//			pageStack.topAnchor.constraint(equalTo: self.topAnchor),
+//			pageStack.leftAnchor.constraint(equalTo: self.leftAnchor),
+//			pageStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+//			pageStack.rightAnchor.constraint(equalTo: self.rightAnchor),
+//			])
+//		scrollView.addSubview(upperImage)
+//		scrollView.addSubview(til)
+//		scrollView.addSubview(msg)
+//		let stack = UIStackView(arrangedSubviews: [pageControl, scrollView])
+//		//stack.translatesAutoresizingMaskIntoConstraints = false
+//		self.addSubview(stack)
+//	}
+}
+

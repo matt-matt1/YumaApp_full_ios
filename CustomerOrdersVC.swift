@@ -19,7 +19,8 @@ class CustomerOrdersVC: UIViewController
 	@IBOutlet weak var mainStack: UIStackView!
 	@IBOutlet weak var errorView: UIView!
 	@IBOutlet weak var errorMessage: UILabel!
-	@IBOutlet weak var insertHere: UIView!
+	@IBOutlet weak var scrollView: UIScrollView!
+	//	@IBOutlet weak var insertHere: UIStackView!
 	let store = DataStore.sharedInstance
 	
 	
@@ -27,39 +28,53 @@ class CustomerOrdersVC: UIViewController
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navTitle.title = R.string.OrdHist
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		getOrderDetails()
 		if store.orders.count > 0
 		{
 //			errorView.isHidden = true
-			errorView.superview?.removeFromSuperview()
+			if errorView != nil && errorView.superview != nil
+			{
+				errorView.superview?.removeFromSuperview()
+			}
 //			self.view.layoutIfNeeded()
-			errorView.superview?.layoutIfNeeded()
-			drawTable()
+			if errorView != nil && errorView.superview != nil
+			{
+				errorView.superview?.layoutIfNeeded()
+			}
+//			if insertHere != nil
+//			{
+				drawTable()
+//			}
 		}
 		else
 		{
-			errorMessage.text = R.string.noOrderHist
-			self.store.Alert(fromView: self, title: R.string.empty, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.tryAgain, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
-//				OperationQueue.main.addOperation {
-//					self.navigationController!.popViewController(animated: false)
-//					self.dismiss(animated: false, completion: nil)
-//				}
-//				return
-			}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+			if errorView != nil && errorView.superview != nil
 			{
-//				OperationQueue.main.addOperation {
-//					self.navigationController!.popViewController(animated: false)
-					self.dismiss(animated: false, completion: nil)
-//				}
-//				return
+				errorMessage.text = R.string.noOrderHist
 			}
-//			let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
-//			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (action) in
-//				self.dismiss(animated: false, completion: nil)
-//			}))
-//			OperationQueue.main.addOperation {
-//				self.present(alert, animated: false, completion: nil)
+//			self.store.Alert(fromView: self, title: R.string.empty, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.tryAgain, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
+////				OperationQueue.main.addOperation {
+////					self.navigationController!.popViewController(animated: false)
+////					self.dismiss(animated: false, completion: nil)
+////				}
+////				return
+//			}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+//			{
+////				OperationQueue.main.addOperation {
+////					self.navigationController!.popViewController(animated: false)
+//					self.dismiss(animated: false, completion: nil)
+////				}
+////				return
 //			}
+////			let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+////			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (action) in
+////				self.dismiss(animated: false, completion: nil)
+////			}))
+////			OperationQueue.main.addOperation {
+////				self.present(alert, animated: false, completion: nil)
+////			}
 		}
 	}
 	
@@ -156,27 +171,53 @@ class CustomerOrdersVC: UIViewController
 		//self.view.addSubview(myTable.buildView())
 //		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 		let built = myTable.buildView()
-		built.translatesAutoresizingMaskIntoConstraints = false
-//		print("x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
+		//built.sizeToFit()
+		//built.translatesAutoresizingMaskIntoConstraints = false
+		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
+		print("built(bounds)-x:\(built.bounds.origin.x), y:\(built.bounds.origin.y), w:\(built.bounds.width), h:\(built.bounds.height)")
 		//			let built = myTable
 //		let stack = UIStackView()
 //		stack.translatesAutoresizingMaskIntoConstraints = false
 //		stack.addArrangedSubview(built)
 //		scrollView.addSubview(stack)
-		insertHere.addSubview(built)
+		//insertHere.addArrangedSubview(built)
+		scrollView.addSubview(built)
+//		scrollView.contentSize.width = built.frame.width
+//		mainStack.insertArrangedSubview(built, at: 0)
+		let gap = mainStack.subviews[0] as UIView
+		print("gap-x:\(gap.frame.origin.x), y:\(gap.frame.origin.y), w:\(gap.frame.width), h:\(gap.frame.height)")
+		let button = mainStack.subviews[2] as UIView
+		print("button-x:\(button.frame.origin.x), y:\(button.frame.origin.y), w:\(button.frame.width), h:\(button.frame.height)")
+		//	x:0.0, y:0.0, w:814.0, h:5.0
+		print("scrollView-x:\(scrollView.frame.origin.x), y:\(scrollView.frame.origin.y), w:\(scrollView.frame.width), h:\(scrollView.frame.height)")
+		//	x:0.0, y:81.0, w:814.0, h:10.0
+		print("mainStack-x:\(mainStack.frame.origin.x), y:\(mainStack.frame.origin.y), w:\(mainStack.frame.width), h:\(mainStack.frame.height)")
+		//	mainStack.subviews[1] x:0.0, y:10.0, w:87.0, h:30.0
+		//	mainStack.subviews[0] x:0.0, y:0.0, w:814.0, h:5.0
+		//insertHere.translatesAutoresizingMaskIntoConstraints = false
 		//self.tableStack.addArrangedSubview(built)
 		//print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 		//tableStack.superview?.addSubview(built)
 		NSLayoutConstraint.activate([
+			built.topAnchor.constraint(equalTo: scrollView.topAnchor),
+			built.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+			built.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+			built.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+			
+		//	built.topAnchor.constraint(equalTo: gap.topAnchor, constant: 100),
+		//	built.leadingAnchor.constraint(equalTo: gap.leadingAnchor, constant: 100),
+			//built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor, constant: ),
+			//built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor, constant: ),
+			
 //			built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
 //			built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
 //			built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
 //			built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
 		
-			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
-			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
-			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
-			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
+//			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
+//			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
+//			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
+//			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
 			
 //			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
 //			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),

@@ -417,8 +417,9 @@
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="dq1-BL-bhq" firstAttribute="trailing" secondItem="tyv-IX-gIq" secondAttribute="trailing" id="ath-4s-6gx"/>
-                            <constraint firstItem="dq1-BL-bhq" firstAttribute="top" secondItem="Xzz-65-rO8" secondAttribute="topMargin" id="fXN-6X-V3S"/>
+                            <constraint firstItem="dq1-BL-bhq" firstAttribute="top" secondItem="Xzz-65-rO8" secondAttribute="topMargin" priority="250" id="fXN-6X-V3S"/>
                             <constraint firstItem="dq1-BL-bhq" firstAttribute="leading" secondItem="tyv-IX-gIq" secondAttribute="leading" id="i53-mt-CAz"/>
+                            <constraint firstItem="dq1-BL-bhq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Xzz-65-rO8" secondAttribute="top" priority="750" constant="20" id="xdd-gE-gI6"/>
                             <constraint firstItem="dq1-BL-bhq" firstAttribute="bottom" secondItem="tyv-IX-gIq" secondAttribute="bottom" id="zRd-lF-aAr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tyv-IX-gIq"/>

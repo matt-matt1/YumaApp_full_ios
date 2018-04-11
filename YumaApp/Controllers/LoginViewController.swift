@@ -11,6 +11,9 @@ import UIKit
 class LoginViewController: UIViewController
 {
 	@IBOutlet weak var navBar: UINavigationBar!
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
 	@IBOutlet weak var loginBtn: UIButton!
 	@IBOutlet weak var window: UIView!
 	@IBOutlet weak var rememberSwitch: UISwitch!
@@ -33,6 +36,139 @@ class LoginViewController: UIViewController
 	var passwordVisible: Bool = false
 	let url = "\(R.string.URLbase)en/module/my_login/json"
 	let store = DataStore.sharedInstance
+	
+	
+	//MARK: Overrides
+	override func viewDidLoad()
+	{
+		super.viewDidLoad()
+		
+		//logged in?
+		//		let customer = store.customer
+		//		if customer.count > 0
+		if store.customer != nil && store.customer?.lastname != ""
+		{
+			let _ = UIViewController.displaySpinner(onView: self.view)
+			swapout()
+		}
+		//////
+		//		let logged = UserDefaults.standard.object(forKey: "Customer")//"logged")
+		//		if logged != nil
+		if false && UserDefaults.standard.object(forKey: "Customer") != nil
+		{			//YES
+			//			let customer = store.customer
+			//			if customer[0].id_customer != nil
+			//			{
+			let _ = UIViewController.displaySpinner(onView: self.view)
+			swapout()
+			//			}
+		}
+		else		//DataStore?
+		{
+			//			if let _ = customer[0].id_customer
+			//			{
+			//				//print(customer!)
+			//				self.present(MyAccountViewController(), animated: false, completion: nil)
+			//			}
+			if #available(iOS 11.0, *)
+			{
+				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+			}
+			else
+			{
+				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+			}//***WARNING:***
+			/*Unable to simultaneously satisfy constraints.
+			Probably at least one of the constraints in the following list is one you don't want.
+			Try this:
+			(1) look at each constraint and try to figure out which you don't expect;
+			(2) find the code that added the unwanted constraint or constraints and fix it.
+			(
+			"<NSLayoutConstraint:0x145ca3a0 V:|-(0)-[UIStackView:0x146faff0]   (Names: '|':UIView:0x146faf00 )>",
+			"<NSLayoutConstraint:0x145d45d0 UINavigationBar:0x146eae60.top == UIView:0x146faf00.top + 20>",
+			"<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>"
+			)
+			
+			Will attempt to recover by breaking constraint
+			<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>*/
+			//IN A FILE?
+			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
+			docURL = docURL?.appendingPathComponent("logged.json")
+			var contents = ""
+			do
+			{
+				contents = try String(contentsOf: docURL!, encoding: .utf8)
+				if contents != ""
+				{
+					print(contents)
+				}
+			}
+			catch _
+			{
+				print("file read error")//:\(e)")
+				let ud = UserDefaults.standard.string(forKey: "Customer")
+				if ud != nil
+				{
+					let _ = UIViewController.displaySpinner(onView: self.view)
+					let dataStr = ud?.data(using: .utf8)
+					//UIViewController.removeSpinner(spinner: sv)
+					do
+					{
+						let bits = try JSONDecoder().decode(Customer.self, from: dataStr!)
+						store.customer = bits
+						print("decoded customer (\(bits.id_customer ?? ""))")
+						self.successfullyGotCustomer(bits)
+						swapout()
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+				else
+				{
+					print("no customer in user data")
+				}
+			}
+			if false
+			{
+				//if customer["id_customer"] > -1
+				//if logged.json exists
+				//read file
+				//display my account
+			}
+			else	//NEITHER = not logged in
+			{
+				configureView()
+				if Reachability.isConnectedToNetwork()
+				{
+					showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
+					usernameTextField.delegate = self
+					passwordTextField.delegate = self
+					usernameTextField.returnKeyType = .next
+					passwordTextField.returnKeyType = .done
+				}
+				else
+				{
+					let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+					self.present(alert, animated: false, completion: {
+						self.dismiss(animated: false, completion: nil)
+					})
+				}
+			}
+		}
+	}
+	
+	override func viewWillAppear(_ animated: Bool)
+	{
+	}
+	
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
 
 
 // MARK: My Methods
@@ -49,6 +185,7 @@ class LoginViewController: UIViewController
 		attachTo.addSubview(nav)
 		nav.heightAnchor.constraint(equalToConstant: 46.0)
 	}
+	
 	func addFormEntry(isOneLine: Bool, label: String?, labelColor: UIColor?, labelBackgroundColor: UIColor?, editLeftMargin: CGFloat?, editTopMargin: CGFloat?, editRightMargin: CGFloat?, editBottomMargin: CGFloat?, editLeftPadding: CGFloat?, editTopPadding: CGFloat?, editRightPadding: CGFloat?, editBottomPadding: CGFloat?, editColor: UIColor?, editBackgroundColor: UIColor?, editBorderWidth: CGFloat?, editBorderColor: UIColor?, placeholder: String?, errorMessage: String?, horizontalSpacing: CGFloat?, verticalSpacing: CGFloat?, hasShowHidePassword: Bool) -> UIView
 	{
 		let entry = UIView()
@@ -196,6 +333,8 @@ class LoginViewController: UIViewController
 //			drawLayoutNarrow()
 //		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		emailLabel.text = R.string.emailAddr							//set labals for my language
 		passwordLabel.text = R.string.txtPass
 		rememberLabel.text = R.string.remember
@@ -478,129 +617,6 @@ class LoginViewController: UIViewController
 		}
 	}
 	
-	
-//MARK: Overrides
-	override func viewDidLoad()
-	{
-		super.viewDidLoad()
-
-		//logged in?
-//		let customer = store.customer
-//		if customer.count > 0
-		if store.customer != nil && store.customer?.lastname != ""
-		{
-			let _ = UIViewController.displaySpinner(onView: self.view)
-			swapout()
-		}
-//////
-//		let logged = UserDefaults.standard.object(forKey: "Customer")//"logged")
-//		if logged != nil
-		if false && UserDefaults.standard.object(forKey: "Customer") != nil
-		{			//YES
-//			let customer = store.customer
-//			if customer[0].id_customer != nil
-//			{
-			let _ = UIViewController.displaySpinner(onView: self.view)
-			swapout()
-//			}
-		}
-		else		//DataStore?
-		{
-//			if let _ = customer[0].id_customer
-//			{
-//				//print(customer!)
-//				self.present(MyAccountViewController(), animated: false, completion: nil)
-//			}
-			if #available(iOS 11.0, *)
-			{
-				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-			}
-			else
-			{
-				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-			}//***WARNING:***
-			/*Unable to simultaneously satisfy constraints.
-			Probably at least one of the constraints in the following list is one you don't want.
-			Try this:
-			(1) look at each constraint and try to figure out which you don't expect;
-			(2) find the code that added the unwanted constraint or constraints and fix it.
-			(
-			"<NSLayoutConstraint:0x145ca3a0 V:|-(0)-[UIStackView:0x146faff0]   (Names: '|':UIView:0x146faf00 )>",
-			"<NSLayoutConstraint:0x145d45d0 UINavigationBar:0x146eae60.top == UIView:0x146faf00.top + 20>",
-			"<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>"
-			)
-			
-			Will attempt to recover by breaking constraint
-			<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>*/
-			//IN A FILE?
-			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
-			docURL = docURL?.appendingPathComponent("logged.json")
-			var contents = ""
-			do
-			{
-				contents = try String(contentsOf: docURL!, encoding: .utf8)
-				if contents != ""
-				{
-					print(contents)
-				}
-			}
-			catch _
-			{
-				print("file read error")//:\(e)")
-				let ud = UserDefaults.standard.string(forKey: "Customer")
-				if ud != nil
-				{
-					let _ = UIViewController.displaySpinner(onView: self.view)
-					let dataStr = ud?.data(using: .utf8)
-					//UIViewController.removeSpinner(spinner: sv)
-					do
-					{
-						let bits = try JSONDecoder().decode(Customer.self, from: dataStr!)
-						store.customer = bits
-						print("decoded customer (\(bits.id_customer ?? ""))")
-						self.successfullyGotCustomer(bits)
-						swapout()
-					}
-					catch let JSONerr
-					{
-						print("\(R.string.err) \(JSONerr)")
-					}
-				}
-				else
-				{
-					print("no customer in user data")
-				}
-			}
-			if false
-			{
-				//if customer["id_customer"] > -1
-				//if logged.json exists
-				//read file
-				//display my account
-			}
-			else	//NEITHER = not logged in
-			{
-				configureView()
-				if Reachability.isConnectedToNetwork()
-				{
-					showPass.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPassAct(_:))))
-					usernameTextField.delegate = self
-					passwordTextField.delegate = self
-					usernameTextField.returnKeyType = .next
-					passwordTextField.returnKeyType = .done
-				}
-				else
-				{
-					let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
-					self.present(alert, animated: false, completion: {
-						self.dismiss(animated: false, completion: nil)
-					})
-				}
-			}
-		}
-	}
-	
 	@objc func swapout()
 	{
 		OperationQueue.main.addOperation
@@ -612,16 +628,6 @@ class LoginViewController: UIViewController
 					presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
 				})
 			}
-	}
-	
-	override func viewWillAppear(_ animated: Bool)
-	{
-	}
-	
-	override func didReceiveMemoryWarning()
-	{
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	

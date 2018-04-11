@@ -160,6 +160,10 @@ class CartViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let vc = HelpVC()// as! helpVC
+		vc.backgroundColor = .red
+		vc.title.text = "hi"
+		self.view.addSubview(vc)
 	}
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{

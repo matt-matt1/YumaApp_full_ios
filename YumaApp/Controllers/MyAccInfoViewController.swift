@@ -291,6 +291,8 @@ Will attempt to recover by breaking constraint
 //		{
 //			convertEntryToHorizontal(125)
 //		}
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
 		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
         setLabels()

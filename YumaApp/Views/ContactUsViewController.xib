@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,17 +103,17 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WX4-vV-F0j">
-                                                                    <rect key="frame" x="45" y="0.0" width="523" height="50"/>
+                                                                    <rect key="frame" x="45" y="0.0" width="593" height="50"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WwN-Ty-50Z" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="578" y="0.0" width="150" height="50"/>
+                                                                    <rect key="frame" x="648" y="0.0" width="80" height="50"/>
                                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="TN8-QQ-y5M"/>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="c3i-af-f0h"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="c3i-af-f0h"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -190,16 +191,16 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pa-r1-JDn">
-                                                                    <rect key="frame" x="45" y="0.0" width="523" height="50"/>
+                                                                    <rect key="frame" x="45" y="0.0" width="593" height="50"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jB3-U5-awO" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="578" y="0.0" width="150" height="50"/>
+                                                                    <rect key="frame" x="648" y="0.0" width="80" height="50"/>
                                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="7Vh-Rl-FJB"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="7Vh-Rl-FJB"/>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="xec-ep-Mzo"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
@@ -277,17 +278,17 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Physical Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2j-qi-NiA">
-                                                                    <rect key="frame" x="45" y="0.0" width="523" height="50"/>
+                                                                    <rect key="frame" x="45" y="0.0" width="593" height="50"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eYl-JP-bZi" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="578" y="0.0" width="150" height="50"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eYl-JP-bZi" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
+                                                                    <rect key="frame" x="648" y="0.0" width="80" height="50"/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="FkH-MY-bBS"/>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="ceu-pp-xdT"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="ceu-pp-xdT"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                                     <size key="titleShadowOffset" width="1" height="1"/>
@@ -339,8 +340,10 @@
                                                     <constraints>
                                                         <constraint firstItem="Tkx-BM-TXp" firstAttribute="top" secondItem="0zo-at-N7y" secondAttribute="bottom" constant="10" id="Sfe-kE-hXS"/>
                                                         <constraint firstItem="0zo-at-N7y" firstAttribute="top" secondItem="JmT-YT-cNm" secondAttribute="bottom" constant="10" id="Uha-d7-8NH"/>
+                                                        <constraint firstItem="eYl-JP-bZi" firstAttribute="width" secondItem="jB3-U5-awO" secondAttribute="width" id="h4u-4Y-Ybr"/>
                                                         <constraint firstItem="WwN-Ty-50Z" firstAttribute="width" secondItem="jB3-U5-awO" secondAttribute="width" id="hSP-k4-SOz"/>
                                                         <constraint firstItem="jB3-U5-awO" firstAttribute="height" secondItem="eYl-JP-bZi" secondAttribute="height" id="mgY-y2-chC"/>
+                                                        <constraint firstItem="eYl-JP-bZi" firstAttribute="width" secondItem="WwN-Ty-50Z" secondAttribute="width" id="s5D-Uz-JPG"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
@@ -373,10 +376,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="758" height="736"/>
                                                     <subviews>
                                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gYX-p5-9Yn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="605.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="585.5"/>
                                                         </mapView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVw-Vd-b0B">
-                                                            <rect key="frame" x="0.0" y="615.5" width="758" height="30"/>
+                                                            <rect key="frame" x="0.0" y="595.5" width="758" height="50"/>
                                                             <state key="normal" title="My Location"/>
                                                             <connections>
                                                                 <action selector="directionsAct:" destination="-1" eventType="touchUpInside" id="aQl-Y2-B0C"/>
@@ -480,8 +483,9 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="O3q-Id-xFe" secondAttribute="bottom" id="2Di-Wl-NEP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="O3q-Id-xFe" secondAttribute="trailing" id="8vW-fh-KRz"/>
-                <constraint firstItem="O3q-Id-xFe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="SN0-l2-cfa"/>
+                <constraint firstItem="O3q-Id-xFe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" priority="250" id="SN0-l2-cfa"/>
                 <constraint firstItem="O3q-Id-xFe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ekS-E3-IpT"/>
+                <constraint firstItem="O3q-Id-xFe" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="20" id="ubO-FN-Xce"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="28.5" y="59.5"/>

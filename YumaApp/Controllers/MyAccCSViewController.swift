@@ -11,7 +11,10 @@ import UIKit
 class MyAccCSViewController: UIViewController
 {
 	@IBOutlet weak var navBar: UINavigationBar!
-
+	@IBOutlet weak var navTitle: UINavigationItem!
+	@IBOutlet weak var navClose: UIBarButtonItem!
+	@IBOutlet weak var navHelp: UIBarButtonItem!
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +23,8 @@ class MyAccCSViewController: UIViewController
 		} else {
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,5 +42,12 @@ class MyAccCSViewController: UIViewController
         // Pass the selected object to the new view controller.
     }
     */
-
+	@IBAction func navCloseAct(_ sender: Any)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
+	}
+	
 }

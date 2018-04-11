@@ -82,7 +82,7 @@ final class DataStore
 	/// Use the api to collect the carriers, if any
 	func callGetCarriers(completion: @escaping ([Carrier]?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)/carriers"
+		let url = "\(R.string.WSbase)carriers"
 		let myUrl = "\(url)?\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
 		PSWebServices.getCarriers(from: myUrl, /*to: CarrierList.self,*/ completionHandler:
 			{

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -159,10 +160,11 @@
             </subviews>
             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Su4-kJ-3JY" secondAttribute="bottom" id="1lv-j1-M3a"/>
-                <constraint firstItem="Su4-kJ-3JY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="DvH-0N-Gef"/>
-                <constraint firstItem="Su4-kJ-3JY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkr-Pz-pex"/>
-                <constraint firstAttribute="trailing" secondItem="Su4-kJ-3JY" secondAttribute="trailing" id="ZBk-Ia-xsI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Su4-kJ-3JY" secondAttribute="bottom" id="1lv-j1-M3a"/>
+                <constraint firstItem="Su4-kJ-3JY" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="20" id="DvH-0N-Gef"/>
+                <constraint firstItem="Su4-kJ-3JY" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Wkr-Pz-pex"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Su4-kJ-3JY" secondAttribute="trailing" id="ZBk-Ia-xsI"/>
+                <constraint firstItem="Su4-kJ-3JY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" priority="250" id="kg0-Z4-HxN"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="24" y="51"/>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,6 +14,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyAccCSViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
                 <outlet property="navBar" destination="2m3-km-I0w" id="w0G-fB-6bu"/>
+                <outlet property="navClose" destination="v9b-91-wOL" id="YK1-4G-T51"/>
+                <outlet property="navHelp" destination="5q2-XC-37t" id="qhG-RM-Is6"/>
+                <outlet property="navTitle" destination="NQ9-TV-DjQ" id="wcK-1n-4rJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,10 +26,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z1j-wR-rbs" userLabel="View all">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="657"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yEG-qU-scq" userLabel="Stack View all">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="657"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
                                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2m3-km-I0w">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
@@ -44,224 +48,33 @@
                                         <navigationItem title="My Account Credit Slips" id="NQ9-TV-DjQ">
                                             <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="v9b-91-wOL">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="navCloseAct:" destination="-1" id="dYM-9d-bop"/>
+                                                </connections>
                                             </barButtonItem>
                                             <barButtonItem key="rightBarButtonItem" title="help" style="done" id="5q2-XC-37t">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <action selector="navHelpAct:" destination="-1" id="qEa-3h-Khs"/>
+                                                </connections>
                                             </barButtonItem>
                                         </navigationItem>
                                     </items>
                                 </navigationBar>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fHl-U2-KjD" userLabel="View lower">
-                                    <rect key="frame" x="0.0" y="46" width="375" height="611"/>
+                                    <rect key="frame" x="0.0" y="46" width="375" height="601"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nuc-2y-Ihc" userLabel="Stack View panel">
-                                            <rect key="frame" x="5" y="0.0" width="365" height="520"/>
+                                            <rect key="frame" x="5" y="0.0" width="365" height="80"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oem-Vq-76k" userLabel="View panel">
-                                                    <rect key="frame" x="0.0" y="0.0" width="365" height="520"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="365" height="80"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="wEC-ny-gdY" userLabel="Stack View elements">
-                                                            <rect key="frame" x="5" y="20" width="355" height="490"/>
+                                                            <rect key="frame" x="5" y="20" width="355" height="50"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ue-np-g0p" customClass="Entry" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="355" height="110"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="110" id="M1K-h4-2Lg"/>
-                                                                    </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="nibName" value="Entry"/>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="labelsWidth">
-                                                                            <real key="value" value="120"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="labelFieldSpace">
-                                                                            <real key="value" value="10"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldInvalidSpace">
-                                                                            <real key="value" value="10"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldTopPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldLeftPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldBottomPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldRightPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Here"/>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="invalidText" value="Invalid"/>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="sam"/>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="labelColor">
-                                                                            <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="invalidColor">
-                                                                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="entryBorderColor">
-                                                                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="hasPasswordShowHideButton" value="NO"/>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="fieldTextColor">
-                                                                            <color key="value" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="fieldBackgroundColor">
-                                                                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryTopPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryLeftPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryBottomPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryRightPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="entryID" value="e1"/>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryBorderWidth">
-                                                                            <real key="value" value="2"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldHeight">
-                                                                            <real key="value" value="45"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </view>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVL-lr-qDc" customClass="Entry" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="130" width="355" height="110"/>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="110" id="xe7-5u-WYg"/>
-                                                                    </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Here2"/>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="labelsWidth">
-                                                                            <real key="value" value="100"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="invalidText" value="Invalid"/>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryRightPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryBottomPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryLeftPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="fieldBackgroundColor">
-                                                                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryTopPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="fieldTextColor">
-                                                                            <color key="value" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="entryBorderWidth">
-                                                                            <real key="value" value="2"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldRightPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldBottomPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldLeftPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="hasPasswordShowHideButton" value="NO"/>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="invalidColor">
-                                                                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="entryBorderColor">
-                                                                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="labelColor">
-                                                                            <color key="value" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldTopPadding">
-                                                                            <real key="value" value="5"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="labelFieldSpace">
-                                                                            <real key="value" value="10"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldInvalidSpace">
-                                                                            <real key="value" value="10"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="entryID" value="e2"/>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="fieldHeight">
-                                                                            <real key="value" value="45"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </view>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZV-eF-1BO" userLabel="View entry row">
-                                                                    <rect key="frame" x="0.0" y="260" width="355" height="160"/>
-                                                                    <subviews>
-                                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ER8-gH-0WM" userLabel="Stack View entry row">
-                                                                            <rect key="frame" x="5" y="5" width="345" height="160"/>
-                                                                            <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Field" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Vz-ks-0kd">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="345" height="30"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstAttribute="height" constant="30" id="XIc-xK-4If"/>
-                                                                                    </constraints>
-                                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                                    <nil key="textColor"/>
-                                                                                    <nil key="highlightedColor"/>
-                                                                                </label>
-                                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3c8-jJ-vm9" userLabel="View edit">
-                                                                                    <rect key="frame" x="0.0" y="30" width="345" height="110"/>
-                                                                                    <subviews>
-                                                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hR2-UL-86i">
-                                                                                            <rect key="frame" x="10" y="2" width="325" height="106"/>
-                                                                                            <nil key="textColor"/>
-                                                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                            <textInputTraits key="textInputTraits"/>
-                                                                                        </textField>
-                                                                                    </subviews>
-                                                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                    <constraints>
-                                                                                        <constraint firstItem="hR2-UL-86i" firstAttribute="centerX" secondItem="3c8-jJ-vm9" secondAttribute="centerX" id="FhG-9i-Ufa"/>
-                                                                                        <constraint firstItem="hR2-UL-86i" firstAttribute="top" secondItem="3c8-jJ-vm9" secondAttribute="top" constant="2" id="X53-Ub-i4t"/>
-                                                                                        <constraint firstItem="hR2-UL-86i" firstAttribute="centerY" secondItem="3c8-jJ-vm9" secondAttribute="centerY" id="i4D-W4-AtM"/>
-                                                                                        <constraint firstItem="hR2-UL-86i" firstAttribute="leading" secondItem="3c8-jJ-vm9" secondAttribute="leading" constant="10" id="mfL-Lm-WEj"/>
-                                                                                    </constraints>
-                                                                                </view>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fka-VH-ViP">
-                                                                                    <rect key="frame" x="0.0" y="140" width="345" height="20"/>
-                                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
-                                                                                    <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                    <nil key="highlightedColor"/>
-                                                                                </label>
-                                                                            </subviews>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="bottom" secondItem="3c8-jJ-vm9" secondAttribute="bottom" constant="20" symbolic="YES" id="0Yb-k7-g2n"/>
-                                                                            </constraints>
-                                                                        </stackView>
-                                                                    </subviews>
-                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <constraints>
-                                                                        <constraint firstItem="ER8-gH-0WM" firstAttribute="centerX" secondItem="KZV-eF-1BO" secondAttribute="centerX" id="Y1p-c7-8JA"/>
-                                                                        <constraint firstItem="ER8-gH-0WM" firstAttribute="top" secondItem="KZV-eF-1BO" secondAttribute="top" constant="5" id="Ygd-DL-mzf"/>
-                                                                        <constraint firstItem="ER8-gH-0WM" firstAttribute="leading" secondItem="KZV-eF-1BO" secondAttribute="leading" constant="5" id="c3T-TK-ipm"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="ER8-gH-0WM" secondAttribute="bottom" constant="-5" id="f9z-lv-ZXr"/>
-                                                                    </constraints>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                                            <color key="value" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                                            <real key="value" value="2"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </view>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1lm-n1-aHH" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                    <rect key="frame" x="137.5" y="440" width="80" height="50"/>
+                                                                    <rect key="frame" x="137.5" y="0.0" width="80" height="50"/>
                                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="ZNO-q3-g60"/>
@@ -305,14 +118,6 @@
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="2ue-np-g0p" secondAttribute="trailing" id="1RR-ku-tjh"/>
-                                                                <constraint firstItem="2ue-np-g0p" firstAttribute="top" secondItem="wEC-ny-gdY" secondAttribute="top" id="Jrf-nY-ZKv"/>
-                                                                <constraint firstAttribute="trailing" secondItem="mVL-lr-qDc" secondAttribute="trailing" id="S53-Eq-4GK"/>
-                                                                <constraint firstItem="mVL-lr-qDc" firstAttribute="leading" secondItem="wEC-ny-gdY" secondAttribute="leading" id="cx4-sx-hNm"/>
-                                                                <constraint firstItem="KZV-eF-1BO" firstAttribute="leading" secondItem="wEC-ny-gdY" secondAttribute="leading" id="s2K-F4-6ZH"/>
-                                                                <constraint firstItem="2ue-np-g0p" firstAttribute="leading" secondItem="wEC-ny-gdY" secondAttribute="leading" id="zCS-5m-tni"/>
-                                                            </constraints>
                                                         </stackView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -345,7 +150,6 @@
                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="nuc-2y-Ihc" firstAttribute="centerX" secondItem="fHl-U2-KjD" secondAttribute="centerX" id="90W-Aq-8MP"/>
-                                        <constraint firstAttribute="bottom" secondItem="nuc-2y-Ihc" secondAttribute="bottom" constant="91" id="IST-s5-1Zy"/>
                                         <constraint firstItem="nuc-2y-Ihc" firstAttribute="leading" secondItem="fHl-U2-KjD" secondAttribute="leading" constant="5" id="goW-1X-C5l"/>
                                         <constraint firstItem="nuc-2y-Ihc" firstAttribute="top" secondItem="fHl-U2-KjD" secondAttribute="top" id="mVU-b9-IEs"/>
                                     </constraints>
@@ -368,10 +172,11 @@
             </subviews>
             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Z1j-wR-rbs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FiR-2i-xRh"/>
-                <constraint firstItem="Z1j-wR-rbs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="QW2-g0-wvF"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Z1j-wR-rbs" secondAttribute="bottom" constant="10" id="SqD-js-aSD"/>
-                <constraint firstAttribute="trailing" secondItem="Z1j-wR-rbs" secondAttribute="trailing" id="sts-Is-Quy"/>
+                <constraint firstItem="Z1j-wR-rbs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="20" id="8UH-c7-5Ji"/>
+                <constraint firstItem="Z1j-wR-rbs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" priority="250" id="FiR-2i-xRh"/>
+                <constraint firstItem="Z1j-wR-rbs" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="QW2-g0-wvF"/>
+                <constraint firstItem="Z1j-wR-rbs" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="SqD-js-aSD"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Z1j-wR-rbs" secondAttribute="trailing" id="sts-Is-Quy"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="40.5" y="59.5"/>
