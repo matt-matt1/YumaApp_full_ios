@@ -48,6 +48,7 @@ final class DataStore
 	var forceRefresh = 			false
 	var productOptions: 		[ProductOption] = 		[]
 	var orderCarriers: 			[OrderCarrier] = 		[]
+	var configurations: 		[Configuration] = 		[]
 	
 	
 	/// Sets the parameters for product shares
@@ -489,6 +490,35 @@ final class DataStore
 							self.categories.append(cat)
 						}
 						completion(self.categories, nil)
+					}
+				}
+				else
+				{
+					completion(nil, err)
+				}
+			}
+		)
+	}
+	
+	/// Use the api to collect the configurations, if any
+	func callGetConfigurations(completion: @escaping ([Configuration]?, Error?) -> Void)
+	{
+		PSWebServices.getConfigurations(completionHandler:
+			{
+				(configurations, err) in
+				
+				if err == nil
+				{
+					if configurations != nil
+					{
+						if (configurations?.configurations) != nil
+						{
+							for tax in (configurations?.configurations!)!
+							{
+								self.configurations.append(tax)
+							}
+						}
+						completion(self.configurations, nil)
 					}
 				}
 				else

@@ -11,6 +11,22 @@ import UIKit
 
 extension SwipingController
 {
+	@objc func gotoDebug(_ sender: UITapGestureRecognizer)
+	{
+		store.flexView(view: sender.view!)
+		sender.view?.backgroundColor = R.color.YumaRed
+		let spin = UIViewController.displaySpinner(onView: self.view)
+		//		UIView.animate(withDuration: 1, animations:
+		//			{
+		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+		//		})
+		self.present(DebugViewController(), animated: false, completion: (() -> Void)?
+			{
+				UIViewController.removeSpinner(spinner: spin)
+				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+				//				sender.view?.backgroundColor = UIColor.white
+			})
+	}
 	@objc func loginTapped(_ sender: UITapGestureRecognizer)
 	{
 		store.flexView(view: sender.view!)

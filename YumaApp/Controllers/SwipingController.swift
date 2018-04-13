@@ -45,6 +45,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		pc.currentPage = 	0
 		pc.currentPageIndicatorTintColor = R.color.YumaRed
 		pc.pageIndicatorTintColor = R.color.YumaYel
+		pc.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(gotoDebug(_:))))
 		return pc
 	}()
 	
@@ -213,25 +214,116 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			})
 			//let str = collect.addresses(addresses_filter.idCustomer, "3")
 			//print("\(str)")
-			store.callGetTaxes { (taxes, err) in
-				if err == nil
+			if store.taxes.count < 1	//check if not already in data store
+			{
+				let taxes = UserDefaults.standard.string(forKey: "Taxes")
+				if taxes == nil
 				{
-					print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
+					store.callGetTaxes { (taxes, err) in
+						if err == nil
+						{
+							print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
+					}
 				}
 				else
 				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					do	//decode user data then insert each into the data store
+					{
+						let allTaxes = try JSONDecoder().decode(Taxes.self, from: (taxes?.data(using: .utf8))!)
+						for t in allTaxes.taxes!
+						{
+							store.taxes.append(t)
+						}
+						print("decoded \(store.taxes.count) taxes")
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
 				}
 			}
-			store.callGetTags { (tags, err) in
-				if err == nil
+			else
+			{
+				print("data store has \(store.taxes.count) taxes")
+			}
+			if store.configurations.count < 1	//check if not already in data store
+			{
+				let configurations = UserDefaults.standard.string(forKey: "Configurations")
+				if configurations == nil
 				{
-					print("got \((tags as [myTag]?)?.count ?? 0) tags")
+					store.callGetConfigurations { (configurations, err) in
+						if err == nil
+						{
+							print("got \((configurations as [Configuration]?)?.count ?? 0) configurations")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
+					}
 				}
 				else
 				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					do	//decode user data then insert each into the data store
+					{
+						let all = try JSONDecoder().decode(Configurations.self, from: (configurations?.data(using: .utf8))!)
+						for t in all.configurations!
+						{
+							store.configurations.append(t)
+						}
+						print("decoded \(store.configurations.count) configurations")
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
 				}
+			}
+			else
+			{
+				print("data store has \(store.configurations.count) configurations")
+			}
+			if store.tags.count < 1	//check if not already in data store
+			{
+				let tags = UserDefaults.standard.string(forKey: "Tags")
+				if tags == nil
+				{
+					store.callGetTags { (tags, err) in	//api get
+						if err == nil
+						{
+							print("got \((tags as [myTag]?)?.count ?? 0) tags")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
+					}
+				}
+				else
+				{
+					do	//decode user data then insert each into the data store
+					{
+						let allTags = try JSONDecoder().decode(Tags.self, from: (tags?.data(using: .utf8))!)
+						for t in allTags.tags!
+						{
+							store.tags.append(t)
+						}
+						print("decoded \(store.tags.count) tags")
+					}
+					catch let JSONerr
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+			}
+			else
+			{
+				print("data store has \(store.tags.count) tags")
 			}
 			store.callGetProductOptionValues{ (opts, err) in
 				if err == nil
@@ -258,7 +350,26 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		container.alpha = alpha//0.8
 //		self.view.insertSubview(container, at: 1)
 //	}
+
 	
+//	func decodeUserData(fromString: String, objectType: Type) -> Error?
+//	{
+//		do	//decode user data then insert each into the data store
+//		{
+//			let allTags = try JSONDecoder().decode(objectType, from: (fromString.data(using: .utf8))!)
+//			////Cannot invoke 'decode' with an argument list of type '(Type, from: Data)'
+//			for t in allTags.tags!
+//			{
+//				store.tags.append(t)
+//			}
+//		}
+//		catch let JSONerr
+//		{
+//			return JSONerr
+//		}
+//		return nil
+//	}
+
 	
 	//MARK: Swiping Controls
 	@objc private func handlePrev()
@@ -354,7 +465,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		myStack.axis = UILayoutConstraintAxis.vertical
 		myStack.backgroundColor = UIColor.lightText
 		myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
-		//myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(myTapped(_:))))
 		NSLayoutConstraint.activate([
 			myIcon.topAnchor.constraint(equalTo: myStack.topAnchor),
 			myIcon.leadingAnchor.constraint(equalTo: myStack.leadingAnchor),
@@ -420,6 +530,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		let myLogo = UIImageView(image: #imageLiteral(resourceName: "logo"))
 		myLogo.translatesAutoresizingMaskIntoConstraints = false
 		myLogo.contentMode = .scaleAspectFit
+		myLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(gotoDebug)))
 
 		let cartPanel = drawIconPanel(iconText: FontAwesome.shoppingCart.rawValue, labelText: R.string.cart, actionSelector: #selector(cartTapped(_:)))
 		cartPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true

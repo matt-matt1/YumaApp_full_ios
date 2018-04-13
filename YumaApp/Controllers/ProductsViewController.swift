@@ -10,6 +10,7 @@ import UIKit
 
 class ProductsViewController: UIViewController, UIScrollViewDelegate
 {
+		//MARK: Outlets
 	@IBOutlet weak var cartScroll: UIScrollView!
 	@IBOutlet weak var stackLeft: UIStackView!
 	//@IBOutlet weak var viewCartBtn: GradientButton!
@@ -29,11 +30,13 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	/////tableView
 	@IBOutlet weak var stackRight: UIStackView!
 	@IBOutlet weak var totalAmt: UILabel!
-	@IBOutlet weak var totalLbl: UILabel!
+	@IBOutlet weak var totalWt: UILabel!
+	@IBOutlet weak var totalWtLbl: UILabel!
 	@IBOutlet weak var totalPcs: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
 	//@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var chkoutBtn: GradientButton!
+		//MARK: Properties
 	let cellID = "cartCell"
 	var latest: OrderRow?
 	var latestIsUpdate = false
@@ -44,6 +47,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	var wt: Double = 0
 
 	
+		//MARK: Override Methods
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
@@ -52,14 +56,14 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		scrollView.delegate = self
 		scrollView.isPagingEnabled = true
 		navTitle.title = pageTitle
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		//viewCartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
@@ -112,11 +116,18 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		stackRight.layoutIfNeeded()
 		stackLeft.layoutIfNeeded()
 		cartScroll.layoutIfNeeded()
-		//tableView.delegate = self
-		_ = populateCartTotal()
+	}
+	
+	
+	override func viewDidAppear(_ animated: Bool)
+	{
+		super.viewDidAppear(animated)
+		(wt, pcs, totalAmt.text!) = populateCartTotal()
+		totalWt.text = String(wt)
+		totalPcs.text = String(pcs)
+		cartScroll.subviews.forEach({ 	$0.removeFromSuperview() 	})
 		if store.myOrderRows.count > 0
 		{
-			//for i in (0..<store.myOrderRows.count).reversed()
 			for i in 0..<store.myOrderRows.count
 			{
 				if store.myOrderRows.count > 1 && !latestIsUpdate
@@ -125,7 +136,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					{
 						if type(of: scr) == CartCell.self
 						{
-							scr.frame.origin.y += self.cartCellHeight + (2*cartCellVSpace)//10//104
+							scr.frame.origin.y += self.cartCellHeight + (2*cartCellVSpace)
 						}
 					}
 					self.drawCartItem(i)
@@ -134,8 +145,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				{
 					if latestIsUpdate
 					{
-						let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell//let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)!) as! CartCell
-						cell.prodQty.text = latest?.product_quantity//cell.prodQty.text = latest?.productQuantity
+						let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
+						cell.prodQty.text = latest?.product_quantity
 						store.flexView(view: cell) { (done) in
 							self.store.flexView(view: cell.prodQty.superview!)
 						}
@@ -151,37 +162,70 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	}
 	
 	
-	func populateCartTotal() -> (Double, Int, String)
+		//MARK: Private Methods
+	private func populateCartTotal() -> (Double, Int, String)
 	{
-		wt = 0
-		pcs = 0
 		total = 0
-		var i = 0
+		pcs = 0
+		wt = 0
 		for row in store.myOrderRows
 		{
-			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
-			total = total + (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)//total = total + (Double(Int(row.productQuantity!)!) * Double(row.productPrice!)!)
-			pcs = pcs + Int(row.product_quantity!)!//pcs = pcs + Int(row.productQuantity!)!
-//			let prodWeight = NumberFormatter().number(from: store.products[pageControl.currentPage].weight!)?.doubleValue
+			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			pcs += Int(row.product_quantity!)!
 			for p in store.products
 			{
-				if p.id! == Int(row.product_id!)!//if p.id! == Int(row.productId!)!
+				if String(p.id!) == row.product_id!
 				{
-					wt += (p.weight?.toDouble())!
+					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
+					if let prodWeight = prodWeight
+					{
+						wt += Double(prodWeight)
+					}
 					break
 				}
 			}
-			let prodWeight = NumberFormatter().number(from: store.products[i].weight!)?.doubleValue
-			if let prodWeight = prodWeight
-			{
-				wt = wt + Double(prodWeight)
-			}
-			i += 1
+//			totalWt.text = "\(wt)"
+//		wt = 0
+//		pcs = 0
+//		total = 0
+//		var i = 0
+//		for row in store.myOrderRows
+//		{
+//			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+//			pcs += Int(row.product_quantity!)!
+//			var prod: aProduct?
+//			for p in store.products
+//			{
+//				if String(p.id!) == row.product_id!
+//				{
+//					prod = p
+//				}
+//			}
+//			if prod != nil
+//			{
+//				wt += Double((prod?.weight!)!)!
+//			}
+////			totalWt.text = "\(wt)"
+////////////////////////
+////			total = total + (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+////			pcs = pcs + Int(row.product_quantity!)!
+////			for p in store.products
+////			{
+////				if p.id! == Int(row.product_id!)!
+////				{
+////					wt += (p.weight?.toDouble())!
+////					break
+////				}
+////			}
+//			let prodWeight = NumberFormatter().number(from: store.products[i].weight!)?.doubleValue
+//			if let prodWeight = prodWeight
+//			{
+//				wt = wt + Double(prodWeight)
+//			}
+//			i += 1
 		}
 		let totalDbl = total as NSNumber
 		let totalStr = store.formatCurrency(amount: totalDbl, iso: store.locale)
-		//totalAmt.text = totalStr
-		//totalPcs.text = "\(pcs)"
 		return (wt, pcs, totalStr)
 	}
 	
@@ -380,6 +424,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	}
 	
 
+		//MARK: Actions
 	/////tableView
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
@@ -663,6 +708,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
+	
+		//MARK: more Methods
 	func insertData()
 	{
 		var i = 0
@@ -788,7 +835,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
 				{
 					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
-					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
+//temp					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
 					//let stack = UIStackView()
 					//stack.translatesAutoresizingMaskIntoConstraints = false
 					//stack.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
@@ -993,6 +1040,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		return stack
 	}
 	
+	
+		//MARK: Tap Actions
 	@objc private func clickShare(_ sender: UITapGestureRecognizer)
 	{
 		//let asdf = sender.view?.superview?.subviews
@@ -1095,6 +1144,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
+	
+		//MARK: more, more Methods
 	func makeTag(string: String) -> UIView
 	{
 		let tagView = UIView()

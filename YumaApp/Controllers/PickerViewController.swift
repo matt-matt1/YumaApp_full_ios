@@ -15,18 +15,16 @@ class PickerViewController: UIViewController
 	@IBOutlet weak var titleLbl: UILabel!
 	@IBOutlet weak var pickerView: UIPickerView!
 	@IBOutlet weak var button: UIButton!
-	var formatter: Int
-	{
-		get {
-			return pickerView.selectedRow(inComponent: 0)
-		}
-	}
+	//var onSelected: ((_ data: String) -> ())?
 	
 	
     override func viewDidLoad()
 	{
         super.viewDidLoad()
-
+		NSLayoutConstraint.activate([
+			view.centerXAnchor.constraint(equalTo: dialog.centerXAnchor),
+			view.centerYAnchor.constraint(equalTo: dialog.centerYAnchor),
+		])
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,7 +34,8 @@ class PickerViewController: UIViewController
     
 	@IBAction func buttonAct(_ sender: Any)
 	{
-		NotificationCenter.default.post(name: NSNotification.Name.gotNameFromPopup, object: self)
+//		NotificationCenter.default.post(name: NSNotification.Name.gotNameFromPopup, object: self)
+		//onSelected
 		self.dismiss(animated: false, completion: nil)
 	}
 	

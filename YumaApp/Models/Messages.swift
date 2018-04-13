@@ -11,12 +11,12 @@ import Foundation
 
 public struct Message: Decodable
 {
-	let id: 			String
+	let id: 			String?//!
 	let id_cart: 		String?
 	let id_order: 		String?
 	let id_customer: 	String?
 	let id_employee: 	String?
-	let message: 		String//..1600 html
+	let message: 		String?//!..1600 html
 	let isprivate: 		String?//Bool
 	let date_add: 		String?//date
 }

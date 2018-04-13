@@ -18,9 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MmQ-kW-CCs">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MmQ-kW-CCs">
                                 <rect key="frame" x="35" y="145" width="304" height="377"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1O-L2-NWM">
                                         <rect key="frame" x="0.0" y="0.0" width="304" height="39"/>
@@ -44,14 +43,15 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="0.47589362159999998" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="MmQ-kW-CCs" firstAttribute="centerY" secondItem="WyB-Uc-zZ7" secondAttribute="centerY" id="7wr-AV-oeg"/>
+                            <constraint firstItem="MmQ-kW-CCs" firstAttribute="centerX" secondItem="WyB-Uc-zZ7" secondAttribute="centerX" id="TN4-xE-3dj"/>
+                            <constraint firstItem="MmQ-kW-CCs" firstAttribute="leading" secondItem="1i2-dP-42d" secondAttribute="leading" priority="250" constant="35" id="oVa-WI-BdP"/>
+                            <constraint firstItem="MmQ-kW-CCs" firstAttribute="top" secondItem="1i2-dP-42d" secondAttribute="top" priority="250" constant="125" id="sLH-4v-s5Y"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1i2-dP-42d"/>
                     </view>
                     <connections>

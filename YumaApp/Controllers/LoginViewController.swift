@@ -48,7 +48,10 @@ class LoginViewController: UIViewController
 		//		if customer.count > 0
 		if store.customer != nil && store.customer?.lastname != ""
 		{
-			let _ = UIViewController.displaySpinner(onView: self.view)
+			OperationQueue.main.addOperation
+			{
+				let _ = UIViewController.displaySpinner(onView: self.view)
+			}
 			swapout()
 		}
 		//////
@@ -59,7 +62,10 @@ class LoginViewController: UIViewController
 			//			let customer = store.customer
 			//			if customer[0].id_customer != nil
 			//			{
-			let _ = UIViewController.displaySpinner(onView: self.view)
+			OperationQueue.main.addOperation
+			{
+				let _ = UIViewController.displaySpinner(onView: self.view)
+			}
 			swapout()
 			//			}
 		}
@@ -118,7 +124,10 @@ class LoginViewController: UIViewController
 						store.customer = bits
 						print("decoded customer (\(bits.id_customer ?? ""))")
 						self.successfullyGotCustomer(bits)
-						swapout()
+						OperationQueue.main.addOperation
+						{
+							self.swapout()
+						}
 					}
 					catch let JSONerr
 					{
@@ -623,8 +632,6 @@ class LoginViewController: UIViewController
 			{
 				weak var presentingViewController = self.presentingViewController
 				self.dismiss(animated: false, completion: {
-//					LoginViewController().dismiss(animated: false, completion: {
-//						self.present(MyAccountViewController(nibName: "MyAccountViewController", bundle: Bundle.main), animated: false, completion: nil)
 					presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
 				})
 			}

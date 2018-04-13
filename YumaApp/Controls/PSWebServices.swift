@@ -706,8 +706,8 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
+					let dataString = String(data: data, encoding: .utf8)
+					UserDefaults.standard.set(dataString, forKey: "Taxes")
 					do
 					{
 						let taxes = try JSONDecoder().decode(Taxes.self, from: data)
@@ -716,6 +716,34 @@ class PSWebServices: NSObject
 					catch let JSONerr
 					{
 						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
+					}
+				}
+				}.resume()
+		}
+	}
+
+	///return an object of the configurations
+	class func getConfigurations(completionHandler: @escaping (Configurations?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)configurations?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					let dataString = String(data: data, encoding: .utf8)
+					UserDefaults.standard.set(dataString, forKey: "Configurations")
+					do
+					{
+						let configurations = try JSONDecoder().decode(Configurations.self, from: data)
+						completionHandler(configurations, nil)
+					}
+					catch let JSONerr
+					{
 						completionHandler(nil, JSONerr)
 					}
 				}
@@ -735,8 +763,8 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
+					let dataString = String(data: data, encoding: .utf8)
+					UserDefaults.standard.set(dataString, forKey: "Tags")
 					do
 					{
 						let tags = try JSONDecoder().decode(Tags.self, from: data)

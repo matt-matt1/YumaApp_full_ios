@@ -12,6 +12,7 @@ import MGSwipeTableCell
 
 class CartViewController: UIViewController
 {
+	//MARK: Outlets
 	@IBOutlet weak var totalAmt: UILabel!
 	@IBOutlet weak var totalLbl: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
@@ -36,6 +37,7 @@ class CartViewController: UIViewController
 	var wt: Double = 0
 
 	
+	//MARK: Override Methods
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
@@ -69,6 +71,7 @@ class CartViewController: UIViewController
     }
 
 	
+	//MARK: Methods
 	fileprivate func calcTotal()
 	{
 		total = 0
@@ -76,22 +79,20 @@ class CartViewController: UIViewController
 		wt = 0
 		for row in store.myOrderRows
 		{
-			//print("price=\(row.productPrice ?? ""), convert=\(Double(row.productPrice!)!)")
 			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
 			pcs += Int(row.product_quantity!)!
-			var prod: aProduct?
 			for p in store.products
 			{
 				if String(p.id!) == row.product_id!
 				{
-					prod = p
+					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
+					if let prodWeight = prodWeight
+					{
+						wt += Double(prodWeight)
+					}
+					break
 				}
 			}
-			if prod != nil
-			{
-				wt += Double((prod?.weight!)!)!
-			}
-			//R.string.Total.uppercased()
 			totalWt.text = "\(wt)"
 		}
 		if total < 1
@@ -102,7 +103,6 @@ class CartViewController: UIViewController
 		}
 		else
 		{
-			//totalAmt.text = "\(total)"
 			let totalDbl = total as NSNumber
 			totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
 			totalPcs.text = "\(pcs)"
@@ -154,6 +154,7 @@ class CartViewController: UIViewController
 	}
 	
 
+	//MARK: Actions
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: false, completion: nil)
@@ -176,6 +177,7 @@ class CartViewController: UIViewController
 	}
 	
 }
+
 
 
 extension CartViewController: UITableViewDataSource, UITableViewDelegate
@@ -225,7 +227,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 							blurFxView.removeFromSuperview()
 					}))
 					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-							print("delete item:\(indexPath.row)")
+							print("delete item at position \(indexPath.row)")
 							coloredBG.removeFromSuperview()
 							blurFxView.removeFromSuperview()
 							self.store.myOrderRows.remove(at: indexPath.row)

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Debug View Controller-->
+        <scene sceneID="Lrc-hk-iHJ">
+            <objects>
+                <viewController id="H89-t1-d9w" customClass="DebugViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0fM-ae-J6i">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="YSL-k0-iaa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="W0N-14-FUr">
+                                    <size key="itemSize" width="125" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="debugCell" id="gby-jS-gD9" customClass="DebugCollectionViewCell" customModule="YumaApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="pcF-kH-lvC">
+                                                    <rect key="frame" x="4" y="9" width="82" height="81"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgZ-NL-lpu">
+                                                            <rect key="frame" x="0.0" y="0.0" width="63" height="40"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O58-g2-CdX">
+                                                            <rect key="frame" x="73" y="0.0" width="42" height="40"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="pcF-kH-lvC" firstAttribute="leading" secondItem="gby-jS-gD9" secondAttribute="leading" constant="5" id="8Fy-kw-6Ty"/>
+                                            <constraint firstAttribute="bottom" secondItem="pcF-kH-lvC" secondAttribute="bottom" constant="5" id="VKj-xC-DHb"/>
+                                            <constraint firstAttribute="trailing" secondItem="pcF-kH-lvC" secondAttribute="trailing" constant="5" id="cy6-h9-cJf"/>
+                                            <constraint firstItem="pcF-kH-lvC" firstAttribute="top" secondItem="gby-jS-gD9" secondAttribute="top" constant="5" id="mWu-69-fcj"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="label1" destination="QgZ-NL-lpu" id="eDW-I7-4aJ"/>
+                                            <outlet property="label2" destination="O58-g2-CdX" id="uc2-0N-kUi"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="H89-t1-d9w" id="3VX-p2-vpk"/>
+                                    <outlet property="delegate" destination="H89-t1-d9w" id="F68-se-guu"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="YSL-k0-iaa" firstAttribute="top" secondItem="0fM-ae-J6i" secondAttribute="top" id="1rZ-KA-uVb"/>
+                            <constraint firstItem="YSL-k0-iaa" firstAttribute="leading" secondItem="zqL-PF-UDY" secondAttribute="leading" id="FxE-i3-FP5"/>
+                            <constraint firstItem="YSL-k0-iaa" firstAttribute="trailing" secondItem="zqL-PF-UDY" secondAttribute="trailing" id="GgF-Ww-rOP"/>
+                            <constraint firstItem="YSL-k0-iaa" firstAttribute="bottom" secondItem="zqL-PF-UDY" secondAttribute="bottom" id="l7h-pH-ofD"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="zqL-PF-UDY"/>
+                    </view>
+                    <connections>
+                        <outlet property="collView" destination="YSL-k0-iaa" id="heX-Lx-U9T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v98-HT-cpD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="104.8" y="134.48275862068968"/>
+        </scene>
+    </scenes>
+</document>

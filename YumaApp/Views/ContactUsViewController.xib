@@ -376,10 +376,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="758" height="736"/>
                                                     <subviews>
                                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gYX-p5-9Yn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="585.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="758" height="605.5"/>
                                                         </mapView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVw-Vd-b0B">
-                                                            <rect key="frame" x="0.0" y="595.5" width="758" height="50"/>
+                                                            <rect key="frame" x="0.0" y="615.5" width="758" height="30"/>
                                                             <state key="normal" title="My Location"/>
                                                             <connections>
                                                                 <action selector="directionsAct:" destination="-1" eventType="touchUpInside" id="aQl-Y2-B0C"/>

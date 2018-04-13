@@ -58,9 +58,11 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	@IBOutlet weak var addMessageList: UIView!
 	@IBOutlet weak var addMessageField: UITextField!
 	@IBOutlet weak var addMessageArrow: UILabel!
+	@IBOutlet weak var addMessageMessageLabel: UILabel!
 	@IBOutlet weak var button: GradientButton!
 	@IBOutlet weak var orderShipAmt: UILabel!
 	@IBOutlet weak var addMessageSelect: UIStackView!
+	@IBOutlet weak var addMessageMessageField: UITextField!
 	let store = DataStore.sharedInstance
 	var order: Order? = nil
 	var details: OrderDetail? = nil
@@ -73,14 +75,6 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	{
         super.viewDidLoad()
 
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navTitle.title = R.string.order + " " + R.string.details
@@ -90,11 +84,12 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		picker.delegate = self
 		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
     }
+
 	
-	override func viewDidAppear(_ animated: Bool)
-	{
-		super.viewDidAppear(animated)
-		
+//	override func viewDidAppear(_ animated: Bool)
+//	{
+//		super.viewDidAppear(animated)
+	
 //		if #available(iOS 11.0, *)
 //		{
 //			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -107,25 +102,28 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 //		navTitle.title = R.string.order + " " + R.string.details
 //		prepareLabels()
-		fillData()
-//		picker.dataSource = self
-//		picker.delegate = self
-		//NotificationCenter.default.addObserver(self, selector: #selector(writeSelectedProduct(notification:)), name: .gotNameFromPopup, object: nil)
-		observer = NotificationCenter.default.addObserver(forName: .gotNameFromPopup, object: nil, queue: OperationQueue.main) { (notification) in
-			let data = notification.object as! PickerViewController
-			self.addMessageField.text = String(data.pickerView.selectedRow(inComponent: 0))
-		}
+//		fillData()
+//		observer = NotificationCenter.default.addObserver(forName: .gotNameFromPopup, object: nil, queue: OperationQueue.main) { (notification) in
+//			let data = notification.object as! PickerViewController
+//			//self.addMessageField.text = String(data.pickerView.selectedRow(inComponent: 0))
+//			var pickedStr = ""
+//			if let picked = data.dialog.subviews[1] as? UIPickerView
+//			{
+//				pickedStr = String(picked.selectedRow(inComponent: 0))
+//			}
+//			self.addMessageField.text = pickedStr
+//		}
 //		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
-	}
+//	}
 	
-	override func viewDidDisappear(_ animated: Bool)
-	{
-		super.viewDidDisappear(animated)
-		if let observer = observer
-		{
-			NotificationCenter.default.removeObserver(observer)
-		}
-	}
+//	override func viewDidDisappear(_ animated: Bool)
+//	{
+//		super.viewDidDisappear(animated)
+//		if let observer = observer
+//		{
+//			NotificationCenter.default.removeObserver(observer)
+//		}
+//	}
 	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -163,7 +161,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		addMessageArrow.font = R.font.FontAwesomeOfSize(pointSize: 21)
 		addMessageArrow.textAlignment = .center
 		addMessageArrow.center.y = (addMessageArrow.superview?.center.y)!
-		button.setTitle(R.string.send.uppercased(), for: .normal)
+		button.setTitle(R.string.addMsg.uppercased(), for: .normal)
 	}
 	
 	
@@ -177,143 +175,155 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		return pickerData.count
 	}
 	
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-	{
-		addMessageField.text = pickerData[row]
-	}
+//	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+//	{
+//		addMessageField.text = pickerData[row]
+//	}
 	
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
 	{
-		return pickerData[row]//R.string.prod
+		return pickerData[row]
 	}
 	
 
 	func fillData()
 	{
-		guard order != nil else { 	return 	}
-		var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0, handling: Double = 0
-		if order?.reference != nil
+		if order != nil && order?.reference != nil
 		{
-			orderRefValue.text = order?.reference
-		}
-		placedOnValue.text = ""
-		if self.order?.date_add != nil && self.order?.date_add != ""
-		{
-			let df = DateFormatter()
-			df.locale = Locale(identifier: self.store.locale)
-			//df.dateFormat = "dd MMM YYYY"
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			if let date = df.date(from: (order?.date_add)!)
+			//guard order != nil && order?.reference != nil && order?.reference != "" else { 	return 	}
+			var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0, handling: Double = 0
+			if order?.reference != nil
 			{
-				//let df = DateFormatter().
-				df.dateFormat = "dd MMM yyyy"
-				df.string(from: date)
-				placedOnValue.text = df.string(from: date)
+				orderRefValue.text = order?.reference
 			}
-			//placedOnValue.text = df.string(from: try! Date(from: order?.date_add as! Decoder))
-		}
-		if order?.id_carrier != nil
-		{
-			for carr in store.carriers
+			placedOnValue.text = ""
+			if self.order?.date_add != nil && self.order?.date_add != ""
 			{
-				if order?.id_carrier != nil && carr.id! == Int((order?.id_carrier)!)!
+				let df = DateFormatter()
+				df.locale = Locale(identifier: self.store.locale)
+				df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+				if let date = df.date(from: (order?.date_add)!)
 				{
-					carrier.text = carr.name!
+					df.dateFormat = "dd MMM yyyy"
+					df.string(from: date)
+					placedOnValue.text = df.string(from: date)
+				}
+			}
+			if order?.id_carrier != nil
+			{
+				if order?.id_carrier != nil
+				{
+					for carr in store.carriers
+					{
+						if carr.id! == Int((order?.id_carrier)!)!
+						{
+							carrier.text = carr.name!
+							break
 //					if carr.shippingHandling != nil && (carr.isFree == nil || carr.isFree != "")
 //					{
 //						handling = Double(carr.shippingHandling!)!
 //					}
 //					total += handling
 //					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
+						}
+					}
 				}
 				else
 				{
 					carrier.text = "DELETED (was #" + (order?.id_carrier)! + ")"
 				}
 			}
-		}
-		if store.orderCarriers.count > 0
-		{
-			for carr in store.orderCarriers
+			if store.orderCarriers.count > 0
 			{
-				if (order?.id!)! == Int(carr.id_order!)!
+				for carr in store.orderCarriers
 				{
-					handling = Double(carr.shipping_cost_tax_excl!)!
+					if (order?.id!)! == Int(carr.id_order!)!
+					{
+						handling = Double(carr.shipping_cost_tax_excl!)!
+					}
+					total += handling
+					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
 				}
-				total += handling
-				orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
 			}
-		}
-		payment.text = order?.payment
-		if order?.delivery_date != nil
-		{
-			let dateField = UILabel()
-			let df = DateFormatter()
-			df.locale = Locale(identifier: self.store.locale)
-			df.dateFormat = "dd MMM YYYY"
-			if let date = df.date(from: (order?.delivery_date)!)
+			payment.text = order?.payment
+			if order?.delivery_date != nil
 			{
-				dateField.text = "\(df.string(from: date))"
-				let status = UILabel()
-				status.text = R.string.delivered
-				let stack = UIStackView(arrangedSubviews: [dateField, status])
-				stack.distribution = .fillEqually
-				statusAddHere.addArrangedSubview(stack)
-			}
-		}
-		// order?.currentState
-		for del in store.addresses
-		{
-			if order?.id_address_delivery != nil && del.id! == Int((order?.id_address_delivery)!)!
-			{
-				deliveryAddrField.text = store.formatAddress(del)
-			}
-			self.automaticallyAdjustsScrollViewInsets = false
-			deliveryAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-			deliveryAddrField.contentOffset = CGPoint(x: 0, y: 0)
-		}
-		for inva in store.addresses
-		{
-			if order?.id_address_invoice != nil && inva.id! == Int((order?.id_address_invoice)!)!
-			{
-				invoiceAddrField.text = store.formatAddress(inva)
-			}
-			invoiceAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-		}
-		if order?.associations?.order_rows != nil && (order?.associations?.order_rows?.count)! > 0
-		{
-			var pos = 1
-			for row in (order?.associations?.order_rows)!
-			{
-				let prod = UILabel()
-				prod.text = row.product_name
-				prod.textColor = R.color.YumaRed
-				prod.adjustsFontSizeToFitWidth = true
-				let qty = UILabel()
-				qty.textAlignment = .center
-				qty.text = row.product_quantity
-				let up = UILabel()
-				up.textColor = R.color.YumaRed
-				up.textAlignment = .right
-				if let currency = Double(row.unit_price_tax_excl!)
+				let dateField = UILabel()
+				let df = DateFormatter()
+				df.locale = Locale(identifier: self.store.locale)
+				df.dateFormat = "dd MMM YYYY"
+				if let date = df.date(from: (order?.delivery_date)!)
 				{
-					up.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-					unit = currency
+					dateField.text = "\(df.string(from: date))"
+					let status = UILabel()
+					status.text = R.string.delivered
+					let stack = UIStackView(arrangedSubviews: [dateField, status])
+					stack.distribution = .fillEqually
+					statusAddHere.addArrangedSubview(stack)
 				}
-				let tp = UILabel()
-				tp.textAlignment = .right
-				tp.textColor = R.color.YumaRed
-				if let currency = Double(row.product_price!)
+			}
+			// order?.currentState
+			if order?.id_address_delivery != nil
+			{
+				for del in store.addresses
 				{
-					tp.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-					sub += currency
-					total += sub
-					tax += Double(row.unit_price_tax_incl!)! - unit
+					if del.id! == Int((order?.id_address_delivery)!)!
+					{
+						deliveryAddrField.text = store.formatAddress(del)
+						break
+					}
 				}
-				let stack = UIStackView(arrangedSubviews: [prod, qty, up, tp])
-				stack.distribution = .fillEqually
-				orderListAdd2.insertArrangedSubview(stack, at: pos)
-				pickerData.append(row.product_name!)
+				self.automaticallyAdjustsScrollViewInsets = false
+				deliveryAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+				deliveryAddrField.contentOffset = CGPoint(x: 0, y: 0)
+			}
+			if order?.id_address_invoice != nil
+			{
+				for inva in store.addresses
+				{
+					if order?.id_address_invoice != nil && inva.id! == Int((order?.id_address_invoice)!)!
+					{
+						invoiceAddrField.text = store.formatAddress(inva)
+						break
+					}
+				}
+				invoiceAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+			}
+			if order?.associations?.order_rows != nil && (order?.associations?.order_rows?.count)! > 0
+			{
+				var pos = 1
+				addMessageField.text = (order?.associations?.order_rows![0].product_name)	//insert first product
+				for row in (order?.associations?.order_rows)!
+				{
+					let prod = UILabel()
+					prod.text = row.product_name
+					prod.textColor = R.color.YumaRed
+					prod.adjustsFontSizeToFitWidth = true
+					let qty = UILabel()
+					qty.textAlignment = .center
+					qty.text = row.product_quantity
+					let up = UILabel()
+					up.textColor = R.color.YumaRed
+					up.textAlignment = .right
+					if let currency = Double(row.unit_price_tax_excl!)
+					{
+						up.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+						unit = currency
+					}
+					let tp = UILabel()
+					tp.textAlignment = .right
+					tp.textColor = R.color.YumaRed
+					if let currency = Double(row.product_price!)
+					{
+						tp.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+						sub += currency
+						total += sub
+						tax += Double(row.unit_price_tax_incl!)! - unit
+					}
+					let stack = UIStackView(arrangedSubviews: [prod, qty, up, tp])
+					stack.distribution = .fillEqually
+					orderListAdd2.insertArrangedSubview(stack, at: pos)
+					pickerData.append(row.product_name!)
 //				var msgs: [String] = [String]()
 //				if row.productReference != nil
 //				{
@@ -323,21 +333,34 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //				{
 //					messagesLabel.text = msgs.joined()
 //				}
-				pos += 1
+					pos += 1
+				}
 			}
-		}
-		if let currency = Double(String(sub))
-		{
-			orderSubtotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-		}
-		total += tax
-		orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: tax), iso: self.store.locale)
-		orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: total), iso: self.store.locale)
-		if order?.associations != nil
-		{
-//			for msg in order?.associations.messages
+			if let currency = Double(String(sub))
+			{
+				orderSubtotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+			}
+			total += tax
+			orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: tax), iso: self.store.locale)
+			orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: total), iso: self.store.locale)
+//			if order?.associations != nil
 //			{
-				//
+//				for msg in order?.associations.messages
+//				{
+//					let myMsg = mess as! Message
+//					let df = DateFormatter()
+//					df.locale = Locale(identifier: self.store.locale)
+//					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//					if let date = df.date(from: (myMsg.date_add)!)
+//					{
+//						df.dateFormat = "dd MMM yyyy"
+////						df.string(from: date)
+//						let dateLbl = UILabel()
+//						dateLbl.text = df.string(from: date)
+//						let messLbl = UILabel()
+//						messLbl.text = myMsg.message
+//					}
+//				}
 //			}
 		}
 	}
@@ -345,27 +368,28 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	
 	@objc func dropdownList(_ sender: UITapGestureRecognizer)
 	{
-		//print("x:\(picker.frame.origin.x), y:\(picker.frame.origin.y), w:\(picker.frame.width), h:\(picker.frame.height)")
-		//	x:0.0, y:0.0, w:320.0, h:216.0
-		//print("x:\(self.view.frame.origin.x), y:\(self.view.frame.origin.y), w:\(self.view.frame.width), h:\(self.view.frame.height)")
-		//x:0.0, y:0.0, w:375.0, h:812.0
-		self.view.addSubview(picker)
-//		NSLayoutConstraint.activate([
-//			picker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-//			picker.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-//			])
-//		picker.sizeToFit()
-//		picker.layoutIfNeeded()
 		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
 		let vc = sb.instantiateInitialViewController() as? PickerViewController
-		//let vc = PickerViewController()
 		if vc != nil
 		{
 			self.present(vc!, animated: true, completion: nil)
 			vc?.dialog.layer.cornerRadius = 20
-			//vc?.titleLbl.text = pickerData[row]//R.string.prod
+			vc?.dialog.cornerRadius = 20
+			vc?.titleLbl.text = R.string.select + " " + R.string.prod
 			vc?.button.setTitle(R.string.select, for: .normal)
-			//vc.pickerView = self.pickerData
+			vc?.view.addSubview(picker)
+			picker.translatesAutoresizingMaskIntoConstraints = false
+			NSLayoutConstraint.activate([
+				picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+				picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+				])
+			vc?.pickerView.removeFromSuperview()
+			vc?.button.addTarget(self, action: #selector(writePickedValue(_:)), for: .touchUpInside)
+//			vc?.onSelected =
+//			{
+//				(data) in
+//				self.addMessageField.text = data
+//			}
 		}
 		else
 		{
@@ -374,11 +398,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	}
 	
 	
-	@objc func writeSelectedProduct(notification: Notification)
+	@objc func writePickedValue(_ sender: UIButton?)
 	{
-		let data = notification.object as! PickerViewController
-		self.addMessageField.text = String(data.pickerView.selectedRow(inComponent: 0))
-		//popup ask for message
+		self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
 	}
 	
 	
@@ -391,6 +413,13 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	}
 	@IBAction func buttonAct(_ sender: Any)
 	{
+		if addMessageField.text != "" && addMessageMessageField.text != ""
+		{
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			let myMsg = Message(id: "", id_cart: "", id_order: String((order?.id)!), id_customer: store.customer?.id_customer, id_employee: "", message: addMessageMessageField.text, isprivate: "", date_add: df.string(from: Date()))
+			print(myMsg)
+		}
 	}
 
 }

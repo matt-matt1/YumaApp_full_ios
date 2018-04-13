@@ -338,8 +338,14 @@ class CustomerOrdersVC: UIViewController
 	@IBAction func tempDetailsAct(_ sender: Any)
 	{
 		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-		vc.order = store.orders[0]
-		vc.details = store.orderDetails[0]
+		if store.orders.count > 0
+		{
+			vc.order = store.orders[0]
+			if store.orderDetails.count > 0
+			{
+				vc.details = store.orderDetails[0]
+			}
+		}
 		self.present(vc, animated: false, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)

@@ -499,6 +499,8 @@
                         <outlet property="totalAmt" destination="tAP-yk-deU" id="360-sA-sIw"/>
                         <outlet property="totalPcs" destination="Mzp-HB-Y6C" id="J43-2w-8fw"/>
                         <outlet property="totalPcsLbl" destination="kPu-uw-xin" id="Pnd-iV-VZk"/>
+                        <outlet property="totalWt" destination="C8J-0a-pg9" id="v7o-si-Uw2"/>
+                        <outlet property="totalWtLbl" destination="5kT-1D-liz" id="XZJ-cs-oMT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yoz-xq-FOw" userLabel="First Responder" sceneMemberID="firstResponder"/>
