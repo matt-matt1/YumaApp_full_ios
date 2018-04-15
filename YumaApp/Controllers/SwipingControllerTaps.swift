@@ -20,12 +20,14 @@ extension SwipingController
 		//			{
 		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		//		})
-		self.present(DebugViewController(), animated: false, completion: (() -> Void)?
+		let vc = UIStoryboard(name: "Debug", bundle: nil).instantiateInitialViewController() as UIViewController?
+		self.present(vc!, animated: false, completion: (() -> Void)?
 			{
 				UIViewController.removeSpinner(spinner: spin)
 				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				//				sender.view?.backgroundColor = UIColor.white
 			})
+		//		self.present(ContactUsViewController(), animated: true, completion: nil)
 	}
 	@objc func loginTapped(_ sender: UITapGestureRecognizer)
 	{

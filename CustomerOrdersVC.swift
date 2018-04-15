@@ -297,24 +297,24 @@ class CustomerOrdersVC: UIViewController
 
 
 	//https://stackoverflow.com/questions/24844681/list-of-classs-properties-in-swift
-//	func getKeysAndTypes(forObject:Any?) -> Dictionary<String,String>
-//	{
-//		var answer:Dictionary<String,String> = [:]
-//		var counts = UInt32();
-//		let properties = class_copyPropertyList(object_getClass(forObject), &counts);
-//		for i in 0..<counts {
-//			let property = properties?.advanced(by: Int(i)).pointee;
-//
-//			let cName = property_getName(property!);
-//			let name = String(cString: cName)
-//
-//			let cAttr = property_getAttributes(property!)!
-//			let attr = String(cString:cAttr).components(separatedBy: ",")[0].replacingOccurrences(of: "T", with: "");
-//			answer[name] = attr;
-//			//print("ID: \(property.unsafelyUnwrapped.debugDescription): Name \(name), Attr: \(attr)")
-//		}
-//		return answer;
-//	}
+	static func getKeysAndTypes(forObject:Any?) -> Dictionary<String,String>
+	{
+		var answer:Dictionary<String,String> = [:]
+		var counts = UInt32();
+		let properties = class_copyPropertyList(object_getClass(forObject), &counts);
+		for i in 0..<counts {
+			let property = properties?.advanced(by: Int(i)).pointee;
+
+			let cName = property_getName(property!);
+			let name = String(cString: cName)
+
+			let cAttr = property_getAttributes(property!)!
+			let attr = String(cString:cAttr).components(separatedBy: ",")[0].replacingOccurrences(of: "T", with: "");
+			answer[name] = attr;
+			print("ID: \(property.unsafelyUnwrapped.debugDescription): Name \(name), Attr: \(attr)")
+		}
+		return answer;
+	}
 	
 	
 	@objc func rowDetails(_ sender: UITapGestureRecognizer)

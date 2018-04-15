@@ -11,9 +11,11 @@ import UIKit
 
 class DebugViewController: UIViewController
 {
-	@IBOutlet weak var collView: UICollectionView!
+	@IBOutlet weak var tableView: UITableView!
+	//	@IBOutlet weak var collView: UICollectionView!
 	let cellId = "debugCell"
-	var debugList: [String] = [
+	let altRowColor = "#E0E0E0"
+	var debugList: [String]? = [
 		"addresses",
 		"carriers",
 //		"cart_rules",
@@ -82,20 +84,14 @@ class DebugViewController: UIViewController
 //		"weight_ranges",
 //		"zones",
 	]
-	//var debugCount: [Int] = []
+	static var resource: String?
 	//let store = DataStore.sharedInstance
 
 	
     override func viewDidLoad()
 	{
         super.viewDidLoad()
-
-		//collView.delegate = self
-		//collView.dataSource = self
-//		for i in 0 ..< debugList.count
-//		{
-//			let debugCount[i] = store.str.count
-//		}
+		navigationItem.title = "Resources"
     }
 
     override func didReceiveMemoryWarning() {
@@ -108,23 +104,31 @@ class DebugViewController: UIViewController
 
 
 
-extension DebugViewController: UICollectionViewDelegate, UICollectionViewDataSource
+extension DebugViewController: UITableViewDelegate, UITableViewDataSource
 {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-		return debugList.count
+		if self.debugList == nil
+		{
+			return 0
+		}
+		return debugList!.count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		//let str = debugList[indexPath.item]
-		//let cnt = debugCount[indexPath.item]
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! DebugCollectionViewCell
-		//cell.label1.text = str
-		//cell.label2.text = String(store.configurations.count)
-		cell.setup(str: debugList[indexPath.item])
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DebugTableViewCell
+		if let debugList = debugList, debugList.count >= indexPath.row
+		{
+			cell.setup(str: debugList[indexPath.row])
+			cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.init(hex: altRowColor) : UIColor.white
+		}
 		return cell
 	}
 	
-	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+	{
+		DebugViewController.resource = debugList?[indexPath.row]
+	}
+
 }

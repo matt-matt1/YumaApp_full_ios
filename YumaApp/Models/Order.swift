@@ -9,20 +9,6 @@
 import Foundation
 
 
-protocol PropertyNames
-{
-	func propertyNames() -> [String]
-}
-
-extension PropertyNames
-{
-	func propertyNames() -> [String]
-	{
-		return Mirror(reflecting: self).children.compactMap { $0.label }
-	}
-}
-
-
 struct AssociationsOrders: Decodable
 {
 	var order_rows: [OrderRow]
@@ -184,6 +170,10 @@ struct Associations_OrderRows: Decodable
 //}
 struct Order: Decodable, PropertyNames
 {
+//	func propertyNames() -> [String] {
+//		<#code#>
+//	}
+	
 	var id: 						Int?//!
 	var id_address_delivery: 		String?//!
 	var id_address_invoice: 		String?//!
