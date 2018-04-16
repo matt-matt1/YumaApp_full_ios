@@ -193,6 +193,7 @@ Will attempt to recover by breaking constraint
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
 					self.addresses[self.pageControl.currentPage].deleted = "1"
+					self.collectionView.reloadData()
 				}))
 				self.present(alert, animated: true, completion:
 					{
@@ -220,7 +221,7 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! AddrCollectionViewCell
 //		for i in indexPath.item ..< addresses.count
 //		{
-		var i = indexPath.item
+		let i = indexPath.item//var i = indexPath.item
 //		while i < addresses.count
 //		{
 //			if addresses[i].deleted == nil || addresses[i].deleted == ""

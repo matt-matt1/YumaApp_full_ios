@@ -14,7 +14,7 @@ extension SwipingController
 	@objc func gotoDebug(_ sender: UITapGestureRecognizer)
 	{
 		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		//sender.view?.backgroundColor = R.color.YumaRed
 		let spin = UIViewController.displaySpinner(onView: self.view)
 		//		UIView.animate(withDuration: 1, animations:
 		//			{

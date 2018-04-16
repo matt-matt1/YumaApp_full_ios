@@ -161,6 +161,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		addMessageArrow.font = R.font.FontAwesomeOfSize(pointSize: 21)
 		addMessageArrow.textAlignment = .center
 		addMessageArrow.center.y = (addMessageArrow.superview?.center.y)!
+		addMessageMessageLabel.text = R.string.msg
 		button.setTitle(R.string.addMsg.uppercased(), for: .normal)
 	}
 	

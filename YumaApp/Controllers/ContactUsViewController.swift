@@ -375,8 +375,12 @@ class ContactUsViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
-		let vc = HelpVC() as! UIViewController
-		self.present(vc, animated: false, completion: nil)
+		let vc = HelpVC()// as! helpVC
+		vc.backgroundColor = .red
+		vc.title.text = "hi"
+		self.view.addSubview(vc)
+//		let vc = HelpVC() as! UIViewController
+//		self.present(vc, animated: false, completion: nil)
 	}
 	
 //	override func didReceiveMemoryWarning()

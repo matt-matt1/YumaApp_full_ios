@@ -22,5 +22,9 @@ class Debug2TableViewCell: UITableViewCell
 		{
 			label2.text = str2
 		}
+		else
+		{
+			label2.text = "-"
+		}
 	}
 }

@@ -449,6 +449,7 @@ struct R {
 		static let BillAddr = "Billing address is different"
 		static let createAddr = "Create new address"
 		//		<!--message-->
+		static let msg = "Message"
 		static let msgs = "Messages"
 		static let msgSucc = "Message successfully sent"
 		static let addMsg = "Add a message"
