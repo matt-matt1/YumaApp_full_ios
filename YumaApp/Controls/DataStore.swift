@@ -45,11 +45,12 @@ final class DataStore
 	var shares: 				[ScoialMedia] = 		[]
 	var productOptionValues: 	[ProductOptionValue] = 	[]
 	var myLang: 				Int = 					0
-	var forceRefresh = 			false
+	var forceRefresh = 									false
 	var productOptions: 		[ProductOption] = 		[]
 	var orderCarriers: 			[OrderCarrier] = 		[]
 	var configurations: 		[Configuration] = 		[]
-	
+	var properties: 			[String] = 				[]
+
 	
 	/// Sets the parameters for product shares
 	func initShares()

@@ -188,23 +188,31 @@ class AddressExpandedViewController: UIViewController
 	}
 	
 	
-	func checkFields()
+	func checkFields() -> Bool
 	{
+		var status = true
 		for v in stackFields.subviews
 		{
 			if true
 			{
 				if let field = v.subviews.first?.subviews.first?.subviews.last?.subviews.last as? UITextField
 				{
-					if field.text == ""
+					let invalid = v.subviews.first?.subviews.last as! UILabel
+					if field.placeholder != R.string.optional && ((field.text?.isEmpty)! || String(field.text!).count < 2)
 					{
-						let invalid = v.subviews.first?.subviews.last as! UILabel
 						v.borderColor = UIColor.red
 						invalid.text = R.string.invalid
+						status = true
+					}
+					else
+					{
+						v.borderColor = UIColor.clear
+						invalid.text = ""
 					}
 				}
 			}
 		}
+		return status
 	}
 	
     
@@ -218,7 +226,47 @@ class AddressExpandedViewController: UIViewController
 	@IBAction func buttonAct(_ sender: Any)
 	{
 		store.flexView(view: button)
-		checkFields()
+		if checkFields()
+		{
+			DispatchQueue.main.async
+				{
+					let alert = UIAlertController(title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = 		R.color.YumaDRed
+					alert.view.shadowOffset = 		.zero
+					alert.view.shadowRadius = 		5
+					alert.view.shadowOpacity = 		1
+					alert.view.backgroundColor = 	R.color.YumaYel
+					alert.view.cornerRadius = 		15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.3
+					coloredBG.frame = 				self.view.bounds
+					self.view.addSubview(coloredBG)
+					blurFxView.frame = 				self.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					self.view.addSubview(blurFxView)
+					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+					}))
+//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						self.address?.deleted = "1"
+//						//self.collectionView.reloadData()
+//					}))
+					self.present(alert, animated: true, completion:
+						{
+					})
+			}
+		}
 	}
 }
 

@@ -124,6 +124,7 @@
 		CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */; };
 		CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D202203C569000343B25 /* ExpandMapViewController.swift */; };
 		CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D203203C569000343B25 /* ExpandMapViewController.xib */; };
+		CFD2B03520864B9800E2DBE7 /* Debug2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */; };
 		CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B2C203DD1FA00F98C57 /* Entry.swift */; };
 		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
 		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
@@ -287,6 +288,7 @@
 		CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForgotPWViewController.xib; sourceTree = "<group>"; };
 		CFC1D202203C569000343B25 /* ExpandMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandMapViewController.swift; sourceTree = "<group>"; };
 		CFC1D203203C569000343B25 /* ExpandMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandMapViewController.xib; sourceTree = "<group>"; };
+		CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug2CollectionViewCell.swift; sourceTree = "<group>"; };
 		CFEC7B2C203DD1FA00F98C57 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
 		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				CF4BD96220813142000B2ED6 /* DebugCollectionViewCell.swift */,
 				CF4A953A2082624D004C0733 /* DebugTableViewCell.swift */,
 				CF78CC0C20840A380030789D /* Debug2TableViewCell.swift */,
+				CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */,
 				CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */,
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
+				CFD2B03520864B9800E2DBE7 /* Debug2CollectionViewCell.swift in Sources */,
 				CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */,
 				CFB02E3E204F445A00429798 /* ProductsViewController.swift in Sources */,
 				CF453EA2206ABD3E00E9FCE1 /* UIAlertAction+Extension.swift in Sources */,

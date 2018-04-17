@@ -535,7 +535,10 @@ class MyAccountViewController: UIViewController
 	{
 		print("MyAccCSViewController")
 		store.flexView(view: self.creditSlipsBtn)
-		self.present(MyAccCSViewController(), animated: true, completion: nil)
+		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as! CustomerOrdersVC?
+		vc?.creditSlips = true
+//		self.present(MyAccCSViewController(), animated: true, completion: nil)
+		self.present(vc!, animated: true, completion: nil)
 	}
 	@IBAction func OHBtnAct(_ sender: Any)
 	{

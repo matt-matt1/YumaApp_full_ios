@@ -646,12 +646,11 @@
                                                     </subviews>
                                                 </stackView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cBb-4I-9QI" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                    <rect key="frame" x="358" y="781" width="98" height="50"/>
+                                                    <rect key="frame" x="307" y="781" width="200" height="50"/>
                                                     <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="aTR-fP-lzP"/>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="ayt-mb-Wb7"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="98" id="tLo-6N-wEW"/>
+                                                        <constraint firstAttribute="width" constant="200" id="tLo-6N-wEW"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                     <size key="titleShadowOffset" width="1" height="1"/>

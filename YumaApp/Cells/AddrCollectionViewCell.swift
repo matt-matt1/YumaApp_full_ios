@@ -16,6 +16,7 @@ class AddrCollectionViewCell: UICollectionViewCell
 	@IBOutlet weak var addressEdit: UITextView!
 	@IBOutlet weak var addressBorder: UIView!
 	
+	
 	func setup(address: Address)
 	{
 		aliasInvalid.text = ""

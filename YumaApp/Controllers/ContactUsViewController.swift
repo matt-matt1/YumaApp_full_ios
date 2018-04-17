@@ -117,6 +117,12 @@ class ContactUsViewController: UIViewController
 		addrText.text = R.string.our_addr
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		addrBtn.setTitle(R.string.map_big.uppercased(), for: .normal)
+//		NSLayoutConstraint.activate([
+//			phoneBtn.widthAnchor.constraint(equalToConstant: min(200, max(80, self.view.frame.width/5))),
+//			emailBtn.widthAnchor.constraint(equalToConstant: min(200, max(80, self.view.frame.width/5))),
+//			addrBtn.widthAnchor.constraint(equalToConstant: min(200, max(80, self.view.frame.width/5))),
+//			])
+		//print("min(200, max(80, self.view.frame.width/5))=\(self.view.frame.width/5)=\(min(200, max(80, self.view.frame.width/5)))")
 
 		if CLLocationManager.locationServicesEnabled()
 		{

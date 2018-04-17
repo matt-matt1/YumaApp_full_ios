@@ -154,7 +154,6 @@ Will attempt to recover by breaking constraint
 	}
 	@IBAction func buttonLeftAct(_ sender: Any)
 	{
-		//let vc = AddressExpandedViewController()
 		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
 		vc.address = self.addresses[pageControl.currentPage]
 		present(vc, animated: false, completion: nil)
@@ -193,6 +192,8 @@ Will attempt to recover by breaking constraint
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
 					self.addresses[self.pageControl.currentPage].deleted = "1"
+					print("deleted \(self.addresses[self.pageControl.currentPage].deleted ?? "")")
+					//write address update via api
 					self.collectionView.reloadData()
 				}))
 				self.present(alert, animated: true, completion:
@@ -248,23 +249,24 @@ extension MyAccAddrViewController: UICollectionViewDataSource, UICollectionViewD
 		pageControl.currentPage = Int(ceil(targetContentOffset.pointee.x / collectionView.frame.width))
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
-	{
-		return 0
-	}
+//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
+//	{
+//		return 0
+//	}
 	
 	// MARK: UICollectionViewDelegateFlowLayout
 	
 //	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
 //		return 4
 //	}
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-		return 1
-	}
+//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//		return 1
+//	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width-20, height: /*max(300,*/ view.frame.height-300/*-220*//*)*/)
+		//print("collView height was=\(view.frame.height), now=\(view.frame.height/3*2)")
+		return CGSize(width: view.frame.width-20, height: /*max(300,*/ view.frame.height/5*3/*-300*//*-220*//*)*/)
 	}
 	
 	// MARK: UICollectionViewDelegate

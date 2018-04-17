@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nHS-FV-uRn" userLabel="Stack View all">
-                                <rect key="frame" x="0.0" y="20" width="834" height="1092"/>
+                                <rect key="frame" x="0.0" y="-20" width="834" height="1132"/>
                                 <subviews>
                                     <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MdX-34-pQp">
                                         <rect key="frame" x="0.0" y="0.0" width="834" height="47"/>
@@ -63,13 +63,13 @@
                                         </items>
                                     </navigationBar>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G77-Ql-Bii" userLabel="View outer">
-                                        <rect key="frame" x="0.0" y="47" width="834" height="1045"/>
+                                        <rect key="frame" x="0.0" y="47" width="834" height="1085"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6i-bm-19p">
-                                                <rect key="frame" x="5" y="0.0" width="824" height="126"/>
+                                                <rect key="frame" x="5" y="0.0" width="824" height="166"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tT1-rq-jbI" userLabel="Stack View window">
-                                                        <rect key="frame" x="5" y="0.0" width="814" height="126"/>
+                                                        <rect key="frame" x="5" y="0.0" width="814" height="166"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0KB-gv-oFf" userLabel="View topGap">
                                                                 <rect key="frame" x="0.0" y="0.0" width="814" height="5"/>
@@ -142,10 +142,10 @@
                                                                 </constraints>
                                                             </view>
                                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7d-oH-WWj">
-                                                                <rect key="frame" x="0.0" y="81" width="814" height="10"/>
+                                                                <rect key="frame" x="0.0" y="81" width="814" height="50"/>
                                                             </scrollView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DTg-qI-Yyy">
-                                                                <rect key="frame" x="0.0" y="96" width="87" height="30"/>
+                                                                <rect key="frame" x="0.0" y="136" width="87" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="30" id="ofB-7Z-txb"/>
                                                                 </constraints>
@@ -201,10 +201,11 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="nHS-FV-uRn" firstAttribute="leading" secondItem="ye1-36-sdl" secondAttribute="leading" id="J7W-qr-Xg9"/>
+                            <constraint firstItem="nHS-FV-uRn" firstAttribute="top" relation="greaterThanOrEqual" secondItem="M08-PC-SJo" secondAttribute="top" priority="750" constant="20" id="89n-vg-twV"/>
+                            <constraint firstItem="ye1-36-sdl" firstAttribute="leading" secondItem="nHS-FV-uRn" secondAttribute="leading" id="J7W-qr-Xg9"/>
                             <constraint firstItem="ye1-36-sdl" firstAttribute="bottom" secondItem="nHS-FV-uRn" secondAttribute="bottom" id="Ypc-dx-cKi"/>
                             <constraint firstItem="ye1-36-sdl" firstAttribute="trailing" secondItem="nHS-FV-uRn" secondAttribute="trailing" id="uMM-xJ-gzj"/>
-                            <constraint firstItem="nHS-FV-uRn" firstAttribute="top" secondItem="ye1-36-sdl" secondAttribute="top" id="vzu-Iw-fTK"/>
+                            <constraint firstItem="nHS-FV-uRn" firstAttribute="top" secondItem="M08-PC-SJo" secondAttribute="topMargin" priority="250" id="vzu-Iw-fTK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ye1-36-sdl"/>
                     </view>
@@ -915,10 +916,11 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="yFI-P0-fq4" firstAttribute="top" secondItem="erk-eB-Wz5" secondAttribute="topMargin" constant="20" id="Ywu-PL-G7e"/>
+                            <constraint firstItem="yFI-P0-fq4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="erk-eB-Wz5" secondAttribute="top" priority="750" constant="20" id="8eP-0F-PsZ"/>
+                            <constraint firstItem="yFI-P0-fq4" firstAttribute="top" secondItem="erk-eB-Wz5" secondAttribute="topMargin" priority="250" id="Ywu-PL-G7e"/>
                             <constraint firstItem="yFI-P0-fq4" firstAttribute="leading" secondItem="aIh-Fu-Pui" secondAttribute="leading" id="e9C-tA-azA"/>
-                            <constraint firstItem="aIh-Fu-Pui" firstAttribute="bottom" secondItem="yFI-P0-fq4" secondAttribute="bottom" id="jK8-Pr-OgT"/>
-                            <constraint firstItem="aIh-Fu-Pui" firstAttribute="trailing" secondItem="yFI-P0-fq4" secondAttribute="trailing" id="ybt-n8-WHw"/>
+                            <constraint firstItem="yFI-P0-fq4" firstAttribute="bottom" secondItem="aIh-Fu-Pui" secondAttribute="bottom" id="jK8-Pr-OgT"/>
+                            <constraint firstItem="yFI-P0-fq4" firstAttribute="trailing" secondItem="aIh-Fu-Pui" secondAttribute="trailing" id="ybt-n8-WHw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aIh-Fu-Pui"/>
                     </view>

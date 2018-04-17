@@ -22,31 +22,265 @@ class CustomerOrdersVC: UIViewController
 	@IBOutlet weak var scrollView: UIScrollView!
 	//	@IBOutlet weak var insertHere: UIStackView!
 	let store = DataStore.sharedInstance
+	var creditSlips: Bool = false
 	
 	
 	override func viewDidLoad()
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		navTitle.title = R.string.OrdHist
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		if creditSlips
+		{
+			doCreditSlips()
+		}
+		else
+		{
+			doOrderHistory()
+		}
+	}
+	
+	
+	func doCreditSlips()
+	{
+		navTitle.title = R.string.CreditSlips
+//		getOrderDetails()
+		if false && store.orders.count > 0
+		{
+			if errorView != nil && errorView.superview != nil
+			{
+				errorView.superview?.removeFromSuperview()
+				errorView.superview?.layoutIfNeeded()
+			}
+			drawCSTable()
+		}
+		else
+		{
+			if errorView != nil && errorView.superview != nil
+			{
+				errorMessage.text = R.string.noCreditSlips
+			}
+			DispatchQueue.main.async
+			{
+				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.3
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
+//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+//						self.addresses[self.pageControl.currentPage].deleted = "1"
+//						//write address update via api
+//						self.collectionView.reloadData()
+				}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+			}
+		}
+	}
+	
+	
+	func drawCSTable()
+	{
+		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
+		myTable.data = store.orders
+		myTable.structure =
+			MyTable(caption: R.string.orderHistoryTop,
+					captionGap: 		10,
+					captionAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray,
+											NSAttributedStringKey.font : UIFont.systemFont(ofSize: 13)],
+					columnSpacing: 		10,
+					headerRowGap: 		15,
+					headerAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.black,
+										   NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)],
+					dataRowSpacing: 	10,
+					dataRowAttributes: 	[NSAttributedStringKey.font : UIFont.systemFont(ofSize: 11)],
+					columns: 			[
+						MyTableColumn(key: 				"reference",
+									  headerText: 		"\(R.string.order) \(R.string.ref)",
+							headerAttributes: nil,
+							dataLinkTo: 		#selector(self.rowDetails(_:)),
+							dataReplaceWith: 	nil,
+							dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+							calculate: 	{ 	(str) -> String in return str 	}
+						),
+						MyTableColumn(key: 				"date_add",
+									  headerText: 		R.string.date,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)),
+									  dataReplaceWith: 	nil,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+									  calculate:		{ 	(str) in
+										let df = DateFormatter()
+										df.locale = Locale(identifier: self.store.locale)
+										df.dateFormat = "dd MMM YYYY"
+										if let date = df.date(from: str)
+										{
+											return "\(df.string(from: date))"
+										}
+										return str
+						}),
+						MyTableColumn(key: 				"total_paid",
+									  headerText: 		R.string.tPrice,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)),
+									  dataReplaceWith: 	nil,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+									  calculate:		{ 	(str) in
+										if let currency = Double(str)
+										{
+											return self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
+										}
+										return str
+						}),//total_paid_tax_excl
+						MyTableColumn(key: 				"payment",
+									  headerText: 		R.string.payment,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)),
+									  dataReplaceWith: 	nil,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+									  calculate: 		{ 	(str) -> String in return str 	}),
+						MyTableColumn(key: 				"current_state",
+									  headerText: 		R.string.status,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)),
+									  dataReplaceWith: 	nil,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+									  calculate: 		{ 	(str) -> String in return str 	}),
+						MyTableColumn(key: 				"invoice_number",
+									  headerText: 		R.string.inv,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)),
+									  dataReplaceWith: 	nil,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray],
+									  calculate: 		{ 	(str) -> String in return str 	}),
+						MyTableColumn(key: 				nil,
+									  headerText: 		nil,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowDetails(_:)), dataReplaceWith: R.string.details,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : R.color.YumaRed],
+									  calculate: 		{ 	(str) -> String in return str 	}),
+						MyTableColumn(key: 				nil,
+									  headerText: 		nil,
+									  headerAttributes: nil,
+									  dataLinkTo: 		#selector(self.rowReorder(_:)),
+									  dataReplaceWith: 	R.string.reorder,
+									  dataAttributes: 	[NSAttributedStringKey.foregroundColor : R.color.YumaRed],
+									  calculate: 		{ 	(str) -> String in return str 	}),
+						]
+		)
+		//self.view.addSubview(myTable.buildView())
+		//		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
+		let built = myTable.buildView()
+		//built.sizeToFit()
+		//built.translatesAutoresizingMaskIntoConstraints = false
+		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
+		print("built(bounds)-x:\(built.bounds.origin.x), y:\(built.bounds.origin.y), w:\(built.bounds.width), h:\(built.bounds.height)")
+		//			let built = myTable
+		//		let stack = UIStackView()
+		//		stack.translatesAutoresizingMaskIntoConstraints = false
+		//		stack.addArrangedSubview(built)
+		//		scrollView.addSubview(stack)
+		//insertHere.addArrangedSubview(built)
+		scrollView.addSubview(built)
+		//		scrollView.contentSize.width = built.frame.width
+		//		mainStack.insertArrangedSubview(built, at: 0)
+		let gap = mainStack.subviews[0] as UIView
+		print("gap-x:\(gap.frame.origin.x), y:\(gap.frame.origin.y), w:\(gap.frame.width), h:\(gap.frame.height)")
+		let button = mainStack.subviews[2] as UIView
+		print("button-x:\(button.frame.origin.x), y:\(button.frame.origin.y), w:\(button.frame.width), h:\(button.frame.height)")
+		//	x:0.0, y:0.0, w:814.0, h:5.0
+		print("scrollView-x:\(scrollView.frame.origin.x), y:\(scrollView.frame.origin.y), w:\(scrollView.frame.width), h:\(scrollView.frame.height)")
+		//	x:0.0, y:81.0, w:814.0, h:10.0
+		print("mainStack-x:\(mainStack.frame.origin.x), y:\(mainStack.frame.origin.y), w:\(mainStack.frame.width), h:\(mainStack.frame.height)")
+		//	mainStack.subviews[1] x:0.0, y:10.0, w:87.0, h:30.0
+		//	mainStack.subviews[0] x:0.0, y:0.0, w:814.0, h:5.0
+		//insertHere.translatesAutoresizingMaskIntoConstraints = false
+		//self.tableStack.addArrangedSubview(built)
+		//print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
+		//tableStack.superview?.addSubview(built)
+		NSLayoutConstraint.activate([
+			built.topAnchor.constraint(equalTo: scrollView.topAnchor),
+			built.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+			built.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+			built.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+			
+			//	built.topAnchor.constraint(equalTo: gap.topAnchor, constant: 100),
+			//	built.leadingAnchor.constraint(equalTo: gap.leadingAnchor, constant: 100),
+			//built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor, constant: ),
+			//built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor, constant: ),
+			
+			//			built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
+			//			built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
+			//			built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
+			//			built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
+			
+			//			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
+			//			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
+			//			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
+			//			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
+			
+			//			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+			//			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+			//			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+			//			stack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+			])
+		//		self.tableStack.layoutIfNeeded()
+		//		tableStack.superview?.constraints.forEach({ (constraint) in
+		//			if constraint.firstAnchor == NSLayoutAnchor.constraint(heightAnchor
+		//			{
+		//				constraint.isActive = false
+		//			}
+		//		})
+		//		tableStack.superview?.constraints.first { $0.firstAnchor == heightAnchor }?.isActive = false
+		//		tableStack.superview?.removeConstraint(NSLayoutConstraint(item: <#T##Any#>, attribute: <#T##NSLayoutAttribute#>, relatedBy: <#T##NSLayoutRelation#>, toItem: <#T##Any?#>, attribute: <#T##NSLayoutAttribute#>, multiplier: <#T##CGFloat#>, constant: <#T##CGFloat#>))
+		//.heightAnchor.constraint(equalToConstant: built.frame.height).isActive = true
+	}
+
+	
+	func doOrderHistory()
+	{
+		navTitle.title = R.string.OrdHist
 		getOrderDetails()
 		if store.orders.count > 0
 		{
-//			errorView.isHidden = true
+			//			errorView.isHidden = true
 			if errorView != nil && errorView.superview != nil
 			{
 				errorView.superview?.removeFromSuperview()
 			}
-//			self.view.layoutIfNeeded()
+			//			self.view.layoutIfNeeded()
 			if errorView != nil && errorView.superview != nil
 			{
 				errorView.superview?.layoutIfNeeded()
 			}
-//			if insertHere != nil
-//			{
-				drawTable()
-//			}
+			//			if insertHere != nil
+			//			{
+			drawOHTable()
+			//			}
 		}
 		else
 		{
@@ -54,32 +288,50 @@ class CustomerOrdersVC: UIViewController
 			{
 				errorMessage.text = R.string.noOrderHist
 			}
-//			self.store.Alert(fromView: self, title: R.string.empty, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.tryAgain, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
-////				OperationQueue.main.addOperation {
-////					self.navigationController!.popViewController(animated: false)
-////					self.dismiss(animated: false, completion: nil)
-////				}
-////				return
-//			}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
-//			{
-////				OperationQueue.main.addOperation {
-////					self.navigationController!.popViewController(animated: false)
-//					self.dismiss(animated: false, completion: nil)
-////				}
-////				return
-//			}
-////			let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
-////			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: { (action) in
-////				self.dismiss(animated: false, completion: nil)
-////			}))
-////			OperationQueue.main.addOperation {
-////				self.present(alert, animated: false, completion: nil)
-////			}
+			DispatchQueue.main.async
+			{
+				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.3
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
+					//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					//						self.addresses[self.pageControl.currentPage].deleted = "1"
+					//						//write address update via api
+					//						self.collectionView.reloadData()
+				}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+			}
 		}
 	}
 	
 	
-	func drawTable()
+	func drawOHTable()
 	{
 		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
 		myTable.data = store.orders
@@ -297,24 +549,24 @@ class CustomerOrdersVC: UIViewController
 
 
 	//https://stackoverflow.com/questions/24844681/list-of-classs-properties-in-swift
-	static func getKeysAndTypes(forObject:Any?) -> Dictionary<String,String>
-	{
-		var answer:Dictionary<String,String> = [:]
-		var counts = UInt32();
-		let properties = class_copyPropertyList(object_getClass(forObject), &counts);
-		for i in 0..<counts {
-			let property = properties?.advanced(by: Int(i)).pointee;
-
-			let cName = property_getName(property!);
-			let name = String(cString: cName)
-
-			let cAttr = property_getAttributes(property!)!
-			let attr = String(cString:cAttr).components(separatedBy: ",")[0].replacingOccurrences(of: "T", with: "");
-			answer[name] = attr;
-			print("ID: \(property.unsafelyUnwrapped.debugDescription): Name \(name), Attr: \(attr)")
-		}
-		return answer;
-	}
+//	static func getKeysAndTypes(forObject:Any?) -> Dictionary<String,String>
+//	{
+//		var answer:Dictionary<String,String> = [:]
+//		var counts = UInt32();
+//		let properties = class_copyPropertyList(object_getClass(forObject), &counts);
+//		for i in 0..<counts {
+//			let property = properties?.advanced(by: Int(i)).pointee;
+//
+//			let cName = property_getName(property!);
+//			let name = String(cString: cName)
+//
+//			let cAttr = property_getAttributes(property!)!
+//			let attr = String(cString:cAttr).components(separatedBy: ",")[0].replacingOccurrences(of: "T", with: "");
+//			answer[name] = attr;
+//			print("ID: \(property.unsafelyUnwrapped.debugDescription): Name \(name), Attr: \(attr)")
+//		}
+//		return answer;
+//	}
 	
 	
 	@objc func rowDetails(_ sender: UITapGestureRecognizer)
@@ -326,12 +578,90 @@ class CustomerOrdersVC: UIViewController
 		}
 		else
 		{
-			store.Alert(fromView: self, title: R.string.no_data, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: nil, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel/*, button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>, hasButton2: <#T##Bool#>, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+			DispatchQueue.main.async
+				{
+					let alert = UIAlertController(title: R.string.no_data, message: nil, preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = 		R.color.YumaDRed
+					alert.view.shadowOffset = 		.zero
+					alert.view.shadowRadius = 		5
+					alert.view.shadowOpacity = 		1
+					alert.view.backgroundColor = 	R.color.YumaYel
+					alert.view.cornerRadius = 		15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.3
+					coloredBG.frame = 				self.view.bounds
+					self.view.addSubview(coloredBG)
+					blurFxView.frame = 				self.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					self.view.addSubview(blurFxView)
+					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+					}))
+//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						self.addresses[self.pageControl.currentPage].deleted = "1"
+//						//write address update via api
+//						self.collectionView.reloadData()
+//					}))
+					self.present(alert, animated: true, completion:
+						{
+					})
+			}
+//			store.Alert(fromView: self, title: R.string.no_data, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: nil, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel/*, button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>, hasButton2: <#T##Bool#>, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 		}
 	}
 	
 	@objc func rowReorder(_ sender: UITapGestureRecognizer)
 	{
+		DispatchQueue.main.async
+			{
+				let alert = UIAlertController(title: R.string.order, message: nil, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.3
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+				//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+				//						coloredBG.removeFromSuperview()
+				//						blurFxView.removeFromSuperview()
+				//						self.addresses[self.pageControl.currentPage].deleted = "1"
+				//						//write address update via api
+				//						self.collectionView.reloadData()
+				//					}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+		}
 	}
 	
 

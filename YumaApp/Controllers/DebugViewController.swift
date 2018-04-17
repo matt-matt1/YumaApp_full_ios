@@ -26,7 +26,6 @@ class DebugViewController: UIViewController
 	var debugList: [ResourceStringAndCount]? = []
 	static var resource: String?
 	var mirror: Mirror? = nil
-	var storeProperties: [String] = []
 
 	
     override func viewDidLoad()
@@ -105,16 +104,16 @@ class DebugViewController: UIViewController
 			ResourceStringAndCount(name: "weight_ranges", count: nil/*store.weight.count*/),
 			ResourceStringAndCount(name: "zones", count: nil/*store.zones.count*/)
 		]
-//		if store != nil
-//		{
-			let mirror = Mirror(reflecting: store)
-		for (key, _) in mirror.children
+		let mirror = Mirror(reflecting: store)
+		for (key, val) in mirror.children
+		{
+			guard let key = key else { 	continue 	}
+			if type(of: val) != Int.self && type(of: val) != String.self && type(of: val) != Bool.self
 			{
-				guard let key = key else { 	continue 	}
-				storeProperties.append(key)
+				store.properties.append(key)
 			}
-		print(storeProperties)
-//		}
+		}
+		print(store.properties)
     }
 
     override func didReceiveMemoryWarning()

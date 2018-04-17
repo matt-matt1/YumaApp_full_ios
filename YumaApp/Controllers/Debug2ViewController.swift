@@ -16,14 +16,18 @@ struct Property
 }
 
 
-class Debug2ViewController: UIViewController
+class Debug2ViewController: UIViewController, UIScrollViewDelegate
 {
 	@IBOutlet weak var pageControl: UIPageControl!
+	@IBOutlet weak var scrollView: UIScrollView!
+	@IBOutlet weak var tableView: UITableView!
+	//@IBOutlet weak var collectionView: UICollectionView!
 	let store = DataStore.sharedInstance
 	let cellId = "cell"
+	let collCell = "collCell"
 	let altRowColor = "#E0E0E0"
 	var resourceList: [Property] = []
-
+	
 	
 	override func viewDidLoad()
 	{
@@ -531,6 +535,15 @@ class Debug2ViewController: UIViewController
         resourceList.removeAll()
     }
 	
+	func scrollViewDidScroll(_ scrollView: UIScrollView)
+	{
+		if scrollView == self.scrollView
+		{
+			pageControl.currentPage = Int(round(scrollView.contentOffset.x / self.scrollView.frame.width))
+			self.tableView.reloadData()
+		}
+	}
+
 }
 
 
@@ -560,5 +573,47 @@ extension Debug2ViewController: UITableViewDelegate, UITableViewDataSource
 		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.init(hex: altRowColor) : UIColor.white
 		return cell
 	}
+
+}
+
+
+
+extension Debug2ViewController: UICollectionViewDelegate, UICollectionViewDataSource
+{
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+	{
+		return pageControl.numberOfPages
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+	{
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collCell, for: indexPath) as! Debug2CollectionViewCell
+		cell.setup(str: resourceList[indexPath.row].key!, resourceList[indexPath.row].value as? String)
+		return cell
+	}
+	
+//	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
+//	{
+//		coordinator.animate(alongsideTransition:
+//			{
+//				(_) in
+//
+//				self.collectionView?.collectionViewLayout.invalidateLayout()
+//
+//				if self.pageControl.currentPage == 0
+//				{
+//					self.collectionView?.contentOffset = .zero
+//				}
+//				else
+//				{
+//					let indexPath = IndexPath(item: self.pageControl.currentPage, section: 0)
+//					self.collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//				}
+//		}
+//			)
+//		{
+//			(_) in
+//		}
+//	}
 
 }
