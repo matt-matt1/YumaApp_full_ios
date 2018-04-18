@@ -71,6 +71,13 @@ Will attempt to recover by breaking constraint
 	}
 	
 	
+	override func viewDidAppear(_ animated: Bool)
+	{
+		super.viewDidAppear(animated)
+		collectionView.reloadData()
+	}
+	
+	
 	func getAddress()
 	{
 		if store.addresses.count < 1
@@ -188,13 +195,28 @@ Will attempt to recover by breaking constraint
 					blurFxView.removeFromSuperview()
 				}))
 				alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-					print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+					//print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
 					self.addresses[self.pageControl.currentPage].deleted = "1"
-					print("deleted \(self.addresses[self.pageControl.currentPage].deleted ?? "")")
-					//write address update via api
 					self.collectionView.reloadData()
+					var edited = self.addresses[self.pageControl.currentPage]
+					print("address was deleted \(edited.deleted ?? "")")
+					edited.deleted = "1"
+//					let encoder = JSONEncoder()
+//					encoder.outputFormatting = .prettyPrinted
+//					let data = try? encoder.encode(edited)
+//					print(String(data: data!, encoding: .utf8)!)
+					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address")
+//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
+					PSWebServices.postAddress(XMLStr: str)
+					{
+						(error) in
+						if let error = error
+						{
+							print("fatal error: ", String(error.localizedDescription))
+						}
+					}
 				}))
 				self.present(alert, animated: true, completion:
 					{

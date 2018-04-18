@@ -557,7 +557,8 @@ class MyAccountViewController: UIViewController
 	{
 		print("MyAccAddrViewController")
 		store.flexView(view: self.addrBtn)
-		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
+		//let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
+		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "MyAccAddr2ViewController") as UIViewController?
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		//self.present(MyAccAddrViewController(), animated: true, completion: nil)

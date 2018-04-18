@@ -93,7 +93,67 @@ class PSWebServices: NSObject
 			}.resume()
 		}
 	}
-	
+
+	//self.objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
+	///post an address to the web service
+	class func postAddress(XMLStr: String, completion: @escaping ((Error?) -> Void))
+	{
+		let url = "\(R.string.WSbase)addresses?\(R.string.API_key)"
+		if let myUrl = URL(string: url)
+		{
+			var request = URLRequest(url: myUrl)
+			request.httpMethod = "POST"
+			var headers = request.allHTTPHeaderFields ?? [:]
+			headers["Content-Type"] = "text/xml;charset=utf-8"
+//			headers["Content-Type"] = "application/json"
+			request.allHTTPHeaderFields = headers
+			//request.addValue("text/xml;charset=utf-8", forHTTPHeaderField: "Content-Type")
+
+//			let encoder = JSONEncoder()
+//			do
+//			{
+//				let jsonData = try encoder.encode(object)
+//				request.httpBody = jsonData
+//				print("jsonData: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body")
+//			}
+//			catch
+//			{
+//				completion(error)
+//			}
+			request.httpBody = XMLStr.data(using: .utf8)
+			print("post: ", String(data: request.httpBody!, encoding: .utf8) ?? "no body")
+			
+			let config = URLSessionConfiguration.default
+			let session = URLSession(configuration: config)
+			let task = session.dataTask(with: request)
+			{
+				(responseData, response, responseError) in
+				guard responseError == nil else
+				{
+					completion(responseError)
+					return
+				}
+				if let data = responseData, let utf8 = String(data: data, encoding: .utf8)
+				{
+					if let HTTPresponse = response as? HTTPURLResponse
+					{
+						print("status: ", String(HTTPresponse.statusCode))
+						for header in HTTPresponse.allHeaderFields
+						{
+							print(header)
+						}
+					}
+					print("response: ", utf8)
+				}
+				else
+				{
+					print("no data")
+				}
+			}
+			task.resume()
+		}
+	}
+
 	///return an Object containing a list of the orders
 	class func getOrders(id_customer: Int, completionHandler: @escaping (Orders?, Error?) -> Void)
 	{
@@ -986,6 +1046,100 @@ class PSWebServices: NSObject
 		}
 	}
 	
+	/// Convert an object in XML using Prestashop's signature eg object2psxml(object: myAddress, resource: "addresses")
+	class func object2psxml(object: Any, resource: String, resource2: String) -> String
+	{
+		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>")
+	}
+	
+	/// Convert an object in XML eg. objectToXML(object: myObj, head: "<?xml version=\"2.0\" encoding=\"ASCII\"?>", wrapperHead: "<my_wrapper>", wrapperTail: "</my_wrapper>")
+	class func objectToXML(object: Any, head: String? = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, prettyOutput: Bool = true) -> String
+	{
+		let start = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		var xml = ""
+		if head != nil
+		{
+			xml += head!
+		}
+		else
+		{
+			xml += start
+		}
+		if prettyOutput
+		{
+			xml += "\n"
+		}
+		if wrapperHead != nil
+		{
+			xml += wrapperHead!
+		}
+		if prettyOutput
+		{
+			xml += "\n"
+		}
+		let mirror = Mirror(reflecting: object)
+		for (key, value) in mirror.children
+		{
+			if let key = key
+			{
+				if key == "id"
+				{
+					continue
+				}
+				if prettyOutput
+				{
+					xml += "\t"
+				}
+				xml += "<"
+				xml += String(key)
+				let val = value as? String
+				if val != nil
+				{
+					var vcd = "<![CDATA["
+					vcd += val!
+					vcd += "]]>"
+					if let intV = Int(val!), intV > 0
+					{
+						switch (key)
+						{
+						case "id_supplier":
+							xml += " xlink:href=\"" + R.string.WSbase + "suppliers/\(val!)\""
+							break
+						case "id_country":
+							xml += " xlink:href=\"" + R.string.WSbase + "countries/\(val!)\""
+							break
+						default:
+							break
+						}
+					}
+				}
+				xml += ">"
+				if let val = value as? String
+				{
+					xml += "<![CDATA["
+					xml += val
+					xml += "]]>"
+				}
+				xml += "</"
+				xml += String(key)
+				xml += ">"
+				if prettyOutput
+				{
+					xml += "\n"
+				}
+			}
+		}
+		if wrapperTail != nil
+		{
+			xml += wrapperTail!
+		}
+		if prettyOutput
+		{
+			xml += "\n"
+		}
+		//print(xml)
+		return xml
+	}
 
 }
 

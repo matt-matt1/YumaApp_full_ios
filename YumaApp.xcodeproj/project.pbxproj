@@ -125,6 +125,8 @@
 		CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D202203C569000343B25 /* ExpandMapViewController.swift */; };
 		CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D203203C569000343B25 /* ExpandMapViewController.xib */; };
 		CFD2B03520864B9800E2DBE7 /* Debug2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */; };
+		CFD2B0372087D60200E2DBE7 /* MyAccAddr2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */; };
+		CFD2B0392087F48200E2DBE7 /* Addr2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */; };
 		CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B2C203DD1FA00F98C57 /* Entry.swift */; };
 		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
 		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
@@ -289,6 +291,8 @@
 		CFC1D202203C569000343B25 /* ExpandMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandMapViewController.swift; sourceTree = "<group>"; };
 		CFC1D203203C569000343B25 /* ExpandMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandMapViewController.xib; sourceTree = "<group>"; };
 		CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug2CollectionViewCell.swift; sourceTree = "<group>"; };
+		CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccAddr2ViewController.swift; sourceTree = "<group>"; };
+		CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Addr2CollectionViewCell.swift; sourceTree = "<group>"; };
 		CFEC7B2C203DD1FA00F98C57 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
 		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -420,6 +424,7 @@
 				CF4A953A2082624D004C0733 /* DebugTableViewCell.swift */,
 				CF78CC0C20840A380030789D /* Debug2TableViewCell.swift */,
 				CFD2B03420864B9800E2DBE7 /* Debug2CollectionViewCell.swift */,
+				CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -599,6 +604,7 @@
 				CF50A3E5207C08A4008749F0 /* PickerViewController.swift */,
 				CF4BD95E208129E2000B2ED6 /* DebugViewController.swift */,
 				CF78CC082083B41D0030789D /* Debug2ViewController.swift */,
+				CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -931,6 +937,7 @@
 			files = (
 				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
 				CF601A14204AE4AD00217025 /* OrderInvoices.swift in Sources */,
+				CFD2B0372087D60200E2DBE7 /* MyAccAddr2ViewController.swift in Sources */,
 				CF7E8664202B62A90014B787 /* R.swift in Sources */,
 				CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */,
 				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
@@ -958,6 +965,7 @@
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
 				CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */,
 				CF4BD95D2081228F000B2ED6 /* Configurations.swift in Sources */,
+				CFD2B0392087F48200E2DBE7 /* Addr2CollectionViewCell.swift in Sources */,
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CF78CC092083B41D0030789D /* Debug2ViewController.swift in Sources */,
 				CF601A0E204AE13700217025 /* OrderCarriers.swift in Sources */,

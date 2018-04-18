@@ -234,6 +234,31 @@ class MyAccInfoViewController: UIViewController
 	
 	@IBAction func buttonAct(_ sender: Any)
 	{
+		var edited = Customer(id: "", id_customer: "", id_default_group: "", id_lang: "", newsletter_date_add: "", ip_registration_newsletter: "", last_passwd_gen: "", secure_key: "", deleted: "", passwd: "", lastname: "", firstname: "", email: "", id_gender: "", birthday: "", newsletter: "", optin: "", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "", show_public_prices: "", id_risk: "", max_payment_days: "", active: "", note: "", is_guest: "", id_shop: "", id_shop_group: "", date_add: "", date_upd: "", reset_password_token: "", reset_password_validity: "", associations: nil)
+		print(edited)
+//		if true
+//		{
+//			let df = DateFormatter()
+//			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//			//df.
+//			edited.date_upd = df.string(from: Date.init())
+//			edited.firstname = fieldEdit1.text
+//			edited.lastname = field2Edit.text
+//			edited.birthday = field4Edit.text
+//			edited.optin = String(switch0.isOn)
+//			edited.newsletter = String(switch1.isOn)
+//			edited.active = String(switch2.isOn)
+//		}
+		let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer")
+		print(str)
+//		PSWebServices.postCustomer(XMLStr: str)
+//		{
+//			(error) in
+//			if let error = error
+//			{
+//				print("fatal error: ", String(error.localizedDescription))
+//			}
+//		}
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
