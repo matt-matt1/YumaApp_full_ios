@@ -68,7 +68,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	var details: OrderDetail? = nil
 	let picker = UIPickerView()
 	var pickerData: [String] = [String]()
-	var observer: NSObjectProtocol?
+//	var observer: NSObjectProtocol?
 
 	
 	override func viewDidLoad()
@@ -175,11 +175,6 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	{
 		return pickerData.count
 	}
-	
-//	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-//	{
-//		addMessageField.text = pickerData[row]
-//	}
 	
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
 	{

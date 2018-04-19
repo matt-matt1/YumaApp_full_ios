@@ -11,47 +11,47 @@ import Foundation
 
 struct Group: Codable
 {
-	let id: String?
+	var id: String?
 }
 struct AssociationsCustomer: Codable
 {
-	let groups: [Group]?
+	var groups: [Group]?
 }
 struct Customer: Codable
 {
-	let id: 						String?
-	let id_customer: 				String?
-	let id_default_group: 			String?
-	let id_lang: 					String?
-	let newsletter_date_add: 		String?
-	let ip_registration_newsletter: String?
-	let last_passwd_gen: 			String?//read_only
-	let secure_key: 				String?//read_only + md5
-	let deleted: 					String?//Bool
-	let passwd: 					String//!..60
-	let lastname: 					String//!..255
-	let firstname: 					String//!..255
-	let email: 						String//!
-	let id_gender: 					String?
-	let birthday: 					String?//bdate
-	let newsletter: 				String?//Bool
-	let optin: 						String?//Bool
-	let website: 					String?//URL
-	let company: 					String?
-	let siret: 						String?
-	let ape: 						String?
-	let outstanding_allow_amount: 	String?//Ape
-	let show_public_prices: 		String?//Bool
-	let id_risk: 					String?//Float
-	let max_payment_days: 			String?//Int
-	let active: 					String?//Bool
-	let note: 						String?//html..65000
-	let is_guest: 					String?//Bool
-	let id_shop: 					String?
-	let id_shop_group: 				String?
-	let date_add: 					String?//date
-	let date_upd: 					String?//date
-	let reset_password_token: 		String?//sha1..40
-	let reset_password_validity: 	String?//date
-	let associations: 				AssociationsCustomer?
+	var id: 						String?
+	var id_customer: 				String?
+	var id_default_group: 			String?
+	var id_lang: 					String?
+	var newsletter_date_add: 		String?
+	var ip_registration_newsletter: String?
+	var last_passwd_gen: 			String?//read_only
+	var secure_key: 				String?//read_only + md5
+	var deleted: 					String?//Bool
+	var passwd: 					String//!..60
+	var lastname: 					String//!..255
+	var firstname: 					String//!..255
+	var email: 						String//!
+	var id_gender: 					String?
+	var birthday: 					String?//bdate
+	var newsletter: 				String?//Bool
+	var optin: 						String?//Bool
+	var website: 					String?//URL
+	var company: 					String?
+	var siret: 						String?
+	var ape: 						String?
+	var outstanding_allow_amount: 	String?//Ape
+	var show_public_prices: 		String?//Bool
+	var id_risk: 					String?//Float
+	var max_payment_days: 			String?//Int
+	var active: 					String?//Bool
+	var note: 						String?//html..65000
+	var is_guest: 					String?//Bool
+	var id_shop: 					String?
+	var id_shop_group: 				String?
+	var date_add: 					String?//date
+	var date_upd: 					String?//date
+	var reset_password_token: 		String?//sha1..40
+	var reset_password_validity: 	String?//date
+	var associations: 				AssociationsCustomer?
 }

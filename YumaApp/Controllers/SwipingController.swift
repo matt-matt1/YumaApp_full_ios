@@ -55,321 +55,279 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	{
 		super.viewDidLoad()
 		self.view.backgroundColor = UIColor.white
-
+		
 		drawLayout()
-
+		
 		collectionView?.backgroundColor = UIColor.white
 		collectionView?.register(PageCell.self, forCellWithReuseIdentifier: cellId)
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-
+		
 		if Reachability.isConnectedToNetwork()
 		{
-			let ud = UserDefaults.standard.string(forKey: "Countries")
-			if ud == nil || ud == ""
+			getValues()
+		}
+		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
+	}
+
+	
+	fileprivate func getValues()
+	{
+		let ud = UserDefaults.standard.string(forKey: "Countries")
+		if ud == nil || ud == ""
+		{
+			store.callGetCountries { (countries) in
+				print("got \((countries as! [Country]).count) countries")
+			}
+		}
+		else
+		{
+			let dataStr = ud?.data(using: .utf8)
+			do
 			{
-				store.callGetCountries { (countries) in
-					print("got \((countries as! [Country]).count) countries")
+				let bits = try JSONDecoder().decode([Country].self, from: dataStr!)
+				store.countries = bits
+				print("decoded \(bits.count) countries")
+			}
+			catch let JSONerr
+			{
+				print("\(R.string.err) \(JSONerr)")
+			}
+		}
+		store.callGetStates(id_country: 0) { (states) in
+			print("got \((states as! [CountryState]).count) states")
+		}
+		store.callGetCarriers { (carriers, err) in
+			if err == nil
+			{
+				print("got \((carriers as [Carrier]?)?.count ?? 0) carriers")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		store.getOrderStates { (os, err) in	//a pair of errors
+			if err == nil
+			{
+				let array = (os as! OrderStates).order_states
+				print("got \(array?.count ?? 0) order states")
+			}
+			else
+			{
+				print("Error getting order states: \(String(describing: err))")
+			}
+		}
+		store.callGetLanguages { (lang, err) in
+			if err == nil
+			{
+				print("got \((lang as! [Language]).count) languages")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		store.callGetManufacturers { (manus, err) in
+			if err == nil
+			{
+				print("got \((manus as! [Manufacturer]).count) manufacturers")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		store.callGetCategories { (cats, err) in
+			if err == nil
+			{
+				print("got \((cats as! [aCategory]).count) categories")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		store.callGetCombinations { (combs, err) in
+			if err == nil
+			{
+				print("got \((combs as! [Combination]).count) combinations")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+//Could not cast value of type 'YumaApp.OrderCarriers' (0x6ad8c4) to 'Swift.Array<YumaApp.OrderCarrier>' (0x37621d4).
+//		store.getOrderCarriers { (carrs, err) in
+//			if err == nil
+//			{
+//				print("got \((carrs as! [OrderCarrier]).count) order carriers")
+//			}
+//			else
+//			{
+//				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+//			}
+//		}
+//
+		store.callGetProductOptions { (opts, err) in
+			if err == nil
+			{
+				print("got \((opts as! [ProductOption]).count) product options")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		store.callGetCurrencies { (currs, err) in
+			if err == nil
+			{
+				print("got \((currs as! [Currency]).count) currencies")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
+		let myClient = MyClient()
+		myClient.getREST(from: .addresses(filters: [
+			Addresses_filter.idCustomer : "3",
+			Addresses_filter.idCountry : "4",
+			//Addresses_filter.idManufacturer : "0",
+			]), completion:
+			{ 	(addr) in
+				print("got addr for cust3,country4")
+			}
+		)
+		//			myClient.getREST(from: .addresses(nil, nil), completion: { (addr) in
+		//				//
+		//			})
+		//let str = collect.addresses(addresses_filter.idCustomer, "3")
+		//print("\(str)")
+		if store.taxes.count < 1	//check if not already in data store
+		{
+			let taxes = UserDefaults.standard.string(forKey: "Taxes")
+			if taxes == nil
+			{
+				store.callGetTaxes { (taxes, err) in
+					if err == nil
+					{
+						print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
+					}
+					else
+					{
+						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					}
 				}
 			}
 			else
 			{
-				let dataStr = ud?.data(using: .utf8)
-				do
+				do	//decode user data then insert each into the data store
 				{
-					let bits = try JSONDecoder().decode([Country].self, from: dataStr!)
-					store.countries = bits
-					print("decoded \(bits.count) carts")
+					let allTaxes = try JSONDecoder().decode(Taxes.self, from: (taxes?.data(using: .utf8))!)
+					for t in allTaxes.taxes!
+					{
+						store.taxes.append(t)
+					}
+					print("decoded \(store.taxes.count) taxes")
 				}
 				catch let JSONerr
 				{
 					print("\(R.string.err) \(JSONerr)")
 				}
 			}
-
-			store.callGetStates(id_country: 0) { (states) in
-				print("got \((states as! [CountryState]).count) states")
-			}
-			store.callGetCarriers { (carriers, err) in
-				if err == nil
-				{
-					print("got \((carriers as [Carrier]?)?.count ?? 0) carriers")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			store.getOrderStates { (os, err) in	//a pair of errors
-				if err == nil
-				{
-					let array = (os as! OrderStates).order_states
-					print("got \(array?.count ?? 0) order states")
-				}
-				else
-				{
-					print("Error getting order states: \(String(describing: err))")
-				}
-			}
-			store.callGetLanguages { (lang, err) in
-				if err == nil
-				{
-					print("got \((lang as! [Language]).count) languages")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			store.callGetManufacturers { (manus, err) in
-				if err == nil
-				{
-					print("got \((manus as! [Manufacturer]).count) manufacturers")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			store.callGetCategories { (cats, err) in
-				if err == nil
-				{
-					print("got \((cats as! [aCategory]).count) categories")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			store.callGetCombinations { (combs, err) in
-				if err == nil
-				{
-					print("got \((combs as! [Combination]).count) combinations")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-//			store.getOrderCarriers { (carrs, err) in
-//				if err == nil
-//				{
-//					print("got \((carrs as! [OrderCarrier]).count) order carriers")
-//				}
-//				else
-//				{
-//					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-//				}
-//			}
-//			let alert = PCLBlurEffectAlert.Controller(title: "Hello there!! 👋🏻👋🏻", message: "message", effect: UIBlurEffect(style: .light), style: .alert)
-//			let alertAct = PCLBlurEffectAlert.Action(title: "done", style: .cancel, handler: nil)
-//			alert.addAction(alertAct)
-//			alert.configure(overlayBackgroundColor: UIColor(hex: "#aa0018", alpha: 0.75))
-//			alert.configure(backgroundColor: UIColor.white)
-//			alert.configure(buttonBackgroundColor: UIColor.white)
-//			alert.configure(titleColor: R.color.YumaYel)
-//			alert.configure(cornerRadius: 15)
-			//alert.view.subviews[1].borderWidth = 4
-			//alert.view.subviews[1].borderColor = R.color.YumaDRed
-			//alert.view.shadowColor = R.color.YumaDRed
-			//alert.view.shadowOffset = .zero
-			//alert.view.shadowRadius = 8
-			//alert.view.shadowOpacity = 1
-//			addBlurArea(area: self.view.frame, style: .light, alpha: 0.6)
-//			alert.show()
-//			Alert(self, title: "Hello there!! 👋🏻👋🏻", titleColor: R.color.YumaYel, titleBackgroundColor: R.color.YumaRed, message: "message", shadowColor: R.color.YumaDRed)
-			store.callGetProductOptions { (opts, err) in
-				if err == nil
-				{
-					print("got \((opts as! [ProductOption]).count) product options")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			store.callGetCurrencies { (currs, err) in
-				if err == nil
-				{
-					print("got \((currs as! [Currency]).count) currencies")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-				}
-			}
-			let myClient = MyClient()
-//			myClient.getREST(from: , completion: { (<#Result<Address?, APIError>#>) in
-//				<#code#>
-//			})
-			myClient.getREST(from: .addresses(filters: [
-				Addresses_filter.idCustomer : "3",
-				Addresses_filter.idCountry : "4",
-				//Addresses_filter.idManufacturer : "0",
-				]), completion: { (addr) in
-				//
-			})
-//			myClient.getREST(from: .addresses(nil, nil), completion: { (addr) in
-//				//
-//			})
-			//let str = collect.addresses(addresses_filter.idCustomer, "3")
-			//print("\(str)")
-			if store.taxes.count < 1	//check if not already in data store
+		}
+		else
+		{
+			print("data store has \(store.taxes.count) taxes")
+		}
+		if store.configurations.count < 1	//check if not already in data store
+		{
+			let configurations = UserDefaults.standard.string(forKey: "Configurations")
+			if configurations == nil
 			{
-				let taxes = UserDefaults.standard.string(forKey: "Taxes")
-				if taxes == nil
-				{
-					store.callGetTaxes { (taxes, err) in
-						if err == nil
-						{
-							print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
-						}
-						else
-						{
-							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-						}
-					}
-				}
-				else
-				{
-					do	//decode user data then insert each into the data store
+				store.callGetConfigurations { (configurations, err) in
+					if err == nil
 					{
-						let allTaxes = try JSONDecoder().decode(Taxes.self, from: (taxes?.data(using: .utf8))!)
-						for t in allTaxes.taxes!
-						{
-							store.taxes.append(t)
-						}
-						print("decoded \(store.taxes.count) taxes")
+						print("got \((configurations as [Configuration]?)?.count ?? 0) configurations")
 					}
-					catch let JSONerr
+					else
 					{
-						print("\(R.string.err) \(JSONerr)")
+						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
 					}
 				}
 			}
 			else
 			{
-				print("data store has \(store.taxes.count) taxes")
-			}
-			if store.configurations.count < 1	//check if not already in data store
-			{
-				let configurations = UserDefaults.standard.string(forKey: "Configurations")
-				if configurations == nil
+				do	//decode user data then insert each into the data store
 				{
-					store.callGetConfigurations { (configurations, err) in
-						if err == nil
-						{
-							print("got \((configurations as [Configuration]?)?.count ?? 0) configurations")
-						}
-						else
-						{
-							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-						}
-					}
-				}
-				else
-				{
-					do	//decode user data then insert each into the data store
+					let all = try JSONDecoder().decode(Configurations.self, from: (configurations?.data(using: .utf8))!)
+					for t in all.configurations!
 					{
-						let all = try JSONDecoder().decode(Configurations.self, from: (configurations?.data(using: .utf8))!)
-						for t in all.configurations!
-						{
-							store.configurations.append(t)
-						}
-						print("decoded \(store.configurations.count) configurations")
+						store.configurations.append(t)
 					}
-					catch let JSONerr
-					{
-						print("\(R.string.err) \(JSONerr)")
-					}
+					print("decoded \(store.configurations.count) configurations")
 				}
-			}
-			else
-			{
-				print("data store has \(store.configurations.count) configurations")
-			}
-			if store.tags.count < 1	//check if not already in data store
-			{
-				let tags = UserDefaults.standard.string(forKey: "Tags")
-				if tags == nil
+				catch let JSONerr
 				{
-					store.callGetTags { (tags, err) in	//api get
-						if err == nil
-						{
-							print("got \((tags as [myTag]?)?.count ?? 0) tags")
-						}
-						else
-						{
-							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-						}
-					}
-				}
-				else
-				{
-					do	//decode user data then insert each into the data store
-					{
-						let allTags = try JSONDecoder().decode(Tags.self, from: (tags?.data(using: .utf8))!)
-						for t in allTags.tags!
-						{
-							store.tags.append(t)
-						}
-						print("decoded \(store.tags.count) tags")
-					}
-					catch let JSONerr
-					{
-						print("\(R.string.err) \(JSONerr)")
-					}
-				}
-			}
-			else
-			{
-				print("data store has \(store.tags.count) tags")
-			}
-			store.callGetProductOptionValues{ (opts, err) in
-				if err == nil
-				{
-					print("got \((opts as [ProductOptionValue]?)?.count ?? 0) product option values")
-				}
-				else
-				{
-					print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					print("\(R.string.err) \(JSONerr)")
 				}
 			}
 		}
-		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
+		else
+		{
+			print("data store has \(store.configurations.count) configurations")
+		}
+		if store.tags.count < 1	//check if not already in data store
+		{
+			let tags = UserDefaults.standard.string(forKey: "Tags")
+			if tags == nil
+			{
+				store.callGetTags { (tags, err) in	//api get
+					if err == nil
+					{
+						print("got \((tags as [myTag]?)?.count ?? 0) tags")
+					}
+					else
+					{
+						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					}
+				}
+			}
+			else
+			{
+				do	//decode user data then insert each into the data store
+				{
+					let allTags = try JSONDecoder().decode(Tags.self, from: (tags?.data(using: .utf8))!)
+					for t in allTags.tags!
+					{
+						store.tags.append(t)
+					}
+					print("decoded \(store.tags.count) tags")
+				}
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
+		}
+		else
+		{
+			print("data store has \(store.tags.count) tags")
+		}
+		store.callGetProductOptionValues{ (opts, err) in
+			if err == nil
+			{
+				print("got \((opts as [ProductOptionValue]?)?.count ?? 0) product option values")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
 	}
 	
-//	func addBlurArea(area: CGRect, style: UIBlurEffectStyle, alpha: CGFloat)
-//	{
-//		let effect = UIBlurEffect(style: style)
-//		let blurView = UIVisualEffectView(effect: effect)
-//
-//		let container = UIView(frame: area)
-//		blurView.frame = CGRect(x: 0, y: 0, width: area.width, height: area.height)
-//		container.addSubview(blurView)
-//		container.alpha = alpha//0.8
-//		self.view.insertSubview(container, at: 1)
-//	}
-
-	
-//	func decodeUserData(fromString: String, objectType: Type) -> Error?
-//	{
-//		do	//decode user data then insert each into the data store
-//		{
-//			let allTags = try JSONDecoder().decode(objectType, from: (fromString.data(using: .utf8))!)
-//			////Cannot invoke 'decode' with an argument list of type '(Type, from: Data)'
-//			for t in allTags.tags!
-//			{
-//				store.tags.append(t)
-//			}
-//		}
-//		catch let JSONerr
-//		{
-//			return JSONerr
-//		}
-//		return nil
-//	}
-
 	
 	//MARK: Swiping Controls
 	@objc private func handlePrev()

@@ -870,7 +870,7 @@ class PSWebServices: NSObject
 	}
 
 	///return an object of the laptops
-	class func getLaptops(completionHandler: @escaping ([aProduct]) -> Void)
+	class func getLaptops(completionHandler: @escaping ([aProduct]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[14]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -886,11 +886,12 @@ class PSWebServices: NSObject
 					do
 					{
 						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!)
+						completionHandler(products.products!, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				}.resume()
@@ -898,7 +899,7 @@ class PSWebServices: NSObject
 	}
 
 	///return an object of the services
-	class func getServices(completionHandler: @escaping ([aProduct]) -> Void)
+	class func getServices(completionHandler: @escaping ([aProduct]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[15]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -914,11 +915,12 @@ class PSWebServices: NSObject
 					do
 					{
 						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!)
+						completionHandler(products.products!, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				}.resume()
@@ -926,7 +928,7 @@ class PSWebServices: NSObject
 	}
 	
 	///return an object of the toners
-	class func getToners(completionHandler: @escaping ([aProduct]) -> Void)
+	class func getToners(completionHandler: @escaping ([aProduct]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[13]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -942,11 +944,12 @@ class PSWebServices: NSObject
 					do
 					{
 						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!)
+						completionHandler(products.products!, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 			}.resume()
@@ -954,7 +957,7 @@ class PSWebServices: NSObject
 	}
 	
 	///return an object of the printers
-	class func getPrinters(completionHandler: @escaping ([aProduct]) -> Void)
+	class func getPrinters(completionHandler: @escaping ([aProduct]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -984,18 +987,103 @@ class PSWebServices: NSObject
 						//CRASHES:let printers = try JSONDecoder().decode(JSONProducts.self, from: data)
 						//						guard let printers = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any] else {	return 	}
 						//							completionHandler(printers["products"]! as! [aProduct])
-						completionHandler(products.products!)
+						completionHandler(products.products!, nil)
 						//						}
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				}.resume()
 		}
 	}
+
+	///return an object of the customer messages
+	class func getCustomerMessages(completionHandler: @escaping ([CustomerMessage]?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)customer_messages&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let custmsgs = try JSONDecoder().decode(CustomerMessages.self, from: data)
+						completionHandler(custmsgs.customer_messages!, nil)
+					}
+					catch let JSONerr
+					{
+						completionHandler(nil, JSONerr)
+					}
+				}
+			}.resume()
+		}
+	}
 	
+	///return an object of the customer threads
+	class func getCustomerThreads(completionHandler: @escaping ([CustomerThread]?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)customer_threads&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let threads = try JSONDecoder().decode(CustomerThreads.self, from: data)
+						completionHandler(threads.customer_threads!, nil)
+					}
+					catch let JSONerr
+					{
+						completionHandler(nil, JSONerr)
+					}
+				}
+				}.resume()
+		}
+	}
+
+	///return an object of the contacts
+	class func getContacts(completionHandler: @escaping ([Contact]?, Error?) -> Void)
+	{
+		let url = "\(R.string.WSbase)contacts&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		if let myUrl = URL(string: url)
+		{
+			URLSession.shared.dataTask(with: myUrl)
+			{
+				(data, response, err) in
+				
+				if let data = data
+				{
+					//					let dataString = String(data: data, encoding: .utf8)
+					//					print(dataString ?? R.string.err)
+					do
+					{
+						let contacts = try JSONDecoder().decode(Contacts.self, from: data)
+						completionHandler(contacts.contacts, nil)
+					}
+					catch let JSONerr
+					{
+						completionHandler(nil, JSONerr)
+					}
+				}
+				}.resume()
+		}
+	}
+
 	///try
 	class func get__(resource: String, param: String?, decodeType: Any?, completionHandler: @escaping (Any?, Error?) -> Void)
 	{

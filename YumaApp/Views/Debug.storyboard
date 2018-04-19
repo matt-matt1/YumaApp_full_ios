@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6T4-xP-KdS">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad10_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -16,19 +16,19 @@
             <objects>
                 <viewController storyboardIdentifier="DebugViewController" title="DebugViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="H89-t1-d9w" customClass="DebugViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0fM-ae-J6i">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mgJ-VK-KBI">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="debugCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="debugCell" id="4q5-md-aea" customClass="DebugTableViewCell" customModule="YumaApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4q5-md-aea" id="734-u2-62n">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5dT-qg-faw">
@@ -56,6 +56,9 @@
                                                 <constraint firstItem="5dT-qg-faw" firstAttribute="leading" secondItem="734-u2-62n" secondAttribute="leadingMargin" id="WSr-hf-PkI"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="5dT-qg-faw" firstAttribute="leading" secondItem="4q5-md-aea" secondAttribute="leading" constant="15" id="lEZ-Qe-Zns"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="label1" destination="Dfy-Oy-g6M" id="Tbe-k3-3KR"/>
                                             <outlet property="label2" destination="MdZ-t9-BdH" id="urB-Gv-wx2"/>
@@ -94,27 +97,27 @@
             <objects>
                 <viewController id="p04-mG-RUn" customClass="Debug2ViewController" customModule="YumaApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="X83-RH-T15">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vwO-te-z54">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="834" height="1048"/>
                                 <subviews>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="dxx-9r-GSe">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="cvW-XZ-nNl"/>
                                         </constraints>
                                     </pageControl>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVL-oc-Uqf">
-                                        <rect key="frame" x="0.0" y="30" width="375" height="573"/>
+                                        <rect key="frame" x="0.0" y="30" width="834" height="1018"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ILg-tJ-3MQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="375" id="DiG-kU-gwX"/>
-                                                    <constraint firstAttribute="height" constant="573" id="UCx-ye-JHD"/>
+                                                    <constraint firstAttribute="width" priority="250" constant="375" id="DiG-kU-gwX"/>
+                                                    <constraint firstAttribute="height" priority="250" constant="573" id="UCx-ye-JHD"/>
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="N90-at-2NB" customClass="Debug2TableViewCell" customModule="YumaApp" customModuleProvider="target">
@@ -147,9 +150,12 @@
                                                                 <constraint firstAttribute="bottomMargin" secondItem="kQG-wJ-m1G" secondAttribute="bottom" constant="3" id="DqK-pv-N99"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="kQG-wJ-m1G" secondAttribute="trailing" id="XyM-Jd-Z5s"/>
                                                                 <constraint firstItem="kQG-wJ-m1G" firstAttribute="leading" secondItem="ran-BS-53n" secondAttribute="leadingMargin" id="ak7-O7-KW6"/>
-                                                                <constraint firstItem="kQG-wJ-m1G" firstAttribute="centerX" secondItem="ran-BS-53n" secondAttribute="centerX" id="tmD-Jb-mKj"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="kQG-wJ-m1G" secondAttribute="trailing" constant="8" id="CA6-Zd-IGD"/>
+                                                            <constraint firstItem="kQG-wJ-m1G" firstAttribute="leading" secondItem="N90-at-2NB" secondAttribute="leading" constant="8" id="lWo-1O-Uw5"/>
+                                                        </constraints>
                                                         <connections>
                                                             <outlet property="label1" destination="qbW-LW-2Qd" id="eWb-18-Txy"/>
                                                             <outlet property="label2" destination="57W-Zf-3lj" id="8Ev-Zn-T9o"/>
@@ -180,10 +186,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="WY5-Ot-jTi" firstAttribute="trailing" secondItem="GVL-oc-Uqf" secondAttribute="trailing" id="1GZ-Ij-UXU"/>
+                            <constraint firstItem="dxx-9r-GSe" firstAttribute="leading" secondItem="WY5-Ot-jTi" secondAttribute="leading" id="8sd-Gc-nSc"/>
+                            <constraint firstItem="GVL-oc-Uqf" firstAttribute="leading" secondItem="WY5-Ot-jTi" secondAttribute="leading" id="Crv-qN-NbO"/>
                             <constraint firstItem="vwO-te-z54" firstAttribute="top" secondItem="WY5-Ot-jTi" secondAttribute="top" id="Cse-D4-skX"/>
                             <constraint firstItem="WY5-Ot-jTi" firstAttribute="bottom" secondItem="vwO-te-z54" secondAttribute="bottom" id="LcM-of-QVC"/>
                             <constraint firstItem="WY5-Ot-jTi" firstAttribute="trailing" secondItem="vwO-te-z54" secondAttribute="trailing" id="VDO-Mn-thY"/>
                             <constraint firstItem="vwO-te-z54" firstAttribute="leading" secondItem="WY5-Ot-jTi" secondAttribute="leading" id="krM-aH-erg"/>
+                            <constraint firstItem="WY5-Ot-jTi" firstAttribute="trailing" secondItem="dxx-9r-GSe" secondAttribute="trailing" id="ucb-Zc-z3G"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WY5-Ot-jTi"/>
                     </view>
@@ -203,7 +213,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6T4-xP-KdS" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GUf-Zc-unY">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="834" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

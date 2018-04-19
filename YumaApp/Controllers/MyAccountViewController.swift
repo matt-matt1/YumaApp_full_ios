@@ -520,16 +520,54 @@ class MyAccountViewController: UIViewController
 	@IBAction func signOutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: self.signOutBtn)
-		store.customer = nil
-		store.addresses = []
-		UserDefaults.standard.removeObject(forKey: "Customer")
-		OperationQueue.main.addOperation
+		if Reachability.isConnectedToNetwork()
+		{
+			DispatchQueue.main.async
 			{
-				weak var presentingViewController = self.presentingViewController
-				self.dismiss(animated: false, completion: {
-					presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+				let alert = UIAlertController(title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.3
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+					{ 	(action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				alert.addAction(UIAlertAction(title: R.string.SignOut.uppercased(), style: .destructive, handler:
+					{ 	(action) in
+					self.store.customer = nil
+					self.store.addresses = []
+					UserDefaults.standard.removeObject(forKey: "Customer")
+					OperationQueue.main.addOperation
+					{
+						weak var presentingViewController = self.presentingViewController
+						self.dismiss(animated: false, completion: {
+							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+						})
+					}
+				}))
+				self.present(alert, animated: true, completion:
+					{
 				})
 			}
+		}
 	}
 	@IBAction func CSBtnAct(_ sender: Any)
 	{

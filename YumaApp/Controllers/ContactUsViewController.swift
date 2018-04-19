@@ -41,6 +41,9 @@ class ContactUsViewController: UIViewController
 	let location = CLLocationManager()
 	var pin: AnnotationPin!
 	var coords: CLLocationCoordinate2D?
+	let picker = UIPickerView()
+	var pickerData: [String]?
+	let store = DataStore.sharedInstance
 	
 	
 	//	var myCustomView: UserCoinView?
@@ -254,6 +257,11 @@ class ContactUsViewController: UIViewController
 		
 		mainStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 	}
+
+	@objc func writePickedValue(_ sender: UIButton?)
+	{
+		//self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
+	}
 	
 	@IBAction func phoneBtnAct(_ sender: Any)
 	{
@@ -276,6 +284,36 @@ class ContactUsViewController: UIViewController
 		DataStore.sharedInstance.flexView(view: emailBtn)
 		if MFMailComposeViewController.canSendMail()
 		{
+			if store.contacts.count > 0
+			{
+				for contact in store.contacts
+				{
+					pickerData?.append(contact.name![store.myLang].value!)
+				}
+			}
+			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+			let vc = sb.instantiateInitialViewController() as? PickerViewController
+			if vc != nil
+			{
+				self.present(vc!, animated: true, completion: nil)
+				//vc?.dialog.layer.cornerRadius = 20
+				vc?.dialog.cornerRadius = 20
+				vc?.titleLbl.text = R.string.select + " " + R.string.emailTo
+				vc?.button.setTitle(R.string.select, for: .normal)
+				vc?.view.addSubview(self.picker)
+				self.picker.translatesAutoresizingMaskIntoConstraints = false
+				NSLayoutConstraint.activate([
+					self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+					self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+					])
+				vc?.pickerView.removeFromSuperview()
+				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
+			}
+			else
+			{
+				print("HelpStoryboard has no initial view controller")
+			}
+			//display picker: ask for to
 			let mail = MFMailComposeViewController()
 			mail.mailComposeDelegate = self
 			mail.setToRecipients([R.string.our_email])

@@ -355,6 +355,7 @@ struct R {
 		static let custDataPrivMore = "The personal data you provide is used to answer queries, process orders or allow access to specific information. You have the right to modify and delete all the personal information found in the \(R.string.my_account) page."
 		static let txtForgotPW = "Please enter the email address you used to register. You will receive a temporary link to reset your password."
 		static let emailAddr = "Email Address"
+		static let emailTo = "Email To address"
 		static let sendResetLink = "Send reset link"
 //		static let noRemem = "Don't remember me"
 		//		<!--search-->
@@ -401,6 +402,7 @@ struct R {
 		static let logAs = "Logged-in as"
 		static let without = "Order without logging in"
 		static let withoutMore = "ie. Forget delerivy address"
+		static let noAuth = "Cannot authorize any user"
 		//		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"

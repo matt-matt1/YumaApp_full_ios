@@ -10,7 +10,7 @@ import UIKit
 import MGSwipeTableCell
 
 
-class CartViewController: UIViewController
+class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 {
 	//MARK: Outlets
 	@IBOutlet weak var totalAmt: UILabel!
@@ -35,6 +35,8 @@ class CartViewController: UIViewController
 	var total: Double = 0
 	var pcs: Int = 0
 	var wt: Double = 0
+	let picker = UIPickerView()
+	var pickerData: [String] = [String]()
 
 	
 	//MARK: Override Methods
@@ -42,14 +44,14 @@ class CartViewController: UIViewController
 	{
         super.viewDidLoad()
 
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
@@ -69,6 +71,23 @@ class CartViewController: UIViewController
 			calcTotal()
 		}
     }
+
+	
+	//MARK: UIPickerViewDelegate, UIPickerViewDataSource required
+	func numberOfComponents(in pickerView: UIPickerView) -> Int
+	{
+		return 1
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+	{
+		return self.pickerData.count
+	}
+
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+	{
+		return pickerData[row]
+	}
 
 	
 	//MARK: Methods
@@ -108,8 +127,6 @@ class CartViewController: UIViewController
 			totalPcs.text = "\(pcs)"
 			let date = Date()
 			store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "\(total)", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
-			//				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "\(total)", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
-			//print(store.myOrder)
 		}
 	}
 
@@ -118,19 +135,47 @@ class CartViewController: UIViewController
 	{
 		DispatchQueue.main.async
 		{
-			let alert = UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
-			let coloredBG = 					UIView()
-			let blurFx = 						UIBlurEffect(style: .dark)
-			let blurFxView = 					UIVisualEffectView(effect: blurFx)
-			alert.titleAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-			alert.messageAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//			if self.store.myOrder != nil
+//			{
+//				let str = (self.store.myOrder?.date_add)! + "(" + (self.store.myOrder?.total_products)! + " " + (self.store.myOrder?.total_products_wt)! + "kg" + "=" + (self.store.myOrder?.total_paid)! + ")"
+//				self.pickerData.append(str)
+//			}
+//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//			let vc = sb.instantiateInitialViewController() as? PickerViewController
+//			if vc != nil
+//			{
+//				self.present(vc!, animated: true, completion: nil)
+//				//vc?.dialog.layer.cornerRadius = 20
+//				//vc?.dialog.cornerRadius = 20
+//				vc?.titleLbl.text = R.string.select + " " + R.string.order
+//				vc?.button.setTitle(R.string.select, for: .normal)
+//				vc?.view.addSubview(self.picker)
+//				self.picker.translatesAutoresizingMaskIntoConstraints = false
+//				NSLayoutConstraint.activate([
+//					self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//					self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//					])
+//				vc?.pickerView.removeFromSuperview()
+//				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
+//			}
+//			else
+//			{
+//				print("HelpStoryboard has no initial view controller")
+//			}
+
+			let alert = 					UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
+			let coloredBG = 				UIView()
+			let blurFx = 					UIBlurEffect(style: .dark)
+			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
 			alert.view.superview?.backgroundColor = R.color.YumaRed
-			alert.view.shadowColor = R.color.YumaDRed
-			alert.view.shadowOffset = .zero
-			alert.view.shadowRadius = 5
-			alert.view.shadowOpacity = 1
-			alert.view.backgroundColor = R.color.YumaYel
-			alert.view.cornerRadius = 15
+			alert.view.shadowColor = 		R.color.YumaDRed
+			alert.view.shadowOffset = 		.zero
+			alert.view.shadowRadius = 		5
+			alert.view.shadowOpacity = 		1
+			alert.view.backgroundColor = 	R.color.YumaYel
+			alert.view.cornerRadius = 		15
 			coloredBG.backgroundColor = 	R.color.YumaRed
 			coloredBG.alpha = 				0.4
 			coloredBG.frame = 				self.view.bounds
@@ -140,19 +185,49 @@ class CartViewController: UIViewController
 			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 			self.view.addSubview(blurFxView)
 			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler: { (action) in
-				//				DispatchQueue.main.async
-				//					{
 				coloredBG.removeFromSuperview()
 				blurFxView.removeFromSuperview()
 				self.dismiss(animated: false, completion: nil)
-				//					}
 			}))
 			self.present(alert, animated: true, completion:
 			{
+//				if self.store.myOrder != nil
+//				{
+//					let str = (self.store.myOrder?.date_add)! + "(" + (self.store.myOrder?.total_products)! + " " + (self.store.myOrder?.total_products_wt)! + "kg" + "=" + (self.store.myOrder?.total_paid)! + ")"
+//					self.pickerData.append(str)
+//				}
+//				let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//				let vc = sb.instantiateInitialViewController() as? PickerViewController
+//				if vc != nil
+//				{
+//					self.present(vc!, animated: true, completion: nil)
+//					//vc?.dialog.layer.cornerRadius = 20
+//					//vc?.dialog.cornerRadius = 20
+//					vc?.titleLbl.text = R.string.select + " " + R.string.order
+//					vc?.button.setTitle(R.string.select, for: .normal)
+//					vc?.view.addSubview(self.picker)
+//					self.picker.translatesAutoresizingMaskIntoConstraints = false
+//					NSLayoutConstraint.activate([
+//						self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//						self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//						])
+//					vc?.pickerView.removeFromSuperview()
+//					vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
+//				}
+//				else
+//				{
+//					print("HelpStoryboard has no initial view controller")
+//				}
 			})
 		}
 	}
 	
+
+	@objc func writePickedValue(_ sender: UIButton?)
+	{
+		//self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
+	}
+
 
 	//MARK: Actions
 	@IBAction func navCloseAct(_ sender: Any)

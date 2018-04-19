@@ -234,22 +234,22 @@ class MyAccInfoViewController: UIViewController
 	
 	@IBAction func buttonAct(_ sender: Any)
 	{
-		var edited = Customer(id: "", id_customer: "", id_default_group: "", id_lang: "", newsletter_date_add: "", ip_registration_newsletter: "", last_passwd_gen: "", secure_key: "", deleted: "", passwd: "", lastname: "", firstname: "", email: "", id_gender: "", birthday: "", newsletter: "", optin: "", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "", show_public_prices: "", id_risk: "", max_payment_days: "", active: "", note: "", is_guest: "", id_shop: "", id_shop_group: "", date_add: "", date_upd: "", reset_password_token: "", reset_password_validity: "", associations: nil)
-		print(edited)
-//		if true
-//		{
-//			let df = DateFormatter()
-//			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//			//df.
-//			edited.date_upd = df.string(from: Date.init())
-//			edited.firstname = fieldEdit1.text
-//			edited.lastname = field2Edit.text
-//			edited.birthday = field4Edit.text
-//			edited.optin = String(switch0.isOn)
-//			edited.newsletter = String(switch1.isOn)
-//			edited.active = String(switch2.isOn)
-//		}
-		let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer")
+		var edited = customer
+//		var edited = Customer(id: store.customer?.id, id_customer: store.customer?.id_customer, id_default_group: store.customer?.id_default_group, id_lang: store.customer?.id_lang, newsletter_date_add: store.customer?.newsletter_date_add, ip_registration_newsletter: store.customer?.ip_registration_newsletter, last_passwd_gen: store.customer?.last_passwd_gen, secure_key: store.customer?.secure_key, deleted: store.customer?.deleted, passwd: (store.customer?.passwd)!, lastname: (store.customer?.lastname)!, firstname: (store.customer?.firstname)!, email: (store.customer?.email)!, id_gender: store.customer?.id_gender, birthday: store.customer?.birthday, newsletter: store.customer?.newsletter, optin: store.customer?.optin, website: store.customer?.website, company: store.customer?.company, siret: store.customer?.siret, ape: store.customer?.ape, outstanding_allow_amount: store.customer?.outstanding_allow_amount, show_public_prices: store.customer?.show_public_prices, id_risk: store.customer?.id_risk, max_payment_days: store.customer?.max_payment_days, active: store.customer?.active, note: store.customer?.note, is_guest: store.customer?.is_guest, id_shop: store.customer?.id_shop, id_shop_group: store.customer?.id_shop_group, date_add: store.customer?.date_add, date_upd: store.customer?.date_upd, reset_password_token: store.customer?.reset_password_token, reset_password_validity: store.customer?.reset_password_validity, associations: store.customer?.associations)
+		if true//changed ie. edited
+		{
+			let now = Date()
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			edited?.date_upd = df.string(from: now)
+			edited?.firstname = fieldEdit1.text!
+			edited?.lastname = field2Edit.text!
+			edited?.birthday = field4Edit.text
+			edited?.optin = String(switch0.isOn)
+			edited?.newsletter = String(switch1.isOn)
+			edited?.active = String(switch2.isOn)
+		}
+		let str = PSWebServices.object2psxml(object: edited!, resource: "customers", resource2: "customer")
 		print(str)
 //		PSWebServices.postCustomer(XMLStr: str)
 //		{

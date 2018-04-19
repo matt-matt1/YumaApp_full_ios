@@ -366,61 +366,68 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	
 	@objc func refresh()//(_ sender: Any)
 	{
-		let sv = UIViewController.displaySpinner(onView: self.view)
-		leftLabel.text = ""
-		centerLabel.text = "\(R.string.updating) ..."
-		rightLabel.text = ""
-		//pageControl.isHidden = true
-		pageControl.pageIndicatorTintColor = UIColor.clear
-		pageControl.currentPageIndicatorTintColor = .clear
-		let completeionFunc: (Any) -> Void =
+		if Reachability.isConnectedToNetwork()
 		{
-			(products) in
-			
-			OperationQueue.main.addOperation
+			let sv = UIViewController.displaySpinner(onView: self.view)
+			leftLabel.text = ""
+			centerLabel.text = "\(R.string.updating) ..."
+			rightLabel.text = ""
+			//pageControl.isHidden = true
+			pageControl.pageIndicatorTintColor = UIColor.clear
+			pageControl.currentPageIndicatorTintColor = .clear
+			let completeionFunc: (Any) -> Void =
+			{
+				(products) in
+				
+				if products != nil
 				{
-					UIViewController.removeSpinner(spinner: sv)
-					self.leftLabel.text = " \(R.string.updated)"
-					self.centerLabel.text = FontAwesome.repeat.rawValue
-					self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
-					let date = Date()
-					let df = DateFormatter()
-					df.locale = Locale(identifier: self.store.locale)
-					df.dateFormat = "dd MMM YYYY  h:mm:ss a"
-					self.rightLabel.text = "\(df.string(from: date)) "
-					//self.pageControl.isHidden = false
-					self.pageControl.currentPageIndicatorTintColor = R.color.YumaRed
-					self.pageControl.pageIndicatorTintColor = R.color.YumaYel
-					self.pageControl.numberOfPages = self.store.products.count
-					print("found \(self.store.products.count) products")
-					if self.store.products.count < 1
+					//OperationQueue.main.addOperation
+					DispatchQueue.main.asyncAfter(deadline: .now() + 30)
 					{
-						self.store.Alert(fromView: self, title: R.string.err, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.empty, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
-							self.dismiss(animated: false, completion: nil)
-						}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+						UIViewController.removeSpinner(spinner: sv)
+						self.leftLabel.text = " \(R.string.updated)"
+						self.centerLabel.text = FontAwesome.repeat.rawValue
+						self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
+						let date = Date()
+						let df = DateFormatter()
+						df.locale = Locale(identifier: self.store.locale)
+						df.dateFormat = "dd MMM YYYY  h:mm:ss a"
+						self.rightLabel.text = "\(df.string(from: date)) "
+						//self.pageControl.isHidden = false
+						self.pageControl.currentPageIndicatorTintColor = R.color.YumaRed
+						self.pageControl.pageIndicatorTintColor = R.color.YumaYel
+						self.pageControl.numberOfPages = self.store.products.count
+						print("found \(self.store.products.count) products")
+						if self.store.products.count < 1
+						{
+							self.store.Alert(fromView: self, title: R.string.err, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.empty, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
+								self.dismiss(animated: false, completion: nil)
+							}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+						}
+						print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
+						self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
+						self.insertData()
 					}
-					print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
-					self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
-					self.insertData()
+				}
 			}
-		}
-		switch navTitle.title
-		{
-		case R.string.printers?:
-			store.callGetPrinters(completion: completeionFunc)
-			break
-		case R.string.laptops?:
-			store.callGetLaptops(completion: completeionFunc)
-			break
-		case R.string.toners?:
-			store.callGetToners(completion: completeionFunc)
-			break
-		case R.string.services?:
-			store.callGetServices(completion: completeionFunc)
-			break
-		default:
-			completeionFunc(store.products)
-			//print("bad instantantion of products VC")
+			switch navTitle.title
+			{
+			case R.string.printers?:
+				store.callGetPrinters(completion: completeionFunc)
+				break
+			case R.string.laptops?:
+				store.callGetLaptops(completion: completeionFunc)
+				break
+			case R.string.toners?:
+				store.callGetToners(completion: completeionFunc)
+				break
+			case R.string.services?:
+				store.callGetServices(completion: completeionFunc)
+				break
+			default:
+				completeionFunc(store.products)
+				//print("bad instantantion of products VC")
+			}
 		}
 	}
 	

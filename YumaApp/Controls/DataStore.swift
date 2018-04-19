@@ -50,6 +50,9 @@ final class DataStore
 	var orderCarriers: 			[OrderCarrier] = 		[]
 	var configurations: 		[Configuration] = 		[]
 	var properties: 			[String] = 				[]
+	var customerMessages:		[CustomerMessage] = 	[]
+	var customerThreads:		[CustomerThread] = 		[]
+	var contacts: 				[Contact] = 			[]
 
 	
 	/// Sets the parameters for product shares
@@ -618,59 +621,186 @@ final class DataStore
 	}
 
 	/// Use the api to collect details about the products in the printers category, if any
-	func callGetPrinters(completion: @escaping (Any) -> Void)
+	func callGetPrinters(completion: @escaping (Any?) -> Void)
 	{
-		PSWebServices.getPrinters(completionHandler:
-			{
-				(printers) in
-				
-				self.printers = printers
-				self.products = printers
-				completion(printers)
-			}
-		)
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getPrinters(completionHandler:
+				{
+					(printers, error) in
+					
+					if error != nil
+					{
+						if printers != nil
+						{
+							self.printers = printers!
+							self.products = printers!
+							completion(printers!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+				}
+			)
+		}
 	}
 
 	/// Use the api to collect details about the products in the laptops category, if any
-	func callGetLaptops(completion: @escaping (Any) -> Void)
+	func callGetLaptops(completion: @escaping (Any?) -> Void)
 	{
-		PSWebServices.getLaptops(completionHandler:
-			{
-				(laptops) in
-				
-				self.laptops = laptops
-				self.products = laptops
-				completion(laptops)
-			}
-		)
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getLaptops(completionHandler:
+				{
+					(laptops, error) in
+					
+					if error != nil
+					{
+						if laptops != nil
+						{
+							self.laptops = laptops!
+							self.products = laptops!
+							completion(laptops!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+				}
+			)
+		}
 	}
 	
 	/// Use the api to collect details about the products in the services category, if any
-	func callGetServices(completion: @escaping (Any) -> Void)
+	func callGetServices(completion: @escaping (Any?) -> Void)
 	{
-		PSWebServices.getServices(completionHandler:
-			{
-				(services) in
-				
-				self.services = services
-				self.products = services
-				completion(services)
-			}
-		)
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getServices(completionHandler:
+				{
+					(services, error) in
+					
+					if error != nil
+					{
+						if services != nil
+						{
+							self.services = services!
+							self.products = services!
+							completion(services!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+				}
+			)
+		}
 	}
 	
 	/// Use the api to collect details about the products in the toners category, if any
-	func callGetToners(completion: @escaping (Any) -> Void)
+	func callGetToners(completion: @escaping (Any?) -> Void)
 	{
-		PSWebServices.getToners(completionHandler:
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getToners(completionHandler:
+				{
+					(toners, error) in
+					
+					if error != nil
+					{
+						if toners != nil
+						{
+							self.toners = toners!
+							self.products = toners!
+							completion(toners!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+				}
+			)
+		}
+	}
+	
+	/// Use the api to collect messages sent by customers, if any
+	func callGetCustomerMessages(completion: @escaping (Any?) -> Void)
+	{
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getCustomerMessages(completionHandler:
 			{
-				(toners) in
+				(msgs, error) in
 				
-				self.toners = toners
-				self.products = toners
-				completion(toners)
-			}
-		)
+				if error != nil
+				{
+					if msgs != nil
+					{
+						self.customerMessages = msgs!
+						completion(msgs!)
+					}
+					else
+					{
+						completion(nil)
+					}
+				}
+			})
+		}
+	}
+
+	/// Use the api to collect customer threads, if any
+	func callGetCustomerThreads(completion: @escaping (Any?) -> Void)
+	{
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getCustomerThreads(completionHandler:
+				{
+					(threads, error) in
+					
+					if error != nil
+					{
+						if threads != nil
+						{
+							self.customerThreads = threads!
+							completion(threads!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+			})
+		}
+	}
+	
+	/// Use the api to collect customer threads, if any
+	func callGetContacts(completion: @escaping (Any?) -> Void)
+	{
+		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		{
+			PSWebServices.getContacts(completionHandler:
+				{
+					(contacts, error) in
+					
+					if error != nil
+					{
+						if contacts != nil
+						{
+							self.contacts = contacts!
+							completion(contacts!)
+						}
+						else
+						{
+							completion(nil)
+						}
+					}
+			})
+		}
 	}
 
 	///try

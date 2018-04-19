@@ -45,7 +45,6 @@
 		CF453EA3206ABD3E00E9FCE1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */; };
 		CF453EA5206ABDB500E9FCE1 /* MobileDataItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453EA4206ABDB500E9FCE1 /* MobileDataItem.swift */; };
 		CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4823E52076C80D00DF3DB8 /* MakeTable.swift */; };
-		CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */; };
 		CF4A953B2082624D004C0733 /* DebugTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4A953A2082624D004C0733 /* DebugTableViewCell.swift */; };
 		CF4BD95D2081228F000B2ED6 /* Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BD95C2081228F000B2ED6 /* Configurations.swift */; };
 		CF4BD95F208129E2000B2ED6 /* DebugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BD95E208129E2000B2ED6 /* DebugViewController.swift */; };
@@ -83,6 +82,9 @@
 		CF63DD32206423BE00025007 /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD31206423BE00025007 /* AlertModal.swift */; };
 		CF63DD34206424AC00025007 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD33206424AC00025007 /* CustomAlertView.swift */; };
 		CF65C5C820409ABD00517432 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF65C5C720409ABD00517432 /* SwiftyJSON.swift */; };
+		CF68979C208930E100998527 /* CustomerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979B208930E100998527 /* CustomerMessages.swift */; };
+		CF68979E2089354200998527 /* CustomerThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979D2089354200998527 /* CustomerThreads.swift */; };
+		CF6897A020893BD300998527 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979F20893BD300998527 /* Contacts.swift */; };
 		CF72A5512072D99A00A86B8A /* CheckoutStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5502072D99A00A86B8A /* CheckoutStep1ViewController.swift */; };
 		CF72A5532072D9C500A86B8A /* CheckoutStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */; };
 		CF72A5552072D9D900A86B8A /* CheckoutStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */; };
@@ -203,7 +205,6 @@
 		CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		CF453EA4206ABDB500E9FCE1 /* MobileDataItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDataItem.swift; sourceTree = "<group>"; };
 		CF4823E52076C80D00DF3DB8 /* MakeTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeTable.swift; sourceTree = "<group>"; };
-		CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopsViewController.swift; sourceTree = "<group>"; };
 		CF4A953A2082624D004C0733 /* DebugTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugTableViewCell.swift; sourceTree = "<group>"; };
 		CF4BD95C2081228F000B2ED6 /* Configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurations.swift; sourceTree = "<group>"; };
 		CF4BD95E208129E2000B2ED6 /* DebugViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +242,9 @@
 		CF63DD31206423BE00025007 /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		CF63DD33206424AC00025007 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		CF65C5C720409ABD00517432 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Pods/SwiftyJSON/../../SwiftyJSON.swift; sourceTree = "<group>"; };
+		CF68979B208930E100998527 /* CustomerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMessages.swift; sourceTree = "<group>"; };
+		CF68979D2089354200998527 /* CustomerThreads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerThreads.swift; sourceTree = "<group>"; };
+		CF68979F20893BD300998527 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		CF72A5502072D99A00A86B8A /* CheckoutStep1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep1ViewController.swift; sourceTree = "<group>"; };
 		CF72A5522072D9C500A86B8A /* CheckoutStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep2ViewController.swift; sourceTree = "<group>"; };
 		CF72A5542072D9D900A86B8A /* CheckoutStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutStep3ViewController.swift; sourceTree = "<group>"; };
@@ -567,6 +571,9 @@
 				CF601A1D204AEB7500217025 /* Tags.swift */,
 				CF601A1F204AEC6A00217025 /* Taxes.swift */,
 				CF4BD95C2081228F000B2ED6 /* Configurations.swift */,
+				CF68979B208930E100998527 /* CustomerMessages.swift */,
+				CF68979D2089354200998527 /* CustomerThreads.swift */,
+				CF68979F20893BD300998527 /* Contacts.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -580,7 +587,6 @@
 				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
 				CF7E865F202A44950014B787 /* HeaderController.swift */,
 				CF7E8667202B88570014B787 /* LoginViewController.swift */,
-				CF48A6A9202F3BE500FEEC7F /* LaptopsViewController.swift */,
 				CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */,
 				CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */,
 				CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */,
@@ -962,6 +968,7 @@
 				CF182DC820321DD70070B9E5 /* Order.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* Countries.swift in Sources */,
 				CF384BFD205FFF0A005CCD57 /* Contents.swift in Sources */,
+				CF68979E2089354200998527 /* CustomerThreads.swift in Sources */,
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
 				CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */,
 				CF4BD95D2081228F000B2ED6 /* Configurations.swift in Sources */,
@@ -969,6 +976,7 @@
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CF78CC092083B41D0030789D /* Debug2ViewController.swift in Sources */,
 				CF601A0E204AE13700217025 /* OrderCarriers.swift in Sources */,
+				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
@@ -983,6 +991,7 @@
 				CF50A3E2207BFAC2008749F0 /* HelpVC.swift in Sources */,
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
+				CF68979C208930E100998527 /* CustomerMessages.swift in Sources */,
 				CF4A953B2082624D004C0733 /* DebugTableViewCell.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */,
@@ -1018,7 +1027,6 @@
 				CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */,
 				CF384BF2205EBB17005CCD57 /* APIError.swift in Sources */,
 				CF182DC4203219900070B9E5 /* Carts.swift in Sources */,
-				CF48A6AA202F3BE500FEEC7F /* LaptopsViewController.swift in Sources */,
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,
 				CF601A12204AE33900217025 /* OrderHistories.swift in Sources */,
 				CF126946204C8674008EFD04 /* Combinations.swift in Sources */,
