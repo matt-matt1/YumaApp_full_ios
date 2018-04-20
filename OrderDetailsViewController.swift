@@ -466,13 +466,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
 				picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
 				])
-			vc?.pickerView.removeFromSuperview()
 			vc?.button.addTarget(self, action: #selector(writePickedValue(_:)), for: .touchUpInside)
-//			vc?.onSelected =
-//			{
-//				(data) in
-//				self.addMessageField.text = data
-//			}
 		}
 		else
 		{

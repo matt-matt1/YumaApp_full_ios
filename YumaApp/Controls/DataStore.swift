@@ -184,27 +184,41 @@ final class DataStore
 	}
 
 	/// Use the api to collect the countries, if any
-	func callGetCountries(completion: @escaping (Any) -> Void)
+	func callGetCountries(completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getCountries(completionHandler:
 			{
-				(countries) in
+				(countries, error) in
 				
-				self.countries = countries
-				completion(countries)
+				if error != nil
+				{
+					completion(nil, error)
+				}
+				else
+				{
+					self.countries = countries!
+					completion(countries, nil)
+				}
 			}
 		)
 	}
 
 	/// Use the api to collect the states, optionally belonging to a certain countryID, if any
-	func callGetStates(id_country: Int, completion: @escaping (Any) -> Void)
+	func callGetStates(id_country: Int, completion: @escaping (Any?, Error?) -> Void)
 	{
 		PSWebServices.getStates(id_country: id_country, completionHandler:
 			{
-				(states) in
+				(states, err) in
 				
-				self.states = states
-				completion(states)
+				if err != nil
+				{
+					completion(nil, err)
+				}
+				else
+				{
+					self.states = states!
+					completion(states, nil)
+				}
 			}
 		)
 	}

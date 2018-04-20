@@ -29,10 +29,6 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DO4-bF-sBb">
-                                        <rect key="frame" x="8" y="47" width="288" height="292"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                    </pickerView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B28-KQ-7NO">
                                         <rect key="frame" x="0.0" y="347" width="304" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -58,7 +54,6 @@
                         <outlet property="backgroundView" destination="WyB-Uc-zZ7" id="jXz-QI-npm"/>
                         <outlet property="button" destination="B28-KQ-7NO" id="eYB-Iv-B6B"/>
                         <outlet property="dialog" destination="MmQ-kW-CCs" id="alI-kd-lkg"/>
-                        <outlet property="pickerView" destination="DO4-bF-sBb" id="61D-lj-DpO"/>
                         <outlet property="titleLbl" destination="j1O-L2-NWM" id="yjQ-G6-sbb"/>
                     </connections>
                 </viewController>

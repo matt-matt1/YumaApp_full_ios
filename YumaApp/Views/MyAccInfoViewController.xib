@@ -95,6 +95,9 @@
                                     </barButtonItem>
                                     <barButtonItem key="rightBarButtonItem" title="help" id="Dfy-y2-jDP">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="navHelpAct:" destination="-1" id="k5C-Pd-rhE"/>
+                                        </connections>
                                     </barButtonItem>
                                 </navigationItem>
                             </items>

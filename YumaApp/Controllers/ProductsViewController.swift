@@ -372,7 +372,6 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			leftLabel.text = ""
 			centerLabel.text = "\(R.string.updating) ..."
 			rightLabel.text = ""
-			//pageControl.isHidden = true
 			pageControl.pageIndicatorTintColor = UIColor.clear
 			pageControl.currentPageIndicatorTintColor = .clear
 			let completeionFunc: (Any) -> Void =

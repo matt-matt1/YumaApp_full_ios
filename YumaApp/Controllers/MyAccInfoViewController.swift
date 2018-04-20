@@ -48,14 +48,92 @@ class MyAccInfoViewController: UIViewController
 	@IBOutlet weak var switch2Label2: UILabel!
 	@IBOutlet weak var switch2Group: UIView!
 	@IBOutlet weak var buttonText: GradientButton!
+	let helpPageControl = UIPageControl()
+	let helpScrollView = UIScrollView()
 
 	let store = DataStore.sharedInstance
 	var customer: Customer?
 	
 	
+	override func viewDidLoad()
+	{
+		super.viewDidLoad()
+		/*
+		Unable to simultaneously satisfy constraints.
+		Probably at least one of the constraints in the following list is one you don't want.
+		Try this:
+		(1) look at each constraint and try to figure out which you don't expect;
+		(2) find the code that added the unwanted constraint or constraints and fix it.
+		(
+		"<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>",
+		"<NSLayoutConstraint:0x145fa9b0 'UISV-hiding' H:[UILabel:0x14632db0'Email Address'(0)]>"
+		)
+		
+		Will attempt to recover by breaking constraint
+		<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>
+		
+		Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+		The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
+		2018-03-13 09:29:53.420 YumaApp[485:15120] Unable to simultaneously satisfy constraints.
+		Probably at least one of the constraints in the following list is one you don't want.
+		Try this:
+		(1) look at each constraint and try to figure out which you don't expect;
+		(2) find the code that added the unwanted constraint or constraints and fix it.
+		(
+		"<NSLayoutConstraint:0x1461a580 UIStackView:0x1461eda0.top == UIView:0x1461eeb0.topMargin>",
+		"<NSLayoutConstraint:0x14535960 UINavigationBar:0x14538250.top == UIView:0x1461eeb0.top + 20>",
+		"<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>"
+		)
+		
+		Will attempt to recover by breaking constraint
+		<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>*/
+		getCustomer()
+		if #available(iOS 11.0, *)
+		{
+			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		}
+		else
+		{
+			//			navBar.superview?.constraints.forEach({ (constraint) in
+			//				if constraint.firstAnchor === navBar && constraint.firstAttribute == .top
+			//				{
+			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+			//				}
+			//			})
+		}
+		//		if self.view.frame.width > 400
+		//		{
+		//			convertEntryToHorizontal(125)
+		//		}
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
+		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
+		setLabels()
+		if store.customer != nil && store.customer?.lastname != ""
+		{
+			navTitle.title = R.string.my_account + " " + R.string.Info
+			setEmailField()
+			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
+			fillFields()
+		}
+		else
+		{
+			navTitle.title = R.string.createAcc
+			buttonText.setTitle(R.string.createAcc.uppercased(), for: .normal)
+		}
+	}
+	
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+
+
 	func setLabels()
 	{
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		//let segmentedItem = [R.string.mr, R.string.mrs]
 		genderSwitch.removeAllSegments()
 		genderSwitch.insertSegment(withTitle: R.string.mr, at: 0, animated: false)
@@ -266,88 +344,72 @@ class MyAccInfoViewController: UIViewController
 	}
 	
 
-	override func viewDidLoad()
+	@IBAction func navHelpAct(_ sender: Any)
 	{
-        super.viewDidLoad()
-		/*
-Unable to simultaneously satisfy constraints.
-Probably at least one of the constraints in the following list is one you don't want.
-Try this:
-(1) look at each constraint and try to figure out which you don't expect;
-(2) find the code that added the unwanted constraint or constraints and fix it.
-(
-"<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>",
-"<NSLayoutConstraint:0x145fa9b0 'UISV-hiding' H:[UILabel:0x14632db0'Email Address'(0)]>"
-)
-
-Will attempt to recover by breaking constraint
-<NSLayoutConstraint:0x146256a0 H:[UILabel:0x14632db0'Email Address'(120)]>
-
-Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
-The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
-2018-03-13 09:29:53.420 YumaApp[485:15120] Unable to simultaneously satisfy constraints.
-Probably at least one of the constraints in the following list is one you don't want.
-Try this:
-(1) look at each constraint and try to figure out which you don't expect;
-(2) find the code that added the unwanted constraint or constraints and fix it.
-(
-"<NSLayoutConstraint:0x1461a580 UIStackView:0x1461eda0.top == UIView:0x1461eeb0.topMargin>",
-"<NSLayoutConstraint:0x14535960 UINavigationBar:0x14538250.top == UIView:0x1461eeb0.top + 20>",
-"<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>"
-)
-
-Will attempt to recover by breaking constraint
-<NSLayoutConstraint:0x1451e990 'UISV-canvas-connection' UIStackView:0x1461eda0.top == UINavigationBar:0x14538250.top>*/
-		getCustomer()
-		if #available(iOS 11.0, *)
+		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+		let vc = sb.instantiateInitialViewController() as? PickerViewController
+		if vc != nil
 		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+			self.present(vc!, animated: false, completion: nil)
+//			vc?.dialog.cornerRadius = 20
+			vc?.titleLbl.text = R.string.help
+			vc?.button.setTitle(R.string.dismiss.uppercased(), for: .normal)
+			self.helpPageControl.numberOfPages = R.array.help_cart_guide.count
+			self.helpPageControl.currentPageIndicatorTintColor = R.color.YumaRed
+			self.helpPageControl.pageIndicatorTintColor = R.color.YumaYel
+//			let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: (vc?.dialog.frame.width)!, height: (vc?.dialog.frame.height)!-100))
+			self.helpScrollView.backgroundColor = R.color.AppleBlue
+			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * self.helpScrollView.frame.width
+			self.helpScrollView.contentSize.height = self.helpScrollView.frame.height
+//			print("scrollView = \(scrollView.frame.origin.x)x\(scrollView.frame.origin.y) \(scrollView.frame.width)x\(scrollView.frame.height) \(scrollView.contentSize.width)x\(scrollView.contentSize.height)")
+			for i in 0 ..< R.array.help_cart_guide.count
+			{
+				let view = UIView(frame: CGRect(x: CGFloat(i)*self.helpScrollView.frame.width, y: 0, width: self.helpScrollView.frame.width, height: self.helpScrollView.frame.height))
+				view.translatesAutoresizingMaskIntoConstraints = false
+				let label = UILabel()
+				label.translatesAutoresizingMaskIntoConstraints = false
+				label.text = R.array.help_cart_guide[i]
+				view.addSubview(label)
+				NSLayoutConstraint.activate([
+					label.topAnchor.constraint(equalTo: view.topAnchor),
+					label.leftAnchor.constraint(equalTo: view.leftAnchor),
+					label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+					label.rightAnchor.constraint(equalTo: view.rightAnchor),
+					])
+				self.helpScrollView.addSubview(view)
+			}
+			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView])
+			stack.axis = .vertical
+			stack.alignment = .center
+			vc?.view.insertSubview(stack, at: 1)
+			stack.translatesAutoresizingMaskIntoConstraints = false
+			NSLayoutConstraint.activate([
+				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!),
+				stack.leftAnchor.constraint(equalTo: (vc?.dialog.leftAnchor)!),
+				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!),
+				stack.rightAnchor.constraint(equalTo: (vc?.dialog.rightAnchor)!),
+				])
+			print("stack = \(stack.frame.origin.x)x\(stack.frame.origin.y) \(stack.frame.width)x\(stack.frame.height)")
+			self.helpScrollView.delegate = self
+//			vc?.button.addTarget(self, action: #selector(writePickedValue(_:)), for: .touchUpInside)
 		}
 		else
 		{
-//			navBar.superview?.constraints.forEach({ (constraint) in
-//				if constraint.firstAnchor === navBar && constraint.firstAttribute == .top
-//				{
-					navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-//				}
-//			})
+			print("Cannot invoke initial Help controller")
 		}
-//		if self.view.frame.width > 400
-//		{
-//			convertEntryToHorizontal(125)
-//		}
-		navHelp.title = FontAwesome.questionCircle.rawValue
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
-		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
-        setLabels()
-		if store.customer != nil && store.customer?.lastname != ""
-		{
-			setEmailField()
-			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
-			fillFields()
-		}
-		else
-		{
-			navTitle.title = R.string.createAcc
-			buttonText.setTitle(R.string.createAcc.uppercased(), for: .normal)
-		}
-    }
+	}
+	
+}
 
-    override func didReceiveMemoryWarning()
+
+
+extension MyAccInfoViewController: UIScrollViewDelegate
+{
+	func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView)
 	{
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+		if scrollView == self.helpScrollView
+		{
+			self.helpPageControl.currentPage = Int(round(scrollView.contentOffset.x / scrollView.frame.width))
+		}
+	}
 }

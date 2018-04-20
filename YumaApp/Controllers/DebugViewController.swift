@@ -73,7 +73,7 @@ class DebugViewController: UIViewController
 			ResourceStringAndCount(name: "product_feature_values", count: nil/*store.productFeatureValues.count*/),
 			ResourceStringAndCount(name: "product_features", count: nil/*store.productFeatures.count*/),
 			ResourceStringAndCount(name: "product_option_values", count: store.productOptionValues.count),
-			ResourceStringAndCount(name: "product_options", count: nil/*store.productOptions.count*/),
+			ResourceStringAndCount(name: "product_options", count: store.productOptions.count),
 			ResourceStringAndCount(name: "product_suppliers", count: nil/*store.productSuppliers.count*/),
 			ResourceStringAndCount(name: "products", count: store.products.count),
 			ResourceStringAndCount(name: "search", count: nil/*store.search.count*/),

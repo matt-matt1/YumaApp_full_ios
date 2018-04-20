@@ -694,7 +694,7 @@ class PSWebServices: NSObject
 	}
 	
 	///return an Object containing a list of all countries
-	class func getCountries(completionHandler: @escaping ([Country]) -> Void)
+	class func getCountries(completionHandler: @escaping ([Country]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)countries?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -705,24 +705,26 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
+					let dataString = String(data: data, encoding: .utf8)
+//					print(dataString ?? R.string.err)
+					UserDefaults.standard.set(dataString, forKey: "Countries")
 					do
 					{
 						let countries = try JSONDecoder().decode(Countries.self, from: data)
-						completionHandler(countries.countries)
+						completionHandler(countries.countries, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
-				}.resume()
+			}.resume()
 		}
 	}
 	
 	///return the states belonging to id_country;  id_country is 0 return all states
-	class func getStates(id_country: Int, completionHandler: @escaping ([CountryState]) -> Void)
+	class func getStates(id_country: Int, completionHandler: @escaping ([CountryState]?, Error?) -> Void)
 	{
 		var url = "\(R.string.WSbase)states?"
 		if id_country > 0
@@ -738,16 +740,18 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
+					let dataString = String(data: data, encoding: .utf8)
+//					print(dataString ?? R.string.err)
+					UserDefaults.standard.set(dataString, forKey: "States")
 					do
 					{
 						let states = try JSONDecoder().decode(CountryStates.self, from: data)
-						completionHandler(states.states!)
+						completionHandler(states.states!, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				}.resume()
@@ -852,8 +856,9 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
+					let dataString = String(data: data, encoding: .utf8)
+//					print(dataString ?? R.string.err)
+					UserDefaults.standard.set(dataString, forKey: "ProductOptionValues")
 					do
 					{
 						let tags = try JSONDecoder().decode(ProductOptionValues.self, from: data)
@@ -1068,8 +1073,9 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					//					let dataString = String(data: data, encoding: .utf8)
+					let dataString = String(data: data, encoding: .utf8)
 					//					print(dataString ?? R.string.err)
+					UserDefaults.standard.set(dataString, forKey: "Contacts")
 					do
 					{
 						let contacts = try JSONDecoder().decode(Contacts.self, from: data)

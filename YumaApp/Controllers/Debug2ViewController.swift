@@ -307,11 +307,12 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "product_options":
-				print("\(DebugViewController.resource ?? "") not implemented yet")
-//				if store.product_options.count > 0
-//				{
-//					mirror = Mirror(reflecting: store.product_options[pageControl.currentPage])
-//				}
+//				print("\(DebugViewController.resource ?? "") not implemented yet")
+				if store.productOptions.count > 0
+				{
+					mirror = Mirror(reflecting: store.productOptions[pageControl.currentPage])
+					pageControl.numberOfPages = store.productOptions.count
+				}
 				break
 			case "product_suppliers":
 				print("\(DebugViewController.resource ?? "") not implemented yet")
