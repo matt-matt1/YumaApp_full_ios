@@ -20,7 +20,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	@IBOutlet weak var placedOn: UILabel!
 	@IBOutlet weak var placedOnValue: UILabel!
 	@IBOutlet weak var carrierLabel: UILabel!
+	@IBOutlet weak var carrier: UILabel!
 	@IBOutlet weak var paymentLabel: UILabel!
+	@IBOutlet weak var payment: UILabel!
 	@IBOutlet weak var followSteps: UILabel!
 	@IBOutlet weak var statusDate: UILabel!
 	@IBOutlet weak var statusStatus: UILabel!
@@ -34,6 +36,16 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	@IBOutlet weak var orderUnitPrice: UILabel!
 	@IBOutlet weak var orderTotalPrice: UILabel!
 	@IBOutlet weak var orderListAdd2: UIStackView!
+	@IBOutlet weak var orderWrapRow: UIStackView!
+	@IBOutlet weak var orderWrapProd: UILabel!
+	@IBOutlet weak var orderWrapTotal: UILabel!
+	@IBOutlet weak var orderWrapQty: UILabel!
+	@IBOutlet weak var orderWrapUI: UILabel!
+	@IBOutlet weak var orderDiscRow: UIStackView!
+	@IBOutlet weak var orderDiscProd: UILabel!
+	@IBOutlet weak var orderDiscQty: UILabel!
+	@IBOutlet weak var orderDiscUnit: UILabel!
+	@IBOutlet weak var orderDiscTotal: UILabel!
 	@IBOutlet weak var orderSubtotalProduct: UILabel!
 	@IBOutlet weak var orderSubtotalQuantity: UILabel!
 	@IBOutlet weak var orderSubtotalLabel: UILabel!
@@ -41,16 +53,15 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	@IBOutlet weak var orderShipProd: UILabel!
 	@IBOutlet weak var orderShipQty: UILabel!
 	@IBOutlet weak var orderShipLabel: UILabel!
+	@IBOutlet weak var orderShipAmt: UILabel!
 	@IBOutlet weak var orderTaxProd: UILabel!
 	@IBOutlet weak var orderTaxQty: UILabel!
 	@IBOutlet weak var orderTaxLabel: UILabel!
 	@IBOutlet weak var orderTaxAmt: UILabel!
 	@IBOutlet weak var orderTotalProd: UILabel!
-	@IBOutlet weak var payment: UILabel!
 	@IBOutlet weak var orderTotalQty: UILabel!
 	@IBOutlet weak var orderTotalLabel: UILabel!
 	@IBOutlet weak var orderTotalAmt: UILabel!
-	@IBOutlet weak var carrier: UILabel!
 	@IBOutlet weak var messagesLabel: UILabel!
 	@IBOutlet weak var addMessageLabel: UILabel!
 	@IBOutlet weak var addMessageCaption: UILabel!
@@ -60,7 +71,6 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	@IBOutlet weak var addMessageArrow: UILabel!
 	@IBOutlet weak var addMessageMessageLabel: UILabel!
 	@IBOutlet weak var button: GradientButton!
-	@IBOutlet weak var orderShipAmt: UILabel!
 	@IBOutlet weak var addMessageSelect: UIStackView!
 	@IBOutlet weak var addMessageMessageField: UITextField!
 	let store = DataStore.sharedInstance
@@ -149,10 +159,37 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		orderQuantity.text = R.string.Quant
 		orderUnitPrice.text = R.string.unitP
 		orderTotalPrice.text = R.string.tPrice
-		orderSubtotalLabel.text = R.string.subT
-		orderShipLabel.text = R.string.shipAnd
-		orderTaxLabel.text = R.string.tax
-		orderTotalLabel.text = R.string.Total
+		orderSubtotalProduct.text = ""
+		orderSubtotalQuantity.text = R.string.subT
+		orderSubtotalLabel.text = ""
+		orderShipProd.text = ""
+		orderShipQty.text = R.string.shipAnd
+		orderTaxProd.text = ""
+		orderTaxQty.text = R.string.tax
+		orderTaxLabel.text = ""
+		orderTotalProd.text = ""
+		orderTotalQty.text = R.string.Total
+		//orderTotalLabel.text =
+		if order?.total_wrapping != nil && Double((order?.total_wrapping)!)! > 0
+		{
+			orderWrapRow.isHidden = false
+			orderWrapProd.text = ""
+			orderWrapQty.text = R.string.wrap
+		}
+		else
+		{
+			orderWrapRow.isHidden = true
+		}
+		if order?.total_discounts != nil && Double((order?.total_discounts)!)! > 0
+		{
+			orderDiscRow.isHidden = false
+			orderDiscProd.text = ""
+			orderDiscQty.text = R.string.disc
+		}
+		else
+		{
+			orderDiscRow.isHidden = true
+		}
 		messagesLabel.text = R.string.msgs
 		addMessageLabel.text = R.string.addMsg
 		addMessageCaption.text = R.string.msgTop
@@ -187,7 +224,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		if order != nil && order?.reference != nil
 		{
 			//guard order != nil && order?.reference != nil && order?.reference != "" else { 	return 	}
-			var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0, handling: Double = 0
+			var sub: Double = 0, total: Double = 0, tax: Double = 0, unit: Double = 0, handling: Double = 0, handlingIncTax: Double = 0
 			if order?.reference != nil
 			{
 				orderRefValue.text = order?.reference
@@ -236,9 +273,11 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 					if (order?.id!)! == Int(carr.id_order!)!
 					{
 						handling = Double(carr.shipping_cost_tax_excl!)!
+						handlingIncTax = Double(carr.shipping_cost_tax_incl!)!
 					}
-					total += handling
-					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
+					total += handlingIncTax
+					orderShipLabel.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
+					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handlingIncTax), iso: self.store.locale)
 				}
 			}
 			payment.text = order?.payment
@@ -297,6 +336,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 					prod.adjustsFontSizeToFitWidth = true
 					let qty = UILabel()
 					qty.textAlignment = .center
+					qty.textColor = R.color.YumaRed
 					qty.text = row.product_quantity
 					let up = UILabel()
 					up.textColor = R.color.YumaRed
@@ -331,6 +371,38 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //				}
 					pos += 1
 				}
+				if order?.total_wrapping != nil && Double((order?.total_wrapping)!)! > 0
+				{
+					orderWrapRow.isHidden = false
+					if let exTax = Double((order?.total_wrapping_tax_excl)!)
+					{
+						orderWrapUI.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
+					}
+					if let incTax = Double((order?.total_wrapping_tax_incl)!)
+					{
+						orderWrapTotal.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
+					}
+				}
+				else
+				{
+					orderWrapRow.isHidden = true
+				}
+				if order?.total_discounts != nil && Double((order?.total_discounts)!)! > 0
+				{
+					orderDiscRow.isHidden = false
+					if let exTax = Double((order?.total_discounts_tax_excl)!)
+					{
+						orderDiscProd.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
+					}
+					if let incTax = Double((order?.total_discounts_tax_incl)!)
+					{
+						orderDiscQty.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
+					}
+				}
+				else
+				{
+					orderDiscRow.isHidden = true
+				}
 			}
 			if let currency = Double(String(sub))
 			{
@@ -338,7 +410,22 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			}
 			total += tax
 			orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: tax), iso: self.store.locale)
-			orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: total), iso: self.store.locale)
+			if let exTax = Double((order?.total_paid_tax_excl)!)
+			{
+				orderTotalLabel.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
+			}
+			if let incTax = Double((order?.total_paid_tax_incl)!)
+			{
+				orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
+			}
+			else if let incTax = Double((order?.total_paid)!)
+			{
+				orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
+			}
+			if Int((order?.gift)!)! > 0
+			{
+				messagesLabel.text = order?.gift_message
+			}
 //			if order?.associations != nil
 //			{
 //				for msg in order?.associations.messages

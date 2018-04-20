@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct OrderCarrier: Decodable
+struct OrderCarrier: Codable
 {
 	let id: 					Int?//!
 	let id_order: 				String?//!
@@ -21,7 +21,7 @@ struct OrderCarrier: Decodable
 	let tracking_number: 		String?
 	let date_add: 				String?//date
 }
-struct OrderCarriers: Decodable
+struct OrderCarriers: Codable
 {
-	let orderCarriers: [OrderCarrier]?
+	let order_carriers: [OrderCarrier]?
 }

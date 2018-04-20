@@ -18,32 +18,32 @@ let DEGREES = 180.0
 
 class ContactUsViewController: UIViewController
 {
-	@IBOutlet weak var tempLabel: UILabel!
-	@IBOutlet weak var navBar: UINavigationBar!
-	@IBOutlet weak var navTitle: UINavigationItem!
-	@IBOutlet weak var navClose: UIBarButtonItem!
-	@IBOutlet weak var navHelp: UIBarButtonItem!
-	@IBOutlet weak var phoneIcon: UILabel!
-	@IBOutlet weak var phoneNumber: UILabel!
-	@IBOutlet weak var phoneBtn: UIButton!
-	@IBOutlet weak var emailIcon: UILabel!
-	@IBOutlet weak var emailAddr: UILabel!
-	@IBOutlet weak var emailBtn: UIButton!
-	@IBOutlet weak var addrIcon: UILabel!
-	@IBOutlet weak var addrText: UILabel!
-	@IBOutlet weak var addrBtn: UIButton!
-	@IBOutlet weak var zoomPlusIcon: UIButton!
-	@IBOutlet weak var zoomMinusIcon: UIButton!
-	@IBOutlet weak var myMap: MKMapView!
-	@IBOutlet weak var mapZoomSlider: UISlider!
+	@IBOutlet weak var tempLabel: 		UILabel!
+	@IBOutlet weak var navBar: 			UINavigationBar!
+	@IBOutlet weak var navTitle: 		UINavigationItem!
+	@IBOutlet weak var navClose: 		UIBarButtonItem!
+	@IBOutlet weak var navHelp: 		UIBarButtonItem!
+	@IBOutlet weak var phoneIcon: 		UILabel!
+	@IBOutlet weak var phoneNumber: 	UILabel!
+	@IBOutlet weak var phoneBtn: 		UIButton!
+	@IBOutlet weak var emailIcon: 		UILabel!
+	@IBOutlet weak var emailAddr: 		UILabel!
+	@IBOutlet weak var emailBtn: 		UIButton!
+	@IBOutlet weak var addrIcon: 		UILabel!
+	@IBOutlet weak var addrText: 		UILabel!
+	@IBOutlet weak var addrBtn: 		UIButton!
+	@IBOutlet weak var zoomPlusIcon: 	UIButton!
+	@IBOutlet weak var zoomMinusIcon: 	UIButton!
+	@IBOutlet weak var myMap: 			MKMapView!
+	@IBOutlet weak var mapZoomSlider: 	UISlider!
 	@IBOutlet weak var labelMyLocation: UIButton!
-	var myZoomLevel: Double = 11
-	let location = CLLocationManager()
-	var pin: AnnotationPin!
-	var coords: CLLocationCoordinate2D?
-	let picker = UIPickerView()
-	var pickerData: [String]?
-	let store = DataStore.sharedInstance
+	var myZoomLevel: 	Double = 		11
+	let location = 						CLLocationManager()
+	var pin: 							AnnotationPin!
+	var coords: 						CLLocationCoordinate2D?
+	let picker = 						UIPickerView()
+	var pickerData: 	[String] = 		[]
+	let store = 						DataStore.sharedInstance
 	
 	
 	//	var myCustomView: UserCoinView?
@@ -260,7 +260,23 @@ class ContactUsViewController: UIViewController
 
 	@objc func writePickedValue(_ sender: UIButton?)
 	{
-		//self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
+		let mail = MFMailComposeViewController()
+		mail.mailComposeDelegate = self
+		let picked = picker.selectedRow(inComponent: 0)
+		mail.setToRecipients([(store.contacts[picked].email)!])
+		mail.setSubject(pickerData[picked])
+//		if picked == 1
+//		{
+//			mail.setSubject(R.string.customer + " _<your name>_; " + R.string.order + " _<date>_<item(s)>_")
+//		}
+//		else
+//		{
+//			mail.setSubject(R.string.err)
+//		}
+//		mail.title = R.string.contact.capitalized
+		mail.setMessageBody(pickerData[picked] + ",\n\n\n...", isHTML: true)
+		present(mail, animated: true)
+		mail.becomeFirstResponder()
 	}
 	
 	@IBAction func phoneBtnAct(_ sender: Any)
@@ -288,7 +304,7 @@ class ContactUsViewController: UIViewController
 			{
 				for contact in store.contacts
 				{
-					pickerData?.append(contact.name![store.myLang].value!)
+					pickerData.append(contact.name![store.myLang].value!)
 				}
 			}
 			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
@@ -308,21 +324,48 @@ class ContactUsViewController: UIViewController
 					])
 				vc?.pickerView.removeFromSuperview()
 				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
+				//on pick goto writePickedValue
 			}
 			else
 			{
 				print("HelpStoryboard has no initial view controller")
 			}
-			//display picker: ask for to
-			let mail = MFMailComposeViewController()
-			mail.mailComposeDelegate = self
-			mail.setToRecipients([R.string.our_email])
-			mail.setMessageBody("", isHTML: true)
-			present(mail, animated: true)
 		}
 		else
 		{
-			print("\(R.string.err) \(R.string.cancel) \(R.string.email)")
+			OperationQueue.main.addOperation
+			{
+				let alert = 					UIAlertController(title: R.string.err, message: R.string.email + " " + R.string.notAct, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				print("\(R.string.email) \(R.string.notAct)")
+				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					self.dismiss(animated: false, completion: nil)
+				}))
+				self.present(alert, animated: true, completion:
+				{
+				})
+			}
 		}
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
@@ -334,10 +377,39 @@ class ContactUsViewController: UIViewController
 			guard available else
 			{
 				DataStore.sharedInstance.flexView(view: self.addrBtn)
-				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
-				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
-				alertC.addAction(OKAct)
-				self.present(alertC, animated: true, completion: nil)
+				OperationQueue.main.addOperation
+				{
+					let alert = 					UIAlertController(title: R.string.err + " " + R.string.internet, message: R.string.unableConnect, preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = 		R.color.YumaDRed
+					alert.view.shadowOffset = 		.zero
+					alert.view.shadowRadius = 		5
+					alert.view.shadowOpacity = 		1
+					alert.view.backgroundColor = 	R.color.YumaYel
+					alert.view.cornerRadius = 		15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.4
+					coloredBG.frame = 				self.view.bounds
+					self.view.addSubview(coloredBG)
+					blurFxView.frame = 				self.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					self.view.addSubview(blurFxView)
+					print("\(R.string.unableConnect) \(R.string.email)")
+					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+						self.dismiss(animated: false, completion: nil)
+					}))
+					self.present(alert, animated: true, completion:
+						{
+					})
+				}
 				return
 			}
 			self.present(ExpandMapViewController(), animated: false, completion: nil)
@@ -450,6 +522,34 @@ class ContactUsViewController: UIViewController
 }
 
 
+
+extension ContactUsViewController: UIPickerViewDelegate, UIPickerViewDataSource
+{
+	override func viewDidLayoutSubviews()
+	{
+		picker.delegate = self
+		picker.dataSource = self
+	}
+	
+	func numberOfComponents(in pickerView: UIPickerView) -> Int
+	{
+		return 1
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+	{
+		return self.pickerData.count
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+	{
+		return self.pickerData[row]
+	}
+
+}
+
+
+
 extension MKMapView
 {
 	private func longitudeToPixelSpaceX(longitude:Double)->Double
@@ -523,6 +623,7 @@ extension MKMapView
 }
 
 
+
 extension ContactUsViewController: CLLocationManagerDelegate
 {
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -536,6 +637,7 @@ extension ContactUsViewController: CLLocationManagerDelegate
 }
 
 
+
 extension ContactUsViewController: MFMailComposeViewControllerDelegate
 {
 	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
@@ -543,6 +645,7 @@ extension ContactUsViewController: MFMailComposeViewControllerDelegate
 		controller.dismiss(animated: true)
 	}
 }
+
 
 
 extension ContactUsViewController: MKMapViewDelegate

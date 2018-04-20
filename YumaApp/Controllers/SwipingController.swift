@@ -97,7 +97,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		store.callGetStates(id_country: 0) { (states) in
 			print("got \((states as! [CountryState]).count) states")
 		}
-		store.callGetCarriers { (carriers, err) in
+		store.callGetCarriers
+		{ 	(carriers, err) in
 			if err == nil
 			{
 				print("got \((carriers as [Carrier]?)?.count ?? 0) carriers")
@@ -159,16 +160,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			}
 		}
 //Could not cast value of type 'YumaApp.OrderCarriers' (0x6ad8c4) to 'Swift.Array<YumaApp.OrderCarrier>' (0x37621d4).
-//		store.getOrderCarriers { (carrs, err) in
-//			if err == nil
-//			{
-//				print("got \((carrs as! [OrderCarrier]).count) order carriers")
-//			}
-//			else
-//			{
-//				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-//			}
-//		}
+		store.getOrderCarriers { (carrs, err) in
+			if err == nil
+			{
+				print("got \((carrs as! [OrderCarrier]).count) order carriers")
+			}
+			else
+			{
+				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+			}
+		}
 //
 		store.callGetProductOptions { (opts, err) in
 			if err == nil
@@ -315,6 +316,44 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		else
 		{
 			print("data store has \(store.tags.count) tags")
+		}
+		if store.contacts.count < 1	//check if not already in data store
+		{
+			let contacts = UserDefaults.standard.string(forKey: "Contacts")
+			if contacts == nil
+			{
+				store.callGetContacts(completion:
+				{ 	(contacts, err) in	//api get
+					if err == nil
+					{
+						print("got \((contacts as! [Contact]?)?.count ?? 0) contacts")
+					}
+					else
+					{
+						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+					}
+				})
+			}
+			else
+			{
+				do	//decode user data then insert each into the data store
+				{
+					let all = try JSONDecoder().decode(Contacts.self, from: (contacts?.data(using: .utf8))!)
+					for t in all.contacts!
+					{
+						store.contacts.append(t)
+					}
+					print("decoded \(store.contacts.count) contacts")
+				}
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
+		}
+		else
+		{
+			print("data store has \(store.tags.count) contacts")
 		}
 		store.callGetProductOptionValues{ (opts, err) in
 			if err == nil

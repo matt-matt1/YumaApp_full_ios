@@ -441,7 +441,7 @@ class PSWebServices: NSObject
 	}
 	
 	///return an Object containing a list of the order carriers
-	class func getOrderCarriers(completionHandler: @escaping (OrderCarriers?, Error?) -> Void)
+	class func getOrderCarriers(completionHandler: @escaping ([OrderCarrier]?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)order_carriers?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
@@ -462,7 +462,7 @@ class PSWebServices: NSObject
 					{
 						let myData = try JSONDecoder().decode(OrderCarriers.self, from: myData)
 						//						print(myData)
-						completionHandler(myData, nil)
+						completionHandler(myData.order_carriers, nil)
 					}
 					catch let JSONerr
 					{
@@ -1080,7 +1080,7 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
-				}.resume()
+			}.resume()
 		}
 	}
 

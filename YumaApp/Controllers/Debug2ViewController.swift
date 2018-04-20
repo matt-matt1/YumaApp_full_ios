@@ -96,11 +96,12 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "contacts":
-				print("\(DebugViewController.resource ?? "") not implemented yet")
-//				if store.contacts.count > 0
-//				{
-//					mirror = Mirror(reflecting: store.contacts[pageControl.currentPage])
-//				}
+//				print("\(DebugViewController.resource ?? "") not implemented yet")
+				if store.contacts.count > 0
+				{
+					mirror = Mirror(reflecting: store.contacts[pageControl.currentPage])
+					pageControl.numberOfPages = store.contacts.count
+				}
 				break
 			case "content_management_system":
 				print("\(DebugViewController.resource ?? "") not implemented yet")

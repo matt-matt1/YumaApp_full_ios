@@ -500,6 +500,8 @@ struct R {
 		static let tPrice = "Total Price"
 		static let payment = "Payment"
 		static let delivered = "delivered"
+		static let wrap = "wrapping"
+		static let disc = "discount"
 
 		fileprivate init() {}
 	}

@@ -271,7 +271,9 @@ final class DataStore
 					if let result = result
 					{
 						let array = result.orderDetails
-						OperationQueue.main.addOperation	{	completion(array, nil)			}
+						OperationQueue.main.addOperation	{
+//							for carr in result.orderDetails!{	self.orderDetails.append(carr)	}
+																completion(array, nil)			}
 					}
 				}
 			}
@@ -306,7 +308,9 @@ final class DataStore
 				}
 				else
 				{
-					OperationQueue.main.addOperation		{	completion(states, nil)		}
+					OperationQueue.main.addOperation		{
+//						for carr in states!					{	self.orderCarriers.append(carr)	}
+																completion(states, nil)		}
 				}
 			}
 		)
@@ -340,7 +344,9 @@ final class DataStore
 				}
 				else
 				{
-					OperationQueue.main.addOperation		{	completion(carrs, nil)		}
+					OperationQueue.main.addOperation		{
+						for carr in carrs!					{	self.orderCarriers.append(carr)	}
+																completion(carrs, nil)		}
 				}
 			}
 		)
@@ -779,26 +785,28 @@ final class DataStore
 	}
 	
 	/// Use the api to collect customer threads, if any
-	func callGetContacts(completion: @escaping (Any?) -> Void)
+	func callGetContacts(completion: @escaping (Any?, Error?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		OperationQueue.main.addOperation
 		{
 			PSWebServices.getContacts(completionHandler:
+			{
+				(contacts, error) in//array, Error
+				
+				if error != nil
 				{
-					(contacts, error) in
-					
-					if error != nil
-					{
-						if contacts != nil
-						{
-							self.contacts = contacts!
-							completion(contacts!)
-						}
-						else
-						{
-							completion(nil)
-						}
-					}
+					completion(nil, error)
+				}
+				else if contacts != nil
+				{
+					self.contacts = contacts!
+					completion(contacts!, nil)
+				}
+				else
+				{
+					completion(nil, nil)
+				}
 			})
 		}
 	}
