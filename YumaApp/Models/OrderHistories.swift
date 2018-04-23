@@ -11,13 +11,13 @@ import Foundation
 
 struct OrderHistory: Decodable
 {
-	let id: 				Int
+	let id: 				Int?//!
 	let id_employee: 		String?
-	let id_order_state: 	String
-	let id_order: 			String
+	let id_order_state: 	String?//!
+	let id_order: 			String?//!
 	let date_app: 			String?//date
 }
 struct OrderHistories: Decodable
 {
-	let orders: [OrderHistory]?
+	let order_histories: [OrderHistory]?
 }

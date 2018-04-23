@@ -27,9 +27,9 @@ struct CustomerThread: Codable
 	let status: 		String?
 	let date_add: 		String?
 	let date_upd: 		String?
-	let associations: 	[Associations_CustomerMessage]?
+	let associations: 	[CustomerMessageAssociations]?
 }
-struct Associations_CustomerMessage: Codable
+struct CustomerMessageAssociations: Codable
 {
 	let customer_messages: IdAsString?
 }

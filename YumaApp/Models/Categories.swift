@@ -39,7 +39,7 @@ struct aCategory: Codable//, Comparable
 	var meta_title/*metaTitle*/: 				[IdValue]?//..128
 	var meta_description/*metaDescription*/: 		[IdValue]?//..255
 	var meta_keywords/*metaKeywords*/: 			[IdValue]?//..255
-	var associations: 			Associations_Categories?
+	var associations: 			CategoriesAssociations?
 	/*
 	init(from decoder: Decoder) throws
 	{
@@ -100,7 +100,7 @@ struct aCategory: Codable//, Comparable
 		case associations
 	}*/
 }
-struct Associations_Categories: Codable
+struct CategoriesAssociations: Codable
 {
 	let categories: [IdValue]?
 }

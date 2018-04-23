@@ -338,7 +338,6 @@
                                                                                 <constraint firstAttribute="trailing" secondItem="fQ8-8S-TCO" secondAttribute="trailing" constant="10" id="NdT-1G-hL3"/>
                                                                                 <constraint firstItem="fQ8-8S-TCO" firstAttribute="centerY" secondItem="2eg-KS-Ob8" secondAttribute="centerY" id="SoB-Yu-M2y"/>
                                                                                 <constraint firstItem="fQ8-8S-TCO" firstAttribute="leading" secondItem="2eg-KS-Ob8" secondAttribute="leading" constant="10" id="UD9-4Q-bfU"/>
-                                                                                <constraint firstItem="fQ8-8S-TCO" firstAttribute="centerX" secondItem="2eg-KS-Ob8" secondAttribute="centerX" id="w4c-UY-JOt"/>
                                                                             </constraints>
                                                                         </view>
                                                                     </subviews>

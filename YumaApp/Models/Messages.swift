@@ -9,7 +9,11 @@
 import Foundation
 
 
-public struct Message: Decodable
+struct Messages: Codable
+{
+	let messages: [Message]?
+}
+struct Message: Codable
 {
 	let id: 			String?//!
 	let id_cart: 		String?

@@ -48,14 +48,14 @@ class MyAccountViewController: UIViewController
 		Will attempt to recover by breaking constraint
 		<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>
 		*/
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
 		self.navigationItem.title = R.string.my_account//not working
 		navTitle.title = R.string.my_account
 		navHelp.title = FontAwesome.questionCircle.rawValue

@@ -9,13 +9,9 @@
 import Foundation
 
 
-struct Group: Codable
+struct CustomerAssociations: Codable
 {
-	var id: String?
-}
-struct AssociationsCustomer: Codable
-{
-	var groups: [Group]?
+	var groups: [IdAsString]?
 }
 struct Customer: Codable
 {
@@ -53,5 +49,5 @@ struct Customer: Codable
 	var date_upd: 					String?//date
 	var reset_password_token: 		String?//sha1..40
 	var reset_password_validity: 	String?//date
-	var associations: 				AssociationsCustomer?
+	var associations: 				CustomerAssociations?
 }

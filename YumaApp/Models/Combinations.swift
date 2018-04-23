@@ -28,7 +28,7 @@ struct Combination: Codable
 	let minimalQuantity: 	String? //required="true" format="isUnsignedId"/><
 	let defaultOn: 			String? //format="isBool"/><
 	let availableDate: 		String? //format="isDateFormat"/><
-	let associations: 		Associations_Combinations?//><product_option_values nodeType="product_option_value"
+	let associations: 		CombinationsAssociations?//><product_option_values nodeType="product_option_value"
 	
 	enum MemberKeys: String, CodingKey
 	{
@@ -52,7 +52,7 @@ struct Combination: Codable
 	}
 }
 
-struct Associations_Combinations: Codable
+struct CombinationsAssociations: Codable
 {
 	let productOptionValues: [IdAsString]?
 	let images: [IdAsString]?

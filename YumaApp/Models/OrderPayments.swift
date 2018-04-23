@@ -11,10 +11,10 @@ import Foundation
 
 struct OrderPayment: Decodable
 {
-	let id: 				Int
+	let id: 				Int?//!
 	let order_reference: 	String?//..9
-	let id_currency: 		String
-	let amount: 			String
+	let id_currency: 		String?//!
+	let amount: 			String?//!
 	let payment_method: 	String?
 	let conversion_rate: 	String?//Float
 	let transaction_id: 	String?//..254

@@ -45,6 +45,9 @@
                                                 </barButtonItem>
                                                 <barButtonItem key="rightBarButtonItem" title="help" style="done" id="Ruw-28-0ED">
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <action selector="navHelpAct:" destination="3fU-5c-cas" id="DMU-2q-2eH"/>
+                                                    </connections>
                                                 </barButtonItem>
                                             </navigationItem>
                                         </items>

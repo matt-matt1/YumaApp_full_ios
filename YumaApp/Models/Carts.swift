@@ -24,7 +24,7 @@ struct CartRow: Decodable
 		case quantity
 	}
 }
-struct Associations_CartRows: Decodable
+struct CartAssociations: Decodable
 {
 	let cart_rows: [CartRow]?
 }
@@ -49,7 +49,7 @@ struct aCart: Decodable
 	var allowSeperatedPackage: 	String?//Bool
 	var dateAdd: 				String?//date
 	var dateUpd: 				String?//date
-	var associations: 			Associations_CartRows?
+	var associations: 			CartAssociations?
 	
 	enum MemberKeys: String, CodingKey
 	{

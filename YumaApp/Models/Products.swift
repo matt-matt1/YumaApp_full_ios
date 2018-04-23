@@ -52,7 +52,7 @@ struct ProductBundle: Codable
 	let id: String
 	let quantity: String?
 }
-struct Associations_Products: Codable
+struct ProductsAssociations: Codable
 {
 	let categories: 			[IdAsString]?//[CategoryID]?
 	let images: 				[IdAsString]?//[ImageID]?
@@ -139,7 +139,7 @@ struct aProduct: Codable
 	let description_short/*descriptionShort*/: 			[IdValue]?//html
 	let availableNow: 				[IdValue]?//..255
 	let availableLater: 			[IdValue]?//..255
-	var associations: 				Associations_Products?
+	var associations: 				ProductsAssociations?
 	
 	enum MemberKeys: String, CodingKey
 	{

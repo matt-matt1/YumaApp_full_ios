@@ -24,8 +24,8 @@ struct Currency: Decodable
 	enum MemberKeys: String, CodingKey
 	{
 		case name
-		case isoCode = "iso_code"
-		case conversionRate = "conversion_rate"
+		case isoCode = 			"iso_code"
+		case conversionRate = 	"conversion_rate"
 		case deleted
 		case active
 	}

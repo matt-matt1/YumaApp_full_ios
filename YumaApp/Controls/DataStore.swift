@@ -53,6 +53,7 @@ final class DataStore
 	var customerMessages:		[CustomerMessage] = 	[]
 	var customerThreads:		[CustomerThread] = 		[]
 	var contacts: 				[Contact] = 			[]
+	var orderHistories: 		[OrderHistory] = 		[]
 
 	
 	/// Sets the parameters for product shares
@@ -63,6 +64,52 @@ final class DataStore
 		self.shares.append(ScoialMedia(id: 2, name: [IdValue(id: "0", value: "Twitter")], link: "https://twitter.com/intent/tweet?text=%ProdName%2BprodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjQyIiBoZWlnaHQ9IjM2IiB4bGluazpocmVmPSI0M0Q2OUZCMS5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDEgMykiPgoJPC9pbWFnZT4KCTxnPgoJCTxwYXRoIGZpbGw9IiNhY2FhYTYiIGQ9Ik0yNS43LDhMMjUuNyw4bDAuNywwaDAuN2wwLjUsMC4xYzAuMywwLjEsMC42LDAuMiwwLjksMC4zczAuNSwwLjIsMC44LDAuNEMyOS42LDguOSwyOS44LDksMzAsOS4yCgkJCWMwLjIsMC4xLDAuNCwwLjMsMC42LDAuNWMwLjIsMC4yLDAuNCwwLjIsMC44LDAuMWMwLjMtMC4xLDAuNy0wLjIsMS4xLTAuM2MwLjQtMC4xLDAuOC0wLjMsMS4yLTAuNWMwLjQtMC4yLDAuNi0wLjMsMC43LTAuMwoJCQljMC4xLDAsMC4xLTAuMSwwLjEtMC4xbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwYzAsMCwwLDAuMSwwLDAuMQoJCQlTMzQuNSw5LDM0LjMsOS4zcy0wLjQsMC42LTAuNiwwLjljLTAuMiwwLjMtMC41LDAuNi0wLjYsMC43Yy0wLjIsMC4yLTAuMywwLjMtMC40LDAuM2MtMC4xLDAuMS0wLjEsMC4xLTAuMiwwLjJsLTAuMSwwLjFsMCwwbDAsMAoJCQlsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGgwLjFoMC4xbDAuNy0wLjJjMC41LTAuMSwxLTAuMiwxLjQtMC40YzAuNS0wLjIsMC43LTAuMiwwLjctMC4yCgkJCWMwLDAsMC4xLDAsMC4xLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjEsMGwwLjEsMHYwdjBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDAKCQkJYzAsMC0wLjEsMC4yLTAuMywwLjVjLTAuMiwwLjMtMC4zLDAuNC0wLjQsMC41YzAsMCwwLDAtMC4xLDAuMWMwLDAtMC4yLDAuMi0wLjYsMC42Yy0wLjMsMC4zLTAuNywwLjctMSwwLjkKCQkJYy0wLjMsMC4zLTAuNSwwLjYtMC41LDFjMCwwLjQsMCwwLjgtMC4xLDEuM2MwLDAuNS0wLjEsMS0wLjIsMS42Yy0wLjEsMC42LTAuMiwxLjItMC41LDJjLTAuMiwwLjctMC41LDEuNC0wLjcsMi4xCgkJCWMtMC4zLDAuNy0wLjYsMS4zLTAuOSwxLjlzLTAuNiwxLTAuOSwxLjRjLTAuMywwLjQtMC41LDAuNy0wLjgsMS4xYy0wLjMsMC4zLTAuNiwwLjctMSwxLjFjLTAuNCwwLjQtMC43LDAuNi0wLjcsMC43CgkJCWMwLDAtMC4yLDAuMi0wLjUsMC40Yy0wLjMsMC4zLTAuNiwwLjUtMSwwLjhjLTAuMywwLjMtMC43LDAuNS0xLDAuNmMtMC4zLDAuMi0wLjYsMC40LTEuMSwwLjZjLTAuNCwwLjItMC45LDAuNC0xLjMsMC42CgkJCWMtMC41LDAuMi0xLDAuNC0xLjUsMC41Yy0wLjUsMC4yLTEsMC4zLTEuNSwwLjRjLTAuNSwwLjEtMS4xLDAuMi0xLjcsMC4ybC0wLjksMC4xdjB2MGgtMC45aC0wLjl2MHYwbC0wLjIsMGMtMC4yLDAtMC4zLDAtMC40LDAKCQkJcy0wLjUtMC4xLTEuMS0wLjFjLTAuNi0wLjEtMS4xLTAuMi0xLjUtMC4zcy0wLjktMC4zLTEuNi0wLjVjLTAuNy0wLjItMS4zLTAuNS0xLjgtMC44Yy0wLjUtMC4zLTAuOC0wLjQtMS0wLjUKCQkJYy0wLjEtMC4xLTAuMy0wLjEtMC40LTAuMmwtMC4yLTAuMWwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGgwaDB2MHYwbDAsMGwwLDBsMC4xLDBjMC4xLDAsMC4zLDAsMC43LDAKCQkJczAuNywwLDEuMSwwczAuOC0wLjEsMS4yLTAuMWMwLjQtMC4xLDAuOS0wLjIsMS41LTAuM2MwLjYtMC4yLDEuMS0wLjMsMS42LTAuNWMwLjUtMC4yLDAuOC0wLjQsMS0wLjVjMC4yLTAuMSwwLjUtMC4zLDAuOS0wLjYKCQkJbDAuNi0wLjRsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwtMC4yLDBjLTAuMSwwLTAuMywwLTAuNCwwcy0wLjMsMC0wLjYtMC4xCgkJCWMtMC4zLTAuMS0wLjYtMC4yLTAuOS0wLjNjLTAuMy0wLjEtMC42LTAuMy0xLTAuNXMtMC41LTAuNC0wLjctMC41Yy0wLjEtMC4xLTAuMy0wLjMtMC41LTAuNWMtMC4yLTAuMi0wLjQtMC41LTAuNi0wLjcKCQkJYy0wLjItMC4yLTAuMy0wLjUtMC41LTAuOWwtMC4yLTAuNWwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjMsMGMwLjIsMCwwLjUsMCwwLjksMHMwLjcsMCwwLjktMC4xYzAuMiwwLDAuMywwLDAuMy0wLjFsMC4xLDAKCQkJbDAuMSwwbDAuMSwwbDAsMGwwLDBsMCwwbDAsMGwtMC4xLDBsLTAuMSwwbC0wLjEsMGwtMC4xLDBsLTAuMSwwYzAsMC0wLjEsMC0wLjItMC4xcy0wLjMtMC4xLTAuNy0wLjNjLTAuNC0wLjItMC43LTAuMy0wLjktMC41CgkJCWMtMC4yLTAuMi0wLjQtMC4zLTAuNy0wLjVjLTAuMi0wLjItMC40LTAuNC0wLjctMC43Yy0wLjItMC4zLTAuNS0wLjctMC43LTFjLTAuMi0wLjQtMC4zLTAuOC0wLjQtMS4xYy0wLjEtMC40LTAuMi0wLjctMC4yLTEuMQoJCQlsMC0wLjZsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMC40LDAuMmMwLjMsMC4xLDAuNiwwLjIsMSwwLjNzMC43LDAuMSwwLjcsMC4xbDAuMSwwaDAuMWgwLjFsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMAoJCQlsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBjMCwwLTAuMS0wLjEtMC4yLTAuMmMtMC4xLTAuMS0wLjMtMC4zLTAuNS0wLjRjLTAuMi0wLjItMC4zLTAuNC0wLjUtMC42cy0wLjMtMC40LTAuNC0wLjYKCQkJQzgsMTUsNy44LDE0LjcsNy43LDE0LjRjLTAuMS0wLjMtMC4yLTAuNy0wLjMtMWMtMC4xLTAuMy0wLjEtMC43LTAuMS0xYzAtMC4zLDAtMC42LDAtMC45YzAtMC4yLDAuMS0wLjUsMC4yLTAuOHMwLjItMC42LDAuMy0xCgkJCUw4LDkuMmwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLDBsMCwwbDAsMGwwLjQsMC40YzAuMiwwLjMsMC41LDAuNiwwLjgsMC45CgkJCUM5LjcsMTAuOCw5LjksMTEsOS45LDExYzAsMCwwLjEsMC4xLDAuMSwwLjFjMC4xLDAuMSwwLjIsMC4yLDAuNSwwLjVjMC4zLDAuMiwwLjcsMC41LDEuMiwwLjlzMSwwLjcsMS42LDEKCQkJYzAuNiwwLjMsMS4yLDAuNiwxLjksMC45YzAuNywwLjMsMS4yLDAuNCwxLjQsMC41YzAuMywwLjEsMC43LDAuMiwxLjQsMC4zYzAuNywwLjEsMS4yLDAuMiwxLjUsMC4yczAuNiwwLjEsMC43LDAuMWwwLjIsMGwwLDAKCQkJbDAsMEwyMC40LDE1YzAtMC4yLTAuMS0wLjUtMC4xLTAuOXMwLTAuOCwwLjEtMS4xYzAuMS0wLjMsMC4yLTAuNywwLjMtMWMwLjEtMC4zLDAuMi0wLjYsMC40LTAuOGMwLjEtMC4yLDAuMy0wLjQsMC41LTAuNwoJCQljMC4yLTAuMywwLjQtMC41LDAuOC0wLjhjMC4zLTAuMywwLjctMC41LDEuMS0wLjhjMC40LTAuMiwwLjgtMC40LDEuMS0wLjVjMC4zLTAuMSwwLjYtMC4yLDAuOC0wLjJTMjUuNyw4LDI1LjcsOHoiLz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
 		self.shares.append(ScoialMedia(id: 3, name: [IdValue(id: "0", value: "Google+")], link: "https://plus.google.com/share?url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjQ2IiBoZWlnaHQ9IjM0IiB4bGluazpocmVmPSJDRTYxRDA0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIC0yIDQpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE0LDE4LjF2NC4yYzAsMCw0LDAsNS43LDBjLTAuOSwyLjctMi4zLDQuMi01LjcsNC4yYy0zLjQsMC02LjEtMi44LTYuMS02LjJTMTAuNSwxNCwxNCwxNAoJCQkJYzEuOCwwLDMsMC42LDQuMSwxLjVjMC45LTAuOSwwLjgtMSwzLTMuMWMtMS45LTEuNy00LjMtMi43LTcuMS0yLjdjLTUuOCwwLTEwLjUsNC43LTEwLjUsMTAuNUMzLjUsMjYsOC4yLDMwLjcsMTQsMzAuNwoJCQkJYzguNywwLDEwLjgtNy41LDEwLjEtMTIuNkMyMiwxOC4xLDE0LDE4LjEsMTQsMTguMXogTTMyLjksMTguNHYtMy42aC0yLjZ2My42aC0zLjd2Mi42aDMuN3YzLjdoMi42di0zLjdoMy42di0yLjZIMzIuOXoiLz4KCQk8L2c+Cgk8L2c+CjwvZz4KPC9zdmc+Cg=="))
 		self.shares.append(ScoialMedia(id: 4, name: [IdValue(id: "0", value: "Pinerest")], link: "https://www.pinerest.com/pin/create/button/?media=%prodImage%&url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjQ2IiB4bGluazpocmVmPSI4REY2NkQ0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDIgLTEpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE4LjcsNS4xQzEzLjQsNS42LDguMSwxMCw3LjgsMTYuMWMtMC4xLDMuOCwwLjksNi42LDQuNSw3LjRjMS42LTIuNy0wLjUtMy4zLTAuOC01LjMKCQkJCWMtMS4zLTguMSw5LjQtMTMuNywxNS04YzMuOSwzLjksMS4zLDE2LTQuOSwxNC44Yy02LTEuMiwyLjktMTAuOC0xLjgtMTIuN2MtMy45LTEuNS01LjksNC43LTQuMSw3LjhjLTEuMSw1LjMtMy40LDEwLjMtMi41LDE3CgkJCQljMy4xLTIuMiw0LjEtNi41LDQuOS0xMC45YzEuNSwwLjksMi40LDEuOSw0LjMsMi4xYzcuMiwwLjYsMTEuMi03LjIsMTAuMy0xNC40QzMxLjgsNy41LDI1LjUsNC4zLDE4LjcsNS4xeiIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
+	}
+	
+	/// Send data via HTTP POST
+	func PostHTTP(url: String, parameters: [String : String], completion: @escaping (Any) -> Void)
+	{
+		if let myUrl = URL(string: url)
+		{
+			//let bodyStr = "username=username&password=password&grant_type=password"
+			//let myURL = NSURL(string: "http://192.168.1.2/rest"
+			let request = NSMutableURLRequest(url: myUrl as URL)
+			request.httpMethod = "POST"
+			request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
+			request.setValue("application/json", forHTTPHeaderField: "Accept")
+			var bodyStr = ""
+			var paramArray: [String] = []
+			for param in parameters
+			{
+				paramArray.append(String(format: "%@=%@", param.key, param.value))
+			}
+			bodyStr = paramArray.joined(separator: "&")
+			request.httpBody = bodyStr.data(using: String.Encoding.utf8)!
+			let task = URLSession.shared.dataTask(with: request as URLRequest)
+			{	(data, response, error) -> Void in
+				completion(false)
+//				if let unwrappedData = data
+//				{
+//					do
+//					{
+//						let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+//						let token = tokenDictionary["access_token"] as? String
+//					}
+//					catch
+//					{
+////						self.emailTextField.text = ""
+////						self.passwordTextField.text = ""
+//						let alertView = UIAlertController(title: "Login failed",
+//														  message: "Wrong username or password." as String, preferredStyle:.alert)
+//						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+//						alertView.addAction(okAction)
+////						self.present(alertView, animated: true, completion: nil)
+//						return
+//					}
+//				}
+			}
+			task.resume()
+		}
 	}
 	
 	/// Use the api to collect details about the logged-in customer, if any
@@ -365,6 +412,41 @@ final class DataStore
 			}
 		)
 	}
+	
+	func getOrderHistories(completion: @escaping (Any?, Error?) -> Void)
+	{
+		PSWebServices.getOrderHistories(completionHandler:
+			{
+				(carrs, err) in
+				
+				if err != nil	//only if error
+				{
+					let dataStr = 				UserDefaults.standard.string(forKey: "OrderHistories")
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[OrderHistory]	//^remove wrapper - use inner array
+					do
+					{
+						tempObj = try JSONDecoder().decode([OrderHistory].self, from: tempCarr.data(using: .utf8)!)
+						//						let array = tempObj.order_states
+						//						for os in array!
+						for carr in tempObj					{	self.orderHistories.append(carr)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
+					}
+				}
+				else
+				{
+					OperationQueue.main.addOperation		{
+						for carr in carrs!					{	self.orderHistories.append(carr)	}
+						completion(carrs, nil)		}
+				}
+		}
+		)
+	}
 
 	/// Use the api to collect details about the languages, if any
 	func callGetLanguages(completion: @escaping (Any?, Error?) -> Void)
@@ -643,7 +725,7 @@ final class DataStore
 	/// Use the api to collect details about the products in the printers category, if any
 	func callGetPrinters(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getPrinters(completionHandler:
 				{
@@ -670,7 +752,7 @@ final class DataStore
 	/// Use the api to collect details about the products in the laptops category, if any
 	func callGetLaptops(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getLaptops(completionHandler:
 				{
@@ -697,7 +779,7 @@ final class DataStore
 	/// Use the api to collect details about the products in the services category, if any
 	func callGetServices(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getServices(completionHandler:
 				{
@@ -724,7 +806,7 @@ final class DataStore
 	/// Use the api to collect details about the products in the toners category, if any
 	func callGetToners(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getToners(completionHandler:
 				{
@@ -751,7 +833,7 @@ final class DataStore
 	/// Use the api to collect messages sent by customers, if any
 	func callGetCustomerMessages(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getCustomerMessages(completionHandler:
 			{
@@ -776,7 +858,7 @@ final class DataStore
 	/// Use the api to collect customer threads, if any
 	func callGetCustomerThreads(completion: @escaping (Any?) -> Void)
 	{
-		DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
 			PSWebServices.getCustomerThreads(completionHandler:
 				{

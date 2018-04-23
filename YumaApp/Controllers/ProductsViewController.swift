@@ -13,7 +13,6 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//MARK: Outlets
 	@IBOutlet weak var cartScroll: UIScrollView!
 	@IBOutlet weak var stackLeft: UIStackView!
-	//@IBOutlet weak var viewCartBtn: GradientButton!
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -24,19 +23,19 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	@IBOutlet weak var rightLabel: UILabel!
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var add2CartBtn: GradientButton!
-	var pageTitle: String = ""
-	var pageImage = UIImage()
-	let store = DataStore.sharedInstance
-	/////tableView
+
 	@IBOutlet weak var stackRight: UIStackView!
 	@IBOutlet weak var totalAmt: UILabel!
 	@IBOutlet weak var totalWt: UILabel!
 	@IBOutlet weak var totalWtLbl: UILabel!
 	@IBOutlet weak var totalPcs: UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
-	//@IBOutlet weak var tableView: UITableView!
 	@IBOutlet weak var chkoutBtn: GradientButton!
 		//MARK: Properties
+	var pageTitle: String = ""
+	var pageImage = UIImage()
+	let store = DataStore.sharedInstance
+
 	let cellID = "cartCell"
 	var latest: OrderRow?
 	var latestIsUpdate = false
@@ -56,17 +55,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		scrollView.delegate = self
 		scrollView.isPagingEnabled = true
 		navTitle.title = pageTitle
-//		if #available(iOS 11.0, *)
-//		{
-//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//		}
-//		else
-//		{
-//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-//		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		add2CartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		//viewCartBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		navClose.title = FontAwesome.close.rawValue
 		navClose.setTitleTextAttributes([
@@ -80,7 +70,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		{
 			let spacer = UIBarButtonItem(title: "|", style: .plain, target: self, action: nil)
 			spacer.setTitleTextAttributes([
-				NSAttributedStringKey.foregroundColor : R.color.YumaRed//UIColor.darkGray,
+				NSAttributedStringKey.foregroundColor : R.color.YumaRed
 				], for: UIControlState.normal)
 			navTitle.rightBarButtonItems?.append(spacer)
 		}
@@ -309,7 +299,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			else															//create a new order
 			{
 				//store.myOrder = try? Order(from: Decoder.self as! Decoder)
-				store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+				store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
 //				store.myOrder = Order(id: 0, idAddressDelivery: "", idAddressInvoice: "", idCart: "", idCurrency: "", idLang: store.customer?.id_lang, idCustomer: store.customer?.id_customer, idCarrier: "", currentState: "", module: "", invoiceNumber: "", invoiceDate: "", deliveryNumber: "", deliveryDate: "", valid: "", dateAdd: "\(date)", dateUpd: "\(date)", shippingNumber: "", idShopGroup: "", idShop: "", secureKey: "", payment: "", recyclable: "", gift: "", giftMessage: "", mobileTheme: "", totalDiscounts: "", totalDiscountsTaxIncl: "", totalDiscountsTaxExcl: "", totalPaid: "", totalPaidTaxIncl: "", totalPaidTaxExcl: "", totalPaidReal: "", totalProducts: "\(pcs)", totalProductsWt: "\(wt)", totalShipping: "", totalShippingTaxIncl: "", totalShippingTaxExcl: "", carrierTaxRate: "", totalWrapping: "", totalWrappingTaxIncl: "", totalWrappingTaxExcl: "", roundMode: "", roundType: "", conversionRate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
 			}
 			//print(store.myOrder)
@@ -380,8 +370,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				
 				if products != nil
 				{
-					//OperationQueue.main.addOperation
-					DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+					OperationQueue.main.addOperation
+					//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
 					{
 						UIViewController.removeSpinner(spinner: sv)
 						self.leftLabel.text = " \(R.string.updated)"
@@ -399,9 +389,39 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 						print("found \(self.store.products.count) products")
 						if self.store.products.count < 1
 						{
-							self.store.Alert(fromView: self, title: R.string.err, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>,*/ /*titleFont: <#T##UIFont?#>,*/ message: R.string.empty, /*messageColor: <#T##UIColor?#>,*/ /*messageBackgroundColor: <#T##UIColor?#>,*/ /*messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>,*/ /*backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, shadowOffset: CGSize(width: 1, height: 1), /*shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>,*/ /*button1Color: <#T##UIColor?#>,*/ /*button1Font: <#T##UIFont?#>,*/ button1Action: {
-								self.dismiss(animated: false, completion: nil)
-							}, hasButton2: false/*,*/ /*button2Title: <#T##String?#>,*/ /*button2Style: <#T##UIAlertActionStyle?#>,*/ /*button2Color: <#T##UIColor?#>,*/ /*button2Font: <#T##UIFont?#>,*/ /*button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+							OperationQueue.main.addOperation
+							{
+								let alert = 					UIAlertController(title: R.string.err, message: R.string.empty, preferredStyle: .alert)
+								let coloredBG = 				UIView()
+								let blurFx = 					UIBlurEffect(style: .dark)
+								let blurFxView = 				UIVisualEffectView(effect: blurFx)
+								alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+								alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+								alert.view.superview?.backgroundColor = R.color.YumaRed
+								alert.view.shadowColor = 		R.color.YumaDRed
+								alert.view.shadowOffset = 		.zero
+								alert.view.shadowRadius = 		5
+								alert.view.shadowOpacity = 		1
+								alert.view.backgroundColor = 	R.color.YumaYel
+								alert.view.cornerRadius = 		15
+								coloredBG.backgroundColor = 	R.color.YumaRed
+								coloredBG.alpha = 				0.4
+								coloredBG.frame = 				self.view.bounds
+								self.view.addSubview(coloredBG)
+								blurFxView.frame = 				self.view.bounds
+								blurFxView.alpha = 				0.5
+								blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+								self.view.addSubview(blurFxView)
+								print("\(R.string.unableConnect) \(R.string.email)")
+								alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+									coloredBG.removeFromSuperview()
+									blurFxView.removeFromSuperview()
+									self.dismiss(animated: false, completion: nil)
+								}))
+								self.present(alert, animated: true, completion:
+									{
+								})
+							}
 						}
 						print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
 						self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
@@ -473,6 +493,45 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	{
 		let vc = UIStoryboard(name: "CartStoryboard", bundle: nil).instantiateInitialViewController() as! CartViewController?
 		self.present(vc!, animated: false, completion: nil)
+	}
+	@IBAction func navHelpAct(_ sender: Any)
+	{
+		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+		let vc = sb.instantiateInitialViewController() as? PickerViewController
+		if vc != nil
+		{
+			self.present(vc!, animated: false, completion: nil)
+			vc?.titleLbl.text = R.string.help
+			vc?.button.setTitle(R.string.dismiss.uppercased(), for: .normal)
+//			self.helpPageControl.numberOfPages = R.array.help_cart_guide.count
+//			self.helpPageControl.currentPageIndicatorTintColor = R.color.YumaRed
+//			self.helpPageControl.pageIndicatorTintColor = R.color.YumaYel
+//			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * (vc?.dialog.frame.width)!
+//			self.helpScrollView.contentSize.height = (vc?.dialog.frame.height)!-(vc?.titleLbl.frame.height)!-(vc?.button.frame.height)!-40	//- height of pageControl (estimate=40)
+//			print("scrollView = \(self.helpScrollView.frame.origin.x)x\(self.helpScrollView.frame.origin.y) \(self.helpScrollView.frame.width)x\(self.helpScrollView.frame.height) \(self.helpScrollView.contentSize.width)x\(self.helpScrollView.contentSize.height)")
+			for i in 0 ..< R.array.help_cart_guide.count
+			{
+//				let view = HelpCell(frame: CGRect(x: 5+(CGFloat(i)*(vc?.dialog.frame.width)!), y: 0, width: (vc?.dialog.frame.width)!-10, height: self.helpScrollView.contentSize.height))
+//				self.helpScrollView.addSubview(view)
+			}
+			let testView = UIView(frame: CGRect(x: 100, y: 100, width: 200, height: 200))
+			testView.translatesAutoresizingMaskIntoConstraints = false
+			testView.backgroundColor = R.color.AppleBlue
+//			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView, testView])
+//			stack.axis = .vertical
+//			stack.alignment = .center
+//			stack.distribution = .fill
+//			vc?.view.insertSubview(stack, at: 1)
+//			stack.translatesAutoresizingMaskIntoConstraints = false
+			//stack.backgroundColor = R.color.AppleBlue
+//			NSLayoutConstraint.activate([
+//				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!),
+//				stack.leftAnchor.constraint(equalTo: (vc?.dialog.leftAnchor)!),
+//				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!),
+//				stack.rightAnchor.constraint(equalTo: (vc?.dialog.rightAnchor)!),
+//				])
+//			self.helpScrollView.delegate = self
+		}
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
@@ -569,8 +628,6 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //				}
 //			}
 			let row = OrderRow(id: "\(count)", product_id: "\(prod.id ?? 0)", product_attribute_id: "\(prod.cache_has_attachments ?? "")", product_quantity: "\(qty)", product_name: "\(prod.name![0].value ?? "")", product_reference: "\(prod.reference ?? "")", product_ean13: "\(prod.ean13 ?? "")", product_isbn: "\(prod.isbn ?? "")", product_upc: "\(prod.upc ?? "")", product_price: "\(prod.price ?? "")", unit_price_tax_incl: "\(prod.price ?? "")", unit_price_tax_excl: "\(prod.price ?? "")", productImage: prod_image)
-//			let row = OrderRow(id: "\(count)", productId: "\(prod.id ?? 0)", productAttributeId: "\(prod.cache_has_attachments ?? "")", productQuantity: "\(qty)", productName: "\(prod.name![0].value ?? "")", productReference: "\(prod.reference ?? "")", productEan13: "\(prod.ean13 ?? "")", productIsbn: "\(prod.isbn ?? "")", productUpc: "\(prod.upc ?? "")", productPrice: "\(prod.price ?? "")", unitPriceTaxIncl: "\(prod.price ?? "")", unitPriceTaxExcl: "\(prod.price ?? "")", productImage: prod_image)
-			//let row2 = CartRow(idProduct: "\(prod.id ?? 0)", idProductAttribute: , idAddressDelivery: <#T##String?#>, quantity: <#T##String?#>)
 			store.myOrderRows.append(row)
 			latest = row
 			latestIsUpdate = false

@@ -126,7 +126,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
 			totalPcs.text = "\(pcs)"
 			let date = Date()
-			store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "\(total)", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: Associations_OrderRows(order_rows: store.myOrderRows))
+			store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: store.customer?.id_lang, id_customer: store.customer?.id_customer, id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "\(total)", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
 		}
 	}
 
@@ -135,34 +135,48 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	{
 		DispatchQueue.main.async
 		{
-//			if self.store.myOrder != nil
-//			{
-//				let str = (self.store.myOrder?.date_add)! + "(" + (self.store.myOrder?.total_products)! + " " + (self.store.myOrder?.total_products_wt)! + "kg" + "=" + (self.store.myOrder?.total_paid)! + ")"
-//				self.pickerData.append(str)
-//			}
-//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-//			let vc = sb.instantiateInitialViewController() as? PickerViewController
-//			if vc != nil
-//			{
-//				self.present(vc!, animated: true, completion: nil)
-//				//vc?.dialog.layer.cornerRadius = 20
-//				//vc?.dialog.cornerRadius = 20
-//				vc?.titleLbl.text = R.string.select + " " + R.string.order
-//				vc?.button.setTitle(R.string.select, for: .normal)
-//				vc?.view.addSubview(self.picker)
-//				self.picker.translatesAutoresizingMaskIntoConstraints = false
-//				NSLayoutConstraint.activate([
-//					self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-//					self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-//					])
-//				vc?.pickerView.removeFromSuperview()
-//				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
-//			}
-//			else
-//			{
-//				print("HelpStoryboard has no initial view controller")
-//			}
-
+			if self.store.myOrder != nil
+			{
+				var str = ""
+				if self.store.myOrder?.date_add != nil
+				{
+					str.append((self.store.myOrder?.date_add)!)
+				}
+				str.append("(")
+				if self.store.myOrder?.total_products != nil
+				{
+					str.append("\((self.store.myOrder?.total_products)!)\(R.string.pieces)")
+				}
+				if self.store.myOrder?.total_products_wt != nil
+				{
+					str.append(" \((self.store.myOrder?.total_products_wt)!)\(R.string.kg)")
+				}
+				if self.store.myOrder?.total_paid != nil
+				{
+					let format = NumberFormatter()
+					format.locale = Locale(identifier: self.store.locale)
+					let num = format.number(from: (self.store.myOrder?.total_paid)!)
+					str.append("=\(format.string(from: num!) ?? "0")")
+				}
+				str.append(")")
+				self.pickerData.append(str)
+			}
+			for oh in self.store.orderHistories
+			{
+				var str = ""
+				if oh.date_app != nil
+				{
+					str += String(oh.date_app!)
+				}
+				if oh.id != nil
+				{
+					str += " ("
+					str += String(oh.id_order!)
+					str += ")"
+				}
+				self.pickerData.append(str)
+			}
+			print(self.pickerData.joined(separator: ", "))
 			let alert = 					UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
 			let coloredBG = 				UIView()
 			let blurFx = 					UIBlurEffect(style: .dark)
@@ -184,40 +198,39 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			blurFxView.alpha = 				0.5
 			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 			self.view.addSubview(blurFxView)
-			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler: { (action) in
+			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler:
+			{	(action) in
 				coloredBG.removeFromSuperview()
 				blurFxView.removeFromSuperview()
 				self.dismiss(animated: false, completion: nil)
+				let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+				let vc = sb.instantiateInitialViewController() as? PickerViewController
+				if vc != nil
+				{
+					DispatchQueue.main.async
+					{
+						self.present(vc!, animated: true, completion: nil)
+						//vc?.dialog.layer.cornerRadius = 20
+						//vc?.dialog.cornerRadius = 20
+						//vc?.titleLbl.text = R.string.select + " " + R.string.order
+						//vc?.button.setTitle(R.string.select, for: .normal)
+						vc?.view.addSubview(self.picker)
+						self.picker.translatesAutoresizingMaskIntoConstraints = false
+						NSLayoutConstraint.activate([
+							self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+							self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+							])
+						//				vc?.pickerView.removeFromSuperview()
+						vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
+					}
+				}
+				else
+				{
+					print("HelpStoryboard has no initial view controller")
+				}
 			}))
 			self.present(alert, animated: true, completion:
 			{
-//				if self.store.myOrder != nil
-//				{
-//					let str = (self.store.myOrder?.date_add)! + "(" + (self.store.myOrder?.total_products)! + " " + (self.store.myOrder?.total_products_wt)! + "kg" + "=" + (self.store.myOrder?.total_paid)! + ")"
-//					self.pickerData.append(str)
-//				}
-//				let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-//				let vc = sb.instantiateInitialViewController() as? PickerViewController
-//				if vc != nil
-//				{
-//					self.present(vc!, animated: true, completion: nil)
-//					//vc?.dialog.layer.cornerRadius = 20
-//					//vc?.dialog.cornerRadius = 20
-//					vc?.titleLbl.text = R.string.select + " " + R.string.order
-//					vc?.button.setTitle(R.string.select, for: .normal)
-//					vc?.view.addSubview(self.picker)
-//					self.picker.translatesAutoresizingMaskIntoConstraints = false
-//					NSLayoutConstraint.activate([
-//						self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-//						self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-//						])
-//					vc?.pickerView.removeFromSuperview()
-//					vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
-//				}
-//				else
-//				{
-//					print("HelpStoryboard has no initial view controller")
-//				}
 			})
 		}
 	}

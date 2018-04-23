@@ -221,6 +221,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.orderStates.count) order states")
 		}
+		
 		if store.langs.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Languages")
@@ -258,15 +259,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.langs.count) langs")
 		}
-		if store.manufacturers.count < 1	//check if not already in data store
+		if store.orderHistories.count < 1	//check if not already in data store
 		{
-			let items = UserDefaults.standard.string(forKey: "Manufacturers")
+			let items = UserDefaults.standard.string(forKey: "OrderHistories")
 			if items == nil
 			{
-				store.callGetManufacturers() { 	(items, err) in
+				store.getOrderHistories() { 	(items, err) in
 					if err == nil
 					{
-						print("got \((items as! [Manufacturer]?)?.count ?? 0) manufacturers")
+						print("got \((items as! [OrderHistory]?)?.count ?? 0) order histories")
 					}
 					else
 					{
@@ -278,12 +279,12 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				do	//decode user data then insert each into the data store
 				{
-					let all = try JSONDecoder().decode(Manufacturers.self, from: (items?.data(using: .utf8))!)
-					for t in all.manufacturers!
+					let all = try JSONDecoder().decode(OrderHistories.self, from: (items?.data(using: .utf8))!)
+					for t in all.order_histories!
 					{
-						store.manufacturers.append(t)
+						store.orderHistories.append(t)
 					}
-					print("decoded \(store.manufacturers.count) manufacturers")
+					print("decoded \(store.orderHistories.count) order histories")
 				}
 				catch let JSONerr
 				{
@@ -293,7 +294,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		else
 		{
-			print("data store has \(store.manufacturers.count) manufacturers")
+			print("data store has \(store.orderHistories.count) order histories")
 		}
 		if store.categories.count < 1	//check if not already in data store
 		{
@@ -443,16 +444,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.productOptions.count) product options")
 		}
-//		store.callGetProductOptions { (opts, err) in
-//			if err == nil
-//			{
-//				print("got \((opts as! [ProductOption]).count) product options")
-//			}
-//			else
-//			{
-//				print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
-//			}
-//		}
 		if store.currencies.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Currencies")

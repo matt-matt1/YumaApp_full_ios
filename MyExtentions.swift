@@ -378,8 +378,51 @@ extension UIViewController
 
 
 ///////////////////////////////////////////////////////////
+public extension KeyedDecodingContainer
+{
+	/// Returns an Int
+	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
+	{
+		let stringValue = try self.decode(String.self, forKey: key)
+		guard let floatValue = Int(stringValue) else
+		{
+			let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Could not parse JSON key \"\(key)\" (value=\(stringValue) to a Int")
+			throw DecodingError.dataCorrupted(context)
+		}
+		return floatValue
+	}
+}
+
+
+///////////////////////////////////////////////////////////
 extension String
 {
+	/// Returns the index (Int) of character in a String
+	func indexOf(_ character: Character) -> Int
+	{
+		return (index(of: character)?.encodedOffset)!
+	}
+	/// Returns the index (Int) of character in a String, reverse order
+	func lastIndexOf(_ character: String) -> Int?
+	{
+		guard let index = range(of: character, options: .backwards) else { 	return nil 	}
+		return self.distance(from: self.startIndex, to: index.lowerBound)
+	}
+	/// Returns the sub-String located between the given characters within a String
+	func substringBetween(_ fromCharacter: Character, _ toChartacter: String, exclusive: Bool = false) -> String
+	{
+		var pos1 = self.indexOf("[")
+		var pos2 = self.lastIndexOf("]")!+1
+		if exclusive
+		{
+			pos1 += 1
+			pos2 -= 1
+		}
+		let start = self.index(self.startIndex, offsetBy: pos1)
+		let end = self.index(self.startIndex, offsetBy: pos2)
+		return String(self[start..<end])
+	}
+	
 	///findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
 	func findArrayPositionOf(findValue: AnyObject, inArray: [AnyObject], searchElements: AnyObject) -> Int
 	{

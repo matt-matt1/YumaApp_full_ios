@@ -8,44 +8,45 @@
 
 import Foundation
 
-struct CartRules: Decodable
+struct CartRules: Codable
 {
-	//<cart_rule>
-	//	<id_customer format="isUnsignedId"/>
-	//	<date_from required="true" format="isDate"/>
-	//	<date_to required="true" format="isDate"/>
-	//	<description maxSize="65534" format="isCleanHtml"/>
-	//	<quantity format="isUnsignedInt"/>
-	//	<quantity_per_user format="isUnsignedInt"/>
-	//	<priority format="isUnsignedInt"/>
-	//	<partial_use format="isBool"/>
-	//	<code maxSize="254" format="isCleanHtml"/>
-	//	<minimum_amount format="isFloat"/>
-	//	<minimum_amount_tax format="isBool"/>
-	//	<minimum_amount_currency format="isInt"/>
-	//	<minimum_amount_shipping format="isBool"/>
-	//	<country_restriction format="isBool"/>
-	//	<carrier_restriction format="isBool"/>
-	//	<group_restriction format="isBool"/>
-	//	<cart_rule_restriction format="isBool"/>
-	//	<product_restriction format="isBool"/>
-	//	<shop_restriction format="isBool"/>
-	//	<free_shipping format="isBool"/>
-	//	<reduction_percent format="isPercentage"/>
-	//	<reduction_amount format="isFloat"/>
-	//	<reduction_tax format="isBool"/>
-	//	<reduction_currency format="isUnsignedId"/>
-	//	<reduction_product format="isInt"/>
-	//	<reduction_exclude_special format="isBool"/>
-	//	<gift_product format="isUnsignedId"/>
-	//	<gift_product_attribute format="isUnsignedId"/>
-	//	<highlight format="isBool"/>
-	//	<active format="isBool"/>
-	//	<date_add format="isDate"/>
-	//	<date_upd format="isDate"/>
-	//	<name required="true" maxSize="254" format="isCleanHtml">
+	let cart_rules: [CartRule]?
+}
+struct CartRule: Codable
+{
+	let id_customer: 				String?//format="isUnsignedId"/>
+	let date_from: 					String?//required="true" format="isDate"/>
+	let date_to: 					String?//required="true" format="isDate"/>
+	let description: 				String?//maxSize="65534" format="isCleanHtml"/>
+	let quantity: 					String?//format="isUnsignedInt"/>
+	let quantity_per_user: 			String?//format="isUnsignedInt"/>
+	let priority: 					String?//format="isUnsignedInt"/>
+	let partial_use: 				String?//format="isBool"/>
+	let code: 						String?//maxSize="254" format="isCleanHtml"/>
+	let minimum_amount: 			String?//format="isFloat"/>
+	let minimum_amount_tax: 		String?//format="isBool"/>
+	let minimum_amount_currency: 	String?//format="isInt"/>
+	let minimum_amount_shipping: 	String?//format="isBool"/>
+	let country_restriction: 		String?//format="isBool"/>
+	let carrier_restriction: 		String?//format="isBool"/>
+	let group_restriction: 			String?//format="isBool"/>
+	let cart_rule_restriction: 		String?//format="isBool"/>
+	let product_restriction: 		String?//format="isBool"/>
+	let shop_restriction: 			String?//format="isBool"/>
+	let free_shipping: 				String?//format="isBool"/>
+	let reduction_percent: 			String?//format="isPercentage"/>
+	let reduction_amount: 			String?//format="isFloat"/>
+	let reduction_tax: 				String?//format="isBool"/>
+	let reduction_currency: 		String?//format="isUnsignedId"/>
+	let reduction_product: 			String?//format="isInt"/>
+	let reduction_exclude_special: 	String?//format="isBool"/>
+	let gift_product: 				String?//format="isUnsignedId"/>
+	let gift_product_attribute: 	String?//format="isUnsignedId"/>
+	let highlight: 					String?//format="isBool"/>
+	let active: 					String?//format="isBool"/>
+	let date_add: 					String?//format="isDate"/>
+	let date_upd: 					String?//format="isDate"/>
+	let name: 						IdValue?//required="true" maxSize="254" format="isCleanHtml">
 	//		<language id="1" xlink:href="http://yumatechnical.com/api/languages/1" format="isUnsignedId"/>
 	//		<language id="2" xlink:href="http://yumatechnical.com/api/languages/2" format="isUnsignedId"/>
-	//	</name>
-	//</cart_rule>
 }

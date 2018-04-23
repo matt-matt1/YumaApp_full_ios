@@ -21,7 +21,7 @@ struct ProductOption: Codable
 	let position: 		String?
 	let name: 			[IdValue]?
 	let public_name/*publicName*/: 	[IdValue]?
-	let associations: 	Associations_ProductOptionValues?
+	let associations: 	ProductOptionValuesAssociations?
 	
 //	private enum MemberKeys: String, CodingKey
 //	{
@@ -34,7 +34,7 @@ struct ProductOption: Codable
 //		case associations
 //	}
 }
-struct Associations_ProductOptionValues: Codable
+struct ProductOptionValuesAssociations: Codable
 {
 	let product_option_values: [IdAsString]
 }

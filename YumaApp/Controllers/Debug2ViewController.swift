@@ -21,7 +21,6 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var scrollView: UIScrollView!
 	@IBOutlet weak var tableView: UITableView!
-	//@IBOutlet weak var collectionView: UICollectionView!
 	let store = DataStore.sharedInstance
 	let cellId = "cell"
 	let collCell = "collCell"
@@ -96,7 +95,6 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "contacts":
-//				print("\(DebugViewController.resource ?? "") not implemented yet")
 				if store.contacts.count > 0
 				{
 					mirror = Mirror(reflecting: store.contacts[pageControl.currentPage])
@@ -230,11 +228,11 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "order_histories":
-				print("\(DebugViewController.resource ?? "") not implemented yet")
-//				if store.order_histories.count > 0
-//				{
-//					mirror = Mirror(reflecting: store.order_histories[pageControl.currentPage])
-//				}
+				if store.orderHistories.count > 0
+				{
+					mirror = Mirror(reflecting: store.orderHistories[pageControl.currentPage])
+					pageControl.numberOfPages = store.orderHistories.count
+				}
 				break
 			case "order_invoices":
 				print("\(DebugViewController.resource ?? "") not implemented yet")
@@ -307,7 +305,6 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "product_options":
-//				print("\(DebugViewController.resource ?? "") not implemented yet")
 				if store.productOptions.count > 0
 				{
 					mirror = Mirror(reflecting: store.productOptions[pageControl.currentPage])

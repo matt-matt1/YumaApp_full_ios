@@ -63,7 +63,7 @@ struct OrderRow: Decodable
 	var unit_price_tax_excl: 	String?//read_only
 	var productImage:			Data?
 }
-struct Associations_OrderRows: Decodable
+struct OrdersAssociations: Decodable
 {
 	var order_rows: [OrderRow]?
 }
@@ -220,7 +220,7 @@ struct Order: Decodable, PropertyNames
 	var round_type: 				String?
 	var conversion_rate: 			String?//Float
 	var reference: 					String?
-	var associations: 				Associations_OrderRows?
+	var associations: 				OrdersAssociations?
 }
 struct Orders: Decodable
 {

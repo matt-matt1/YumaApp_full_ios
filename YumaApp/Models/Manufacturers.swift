@@ -26,7 +26,7 @@ struct Manufacturer: Decodable
 	let metaTitle: 			[IdValue]?//..128
 	let metaDescription: 	[IdValue]?
 	let metaKeywords: 		[IdValue]?
-	let associations: 		Associations_Manufacturer?
+	let associations: 		ManufacturersAssociations?
 
 	enum MemberKeys: String, CodingKey
 	{
@@ -43,7 +43,7 @@ struct Manufacturer: Decodable
 		case associations
 	}
 }
-struct Associations_Manufacturer: Decodable
+struct ManufacturersAssociations: Decodable
 {
 	let addresses: [AddressID]?
 }

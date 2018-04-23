@@ -226,19 +226,51 @@ class MyAccInfoViewController: UIViewController
 			mTitle = ""
 			mMessage = ""
 		}
-		//let alert = UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
-		//alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
-		//self.present(alert, animated: true, completion: nil)
-		store.Alert(fromView: self, title: mTitle, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: mMessage, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+		OperationQueue.main.addOperation
+			{
+				let alert = 					UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				print("\(R.string.unableConnect) \(R.string.email)")
+				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					self.dismiss(animated: false, completion: nil)
+				}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+		}
+//		store.Alert(fromView: self, title: mTitle, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: mMessage, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 	}
 	
 	func setEmailField()
 	{
-		field3Edit.superview?.backgroundColor = UIColor.clear
+		field3Border.backgroundColor = UIColor.clear
 		field3Edit.backgroundColor = UIColor.clear
-		field3Edit.superview?.layer.borderWidth = 2
-		field3Edit.superview?.layer.borderColor = UIColor.black.cgColor
-		field3Edit.isEnabled = false
+//		field3Edit.superview?.backgroundColor = UIColor.clear			//red border
+//		field3Edit.backgroundColor = UIColor.clear						//field bg
+//		field3Edit.superview?.layer.borderWidth = 2						//border
+//		field3Edit.superview?.layer.borderColor = UIColor.black.cgColor
+		field3Edit.isEnabled = false									//prevent editing
 	}
 	
 	func getCustomer()
@@ -357,39 +389,60 @@ class MyAccInfoViewController: UIViewController
 			self.helpPageControl.numberOfPages = R.array.help_cart_guide.count
 			self.helpPageControl.currentPageIndicatorTintColor = R.color.YumaRed
 			self.helpPageControl.pageIndicatorTintColor = R.color.YumaYel
+//			print("pageControl = \(self.helpPageControl.frame.origin.x)x\(self.helpPageControl.frame.origin.y) \(self.helpPageControl.frame.width)x\(self.helpPageControl.frame.height)")
 //			let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: (vc?.dialog.frame.width)!, height: (vc?.dialog.frame.height)!-100))
-			self.helpScrollView.backgroundColor = R.color.AppleBlue
-			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * self.helpScrollView.frame.width
-			self.helpScrollView.contentSize.height = self.helpScrollView.frame.height
-//			print("scrollView = \(scrollView.frame.origin.x)x\(scrollView.frame.origin.y) \(scrollView.frame.width)x\(scrollView.frame.height) \(scrollView.contentSize.width)x\(scrollView.contentSize.height)")
+			//self.helpScrollView.backgroundColor = R.color.AppleBlue
+//			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * self.helpScrollView.frame.width
+			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * (vc?.dialog.frame.width)!
+			self.helpScrollView.contentSize.height = (vc?.dialog.frame.height)!-(vc?.titleLbl.frame.height)!-(vc?.button.frame.height)!-40	//- height of pageControl (estimate=40)
+			print("scrollView = \(self.helpScrollView.frame.origin.x)x\(self.helpScrollView.frame.origin.y) \(self.helpScrollView.frame.width)x\(self.helpScrollView.frame.height) \(self.helpScrollView.contentSize.width)x\(self.helpScrollView.contentSize.height)")
 			for i in 0 ..< R.array.help_cart_guide.count
 			{
-				let view = UIView(frame: CGRect(x: CGFloat(i)*self.helpScrollView.frame.width, y: 0, width: self.helpScrollView.frame.width, height: self.helpScrollView.frame.height))
-				view.translatesAutoresizingMaskIntoConstraints = false
-				let label = UILabel()
-				label.translatesAutoresizingMaskIntoConstraints = false
+//				let view = UIView(frame: CGRect(x: 5+(CGFloat(i)*self.helpScrollView.frame.width), y: 0, width: self.helpScrollView.frame.width-10, height: self.helpScrollView.frame.height))
+				let view = HelpCell(frame: CGRect(x: 5+(CGFloat(i)*(vc?.dialog.frame.width)!), y: 0, width: (vc?.dialog.frame.width)!-10, height: self.helpScrollView.contentSize.height))
+				print("view=x: \(5+(CGFloat(i)*(vc?.dialog.frame.width)!)), y: 0, width: \((vc?.dialog.frame.width)!-10), height: \(self.helpScrollView.contentSize.height)")
+				//view.translatesAutoresizingMaskIntoConstraints = false
+				//view.backgroundColor = R.color.AppleBlue
+				let label = UILabel(frame: CGRect(origin: CGPoint(x: (vc?.dialog.frame.origin.x)!, y: (vc?.dialog.frame.origin.y)!), size: CGSize(width: (vc?.dialog.frame.width)!, height: self.helpScrollView.contentSize.height)))
+				label.sizeToFit()
+	//			label.translatesAutoresizingMaskIntoConstraints = false
+				label.backgroundColor = R.color.AppleBlue
 				label.text = R.array.help_cart_guide[i]
-				view.addSubview(label)
-				NSLayoutConstraint.activate([
-					label.topAnchor.constraint(equalTo: view.topAnchor),
-					label.leftAnchor.constraint(equalTo: view.leftAnchor),
-					label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-					label.rightAnchor.constraint(equalTo: view.rightAnchor),
-					])
+				self.helpScrollView.addSubview(label)
+	//			view.addSubview(label)
+	//			NSLayoutConstraint.activate([
+	//				label.topAnchor.constraint(equalTo: view.topAnchor),
+	//				label.leftAnchor.constraint(equalTo: view.leftAnchor),
+	//				label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+	//				label.rightAnchor.constraint(equalTo: view.rightAnchor),
+	//				])
+				view.TextLine.text = R.array.help_cart_guide[i]
+				view.TextLine.sizeToFit()
 				self.helpScrollView.addSubview(view)
 			}
-			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView])
+			let testView = UIView(frame: CGRect(x: 100, y: 100, width: 200, height: 200))
+			testView.translatesAutoresizingMaskIntoConstraints = false
+			testView.backgroundColor = R.color.AppleBlue
+			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView, testView])
+//			self.helpScrollView.widthAnchor.constraint(equalToConstant: stack.frame.width).isActive = true
 			stack.axis = .vertical
 			stack.alignment = .center
+			stack.distribution = .fill
 			vc?.view.insertSubview(stack, at: 1)
 			stack.translatesAutoresizingMaskIntoConstraints = false
+			//stack.backgroundColor = R.color.AppleBlue
 			NSLayoutConstraint.activate([
 				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!),
 				stack.leftAnchor.constraint(equalTo: (vc?.dialog.leftAnchor)!),
 				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!),
 				stack.rightAnchor.constraint(equalTo: (vc?.dialog.rightAnchor)!),
 				])
-			print("stack = \(stack.frame.origin.x)x\(stack.frame.origin.y) \(stack.frame.width)x\(stack.frame.height)")
+//			print("stack = \(stack.frame.origin.x)x\(stack.frame.origin.y) \(stack.frame.width)x\(stack.frame.height)")
+//			print("pageControl = \(self.helpPageControl.frame.origin.x)x\(self.helpPageControl.frame.origin.y) \(self.helpPageControl.frame.width)x\(self.helpPageControl.frame.height)")
+			print("vc = \((vc?.dialog.frame.origin.x)!)x\((vc?.dialog.frame.origin.y)!) \((vc?.dialog.frame.width)!)x\((vc?.dialog.frame.height)!)")
+//			print("title.height=\((vc?.titleLbl.frame.height)!)")
+			print("helpPageControl=\(self.helpPageControl.frame.height)")
+//			print("button.height=\((vc?.button.frame.height)!)")
 			self.helpScrollView.delegate = self
 //			vc?.button.addTarget(self, action: #selector(writePickedValue(_:)), for: .touchUpInside)
 		}

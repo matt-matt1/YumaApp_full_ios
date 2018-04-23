@@ -62,7 +62,7 @@ class DebugViewController: UIViewController
 			ResourceStringAndCount(name: "messages", count: nil/*store.messages.count*/),
 			ResourceStringAndCount(name: "order_carriers", count: store.orderCarriers.count),
 			ResourceStringAndCount(name: "order_details", count: store.orderDetails.count),
-			ResourceStringAndCount(name: "order_histories", count: nil/*store.orderHistories.count*/),
+			ResourceStringAndCount(name: "order_histories", count: store.orderHistories.count),
 			ResourceStringAndCount(name: "order_invoices", count: nil/*store.orderInvoices.count*/),
 			ResourceStringAndCount(name: "order_payments", count: nil/*store.orderPayments.count*/),
 			ResourceStringAndCount(name: "order_slip", count: nil/*store.orderSlip.count*/),
