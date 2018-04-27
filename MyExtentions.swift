@@ -380,6 +380,28 @@ extension UIViewController
 ///////////////////////////////////////////////////////////
 public extension KeyedDecodingContainer
 {
+	//http://kean.github.io/post/codable-tips-and-tricks
+//	public func decodeSafely<T: Decodable>(_ key: KeyedDecodingContainer.Key) -> T? {
+//		return self.decodeSafely(T.self, forKey: key)
+//	}
+//
+//	public func decodeSafely<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer.Key) -> T? {
+//		let decoded = try? decode(FailableDecodable<T>.self, forKey: key)
+//		return decoded?.value
+//	}
+//
+//	public func decodeSafelyIfPresent<T: Decodable>(_ key: KeyedDecodingContainer.Key) -> T? {
+//		return self.decodeSafelyIfPresent(T.self, forKey: key)
+//	}
+//
+//	public func decodeSafelyIfPresent<T: Decodable>(_ type: T.Type, forKey key: KeyedDecodingContainer.Key) -> T? {
+//		let decoded = try? decodeIfPresent(FailableDecodable<T>.self, forKey: key)
+//		return decoded??.value
+//	}
+//	public func decodeSafelyArray<T: Decodable>(of type: T.Type, forKey key: KeyedDecodingContainer.Key) -> [T] {
+//		let array = decodeSafely([FailableDecodable<T>].self, forKey: key)
+//		return array?.flatMap { $0.raw } ?? []
+//	}
 	/// Returns an Int
 	public func decode(_ type: Int.Type, forKey key: Key) throws -> Int
 	{
@@ -397,6 +419,42 @@ public extension KeyedDecodingContainer
 ///////////////////////////////////////////////////////////
 extension String
 {
+	/// Ramdom alphanumberic string
+	var randomLetters: String
+	{
+		get
+		{
+			let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+			let len = 20 // length
+			let randomString : NSMutableString = NSMutableString(capacity: len)
+			
+			for _ in 0 ..< len
+			{
+				let length = UInt32 (letters.length)
+				let rand = arc4random_uniform(length)
+				randomString.appendFormat("%C", letters.character(at: Int(rand)))
+			}
+			return randomString as String
+		}
+	}
+	/// Ramdom alphanumberic string
+	var randomLettersAndSymbols: String
+	{
+		get
+		{
+			let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()~;,./<>?:-_[]{}=+\\|"
+			let len = 20 // length
+			let randomString : NSMutableString = NSMutableString(capacity: len)
+			
+			for _ in 0 ..< len
+			{
+				let length = UInt32 (letters.length)
+				let rand = arc4random_uniform(length)
+				randomString.appendFormat("%C", letters.character(at: Int(rand)))
+			}
+			return randomString as String
+		}
+	}
 	/// Returns the index (Int) of character in a String
 	func indexOf(_ character: Character) -> Int
 	{
@@ -528,4 +586,31 @@ extension UIColor
 {
 	/// A color object whose RGB values are 0.1, 0.5, and 0.9 and whose alpha value is 1.
 	static let blueApple = UIColor(red: 0.1520819664, green: 0.5279997587, blue: 0.985317409, alpha: 1)
+}
+
+
+
+///////////////////////////////////////////////////////////
+extension UILabel
+{
+	/// Set text strikethrough and line height in UILabel
+	func setStrikethrough(text: String, color: UIColor = UIColor.black)
+	{
+		let attributedText = NSAttributedString(string: text, attributes: [NSAttributedStringKey.strikethroughStyle : NSUnderlineStyle.styleSingle.rawValue, NSAttributedStringKey.strikethroughColor : color])
+		self.attributedText = attributedText
+	}
+	
+	func setLineHeight(lineHeight: CGFloat)
+	{
+		let text = self.text
+		if let text = text
+		{
+			let attributeString = NSMutableAttributedString(string: text)
+			let style = NSMutableParagraphStyle()
+			
+			style.lineSpacing = lineHeight
+			attributeString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: style, range: NSMakeRange(0, text.count))
+			self.attributedText = attributeString
+		}
+	}
 }

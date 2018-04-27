@@ -10,15 +10,27 @@ import UIKit
 
 class PSWebServices: NSObject
 {
-		// MARK: API resources
+	// MARK: Variables
+	weak var timeout: Timer?
 	
+	
+	// MARK: API resources
 	///return an Object containing a list of addresses belonging to a customer - The Customer, Brand and Customer addresses
-	class func getAddresses(id_customer: Int, completionHandler: @escaping (Addresses) -> Void)
+	class func getAddresses(id_customer: Int, completionHandler: @escaping (Addresses?, Error?) -> Void)
 	{
 		let url = "\(R.string.WSbase)/addresses"
 		let myUrl = "\(url)?filter[id_customer]=[\(id_customer)]&\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
 		if let myUrl = URL(string: myUrl)
 		{
+//			weak var timeout: Timer?
+//			timeout?.invalidate()
+//			timeout = .scheduledTimer(timeInterval: 3, target: self, repeats: false)
+//			{
+//				[weak self]
+//				let err = NSError.init(domain: "", code: 504, userInfo: ["timeout" : nil])
+//				completionHandler(nil, err)
+//				return
+//			}
 			URLSession.shared.dataTask(with: myUrl)
 			{ 	(data, response, err) in
 //				if err
@@ -30,11 +42,12 @@ class PSWebServices: NSObject
 					do
 					{
 						let addresses = try JSONDecoder().decode(Addresses.self, from: data)
-						completionHandler(addresses)
+						completionHandler(addresses, nil)
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						//print("\(R.string.err) \(JSONerr)")
+						completionHandler(nil, JSONerr)
 					}
 				}
 				return
@@ -1410,12 +1423,12 @@ class PSWebServices: NSObject
 					UserDefaults.standard.set(dataStr, forKey: "Laptops")
 					do
 					{
-						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!, nil)
+						let products = try JSONDecoder().decode(FailableDecodable<JSONProducts>.self, from: data)
+						completionHandler(products.base?.products!, nil)
 					}
 					catch let JSONerr
 					{
-						//print("\(R.string.err) \(JSONerr)")
+						print("\(R.string.err) \(JSONerr)")
 						completionHandler(nil, JSONerr)
 					}
 				}
@@ -1436,14 +1449,16 @@ class PSWebServices: NSObject
 				if let data = data
 				{
 					let dataStr = String(data: data, encoding: .utf8)
-					UserDefaults.standard.set(dataStr, forKey: "Laptops")
+					UserDefaults.standard.set(dataStr, forKey: "Services")
 					do
 					{
-						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!, nil)
+						let products = try JSONDecoder().decode(FailableDecodable<JSONProducts>.self, from: data)
+						//completionHandler(products.products!, nil)
+						completionHandler(products.base?.products!, nil)
 					}
 					catch let JSONerr
 					{
+						print(JSONerr)
 						completionHandler(nil, JSONerr)
 					}
 				}
@@ -1464,14 +1479,16 @@ class PSWebServices: NSObject
 				if let data = data
 				{
 					let dataStr = String(data: data, encoding: .utf8)
-					UserDefaults.standard.set(dataStr, forKey: "Laptops")
+					UserDefaults.standard.set(dataStr, forKey: "Toners")
 					do
 					{
-						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!, nil)
+						let products = try JSONDecoder().decode(FailableDecodable<JSONProducts>.self, from: data)
+						//completionHandler(products.products!, nil)
+						completionHandler(products.base?.products, nil)
 					}
 					catch let JSONerr
 					{
+						print(JSONerr)
 						completionHandler(nil, JSONerr)
 					}
 				}
@@ -1491,15 +1508,31 @@ class PSWebServices: NSObject
 				
 				if let data = data
 				{
-					let dataStr = String(data: data, encoding: .utf8)
-					UserDefaults.standard.set(dataStr, forKey: "Laptops")
+					if let dataStr = String(data: data, encoding: .utf8)
+					{
+						UserDefaults.standard.set(dataStr, forKey: "Printers")
+//						let arrayStr = dataStr.substringBetween(":", "]")
+//						let arrayData = arrayStr.data(using: .utf8)
+//						do
+//						{
+//							let products = try JSONDecoder().decode([aProduct].self, from: arrayData!)
+//							completionHandler(products, nil)
+//						}
+//						catch let JSONerr
+//						{
+//							print(JSONerr)
+//							completionHandler(nil, JSONerr)
+//						}
+					}
+					///////
 					do
 					{
-						let products = try JSONDecoder().decode(JSONProducts.self, from: data)
-						completionHandler(products.products!, nil)
+						let products = try JSONDecoder().decode(FailableDecodable<JSONProducts>.self, from: data)
+						completionHandler(products.base?.products, nil)
 					}
 					catch let JSONerr
 					{
+						print(JSONerr)
 						completionHandler(nil, JSONerr)
 					}
 				}
@@ -1838,8 +1871,16 @@ class PSWebServices: NSObject
 		
 		init(from decoder: Decoder) throws
 		{
-			let container = try decoder.singleValueContainer()
-			self.base = try? container.decode(Base.self)
+			do
+			{
+				let container = try decoder.singleValueContainer()
+				self.base = try? container.decode(Base.self)
+			}
+			catch
+			{
+				assertionFailure("\(R.string.err) \(error)")
+				self.base = nil
+			}
 		}
 	}
 	struct FailableCodableArray<Element : Codable> : Codable

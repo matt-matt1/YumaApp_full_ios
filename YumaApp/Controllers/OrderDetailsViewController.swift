@@ -244,13 +244,22 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			}
 			if order?.id_carrier != nil
 			{
-				if order?.id_carrier != nil
+				var found = false
+				for carr in store.carriers
 				{
-					for carr in store.carriers
+					if carr.idReference != nil
 					{
-						if carr.id! == Int((order?.id_carrier)!)!
+						if Int((carr.idReference)!)! == Int((order?.id_carrier)!)!
 						{
-							carrier.text = carr.name!
+							found = true
+							if Int((carr.deleted)!)! != 1
+							{
+								carrier.setStrikethrough(text: carr.name!)//, color: R.color.YumaRed)
+							}
+							else
+							{
+								carrier.text = carr.name!
+							}
 							break
 //					if carr.shippingHandling != nil && (carr.isFree == nil || carr.isFree != "")
 //					{
@@ -261,7 +270,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 						}
 					}
 				}
-				else
+				if !found
 				{
 					carrier.text = "DELETED (was #" + (order?.id_carrier)! + ")"
 				}
@@ -497,6 +506,19 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			let myMsg = Message(id: "", id_cart: "", id_order: String((order?.id)!), id_customer: store.customer?.id_customer, id_employee: "", message: addMessageMessageField.text, isprivate: "", date_add: df.string(from: Date()))
 			print(myMsg)
 		}
+	}
+
+}
+
+
+
+extension String
+{
+	static func makeSlashText(_ text:String) -> NSAttributedString
+	{
+		let attributeString: NSMutableAttributedString =  NSMutableAttributedString(string: text)
+		attributeString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: NSUnderlineStyle.styleSingle, range: NSMakeRange(0, attributeString.length))
+		return attributeString
 	}
 
 }

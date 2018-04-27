@@ -559,19 +559,26 @@ class LoginViewController: UIViewController
 				store.callGetAddresses(id_customer: id_customer, completion:
 		//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
 					{
-						(addresses) in
+						(addresses, error) in
 
-	//				UIViewController.removeSpinner(spinner: sv2)
-						//print(addresses)
-						//print("got \(addresses.addresses.count) addresses")
-						//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-						let addr = addresses.addresses
-						print("got \(String(describing: addr?.count)) addresses")
-	//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
-	//					OperationQueue.main.addOperation
-	//						{
-	//							self.successfullyGotAddresses(id_customer: id_customer, addresses: addresses)
-	//						}
+						if error != nil
+						{
+							print(error!)
+						}
+						else
+						{
+		//				UIViewController.removeSpinner(spinner: sv2)
+							//print(addresses)
+							//print("got \(addresses.addresses.count) addresses")
+							//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
+							let addr = addresses?.addresses
+							print("got \(String(describing: addr?.count)) addresses")
+		//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
+		//					OperationQueue.main.addOperation
+		//						{
+		//							self.successfullyGotAddresses(id_customer: id_customer, addresses: addresses)
+		//						}
+						}
 					}
 				)
 			}

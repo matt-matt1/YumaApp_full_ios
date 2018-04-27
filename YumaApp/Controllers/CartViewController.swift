@@ -32,9 +32,9 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	//MARK: Properties
 	let store = DataStore.sharedInstance
 	let cellID = "cartCell"
-	var total: Double = 0
+	var total: Float = 0
 	var pcs: Int = 0
-	var wt: Double = 0
+	var wt: Float = 0
 	let picker = UIPickerView()
 	var pickerData: [String] = [String]()
 
@@ -98,17 +98,19 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		wt = 0
 		for row in store.myOrderRows
 		{
-			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			//total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			total += (Float(Int(row.product_quantity!)!) * Float(row.product_price!)!)
 			pcs += Int(row.product_quantity!)!
 			for p in store.products
 			{
-				if String(p.id!) == row.product_id!
+				if String(p.id) == row.product_id! && p.weight != nil
 				{
-					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
-					if let prodWeight = prodWeight
-					{
-						wt += Double(prodWeight)
-					}
+					wt += p.weight!
+//					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
+//					if let prodWeight = prodWeight
+//					{
+//						wt += Double(prodWeight)
+//					}
 					break
 				}
 			}

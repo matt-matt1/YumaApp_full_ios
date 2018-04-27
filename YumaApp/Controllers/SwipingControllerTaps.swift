@@ -202,7 +202,6 @@ extension SwipingController
 //				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 //		})//ServicesStoryboard//ServicesViewController
 		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController?
-		//vc?.navTitle.title = R.string.services
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		vc?.pageTitle = R.string.services
@@ -225,10 +224,9 @@ extension SwipingController
 //		})
 		//let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController?
 		let vc = UIStoryboard(name: "Products", bundle: nil).instantiateInitialViewController() as! ProductsViewController?
-//		let vc = UIStoryboard(name: "ProductsStoryboard", bundle: nil).instantiateInitialViewController() as! ProductsViewController!
-		//let layout = UICollectionViewFlowLayout()
-		//layout.scrollDirection = .horizontal
-		//vc?.pageTitle = R.string.toners
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		vc?.pageTitle = R.string.toners
 		self.present(vc!, animated: true, completion: (() -> Void)?
 		{
 			UIViewController.removeSpinner(spinner: spin)

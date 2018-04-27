@@ -202,17 +202,24 @@ final class DataStore
 	}
 	
 	/// Use the api to collect addresses for the logged-in customer, if any
-	func callGetAddresses(id_customer: Int, completion: @escaping (Addresses) -> Void)
+	func callGetAddresses(id_customer: Int, completion: @escaping (Addresses?, Error?) -> Void)
 	{
 		PSWebServices.getAddresses(id_customer: id_customer, completionHandler:
 			{
-				(addresses) in
+				(addresses, error) in
 				
-				for addresses in addresses.addresses!
+				if error != nil
 				{
-					self.addresses.append(addresses)
+					print(error!)
 				}
-				completion(addresses)
+				else
+				{
+					for addresses in (addresses?.addresses!)!
+					{
+						self.addresses.append(addresses)
+					}
+					completion(addresses, nil)
+				}
 			}
 		)
 	}
@@ -723,7 +730,7 @@ final class DataStore
 	}
 
 	/// Use the api to collect details about the products in the printers category, if any
-	func callGetPrinters(completion: @escaping (Any?) -> Void)
+	func callGetPrinters(completion: @escaping (Any?, Error?) -> Void)
 	{
 		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
@@ -731,18 +738,22 @@ final class DataStore
 				{
 					(printers, error) in
 					
-					if error != nil
+					if error == nil
 					{
 						if printers != nil
 						{
 							self.printers = printers!
 							self.products = printers!
-							completion(printers!)
+							completion(printers!, nil)
 						}
 						else
 						{
-							completion(nil)
+							completion(nil, error)
 						}
+					}
+					else
+					{
+						completion(nil, error)
 					}
 				}
 			)
@@ -750,7 +761,7 @@ final class DataStore
 	}
 
 	/// Use the api to collect details about the products in the laptops category, if any
-	func callGetLaptops(completion: @escaping (Any?) -> Void)
+	func callGetLaptops(completion: @escaping (Any?, Error?) -> Void)
 	{
 		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
@@ -758,18 +769,22 @@ final class DataStore
 				{
 					(laptops, error) in
 					
-					if error != nil
+					if error == nil
 					{
 						if laptops != nil
 						{
 							self.laptops = laptops!
 							self.products = laptops!
-							completion(laptops!)
+							completion(laptops!, nil)
 						}
 						else
 						{
-							completion(nil)
+							completion(nil, error)
 						}
+					}
+					else
+					{
+						completion(nil, error)
 					}
 				}
 			)
@@ -777,7 +792,7 @@ final class DataStore
 	}
 	
 	/// Use the api to collect details about the products in the services category, if any
-	func callGetServices(completion: @escaping (Any?) -> Void)
+	func callGetServices(completion: @escaping (Any?, Error?) -> Void)
 	{
 		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
@@ -785,18 +800,22 @@ final class DataStore
 				{
 					(services, error) in
 					
-					if error != nil
+					if error == nil
 					{
 						if services != nil
 						{
 							self.services = services!
 							self.products = services!
-							completion(services!)
+							completion(services!, nil)
 						}
 						else
 						{
-							completion(nil)
+							completion(nil, error)
 						}
+					}
+					else
+					{
+						completion(nil, error)
 					}
 				}
 			)
@@ -804,7 +823,7 @@ final class DataStore
 	}
 	
 	/// Use the api to collect details about the products in the toners category, if any
-	func callGetToners(completion: @escaping (Any?) -> Void)
+	func callGetToners(completion: @escaping (Any?, Error?) -> Void)
 	{
 		DispatchQueue.main.async//After(deadline: .now() + 30)
 		{
@@ -812,18 +831,22 @@ final class DataStore
 				{
 					(toners, error) in
 					
-					if error != nil
+					if error == nil
 					{
 						if toners != nil
 						{
 							self.toners = toners!
 							self.products = toners!
-							completion(toners!)
+							completion(toners!, nil)
 						}
 						else
 						{
-							completion(nil)
+							completion(nil, error)
 						}
+					}
+					else
+					{
+						completion(nil, error)
 					}
 				}
 			)

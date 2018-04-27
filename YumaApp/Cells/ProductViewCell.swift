@@ -33,17 +33,17 @@ class ProductViewCell: UICollectionViewCell
 			}
 			prodName.text = unwrap.name![id_lang].value
 			prodName2.text = unwrap.name![id_lang].value
-			if unwrap.showPrice == "1"
+			if unwrap.showPrice!
 			{
-				prodPrice.text = unwrap.price
-				prodPrice2.text = unwrap.price
+				prodPrice.text = String(unwrap.price!)
+				prodPrice2.text = String(unwrap.price!)
 			}
-			prodDesc.text = "\(unwrap.description![id_lang].value ?? "") \n\(unwrap.description_short![id_lang].value ?? "")"
-			if unwrap.id_manufacturer != ""
+			prodDesc.text = "\(unwrap.description![id_lang].value ?? "") \n\(unwrap.descriptionShort![id_lang].value ?? "")"
+			if unwrap.idManufacturer! > 0
 			{
 				//
 			}
-			if unwrap.id_supplier != ""
+			if unwrap.idSupplier! > 0
 			{
 				//
 			}

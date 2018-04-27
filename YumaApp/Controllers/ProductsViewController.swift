@@ -41,9 +41,9 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	var latestIsUpdate = false
 	var cartCellHeight: CGFloat = 100
 	var cartCellVSpace: CGFloat = 5
-	var total: Double = 0
+	var total: Float = 0
 	var pcs: Int = 0
-	var wt: Double = 0
+	var wt: Float = 0
 
 	
 		//MARK: Override Methods
@@ -153,24 +153,26 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	
 	
 		//MARK: Private Methods
-	private func populateCartTotal() -> (Double, Int, String)
+	private func populateCartTotal() -> (Float, Int, String)
 	{
 		total = 0
 		pcs = 0
 		wt = 0
 		for row in store.myOrderRows
 		{
-			total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			//total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
+			total += (Float(Int(row.product_quantity!)!) * Float(row.product_price!)!)
 			pcs += Int(row.product_quantity!)!
 			for p in store.products
 			{
-				if String(p.id!) == row.product_id!
+				if String(p.id) == row.product_id! && p.weight != nil
 				{
-					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
-					if let prodWeight = prodWeight
-					{
-						wt += Double(prodWeight)
-					}
+					wt += p.weight!
+//					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
+//					if let prodWeight = prodWeight
+//					{
+//						wt += Double(prodWeight)
+//					}
 					break
 				}
 			}
@@ -364,16 +366,16 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			rightLabel.text = ""
 			pageControl.pageIndicatorTintColor = UIColor.clear
 			pageControl.currentPageIndicatorTintColor = .clear
-			let completeionFunc: (Any) -> Void =
+			let completeionFunc: (Any?, Error?) -> Void =
 			{
-				(products) in
+				(products, error) in
 				
-				if products != nil
+				UIViewController.removeSpinner(spinner: sv)
+				if error == nil
 				{
-					OperationQueue.main.addOperation
 					//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+					OperationQueue.main.addOperation
 					{
-						UIViewController.removeSpinner(spinner: sv)
 						self.leftLabel.text = " \(R.string.updated)"
 						self.centerLabel.text = FontAwesome.repeat.rawValue
 						self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
@@ -382,11 +384,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 						df.locale = Locale(identifier: self.store.locale)
 						df.dateFormat = "dd MMM YYYY  h:mm:ss a"
 						self.rightLabel.text = "\(df.string(from: date)) "
-						//self.pageControl.isHidden = false
 						self.pageControl.currentPageIndicatorTintColor = R.color.YumaRed
 						self.pageControl.pageIndicatorTintColor = R.color.YumaYel
 						self.pageControl.numberOfPages = self.store.products.count
 						print("found \(self.store.products.count) products")
+						print(self.store.products)
 						if self.store.products.count < 1
 						{
 							OperationQueue.main.addOperation
@@ -412,7 +414,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 								blurFxView.alpha = 				0.5
 								blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 								self.view.addSubview(blurFxView)
-								print("\(R.string.unableConnect) \(R.string.email)")
+								//print("\(R.string.unableConnect) \(R.string.email)")
 								alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
 									coloredBG.removeFromSuperview()
 									blurFxView.removeFromSuperview()
@@ -426,6 +428,46 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 						print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
 						self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
 						self.insertData()
+					}
+				} else {
+					OperationQueue.main.addOperation
+						{
+							let alert = 					UIAlertController(title: R.string.err, message: R.string.no_data, preferredStyle: .alert)
+							let coloredBG = 				UIView()
+							let blurFx = 					UIBlurEffect(style: .dark)
+							let blurFxView = 				UIVisualEffectView(effect: blurFx)
+							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+							alert.view.superview?.backgroundColor = R.color.YumaRed
+							alert.view.shadowColor = 		R.color.YumaDRed
+							alert.view.shadowOffset = 		.zero
+							alert.view.shadowRadius = 		5
+							alert.view.shadowOpacity = 		1
+							alert.view.backgroundColor = 	R.color.YumaYel
+							alert.view.cornerRadius = 		15
+							coloredBG.backgroundColor = 	R.color.YumaRed
+							coloredBG.alpha = 				0.4
+							coloredBG.frame = 				self.view.bounds
+							self.view.addSubview(coloredBG)
+							blurFxView.frame = 				self.view.bounds
+							blurFxView.alpha = 				0.5
+							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+							self.view.addSubview(blurFxView)
+							//print("\(R.string.unableConnect) \(R.string.email)")
+							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+								coloredBG.removeFromSuperview()
+								blurFxView.removeFromSuperview()
+								self.dismiss(animated: false, completion: nil)
+							}))
+//							alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .default, handler: { (action) in
+//								coloredBG.removeFromSuperview()
+//								blurFxView.removeFromSuperview()
+//								self.dismiss(animated: false, completion: nil)
+//								self.refresh()
+//							}))
+							self.present(alert, animated: true, completion:
+								{
+							})
 					}
 				}
 			}
@@ -444,8 +486,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				store.callGetServices(completion: completeionFunc)
 				break
 			default:
-				completeionFunc(store.products)
-				//print("bad instantantion of products VC")
+				print("unknown products cat. title(\(navTitle.title ?? "")), bad instantantion of products VC")
+				completeionFunc(store.products, nil)
 			}
 		}
 	}
@@ -571,13 +613,14 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					
 					guard let data = data, error == nil else { return }
 					DispatchQueue.main.async()
-						{
-							prod_image = data
-						}
+					{
+						prod_image = data
+					}
 				}
 			)
 		}
-		if Int((NumberFormatter().number(from: prod.price!)?.doubleValue)!) > 0 && chkoutBtn.alpha != 1
+		//if Int((NumberFormatter().number(from: prod.price!)?.doubleValue)!) > 0 && chkoutBtn.alpha != 1
+		if prod.price != nil && prod.price! > 0 && chkoutBtn.alpha != 1
 		{
 			chkoutBtn.alpha = 1
 		}
@@ -627,7 +670,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //					)
 //				}
 //			}
-			let row = OrderRow(id: "\(count)", product_id: "\(prod.id ?? 0)", product_attribute_id: "\(prod.cache_has_attachments ?? "")", product_quantity: "\(qty)", product_name: "\(prod.name![0].value ?? "")", product_reference: "\(prod.reference ?? "")", product_ean13: "\(prod.ean13 ?? "")", product_isbn: "\(prod.isbn ?? "")", product_upc: "\(prod.upc ?? "")", product_price: "\(prod.price ?? "")", unit_price_tax_incl: "\(prod.price ?? "")", unit_price_tax_excl: "\(prod.price ?? "")", productImage: prod_image)
+			let row = OrderRow(id: "\(count)", product_id: "\(prod.id)", product_attribute_id: prod.cacheHasAttachments! == true ? "1" : "", product_quantity: "\(qty)", product_name: "\(prod.name![store.myLang].value ?? "")", product_reference: String(prod.reference!), product_ean13: String(prod.ean13!), product_isbn: String(prod.isbn!), product_upc: String(prod.upc!), product_price: String(prod.price!), unit_price_tax_incl: String(prod.price!), unit_price_tax_excl: String(prod.price!), productImage: prod_image)
 			store.myOrderRows.append(row)
 			latest = row
 			latestIsUpdate = false
@@ -780,7 +823,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		//let id_lang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		for prod in store.products
 		{
-			if prod.active == "1"
+			if prod.active != nil && prod.active!// == "1"
 			{
 				let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
 				print("self:\(self.view.frame.width), scroll:\(self.scrollView.frame.width)")
@@ -791,10 +834,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				view.prodName.textColor = R.color.YumaRed
 				//view.prodName.tag = prod.id!
 				view.tag = i
-				view.prodId = prod.id!
-				if prod.showPrice != "0" && Double(prod.price!)! > 0
+				view.prodId = prod.id
+				if prod.showPrice != nil && prod.showPrice! /*!= "0"*/ && prod.price != nil && prod.price! > 0
 				{
-					let prodPrice = NumberFormatter().number(from: prod.price!)?.doubleValue
+					//let prodPrice = NumberFormatter().number(from: prod.price!)?.doubleValue
+					let prodPrice = prod.price
 					view.prodPrice.text = store.formatCurrency(amount: prodPrice! as NSNumber, iso: store.locale)
 				}
 				else
@@ -899,7 +943,69 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
 				{
 					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
-//temp					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
+//temp
+					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
+					//^ causes many errors:
+//					2018-04-26 11:29:03.375743-0400 YumaApp[4629:89804] [LayoutConstraints] Unable to simultaneously satisfy constraints.
+//					Probably at least one of the constraints in the following list is one you don't want.
+//					Try this:
+//					(1) look at each constraint and try to figure out which you don't expect;
+//					(2) find the code that added the unwanted constraint or constraints and fix it.
+//					(Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints)
+//					(
+//					"<NSAutoresizingMaskLayoutConstraint:0x6040002904a0 h=--& v=--& YumaApp.CustomView:0x7fe328416580.width == 251.333   (active)>",
+//					"<NSLayoutConstraint:0x6040002982e0 H:|-(11)-[UILabel:0x7fe325ea0f40'   Lexmark ']   (active, names: '|':UIView:0x7fe325ea0780 )>",
+//					"<NSLayoutConstraint:0x604000298380 UILabel:0x7fe325ea0f40'   Lexmark '.trailing == UIView:0x7fe325ea0780.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x604000298920 H:|-(11)-[UILabel:0x7fe325ea19e0'   Printer ']   (active, names: '|':UIView:0x7fe325ea1220 )>",
+//					"<NSLayoutConstraint:0x6040002989c0 UILabel:0x7fe325ea19e0'   Printer '.trailing == UIView:0x7fe325ea1220.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x604000298f60 H:|-(11)-[UILabel:0x7fe325ea2480'   Laser ']   (active, names: '|':UIView:0x7fe325ea1cc0 )>",
+//					"<NSLayoutConstraint:0x604000299000 UILabel:0x7fe325ea2480'   Laser '.trailing == UIView:0x7fe325ea1cc0.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x6040002995a0 H:|-(11)-[UILabel:0x7fe325ea2f20'   Trolly ']   (active, names: '|':UIView:0x7fe325ea2760 )>",
+//					"<NSLayoutConstraint:0x604000299640 UILabel:0x7fe325ea2f20'   Trolly '.trailing == UIView:0x7fe325ea2760.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x604000299be0 H:|-(11)-[UILabel:0x7fe325ea39c0'   Extra Tray ']   (active, names: '|':UIView:0x7fe325ea3200 )>",
+//					"<NSLayoutConstraint:0x604000299c80 UILabel:0x7fe325ea39c0'   Extra Tray '.trailing == UIView:0x7fe325ea3200.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029a220 H:|-(11)-[UILabel:0x7fe325ea4460'   Duplexer ']   (active, names: '|':UIView:0x7fe325ea3ca0 )>",
+//					"<NSLayoutConstraint:0x60400029a2c0 UILabel:0x7fe325ea4460'   Duplexer '.trailing == UIView:0x7fe325ea3ca0.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029a860 H:|-(11)-[UILabel:0x7fe325ea4f00'   Scan ']   (active, names: '|':UIView:0x7fe325ea4740 )>",
+//					"<NSLayoutConstraint:0x60400029a900 UILabel:0x7fe325ea4f00'   Scan '.trailing == UIView:0x7fe325ea4740.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029afe0 H:|-(11)-[UILabel:0x7fe325ea59a0'   Fax ']   (active, names: '|':UIView:0x7fe325ea51e0 )>",
+//					"<NSLayoutConstraint:0x60400029b080 UILabel:0x7fe325ea59a0'   Fax '.trailing == UIView:0x7fe325ea51e0.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029b620 H:|-(11)-[UILabel:0x7fe325ea6440'   Copy ']   (active, names: '|':UIView:0x7fe325ea5c80 )>",
+//					"<NSLayoutConstraint:0x60400029b6c0 UILabel:0x7fe325ea6440'   Copy '.trailing == UIView:0x7fe325ea5c80.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029bc60 H:|-(11)-[UILabel:0x7fe325ea6ee0'   Network capable ']   (active, names: '|':UIView:0x7fe325ea6720 )>",
+//					"<NSLayoutConstraint:0x60400029bd00 UILabel:0x7fe325ea6ee0'   Network capable '.trailing == UIView:0x7fe325ea6720.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60400029c2a0 H:|-(11)-[UILabel:0x7fe325ea7980'   In-built Memory ']   (active, names: '|':UIView:0x7fe325ea71c0 )>",
+//					"<NSLayoutConstraint:0x60400029c340 UILabel:0x7fe325ea7980'   In-built Memory '.trailing == UIView:0x7fe325ea71c0.trailing - 5   (active)>",
+//					"<NSLayoutConstraint:0x60c00028e150 UIStackView:0x7fe328419420.width == YumaApp.CustomView:0x7fe328416580.width   (active)>",
+//					"<NSLayoutConstraint:0x60400028de30 'UISV-alignment' UIStackView:0x7fe3284185b0.leading == UIStackView:0x7fe3284178d0.leading   (active)>",
+//					"<NSLayoutConstraint:0x60400028e010 'UISV-alignment' UIStackView:0x7fe3284185b0.trailing == UIStackView:0x7fe3284178d0.trailing   (active)>",
+//					"<NSLayoutConstraint:0x60400028f2d0 'UISV-alignment' UIStackView:0x7fe328419000.leading == UIStackView:0x7fe328419210.leading   (active)>",
+//					"<NSLayoutConstraint:0x60400028f3c0 'UISV-alignment' UIStackView:0x7fe328419000.trailing == UIStackView:0x7fe328419210.trailing   (active)>",
+//					"<NSLayoutConstraint:0x604000287ee0 'UISV-canvas-connection' UIStackView:0x7fe325ea0570.leading == UIView:0x7fe325ea0780.leading   (active)>",
+//					"<NSLayoutConstraint:0x604000288070 'UISV-canvas-connection' H:[UIView:0x7fe325ea71c0]-(0)-|   (active, names: '|':UIStackView:0x7fe325ea0570 )>",
+//					"<NSLayoutConstraint:0x60400028da20 'UISV-canvas-connection' UIStackView:0x7fe3284178d0.leading == UIStackView:0x7fe325ea0570.leading   (active)>",
+//					"<NSLayoutConstraint:0x60400028dac0 'UISV-canvas-connection' H:[UIStackView:0x7fe325ea0570]-(0)-|   (active, names: '|':UIStackView:0x7fe3284178d0 )>",
+//					"<NSLayoutConstraint:0x60400028de80 'UISV-canvas-connection' UIStackView:0x7fe328419210.leading == UIStackView:0x7fe3284185b0.leading   (active)>",
+//					"<NSLayoutConstraint:0x60400028ded0 'UISV-canvas-connection' H:[UIStackView:0x7fe3284185b0]-(0)-|   (active, names: '|':UIStackView:0x7fe328419210 )>",
+//					"<NSLayoutConstraint:0x60400028f050 'UISV-canvas-connection' UIStackView:0x7fe328419420.leading == UIStackView:0x7fe328419000.leading   (active)>",
+//					"<NSLayoutConstraint:0x60400028f1e0 'UISV-canvas-connection' H:[UIStackView:0x7fe328419000]-(0)-|   (active, names: '|':UIStackView:0x7fe328419420 )>",
+//					"<NSLayoutConstraint:0x604000288020 'UISV-spacing' H:[UIView:0x7fe325ea0780]-(8)-[UIView:0x7fe325ea1220]   (active)>",
+//					"<NSLayoutConstraint:0x6040002880c0 'UISV-spacing' H:[UIView:0x7fe325ea1220]-(8)-[UIView:0x7fe325ea1cc0]   (active)>",
+//					"<NSLayoutConstraint:0x604000288110 'UISV-spacing' H:[UIView:0x7fe325ea1cc0]-(8)-[UIView:0x7fe325ea2760]   (active)>",
+//					"<NSLayoutConstraint:0x604000288200 'UISV-spacing' H:[UIView:0x7fe325ea2760]-(8)-[UIView:0x7fe325ea3200]   (active)>",
+//					"<NSLayoutConstraint:0x60400028b4f0 'UISV-spacing' H:[UIView:0x7fe325ea3200]-(8)-[UIView:0x7fe325ea3ca0]   (active)>",
+//					"<NSLayoutConstraint:0x604000288250 'UISV-spacing' H:[UIView:0x7fe325ea3ca0]-(8)-[UIView:0x7fe325ea4740]   (active)>",
+//					"<NSLayoutConstraint:0x60400028b3b0 'UISV-spacing' H:[UIView:0x7fe325ea4740]-(8)-[UIView:0x7fe325ea51e0]   (active)>",
+//					"<NSLayoutConstraint:0x60400028b6d0 'UISV-spacing' H:[UIView:0x7fe325ea51e0]-(8)-[UIView:0x7fe325ea5c80]   (active)>",
+//					"<NSLayoutConstraint:0x60400028b7c0 'UISV-spacing' H:[UIView:0x7fe325ea5c80]-(8)-[UIView:0x7fe325ea6720]   (active)>",
+//					"<NSLayoutConstraint:0x60400028b590 'UISV-spacing' H:[UIView:0x7fe325ea6720]-(8)-[UIView:0x7fe325ea71c0]   (active)>"
+//					)
+//
+//					Will attempt to recover by breaking constraint
+//					<NSLayoutConstraint:0x60400029c340 UILabel:0x7fe325ea7980'   In-built Memory '.trailing == UIView:0x7fe325ea71c0.trailing - 5   (active)>
+//
+//					Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+//					The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
 					//let stack = UIStackView()
 					//stack.translatesAutoresizingMaskIntoConstraints = false
 					//stack.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
@@ -925,10 +1031,10 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					view.descLong.lineBreakMode = NSLineBreakMode.byTruncatingTail
 					view.descLong.sizeToFit()
 				}
-				if prod.description_short != nil && prod.description_short![store.myLang].value != nil
+				if prod.descriptionShort != nil && prod.descriptionShort![store.myLang].value != nil
 				{
 					attrText = try! NSAttributedString(
-						data: (prod.description_short![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						data: (prod.descriptionShort![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
 						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,],
 						documentAttributes: nil)
 					view.descShort.attributedText = attrText

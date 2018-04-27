@@ -99,14 +99,21 @@ Will attempt to recover by breaking constraint
 				//if store.addresses.count == 0
 				store.callGetAddresses(id_customer: id_customer)
 				{
-					(addresses) in
+					(addresses, error) in
 					
-					for address in addresses.addresses!
+					if error != nil
 					{
-						self.addresses.append(address)
+						print(error!)
 					}
-					UIViewController.removeSpinner(spinner: loading)
-					//print(self.addresses)
+					else
+					{
+						for addresses in (addresses?.addresses!)!
+						{
+							self.addresses.append(addresses)
+						}
+						UIViewController.removeSpinner(spinner: loading)
+						//print(self.addresses)
+					}
 				}
 			}
 			else

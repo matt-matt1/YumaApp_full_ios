@@ -27,7 +27,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		prodQtyEdit.returnKeyType = .done
 		for i in 0..<DataStore.sharedInstance.products.count
 		{
-			if "\(DataStore.sharedInstance.products[i].id ?? 0)" == object.product_id
+			if "\(DataStore.sharedInstance.products[i].id)" == object.product_id
 			{
 				let prod = DataStore.sharedInstance.products[i]
 				let imgName = prod.associations?.images![0].id
@@ -56,7 +56,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		{
 			for i in 0..<DataStore.sharedInstance.printers.count
 			{
-				if "\(DataStore.sharedInstance.printers[i].id ?? 0)" == object.product_id
+				if "\(DataStore.sharedInstance.printers[i].id)" == object.product_id
 				{
 					let prod = DataStore.sharedInstance.printers[i]
 					let imgName = prod.associations?.images![0].id
@@ -86,7 +86,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		{
 			for i in 0..<DataStore.sharedInstance.laptops.count
 			{
-				if "\(DataStore.sharedInstance.laptops[i].id ?? 0)" == object.product_id
+				if "\(DataStore.sharedInstance.laptops[i].id)" == object.product_id
 				{
 					let prod = DataStore.sharedInstance.laptops[i]
 					let imgName = prod.associations?.images![0].id
@@ -116,7 +116,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		{
 			for i in 0..<DataStore.sharedInstance.services.count
 			{
-				if "\(DataStore.sharedInstance.services[i].id ?? 0)" == object.product_id
+				if "\(DataStore.sharedInstance.services[i].id)" == object.product_id
 				{
 					let prod = DataStore.sharedInstance.services[i]
 					let imgName = prod.associations?.images![0].id
@@ -146,7 +146,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		{
 			for i in 0..<DataStore.sharedInstance.toners.count
 			{
-				if "\(DataStore.sharedInstance.toners[i].id ?? 0)" == object.product_id
+				if "\(DataStore.sharedInstance.toners[i].id )" == object.product_id
 				{
 					let prod = DataStore.sharedInstance.toners[i]
 					let imgName = prod.associations?.images![0].id
