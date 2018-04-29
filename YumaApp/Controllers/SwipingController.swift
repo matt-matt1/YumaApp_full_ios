@@ -10,7 +10,7 @@ import UIKit
 //import PCLBlurEffectAlert
 
 
-class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout
+class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout, XMLParserDelegate
 {
 	//MARK: EXTENSION FILES:
 		//SwipingControllerCollection
@@ -67,6 +67,69 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			getValues()
 		}
+		var ws = WebService()
+		ws.startURL = R.string.WSbase
+		ws.resource = APIResource.addresses
+		ws.schema = Schema.blank
+		//ws.id = 4
+		ws.keyAPI = R.string.APIkey
+		ws.filter = ["id" : [4]]
+		//ws.filter = [(Addresses_filter.alias as! String):["Q"]]
+		//ws.filter = ["firstname":["john"], "lastname":["DOE%"]]
+		//ws.display = ["birthday"]
+		ws.display = ["full"]
+		//ws.sort = ["firstname" : Direction.DESC]
+		//ws.outputAs = OutputFormat.JSON
+		//ws.limit = [6]
+		ws.printURL()
+		print("----")
+		ws.get 	{ 	(result) in
+			if result.data != nil
+			{
+				let data = String(data: result.data! as Data, encoding: .utf8)
+				print(data!)
+				print("----get^")
+				ws.xml = data
+					// parse XML
+				let xmlParser = XMLParser(data: (data?.data(using: .utf8))!)
+				xmlParser.delegate = self
+				let success: Bool = xmlParser.parse()
+				//print("xml \(success ? "parsed" : "failed")")
+				if success
+				{
+					print("XML parsed")
+				}
+				else
+				{
+					print(xmlParser.parserError.debugDescription)
+				}
+				//print(xmlParser.value(forKey: "address")!)
+					// Add a row
+				ws.add(xml: data!) 	{ 	(result) in
+					if result.data != nil
+					{
+						let data = String(data: result.data! as Data, encoding: .utf8)
+						print(data!)
+						print("----add^")
+					}
+				}
+					// Edit the given row
+				ws.edit(xml: data!) 	{ 	(result) in
+					if result.data != nil
+					{
+						let data = String(data: result.data! as Data, encoding: .utf8)
+						print(data!)
+						print("----edit^")
+					}
+				}
+			}
+		}
+		if ws.resource != nil
+		{
+			let res = "\(ws.resource!)".capitalized
+			print("\(res):\(ws.listProperties(resource: ws.resource!))")//ws.resource!.rawValue
+		}
+
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
 
@@ -481,16 +544,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.currencies.count) currencies")
 		}
-		let myClient = MyClient()
-		myClient.getREST(from: .addresses(filters: [
-			Addresses_filter.idCustomer : "3",
-			Addresses_filter.idCountry : "4",
-			//Addresses_filter.idManufacturer : "0",
-			]), completion:
-			{ 	(addr) in
-				print("got addr for cust3,country4")
-			}
-		)
+//		let myClient = MyClient()
+//		myClient.getREST(from: .addresses(filters: [
+//			Addresses_filter.idCustomer : "3",
+//			Addresses_filter.idCountry : "4",
+//			//Addresses_filter.idManufacturer : "0",
+//			]), completion:
+//			{ 	(addr) in
+//				print("got addr for cust3,country4")
+//			}
+//		)
 		//			myClient.getREST(from: .addresses(nil, nil), completion: { (addr) in
 		//				//
 		//			})

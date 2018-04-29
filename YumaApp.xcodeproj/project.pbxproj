@@ -52,6 +52,8 @@
 		CF4BD96320813142000B2ED6 /* DebugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BD96220813142000B2ED6 /* DebugCollectionViewCell.swift */; };
 		CF4D4FF620587AD30090544B /* CustomCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D4FF520587AD30090544B /* CustomCollectionViewController.swift */; };
 		CF4D4FF8205883970090544B /* CustomCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D4FF7205883970090544B /* CustomCollectionViewLayout.swift */; };
+		CF4D85462094C0C3001A1744 /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D85452094C0C3001A1744 /* Http.swift */; };
+		CF4D85482094D5B8001A1744 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4D85472094D5B8001A1744 /* WebService.swift */; };
 		CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */; };
 		CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */; };
 		CF50A3E0207BF595008749F0 /* HelpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF50A3DF207BF595008749F0 /* HelpView.xib */; };
@@ -233,6 +235,8 @@
 		CF4BD96220813142000B2ED6 /* DebugCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugCollectionViewCell.swift; sourceTree = "<group>"; };
 		CF4D4FF520587AD30090544B /* CustomCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewController.swift; sourceTree = "<group>"; };
 		CF4D4FF7205883970090544B /* CustomCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewLayout.swift; sourceTree = "<group>"; };
+		CF4D85452094C0C3001A1744 /* Http.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Http.swift; sourceTree = "<group>"; };
+		CF4D85472094D5B8001A1744 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
 		CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressExpandedViewController.swift; sourceTree = "<group>"; };
 		CF50A3DF207BF595008749F0 /* HelpView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpView.xib; sourceTree = "<group>"; };
@@ -422,6 +426,8 @@
 				CF182DCF203340E50070B9E5 /* PSWebServices.swift */,
 				CF50A3E9207C22ED008749F0 /* NotifyExtention.swift */,
 				CF78CC0A2083FE620030789D /* PropertyNames.swift */,
+				CF4D85452094C0C3001A1744 /* Http.swift */,
+				CF4D85472094D5B8001A1744 /* WebService.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -628,15 +634,15 @@
 				CF63DD2F2064079500025007 /* ProductOptions.swift */,
 				CF60CAD2208E409100B6D0EE /* ProductSuppliers.swift */,
 				CF182DCB20331DA00070B9E5 /* Products.swift */,
+				CF60CAD4208E435300B6D0EE /* Search.swift */,
 				CF60CAD6208E44C400B6D0EE /* ShopGroups.swift */,
+				CF60CAD8208E46F300B6D0EE /* ShopUrls.swift */,
+				CF60CADA208E490200B6D0EE /* Shops.swift */,
 				CF60CADC208E4B7900B6D0EE /* SpecificPriceRules.swift */,
 				CF60CADE208E4D4C00B6D0EE /* SpecificPrices.swift */,
 				CF601A1B204AEAE700217025 /* States.swift */,
 				CF601A1D204AEB7500217025 /* Tags.swift */,
 				CF601A1F204AEC6A00217025 /* Taxes.swift */,
-				CF60CAD4208E435300B6D0EE /* Search.swift */,
-				CF60CAD8208E46F300B6D0EE /* ShopUrls.swift */,
-				CF60CADA208E490200B6D0EE /* Shops.swift */,
 				CF877BC720923E7400E871F9 /* arbitraryJSON.swift */,
 			);
 			path = Models;
@@ -1036,6 +1042,7 @@
 				CF78CC0D20840A380030789D /* Debug2TableViewCell.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* Order.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* Countries.swift in Sources */,
+				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF384BFD205FFF0A005CCD57 /* Contents.swift in Sources */,
 				CF68979E2089354200998527 /* CustomerThreads.swift in Sources */,
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
@@ -1081,6 +1088,7 @@
 				CF601A16204AE61500217025 /* OrderPayments.swift in Sources */,
 				CF453EA1206ABD3E00E9FCE1 /* CustomizableAlertController.swift in Sources */,
 				CFAB48BC2052EA8100BF9E7D /* CheckoutViewController.swift in Sources */,
+				CF4D85482094D5B8001A1744 /* WebService.swift in Sources */,
 				CF4D4FF8205883970090544B /* CustomCollectionViewLayout.swift in Sources */,
 				CF7E8670202CFB920014B787 /* ProductViewCell.swift in Sources */,
 				CF182DCC20331DA00070B9E5 /* Products.swift in Sources */,
