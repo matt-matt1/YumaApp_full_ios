@@ -62,6 +62,18 @@ extension UINavigationBar
 ///////////////////////////////////////////////////////////
 extension UIView
 {
+	/// Assign a constraint to one or many views with nil metrics and default options
+	func addConstraintsWithFormat(format: String, views: UIView...)
+	{
+		var viewsDict = [String : UIView]()
+		for (ind, view) in views.enumerated()
+		{
+			let key = "v\(ind)"
+			view.translatesAutoresizingMaskIntoConstraints = false
+			viewsDict[key] = view
+		}
+		addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDict))
+	}
 	//https://stackoverflow.com/questions/32301336/swift-recursively-cycle-through-all-subviews-to-find-a-specific-class-and-appen
 	class func getAllSubviews<T: UIView>(view: UIView) -> [T] {
 		return view.subviews.flatMap { subView -> [T] in
@@ -419,6 +431,22 @@ public extension KeyedDecodingContainer
 ///////////////////////////////////////////////////////////
 extension String
 {
+	/// Returns a String of random characters 'length' long, can include symbols
+	func generatePassword(_ length: Int = 8, _ incSymbols: Bool = true) -> String
+	{
+		var pswdChars: Array<Character>
+		if incSymbols
+		{
+			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
+		}
+		else
+		{
+			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+		}
+		let rndPswd = String((0..<length).map{ _ in pswdChars[Int(arc4random_uniform(UInt32(pswdChars.count)))]})
+		return rndPswd
+	}
+	
 	/// Ramdom alphanumberic string
 	var randomLetters: String
 	{

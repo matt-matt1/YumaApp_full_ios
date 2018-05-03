@@ -11,45 +11,46 @@ import UIKit
 class ProductsViewController: UIViewController, UIScrollViewDelegate
 {
 		//MARK: Outlets
-	@IBOutlet weak var cartScroll: UIScrollView!
-	@IBOutlet weak var stackLeft: UIStackView!
-	@IBOutlet weak var scrollView: UIScrollView!
-	@IBOutlet weak var navBar: UINavigationBar!
-	@IBOutlet weak var navTitle: UINavigationItem!
-	@IBOutlet weak var navClose: UIBarButtonItem!
-	@IBOutlet weak var navHelp: UIBarButtonItem!
-	@IBOutlet weak var leftLabel: UILabel!
+	@IBOutlet weak var cartScroll: 	UIScrollView!
+	@IBOutlet weak var stackLeft: 	UIStackView!
+	@IBOutlet weak var scrollView: 	UIScrollView!
+	@IBOutlet weak var navBar: 		UINavigationBar!
+	@IBOutlet weak var navTitle: 	UINavigationItem!
+	@IBOutlet weak var navClose: 	UIBarButtonItem!
+	@IBOutlet weak var navHelp: 	UIBarButtonItem!
+	@IBOutlet weak var leftLabel: 	UILabel!
 	@IBOutlet weak var centerLabel: UILabel!
-	@IBOutlet weak var rightLabel: UILabel!
+	@IBOutlet weak var rightLabel: 	UILabel!
 	@IBOutlet weak var pageControl: UIPageControl!
 	@IBOutlet weak var add2CartBtn: GradientButton!
 
-	@IBOutlet weak var stackRight: UIStackView!
-	@IBOutlet weak var totalAmt: UILabel!
-	@IBOutlet weak var totalWt: UILabel!
-	@IBOutlet weak var totalWtLbl: UILabel!
-	@IBOutlet weak var totalPcs: UILabel!
+	@IBOutlet weak var stackRight: 	UIStackView!
+	@IBOutlet weak var totalAmt: 	UILabel!
+	@IBOutlet weak var totalWt: 	UILabel!
+	@IBOutlet weak var totalWtLbl: 	UILabel!
+	@IBOutlet weak var totalPcs: 	UILabel!
 	@IBOutlet weak var totalPcsLbl: UILabel!
-	@IBOutlet weak var chkoutBtn: GradientButton!
+	@IBOutlet weak var chkoutBtn: 	GradientButton!
 		//MARK: Properties
-	var pageTitle: String = ""
-	var pageImage = UIImage()
-	let store = DataStore.sharedInstance
+	var pageTitle: 			String = 	""
+	var pageImage = 					UIImage()
+	let store = 						DataStore.sharedInstance
 
-	let cellID = "cartCell"
-	var latest: OrderRow?
-	var latestIsUpdate = false
-	var cartCellHeight: CGFloat = 100
-	var cartCellVSpace: CGFloat = 5
-	var total: Float = 0
-	var pcs: Int = 0
-	var wt: Float = 0
+	let cellID = 						"cartCell"
+	var latest: 			OrderRow?
+	var latestIsUpdate = 				false
+	var cartCellHeight: 	CGFloat = 	100
+	var cartCellVSpace: 	CGFloat = 	5
+	var total: 				Float = 	0
+	var pcs: 				Int = 		0
+	var wt: 				Float = 	0
 
 	
 		//MARK: Override Methods
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
+		store.imageDataCache.removeAllObjects()
 
 		cartScroll.delegate = self
 		scrollView.delegate = self
@@ -507,8 +508,14 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		store.myOrder?.total_products_wt = String(wt)
 		store.myOrder?.total_paid_tax_excl = String(total)
 		store.myOrder?.total_products = String(pcs)
-		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
-		self.present(vc!, animated: false, completion: (() -> Void)?
+//		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController
+		let layout = UICollectionViewFlowLayout()
+		//layout.scrollDirection = .horizontal
+		let vc = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
+//		let vc = UIStoryboard(name: "CheckoutCollection", bundle: nil).instantiateInitialViewController() as! CheckoutCollection
+		//let vc = UIStoryboard(name: "CheckoutTabsViewController", bundle: nil).instantiateInitialViewController() as! CheckoutTabsViewController
+		//vc.selectedViewController = vc.viewControllers?[2]
+		self.present(vc, animated: false, completion: (() -> Void)?
 			{
 				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 				//				sender.view?.backgroundColor = UIColor.white
@@ -607,17 +614,27 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				imageName.append("/\(ch)")
 			}
 			imageName.append("/\(imgName ?? "").jpg")
-			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-				{
-					(data, response, error) in
-					
-					guard let data = data, error == nil else { return }
-					DispatchQueue.main.async()
+//			if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+//			{
+//				prod_image = imageFromCache as? Data
+//			}
+//			else
+//			{
+				store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
 					{
-						prod_image = data
+						(data, response, error) in
+						
+						guard let data = data, error == nil else { return }
+						DispatchQueue.main.async()
+						{
+							let imageToCache = data as AnyObject//UIImage(data: data)
+//							self.store.imageDataCache.setObject(imageToCache, forKey: imageName as AnyObject)
+							prod_image = imageToCache as? Data
+							//prod_image = data
+						}
 					}
-				}
-			)
+				)
+//			}
 		}
 		//if Int((NumberFormatter().number(from: prod.price!)?.doubleValue)!) > 0 && chkoutBtn.alpha != 1
 		if prod.price != nil && prod.price! > 0 && chkoutBtn.alpha != 1
@@ -693,6 +710,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //			copiedView.addSubview(sv.copyView())
 //		}
 //		copiedView.alpha = 0.8
+		return
 		let animateView = self.scrollView.subviews[pageControl.currentPage+2].subviews[0].subviews[0]
 		//let animateView = (prodView.subviews.first?.subviews.first)!
 		//^^ product in scrollv, primary group, image in UIView (inner View frame, UImageView)
@@ -863,22 +881,32 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 						imageName.append("/\(ch)")
 					}
 					imageName.append("/\(imgName ?? "").jpg")
-					store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-						{
-							(data, response, error) in
-							
-							guard let data = data, error == nil else { return }
-							DispatchQueue.main.async()
+					if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+					{
+						view.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
+					}
+					else
+					{
+						store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
 							{
-								let i = view.tag - 10
-								view.prodImage.image = UIImage(data: data)
-								//self.prod_image = data
-								if i < self.store.products.count
+								(data, response, error) in
+								
+								guard let data = data, error == nil else { return }
+								DispatchQueue.main.async()
 								{
-									self.store.products[i].associations?.imageData = data
+									let i = view.tag - 10
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									view.prodImage.image = imageToCache
+									//view.prodImage.image = UIImage(data: data)
+									//self.prod_image = data
+									if i < self.store.products.count
+									{
+										self.store.products[i].associations?.imageData = data
+									}
 								}
-							}
-					})
+						})
+					}
 				}
 //				view.detailsBtn.text = R.string.details
 				//second section

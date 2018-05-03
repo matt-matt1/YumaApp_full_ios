@@ -17,29 +17,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
 	{
-		window = UIWindow()
+		window = UIWindow(frame: UIScreen.main.bounds)
+		//window = UIWindow()
 		window?.makeKeyAndVisible()
 
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		//let collection = CollectionViewController(collectionViewLayout: layout)
 		let collection = SwipingController(collectionViewLayout: layout)
+		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
 		window?.rootViewController = collection
 		
 //		let myView = UIViewController()
 //		myView.view.backgroundColor = .purple
 //		window?.rootViewController = myView
 		
+		let shadow = NSShadow()
+		shadow.shadowColor = R.color.YumaDRed
+		shadow.shadowOffset = CGSize(width: 1, height: 1)
+		shadow.shadowBlurRadius = 3
 		let navBarAppearance = UINavigationBar.appearance()
 		navBarAppearance.tintColor = UIColor.white
 		navBarAppearance.barTintColor = R.color.YumaRed
-		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor:R.color.YumaYel]
+		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor : R.color.YumaYel,
+												NSAttributedStringKey.shadow : shadow]
+		navBarAppearance.shadowImage = UIImage()
+		navBarAppearance.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 		//UIBarButtonItem.appearance().setTitleTextAttributes([
 		//	NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 30)
 		//	], for: .normal)
 
 		UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 		
+//		let statusBarBackground = UIView()
+//		statusBarBackground.backgroundColor = UIColor(red: 194/255, green: 31/255, blue: 31/255, alpha: 1)
+//		window?.addSubview(statusBarBackground)
+//		window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackground)
+//		window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackground)
 		return true
 	}
 

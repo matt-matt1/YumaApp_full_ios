@@ -520,7 +520,7 @@ class MyAccountViewController: UIViewController
 	@IBAction func signOutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: self.signOutBtn)
-		if Reachability.isConnectedToNetwork()
+		if !Reachability.isConnectedToNetwork()
 		{
 			DispatchQueue.main.async
 			{
@@ -552,26 +552,44 @@ class MyAccountViewController: UIViewController
 				}))
 				alert.addAction(UIAlertAction(title: R.string.SignOut.uppercased(), style: .destructive, handler:
 					{ 	(action) in
-					self.store.customer = nil
-					self.store.addresses = []
-					UserDefaults.standard.removeObject(forKey: "Customer")
-					OperationQueue.main.addOperation
-					{
-						weak var presentingViewController = self.presentingViewController
-						self.dismiss(animated: false, completion: {
-							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
-						})
-					}
+						self.store.logout(self, presentingViewController: self.presentingViewController)
+//					self.store.customer = nil
+//					self.store.addresses = []
+//					UserDefaults.standard.removeObject(forKey: "Customer")
+//					OperationQueue.main.addOperation
+//					{
+//						weak var presentingViewController = self.presentingViewController
+//						self.dismiss(animated: false, completion: {
+//							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+//						})
+//					}
 				}))
 				self.present(alert, animated: true, completion:
 					{
 				})
 			}
 		}
+		else
+		{
+			self.store.logout(self, presentingViewController: self.presentingViewController)
+//			self.store.customer = nil
+//			self.store.addresses = []
+//			UserDefaults.standard.removeObject(forKey: "Customer")
+//			OperationQueue.main.addOperation
+//			{
+//				weak var presentingViewController = self.presentingViewController
+//				self.dismiss(animated: false, completion: {
+//					presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+//				})
+//			}
+		}
 	}
 	@IBAction func CSBtnAct(_ sender: Any)
 	{
-		print("MyAccCSViewController")
+		if store.debug > 0
+		{
+			print("MyAccCSViewController")
+		}
 		store.flexView(view: self.creditSlipsBtn)
 		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as! CustomerOrdersVC?
 		vc?.creditSlips = true
@@ -580,7 +598,10 @@ class MyAccountViewController: UIViewController
 	}
 	@IBAction func OHBtnAct(_ sender: Any)
 	{
-		print("MyAccOHViewController")
+		if store.debug > 0
+		{
+			print("MyAccOHViewController")
+		}
 		store.flexView(view: self.orderHistBtn)
 //		print("rows:\(store.orders.count)")
 //		for row in 0..<store.orders.count
@@ -593,7 +614,10 @@ class MyAccountViewController: UIViewController
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{
-		print("MyAccAddrViewController")
+		if store.debug > 0
+		{
+			print("MyAccAddrViewController")
+		}
 		store.flexView(view: self.addrBtn)
 		//let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
 		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "MyAccAddr2ViewController") as UIViewController?
@@ -604,7 +628,10 @@ class MyAccountViewController: UIViewController
 	}
 	@IBAction func infoBtnAct(_ sender: Any)
 	{
-		print("MyAccInfoViewController")
+		if store.debug > 0
+		{
+			print("MyAccInfoViewController")
+		}
 		store.flexView(view: self.infoBtn)
 		self.present(MyAccInfoViewController(), animated: true, completion: nil)
 	}

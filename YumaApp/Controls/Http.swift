@@ -43,7 +43,8 @@ class Http
 	}
 	
 	/// Used to create a web servicve(API) object. Request a blank object first
-	func post(url: NSURL, headers: Dictionary<String, String>, data: Dictionary<String, String>, completionHandler: ((HttpResult) -> Void)!)
+	//func post(url: NSURL, headers: Dictionary<String, String>, data: Dictionary<String, String>, completionHandler: ((HttpResult) -> Void)!)
+	func post(url: NSURL, headers: Dictionary<String, String>, data: NSData?, completionHandler: ((HttpResult) -> Void)!)
 	{
 		var sendHeaders = headers
 		let keys = headers.keys
@@ -58,17 +59,18 @@ class Http
 		}
 		if !found
 		{
-			sendHeaders.updateValue("application/x-www-form-urlencoded", forKey: "Content-Type")
+			//sendHeaders.updateValue("application/x-www-form-urlencoded", forKey: "Content-Type")
+			sendHeaders.updateValue("text/xml; charset=\"utf-8\"", forKey: "Content-Type")
 		}
 		//let data = try? JSONSerialization.data(withJSONObject: data)
-		var str = ""
-		for (k, v) in data
-		{
-			str.append("\(k)=\(v)&")
-		}
-		let postStr = str.dropLast()
+//		var str = ""
+//		for (k, v) in data
+//		{
+//			str.append("\(k)=\(v)&")
+//		}
+//		let postStr = str.dropLast()
 		//let postStr = String(format: "%@&%@", data.keys, data.values)
-		let data = postStr.data(using: .utf8)
+//		let data = postStr.data(using: .utf8)
 		action("POST", url: url, headers: sendHeaders, data: data! as NSData) 	{ 	(result) in
 			completionHandler(result)
 		}
@@ -95,7 +97,7 @@ class Http
 					print("\(error.debugDescription)")// (\(error?.localizedDescription ?? ""))")
 					if data != nil
 					{
-						print(String(data: data!, encoding: .utf8))
+						print(String(data: data!, encoding: .utf8)!)
 					}
 				}
 			}

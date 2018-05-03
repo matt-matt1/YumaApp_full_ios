@@ -372,8 +372,7 @@ class LoginViewController: UIViewController
 	func getCustomerDetails()
 	{
 		let sv = UIViewController.displaySpinner(onView: self.view)
-//		let myUrl = "\(url)?email=\(usernameTextField.text ?? "")&passwd=\(passwordTextField.text ?? "")"
-		store.PostHTTP(url: url, parameters: ["email" : usernameTextField.text!, "passwd" : passwordTextField.text!])
+		store.PostHTTP(url: url, parameters: ["email" : usernameTextField.text!, "passwd" : passwordTextField.text!], save: "Customer")
 		{ 	(customer) in
 			//
 //		}
@@ -419,14 +418,6 @@ class LoginViewController: UIViewController
 					{
 					})
 				}
-//					let alertViewController = UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
-//					alertViewController.addAction(UIAlertAction(title: R.string.ok, style: .default, handler: nil))
-//					var dwi2: DispatchWorkItem?
-//					dwi2 = DispatchWorkItem
-//					{
-//						self.present(alertViewController, animated: true, completion: (() -> Void)? {	dwi2?.cancel()	})
-//					}
-//					DispatchQueue.main.async(execute: dwi2!)
 			}
 			else
 			{

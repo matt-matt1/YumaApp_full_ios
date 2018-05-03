@@ -71,9 +71,10 @@ class CheckoutStep1ViewController: UIViewController
 	{
 //		store.flexView(view: self.signOutBtn)
 		store.flexView(view: self.signoutBtn)
-		store.customer = nil
-		store.addresses = []
-		UserDefaults.standard.removeObject(forKey: "Customer")
+		self.store.logout(self, presentingViewController: self.presentingViewController)
+		//store.customer = nil
+		//store.addresses = []
+		//UserDefaults.standard.removeObject(forKey: "Customer")
 //		OperationQueue.main.addOperation
 //			{
 //				weak var presentingViewController = self.presentingViewController

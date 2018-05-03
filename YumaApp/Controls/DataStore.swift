@@ -54,6 +54,11 @@ final class DataStore
 	var customerThreads:		[CustomerThread] = 		[]
 	var contacts: 				[Contact] = 			[]
 	var orderHistories: 		[OrderHistory] = 		[]
+	var idDefaultGroup = 								0
+	var idShop = 										0
+	var idShopGgroup = 									0
+	let imageDataCache = 								NSCache<AnyObject, AnyObject>()
+	let debug = 										9
 
 	
 	/// Sets the parameters for product shares
@@ -67,7 +72,7 @@ final class DataStore
 	}
 	
 	/// Send data via HTTP POST
-	func PostHTTP(url: String, parameters: [String : String], completion: @escaping (Any) -> Void)
+	func PostHTTP(url: String, parameters: [String : String], save: String? = nil, completion: @escaping (Any) -> Void)
 	{
 		if let myUrl = URL(string: url)
 		{
@@ -75,38 +80,53 @@ final class DataStore
 			//let myURL = NSURL(string: "http://192.168.1.2/rest"
 			let request = NSMutableURLRequest(url: myUrl as URL)
 			request.httpMethod = "POST"
-			request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
-			request.setValue("application/json", forHTTPHeaderField: "Accept")
+			//request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
+			//request.setValue("application/json", forHTTPHeaderField: "Accept")
 			var bodyStr = ""
 			var paramArray: [String] = []
+			var allowed = CharacterSet.alphanumerics
+			allowed.insert(charactersIn: ".-_")
 			for param in parameters
 			{
-				paramArray.append(String(format: "%@=%@", param.key, param.value))
+				paramArray.append(String(format: "%@=%@", param.key, param.value.addingPercentEncoding(withAllowedCharacters: allowed)!))
 			}
 			bodyStr = paramArray.joined(separator: "&")
 			request.httpBody = bodyStr.data(using: String.Encoding.utf8)!
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in
-				completion(false)
-//				if let unwrappedData = data
-//				{
-//					do
-//					{
-//						let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
-//						let token = tokenDictionary["access_token"] as? String
-//					}
-//					catch
-//					{
-////						self.emailTextField.text = ""
-////						self.passwordTextField.text = ""
-//						let alertView = UIAlertController(title: "Login failed",
-//														  message: "Wrong username or password." as String, preferredStyle:.alert)
-//						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
-//						alertView.addAction(okAction)
-////						self.present(alertView, animated: true, completion: nil)
-//						return
-//					}
-//				}
+				if let unwrappedData = data
+				{
+					do
+					{
+						let str = String(data: unwrappedData, encoding: .utf8)
+						if str == "" || str == "BAD"
+						{
+							completion(false)
+						}
+						else
+						{
+							if save != nil
+							{
+								UserDefaults.standard.set(str, forKey: save!)
+							}
+							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+//							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+//							let token = tokenDictionary["access_token"] as? String
+							completion(customer)
+						}
+					}
+					catch
+					{
+//						self.emailTextField.text = ""
+//						self.passwordTextField.text = ""
+						let alertView = UIAlertController(title: "Login failed",
+														  message: "Wrong username or password." as String, preferredStyle:.alert)
+						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+						alertView.addAction(okAction)
+//						self.present(alertView, animated: true, completion: nil)
+						return
+					}
+				}
 			}
 			task.resume()
 		}
@@ -1115,6 +1135,50 @@ final class DataStore
 			}
 		}
 		task.resume()
+	}
+	
+	func getIPAddress() -> String?
+	{
+		var address: 	String?
+		var ifaddr: 	UnsafeMutablePointer<ifaddrs>? = nil
+		if getifaddrs(&ifaddr) == 0
+		{
+			var ptr = ifaddr
+			while ptr != nil
+			{
+				defer 	{ 	ptr = ptr?.pointee.ifa_next 	}
+				
+				let interface = ptr?.pointee
+				let addrFamily = interface?.ifa_addr.pointee.sa_family
+				if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6)
+				{
+					let name = String(cString: (interface?.ifa_name)!)
+					if name == "en0"
+					//if let name: String = String(cString: (interface?.ifa_name)!), name == "en0"
+					{
+						var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+						getnameinfo(interface?.ifa_addr, socklen_t((interface?.ifa_addr.pointee.sa_len)!), &hostname, socklen_t(hostname.count), nil, socklen_t(0), NI_NUMERICHOST)
+						address = String(cString: hostname)
+					}
+				}
+			}
+			freeifaddrs(ifaddr)
+		}
+		return address
+	}
+
+	func logout(_ from: UIViewController, presentingViewController: UIViewController?/*presentingViewController?*/)
+	{
+		self.customer = nil
+		self.addresses = []
+		UserDefaults.standard.removeObject(forKey: "Customer")
+		OperationQueue.main.addOperation
+			{
+				//weak var presentingViewController = self.presentingViewController
+				from.dismiss(animated: false, completion: {
+					presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+				})
+			}
 	}
 	
 	/// Performs a simple animation of the specified view

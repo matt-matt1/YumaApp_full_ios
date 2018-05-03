@@ -262,8 +262,13 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		store.myOrder?.total_products_wt = String(wt)
 		store.myOrder?.total_paid_tax_excl = String(total)
 		store.myOrder?.total_products = String(pcs)
-		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController?
-		self.present(vc!, animated: false, completion: nil)
+//		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController
+//		let vc = UIStoryboard(name: "CheckoutTabsViewController", bundle: nil).instantiateInitialViewController() as! CheckoutTabsViewController
+//		vc.selectedViewController = vc.viewControllers?[2]
+		let layout = UICollectionViewFlowLayout()
+		//layout.scrollDirection = .horizontal
+		let vc = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
+		self.present(vc, animated: false, completion: nil)
 	}
 	
 }

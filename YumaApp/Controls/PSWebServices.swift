@@ -1969,16 +1969,17 @@ class PSWebServices: NSObject
 	}
 	
 	/// Convert an object in XML using Prestashop's signature eg object2psxml(object: myAddress, resource: "addresses")
-	class func object2psxml(object: Any, resource: String, resource2: String) -> String
+	class func object2psxml(object: Any, resource: String, resource2: String, excludeId: Bool) -> String
 	{
-		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>")
+		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>", excludeId: excludeId)
 	}
 	
 	/// Convert an object in XML eg. objectToXML(object: myObj, head: "<?xml version=\"2.0\" encoding=\"ASCII\"?>", wrapperHead: "<my_wrapper>", wrapperTail: "</my_wrapper>")
-	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, prettyOutput: Bool = true) -> String
+	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, excludeId: Bool = false, prettyOutput: Bool = true) -> String
 	{
 //		let start = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>"
-		var xml = "xml="
+		//var xml = "xml="
+		var xml = ""
 		if head != nil
 		{
 			xml += head!
@@ -2004,10 +2005,10 @@ class PSWebServices: NSObject
 		{
 			if let key = key
 			{
-//				if key == "id"
-//				{
-//					continue
-//				}
+				if excludeId && key == "id"
+				{
+					continue
+				}
 				if prettyOutput
 				{
 					xml += "\t"

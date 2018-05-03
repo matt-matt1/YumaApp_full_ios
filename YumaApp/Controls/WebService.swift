@@ -273,6 +273,16 @@ struct WebService
 		return String(output.dropLast())//.remove(at: output.index(before: output.endIndex))//.substring(to: output.index(before: output.endIndex))
 	}
 	
+	func resource2(resource: String) -> String
+	{
+		var result = resource.dropLast()
+		if result.last == "e"
+		{
+			result = result.dropLast()
+		}
+		return String(result)
+	}
+	
 	/// Print the URL String - only for debugging purposes
 	func printURL()
 	{
@@ -280,8 +290,18 @@ struct WebService
 	}
 	
 	/// Delete a Resource (database row) having the ID, or mark the resource as deleted
-	func delete(/*resource: APIResource, id: Int*/ completionHandler: @escaping (HttpResult) -> Void)
+	func delete(completionHandler: @escaping (HttpResult) -> Void)
 	{
+		guard self.resource != nil else
+		{
+			print("Error: attemped WebService().delete without setting resource")
+			return
+		}
+		guard self.id > -1 else
+		{
+			print("Error: attemped WebService().delete without setting id")
+			return
+		}
 		let http = Http()
 		let url = URL(string: makeURL()/*String(format: "%@%@/%@", R.string.WSbase, resource as! CVarArg, id)*/)
 		http.delete(url: url! as NSURL, headers: [:]) { (result) in
@@ -291,36 +311,78 @@ struct WebService
 	}
 	
 	/// Add a new Resource
-	func add(/*resource: APIResource,*/ xml: String, completionHandler: @escaping (HttpResult) -> Void)
+	func add(completionHandler: @escaping (HttpResult) -> Void)
 	{
+		guard self.resource != nil else
+		{
+			print("Error: attemped WebService().add without setting resource")
+			return
+		}
+		guard self.xml != nil else
+		{
+			print("Error: attemped WebService().get without setting xml")
+			return
+		}
 		let http = Http()
-		let url = URL(string: makeURL()/*String(format: "%@%@/%@", R.string.WSbase, resource as! CVarArg, id)*/)
-		let sendXML = xml.replacingOccurrences(of: "\n", with: "")//.replacingOccurrences(of: " ", with: "+")//.data(using: .utf8)
-		http.post(url: url! as NSURL, headers: [:], data: ["xml":sendXML]) 	{ 	(result) in
+		let url = URL(string: makeURL())
+		let sendXML = xml?.replacingOccurrences(of: "\n", with: "")/*.replacingOccurrences(of: " ", with: "+")*/.data(using: .utf8)
+		http.post(url: url! as NSURL, headers: [:], data: sendXML! as NSData) 	{ 	(result) in
 			print(result)
 			completionHandler(result)
 		}
 	}
 	
-	/// Update a Resource having the ID using the supplied XML String
-	func edit(/*resource: APIResource, id: Int,*/ xml: String, completionHandler: @escaping (HttpResult) -> Void)
+	/// Update/edit a resource object having the ID using the supplied XML String
+	func edit(completionHandler: @escaping (HttpResult) -> Void)
 	{
+		guard self.resource != nil else
+		{
+			print("Error: attemped WebService().edit without setting resource")
+			return
+		}
+		guard self.id > -1 else
+		{
+			print("Error: attemped WebService().edit without setting id")
+			return
+		}
+		guard self.xml != nil else
+		{
+			print("Error: attemped WebService().get without setting xml")
+			return
+		}
 		let http = Http()
-		let url = URL(string: makeURL()/*String(format: "%@%@/%@", R.string.WSbase, resource as! CVarArg, id)*/)
-		http.put(url: url! as NSURL, headers: [:], data: xml.data(using: .utf8)! as NSData) 	{ 	(result) in
+		let url = URL(string: makeURL())
+		//let send = "xml=\(xml!)"
+		let send = "\(xml!)"
+		http.put(url: url! as NSURL, headers: [:], data: send.data(using: .utf8)! as NSData?) 	{ 	(result) in
 			print(result)
 			completionHandler(result)
 		}
 	}
 	
 	/// Returns object(s) belonging to the Resource; if the ID is given a specific row/object is returned
-	func get(/*resource: APIResource, id: Int*/completionHandler: @escaping (HttpResult) -> Void)
+	mutating func get(completionHandler: @escaping (HttpResult) -> Void)
 	{
+		guard self.resource != nil else
+		{
+			print("Error: attemped WebService().get without setting resource")
+			return
+		}
+		if self.id > -1
+		{
+			print("getting all records")
+		}
+//		guard self.id > -1 else
+//		{
+//			print("Error: attemped WebService().get without setting id")
+//			return
+//		}
 		let http = Http()
 		//let url = String(format: "%@%@/%@", R.string.WSbase, resource as! CVarArg, id)
 		let myUrl = URL(string: makeURL()/*url*/)
 		http.get(url: myUrl! as NSURL, headers: [:], data: nil) 	{ 	(result) in
 			completionHandler(result)
 		}
+		self.schema = nil
 	}
 }

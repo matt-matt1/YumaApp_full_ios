@@ -16,7 +16,8 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 	@IBOutlet weak var prodQtyEdit: UITextField!
 	@IBOutlet weak var prodTitle: UILabel!
 	@IBOutlet weak var prodImage: UIImageView!
-	var found = false
+	var found = 			false
+	let store = 			DataStore.sharedInstance
 
 	
 	func setup(_ object: OrderRow)
@@ -37,17 +38,28 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 					imageName.append("/\(ch)")
 				}
 				imageName.append("/\(imgName ?? "").jpg")
-				DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-					{
-						(data, response, error) in
-						
-						guard let data = data, error == nil else { return }
-						DispatchQueue.main.async()
-							{
-								self.prodImage.image = UIImage(data: data)
-							}
-					}
-				)
+//				if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+//				{
+//					//self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
+//					self.prodImage.image = UIImage(data: imageFromCache as! Data)
+//				}
+//				else
+//				{
+					DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+						{
+							(data, response, error) in
+							
+							guard let data = data, error == nil else { return }
+							DispatchQueue.main.async()
+								{
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									self.prodImage.image = imageToCache
+									//self.prodImage.image = UIImage(data: data)
+								}
+						}
+					)
+//				}
 				found = true
 				break
 			}
@@ -66,17 +78,27 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 						imageName.append("/\(ch)")
 					}
 					imageName.append("/\(imgName ?? "").jpg")
-					DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-						{
-							(data, response, error) in
-							
-							guard let data = data, error == nil else { return }
-							DispatchQueue.main.async()
-								{
-									self.prodImage.image = UIImage(data: data)
+					if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+					{
+						self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
+					}
+					else
+					{
+						DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+							{
+								(data, response, error) in
+								
+								guard let data = data, error == nil else { return }
+								DispatchQueue.main.async()
+									{
+										let imageToCache = UIImage(data: data)
+										self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+										self.prodImage.image = imageToCache
+										//self.prodImage.image = UIImage(data: data)
+								}
 							}
-						}
-					)
+						)
+					}
 					found = true
 					break
 				}
@@ -96,17 +118,27 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 						imageName.append("/\(ch)")
 					}
 					imageName.append("/\(imgName ?? "").jpg")
-					DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-						{
-							(data, response, error) in
-							
-							guard let data = data, error == nil else { return }
-							DispatchQueue.main.async()
-								{
-									self.prodImage.image = UIImage(data: data)
-							}
+					if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+					{
+						self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
 					}
-					)
+					else
+					{
+						DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+							{
+								(data, response, error) in
+								
+								guard let data = data, error == nil else { return }
+								DispatchQueue.main.async()
+								{
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									self.prodImage.image = imageToCache
+									//self.prodImage.image = UIImage(data: data)
+								}
+							}
+						)
+					}
 					found = true
 					break
 				}
@@ -126,17 +158,27 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 						imageName.append("/\(ch)")
 					}
 					imageName.append("/\(imgName ?? "").jpg")
-					DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-						{
-							(data, response, error) in
-							
-							guard let data = data, error == nil else { return }
-							DispatchQueue.main.async()
-								{
-									self.prodImage.image = UIImage(data: data)
-							}
+					if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+					{
+						self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
 					}
-					)
+					else
+					{
+						DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+							{
+								(data, response, error) in
+								
+								guard let data = data, error == nil else { return }
+								DispatchQueue.main.async()
+								{
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									self.prodImage.image = imageToCache
+									//self.prodImage.image = UIImage(data: data)
+								}
+							}
+						)
+					}
 					found = true
 					break
 				}
@@ -156,17 +198,27 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 						imageName.append("/\(ch)")
 					}
 					imageName.append("/\(imgName ?? "").jpg")
-					DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-						{
-							(data, response, error) in
-							
-							guard let data = data, error == nil else { return }
-							DispatchQueue.main.async()
-								{
-									self.prodImage.image = UIImage(data: data)
-							}
+					if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+					{
+						self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
 					}
-					)
+					else
+					{
+						DataStore.sharedInstance.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+							{
+								(data, response, error) in
+								
+								guard let data = data, error == nil else { return }
+								DispatchQueue.main.async()
+								{
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									self.prodImage.image = imageToCache
+									//self.prodImage.image = UIImage(data: data)
+								}
+							}
+						)
+					}
 					found = true
 					break
 				}

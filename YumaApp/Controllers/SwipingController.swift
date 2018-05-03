@@ -70,8 +70,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		var ws = WebService()
 		ws.startURL = R.string.WSbase
 		ws.resource = APIResource.addresses
-		ws.schema = Schema.blank
-		//ws.id = 4
 		ws.keyAPI = R.string.APIkey
 		ws.filter = ["id" : [4]]
 		//ws.filter = [(Addresses_filter.alias as! String):["Q"]]
@@ -103,18 +101,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 				{
 					print(xmlParser.parserError.debugDescription)
 				}
+				print("----")
 				//print(xmlParser.value(forKey: "address")!)
-					// Add a row
-				ws.add(xml: data!) 	{ 	(result) in
-					if result.data != nil
-					{
-						let data = String(data: result.data! as Data, encoding: .utf8)
-						print(data!)
-						print("----add^")
-					}
-				}
+				let newRow: Any?
 					// Edit the given row
-				ws.edit(xml: data!) 	{ 	(result) in
+				ws.id = 4
+				newRow = self.store.carriers[0]
+				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: false)
+				//print(ws.xml)
+				ws.printURL()
+				ws.edit() 	{ 	(result) in
 					if result.data != nil
 					{
 						let data = String(data: result.data! as Data, encoding: .utf8)
@@ -122,6 +118,27 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 						print("----edit^")
 					}
 				}
+				// Add a row
+//				ws.schema = Schema.blank
+//				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
+//				ws.printURL()
+//				ws.add() 	{ 	(result) in
+//					if result.data != nil
+//					{
+//						let data = String(data: result.data! as Data, encoding: .utf8)
+//						print(data!)
+//						print("----add^")
+//					}
+//				}
+					// Delete a row
+//				ws.delete(completionHandler: 	{ 	(result) in
+//					if result.data != nil
+//					{
+//						let data = String(data: result.data! as Data, encoding: .utf8)
+//						print(data!)
+//						print("----delete^")
+//					}
+//				})
 			}
 		}
 		if ws.resource != nil

@@ -214,7 +214,7 @@ Will attempt to recover by breaking constraint
 //					encoder.outputFormatting = .prettyPrinted
 //					let data = try? encoder.encode(edited)
 //					print(String(data: data!, encoding: .utf8)!)
-					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address")
+					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", excludeId: false)
 //					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
 					PSWebServices.postAddress(XMLStr: str)
 					{
