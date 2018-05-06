@@ -434,6 +434,7 @@ struct R {
 		static let Quant = "Quantity"
 		static let unitP = "Unit price"
 		static let subT = "Subtotal"
+		static let shipping = "Shipping"
 		static let shipAnd = "Shipping and handling"
 		static let tax = "Tax"
 		static let carr = "Carrier"

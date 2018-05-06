@@ -21,10 +21,10 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
 			view.delegate = self
 			return view
 		}()
-	let array = [FontAwesome.user.rawValue,
-				 FontAwesome.listAlt.rawValue,
-				 /*"\u{f48b}"*/FontAwesome.ship.rawValue,
-				 FontAwesome.usd.rawValue]//"home", "trending", "subscriptions", "account"]
+	let array = ["1"/*FontAwesome.user.rawValue*/,
+				 "2"/*FontAwesome.listAlt.rawValue*/,
+				 /*"\u{f48b}"*/"3"/*FontAwesome.ship.rawValue*/,
+				 "4"/*FontAwesome.usd.rawValue*/]
 
 
 	override init(frame: CGRect)
@@ -75,7 +75,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuBarCellId", for: indexPath) as! MenuCell
 		//cell.iconView.image = UIImage(named: array[indexPath.item])?.withRenderingMode(.alwaysTemplate)
 		cell.iconView.text = array[indexPath.item]
-		cell.iconView.font = R.font.FontAwesomeOfSize(pointSize: 20)
+//		cell.iconView.font = R.font.FontAwesomeOfSize(pointSize: 20)
 		//let myMutableString = NSMutableAttributedString(string: "\(indexPath.item+1).", attributes: [:])
 		//myMutableString.append(NSAttributedString(string: array[indexPath.item], attributes: [NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 20)]))
 		//cell.iconView.attributedText = myMutableString

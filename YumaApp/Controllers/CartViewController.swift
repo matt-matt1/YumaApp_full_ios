@@ -267,7 +267,8 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 //		vc.selectedViewController = vc.viewControllers?[2]
 		let layout = UICollectionViewFlowLayout()
 		//layout.scrollDirection = .horizontal
-		let vc = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
+		let root = CheckoutCollection(collectionViewLayout: layout)
+		let vc = UINavigationController(rootViewController: root)
 		self.present(vc, animated: false, completion: nil)
 	}
 	

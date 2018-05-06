@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
 		
 //		let statusBarBackground = UIView()
-//		statusBarBackground.backgroundColor = UIColor(red: 194/255, green: 31/255, blue: 31/255, alpha: 1)
+//		statusBarBackground.backgroundColor = UIColor.gray//UIColor(red: 194/255, green: 31/255, blue: 31/255, alpha: 1)
 //		window?.addSubview(statusBarBackground)
 //		window?.addConstraintsWithFormat(format: "H:|[v0]|", views: statusBarBackground)
 //		window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackground)
