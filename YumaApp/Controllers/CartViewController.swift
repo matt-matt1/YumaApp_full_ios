@@ -251,10 +251,11 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
-		let vc = HelpVC()// as! helpVC
-		vc.backgroundColor = .red
-		vc.title.text = "hi"
-		self.view.addSubview(vc)
+		let viewC = Assistance()
+		viewC.array = R.array.help_cart_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{

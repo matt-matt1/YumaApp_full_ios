@@ -228,6 +228,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			if order?.reference != nil
 			{
 				orderRefValue.text = order?.reference
+				// http get order_payments find reference, if found add status paid ...
 			}
 			placedOnValue.text = ""
 			if self.order?.date_add != nil && self.order?.date_add != ""

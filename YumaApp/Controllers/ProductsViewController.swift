@@ -545,42 +545,11 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
-		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-		let vc = sb.instantiateInitialViewController() as? PickerViewController
-		if vc != nil
-		{
-			self.present(vc!, animated: false, completion: nil)
-			vc?.titleLbl.text = R.string.help
-			vc?.button.setTitle(R.string.dismiss.uppercased(), for: .normal)
-//			self.helpPageControl.numberOfPages = R.array.help_cart_guide.count
-//			self.helpPageControl.currentPageIndicatorTintColor = R.color.YumaRed
-//			self.helpPageControl.pageIndicatorTintColor = R.color.YumaYel
-//			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * (vc?.dialog.frame.width)!
-//			self.helpScrollView.contentSize.height = (vc?.dialog.frame.height)!-(vc?.titleLbl.frame.height)!-(vc?.button.frame.height)!-40	//- height of pageControl (estimate=40)
-//			print("scrollView = \(self.helpScrollView.frame.origin.x)x\(self.helpScrollView.frame.origin.y) \(self.helpScrollView.frame.width)x\(self.helpScrollView.frame.height) \(self.helpScrollView.contentSize.width)x\(self.helpScrollView.contentSize.height)")
-			for i in 0 ..< R.array.help_cart_guide.count
-			{
-//				let view = HelpCell(frame: CGRect(x: 5+(CGFloat(i)*(vc?.dialog.frame.width)!), y: 0, width: (vc?.dialog.frame.width)!-10, height: self.helpScrollView.contentSize.height))
-//				self.helpScrollView.addSubview(view)
-			}
-			let testView = UIView(frame: CGRect(x: 100, y: 100, width: 200, height: 200))
-			testView.translatesAutoresizingMaskIntoConstraints = false
-			testView.backgroundColor = R.color.AppleBlue
-//			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView, testView])
-//			stack.axis = .vertical
-//			stack.alignment = .center
-//			stack.distribution = .fill
-//			vc?.view.insertSubview(stack, at: 1)
-//			stack.translatesAutoresizingMaskIntoConstraints = false
-			//stack.backgroundColor = R.color.AppleBlue
-//			NSLayoutConstraint.activate([
-//				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!),
-//				stack.leftAnchor.constraint(equalTo: (vc?.dialog.leftAnchor)!),
-//				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!),
-//				stack.rightAnchor.constraint(equalTo: (vc?.dialog.rightAnchor)!),
-//				])
-//			self.helpScrollView.delegate = self
-		}
+		let viewC = Assistance()
+		viewC.array = R.array.help_product_list_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{

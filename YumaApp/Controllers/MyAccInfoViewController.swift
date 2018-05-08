@@ -233,8 +233,29 @@ class MyAccInfoViewController: UIViewController
 			self.present(vc!, animated: true, completion: nil)
 			vc?.titleLbl.text = R.string.changePass
 			vc?.button.setTitle(R.string.dismiss.uppercased(), for: .normal)
-//			Bundle.main.loadNibNamed("ChangePasswordViewController", owner: vc, options: nil)
-			let changePasswordVC = ChangePasswordViewController()
+			let existing = InputField(frame: CGRect(x: 0, y: (vc?.titleLbl.frame.height)!, width: (vc?.dialog.frame.width)!, height: 110))
+			//existing.translatesAutoresizingMaskIntoConstraints = false
+			existing.label.text = R.string.exist
+			let newpw = InputField(frame: CGRect(x: 0, y: 120, width: (vc?.dialog.frame.width)!, height: 110))
+			//newpw.translatesAutoresizingMaskIntoConstraints = false
+			newpw.label.text = R.string.newPW
+			let verify = InputField(frame: CGRect(x: 0, y: 240, width: (vc?.dialog.frame.width)!, height: 110))
+			//verify.translatesAutoresizingMaskIntoConstraints = false
+			verify.label.text = R.string.verify
+			let stack = UIStackView(arrangedSubviews: [existing, newpw, verify])
+			//stack.translatesAutoresizingMaskIntoConstraints = false
+			stack.spacing = 5
+			vc?.dialog.addSubview(stack)
+//			vc?.dialog.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: stack)
+//			vc?.dialog.addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: stack)
+//			NSLayoutConstraint.activate([
+//				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!, constant: 5),
+//				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!, constant: 5),
+//				stack.leadingAnchor.constraint(equalTo: (vc?.dialog.leadingAnchor)!, constant: 5),
+//				stack.trailingAnchor.constraint(equalTo: (vc?.dialog.trailingAnchor)!, constant: 5),
+//				])
+			//			Bundle.main.loadNibNamed("ChangePasswordViewController", owner: vc, options: nil)
+			//let changePasswordVC = ChangePasswordViewController()
 //			vc?.dialog.addSubview(changePasswordVC.contentView)
 //			chanePasswordVC.contentView.frame = (vc?.dialog.bounds)!
 //			chanePasswordVC.contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -625,78 +646,11 @@ class MyAccInfoViewController: UIViewController
 
 	@IBAction func navHelpAct(_ sender: Any)
 	{
-		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-		let vc = sb.instantiateInitialViewController() as? PickerViewController
-		if vc != nil
-		{
-			self.present(vc!, animated: false, completion: nil)
-//			vc?.dialog.cornerRadius = 20
-			vc?.titleLbl.text = R.string.help
-			vc?.button.setTitle(R.string.dismiss.uppercased(), for: .normal)
-			self.helpPageControl.numberOfPages = R.array.help_cart_guide.count
-			self.helpPageControl.currentPageIndicatorTintColor = R.color.YumaRed
-			self.helpPageControl.pageIndicatorTintColor = R.color.YumaYel
-//			print("pageControl = \(self.helpPageControl.frame.origin.x)x\(self.helpPageControl.frame.origin.y) \(self.helpPageControl.frame.width)x\(self.helpPageControl.frame.height)")
-//			let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: (vc?.dialog.frame.width)!, height: (vc?.dialog.frame.height)!-100))
-			//self.helpScrollView.backgroundColor = R.color.AppleBlue
-//			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * self.helpScrollView.frame.width
-			self.helpScrollView.contentSize.width = CGFloat(self.helpPageControl.numberOfPages) * (vc?.dialog.frame.width)!
-			self.helpScrollView.contentSize.height = (vc?.dialog.frame.height)!-(vc?.titleLbl.frame.height)!-(vc?.button.frame.height)!-40	//- height of pageControl (estimate=40)
-			print("scrollView = \(self.helpScrollView.frame.origin.x)x\(self.helpScrollView.frame.origin.y) \(self.helpScrollView.frame.width)x\(self.helpScrollView.frame.height) \(self.helpScrollView.contentSize.width)x\(self.helpScrollView.contentSize.height)")
-			for i in 0 ..< R.array.help_cart_guide.count
-			{
-//				let view = UIView(frame: CGRect(x: 5+(CGFloat(i)*self.helpScrollView.frame.width), y: 0, width: self.helpScrollView.frame.width-10, height: self.helpScrollView.frame.height))
-				let view = HelpCell(frame: CGRect(x: 5+(CGFloat(i)*(vc?.dialog.frame.width)!), y: 0, width: (vc?.dialog.frame.width)!-10, height: self.helpScrollView.contentSize.height))
-				print("view=x: \(5+(CGFloat(i)*(vc?.dialog.frame.width)!)), y: 0, width: \((vc?.dialog.frame.width)!-10), height: \(self.helpScrollView.contentSize.height)")
-				//view.translatesAutoresizingMaskIntoConstraints = false
-				//view.backgroundColor = R.color.AppleBlue
-				let label = UILabel(frame: CGRect(origin: CGPoint(x: (vc?.dialog.frame.origin.x)!, y: (vc?.dialog.frame.origin.y)!), size: CGSize(width: (vc?.dialog.frame.width)!, height: self.helpScrollView.contentSize.height)))
-				label.sizeToFit()
-	//			label.translatesAutoresizingMaskIntoConstraints = false
-				label.backgroundColor = R.color.AppleBlue
-				label.text = R.array.help_cart_guide[i]
-				self.helpScrollView.addSubview(label)
-	//			view.addSubview(label)
-	//			NSLayoutConstraint.activate([
-	//				label.topAnchor.constraint(equalTo: view.topAnchor),
-	//				label.leftAnchor.constraint(equalTo: view.leftAnchor),
-	//				label.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-	//				label.rightAnchor.constraint(equalTo: view.rightAnchor),
-	//				])
-				view.TextLine.text = R.array.help_cart_guide[i]
-				view.TextLine.sizeToFit()
-				self.helpScrollView.addSubview(view)
-			}
-			let testView = UIView(frame: CGRect(x: 100, y: 100, width: 200, height: 200))
-			testView.translatesAutoresizingMaskIntoConstraints = false
-			testView.backgroundColor = R.color.AppleBlue
-			let stack = UIStackView(arrangedSubviews: [self.helpPageControl, self.helpScrollView, testView])
-//			self.helpScrollView.widthAnchor.constraint(equalToConstant: stack.frame.width).isActive = true
-			stack.axis = .vertical
-			stack.alignment = .center
-			stack.distribution = .fill
-			vc?.view.insertSubview(stack, at: 1)
-			stack.translatesAutoresizingMaskIntoConstraints = false
-			//stack.backgroundColor = R.color.AppleBlue
-			NSLayoutConstraint.activate([
-				stack.topAnchor.constraint(equalTo: (vc?.titleLbl.bottomAnchor)!),
-				stack.leftAnchor.constraint(equalTo: (vc?.dialog.leftAnchor)!),
-				stack.bottomAnchor.constraint(equalTo: (vc?.button.topAnchor)!),
-				stack.rightAnchor.constraint(equalTo: (vc?.dialog.rightAnchor)!),
-				])
-//			print("stack = \(stack.frame.origin.x)x\(stack.frame.origin.y) \(stack.frame.width)x\(stack.frame.height)")
-//			print("pageControl = \(self.helpPageControl.frame.origin.x)x\(self.helpPageControl.frame.origin.y) \(self.helpPageControl.frame.width)x\(self.helpPageControl.frame.height)")
-			print("vc = \((vc?.dialog.frame.origin.x)!)x\((vc?.dialog.frame.origin.y)!) \((vc?.dialog.frame.width)!)x\((vc?.dialog.frame.height)!)")
-//			print("title.height=\((vc?.titleLbl.frame.height)!)")
-			print("helpPageControl=\(self.helpPageControl.frame.height)")
-//			print("button.height=\((vc?.button.frame.height)!)")
-			self.helpScrollView.delegate = self
-//			vc?.button.addTarget(self, action: #selector(writePickedValue(_:)), for: .touchUpInside)
-		}
-		else
-		{
-			print("Cannot invoke initial Help controller")
-		}
+		let viewC = Assistance()
+		viewC.array = R.array.help_my_account_information_guide
+		viewC.modalTransitionStyle = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	
 }

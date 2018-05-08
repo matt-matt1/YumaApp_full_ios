@@ -10,6 +10,8 @@ import UIKit
 
 class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFlowLayout
 {
+	let store = DataStore.sharedInstance
+	var customer: Customer?
 	var checkoutCollection = self
 	lazy var menuBar: MenuBar =
 		{
@@ -30,6 +32,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		setupNavigation()
 		setupCollectionView()
 		setupMenuBar()
+		getCustomer()
     }
 
 
@@ -83,6 +86,51 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		navigationItem.leftBarButtonItems = [navClose]
 		navigationItem.title = R.string.Chkout
 		navigationController?.navigationBar.isTranslucent = false
+	}
+
+	
+	private func getCustomer()
+	{
+		if store.customer == nil || store.customer?.lastname == ""
+		{
+			//			if store.customer.count > 0
+			//			{
+			//				//id_customer = Int(store.customer[0].id_customer!) ?? 3
+			//				id_customer = Int(store.customer[0].id_customer!)!
+			//			}
+			//			else
+			//			{
+			//				id_customer = 3
+			//			}
+			let caStr = UserDefaults.standard.string(forKey: "Customer")
+			//			let caStr = UserDefaults.standard.string(forKey: "CustomerAddresses")
+			//			if caStr == ""
+			//			{
+			//				let loading = UIViewController.displaySpinner(onView: self.view)
+			//				//if store.addresses.count == 0
+			//				store.
+			//			}
+			//			else
+			//			{
+			var decoded: Customer
+			if caStr != nil
+			{
+				do
+				{
+					decoded = try JSONDecoder().decode(Customer.self, from: (caStr?.data(using: .utf8))!)
+					self.customer = decoded
+					store.customer = decoded
+				}
+				catch let jsonErr
+				{
+					print(jsonErr)
+				}
+			}
+		}
+		else
+		{
+			self.customer = store.customer
+		}
 	}
 
 
@@ -144,7 +192,11 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 	@objc func doHelp(_ sender: UITapGestureRecognizer)
 	{
-		//
+		let viewC = Assistance()
+		viewC.array = R.array.help_checkout_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	
 }

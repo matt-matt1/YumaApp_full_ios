@@ -173,9 +173,12 @@ class CheckoutStepsCell: UICollectionViewCell
 			done.append(1)
 			addSubview(label)
 			addSubview(boldLabel)
-			addConstraintsWithFormat(format: "H:|-\(space)-[v0]-\(space)-[v1]", views: label, boldLabel)
-			addConstraintsWithFormat(format: "V:|-\(space)-[v0(50)]", views: label)
-			addConstraintsWithFormat(format: "V:|-\(space)-[v0(50)]", views: boldLabel)
+			addConstraintsWithFormat(format: "H:|-10-[v0]", views: label)
+			addConstraintsWithFormat(format: "H:|-20-[v0]", views: boldLabel)
+			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1]", views: label, boldLabel)
+			boldLabel.isUserInteractionEnabled = true
+			boldLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doProfile(_:))))
+			//addConstraintsWithFormat(format: "V:|-10-[v0(50)]", views: boldLabel)
 			label.text = R.string.logAs
 			if !(store.customer?.lastname.isEmpty)! && !(store.customer?.firstname.isEmpty)!
 			{
@@ -193,9 +196,10 @@ class CheckoutStepsCell: UICollectionViewCell
 			{
 				boldLabel.text = store.customer?.email
 			}
-			addConstraintsWithFormat(format: "V:|-100-[v0(50)]", views: signoutLabel)
+			addConstraintsWithFormat(format: "V:|-\(space*2)-[v0(50)]", views: signoutLabel)
 			signoutLabel.text = R.string.SignOut
-			addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
+			signoutLabel.isUserInteractionEnabled = true
+			signoutLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
 		}
 		else	//	Not logged in
 		{
@@ -406,7 +410,7 @@ class CheckoutStepsCell: UICollectionViewCell
 	}
 
 
-	@objc func doWithoutMore(_ sender: UITapGestureRecognizer)
+	@objc func doWithoutMore(_ sender: AnyObject)
 	{
 		print(R.string.withoutMore)
 		let checkoutCollection = CheckoutCollection()
@@ -444,7 +448,17 @@ class CheckoutStepsCell: UICollectionViewCell
 	}
 
 
-	@objc func doSignout(_ sender: UITapGestureRecognizer)
+	@objc func doProfile(_ sender: AnyObject)
+	{
+		print(R.string.Info)
+		let view = sender.view as UIView
+		store.flexView(view: view)
+		let vc = MyAccInfoViewController()
+		//self.present(vc)
+	}
+
+
+	@objc func doSignout(_ sender: AnyObject)
 	{
 		print(R.string.SignOut)
 		let checkoutCollection = CheckoutCollection()

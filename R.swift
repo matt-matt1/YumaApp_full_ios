@@ -52,31 +52,74 @@ struct R {
 		]
 	}
 	
-	struct array {
+	struct array
+	{
+		static let help_my_account_guide: [String] = [
+			"Here are some the choices to make:",
+			"Press \"\(R.string.Info)\" to see your details, like a profile",
+			"Press \"\(R.string.Addrs)\" to see each address, if any, related to your account",
+			"Press \"\(R.string.OrdHist)\" to see the orders, if any, related to your account",
+			"Press \"\(R.string.CreditSlips)\" to see the credit slips, if any, related to your account",
+			"Press \"\(R.string.SignOut)\" to have the app forget the logged-in user, remove your details for this session only"
+		]
+		
+		static let help_my_account_addresses_guide: [String] = [
+			"The addresses that belong to your account",
+			"Swipe left or right to view other addresses, if available",
+			"TIP:  The left pane has a preview; the right pane separates each line to edit"
+		]
+
+		static let help_my_account_order_history_guide: [String] = [
+			"Displays a table of the orders made, if any",
+			"Press \"\(R.string.details)\" to view more information",
+			"Press \"\(R.string.reorder)\" to place the whole order again"
+		]
+		
+		static let help_login_guide: [String] = [
+			"If you have an account with the store, enter your email address in the \"\(R.string.email)\" field and password in the \"\(R.string.txtPass)\" field, then press the \"\(R.string.login)\" button",
+			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app ask you to login next time",
+			"If you don't have an account with the store, press \"\(R.string.createAcc)\" to create a new account",
+			"If you have an account, but have forgotten your password, press \"\(R.string.forgotPW)\" and enter your email address"
+			
+		]
+
+		static let help_my_account_credit_slips_guide: [String] = [
+			"Displays a table of the credit slips, if any, available for redemsion, for product returned"
+		]
+
+		static let help_my_account_information_guide: [String] = [
+			"If logged-in, your details will be displayed; otherwise a blank form will be shown for creating a new user",
+			"Tap the password gray area and a box will appear for you to change or set your password"
+		]
+		
 		static let help_product_list_guide: [String] = [
 			"Swipe left or right to view products/services",
-			"TIP: The solid circle, above, represents the current item and outlines represent the others",
-			"Press the \"\(R.string.add2cart)\" button to copy this item to your cart",
-			"When finished, press the \"\(R.string.add2cart)\" to return to the previous page; or press \"(R.string.checkOut)\" to launch the Checkout facility"]
+			"TIP: Each item to your cart (right side) has a small yellow circle in the top left corner containing the quantity",
+			"Press the \"\(R.string.add2cart)\" button to place this item to your cart, if already in your cart, the quantity will be increased",
+			"When finished, press the \"\(R.string.checkOut)\" to finalize and pay"]
+		
 		static let help_cart_guide: [String] = [
 			"If the list of items is longer than the screen, the list can be scrolled by swiping up or down",
-			"Each item can be swiped left to reveal the item \"\(R.string.edit)\" button or right to reveal the item \"\(R.string.delete)\" button",
-			"TIP: The \"\(R.string.edit)\" button will allow you to modify the item quantity",
-			"When the list is complete and has the correct quantity for each item, \"\(R.string.next)\" is the next step"]
+			"Each item can be swiped left to reveal the item \"\(R.string.delete)\" button",//right to reveal the item \"\(R.string.edit)\" button or
+			//"TIP: The \"\(R.string.edit)\" button will allow you to modify the item quantity",
+			"When the list is complete and has the correct quantity for each item, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		static let help_checkout_guide: [String] = [
-			"There are some simple steps to complete for the items in your cart to be dispatched",
+			"There are some simple steps to complete for the items in your cart to be dispatched:",
 			"Each step number is contained in the bar near the top; completed steps have a tick mark next to them",
-			"Instructions and options for each step is shown in the main panel in the page middle",
-			"The \"\(R.string.next)\" button will proceed to the next step to complete",
+			"Instructions and options for each step is shown in the main panel in the middle of the page",
+			"The \"\(R.string.cont)\" button will proceed to the next step to complete",
 			"When all steps are complete the item(s) are ready to be dispatched"]
+		
 		static let help_contact_us_guide: [String] = [
 			"This page details how we can contacted - phone, email and visit",
-			"If you have internet facilities, a map will be displayed with our location",
 			"The call button will place the number in your dialer",
 			"The email button will create a new message and set our email address as To address",
+			"A map will be displayed with our location",
+			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to us",
 			"The expand map button will, if you have internet facilities, display a map with our location",
-			"The map can be zoomed using the slider at the bottom, or press the plus and minus buttons"]
+			"The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
+		
 		static let help_home_page_guide: [String] = [
 			"Welcome to our store! This is the mobile interface for \(R.string.app_name)",
 			"A small slide-show of our products/services is in the middle, that can be pressed",

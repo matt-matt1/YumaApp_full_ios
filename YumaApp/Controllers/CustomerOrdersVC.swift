@@ -23,8 +23,18 @@ class CustomerOrdersVC: UIViewController
 	//	@IBOutlet weak var insertHere: UIStackView!
 	let store = DataStore.sharedInstance
 	var creditSlips: Bool = false
-	
-	
+	let scrollView2: UIScrollView = {
+		let v = UIScrollView()
+		v.translatesAutoresizingMaskIntoConstraints = false
+		v.backgroundColor = .cyan
+//		v.shadowColor = UIColor.darkGray
+//		v.shadowOffset = .zero
+//		v.shadowRadius = 5
+//		//v.shadowOpacity = 1
+		return v
+	}()
+
+
 	override func viewDidLoad()
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
@@ -328,6 +338,22 @@ class CustomerOrdersVC: UIViewController
 				})
 			}
 		}
+		
+		let inputField = InputField()
+		scrollView.addSubview(inputField)
+//		view.addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: inputField)
+//		view.addConstraintsWithFormat(format: "V:|-10-[v0]-10-|", views: inputField)
+		scrollView.addConstraint(NSLayoutConstraint(item: inputField, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1, constant: 0))
+		scrollView.addConstraint(NSLayoutConstraint(item: inputField, attribute: .left, relatedBy: .equal, toItem: scrollView, attribute: .left, multiplier: 1, constant: 0))
+		scrollView.addConstraint(NSLayoutConstraint(item: inputField, attribute: .right, relatedBy: .equal, toItem: scrollView, attribute: .right, multiplier: 1, constant: 0))
+		scrollView.addConstraint(NSLayoutConstraint(item: inputField, attribute: .height, relatedBy: .equal, toItem: scrollView, attribute: .height, multiplier: 1, constant: 0))
+		view.layoutIfNeeded()
+//		NSLayoutConstraint.activate([
+//			inputField.topAnchor.constraint(equalTo: scrollView.topAnchor),
+//			inputField.leftAnchor.constraint(equalTo: mainStack.leftAnchor),
+//			inputField.rightAnchor.constraint(equalTo: mainStack.rightAnchor),
+//			inputField.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor),
+//			])
 	}
 	
 	
@@ -422,7 +448,18 @@ class CustomerOrdersVC: UIViewController
 		)
 		//self.view.addSubview(myTable.buildView())
 //		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
-		let built = myTable.buildView()
+//		let sv = UIScrollView()
+//		sv.translatesAutoresizingMaskIntoConstraints = false
+		mainStack.addSubview(scrollView2)
+		NSLayoutConstraint.activate([
+			scrollView2.leftAnchor.constraint(equalTo: mainStack.leftAnchor, constant: 0),
+			scrollView2.topAnchor.constraint(equalTo: mainStack.topAnchor, constant: 5),
+			scrollView2.rightAnchor.constraint(equalTo: mainStack.rightAnchor, constant: 0),
+			scrollView2.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 5),
+			])
+		myTable.returnTable()
+		let built = myTable//.returnTable()//buildView()
+		//built.translatesAutoresizingMaskIntoConstraints = false
 		//built.sizeToFit()
 		//built.translatesAutoresizingMaskIntoConstraints = false
 		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
@@ -431,51 +468,73 @@ class CustomerOrdersVC: UIViewController
 //		let stack = UIStackView()
 //		stack.translatesAutoresizingMaskIntoConstraints = false
 //		stack.addArrangedSubview(built)
-//		scrollView.addSubview(stack)
+		//scrollView.addSubview(stack)
+		scrollView2.addSubview(built)
+		scrollView2.leadingAnchor.constraint(equalTo: built.leadingAnchor).isActive = true
+		scrollView2.topAnchor.constraint(equalTo: built.topAnchor).isActive = true
+		scrollView2.widthAnchor.constraint(equalTo: built.widthAnchor).isActive = true
+		scrollView2.heightAnchor.constraint(equalTo: built.heightAnchor).isActive = true
+		mainStack.heightAnchor.constraint(equalTo: scrollView2.heightAnchor, constant: 10).isActive = true
 		//insertHere.addArrangedSubview(built)
-		scrollView.addSubview(built)
+		//mainStack.addSubview(built)
+//		mainStack.translatesAutoresizingMaskIntoConstraints = false
+		//scrollView.translatesAutoresizingMaskIntoConstraints = false
+//		sv.addSubview(built)
+//		mainStack.addArrangedSubview(sv)
+//		mainStack.addConstraintsWithFormat(format: "H:|-10-[v0]", views: sv)
+//		mainStack.addConstraintsWithFormat(format: "V:|-10-[v0]", views: sv)
+//		mainStack.addConstraint(NSLayoutConstraint(item: built, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1, constant: 10))
+//		mainStack.addConstraint(NSLayoutConstraint(item: built, attribute: .left, relatedBy: .equal, toItem: scrollView, attribute: .left, multiplier: 1, constant: 10))
+//		view.addConstraint(NSLayoutConstraint(item: built, attribute: .height, relatedBy: .equal, toItem: scrollView, attribute: .height, multiplier: 1, constant: 0))
+//		view.addConstraint(NSLayoutConstraint(item: built, attribute: .top, relatedBy: .equal, toItem: mainStack, attribute: .top, multiplier: 1, constant: 10))
+//		view.addConstraint(NSLayoutConstraint(item: built, attribute: .left, relatedBy: .equal, toItem: mainStack, attribute: .left, multiplier: 1, constant: 10))
+//		sv.layoutIfNeeded()
+//		built.layoutIfNeeded()
+//		mainStack.layoutIfNeeded()
+//		view.layoutIfNeeded()
 //		scrollView.contentSize.width = built.frame.width
 //		mainStack.insertArrangedSubview(built, at: 0)
-		let gap = mainStack.subviews[0] as UIView
-		print("gap-x:\(gap.frame.origin.x), y:\(gap.frame.origin.y), w:\(gap.frame.width), h:\(gap.frame.height)")
-		let button = mainStack.subviews[2] as UIView
-		print("button-x:\(button.frame.origin.x), y:\(button.frame.origin.y), w:\(button.frame.width), h:\(button.frame.height)")
-		//	x:0.0, y:0.0, w:814.0, h:5.0
-		print("scrollView-x:\(scrollView.frame.origin.x), y:\(scrollView.frame.origin.y), w:\(scrollView.frame.width), h:\(scrollView.frame.height)")
-		//	x:0.0, y:81.0, w:814.0, h:10.0
 		print("mainStack-x:\(mainStack.frame.origin.x), y:\(mainStack.frame.origin.y), w:\(mainStack.frame.width), h:\(mainStack.frame.height)")
 		//	mainStack.subviews[1] x:0.0, y:10.0, w:87.0, h:30.0
 		//	mainStack.subviews[0] x:0.0, y:0.0, w:814.0, h:5.0
+		let gap = mainStack.subviews[0] as UIView
+		print("gap-x:\(gap.frame.origin.x), y:\(gap.frame.origin.y), w:\(gap.frame.width), h:\(gap.frame.height)")
+		print("error-x:\(errorView.frame.origin.x), y:\(errorView.frame.origin.y), w:\(errorView.frame.width), h:\(errorView.frame.height)")
+		print("scrollView-x:\(scrollView.frame.origin.x), y:\(scrollView.frame.origin.y), w:\(scrollView.frame.width), h:\(scrollView.frame.height)")
+		//	x:0.0, y:81.0, w:814.0, h:10.0
+		let button = mainStack.subviews[2] as UIView
+		print("button-x:\(button.frame.origin.x), y:\(button.frame.origin.y), w:\(button.frame.width), h:\(button.frame.height)")
+		//	x:0.0, y:0.0, w:814.0, h:5.0
 		//insertHere.translatesAutoresizingMaskIntoConstraints = false
 		//self.tableStack.addArrangedSubview(built)
 		//print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 		//tableStack.superview?.addSubview(built)
-		NSLayoutConstraint.activate([
-			built.topAnchor.constraint(equalTo: scrollView.topAnchor),
-			built.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-			built.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-			built.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-			
-		//	built.topAnchor.constraint(equalTo: gap.topAnchor, constant: 100),
-		//	built.leadingAnchor.constraint(equalTo: gap.leadingAnchor, constant: 100),
-			//built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor, constant: ),
-			//built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor, constant: ),
-			
-//			built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
-//			built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
-//			built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
-//			built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
-		
-//			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
-//			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
-//			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
-//			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
-			
-//			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
-//			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-//			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-//			stack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-		])
+//		NSLayoutConstraint.activate([
+//			built.topAnchor.constraint(equalTo: scrollView.topAnchor),
+//			built.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+//			built.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+//			built.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+//
+//		//	built.topAnchor.constraint(equalTo: gap.topAnchor, constant: 100),
+//		//	built.leadingAnchor.constraint(equalTo: gap.leadingAnchor, constant: 100),
+//			//built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor, constant: ),
+//			//built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor, constant: ),
+//
+////			built.topAnchor.constraint(equalTo: (tableStack.superview?.topAnchor)!),
+////			built.leadingAnchor.constraint(equalTo: (tableStack.superview?.leadingAnchor)!),
+////			built.bottomAnchor.constraint(equalTo: (tableStack.superview?.bottomAnchor)!),
+////			built.trailingAnchor.constraint(equalTo: (tableStack.superview?.trailingAnchor)!),
+//
+////			built.topAnchor.constraint(equalTo: insertHere.topAnchor),
+////			built.leadingAnchor.constraint(equalTo: insertHere.leadingAnchor),
+////			built.bottomAnchor.constraint(equalTo: insertHere.bottomAnchor),
+////			built.trailingAnchor.constraint(equalTo: insertHere.trailingAnchor),
+//
+////			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+////			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+////			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+////			stack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+//		])
 //		self.tableStack.layoutIfNeeded()
 //		tableStack.superview?.constraints.forEach({ (constraint) in
 //			if constraint.firstAnchor == NSLayoutAnchor.constraint(heightAnchor
@@ -684,6 +743,18 @@ class CustomerOrdersVC: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		if creditSlips
+		{
+			viewC.array = R.array.help_my_account_credit_slips_guide
+		}
+		else
+		{
+			viewC.array = R.array.help_my_account_order_history_guide
+		}
+		viewC.modalTransitionStyle = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	
 }

@@ -52,8 +52,15 @@ class MakeTable: UIView
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-	
+
+
+	func returnTable()
+	{
+		let table = buildView()
+		table.translatesAutoresizingMaskIntoConstraints = false
+		addSubview(table)
+	}
+
 	fileprivate func buildCell(row: Any, col: MyTableColumn) -> UILabel
 	{
 		let cellData = UILabel()
@@ -136,7 +143,7 @@ class MakeTable: UIView
 		{
 			colTitle.text = col?.headerText
 			//print("Label header=\(col?.headerText! ?? "")")
-			//colTitle.translatesAutoresizingMaskIntoConstraints = false
+			colTitle.translatesAutoresizingMaskIntoConstraints = false
 			if structure?.headerAttributes != nil && (structure?.headerAttributes?.count)! > 0
 			{
 				let attributeStr = NSAttributedString(string: colTitle.text!, attributes: structure?.headerAttributes)
@@ -152,7 +159,7 @@ class MakeTable: UIView
 			}
 		}
 		let colData = UIStackView()
-		//colData.translatesAutoresizingMaskIntoConstraints = false
+		colData.translatesAutoresizingMaskIntoConstraints = false
 		colData.axis = .vertical
 		colData.spacing = (structure?.dataRowSpacing)!
 		//for cell in DataStore.sharedInstance.orders//ordData
@@ -168,7 +175,7 @@ class MakeTable: UIView
 		//		}
 		let column = UIStackView(arrangedSubviews: [colTitle, colData])//UILabel + UIStack
 		column.spacing = (structure?.headerRowGap)!
-		//column.translatesAutoresizingMaskIntoConstraints = false
+		column.translatesAutoresizingMaskIntoConstraints = false
 		column.axis = .vertical
 		return column
 	}
@@ -177,11 +184,11 @@ class MakeTable: UIView
 	func buildView() -> UIView
 	{
 		let table = UIView()
-		//table.translatesAutoresizingMaskIntoConstraints = false
+		table.translatesAutoresizingMaskIntoConstraints = false
 		//		let type = String(describing: data.self)
 		//		print("type is \(type)|")
 		let tblCaption = UILabel()
-		//tblCaption.translatesAutoresizingMaskIntoConstraints = false
+		tblCaption.translatesAutoresizingMaskIntoConstraints = false
 		if structure?.caption != nil
 		{
 			//print("table caption:\(tblCaption.text)")
@@ -193,7 +200,7 @@ class MakeTable: UIView
 			}
 		}
 		let tblColumns = UIStackView()
-		//tblColumns.translatesAutoresizingMaskIntoConstraints = false
+		tblColumns.translatesAutoresizingMaskIntoConstraints = false
 		tblColumns.axis = .horizontal
 		tblColumns.spacing = (structure?.columnSpacing)!
 		//		let keys = Orders().propertyNames()

@@ -70,6 +70,7 @@ class MyAccAddr2ViewController: UIViewController
 	var id_customer = 3
 
 
+	// MARK: Overrides
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
@@ -116,8 +117,9 @@ class MyAccAddr2ViewController: UIViewController
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
-	
+
+
+	// MARK: Methods
 	func getAddress()
 	{
 		if store.addresses.count < 1
@@ -309,6 +311,7 @@ class MyAccAddr2ViewController: UIViewController
 	}
 ////////end
 	
+	// MARK: Actions
 	@IBAction func leftButtonLeftAct(_ sender: Any)
 	{
 		self.address = self.addresses[pageControl.currentPage]
@@ -421,6 +424,11 @@ class MyAccAddr2ViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_my_account_addresses_guide
+		viewC.modalTransitionStyle = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{

@@ -491,6 +491,14 @@ class ContactUsViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_contact_us_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
+
+		return
+		
 		let vc = HelpVC()// as! helpVC
 		vc.backgroundColor = .red
 		vc.title.text = "hi"

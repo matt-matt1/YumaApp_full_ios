@@ -45,6 +45,9 @@
 		CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF384BFE20604D3E005CCD57 /* ScoialMedia.swift */; };
 		CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A620419A8C00AE21BC /* SwipingController.swift */; };
 		CF4051A92041A15600AE21BC /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A82041A15600AE21BC /* PageCell.swift */; };
+		CF44384F209F44A20028443B /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF44384E209F44A20028443B /* InputField.swift */; };
+		CF443851209FBF850028443B /* AssistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF443850209FBF850028443B /* AssistanceController.swift */; };
+		CF443853209FC1BF0028443B /* AssistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF443852209FC1BF0028443B /* AssistanceCell.swift */; };
 		CF453EA1206ABD3E00E9FCE1 /* CustomizableAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453E9E206ABD3C00E9FCE1 /* CustomizableAlertController.swift */; };
 		CF453EA2206ABD3E00E9FCE1 /* UIAlertAction+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453E9F206ABD3D00E9FCE1 /* UIAlertAction+Extension.swift */; };
 		CF453EA3206ABD3E00E9FCE1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */; };
@@ -241,6 +244,9 @@
 		CF384BFE20604D3E005CCD57 /* ScoialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoialMedia.swift; sourceTree = "<group>"; };
 		CF4051A620419A8C00AE21BC /* SwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingController.swift; sourceTree = "<group>"; };
 		CF4051A82041A15600AE21BC /* PageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
+		CF44384E209F44A20028443B /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
+		CF443850209FBF850028443B /* AssistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistanceController.swift; sourceTree = "<group>"; };
+		CF443852209FC1BF0028443B /* AssistanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistanceCell.swift; sourceTree = "<group>"; };
 		CF453E9E206ABD3C00E9FCE1 /* CustomizableAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizableAlertController.swift; sourceTree = "<group>"; };
 		CF453E9F206ABD3D00E9FCE1 /* UIAlertAction+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+Extension.swift"; sourceTree = "<group>"; };
 		CF453EA0206ABD3E00E9FCE1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -494,8 +500,11 @@
 				CF6019EC2049D61700217025 /* AddrCollectionViewCell.swift */,
 				CFF3CFB12034DB7800BEDEE4 /* AddressCollectionView.swift */,
 				CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */,
+				CF443852209FC1BF0028443B /* AssistanceCell.swift */,
+				CF331F60209A3DC100992F92 /* BaseCell.swift */,
 				CF904E422057FD190086068E /* CartCell.swift */,
 				CF5C730A2049B338008763DB /* CartViewCell.swift */,
+				CF331F62209A519300992F92 /* CheckoutStepsCell.swift */,
 				CF4BD96220813142000B2ED6 /* DebugCollectionViewCell.swift */,
 				CF4A953A2082624D004C0733 /* DebugTableViewCell.swift */,
 				CF78CC0C20840A380030789D /* Debug2TableViewCell.swift */,
@@ -506,15 +515,13 @@
 				CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */,
 				CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */,
 				CF4823E52076C80D00DF3DB8 /* MakeTable.swift */,
-				CF4051A82041A15600AE21BC /* PageCell.swift */,
-				CF7E866F202CFB920014B787 /* ProductViewCell.swift */,
-				CFF4A7E4204EE5F9005AE5C8 /* ServicesCell.swift */,
 				CF331F5C209A3D5400992F92 /* MenuBar.swift */,
 				CF331F5E209A3D8200992F92 /* MenuCell.swift */,
-				CF331F60209A3DC100992F92 /* BaseCell.swift */,
-				CF331F62209A519300992F92 /* CheckoutStepsCell.swift */,
-				CF5239A5209C9A9700227BB6 /* StepsCell.swift */,
+				CF4051A82041A15600AE21BC /* PageCell.swift */,
+				CF7E866F202CFB920014B787 /* ProductViewCell.swift */,
 				CF732EEB209DE918008A8741 /* RadioGroup.swift */,
+				CFF4A7E4204EE5F9005AE5C8 /* ServicesCell.swift */,
+				CF5239A5209C9A9700227BB6 /* StepsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -687,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */,
+				CF443850209FBF850028443B /* AssistanceController.swift */,
 				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
 				CF331F5A209A3B6200992F92 /* CheckoutCollection.swift */,
 				CF82D83D2098C81700B8A65A /* CheckoutTabsViewController.swift */,
@@ -703,6 +711,7 @@
 				CFC1D1F9203B442500343B25 /* ForgotPWViewController.swift */,
 				CF7E865F202A44950014B787 /* HeaderController.swift */,
 				CF50A3E1207BFAC2008749F0 /* HelpVC.swift */,
+				CF44384E209F44A20028443B /* InputField.swift */,
 				CF7E8667202B88570014B787 /* LoginViewController.swift */,
 				CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */,
 				CF9231C02035FF2900D44BB6 /* MyAccAddrViewController.swift */,
@@ -1060,6 +1069,7 @@
 				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
 				CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */,
 				CF72A5532072D9C500A86B8A /* CheckoutStep2ViewController.swift in Sources */,
+				CF44384F209F44A20028443B /* InputField.swift in Sources */,
 				CF50A3EA207C22ED008749F0 /* NotifyExtention.swift in Sources */,
 				CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */,
 				CFAFC0EB201F9142002CBC1B /* Slides.swift in Sources */,
@@ -1124,6 +1134,7 @@
 				CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */,
 				CF60CACD208E3CEE00B6D0EE /* ProductCustomizationFields.swift in Sources */,
 				CF601A20204AEC6A00217025 /* Taxes.swift in Sources */,
+				CF443851209FBF850028443B /* AssistanceController.swift in Sources */,
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
 				CF63DD32206423BE00025007 /* AlertModal.swift in Sources */,
@@ -1190,6 +1201,7 @@
 				CF9231C22035FF2900D44BB6 /* MyAccAddrViewController.swift in Sources */,
 				CF60CAC1208E1EAF00B6D0EE /* Employees.swift in Sources */,
 				CF126942204C7B76008EFD04 /* Images.swift in Sources */,
+				CF443853209FC1BF0028443B /* AssistanceCell.swift in Sources */,
 				CF732EEC209DE918008A8741 /* RadioGroup.swift in Sources */,
 				CF126944204C8506008EFD04 /* CartRules.swift in Sources */,
 			);

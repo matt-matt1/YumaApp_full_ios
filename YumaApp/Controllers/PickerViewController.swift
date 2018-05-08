@@ -38,6 +38,22 @@ class PickerViewController: UIViewController
 		//onSelected
 		self.dismiss(animated: false, completion: nil)
 	}
-	
 
+}
+
+
+extension PickerViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+{
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+	{
+		return R.array.help_cart_guide.count
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+	{
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "helpCellId", for: indexPath)
+		return cell
+	}
+	
+	//
 }

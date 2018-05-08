@@ -760,13 +760,13 @@
                                                                                                         <rect key="frame" x="10" y="2" width="644" height="46"/>
                                                                                                         <subviews>
                                                                                                             <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Amt-UM-i6a">
-                                                                                                                <rect key="frame" x="0.0" y="0.0" width="603.5" height="46"/>
+                                                                                                                <rect key="frame" x="0.0" y="0.0" width="605.5" height="46"/>
                                                                                                                 <color key="textColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                                                                 <textInputTraits key="textInputTraits"/>
                                                                                                             </textField>
                                                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[ - ]" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuM-JM-ino">
-                                                                                                                <rect key="frame" x="608.5" y="0.0" width="35.5" height="46"/>
+                                                                                                                <rect key="frame" x="610.5" y="0.0" width="33.5" height="46"/>
                                                                                                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="24"/>
                                                                                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                                 <nil key="highlightedColor"/>

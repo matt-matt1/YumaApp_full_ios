@@ -34,13 +34,20 @@ class MyAccOHViewController: UIViewController
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
+
+
+	// MARK: Actions
 	@IBAction func navCloseAct(_ sender: Any)
 	{
 		self.dismiss(animated: false, completion: nil)
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_my_account_order_history_guide
+		viewC.modalTransitionStyle = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	
 }
