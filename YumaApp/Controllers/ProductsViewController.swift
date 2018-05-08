@@ -679,6 +679,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //			copiedView.addSubview(sv.copyView())
 //		}
 //		copiedView.alpha = 0.8
+		self.putItemInCart()
 		return
 		let animateView = self.scrollView.subviews[pageControl.currentPage+2].subviews[0].subviews[0]
 		//let animateView = (prodView.subviews.first?.subviews.first)!

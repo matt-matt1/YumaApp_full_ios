@@ -115,7 +115,10 @@ class LoginViewController: UIViewController
 				let ud = UserDefaults.standard.string(forKey: "Customer")
 				if ud != nil
 				{
-					let _ = UIViewController.displaySpinner(onView: self.view)
+					OperationQueue.main.addOperation
+					{
+						let _ = UIViewController.displaySpinner(onView: self.view!)
+					}
 					let dataStr = ud?.data(using: .utf8)
 					//UIViewController.removeSpinner(spinner: sv)
 					do
@@ -665,12 +668,13 @@ class LoginViewController: UIViewController
 	@objc func swapout()
 	{
 		OperationQueue.main.addOperation
-			{
-				weak var presentingViewController = self.presentingViewController
-				self.dismiss(animated: false, completion: {
-					presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
-				})
-			}
+		{
+			weak var presentingViewController = self.presentingViewController
+			self.dismiss(animated: false, completion: {
+//				let _ = UIViewController.displaySpinner(onView: (presentingViewController?.view)!)
+				presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
+			})
+		}
 	}
 	
 	

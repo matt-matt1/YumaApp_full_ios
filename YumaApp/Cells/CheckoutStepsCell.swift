@@ -16,12 +16,12 @@ class CheckoutStepsCell: UICollectionViewCell
 	var curr = 1
 	var done: [Int] = []
 	let label: UILabel =
-		{
-			let view = UILabel()
-			view.translatesAutoresizingMaskIntoConstraints = false
-			view.textColor = UIColor.darkGray
-			return view
-		}()
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.textColor = UIColor.darkGray
+		return view
+	}()
 	let boldLabel: UILabel =
 	{
 		let view = UILabel()
@@ -91,8 +91,8 @@ class CheckoutStepsCell: UICollectionViewCell
 		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		return view
 	}()
-
-
+	
+	
 	// MARK: Overrides
 	override init(frame: CGRect)
 	{
@@ -133,8 +133,8 @@ class CheckoutStepsCell: UICollectionViewCell
 		cont.isUserInteractionEnabled = true
 		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
 	}
-
-
+	
+	
 	private func setupBackground()
 	{
 		let bg = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -158,8 +158,8 @@ class CheckoutStepsCell: UICollectionViewCell
 			panel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			])
 	}
-
-
+	
+	
 	private func drawStep1Personal()
 	{
 		curr = 1
@@ -173,12 +173,11 @@ class CheckoutStepsCell: UICollectionViewCell
 			done.append(1)
 			addSubview(label)
 			addSubview(boldLabel)
+			//addConstraintsWithFormat(format: "H:|-\(space)-[v0]-\(space)-[v1]", views: label, boldLabel)
 			addConstraintsWithFormat(format: "H:|-10-[v0]", views: label)
 			addConstraintsWithFormat(format: "H:|-20-[v0]", views: boldLabel)
-			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1]", views: label, boldLabel)
-			boldLabel.isUserInteractionEnabled = true
-			boldLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doProfile(_:))))
-			//addConstraintsWithFormat(format: "V:|-10-[v0(50)]", views: boldLabel)
+			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1(50)]-\(space)-[v2]", views: label, boldLabel, signoutLabel)
+			//addConstraintsWithFormat(format: "V:|-\(space)", views: boldLabel)
 			label.text = R.string.logAs
 			if !(store.customer?.lastname.isEmpty)! && !(store.customer?.firstname.isEmpty)!
 			{
@@ -196,10 +195,9 @@ class CheckoutStepsCell: UICollectionViewCell
 			{
 				boldLabel.text = store.customer?.email
 			}
-			addConstraintsWithFormat(format: "V:|-\(space*2)-[v0(50)]", views: signoutLabel)
+			//addConstraintsWithFormat(format: "V:|-100-[v0(50)]", views: signoutLabel)
 			signoutLabel.text = R.string.SignOut
-			signoutLabel.isUserInteractionEnabled = true
-			signoutLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
+			addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
 		}
 		else	//	Not logged in
 		{
@@ -208,7 +206,7 @@ class CheckoutStepsCell: UICollectionViewCell
 			//button.addSubview(signoutLabel)
 			//button.setTitle(R.string.login.uppercased(), for: .normal)
 			//addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doLogin(_:))))
-//			button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doLogin)))
+			//			button.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doLogin)))
 			//signoutLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doLogin)))
 			signoutLabel.isUserInteractionEnabled = true
 			signoutLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doLogin(_:))))
@@ -245,16 +243,16 @@ class CheckoutStepsCell: UICollectionViewCell
 			//addConstraint(NSLayoutConstraint(item: switchRow, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 			addConstraint(NSLayoutConstraint(item: lineOr, attribute: .centerY, relatedBy: .equal, toItem: line, attribute: .centerY, multiplier: 1, constant: 0))
 			addConstraint(NSLayoutConstraint(item: lineOr, attribute: .centerX, relatedBy: .equal, toItem: line, attribute: .centerX, multiplier: 1, constant: 0))
-//			addConstraint(NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+			//			addConstraint(NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		}
-//		addSubview(cont)
-//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-//		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
+		//		addSubview(cont)
+		//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+		//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+		//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		//		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 	}
-
-
+	
+	
 	private func drawStep2Addreses()
 	{
 		subviews.forEach { (view) in
@@ -278,13 +276,13 @@ class CheckoutStepsCell: UICollectionViewCell
 		addSubview(collectionView)
 		addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: collectionView)
 		addConstraintsWithFormat(format: "V:|-100-[v0(50)]-80-|", views: collectionView)
-//		addSubview(cont)
-//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		//		addSubview(cont)
+		//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+		//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+		//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
-
-
+	
+	
 	private func drawStep3Shipping()
 	{
 		subviews.forEach { (view) in
@@ -308,8 +306,8 @@ class CheckoutStepsCell: UICollectionViewCell
 		addConstraintsWithFormat(format: "H:|-10-[v0]", views: table)
 		addConstraintsWithFormat(format: "V:|-75-[v0]", views: table)
 	}
-
-
+	
+	
 	private func drawStep4Payment()
 	{
 		subviews.forEach { (view) in
@@ -336,15 +334,15 @@ class CheckoutStepsCell: UICollectionViewCell
 		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
 		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
-
-
+	
+	
 	required init?(coder aDecoder: NSCoder)
 	{
 		super.init(coder: aDecoder)
 		setupContents(0)
 	}
-
-
+	
+	
 	// MARK: Actions
 	@objc func doCont(_ sender: UITapGestureRecognizer)
 	{
@@ -408,83 +406,73 @@ class CheckoutStepsCell: UICollectionViewCell
 			break
 		}
 	}
-
-
-	@objc func doWithoutMore(_ sender: AnyObject)
+	
+	
+	@objc func doWithoutMore(_ sender: UITapGestureRecognizer)
 	{
 		print(R.string.withoutMore)
 		let checkoutCollection = CheckoutCollection()
 		OperationQueue.main.addOperation
-		{
-			let alert = 					UIAlertController(title: nil, message: R.string.withoutMore, preferredStyle: .alert)
-			let coloredBG = 				UIView()
-			let blurFx = 					UIBlurEffect(style: .dark)
-			let blurFxView = 				UIVisualEffectView(effect: blurFx)
-			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-			alert.view.superview?.backgroundColor = R.color.YumaRed
-			alert.view.shadowColor = 		R.color.YumaDRed
-			alert.view.shadowOffset = 		.zero
-			alert.view.shadowRadius = 		5
-			alert.view.shadowOpacity = 		1
-			alert.view.backgroundColor = 	R.color.YumaYel
-			alert.view.cornerRadius = 		15
-			coloredBG.backgroundColor = 	R.color.YumaRed
-			coloredBG.alpha = 				0.4
-			coloredBG.frame = 				checkoutCollection.view.bounds
-			checkoutCollection.view.addSubview(coloredBG)
-			blurFxView.frame = 				checkoutCollection.view.bounds
-			blurFxView.alpha = 				0.5
-			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-			checkoutCollection.view.addSubview(blurFxView)
-			alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-				coloredBG.removeFromSuperview()
-				blurFxView.removeFromSuperview()
-			}))
-			checkoutCollection.present(alert, animated: true, completion:
 			{
-			})
+				let alert = 					UIAlertController(title: nil, message: R.string.withoutMore, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				checkoutCollection.view.bounds
+				checkoutCollection.view.addSubview(coloredBG)
+				blurFxView.frame = 				checkoutCollection.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				checkoutCollection.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				checkoutCollection.present(alert, animated: true, completion:
+					{
+				})
 		}
 	}
-
-
-	@objc func doProfile(_ sender: AnyObject)
-	{
-		print(R.string.Info)
-		let view = sender.view as UIView
-		store.flexView(view: view)
-		let vc = MyAccInfoViewController()
-		//self.present(vc)
-	}
-
-
-	@objc func doSignout(_ sender: AnyObject)
+	
+	
+	@objc func doSignout(_ sender: UITapGestureRecognizer)
 	{
 		print(R.string.SignOut)
 		let checkoutCollection = CheckoutCollection()
 		store.logout(checkoutCollection, presentingViewController: checkoutCollection.self)
 	}
-
-
+	
+	
 	@objc func doLogin(_ sender: AnyObject)
 	{
 		print(R.string.login)
 		//let checkoutCollection = CheckoutCollection()
 		let view = sender.view as UIView
 		store.flexView(view: view)
-//		sender.view?.backgroundColor = R.color.YumaRed
-		let spin = UIViewController.displaySpinner(onView: self.contentView/*checkoutCollection.view*/)
+		//		sender.view?.backgroundColor = R.color.YumaRed
+//		let spin = UIViewController.displaySpinner(onView: self.contentView/*checkoutCollection.view*/)
 		//		UIView.animate(withDuration: 1, animations:
 		//			{
 		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		//		})
-//		let root = CheckoutCollection(collectionViewLayout: UICollectionViewFlowLayout())
-//		root.present(LoginViewController(), animated: false, completion: (() -> Void)?
-//			{
-//				UIViewController.removeSpinner(spinner: spin)
-//				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-//				//				sender.view?.backgroundColor = UIColor.white
-//			})
+		//		let root = CheckoutCollection(collectionViewLayout: UICollectionViewFlowLayout())
+		//		root.present(LoginViewController(), animated: false, completion: (() -> Void)?
+		//			{
+		//				UIViewController.removeSpinner(spinner: spin)
+		//				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+		//				//				sender.view?.backgroundColor = UIColor.white
+		//			})
 		//self.present
 	}
 }
@@ -505,5 +493,5 @@ extension CheckoutStepsCell: UICollectionViewDelegate, UICollectionViewDataSourc
 		cell.addressEdit.text = store.formatAddress(store.addresses[indexPath.item])
 		return cell
 	}
-
+	
 }

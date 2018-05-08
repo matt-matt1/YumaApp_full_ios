@@ -43,7 +43,7 @@ class DebugViewController: UIViewController
 			ResourceStringAndCount(name: "categories", count: store.categories.count),
 			ResourceStringAndCount(name: "combinations", count: store.combinations.count),
 			ResourceStringAndCount(name: "configurations", count: store.configurations.count),
-			ResourceStringAndCount(name: "contacts", count: store.contacts.count),
+			ResourceStringAndCount(name: "contacts", count: store.storeContacts.count),
 			ResourceStringAndCount(name: "content_management_system", count: nil/*store.contentManagementSystem.count*/),
 			ResourceStringAndCount(name: "countries", count: store.countries.count),
 			ResourceStringAndCount(name: "currencies", count: store.currencies.count),

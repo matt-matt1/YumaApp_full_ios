@@ -160,7 +160,7 @@ class RadioGroup: NSObject
 	
 	@objc func onChange(_ sender: UIView)
 	{
-		let abcd = "abcd"
+		_ = "abcd"
 		if let sw = sender.subviews.last as? UISwitch
 		{
 			if sw.isOn
@@ -170,14 +170,14 @@ class RadioGroup: NSObject
 			else
 			{
 				sw.isOn = true
-				let group = (sw.superview?.superview) as! UIView
-					for row in group.subviews
-					{
-						if let rowSw = row.subviews.last as? UISwitch
-						{
-							rowSw.isOn = false
-						}
-					}
+//				let group = (sw.superview?.superview) as! UIView
+//					for row in group.subviews
+//					{
+//						if let rowSw = row.subviews.last as? UISwitch
+//						{
+//							rowSw.isOn = false
+//						}
+//					}
 			}
 		}
 	}

@@ -373,12 +373,12 @@ class PSWebServices: NSObject
 				if let data = data
 				{
 					let dataString = String(data: data, encoding: .utf8)
-					//					print(dataString ?? R.string.err)
 					UserDefaults.standard.set(dataString, forKey: "Contacts")
 					do
 					{
-						let contacts = try JSONDecoder().decode(Contacts.self, from: data)
-						completionHandler(contacts.contacts, nil)
+						//let contacts = try JSONDecoder().decode(Contacts.self, from: data)
+						let result = try JSONDecoder().decode([FailableDecodable<Contact>].self, from: data).compactMap { $0.base }
+						completionHandler(result, nil)
 					}
 					catch let JSONerr
 					{

@@ -58,15 +58,15 @@ struct R {
 			"Here are some the choices to make:",
 			"Press \"\(R.string.Info)\" to see your details, like a profile",
 			"Press \"\(R.string.Addrs)\" to see each address, if any, related to your account",
-			"Press \"\(R.string.OrdHist)\" to see the orders, if any, related to your account",
-			"Press \"\(R.string.CreditSlips)\" to see the credit slips, if any, related to your account",
-			"Press \"\(R.string.SignOut)\" to have the app forget the logged-in user, remove your details for this session only"
+			"Press \"\(R.string.OrdHist)\" to see a table of the orders, if any, related to your account",
+			"Press \"\(R.string.CreditSlips)\" to see a table of the credit slips, if any, related to your account",
+			"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only"
 		]
 		
 		static let help_my_account_addresses_guide: [String] = [
 			"The addresses that belong to your account",
-			"Swipe left or right to view other addresses, if available",
-			"TIP:  The left pane has a preview; the right pane separates each line to edit"
+			"TIP:  The left pane has a preview and can be swiped side-to-side; the right pane separates each line to edit",
+			"On the left pane, swipe left or right to view other addresses, if available"
 		]
 
 		static let help_my_account_order_history_guide: [String] = [
@@ -89,7 +89,8 @@ struct R {
 
 		static let help_my_account_information_guide: [String] = [
 			"If logged-in, your details will be displayed; otherwise a blank form will be shown for creating a new user",
-			"Tap the password gray area and a box will appear for you to change or set your password"
+			"Tap the password gray area and a box will appear for you to change or set your password",
+			"NOTE: your email address cannot be changed"
 		]
 		
 		static let help_product_list_guide: [String] = [
@@ -113,11 +114,11 @@ struct R {
 		
 		static let help_contact_us_guide: [String] = [
 			"This page details how we can contacted - phone, email and visit",
-			"The call button will place the number in your dialer",
-			"The email button will create a new message and set our email address as To address",
+			"The \"\(R.string.phoneAct)\" button will place the number in your dialer",
+			"The \"\(R.string.email)\" button will create a new message and place our email address in the To address",
 			"A map will be displayed with our location",
 			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to us",
-			"The expand map button will, if you have internet facilities, display a map with our location",
+			"The \"\(R.string.map_big)\" button will, if you have internet facilities, display a map with our location",
 			"The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
 		static let help_home_page_guide: [String] = [

@@ -137,7 +137,7 @@ class MyAccInfoViewController: UIViewController
 			navTitle.title = R.string.my_account + " " + R.string.Info
 			setEmailField()
 			buttonText.setTitle(R.string.upd.uppercased(), for: .normal)
-			passwordGenerateDo.subviews.first?.isHidden = true
+			//passwordGenerateDo.subviews.first?.isHidden = true
 			showPass.isHidden = true//passwordShow.subviews.first?.isHidden = true
 			passwordEdit.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(changePasswd(_:))))
 			fillFields()
@@ -471,7 +471,8 @@ class MyAccInfoViewController: UIViewController
 		fieldEdit1.text = self.customer?.firstname
 		field2Edit.text = self.customer?.lastname
 		field3Edit.text = self.customer?.email
-		field3Label.isHidden = true
+		//field3Label.alpha = 0//.isHidden = true
+		field3Edit.textColor = UIColor.darkGray
 		field4Edit.text = self.customer?.birthday
 		field5Edit.text = self.customer?.company
 		field6Edit.text = self.customer?.website

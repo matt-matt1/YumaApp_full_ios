@@ -95,10 +95,10 @@ class Debug2ViewController: UIViewController, UIScrollViewDelegate
 				}
 				break
 			case "contacts":
-				if store.contacts.count > 0
+				if store.storeContacts.count > 0
 				{
-					mirror = Mirror(reflecting: store.contacts[pageControl.currentPage])
-					pageControl.numberOfPages = store.contacts.count
+					mirror = Mirror(reflecting: store.storeContacts[pageControl.currentPage])
+					pageControl.numberOfPages = store.storeContacts.count
 				}
 				break
 			case "content_management_system":

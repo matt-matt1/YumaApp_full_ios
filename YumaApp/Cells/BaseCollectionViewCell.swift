@@ -1,5 +1,5 @@
 //
-//  BaseCell.swift
+//  BaseCollectionViewCell.swift
 //  YumaApp
 //
 //  Created by Yuma Usa on 2018-05-02.
@@ -21,8 +21,11 @@ class BaseCell: UICollectionViewCell
 	{
 	}
 	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+	required init?(coder aDecoder: NSCoder)
+	{
+		super.init(coder: aDecoder)
+		setupViews()
+		//fatalError("init(coder:) has not been implemented")
 	}
 	
 }

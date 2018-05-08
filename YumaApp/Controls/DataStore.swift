@@ -52,7 +52,7 @@ final class DataStore
 	var properties: 			[String] = 				[]
 	var customerMessages:		[CustomerMessage] = 	[]
 	var customerThreads:		[CustomerThread] = 		[]
-	var contacts: 				[Contact] = 			[]
+	var storeContacts: 			[Contact] = 			[]
 	var orderHistories: 		[OrderHistory] = 		[]
 	var idDefaultGroup = 								0
 	var idShop = 										0
@@ -939,7 +939,7 @@ final class DataStore
 				}
 				else if contacts != nil
 				{
-					self.contacts = contacts!
+					self.storeContacts = contacts!
 					completion(contacts!, nil)
 				}
 				else

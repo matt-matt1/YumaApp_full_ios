@@ -92,14 +92,14 @@ class MyAccAddr2ViewController: UIViewController
 		leftButtonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		leftButtonRight.setTitle(R.string.delete.uppercased(), for: .normal)
 		leftButtonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		if self.view.frame.width > 600
+		if self.view.frame.width > 900
 		{
 			rightPanelButton.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 			self.address = self.addresses[pageControl.currentPage]
 			prepareLabels()
 			fillDetails()
 			//set divider width
-			//remove edit button
+			leftButtonLeft.alpha = 0
 			//add AddressExpandedViewController
 		}
     }
@@ -315,9 +315,9 @@ class MyAccAddr2ViewController: UIViewController
 	@IBAction func leftButtonLeftAct(_ sender: Any)
 	{
 		self.address = self.addresses[pageControl.currentPage]
-//		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
-//		vc.address = self.addresses[pageControl.currentPage]
-//		present(vc, animated: false, completion: nil)
+		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
+		vc.address = self.addresses[pageControl.currentPage]
+		present(vc, animated: false, completion: nil)
 	}
 	@IBAction func leftButtonRightAct(_ sender: Any)
 	{
@@ -457,9 +457,12 @@ extension MyAccAddr2ViewController: UICollectionViewDataSource, UICollectionView
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
 	{
 		let cellNum = Int(ceil(targetContentOffset.pointee.x / collectionView.frame.width))
-		pageControl.currentPage = cellNum
-		self.address = self.addresses[cellNum]
-		fillDetails()
+		if cellNum < addresses.count
+		{
+			pageControl.currentPage = cellNum
+			self.address = self.addresses[cellNum]
+			fillDetails()
+		}
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize

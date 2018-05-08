@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "helpCell"
 
-class Assistance: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+class Assistance: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate
 {
 	var array: [String] = []
 	var myCollectionView: UICollectionView!
@@ -79,9 +79,24 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		view.text = " \(FontAwesome.caretLeft.rawValue) "
 		view.font = R.font.FontAwesomeOfSize(pointSize: 24)
 		view.isUserInteractionEnabled = true
-		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doPrev(_:))))
+		let tap = UITapGestureRecognizer(target: self, action: #selector(doPrev(_:)))
+		//tap.delegate = self
+		view.addGestureRecognizer(tap)
 		return view
 	}()
+//	let buttonPrev: UIButton =
+//	{
+//		let view = UIButton()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.setTitle("<", for: UIControlState.normal)
+//		view.setTitleColor(UIColor.blue, for: UIControlState.normal)
+//		//view.font = R.font.FontAwesomeOfSize(pointSize: 24)
+//		view.isUserInteractionEnabled = true
+//		let tap = UITapGestureRecognizer(target: self, action: #selector(doPrev(_:)))
+//		//tap.delegate = self
+//		view.addGestureRecognizer(tap)
+//		return view
+//	}()
 	let buttonNext: UILabel =
 	{
 		let view = UILabel()
@@ -100,8 +115,10 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		let view = UIPageControl()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.currentPage = 0
+		//view.backgroundColor = UIColor.green
 		view.pageIndicatorTintColor = R.color.YumaYel
 		view.currentPageIndicatorTintColor = R.color.YumaRed
+		view.isUserInteractionEnabled = false
 		return view
 	}()
 	let pageControlHeight: CGFloat = 40
@@ -140,17 +157,24 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 
 		let str = "V:|[v0(\(titleBarHeight))][v1(\(pageControlHeight))][v2][v3(\(buttonHeight))]-5-|"
 //		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, stack, myCollectionView, buttonSingle)
-		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, pageControl, myCollectionView, buttonSingle)
+//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, pageControl, myCollectionView, buttonSingle)
+		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, buttonPrev, myCollectionView, buttonSingle)
 
 
 		drawDialog()
     }
 
-
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+	{
+		return true
+	}
+	
 	func drawTitle()
 	{
 		titleLabel.text = R.string.help
 		titleLabel.font = UIFont.systemFont(ofSize: 21)
+		titleLabel.isUserInteractionEnabled = true
+		titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doNext(_:))))
 		dialogWindow.addSubview(titleLabel)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0, constant: titleBarHeight))
@@ -163,18 +187,24 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		//stack.addArrangedSubview(buttonPrev)
 		//stack.addArrangedSubview(pageControl)
 		//stack.addArrangedSubview(buttonNext)
-		dialogWindow.addSubview(buttonPrev)
 		dialogWindow.addSubview(pageControl)
+		dialogWindow.addSubview(buttonPrev)
 		dialogWindow.addSubview(buttonNext)
+		if pageControl.numberOfPages > 1
+		{
+			buttonNext.textColor = R.color.YumaRed
+		}
 		//stack.translatesAutoresizingMaskIntoConstraints = false
 		//stack.spacing = 10
 		//stack.distribution = UIStackViewDistribution.equalCentering
 		//dialogWindow.addSubview(stack)
 		//dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: stack)
-		dialogWindow.addConstraintsWithFormat(format: "H:|-2-[v0(25)]-2-[v1]-2-[v2(25)]-2-|", views: buttonPrev, pageControl, buttonNext)
-		dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: buttonPrev)
-		dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: pageControl)
-		dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: buttonNext)
+		dialogWindow.addConstraintsWithFormat(format: "H:|-3-[v0(25)]-2-[v1]-2-[v2(25)]|", views: buttonPrev, pageControl, buttonNext)
+		//dialogWindow.addConstraintsWithFormat(format: "H:|-3-[v0(25)]", views: buttonPrev)
+		//dialogWindow.addConstraintsWithFormat(format: "H:[v0(25)]|", views: buttonNext)
+		//dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: buttonPrev)
+		//dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: pageControl)
+		//dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: buttonNext)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonPrev, attribute: .centerY, relatedBy: .equal, toItem: pageControl, attribute: .centerY, multiplier: 1, constant: 0))
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonNext, attribute: .centerY, relatedBy: .equal, toItem: pageControl, attribute: .centerY, multiplier: 1, constant: 0))
 		//dialogWindow.addConstraint(NSLayoutConstraint(item: stack, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: pageControlHeight))
@@ -238,7 +268,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		self.dismiss(animated: true, completion: nil)
 	}
 	
-	@objc func doPrev(_ sender: UITapGestureRecognizer)
+	@objc func doPrev(_ sender: AnyObject)
 	{
 		print("do prev")
 		if pageControl.currentPage > 0
@@ -248,7 +278,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		}
 	}
 	
-	@objc func doNext(_ sender: UITapGestureRecognizer)
+	@objc func doNext(_ sender: AnyObject)
 	{
 		print("do next")
 		if pageControl.currentPage < array.count
@@ -258,18 +288,16 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		}
 	}
 
-	
-	func scrollViewWillBeginDragging(_ scrollView: UIScrollView)
-	{
-		let page = pageControl.currentPage
-		print("page:\(pageControl.currentPage)/\(array.count)")//item:\(indexPath.item),
-		buttonPrev.textColor = page == 0 ? UIColor.lightGray : R.color.YumaRed
-		buttonNext.textColor = page < array.count-1 ? R.color.YumaRed : UIColor.lightGray
-	}
 
+	// MARK: Method
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
 	{
 		pageControl.currentPage = Int(targetContentOffset.pointee.x/dialogWindow.frame.width)
+
+		let page = pageControl.currentPage
+//		print("page:\(pageControl.currentPage)/\(array.count)")
+		buttonPrev.textColor = page == 0 ? UIColor.lightGray : R.color.YumaRed
+		buttonNext.textColor = page < array.count-1 ? R.color.YumaRed : UIColor.lightGray
 	}
 
 
@@ -287,7 +315,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AssistanceCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AssistanceCell
 		cell.titleLabel.text = array[indexPath.item]
         return cell
     }

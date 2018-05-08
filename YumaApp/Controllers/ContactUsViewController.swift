@@ -59,6 +59,7 @@ class ContactUsViewController: UIViewController
 	//		}
 	//	}
 	
+	// MARK: Overrides
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -258,12 +259,14 @@ class ContactUsViewController: UIViewController
 		mainStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 	}
 
+
+	// MARK: Actions
 	@objc func writePickedValue(_ sender: UIButton?)
 	{
 		let mail = MFMailComposeViewController()
 		mail.mailComposeDelegate = self
 		let picked = picker.selectedRow(inComponent: 0)
-		mail.setToRecipients([(store.contacts[picked].email)!])
+		mail.setToRecipients([(store.storeContacts[picked].email)!])
 		mail.setSubject(pickerData[picked])
 //		if picked == 1
 //		{
@@ -274,7 +277,7 @@ class ContactUsViewController: UIViewController
 //			mail.setSubject(R.string.err)
 //		}
 //		mail.title = R.string.contact.capitalized
-		mail.setMessageBody(pickerData[picked] + ",\n\n\n...", isHTML: true)
+		mail.setMessageBody(pickerData[picked] + ",<br />\n<br />\n<br />\n", isHTML: true)
 		present(mail, animated: true)
 		mail.becomeFirstResponder()
 	}
@@ -300,9 +303,10 @@ class ContactUsViewController: UIViewController
 		DataStore.sharedInstance.flexView(view: emailBtn)
 		if MFMailComposeViewController.canSendMail()
 		{
-			if store.contacts.count > 0
+			pickerData.removeAll()
+			if store.storeContacts.count > 0
 			{
-				for contact in store.contacts
+				for contact in store.storeContacts
 				{
 					pickerData.append(contact.name![store.myLang].value!)
 				}
@@ -322,7 +326,10 @@ class ContactUsViewController: UIViewController
 					self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
 					self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
 					])
-				vc?.pickerView.removeFromSuperview()
+				if vc?.pickerView != nil
+				{
+					vc?.pickerView.removeFromSuperview()
+				}
 				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
 				//on pick goto writePickedValue
 			}
@@ -360,7 +367,7 @@ class ContactUsViewController: UIViewController
 				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
-					self.dismiss(animated: false, completion: nil)
+					//self.dismiss(animated: false, completion: nil)
 				}))
 				self.present(alert, animated: true, completion:
 				{
@@ -496,31 +503,10 @@ class ContactUsViewController: UIViewController
 		viewC.modalTransitionStyle   = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
-
-		return
-		
-		let vc = HelpVC()// as! helpVC
-		vc.backgroundColor = .red
-		vc.title.text = "hi"
-		self.view.addSubview(vc)
-//		let vc = HelpVC() as! UIViewController
-//		self.present(vc, animated: false, completion: nil)
 	}
-	
-//	override func didReceiveMemoryWarning()
-//	{
-//		super.didReceiveMemoryWarning()
-//		// Dispose of any resources that can be recreated.
-//	}
-	
-	
-//	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-//	{
-//		//let dest = segue.destination as! ContactUsViewController
-//		// Pass the selected object to the new view controller.
-//	}
-	
-	
+
+
+	// MARK: Methods
 	func mapZoomTo(_ zoomLevel: Double)
 	{
 		let currentRegion = self.myMap.region

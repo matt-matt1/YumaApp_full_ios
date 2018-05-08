@@ -687,8 +687,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.tags.count) tags")
 		}
-		if store.contacts.count < 1	//check if not already in data store
+		if store.storeContacts.count < 1	//check if not already in data store
 		{
+			//UserDefaults.standard.removeObject(forKey: "Contacts")
 			let contacts = UserDefaults.standard.string(forKey: "Contacts")
 			if contacts == nil
 			{
@@ -708,12 +709,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				do	//decode user data then insert each into the data store
 				{
+					store.storeContacts.removeAll()
 					let all = try JSONDecoder().decode(Contacts.self, from: (contacts?.data(using: .utf8))!)
+					//let array = all.contacts as! [Contact]
+					//for t in array
 					for t in all.contacts!
 					{
-						store.contacts.append(t)
+						store.storeContacts.append(t)
 					}
-					print("decoded \(store.contacts.count) contacts")
+					print("decoded \(store.storeContacts.count) contacts")
 				}
 				catch let JSONerr
 				{
@@ -723,7 +727,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		else
 		{
-			print("data store has \(store.tags.count) contacts")
+			print("data store has \(store.storeContacts.count) contacts")
 		}
 		if store.productOptionValues.count < 1	//check if not already in data store
 		{
