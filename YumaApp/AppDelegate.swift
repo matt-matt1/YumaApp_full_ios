@@ -56,6 +56,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //		window?.addConstraintsWithFormat(format: "V:|[v0(20)]", views: statusBarBackground)
 		return true
 	}
+	
+	func applicationDidReceiveMemoryWarning(_ application: UIApplication)
+	{
+		print("applicationDidReceiveMemoryWarning")
+		let store = DataStore.sharedInstance
+		store.addresses.removeAll()
+		store.carriers.removeAll()
+		store.carts.removeAll()
+		//store.customer
+		store.countries.removeAll()
+		store.categories.removeAll()
+		store.categories.removeAll()
+		store.currencies.removeAll()
+		store.combinations.removeAll()
+		store.configurations.removeAll()
+		store.customerMessages.removeAll()
+		store.customerThreads.removeAll()
+		store.langs.removeAll()
+		store.locale.removeAll()
+		store.laptops.removeAll()
+		store.manufacturers.removeAll()
+		store.myCart.removeAll()
+		//store.myOrder
+		store.myOrderRows.removeAll()
+		store.orderCarriers.removeAll()
+		store.orders.removeAll()
+		store.orderStates.removeAll()
+		store.orderDetails.removeAll()
+		store.orderHistories.removeAll()
+		store.productOptions.removeAll()
+		store.printers.removeAll()
+		store.products.removeAll()
+		store.properties.removeAll()
+		store.productOptionValues.removeAll()
+		store.services.removeAll()
+		store.shares.removeAll()
+		store.states.removeAll()
+		store.storeContacts.removeAll()
+		store.tags.removeAll()
+		store.taxes.removeAll()
+		store.toners.removeAll()
+	}
 
 	func applicationWillResignActive(_ application: UIApplication)
 	{

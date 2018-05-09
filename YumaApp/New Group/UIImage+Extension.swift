@@ -1,9 +1,9 @@
 //
 //  UIImage+Extension.swift
-//  CustomizableAlertController
+//  YumaApp
 //
-//  Created by Daniel Illescas Romero on 28/01/2018.
-//  Copyright © 2018 Daniel Illescas Romero. All rights reserved.
+//  Created by Yuma Usa on 2018-05-09.
+//  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
 import UIKit

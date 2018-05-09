@@ -2,7 +2,7 @@
 //  MobileDataItem.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-03-27.
+//  Created by Yuma Usa on 2018-05-09.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
@@ -37,5 +37,5 @@ class MobileDataItem: UITableViewController
 		
 		return cell
 	}
-
+	
 }

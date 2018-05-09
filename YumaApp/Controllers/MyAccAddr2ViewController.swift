@@ -425,7 +425,14 @@ class MyAccAddr2ViewController: UIViewController
 	@IBAction func navHelpAct(_ sender: Any)
 	{
 		let viewC = Assistance()
-		viewC.array = R.array.help_my_account_addresses_guide
+		if self.view.frame.width > 700
+		{
+			viewC.array = R.array.help_my_account_addresses_guide.wide
+		}
+		else
+		{
+			viewC.array = R.array.help_my_account_addresses_guide.narrow
+		}
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

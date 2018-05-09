@@ -63,11 +63,22 @@ struct R {
 			"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only"
 		]
 		
-		static let help_my_account_addresses_guide: [String] = [
-			"The addresses that belong to your account",
-			"TIP:  The left pane has a preview and can be swiped side-to-side; the right pane separates each line to edit",
-			"On the left pane, swipe left or right to view other addresses, if available"
-		]
+		struct help_my_account_addresses_guide
+		{
+			static let wide: [String] = [
+				"The addresses that belong to your account",
+				"TIP:  The left pane has a preview and can be swiped side-to-side; the right pane separates each line to edit",
+				"On the left pane, swipe left or right to view other addresses, if available",
+				"NOTE: On a narrow device the preview pane & the edit fields will be displayed on separate screens"
+			]
+			static let narrow: [String] = [
+				"The addresses that belong to your account",
+				"Swipe left or right to view other addresses, if available",
+				"If you press the \"\(R.string.edit)\" button, the fields will be displayed in separate lines",
+				"Press the \"\(R.string.delete)\" button to mark the address as deleted",
+				"NOTE: On a wide device both the swipe preview & the separated form will be displayed on the same screen"
+			]
+		}
 
 		static let help_my_account_order_history_guide: [String] = [
 			"Displays a table of the orders made, if any",

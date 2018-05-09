@@ -1007,7 +1007,67 @@ final class DataStore
 			task.resume()
 		}
 	}
-	
+
+	/// Returns a random string, formatted string - eg. for a password
+	func makePassword(length: Int = 6, formattedFontSize: CGFloat = 20, formattedTextColor: UIColor = UIColor.black, formattedBackgroundColor: UIColor = UIColor.white, formattedKern: Float = 4.5, normalTextColor: UIColor = UIColor.black, normalBackgroundColor: UIColor = UIColor.white, normalFontSize: CGFloat = 16) -> (String, NSMutableAttributedString)
+	{
+		let pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
+		let rndPswd = String((0..<length).map{ _ in pswdChars[Int(arc4random_uniform(UInt32(pswdChars.count)))]})
+		let attrNormal = [
+			NSAttributedStringKey.font : UIFont.systemFont(ofSize: normalFontSize),
+			NSAttributedStringKey.foregroundColor : UIColor.darkGray,
+			NSAttributedStringKey.backgroundColor : UIColor.clear,
+			]
+		let wholeMsg = NSMutableAttributedString(string: R.string.genInstr, attributes: attrNormal)
+		let attrPassword = [
+			NSAttributedStringKey.font : UIFont.monospacedDigitSystemFont(ofSize: formattedFontSize, weight: UIFont.Weight.medium),
+			NSAttributedStringKey.foregroundColor : formattedTextColor,
+			NSAttributedStringKey.backgroundColor : formattedBackgroundColor,
+			NSAttributedStringKey.kern : NSNumber(value: formattedKern)
+		]
+		wholeMsg.append(NSMutableAttributedString(string: "\n\n"))
+		let passwordWithAttributes = NSMutableAttributedString(string: rndPswd, attributes: attrPassword)
+		wholeMsg.append(passwordWithAttributes)
+		return (rndPswd, wholeMsg)
+	}
+
+	func myAlert(title: String?, message: String?, attributedMessage: NSMutableAttributedString?, viewController: UIViewController)
+	{
+		OperationQueue.main.addOperation
+		{
+			let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
+			if attributedMessage != nil
+			{
+				alert.setValue(attributedMessage, forKey: "attributedMessage")
+			}
+			let coloredBG = 				UIView()
+			let blurFx = 					UIBlurEffect(style: .dark)
+			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+			alert.view.superview?.backgroundColor = R.color.YumaRed
+			alert.view.shadowColor = 		R.color.YumaDRed
+			alert.view.shadowOffset = 		.zero
+			alert.view.shadowRadius = 		5
+			alert.view.shadowOpacity = 		1
+			alert.view.backgroundColor = 	R.color.YumaYel
+			alert.view.cornerRadius = 		15
+			coloredBG.backgroundColor = 	R.color.YumaRed
+			coloredBG.alpha = 				0.4
+			coloredBG.frame = 				viewController.view.bounds
+			viewController.view.addSubview(coloredBG)
+			blurFxView.frame = 				viewController.view.bounds
+			blurFxView.alpha = 				0.5
+			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+			viewController.view.addSubview(blurFxView)
+			alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler: 	{ 	(action) in
+				coloredBG.removeFromSuperview()
+				blurFxView.removeFromSuperview()
+			}))
+			viewController.present(alert, animated: true, completion:
+			{
+			})
+		}
+	}
 	/// Displays a simple alert dialog
 	func alertMessage(sender: Any, alerttitle: String, _ message: String)
 	{

@@ -1,20 +1,20 @@
 //
 //  CustomizableAlertController.swift
-//  CustomizableAlertController
+//  YumaApp
 //
-//  Created by Daniel Illescas Romero on 07/01/2018.
-//  Copyright © 2018 Daniel Illescas Romero. All rights reserved.
+//  Created by Yuma Usa on 2018-05-09.
+//  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
 import UIKit
 
 /*extension UIView {
-	func changeColor(to color: UIColor) {
-		self.backgroundColor = color
-		for subview in self.subviews {
-			subview.changeColor(to: color)
-		}
-	}
+func changeColor(to color: UIColor) {
+self.backgroundColor = color
+for subview in self.subviews {
+subview.changeColor(to: color)
+}
+}
 }*/
 
 final class DarkAlertController: CustomizableAlertController {
@@ -27,7 +27,7 @@ final class DarkAlertController: CustomizableAlertController {
 		self.tintColor = UIColor(red: 0.4, green: 0.5, blue: 1.0, alpha: 1.0)
 		
 		self.contentView?.backgroundColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 0.7)
-
+		
 		let whiteStringAttribute = StringAttribute(key: .foregroundColor, value: UIColor.white)
 		self.titleAttributes = [whiteStringAttribute]
 		self.messageAttributes = [whiteStringAttribute]
@@ -35,7 +35,6 @@ final class DarkAlertController: CustomizableAlertController {
 }
 
 //
-
 open class CustomizableAlertController: UIAlertController {
 	
 	open lazy var visualEffectView: UIVisualEffectView? = {
@@ -72,7 +71,6 @@ open class CustomizableAlertController: UIAlertController {
 }
 
 //
-
 extension UIAlertController {
 	
 	private var visualEffectView: UIVisualEffectView? {
@@ -225,7 +223,7 @@ class ElementViewController: UIViewController {
 		super.viewDidLoad()
 		
 		if let validView = self.elementView  {
-		
+			
 			self.view.addSubview(validView)
 			
 			validView.translatesAutoresizingMaskIntoConstraints = false
@@ -241,7 +239,6 @@ class ElementViewController: UIViewController {
 }
 
 //
-
 typealias StringAttribute = NSAttributedString.StringAttribute
 
 extension Array where Element == StringAttribute {

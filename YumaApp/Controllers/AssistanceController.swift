@@ -20,7 +20,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = UIColor.white
 		view.cornerRadius = 20
-		view.shadowColor = R.color.YumaDRed//UIColor.darkGray
+		view.shadowColor = R.color.YumaDRed
 		view.shadowRadius = 5
 		view.shadowOffset = .zero
 		view.shadowOpacity = 1
@@ -37,15 +37,6 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		view.layer.masksToBounds = true
 		return view
 	}()
-//	var myCollectionView: UICollectionView =
-//	{
-//		let view = UICollectionView()
-//		//let layout = UICollectionViewLayout
-//		//view.setCollectionViewLayout(layout, animated: false)
-//		//view.translatesAutoresizingMaskIntoConstraints = false
-//		//view.backgroundColor = R.color.YumaRed
-//		return view
-//	}()
 	let buttonSingle: UIButton =
 	{
 		let view = UIButton()
@@ -218,16 +209,13 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		layout.itemSize = CGSize(width: dialogWidth, height: collectionViewHeight)
 		layout.scrollDirection = .horizontal
 		
-		myCollectionView = UICollectionView(/*frame: collectionViewFrame.bounds, collectionViewLayout: layout*/frame: CGRect(x: 38, y: 0, width: Int(dialogWidth), height: Int(collectionViewHeight)), collectionViewLayout: layout)
-		//myCollectionView = UICollectionView(frame: dialogWindow.frame, collectionViewLayout: layout)
-		//		myCollectionView.setCollectionViewLayout(layout, animated: false)
+		myCollectionView = UICollectionView(frame: CGRect(x: 38, y: 0, width: Int(dialogWidth), height: Int(collectionViewHeight)), collectionViewLayout: layout)
 		myCollectionView.dataSource = self
 		myCollectionView.delegate = self
 		myCollectionView.register(AssistanceCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		myCollectionView.showsVerticalScrollIndicator = false
 		myCollectionView.showsHorizontalScrollIndicator = false
 		myCollectionView.isPagingEnabled = true
-		//myCollectionView.translatesAutoresizingMaskIntoConstraints = false
 		myCollectionView.backgroundColor = UIColor.white
 		
 		dialogWindow.addSubview(myCollectionView)
@@ -327,32 +315,4 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 
 	// MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
 }
