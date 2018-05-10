@@ -71,26 +71,42 @@ final class DataStore
 		self.shares.append(ScoialMedia(id: 4, name: [IdValue(id: "0", value: "Pinerest")], link: "https://www.pinerest.com/pin/create/button/?media=%prodImage%&url=%prodUrl%", thumb: "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkNhbHF1ZV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iNDBweCIgaGVpZ2h0PSI0MHB4IiB2aWV3Qm94PSIwIDAgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDQwIDQwIiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8aW1hZ2Ugb3ZlcmZsb3c9InZpc2libGUiIG9wYWNpdHk9IjAuMSIgd2lkdGg9IjM4IiBoZWlnaHQ9IjQ2IiB4bGluazpocmVmPSI4REY2NkQ0Qi5wbmciICB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAxIDIgLTEpIj4KCTwvaW1hZ2U+Cgk8Zz4KCQk8Zz4KCQkJPHBhdGggZmlsbD0iI2FjYWFhNiIgZD0iTTE4LjcsNS4xQzEzLjQsNS42LDguMSwxMCw3LjgsMTYuMWMtMC4xLDMuOCwwLjksNi42LDQuNSw3LjRjMS42LTIuNy0wLjUtMy4zLTAuOC01LjMKCQkJCWMtMS4zLTguMSw5LjQtMTMuNywxNS04YzMuOSwzLjksMS4zLDE2LTQuOSwxNC44Yy02LTEuMiwyLjktMTAuOC0xLjgtMTIuN2MtMy45LTEuNS01LjksNC43LTQuMSw3LjhjLTEuMSw1LjMtMy40LDEwLjMtMi41LDE3CgkJCQljMy4xLTIuMiw0LjEtNi41LDQuOS0xMC45YzEuNSwwLjksMi40LDEuOSw0LjMsMi4xYzcuMiwwLjYsMTEuMi03LjIsMTAuMy0xNC40QzMxLjgsNy41LDI1LjUsNC4zLDE4LjcsNS4xeiIvPgoJCTwvZz4KCTwvZz4KPC9nPgo8L3N2Zz4K"))
 	}
 	
-	/// Send data via HTTP POST
-	func PostHTTP(url: String, parameters: [String : String], save: String? = nil, completion: @escaping (Any) -> Void)
+	/// Send data via HTTP POST to add a new resource
+	func PostHTTP(url: String, parameters: [String : String]?, headers: [String : String]?, body: String?, save: String? = nil, completion: @escaping (Any) -> Void)
 	{
 		if let myUrl = URL(string: url)
 		{
-			//let bodyStr = "username=username&password=password&grant_type=password"
-			//let myURL = NSURL(string: "http://192.168.1.2/rest"
 			let request = NSMutableURLRequest(url: myUrl as URL)
 			request.httpMethod = "POST"
 			//request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-type")
 			//request.setValue("application/json", forHTTPHeaderField: "Accept")
-			var bodyStr = ""
-			var paramArray: [String] = []
-			var allowed = CharacterSet.alphanumerics
-			allowed.insert(charactersIn: ".-_")
-			for param in parameters
+			if headers != nil
 			{
-				paramArray.append(String(format: "%@=%@", param.key, param.value.addingPercentEncoding(withAllowedCharacters: allowed)!))
+				for head in headers!
+				{
+					request.setValue(head.value, forHTTPHeaderField: head.key)
+				}
 			}
-			bodyStr = paramArray.joined(separator: "&")
+			var bodyStr = ""
+			if parameters != nil
+			{
+				var paramArray: [String] = []
+				var allowed = CharacterSet.alphanumerics
+				allowed.insert(charactersIn: ".-_~/?")
+				if parameters != nil
+				{
+					for param in parameters!
+					{
+						paramArray.append(String(format: "%@=%@", param.key, param.value.addingPercentEncoding(withAllowedCharacters: allowed)!))
+					}
+				}
+				bodyStr = paramArray.joined(separator: "&")
+			}
+			else if body != nil
+			{
+				bodyStr = body!
+			}
+			request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
 			request.httpBody = bodyStr.data(using: String.Encoding.utf8)!
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in
@@ -117,6 +133,8 @@ final class DataStore
 					}
 					catch
 					{
+						print("POST failed")
+						completion(false)
 //						self.emailTextField.text = ""
 //						self.passwordTextField.text = ""
 						let alertView = UIAlertController(title: "Login failed",
@@ -132,6 +150,89 @@ final class DataStore
 		}
 	}
 	
+	/// Send data via HTTP PUT (idempotent request) to update a resource
+	func PutHTTP(url: String, parameters: [String : String]?, headers: [String : String]?, body: String?, save: String? = nil, completion: @escaping (Any) -> Void)
+	{
+		if let myUrl = URL(string: url)
+		{
+			let request = NSMutableURLRequest(url: myUrl as URL)
+			request.httpMethod = "PUT"
+			if headers != nil
+			{
+				for head in headers!
+				{
+					request.setValue(head.value, forHTTPHeaderField: head.key)
+				}
+			}
+			if parameters != nil
+			{
+				var paramStr = ""
+				var paramArray: [String] = []
+				var allowed = CharacterSet.alphanumerics
+				allowed.insert(charactersIn: ".-_~/?")
+				for param in parameters!
+				{
+					paramArray.append(String(format: "%@=%@", param.key, param.value.addingPercentEncoding(withAllowedCharacters: allowed)!))
+	//				paramArray.append(String(format: "%@=%@", param.key, param.value.replacingOccurrences(of: " ", with: "+").replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "")))
+				}
+				paramStr = paramArray.joined(separator: "&")
+				if debug > 0
+				{
+					print("sending:\(paramStr)")
+				}
+				request.setValue("\(paramStr.count)", forHTTPHeaderField: "Content-Length")
+				if body == nil
+				{
+					request.httpBody = paramStr.data(using: String.Encoding.utf8)!
+				}
+			}
+			if body != nil
+			{
+				request.httpBody = body!.data(using: .utf8)
+			}
+			let task = URLSession.shared.dataTask(with: request as URLRequest)
+			{	(data, response, error) -> Void in
+				if let unwrappedData = data
+				{
+					let str = String(data: unwrappedData, encoding: .utf8)
+					do
+					{
+						if str == "" || str == "BAD"
+						{
+							completion(false)
+						}
+						else
+						{
+							if save != nil
+							{
+								UserDefaults.standard.set(str, forKey: save!)
+							}
+							//parse the xml
+							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+							//							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
+							//							let token = tokenDictionary["access_token"] as? String
+							completion(customer)
+						}
+					}
+					catch
+					{
+						print("PUT failed (\(str ?? "unknown error"))")
+						completion(false)
+						//						self.emailTextField.text = ""
+						//						self.passwordTextField.text = ""
+						let alertView = UIAlertController(title: "Login failed",
+														  message: "Wrong username or password." as String, preferredStyle:.alert)
+						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+						alertView.addAction(okAction)
+						//						self.present(alertView, animated: true, completion: nil)
+						return
+					}
+				}
+			}
+			task.resume()
+		}
+	}
+
 	/// Use the api to collect details about the logged-in customer, if any
 	func callGetCustomerDetails(from: String, completion: @escaping (Any) -> Void)
 	{

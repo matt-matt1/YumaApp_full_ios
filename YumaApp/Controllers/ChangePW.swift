@@ -17,7 +17,7 @@ private let reuseIdentifier = "helpCell"
 
 class ChangePW: UIViewController, UIGestureRecognizerDelegate
 {
-//	var myCollectionView: UICollectionView!
+	let store = DataStore.sharedInstance
 	let dialogWindow: UIView =
 	{
 		let view = UIView()
@@ -198,14 +198,14 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		buttonRight.setTitle(R.string.complete.uppercased(), for: .normal)
 		dialogWindow.addSubview(buttonLeft)
 		dialogWindow.addSubview(buttonRight)
-		dialogWindow.addConstraintsWithFormat(format: "H:|-20-[v0]-10-[v1]-20-|", views: buttonLeft, buttonRight)
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
+		dialogWindow.addConstraintsWithFormat(format: "H:|-20-[v0(\(dialogWidth/3))][v1(\(dialogWidth/3))]-20-|", views: buttonLeft, buttonRight)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .centerY, relatedBy: .equal, toItem: buttonRight, attribute: .centerY, multiplier: 1, constant: 0))
-		//dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
-		//dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
+		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonLeft)
+		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonRight)
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
 		buttonLeft.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonLeftTapped(_:))))
 		buttonRight.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonRightTapped(_:))))
 	}
@@ -226,19 +226,19 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		var success = true
 		if exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!
 		{
-			exisiting.textEdit.text = "\(R.string.invalid) \(R.string.txtPass)"
+			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
 			exisiting.container.layer.borderColor = UIColor.red.cgColor
 			success = false
 		}
 		if newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!
 		{
-			newPW.textEdit.text = "\(R.string.invalid) \(R.string.txtPass)"
+			newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
 			newPW.container.layer.borderColor = UIColor.red.cgColor
 			success = false
 		}
 		if verifyPW.textEdit.text != nil && (verifyPW.textEdit.text?.isEmpty)! && verifyPW.textEdit.text != newPW.textEdit.text
 		{
-			verifyPW.textEdit.text = "\(R.string.invalid) \(R.string.txtPass)"
+			verifyPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
 			verifyPW.container.layer.borderColor = UIColor.red.cgColor
 			success = false
 		}
@@ -255,23 +255,25 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	// MARK: Actions
 	@objc func buttonLeftTapped(_ sender: UITapGestureRecognizer)
 	{
+		store.flexView(view: buttonLeft)
 		self.dismiss(animated: true, completion: nil)
 	}
 
 	@objc func buttonRightTapped(_ sender: UITapGestureRecognizer)
 	{
-		if checkFields()
-		{
+		store.flexView(view: buttonRight)
+//		if checkFields()
+//		{
 			delegate?.popupValueSelected(value: newPW.textEdit.text!)
 			self.dismiss(animated: true, completion: nil)
-		}
+//		}
 	}
 
 	@objc func doGenerate(_ sender: UITapGestureRecognizer)
 	{
-		let (passwd, formatted) = DataStore.sharedInstance.makePassword()
+		let (passwd, formatted) = store.makePassword()
 		newPW.textEdit.text = passwd
-		DataStore.sharedInstance.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+		store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
 	}
 	
 }

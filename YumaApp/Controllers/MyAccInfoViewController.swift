@@ -304,6 +304,18 @@ class MyAccInfoViewController: UIViewController
 	}
 
 
+	func loadEnteredValues() -> Customer
+	{
+		let date = Date()
+		let df = DateFormatter()
+		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+		let today = df.string(from: date)
+		let ipAddr: String = store.getIPAddress()!
+		let newRow = Customer(id: "", id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? passwordEdit.text! : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
+		return newRow
+	}
+
+
 	// MARK: Actions
 	@objc func alertMe(_ sender: UITapGestureRecognizer)
 	{
@@ -364,22 +376,22 @@ class MyAccInfoViewController: UIViewController
 	}
 	@objc func changePasswd(_ sender: AnyObject?)
 	{
-		print("changePW")
+		if self.store.debug > 0
+		{
+			print("changePW")
+		}
 		let vc = ChangePW()
 		vc.modalTransitionStyle = .crossDissolve
 		vc.modalPresentationStyle = .overCurrentContext
 		vc.delegate = self
 		self.present(vc, animated: true, completion: nil)
 	}
-	@objc func loginButtonAct(_ sender: Any)
-	{
-		self.dismiss(animated: false, completion: nil)
-	}
 	@objc func showPassAct(_ sender: Any)
 	{
 		if (passwordEdit.text?.count)! < 1
 		{
 			changePasswd(nil)
+			return
 		}
 		//passwordTextField.updateFocusIfNeeded()
 		if passwordVisible
@@ -397,59 +409,148 @@ class MyAccInfoViewController: UIViewController
 	}
 	@IBAction func buttonAct(_ sender: Any)
 	{
+		store.flexView(view: buttonText)
 		if areFieldsValid()
 		{
+			let spinner = UIViewController.displaySpinner(onView: self.view)
 			var ws = WebService()
 			ws.startURL = R.string.WSbase
 			ws.resource = APIResource.customers
 			ws.keyAPI = R.string.APIkey
-			let date = Date()
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			let today = df.string(from: date)
-			//let myIp =
 			if addNew
 			{
-				ws.schema = Schema.blank
-				let ipaddr: String = store.getIPAddress()!
+				//GET the XML blank data for the resource (/api/customer?schema=blank), fill it with your changes, and POST the whole XML file to the /api/customers/ URL again and will return an XML file indicating that the operation has been successful, along with the ID of the newly created customer
+				//var paramsDict = [String : String]()
+				//paramsDict["id_default_group"] = String(store.idDefaultGroup)
+	//			ws.schema = Schema.blank
 	//			ws.get { (result) in
 	//			}
-				let newRow = Customer(id: "", id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipaddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? passwordEdit.text! : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
+				let newRow = loadEnteredValues()
 				//print(newRow)
 				// Add a row
 				//ws.schema = nil
 				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
 				print(ws.xml!)
 				ws.printURL()
-				ws.add() 	{ 	(result) in
-					if result.data != nil
+				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)", parameters: ["xml":ws.xml!], headers: ["Content-Type": "text/xml; charset=utf-8", "Content-Length": "\(ws.xml!.count+4)"], body: nil, save: nil) 	{ 	(cust) in
+					//print("return: \(cust)")
+					var title = R.string.customer
+					if !((cust as? Bool)!)
 					{
-						let data = String(data: result.data! as Data, encoding: .utf8)
-						print(data!)
-						print("----add^")
+						title = R.string.err
+					}
+					OperationQueue.main.addOperation
+					{
+						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
+						let coloredBG = 				UIView()
+						let blurFx = 					UIBlurEffect(style: .dark)
+						let blurFxView = 				UIVisualEffectView(effect: blurFx)
+						alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+						alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+						alert.view.superview?.backgroundColor = R.color.YumaRed
+						alert.view.shadowColor = 		R.color.YumaDRed
+						alert.view.shadowOffset = 		.zero
+						alert.view.shadowRadius = 		5
+						alert.view.shadowOpacity = 		1
+						alert.view.backgroundColor = 	R.color.YumaYel
+						alert.view.cornerRadius = 		15
+						coloredBG.backgroundColor = 	R.color.YumaRed
+						coloredBG.alpha = 				0.4
+						coloredBG.frame = 				self.view.bounds
+						self.view.addSubview(coloredBG)
+						blurFxView.frame = 				self.view.bounds
+						blurFxView.alpha = 				0.5
+						blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+						self.view.addSubview(blurFxView)
+						alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
+							{ 	(action) in
+								coloredBG.removeFromSuperview()
+								blurFxView.removeFromSuperview()
+//								self.dismiss(animated: false, completion: nil)
+						}))
+						self.present(alert, animated: true, completion:
+						{
+						})
 					}
 				}
+//				ws.add() 	{ 	(result) in
+//					if result.data != nil
+//					{
+//						let data = String(data: result.data! as Data, encoding: .utf8)
+//						print(data!)
+//						print("----add^")
+//					}
+//				}
+				UIViewController.removeSpinner(spinner: spinner)
 			}
-			else
+			else	//update information
 			{
-				ws.filter = ["id" : [4]]
-				var edited = customer
+				//GET the full XML file for the resource you want to change (/api/customers/7), edit its content as needed, then PUT the whole XML file back to the same URL again
+				ws.filter = ["id" : [customer?.id_customer! as Any]]
+//				var edited = customer
 		//		var edited = Customer(id: store.customer?.id, id_customer: store.customer?.id_customer, id_default_group: store.customer?.id_default_group, id_lang: store.customer?.id_lang, newsletter_date_add: store.customer?.newsletter_date_add, ip_registration_newsletter: store.customer?.ip_registration_newsletter, last_passwd_gen: store.customer?.last_passwd_gen, secure_key: store.customer?.secure_key, deleted: store.customer?.deleted, passwd: (store.customer?.passwd)!, lastname: (store.customer?.lastname)!, firstname: (store.customer?.firstname)!, email: (store.customer?.email)!, id_gender: store.customer?.id_gender, birthday: store.customer?.birthday, newsletter: store.customer?.newsletter, optin: store.customer?.optin, website: store.customer?.website, company: store.customer?.company, siret: store.customer?.siret, ape: store.customer?.ape, outstanding_allow_amount: store.customer?.outstanding_allow_amount, show_public_prices: store.customer?.show_public_prices, id_risk: store.customer?.id_risk, max_payment_days: store.customer?.max_payment_days, active: store.customer?.active, note: store.customer?.note, is_guest: store.customer?.is_guest, id_shop: store.customer?.id_shop, id_shop_group: store.customer?.id_shop_group, date_add: store.customer?.date_add, date_upd: store.customer?.date_upd, reset_password_token: store.customer?.reset_password_token, reset_password_validity: store.customer?.reset_password_validity, associations: store.customer?.associations)
-				if true//changed ie. edited
-				{
-					let now = Date()
-					let df = DateFormatter()
-					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-					edited?.date_upd = df.string(from: now)
-					edited?.firstname = fieldEdit1.text!
-					edited?.lastname = field2Edit.text!
-					edited?.birthday = field4Edit.text
-					edited?.optin = String(switch0.isOn)
-					edited?.newsletter = String(switch1.isOn)
-					edited?.active = String(switch2.isOn)
-				}
-				let str = PSWebServices.object2psxml(object: edited!, resource: "customers", resource2: "customer", excludeId: false)
+//				if true//changed ie. edited
+//				{
+//					let now = Date()
+//					let df = DateFormatter()
+//					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//					edited?.date_upd = df.string(from: now)
+//					edited?.firstname = fieldEdit1.text!
+//					edited?.lastname = field2Edit.text!
+//					edited?.birthday = field4Edit.text
+//					edited?.optin = String(switch0.isOn)
+//					edited?.newsletter = String(switch1.isOn)
+//					edited?.active = String(switch2.isOn)
+//					edited?.passwd = passwordEdit.text!
+//				}
+				var edited = loadEnteredValues()
+				edited.passwd = md5(passwordEdit.text!)
+				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", excludeId: false)
 				print(str)
+				//var params = [String : String]()
+				//params["ws_key"] = R.string.APIkey
+				//params["xml"] = str
+				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Content-Length": "\(str.count)"], body: "\(str)", save: nil) 	{ 	(cust) in
+//					print("return: \(cust)")
+					var title = R.string.customer
+					if !((cust as? Bool)!)
+					{
+						title = R.string.err
+					}
+					OperationQueue.main.addOperation
+					{
+						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
+						let coloredBG = 				UIView()
+						let blurFx = 					UIBlurEffect(style: .dark)
+						let blurFxView = 				UIVisualEffectView(effect: blurFx)
+						alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+						alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+						alert.view.superview?.backgroundColor = R.color.YumaRed
+						alert.view.shadowColor = 		R.color.YumaDRed
+						alert.view.shadowOffset = 		.zero
+						alert.view.shadowRadius = 		5
+						alert.view.shadowOpacity = 		1
+						alert.view.backgroundColor = 	R.color.YumaYel
+						alert.view.cornerRadius = 		15
+						coloredBG.backgroundColor = 	R.color.YumaRed
+						coloredBG.alpha = 				0.4
+						coloredBG.frame = 				self.view.bounds
+						self.view.addSubview(coloredBG)
+						blurFxView.frame = 				self.view.bounds
+						blurFxView.alpha = 				0.5
+						blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+						self.view.addSubview(blurFxView)
+						alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
+							{ 	(action) in
+								coloredBG.removeFromSuperview()
+								blurFxView.removeFromSuperview()
+								//self.dismiss(animated: false, completion: nil)
+						}))
+						self.present(alert, animated: true, completion:
+						{
+						})
+					}
+				}
 		//		PSWebServices.postCustomer(XMLStr: str)
 		//		{
 		//			(error) in
@@ -458,6 +559,7 @@ class MyAccInfoViewController: UIViewController
 		//				print("fatal error: ", String(error.localizedDescription))
 		//			}
 		//		}
+				UIViewController.removeSpinner(spinner: spinner)
 			}
 		}
 	}

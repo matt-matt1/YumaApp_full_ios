@@ -28,4 +28,5 @@ class Debug2CollectionViewCell: UICollectionViewCell
 			tableLabel2.text = "-"
 		}
 	}
+	
 }

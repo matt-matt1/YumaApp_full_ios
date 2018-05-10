@@ -104,14 +104,17 @@ class LoginViewController: UIViewController
 			do
 			{
 				contents = try String(contentsOf: docURL!, encoding: .utf8)
-				if contents != ""
+				if contents != "" && store.debug > 2
 				{
 					print(contents)
 				}
 			}
 			catch _
 			{
-				print("file read error")//:\(e)")
+				if self.store.debug > 5
+				{
+					print("file read error")//:\(e)")
+				}
 				let ud = UserDefaults.standard.string(forKey: "Customer")
 				if ud != nil
 				{
@@ -125,7 +128,10 @@ class LoginViewController: UIViewController
 					{
 						let bits = try JSONDecoder().decode(Customer.self, from: dataStr!)
 						store.customer = bits
-						print("decoded customer (\(bits.id_customer ?? ""))")
+						if self.store.debug > 5
+						{
+							print("decoded customer (\(bits.id_customer ?? ""))")
+						}
 						self.successfullyGotCustomer(bits)
 						OperationQueue.main.addOperation
 						{
@@ -134,12 +140,18 @@ class LoginViewController: UIViewController
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						if self.store.debug > 0
+						{
+							print("\(R.string.err) \(JSONerr)")
+						}
 					}
 				}
 				else
 				{
-					print("no customer in user data")
+					if self.store.debug > 5
+					{
+						print("no customer in user data")
+					}
 				}
 			}
 			if false
@@ -375,7 +387,7 @@ class LoginViewController: UIViewController
 	func getCustomerDetails()
 	{
 		let sv = UIViewController.displaySpinner(onView: self.view)
-		store.PostHTTP(url: url, parameters: ["email" : usernameTextField.text!, "passwd" : passwordTextField.text!], save: "Customer")
+		store.PostHTTP(url: url, parameters: ["email" : usernameTextField.text!, "passwd" : passwordTextField.text!], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: "Customer")
 		{ 	(customer) in
 			//
 //		}
@@ -410,12 +422,12 @@ class LoginViewController: UIViewController
 					blurFxView.alpha = 				0.5
 					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 					self.view.addSubview(blurFxView)
-					print("\(R.string.unableConnect) \(R.string.email)")
+//					print("\(R.string.unableConnect) \(R.string.email)")
 					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
 					{ 	(action) in
 						coloredBG.removeFromSuperview()
 						blurFxView.removeFromSuperview()
-						self.dismiss(animated: false, completion: nil)
+						//self.dismiss(animated: false, completion: nil)
 					}))
 					self.present(alert, animated: true, completion:
 					{
@@ -446,7 +458,10 @@ class LoginViewController: UIViewController
 	
 	fileprivate func successfullyGotCustomer(_ customer: Customer)
 	{
-		print("customer logged-in with ID:\(customer.id_customer ?? customer.id ?? "0")")//String(describing: customer))")
+		if self.store.debug > 5
+		{
+			print("customer logged-in with ID:\(customer.id_customer ?? customer.id ?? "0")")//String(describing: customer))")
+		}
 		if rememberSwitchIsOn
 		{
 			//write json string to file
@@ -472,7 +487,10 @@ class LoginViewController: UIViewController
 	
 	func getDetails(id_customer: Int)
 	{
-		print("getDetails")
+		if self.store.debug > 5
+		{
+			print("getDetails")
+		}
 //		let sv2 = UIViewController.displaySpinner(onView: self.view)
 		if store.customer != nil && store.orders.count < 1
 		{
@@ -486,14 +504,20 @@ class LoginViewController: UIViewController
 					
 					if err != nil
 					{
-						print(err!)
+						if self.store.debug > 0
+						{
+							print(err!)
+						}
 						return
 					}
 					if let orders = orders
 					{
 						let ord = orders as? Orders
 						let ords = ord?.orders?.count
-						print("got \(ords ?? 0) orders")
+						if self.store.debug > 5
+						{
+							print("got \(ords ?? 0) orders")
+						}
 					}
 				}
 			}
@@ -512,9 +536,15 @@ class LoginViewController: UIViewController
 				}
 				catch let jsonErr
 				{
-					print(jsonErr)
+					if self.store.debug > 0
+					{
+						print(jsonErr)
+					}
 				}
-				print("decoded \(store.orders.count) orders")
+				if self.store.debug > 5
+				{
+					print("decoded \(store.orders.count) orders")
+				}
 			}
 		}
 		if store.customer != nil && store.customer?.lastname != ""
@@ -525,8 +555,10 @@ class LoginViewController: UIViewController
 				store.callGetCarts(id_customer: id_customer) { (carts, err) in
 					if err == nil
 					{
-						print("got \((carts as [aCart]?)?.count ?? 0) carts")
-						//print("got \((carts as [Carts]?)?.count ?? 0) carts")
+						if self.store.debug > 5
+						{
+							print("got \((carts as [aCart]?)?.count ?? 0) carts")
+						}
 					}
 				}
 			}
@@ -537,11 +569,17 @@ class LoginViewController: UIViewController
 				{
 					let carts = try JSONDecoder().decode(Carts.self, from: dataStr!)
 					store.carts = carts.carts!
-					print("decoded \(store.carts.count) carts")
+					if self.store.debug > 5
+					{
+						print("decoded \(store.carts.count) carts")
+					}
 				}
 				catch let JSONerr
 				{
-					print("\(R.string.err) \(JSONerr)")
+					if self.store.debug > 0
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
 				}
 			}
 		}
@@ -557,7 +595,10 @@ class LoginViewController: UIViewController
 
 						if error != nil
 						{
-							print(error!)
+							if self.store.debug > 0
+							{
+								print(error!)
+							}
 						}
 						else
 						{
@@ -566,7 +607,10 @@ class LoginViewController: UIViewController
 							//print("got \(addresses.addresses.count) addresses")
 							//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
 							let addr = addresses?.addresses
-							print("got \(String(describing: addr?.count)) addresses")
+							if self.store.debug > 5
+							{
+								print("got \(String(describing: addr?.count)) addresses")
+							}
 		//					UserDefaults.standard.set(String(data: addr!, encoding: .utf8), forKey: "AddressesCustomer\(id_customer)")
 		//					OperationQueue.main.addOperation
 		//						{
@@ -583,7 +627,10 @@ class LoginViewController: UIViewController
 				{
 					let addresses = try JSONDecoder().decode(Addresses.self, from: dataStr!)
 					store.addresses = addresses.addresses!
-					print("decoded \(String(describing: store.addresses.count)) addresses")
+					if self.store.debug > 5
+					{
+						print("decoded \(String(describing: store.addresses.count)) addresses")
+					}
 //					for add in 0..<addresses.addresses
 //					{
 //					store.addresses.append(add)
@@ -591,7 +638,10 @@ class LoginViewController: UIViewController
 				}
 				catch let JSONerr
 				{
-					print("\(R.string.err) \(JSONerr)")
+					if self.store.debug > 0
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
 				}
 			}
 		}
@@ -615,7 +665,10 @@ class LoginViewController: UIViewController
 						
 						if err != nil
 						{
-							print(err!)
+							if self.store.debug > 0
+							{
+								print(err!)
+							}
 							return
 						}
 						if let orders = orders
@@ -626,7 +679,10 @@ class LoginViewController: UIViewController
 								self.store.orderDetails.append(member)
 							}
 							//let ords = ord?.count
-							print("got an order detail")
+							if self.store.debug > 5
+							{
+								print("got an order detail")
+							}
 						}
 					}
 				}
@@ -645,9 +701,15 @@ class LoginViewController: UIViewController
 					}
 					catch let jsonErr
 					{
-						print(jsonErr)
+						if self.store.debug > 0
+						{
+							print(jsonErr)
+						}
 					}
-					print("decoding details for order \(order.id ?? 0)")
+					if self.store.debug > 5
+					{
+						print("decoding details for order \(order.id ?? 0)")
+					}
 				}
 				//print("getting \(store.orderDetails.count) order details")
 			}
@@ -746,7 +808,6 @@ class LoginViewController: UIViewController
 			}
 			if proceed
 			{
-				//PostHTTP
 				self.getCustomerDetails()
 			}
 		}

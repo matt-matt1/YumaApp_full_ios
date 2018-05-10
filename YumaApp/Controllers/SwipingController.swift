@@ -67,85 +67,85 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			getValues()
 		}
-		var ws = WebService()
-		ws.startURL = R.string.WSbase
-		ws.resource = APIResource.addresses
-		ws.keyAPI = R.string.APIkey
-		ws.filter = ["id" : [4]]
-		//ws.filter = [(Addresses_filter.alias as! String):["Q"]]
-		//ws.filter = ["firstname":["john"], "lastname":["DOE%"]]
-		//ws.display = ["birthday"]
-		ws.display = ["full"]
-		//ws.sort = ["firstname" : Direction.DESC]
-		//ws.outputAs = OutputFormat.JSON
-		//ws.limit = [6]
-		ws.printURL()
-		print("----")
-		ws.get 	{ 	(result) in
-			if result.data != nil
-			{
-				let data = String(data: result.data! as Data, encoding: .utf8)
-				print(data!)
-				print("----get^")
-				ws.xml = data
-					// parse XML
-				let xmlParser = XMLParser(data: (data?.data(using: .utf8))!)
-				xmlParser.delegate = self
-				let success: Bool = xmlParser.parse()
-				//print("xml \(success ? "parsed" : "failed")")
-				if success
-				{
-					print("XML parsed")
-				}
-				else
-				{
-					print(xmlParser.parserError.debugDescription)
-				}
-				print("----")
-				//print(xmlParser.value(forKey: "address")!)
-				let newRow: Any?
-					// Edit the given row
-				ws.id = 4
-				newRow = self.store.carriers[0]
-				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: false)
-				//print(ws.xml)
-				ws.printURL()
-				ws.edit() 	{ 	(result) in
-					if result.data != nil
-					{
-						let data = String(data: result.data! as Data, encoding: .utf8)
-						print(data!)
-						print("----edit^")
-					}
-				}
-				// Add a row
-//				ws.schema = Schema.blank
-//				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
+//		var ws = WebService()
+//		ws.startURL = R.string.WSbase
+//		ws.resource = APIResource.addresses
+//		ws.keyAPI = R.string.APIkey
+//		ws.filter = ["id" : [4]]
+//		//ws.filter = [(Addresses_filter.alias as! String):["Q"]]
+//		//ws.filter = ["firstname":["john"], "lastname":["DOE%"]]
+//		//ws.display = ["birthday"]
+//		ws.display = ["full"]
+//		//ws.sort = ["firstname" : Direction.DESC]
+//		//ws.outputAs = OutputFormat.JSON
+//		//ws.limit = [6]
+//		ws.printURL()
+//		print("----")
+//		ws.get 	{ 	(result) in
+//			if result.data != nil
+//			{
+//				let data = String(data: result.data! as Data, encoding: .utf8)
+//				print(data!)
+//				print("----get^")
+//				ws.xml = data
+//					// parse XML
+//				let xmlParser = XMLParser(data: (data?.data(using: .utf8))!)
+//				xmlParser.delegate = self
+//				let success: Bool = xmlParser.parse()
+//				//print("xml \(success ? "parsed" : "failed")")
+//				if success
+//				{
+//					print("XML parsed")
+//				}
+//				else
+//				{
+//					print(xmlParser.parserError.debugDescription)
+//				}
+//				print("----")
+//				//print(xmlParser.value(forKey: "address")!)
+//				let newRow: Any?
+//					// Edit the given row
+//				ws.id = 4
+//				newRow = self.store.carriers[0]
+//				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: false)
+//				//print(ws.xml)
 //				ws.printURL()
-//				ws.add() 	{ 	(result) in
+//				ws.edit() 	{ 	(result) in
 //					if result.data != nil
 //					{
 //						let data = String(data: result.data! as Data, encoding: .utf8)
 //						print(data!)
-//						print("----add^")
+//						print("----edit^")
 //					}
 //				}
-					// Delete a row
-//				ws.delete(completionHandler: 	{ 	(result) in
-//					if result.data != nil
-//					{
-//						let data = String(data: result.data! as Data, encoding: .utf8)
-//						print(data!)
-//						print("----delete^")
-//					}
-//				})
-			}
-		}
-		if ws.resource != nil
-		{
-			let res = "\(ws.resource!)".capitalized
-			print("\(res):\(ws.listProperties(resource: ws.resource!))")//ws.resource!.rawValue
-		}
+//				// Add a row
+////				ws.schema = Schema.blank
+////				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
+////				ws.printURL()
+////				ws.add() 	{ 	(result) in
+////					if result.data != nil
+////					{
+////						let data = String(data: result.data! as Data, encoding: .utf8)
+////						print(data!)
+////						print("----add^")
+////					}
+////				}
+//					// Delete a row
+////				ws.delete(completionHandler: 	{ 	(result) in
+////					if result.data != nil
+////					{
+////						let data = String(data: result.data! as Data, encoding: .utf8)
+////						print(data!)
+////						print("----delete^")
+////					}
+////				})
+//			}
+//		}
+//		if ws.resource != nil
+//		{
+//			let res = "\(ws.resource!)".capitalized
+//			print("\(res):\(ws.listProperties(resource: ws.resource!))")//ws.resource!.rawValue
+//		}
 
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
@@ -159,13 +159,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetCountries() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [Country]?)?.count ?? 0) countries")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [Country]?)?.count ?? 0) countries")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -196,13 +199,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetStates(id_country: 0) { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [CountryState]?)?.count ?? 0) states")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [CountryState]?)?.count ?? 0) states")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -233,13 +239,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetCarriers { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as [Carrier]?)?.count ?? 0) carriers")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as [Carrier]?)?.count ?? 0) carriers")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -270,13 +279,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.getOrderStates() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [OrderState]?)?.count ?? 0) order states")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [OrderState]?)?.count ?? 0) order states")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -308,13 +320,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetLanguages() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [Language]?)?.count ?? 0) langs")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [Language]?)?.count ?? 0) langs")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -345,13 +360,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.getOrderHistories() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [OrderHistory]?)?.count ?? 0) order histories")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [OrderHistory]?)?.count ?? 0) order histories")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -382,13 +400,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetCategories() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [aCategory]?)?.count ?? 0) categories")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [aCategory]?)?.count ?? 0) categories")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -419,13 +440,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetCombinations() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [Combination]?)?.count ?? 0) combinations")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [Combination]?)?.count ?? 0) combinations")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -456,13 +480,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.getOrderCarriers() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [OrderCarrier]?)?.count ?? 0) order_carriers")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [OrderCarrier]?)?.count ?? 0) order_carriers")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -493,13 +520,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetProductOptions() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [ProductOption]?)?.count ?? 0) product options")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [ProductOption]?)?.count ?? 0) product options")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -530,13 +560,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetCurrencies() { 	(items, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((items as! [Currency]?)?.count ?? 0) currencies")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((items as! [Currency]?)?.count ?? 0) currencies")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -582,13 +615,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if taxes == nil
 			{
 				store.callGetTaxes { (taxes, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((taxes as [Tax]?)?.count ?? 0) taxes")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -619,13 +655,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if configurations == nil
 			{
 				store.callGetConfigurations { (configurations, err) in
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((configurations as [Configuration]?)?.count ?? 0) configurations")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((configurations as [Configuration]?)?.count ?? 0) configurations")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -656,13 +695,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if tags == nil
 			{
 				store.callGetTags { (tags, err) in	//api get
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((tags as [myTag]?)?.count ?? 0) tags")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((tags as [myTag]?)?.count ?? 0) tags")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				}
 			}
@@ -695,13 +737,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				store.callGetContacts(completion:
 				{ 	(contacts, err) in	//api get
-					if err == nil
+					if self.store.debug > 5
 					{
-						print("got \((contacts as! [Contact]?)?.count ?? 0) contacts")
-					}
-					else
-					{
-						print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						if err == nil
+						{
+							print("got \((contacts as! [Contact]?)?.count ?? 0) contacts")
+						}
+						else
+						{
+							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+						}
 					}
 				})
 			}
@@ -735,7 +780,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			if items == nil
 			{
 				store.callGetProductOptionValues(completion:
-					{ 	(items, err) in	//api get
+				{ 	(items, err) in	//api get
+					if self.store.debug > 5
+					{
 						if err == nil
 						{
 							print("got \((items)?.count ?? 0) product_option_values")
@@ -744,6 +791,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 						{
 							print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
 						}
+					}
 				})
 			}
 			else
@@ -1034,6 +1082,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 				mainStack.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
 				mainStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 				mainStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+				mainStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
 				])
 		}
 

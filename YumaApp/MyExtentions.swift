@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Security
 
 
 extension UINavigationBar
@@ -427,10 +428,40 @@ public extension KeyedDecodingContainer
 	}
 }
 
+func md5(_ string: String) -> String
+{
+	let context = UnsafeMutablePointer<CC_MD5_CTX>.allocate(capacity: 1)
+	var digest = Array<UInt8>(repeating:0, count:Int(CC_MD5_DIGEST_LENGTH))
+	CC_MD5_Init(context)
+	CC_MD5_Update(context, string, CC_LONG(string.lengthOfBytes(using: String.Encoding.utf8)))
+	CC_MD5_Final(&digest, context)
+	context.deallocate()
+	var hexString = ""
+	for byte in digest
+	{
+		hexString += String(format:"%02x", byte)
+	}
+	return hexString
+}
 
 ///////////////////////////////////////////////////////////
 extension String
 {
+//	//https://stackoverflow.com/questions/32163848/how-to-convert-string-to-md5-hash-using-ios-swift
+//	var MD5:String {
+//		get{
+//			let messageData = self.data(using:.utf8)!
+//			var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+//			
+//			_ = digestData.withUnsafeMutableBytes {digestBytes in
+//				messageData.withUnsafeBytes {messageBytes in
+//					CC_MD5(messageBytes, CC_LONG(messageData.count), digestBytes)
+//				}
+//			}
+//			
+//			return digestData.map { String(format: "%02hhx", $0) }.joined()
+//		}
+//	}
 	/// Returns a String of random characters 'length' long, can include symbols
 	func generatePassword(_ length: Int = 8, _ incSymbols: Bool = true) -> String
 	{

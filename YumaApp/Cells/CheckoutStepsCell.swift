@@ -346,7 +346,7 @@ class CheckoutStepsCell: UICollectionViewCell
 	// MARK: Actions
 	@objc func doCont(_ sender: UITapGestureRecognizer)
 	{
-		print(R.string.cont)
+		print("\(R.string.cont) from \(curr)")
 		switch curr
 		{
 		case 1:

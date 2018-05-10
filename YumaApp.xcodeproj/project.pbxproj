@@ -61,8 +61,6 @@
 		CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50A3E5207C08A4008749F0 /* PickerViewController.swift */; };
 		CF50A3E8207C0B8D008749F0 /* HelpStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF50A3E7207C0B8D008749F0 /* HelpStoryboard.storyboard */; };
 		CF50A3EA207C22ED008749F0 /* NotifyExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50A3E9207C22ED008749F0 /* NotifyExtention.swift */; };
-		CF5239A8209CD05300227BB6 /* SSRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5239A7209CD05300227BB6 /* SSRadioButton.swift */; };
-		CF5239AA209CD09700227BB6 /* SSRadioButtonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5239A9209CD09700227BB6 /* SSRadioButtonsController.swift */; };
 		CF55FAF3208B9B0000B6CB3C /* HelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */; };
 		CF55FAF5208BA35100B6CB3C /* HelpMainPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */; };
 		CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */; };
@@ -210,6 +208,7 @@
 		CF182DCF203340E50070B9E5 /* PSWebServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSWebServices.swift; sourceTree = "<group>"; };
 		CF182DD1203344C00070B9E5 /* Addresses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Addresses.swift; sourceTree = "<group>"; };
 		CF26FFC120586C1300532C11 /* CustomerOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = CustomerOrders.storyboard; path = ../../CustomerOrders.storyboard; sourceTree = "<group>"; };
+		CF2DDBF420A4C91500AF517D /* YumaApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YumaApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		CF331F5A209A3B6200992F92 /* CheckoutCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutCollection.swift; sourceTree = "<group>"; };
 		CF331F5C209A3D5400992F92 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		CF331F5E209A3D8200992F92 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
@@ -246,8 +245,6 @@
 		CF50A3E5207C08A4008749F0 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		CF50A3E7207C0B8D008749F0 /* HelpStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HelpStoryboard.storyboard; sourceTree = "<group>"; };
 		CF50A3E9207C22ED008749F0 /* NotifyExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyExtention.swift; sourceTree = "<group>"; };
-		CF5239A7209CD05300227BB6 /* SSRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRadioButton.swift; sourceTree = "<group>"; };
-		CF5239A9209CD09700227BB6 /* SSRadioButtonsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSRadioButtonsController.swift; sourceTree = "<group>"; };
 		CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCell.swift; sourceTree = "<group>"; };
 		CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpMainPanel.xib; sourceTree = "<group>"; };
 		CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMainPanel.swift; sourceTree = "<group>"; };
@@ -431,8 +428,6 @@
 				CF78CC0A2083FE620030789D /* PropertyNames.swift */,
 				CF4D85452094C0C3001A1744 /* Http.swift */,
 				CF4D85472094D5B8001A1744 /* WebService.swift */,
-				CF5239A7209CD05300227BB6 /* SSRadioButton.swift */,
-				CF5239A9209CD09700227BB6 /* SSRadioButtonsController.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -551,6 +546,7 @@
 				CF182DC1203205F80070B9E5 /* Controls */,
 				CFAFC0E9201F911D002CBC1B /* Models */,
 				CFAFC0B5201F7857002CBC1B /* Fonts */,
+				CF2DDBF420A4C91500AF517D /* YumaApp-Bridging-Header.h */,
 			);
 			path = YumaApp;
 			sourceTree = "<group>";
@@ -759,6 +755,7 @@
 				TargetAttributes = {
 					CFAFC083201F6DA1002CBC1B = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1050,7 +1047,6 @@
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CF60CADD208E4B7900B6D0EE /* SpecificPriceRules.swift in Sources */,
 				CF78CC092083B41D0030789D /* Debug2ViewController.swift in Sources */,
-				CF5239A8209CD05300227BB6 /* SSRadioButton.swift in Sources */,
 				CF601A0E204AE13700217025 /* OrderCarriers.swift in Sources */,
 				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
@@ -1119,7 +1115,6 @@
 				CF717EAA20A394DD00E68F83 /* MobileDataItem.swift in Sources */,
 				CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */,
 				CF4BD95F208129E2000B2ED6 /* DebugViewController.swift in Sources */,
-				CF5239AA209CD09700227BB6 /* SSRadioButtonsController.swift in Sources */,
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,
 				CF717EA320A38A6400E68F83 /* ProductsViewControllerForm.swift in Sources */,
@@ -1301,6 +1296,7 @@
 			baseConfigurationReference = 057A747F0261C5418B078353 /* Pods-YumaApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = default;
@@ -1310,6 +1306,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "YumaApp/YumaApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1320,6 +1318,7 @@
 			baseConfigurationReference = AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = JED4EB54LQ;
@@ -1328,6 +1327,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yumatechnical.YumaApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "YumaApp/YumaApp-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

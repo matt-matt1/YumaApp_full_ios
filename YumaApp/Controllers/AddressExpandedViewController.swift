@@ -299,7 +299,10 @@ extension AddressExpandedViewController : UIPickerViewDataSource, UIPickerViewDe
 	{
 		if let listFor = sender.superview?.subviews.first as? UILabel
 		{
-			print("build list for \(listFor.text ?? "")")
+			if self.store.debug > 5
+			{
+				print("build list for \(listFor.text ?? "")")
+			}
 			let picker = UIPickerView()
 			picker.dataSource = self
 			picker.delegate = self
