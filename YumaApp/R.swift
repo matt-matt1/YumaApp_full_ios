@@ -124,11 +124,11 @@ struct R {
 			"When all steps are complete the item(s) are ready to be dispatched"]
 		
 		static let help_contact_us_guide: [String] = [
-			"This page details how we can contacted - phone, email and visit",
-			"The \"\(R.string.phoneAct)\" button will place the number in your dialer",
-			"The \"\(R.string.email)\" button will create a new message and place our email address in the To address",
-			"A map will be displayed with our location",
-			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to us",
+			"This page details how you can contact us - phone, email and visit",
+			"The \"\(R.string.phoneAct)\" button will place our phone number into your dialer",
+			"The \"\(R.string.email)\" button will create a new message and place our email address into the To address",
+			"A map will be displayed pinning our location",
+			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
 			"The \"\(R.string.map_big)\" button will, if you have internet facilities, display a map with our location",
 			"The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
@@ -467,6 +467,7 @@ struct R {
 		static let without = "Order without logging in"
 		static let withoutMore = "ie. Forget delerivy address"
 		static let noAuth = "Cannot authorize any user"
+		static let resetOnly = "You can regenerate your password only every %d minute(s)"
 		//		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"

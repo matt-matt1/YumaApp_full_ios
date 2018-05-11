@@ -10,6 +10,7 @@
 		77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */; };
 		905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */; };
 		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
+		CF101FAA20A64ED8006917DA /* SetPW.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF101FA920A64ED8006917DA /* SetPW.swift */; };
 		CF126940204C4A6F008EFD04 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12693F204C4A6F008EFD04 /* Categories.swift */; };
 		CF126942204C7B76008EFD04 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF126941204C7B76008EFD04 /* Images.swift */; };
 		CF126944204C8506008EFD04 /* CartRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF126943204C8506008EFD04 /* CartRules.swift */; };
@@ -192,6 +193,7 @@
 		7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.release.xcconfig"; sourceTree = "<group>"; };
 		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF101FA920A64ED8006917DA /* SetPW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPW.swift; sourceTree = "<group>"; };
 		CF12693F204C4A6F008EFD04 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		CF126941204C7B76008EFD04 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		CF126943204C8506008EFD04 /* CartRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartRules.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */,
 				CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */,
 				CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */,
+				CF101FA920A64ED8006917DA /* SetPW.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1124,6 +1127,7 @@
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
 				CF4B9AB720A1F27900AD1486 /* CartCell.swift in Sources */,
 				CF877BC820923E7400E871F9 /* arbitraryJSON.swift in Sources */,
+				CF101FAA20A64ED8006917DA /* SetPW.swift in Sources */,
 				CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */,
 				CF717EA520A38BA900E68F83 /* ProductsViewControllerMethods.swift in Sources */,
 				CFB02E3E204F445A00429798 /* ProductsViewController.swift in Sources */,

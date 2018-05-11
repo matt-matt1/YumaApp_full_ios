@@ -311,7 +311,7 @@ class MyAccInfoViewController: UIViewController
 		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let today = df.string(from: date)
 		let ipAddr: String = store.getIPAddress()!
-		let newRow = Customer(id: "", id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? passwordEdit.text! : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
+		let newRow = Customer(id: "", id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
 		return newRow
 	}
 
@@ -432,7 +432,7 @@ class MyAccInfoViewController: UIViewController
 				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
 				print(ws.xml!)
 				ws.printURL()
-				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)", parameters: ["xml":ws.xml!], headers: ["Content-Type": "text/xml; charset=utf-8", "Content-Length": "\(ws.xml!.count+4)"], body: nil, save: nil) 	{ 	(cust) in
+				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil) 	{ 	(cust) in
 					//print("return: \(cust)")
 					var title = R.string.customer
 					if !((cust as? Bool)!)
@@ -510,7 +510,9 @@ class MyAccInfoViewController: UIViewController
 				//var params = [String : String]()
 				//params["ws_key"] = R.string.APIkey
 				//params["xml"] = str
-				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Content-Length": "\(str.count)"], body: "\(str)", save: nil) 	{ 	(cust) in
+				var allowed = CharacterSet.alphanumerics
+				allowed.insert(charactersIn: ".-_~/?")
+				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml;charset=utf-8"/*"application/x-www-form-urlencoded"*/, "Accept": "text/xml"], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil) 	{ 	(cust) in
 //					print("return: \(cust)")
 					var title = R.string.customer
 					if !((cust as? Bool)!)

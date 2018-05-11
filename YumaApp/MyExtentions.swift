@@ -428,6 +428,7 @@ public extension KeyedDecodingContainer
 	}
 }
 
+/// Returns a string coded with MD5 technology
 func md5(_ string: String) -> String
 {
 	let context = UnsafeMutablePointer<CC_MD5_CTX>.allocate(capacity: 1)
@@ -447,6 +448,48 @@ func md5(_ string: String) -> String
 ///////////////////////////////////////////////////////////
 extension String
 {
+//	/// Returns a string coded with MD5 technology
+//	func md5(_ string: String) -> String
+//	{
+//		let context = UnsafeMutablePointer<CC_MD5_CTX>.allocate(capacity: 1)
+//		var digest = Array<UInt8>(repeating:0, count:Int(CC_MD5_DIGEST_LENGTH))
+//		CC_MD5_Init(context)
+//		CC_MD5_Update(context, string, CC_LONG(string.lengthOfBytes(using: String.Encoding.utf8)))
+//		CC_MD5_Final(&digest, context)
+//		context.deallocate()
+//		var hexString = ""
+//		for byte in digest
+//		{
+//			hexString += String(format:"%02x", byte)
+//		}
+//		return hexString
+//	}
+
+	//https://stackoverflow.com/questions/29365145/how-can-i-encode-a-string-to-base64-in-swift
+	// let testString = "A test string."
+	//let encoded = testString.toBase64() // "QSB0ZXN0IHN0cmluZy4="
+	//guard let decoded = encoded.fromBase64() // "A test string."
+	//else { return }
+	/// Returns a String decoded from base64 - eg. guard let decoded = encoded.fromBase64() else { return }
+	func fromBase64() -> String?
+	{
+		guard let data = Data(base64Encoded: self, options: Data.Base64DecodingOptions(rawValue: 0)) else
+		{
+			return nil
+		}
+		return String(data: data, encoding: .utf8)
+	}
+	/// Returns an optional String encoded with base64 - eg. let encoded = testString.toBase64()
+	func toBase64() -> String?
+	{
+		guard let data = self.data(using: String.Encoding.utf8) else
+		{
+			return nil
+		}
+		return data.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+		//return Data(self.utf8).base64EncodedString()
+	}
+
 //	//https://stackoverflow.com/questions/32163848/how-to-convert-string-to-md5-hash-using-ios-swift
 //	var MD5:String {
 //		get{

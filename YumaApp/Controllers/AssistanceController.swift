@@ -18,6 +18,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	{
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
+		view.isUserInteractionEnabled = true
 		view.backgroundColor = UIColor.white
 		view.cornerRadius = 20
 		view.shadowColor = R.color.YumaDRed

@@ -763,6 +763,11 @@ class LoginViewController: UIViewController
 	}
 	@IBAction func helpBtnAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_login_guide
+		viewC.modalTransitionStyle = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func closeBtnAct(_ sender: Any)
 	{

@@ -85,6 +85,7 @@ final class DataStore
 				for head in headers!
 				{
 					request.setValue(head.value, forHTTPHeaderField: head.key)
+//					print("request header:\(head)")
 				}
 			}
 			var bodyStr = ""
@@ -101,17 +102,38 @@ final class DataStore
 					}
 				}
 				bodyStr = paramArray.joined(separator: "&")
+				if debug > 0
+				{
+//					print("parameters:\(bodyStr)")
+				}
+				request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
 			}
-			else if body != nil
+			if body != nil
 			{
-				bodyStr = body!
+//				print("request body:\(body!)")
+				if parameters != nil
+				{
+					let temp = bodyStr
+					bodyStr = temp + "&" + body!
+				}
+				else
+				{
+					bodyStr = body!
+				}
 			}
-			request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
 			request.httpBody = bodyStr.data(using: String.Encoding.utf8)!
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in
 				if let unwrappedData = data
 				{
+//					if let response = response
+//					{
+//						print("status code:\(String(describing: response.getStatusCode()))")
+//					}
+//					if let error = error
+//					{
+//						print("response error:\(error)")
+//					}
 					do
 					{
 						let str = String(data: unwrappedData, encoding: .utf8)
@@ -133,10 +155,8 @@ final class DataStore
 					}
 					catch
 					{
-						print("POST failed")
+//						print("POST failed")
 						completion(false)
-//						self.emailTextField.text = ""
-//						self.passwordTextField.text = ""
 						let alertView = UIAlertController(title: "Login failed",
 														  message: "Wrong username or password." as String, preferredStyle:.alert)
 						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
@@ -162,6 +182,7 @@ final class DataStore
 				for head in headers!
 				{
 					request.setValue(head.value, forHTTPHeaderField: head.key)
+//					print("request header:\(head)")
 				}
 			}
 			if parameters != nil
@@ -178,7 +199,7 @@ final class DataStore
 				paramStr = paramArray.joined(separator: "&")
 				if debug > 0
 				{
-					print("sending:\(paramStr)")
+//					print("parameters:\(paramStr)")
 				}
 				request.setValue("\(paramStr.count)", forHTTPHeaderField: "Content-Length")
 				if body == nil
@@ -188,6 +209,7 @@ final class DataStore
 			}
 			if body != nil
 			{
+//				print("request body:\(body!)")
 				request.httpBody = body!.data(using: .utf8)
 			}
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
@@ -195,6 +217,14 @@ final class DataStore
 				if let unwrappedData = data
 				{
 					let str = String(data: unwrappedData, encoding: .utf8)
+//					if let response = response
+//					{
+//						print("status code:\(String(describing: response.getStatusCode()))")
+//					}
+//					if let error = error
+//					{
+//						print("response error:\(error)")
+//					}
 					do
 					{
 						if str == "" || str == "BAD"
@@ -216,7 +246,7 @@ final class DataStore
 					}
 					catch
 					{
-						print("PUT failed (\(str ?? "unknown error"))")
+//						print("PUT failed (\(str ?? "unknown error"))")
 						completion(false)
 						//						self.emailTextField.text = ""
 						//						self.passwordTextField.text = ""

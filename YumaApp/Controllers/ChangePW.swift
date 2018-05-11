@@ -23,6 +23,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = UIColor.white
+		view.isUserInteractionEnabled = true
 		view.cornerRadius = 20
 		view.shadowColor = R.color.YumaDRed
 		view.shadowRadius = 5
