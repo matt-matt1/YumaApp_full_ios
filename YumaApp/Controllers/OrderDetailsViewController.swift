@@ -146,6 +146,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		navClose.title = FontAwesome.times.rawValue
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		orderRef.text = R.string.ordRef
 		placedOn.text = R.string.placed.capitalized
 		carrierLabel.text = R.string.carr

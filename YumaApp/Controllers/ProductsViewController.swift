@@ -68,22 +68,34 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		navClose.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.normal)
+		navClose.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
+		//navClose.tintColor = R.color.YumaYel
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
+		//navHelp.tintColor = R.color.YumaYel
 		if UIScreen.main.scale < 2
 		{
 			let spacer = UIBarButtonItem(title: "|", style: .plain, target: self, action: nil)
 			spacer.setTitleTextAttributes([
 				NSAttributedStringKey.foregroundColor : R.color.YumaRed
-				], for: UIControlState.normal)
+				], for: UIControlState.application)
 			navTitle.rightBarButtonItems?.append(spacer)
 		}
-		let cart = UIBarButtonItem(title: FontAwesome.shoppingCart.rawValue, style: .plain, target: self, action: #selector(navCartAct(_:)))
+		let cart = UIBarButtonItem(title: FontAwesome.shoppingCart.rawValue, style: .done, target: self, action: #selector(navCartAct(_:)))
+		//cart.tintColor = R.color.YumaYel
 		cart.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.normal)
+		cart.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		navTitle.rightBarButtonItems?.append(cart)
 		centerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
 //		if self.view.frame.width > 400

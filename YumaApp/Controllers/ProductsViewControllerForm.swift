@@ -38,7 +38,7 @@ extension ProductsViewController
 		return stack
 	}
 	
-	func formTagsView(tagIDs: [IdAsString]) -> UIStackView
+	func formTagsView(tagIDs: [IdAsString], maxWidth: CGFloat, maxHeight: CGFloat) -> UIStackView
 	{
 		let stack = UIStackView()
 		//stack.translatesAutoresizingMaskIntoConstraints = false
@@ -113,9 +113,14 @@ extension ProductsViewController
 	}
 	
 	func formCategoriesView(categorieIDs: [IdAsString]) -> UIStackView
+	//func formCategoriesView(categorieIDs: [IdAsString]) -> UIScrollView
 	{
 		var first = true
 		let stack = UIStackView()
+		//let stack = UIScrollView(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+		//stack.contentSize.height = 30
+//		print("stack frame x:\(stack.frame.origin.x), y:\(stack.frame.origin.y), w:\(stack.frame.width), h:\(stack.frame.height)")
+		//stack.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		//stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.spacing = 2
 		for prodCat in categorieIDs
@@ -135,6 +140,9 @@ extension ProductsViewController
 							sep.text = " > "
 							sep.textColor = UIColor.gray
 							stack.addArrangedSubview(sep)
+							//stack.addSubview(sep)
+							//stack.contentSize.width += 53
+							//print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
 						}
 						let wrapperLbl = UIView()
 						wrapperLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -150,6 +158,9 @@ extension ProductsViewController
 							])
 						wrapperLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displayCat(_:))))
 						stack.addArrangedSubview(wrapperLbl)
+						//stack.addSubview(wrapperLbl)
+						//stack.contentSize.width += CGFloat(((lbl.text?.count)! * 17) + 2)
+						//print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
 						first = false
 						break
 					}

@@ -33,6 +33,9 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 		navBar.translatesAutoresizingMaskIntoConstraints = false
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		if #available(iOS 11.0, *)
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

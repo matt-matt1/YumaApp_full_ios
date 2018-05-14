@@ -88,6 +88,9 @@ class MyAccAddr2ViewController: UIViewController
 		navTitle.title = "\(R.string.my_account) \(R.string.Addr)"
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		leftButtonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
 		leftButtonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		leftButtonRight.setTitle(R.string.delete.uppercased(), for: .normal)
@@ -182,10 +185,10 @@ class MyAccAddr2ViewController: UIViewController
 ////////from AddressE...
 	func prepareLabels()
 	{
-		navTitle.title = R.string.Addr
-		navClose.title = FontAwesome.times.rawValue
-		navHelp.title = FontAwesome.questionCircle.rawValue
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navTitle.title = R.string.Addr
+//		navClose.title = FontAwesome.times.rawValue
+//		navHelp.title = FontAwesome.questionCircle.rawValue
+//		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		aliasLabel.text = R.string.alias
 		aliasField.placeholder = R.string.nickName
 		aliasBorder.borderColor = UIColor.white

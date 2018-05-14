@@ -245,7 +245,7 @@ extension ProductsViewController
 							self.pageControl.pageIndicatorTintColor = R.color.YumaYel
 							self.pageControl.numberOfPages = self.store.products.count
 							print("found \(self.store.products.count) products")
-							print(self.store.products)
+							//print(self.store.products)
 							if self.store.products.count < 1
 							{
 								OperationQueue.main.addOperation
@@ -358,8 +358,8 @@ extension ProductsViewController
 				let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
 				print("self:\(self.view.frame.width), scroll:\(self.scrollView.frame.width)")
 				//				print("language id:\(id_lang)")
-				view.clipsToBounds = true
-				view.sizeToFit()
+				//view.clipsToBounds = true
+				//view.sizeToFit()
 				view.prodName.text = prod.name![store.myLang].value
 				view.prodName.textColor = R.color.YumaRed
 				//view.prodName.tag = prod.id!
@@ -479,12 +479,43 @@ extension ProductsViewController
 				{
 					//let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
 					view.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
+					view.categoriesView.translatesAutoresizingMaskIntoConstraints = false
+					NSLayoutConstraint.activate([
+						view.categoriesView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+						view.categoriesView.trailingAnchor.constraint(lessThanOrEqualTo: view.categoriesView.trailingAnchor, constant: 0)
+						])
+//					view.addConstraintsWithFormat(format: "H:|[v0]", views: view.categoriesView)
+//					view.addConstraintsWithFormat(format: "V:[v0]", views: view.categoriesView)
 				}
 				if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
 				{
 					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
 					//temp
-					view.tagsView.addArrangedSubview(formTagsView(tagIDs: (prod.associations?.tags)!))
+					let stack = formTagsView(tagIDs: (prod.associations?.tags)!, maxWidth: self.scrollView.frame.width, maxHeight: self.scrollView.frame.height)
+					stack.translatesAutoresizingMaskIntoConstraints = false
+					//print("stack frame x:\(stack.frame.origin.x), y:\(stack.frame.origin.y), w:\(stack.frame.width), h:\(stack.frame.height)")
+					//print("stack bounds x:\(stack.bounds.origin.x), y:\(stack.bounds.origin.y), w:\(stack.bounds.width), h:\(stack.bounds.height)")
+					//let scroll = UIScrollView(frame: CGRect(x: 0/*stack.frame.origin.x*/, y: 0/*stack.frame.origin.y*/, width: self.scrollView.frame.width/*stack.frame.width*/, height: self.scrollView.frame.height/*stack.frame.height*/))
+					//print("scroll frame x:\(scroll.frame.origin.x), y:\(scroll.frame.origin.y), w:\(scroll.frame.width), h:\(scroll.frame.height)")
+					//print("scroll bounds x:\(scroll.bounds.origin.x), y:\(scroll.bounds.origin.y), w:\(scroll.bounds.width), h:\(scroll.bounds.height)")
+					//scroll.translatesAutoresizingMaskIntoConstraints = false
+					//scroll.delegate = self
+					//scroll.addSubview(stack)
+					//stack.leadingAnchor.constraint(equalTo: scroll.leadingAnchor, constant: 0).isActive = true
+					//stack.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 0).isActive = true
+//					stack.heightAnchor.constraint(equalToConstant: scroll.contentSize.height).isActive = true
+//					stack.widthAnchor.constraint(equalToConstant: scroll.contentSize.width).isActive = true
+					//stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: 0).isActive = true
+					//stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: 0).isActive = true
+					view.tagsView.addArrangedSubview(stack)
+					//view.tagsView.addArrangedSubview(scroll)
+					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
+//					view.addConstraintsWithFormat(format: "H:|[v0]", views: view.tagsView)
+//					view.addConstraintsWithFormat(format: "V:[v0]", views: view.tagsView)
+//					NSLayoutConstraint.activate([
+//						view.tagsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+//						view.tagsView.trailingAnchor.constraint(lessThanOrEqualTo: view.tagsView.trailingAnchor, constant: 0)
+//						])
 					//^ causes many errors:
 					//					2018-04-26 11:29:03.375743-0400 YumaApp[4629:89804] [LayoutConstraints] Unable to simultaneously satisfy constraints.
 					//					Probably at least one of the constraints in the following list is one you don't want.
@@ -598,6 +629,19 @@ extension ProductsViewController
 				}
 				view.tag = i + 10
 				self.scrollView.addSubview(view)
+//				let downScroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.scrollView.frame.width-10, height: self.scrollView.frame.height-40))
+//				downScroll.addSubview(view)
+//				downScroll.delegate = self
+//				downScroll.showsHorizontalScrollIndicator = false
+//				self.scrollView.addSubview(downScroll)
+//				NSLayoutConstraint.activate([
+//					downScroll.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 0),
+//					downScroll.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 0),
+//					downScroll.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: 0),
+//					downScroll.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor, constant: 0)
+//					])
+//				downScroll.contentSize.width = /*self.scrollView.frame.width*/min(self.scrollView.frame.width-20, view.frame.width)
+//				downScroll.contentSize.height = /*self.scrollView.frame.height*/view.frame.height
 				i += 1
 			}
 		}

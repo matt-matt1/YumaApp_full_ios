@@ -359,6 +359,9 @@ class LoginViewController: UIViewController
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		emailLabel.text = R.string.emailAddr							//set labals for my language
 		passwordLabel.text = R.string.txtPass
 		rememberLabel.text = R.string.remember
@@ -830,7 +833,7 @@ class LoginViewController: UIViewController
 	func markUsernameBad()
 	{
 		self.errorUsernameBorder.layer.borderColor = UIColor.red.cgColor
-		self.invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr)"
+		self.invalidUsername.text = "\(R.string.invalid) \(R.string.emailAddr) (eg. sam@amce_inc.com)"
 	}
 
 	func markUsernameGood()
@@ -842,7 +845,7 @@ class LoginViewController: UIViewController
 	func markPasswordBad()
 	{
 		self.errorPasswordBorder.layer.borderColor = UIColor.red.cgColor
-		self.invalidPassword.text = "\(R.string.invalid) \(R.string.emailAddr)"
+		self.invalidPassword.text = "\(R.string.invalid) \(R.string.txtPass) (minimum 5 characters)"
 	}
 	
 	func markPasswordGood()

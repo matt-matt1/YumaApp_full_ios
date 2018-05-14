@@ -32,6 +32,9 @@ class DebugViewController: UIViewController
 	{
         super.viewDidLoad()
 		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navClose.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		navClose.title = FontAwesome.times.rawValue
 		navigationItem.title = "Resources"
 

@@ -8,10 +8,12 @@
 
 import UIKit
 
+
 protocol PopupDelegate
 {
 	func popupValueSelected(value: String)
 }
+
 
 private let reuseIdentifier = "helpCell"
 
@@ -140,7 +142,6 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	let maxHeight: CGFloat = 600
 	var dialogWidth: CGFloat = 0
 	var dialogHeight: CGFloat = 0
-	//var onSave: ((_ str: String) -> ())?
 	var delegate: PopupDelegate?
 
 

@@ -91,6 +91,9 @@ class AddressExpandedViewController: UIViewController
 		navClose.title = FontAwesome.times.rawValue
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		aliasLabel.text = R.string.alias
 		aliasField.placeholder = R.string.nickName
 		aliasBorder.borderColor = UIColor.white

@@ -124,17 +124,17 @@
                                                                                                 <color key="currentPageIndicatorTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                             </pageControl>
                                                                                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8df-mh-4D5">
-                                                                                                <rect key="frame" x="0.0" y="77" width="458" height="794"/>
+                                                                                                <rect key="frame" x="0.0" y="77" width="458" height="799"/>
                                                                                             </scrollView>
                                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ve-Tw-2as">
-                                                                                                <rect key="frame" x="0.0" y="871" width="458" height="20"/>
+                                                                                                <rect key="frame" x="0.0" y="876" width="458" height="20"/>
                                                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <constraints>
                                                                                                     <constraint firstAttribute="height" constant="20" id="l95-Yr-58F"/>
                                                                                                 </constraints>
                                                                                             </view>
                                                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="4Am-1L-pwV">
-                                                                                                <rect key="frame" x="0.0" y="891" width="458" height="50"/>
+                                                                                                <rect key="frame" x="0.0" y="896" width="458" height="50"/>
                                                                                                 <subviews>
                                                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVf-7F-lYq">
                                                                                                         <rect key="frame" x="0.0" y="0.0" width="10" height="50"/>
@@ -144,10 +144,10 @@
                                                                                                         </constraints>
                                                                                                     </view>
                                                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HAd-Fb-Ldd" customClass="GradientButton" customModule="YumaApp" customModuleProvider="target">
-                                                                                                        <rect key="frame" x="169" y="0.0" width="120" height="50"/>
+                                                                                                        <rect key="frame" x="141.5" y="0.0" width="175" height="50"/>
                                                                                                         <constraints>
                                                                                                             <constraint firstAttribute="height" constant="50" id="41U-fL-Nwq"/>
-                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="Rc3-sX-Fze"/>
+                                                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="175" id="Rc3-sX-Fze"/>
                                                                                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="V2d-Oa-Y5O"/>
                                                                                                         </constraints>
                                                                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
@@ -199,10 +199,10 @@
                                                                                                 </subviews>
                                                                                             </stackView>
                                                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yrJ-dm-evK">
-                                                                                                <rect key="frame" x="0.0" y="941" width="458" height="15"/>
+                                                                                                <rect key="frame" x="0.0" y="946" width="458" height="10"/>
                                                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <constraints>
-                                                                                                    <constraint firstAttribute="height" constant="15" id="ECv-Uy-ro1"/>
+                                                                                                    <constraint firstAttribute="height" constant="10" id="ECv-Uy-ro1"/>
                                                                                                 </constraints>
                                                                                             </view>
                                                                                         </subviews>

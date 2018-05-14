@@ -87,10 +87,10 @@ struct R {
 		]
 		
 		static let help_login_guide: [String] = [
-			"If you have an account with the store, enter your email address in the \"\(R.string.email)\" field and password in the \"\(R.string.txtPass)\" field, then press the \"\(R.string.login)\" button",
+			"If you have an account with the store, enter your email address in the \"\(R.string.email)\" field (eg. sam@amce_inc.com) and password in the \"\(R.string.txtPass)\" field (minimum 5 characters), then press the \"\(R.string.login)\" button",
 			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app ask you to login next time",
-			"If you don't have an account with the store, press \"\(R.string.createAcc)\" to create a new account",
-			"If you have an account, but have forgotten your password, press \"\(R.string.forgotPW)\" and enter your email address"
+			"If you don't have an account with the store, press \"\(R.string.createAcc)\" to create a new account, fill-in the form and press \"\(R.string.createAcc)\"",
+			"If you have an account, but have forgotten your password, press \"\(R.string.forgotPW)\" and enter your email address then press \"\(R.string.proceed)\""
 			
 		]
 
@@ -98,11 +98,23 @@ struct R {
 			"Displays a table of the credit slips, if any, available for redemsion, for product returned"
 		]
 
-		static let help_my_account_information_guide: [String] = [
-			"If logged-in, your details will be displayed; otherwise a blank form will be shown for creating a new user",
-			"Tap the password gray area and a box will appear for you to change or set your password",
-			"NOTE: your email address cannot be changed"
-		]
+		struct help_my_account_information_guide
+		{
+			static let loggedIn: [String] = [
+				"Your details will be displayed",
+				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
+				"\"Company\", \"Web site\", \"Siret\", \"Ape\" alond with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
+				"NOTE: your email address cannot be changed while other details can be changed",
+				"Press \"\(R.string.txtPass)\" to change your password - a popup window will appear",
+			]
+			static let newUser: [String] = [
+				"A blank form will be shown for creating a new user account",
+				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
+				"\"Company\", \"Web site\", \"Siret\", \"Ape\" along with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
+				"NOTE: your email address cannot be changed while other details can be changed",
+				"Press \"\(R.string.generate)\" to have a password of random characters be automattically used - a popup window will appear to note the password",
+			]
+		}
 		
 		static let help_product_list_guide: [String] = [
 			"Swipe left or right to view products/services",
@@ -112,8 +124,8 @@ struct R {
 		
 		static let help_cart_guide: [String] = [
 			"If the list of items is longer than the screen, the list can be scrolled by swiping up or down",
-			"Each item can be swiped left to reveal the item \"\(R.string.delete)\" button",//right to reveal the item \"\(R.string.edit)\" button or
-			//"TIP: The \"\(R.string.edit)\" button will allow you to modify the item quantity",
+			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed this the item can then be removed from your cart",
+			"TIP: Press the \"+ / -\" buttons to increse / decrase the item quantity",
 			"When the list is complete and has the correct quantity for each item, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		static let help_checkout_guide: [String] = [
@@ -125,11 +137,11 @@ struct R {
 		
 		static let help_contact_us_guide: [String] = [
 			"This page details how you can contact us - phone, email and visit",
-			"The \"\(R.string.phoneAct)\" button will place our phone number into your dialer",
-			"The \"\(R.string.email)\" button will create a new message and place our email address into the To address",
-			"A map will be displayed pinning our location",
+			"Press the \"\(R.string.phoneAct)\" button to place our phone number into your dialer",
+			"Press the \"\(R.string.email)\" button to create a new message and have our email address placed into the To address",
+			"A map will be displayed with a red pin at our location; your current location is marked with a blue plusating dot",
 			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
-			"The \"\(R.string.map_big)\" button will, if you have internet facilities, display a map with our location",
+			"Press the \"\(R.string.map_big)\" button, if you have internet facilities, to display a full-screen map with a pin at our location",
 			"The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
 		static let help_home_page_guide: [String] = [

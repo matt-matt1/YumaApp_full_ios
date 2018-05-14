@@ -99,6 +99,9 @@ class MyAccInfoViewController: UIViewController
 		//		}
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
 		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
 		clearErrors()
@@ -572,7 +575,14 @@ class MyAccInfoViewController: UIViewController
 	@IBAction func navHelpAct(_ sender: Any)
 	{
 		let viewC = Assistance()
-		viewC.array = R.array.help_my_account_information_guide
+		if store.customer != nil && !(store.customer?.lastname.isEmpty)!
+		{
+			viewC.array = R.array.help_my_account_information_guide.loggedIn
+		}
+		else
+		{
+			viewC.array = R.array.help_my_account_information_guide.newUser
+		}
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
