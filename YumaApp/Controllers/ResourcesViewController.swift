@@ -1,8 +1,8 @@
 //
-//  DebugViewController.swift
+//  ResourcesViewController.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-04-13.
+//  Created by Yuma Usa on 2018-05-15.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
@@ -15,29 +15,105 @@ struct ResourceStringAndCount
 	let count: Int?
 }
 
-class DebugViewController: UIViewController
+
+class ResourcesViewController: UIViewController
 {
-	@IBOutlet weak var navClose: UIBarButtonItem!
-	@IBOutlet weak var tableView: UITableView!
-	//	@IBOutlet weak var collView: UICollectionView!
 	let cellId = "debugCell"
 	let altRowColor = "#E0E0E0"
 	let store = DataStore.sharedInstance
 	var debugList: [ResourceStringAndCount]? = []
 	static var resource: String?
 	var mirror: Mirror? = nil
-
+	var tableView: UITableView =
+	{
+		let view = UITableView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.green
+		return view
+	}()
+	var panel: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.white
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = .zero
+		view.shadowRadius = 5
+		view.shadowOpacity = 1
+		return view
+	}()
+	var statusBarFrame: CGRect!
+	
 	
     override func viewDidLoad()
 	{
         super.viewDidLoad()
-		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navClose.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
-		navClose.title = FontAwesome.times.rawValue
-		navigationItem.title = "Resources"
 
+		view.backgroundColor = UIColor.lightGray
+//		print("frame-x: \(view.frame.origin.x), y: \(view.frame.origin.y), w: \(view.frame.size.width), h: \(view.frame.size.height)")
+		statusBarFrame = UIApplication.shared.statusBarFrame
+		setNavigation()
+		//panel = UIView(frame: CGRect(x: 5, y: statusBarFrame.height, width: view.frame.width-10, height: view.frame.height-statusBarFrame.height-5))
+		tableView = UITableView(frame: CGRect(x: 2, y: 0, width: view.frame.width-14, height: view.frame.height-statusBarFrame.height-85))
+		tableView.register(ResourceCell.self, forCellReuseIdentifier: cellId)
+		tableView.delegate = self
+		tableView.dataSource = self
+		panel.addSubview(tableView)
+		self.view.addSubview(panel)
+		NSLayoutConstraint.activate([
+			tableView.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
+			tableView.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
+			tableView.topAnchor.constraint(equalTo: panel.topAnchor, constant: 5),
+			tableView.bottomAnchor.constraint(equalTo: panel.bottomAnchor, constant: -5),
+
+			panel.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 5),
+			panel.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -5),
+			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
+			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: /*-statusBarFrame.height*/-5)
+			])
+		fillContent()
+    }
+
+
+    override func didReceiveMemoryWarning()
+	{
+        super.didReceiveMemoryWarning()
+		debugList?.removeAll()
+    }
+	
+	
+	func setNavigation()
+	{
+		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
+		//		print("frame-x: \(navigationController?.navigationBar.frame.origin.x), y: \(navigationController?.navigationBar.frame.origin.y), w: \(navigationController?.navigationBar.frame.width), h: \(navigationController?.navigationBar.frame.height)")
+//		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
+		//navigationController?.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navigationItem.title = "Resources"
+		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(navCloseAct(_:)))
+		navClose.style = UIBarButtonItemStyle.done
+		self.navigationItem.leftBarButtonItems = [navClose]
+//		let statusBar = UIView(frame: statusBarFrame)
+//		statusBar.backgroundColor = UIColor.lightGray
+	}
+	
+	
+	func myGradientV(frame: CGRect, colors: [UIColor]) -> UIImage?
+	{
+		//		print("frame-x: \(view.frame.origin.x), y: \(view.frame.origin.y), w: \(view.frame.size.width), h: \(view.frame.size.height)")
+		let cgcolors = colors.map { 	$0.cgColor 	}
+		UIGraphicsBeginImageContextWithOptions(frame.size, true, 0.0/*frame.origin.x*/)
+		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
+		defer { 	UIGraphicsEndImageContext() 	}
+		var locations: [CGFloat] = [0.0, 1.0]
+		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
+		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: /*statusBarFrame.height*/frame.origin.y), end: CGPoint(x: 0.0, y: frame.height), options: [])
+		//context.clear(statusBarFrame)
+		return UIGraphicsGetImageFromCurrentImageContext()
+	}
+
+
+	func fillContent()
+	{
 		debugList = [
 			ResourceStringAndCount(name: "addresses", count: store.addresses.count),
 			ResourceStringAndCount(name: "carriers", count: store.carriers.count),
@@ -116,26 +192,26 @@ class DebugViewController: UIViewController
 				store.properties.append(key)
 			}
 		}
-		print(store.properties)
-    }
+	}
 
-    override func didReceiveMemoryWarning()
-	{
-        super.didReceiveMemoryWarning()
-        debugList?.removeAll()
-    }
-    
-	@IBAction func navCloseAct(_ sender: Any)
+
+	@objc func navCloseAct(_ sender: AnyObject)
 	{
 		self.dismiss(animated: false, completion: nil)
 	}
-	
+
 }
 
 
 
-extension DebugViewController: UITableViewDelegate, UITableViewDataSource
+extension ResourcesViewController: UITableViewDelegate, UITableViewDataSource
 {
+	func numberOfSections(in tableView: UITableView) -> Int
+	{
+		return 26
+	}
+
+
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
 		if self.debugList == nil
@@ -144,28 +220,93 @@ extension DebugViewController: UITableViewDelegate, UITableViewDataSource
 		}
 		return debugList!.count
 	}
-	
+
+
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DebugTableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! ResourceCell
 		if let debugList = debugList, debugList.count >= indexPath.row
 		{
 			if debugList[indexPath.row].count != nil
 			{
-				cell.setup(str: debugList[indexPath.row].name, String(debugList[indexPath.row].count!))
+				cell.setup(debugList[indexPath.row].name, String(debugList[indexPath.row].count!))
 			}
 			else
 			{
-				cell.setup(str: debugList[indexPath.row].name)
+				cell.setup(debugList[indexPath.row].name)
 			}
 			cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.init(hex: altRowColor) : UIColor.white
 		}
 		return cell
 	}
-	
+
+
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 	{
-		DebugViewController.resource = debugList?[indexPath.row].name
+		if debugList != nil && debugList?[indexPath.item] != nil && debugList?[indexPath.item].count != nil && debugList![indexPath.item].count! > 0
+		{
+			let vc = ResourceStage2ViewController()
+			vc.name = (debugList?[indexPath.row].name)!
+			vc.count = (debugList?[indexPath.row].count)!
+			navigationController?.pushViewController(vc, animated: false)
+		}
 	}
 
 }
+
+
+
+class ResourceCell: UITableViewCell
+{
+	var labelKey: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.text = "key"
+		view.textColor = UIColor.blueApple
+		view.font = UIFont.boldSystemFont(ofSize: 17)
+//		view.attributedText = NSMutableAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),														NSAttributedStringKey.foregroundColor: UIColor.blueApple])
+		return view
+	}()
+	var labelValue: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.text = "value"
+		view.textColor = UIColor.gray
+		view.font = UIFont.systemFont(ofSize: 17)
+//		view.attributedText = NSMutableAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)])
+		return view
+	}()
+	let store = DataStore.sharedInstance
+	var properties: [String : String]?
+
+
+	func setup(_ key: String, _ value: String? = nil)
+	{
+		addSubview(labelKey)
+		addSubview(labelValue)
+		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelKey)
+		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelValue)
+		addConstraintsWithFormat(format: "H:|-4-[v0]-2-[v1]-4-|", views: labelKey, labelValue)
+		labelKey.text = key.replacingOccurrences(of: "_", with: " ").capitalized
+		if value != nil
+		{
+			labelValue.text = value
+		}
+		else
+		{
+			labelValue.text = "-"
+		}
+	}
+
+}
+
+
+
+//struct Sections
+//{
+//	var opened = Bool()
+//	var title = String()
+//	var contents: ResourceStringAndCount
+//}

@@ -87,8 +87,8 @@ struct R {
 		]
 		
 		static let help_login_guide: [String] = [
-			"If you have an account with the store, enter your email address in the \"\(R.string.email)\" field (eg. sam@amce_inc.com) and password in the \"\(R.string.txtPass)\" field (minimum 5 characters), then press the \"\(R.string.login)\" button",
-			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app ask you to login next time",
+			"If you have an account with the store, enter your email address (eg. sam@amce_inc.com) and your password, then press the \"\(R.string.login)\" button",
+			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app prompt for login next time",
 			"If you don't have an account with the store, press \"\(R.string.createAcc)\" to create a new account, fill-in the form and press \"\(R.string.createAcc)\"",
 			"If you have an account, but have forgotten your password, press \"\(R.string.forgotPW)\" and enter your email address then press \"\(R.string.proceed)\""
 			
@@ -372,6 +372,7 @@ struct R {
 		static let ok = "OK"
 		static let tryAgain = "Try again"
 		static let nickName = "nick name"
+		static let overw = "A new password is already in place. Over write this value?"
 		//		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"

@@ -32,16 +32,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5dT-qg-faw">
-                                                    <rect key="frame" x="15" y="14" width="804" height="16"/>
+                                                    <rect key="frame" x="15" y="14" width="345" height="16"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfy-Oy-g6M">
-                                                            <rect key="frame" x="0.0" y="0.0" width="757.66666666666663" height="16"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="298.66666666666669" height="16"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MdZ-t9-BdH">
-                                                            <rect key="frame" x="762.66666666666663" y="0.0" width="41.333333333333371" height="16"/>
+                                                            <rect key="frame" x="303.66666666666669" y="0.0" width="41.333333333333314" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -76,7 +76,7 @@
                         <viewLayoutGuide key="safeArea" id="zqL-PF-UDY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="NwZ-MS-R3w">
-                        <barButtonItem key="leftBarButtonItem" title="close" style="done" id="jfk-Bn-z9Y">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="jfk-Bn-z9Y">
                             <color key="tintColor" red="0.96078431369999995" green="0.74901960779999999" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="navCloseAct:" destination="H89-t1-d9w" id="beG-gc-6S0"/>

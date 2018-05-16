@@ -38,8 +38,9 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = R.color.YumaRed
+		view.font = UIFont.systemFont(ofSize: 21)
 		view.text = "Title"
-		view.textColor = UIColor.white
+		view.textColor = R.color.YumaYel//UIColor.white
 		view.textAlignment = .center
 		view.layer.masksToBounds = true
 		return view
@@ -50,6 +51,8 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.exist
 		view.label.textColor = UIColor.darkGray
+		view.inputType = .hiddenLikePassword
+		view.displayShowHideIcon = true
 		return view
 	}()
 	let generate: UILabel =
@@ -61,8 +64,9 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		view.shadowColor = R.color.YumaYel
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
-		view.isUserInteractionEnabled = true
-		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doGenerate(_:))))
+		//NEVER PLACE GESTURE-RECOGNIOSERS HERE
+		//view.isUserInteractionEnabled = true
+		//view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doGenerate(_:))))
 		return view
 	}()
 	let newPW: InputField =
@@ -71,6 +75,8 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.newPW
 		view.label.textColor = UIColor.darkGray
+		view.inputType = .hiddenLikePassword
+		view.displayShowHideIcon = true
 		return view
 	}()
 	let verifyPW: InputField =
@@ -79,6 +85,8 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.verify
 		view.label.textColor = UIColor.darkGray
+		view.inputType = .hiddenLikePassword
+		view.displayShowHideIcon = true
 		return view
 	}()
 	let buttonLeft: UIButton =
@@ -92,6 +100,8 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
 		//view.widthAnchor.constraint(equalToConstant: 200).isActive = true
 		view.backgroundColor = /*R.color.YumaYel*/R.color.YumaRed.withAlphaComponent(0.8)
+		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], width: 5, isVertical: true)
+		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		//view.topGradientColor = R.color.YumaRed
 		//view.bottomGradientColor = R.color.YumaYel
 		view.cornerRadius = 3
@@ -143,6 +153,15 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	var dialogWidth: CGFloat = 0
 	var dialogHeight: CGFloat = 0
 	var delegate: PopupDelegate?
+	let redArea = UIView()
+	//let blueArea = UIView()
+	let greenArea = UIView()
+	let purpleArea = UIView()
+	let stack: UIStackView =
+	{
+		let view = UIStackView()
+		return view
+	}()
 
 
 	// MARK: Overrides
@@ -159,11 +178,9 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		drawTitle()
 		drawFields()
 		drawButton()
-//
-		let str = "V:|[v0(\(titleBarHeight))]-5-[v1][v2][v3]-5-[v4]-5-[v5(\(buttonHeight))]-5-|"
-//		//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, stack, myCollectionView, buttonSingle)
-//		//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, pageControl, myCollectionView, buttonSingle)
-		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, exisiting, generate, newPW, verifyPW, buttonLeft)
+
+		let str = "V:|[v0(\(titleBarHeight))]-5-[v1]-5-[v2(\(buttonHeight))]-5-|"
+		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, stack, buttonLeft)
 
 		drawDialog()
 	}
@@ -173,9 +190,6 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	private func drawTitle()
 	{
 		titleLabel.text = R.string.changePass
-		titleLabel.font = UIFont.systemFont(ofSize: 21)
-		titleLabel.isUserInteractionEnabled = true
-		titleLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doGenerate(_:))))
 		dialogWindow.addSubview(titleLabel)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
 	}
@@ -183,17 +197,60 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 
 	func drawFields()
 	{
-		dialogWindow.addSubview(exisiting)
-		dialogWindow.addSubview(generate)
-		dialogWindow.addSubview(newPW)
-		dialogWindow.addSubview(verifyPW)
-		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: exisiting)
-		dialogWindow.addConstraintsWithFormat(format: "H:|-100-[v0]|", views: generate)
-		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: newPW)
-		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: verifyPW)
+		generate.isUserInteractionEnabled = true
+		generate.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doGenerate(_:))))
+		clearErrors()
+		stack.addArrangedSubview(exisiting)
+		stack.addArrangedSubview(generate)
+		stack.addArrangedSubview(newPW)
+		stack.addArrangedSubview(verifyPW)
+		stack.spacing = 5
+		stack.isUserInteractionEnabled = true
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.distribution = .fillProportionally
+		stack.axis = .vertical
+		dialogWindow.addSubview(stack)
+		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: exisiting)
+		stack.addConstraintsWithFormat(format: "H:|-100-[v0]|", views: generate)
+		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: newPW)
+		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: verifyPW)
+		stack.addConstraintsWithFormat(format: "V:|[v0(90)][v1]-5-[v2(90)]-5-[v3(90)]|", views: exisiting, generate, newPW, verifyPW)
+		dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: stack)
+		dialogWindow.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: stack)
 	}
-	
-	
+
+
+	func clearErrors()
+	{
+		exisiting.fieldFrame.borderColor = UIColor.clear
+		exisiting.invalid.text = ""
+		newPW.fieldFrame.borderColor = UIColor.clear
+		newPW.invalid.text = ""
+		verifyPW.fieldFrame.borderColor = UIColor.clear
+		verifyPW.invalid.text = ""
+	}
+
+
+//	func checkFields()
+//	{
+//		if exisiting.textEdit.text == nil || (exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!)
+//		{
+//			exisiting.borderColor = UIColor.red
+//			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+//		}
+//		if newPW.textEdit.text == nil || (newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!)
+//		{
+//			newPW.borderColor = UIColor.red
+//			newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+//		}
+//		if verifyPW.textEdit.text == nil || (verifyPW.textEdit.text != nil && (verifyPW.textEdit.text?.isEmpty)!)
+//		{
+//			verifyPW.borderColor = UIColor.red
+//			verifyPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+//		}
+//	}
+
+
 	func drawButton()
 	{
 		buttonLeft.setTitle(R.string.dismiss.uppercased(), for: .normal)
@@ -226,6 +283,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	private func checkFields() -> Bool
 	{
 		var success = true
+		clearErrors()
 		if exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!
 		{
 			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
@@ -264,18 +322,68 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	@objc func buttonRightTapped(_ sender: UITapGestureRecognizer)
 	{
 		store.flexView(view: buttonRight)
-//		if checkFields()
-//		{
+		if checkFields()
+		{
 			delegate?.popupValueSelected(value: newPW.textEdit.text!)
 			self.dismiss(animated: true, completion: nil)
-//		}
+		}
 	}
 
 	@objc func doGenerate(_ sender: UITapGestureRecognizer)
 	{
-		let (passwd, formatted) = store.makePassword()
-		newPW.textEdit.text = passwd
-		store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+		if (newPW.textEdit.text != nil && !(newPW.textEdit.text?.isEmpty)!) || (verifyPW.textEdit.text != nil && !(verifyPW.textEdit.text?.isEmpty)!)
+		{
+			OperationQueue.main.addOperation
+			{
+				let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+					{ 	(action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+						return
+						//self.dismiss(animated: false, completion: nil)
+				}))
+				alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
+					{ 	(action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+						let (passwd, formatted) = self.store.makePassword()
+						self.newPW.textEdit.text = passwd
+						self.verifyPW.textEdit.text = passwd
+						self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+				}))
+				self.present(alert, animated: true, completion:
+				{
+				})
+			}
+		}
+		else
+		{
+			let (passwd, formatted) = store.makePassword()
+			newPW.textEdit.text = passwd
+			verifyPW.textEdit.text = passwd
+			store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+		}
 	}
 	
 }
