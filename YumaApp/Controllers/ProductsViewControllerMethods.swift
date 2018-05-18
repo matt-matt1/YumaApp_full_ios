@@ -420,6 +420,9 @@ extension ProductsViewController
 						})
 					}
 				}
+				let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(expandPicture(_:)))
+				gestureRecognizer.numberOfTapsRequired = 2
+				view.addGestureRecognizer(gestureRecognizer)
 				//				view.detailsBtn.text = R.string.details
 				//second section
 				//			let view2 = CustomView2(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
@@ -646,5 +649,60 @@ extension ProductsViewController
 			}
 		}
 	}
-	
+
+	@objc func expandPicture(_ sender: UITapGestureRecognizer)
+	{
+		let vc = ImageWindow()
+		let index: Int = (sender.view?.tag)! - 10
+		let prod = store.products[index]
+		if prod.name != nil && prod.name![store.myLang].value != nil
+		{
+			//print(prod.name![store.myLang].value!)
+			vc.titleLabel.text = prod.name?[store.myLang].value
+			if prod.associations?.imageData != nil
+			{
+				vc.imageView.image = UIImage(data: (prod.associations?.imageData)!)
+			}
+			else
+			{
+				let imgName = prod.associations?.images![0].id//primary image
+				var imageName = "\(R.string.URLbase)img/p"
+				for ch in imgName!
+				{
+					imageName.append("/\(ch)")
+				}
+				imageName.append("/\(imgName ?? "").jpg")
+				if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+				{
+					vc.imageView.image = UIImage(data: (imageFromCache as? Data)!)
+				}
+				else
+				{
+					store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+						{
+							(data, response, error) in
+							
+							guard let data = data, error == nil else { return }
+							DispatchQueue.main.async()
+								{
+									//let i = view.tag - 10
+									let imageToCache = UIImage(data: data)
+									self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+									vc.imageView.image = imageToCache
+									//view.prodImage.image = UIImage(data: data)
+									//self.prod_image = data
+									if index < self.store.products.count
+									{
+										self.store.products[index].associations?.imageData = data
+									}
+							}
+					})
+				}
+			}
+		}
+		vc.buttonSingle.setTitle(R.string.dismiss, for: .normal)
+		vc.modalTransitionStyle = .crossDissolve
+		vc.modalPresentationStyle = .overCurrentContext
+		self.present(vc, animated: true, completion: nil)
+	}
 }

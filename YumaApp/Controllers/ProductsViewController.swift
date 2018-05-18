@@ -111,9 +111,14 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		{
 			store.locale = "\(store.langs[Int((store.customer?.id_lang)!)!].isoCode ?? "")_\(store.countries[Int(store.addresses[0].id_country)!].isoCode ?? "")"//combine lang iso with country iso
 		}
+		store.myLang = 0
+		if let tryLang = Int(store.configValue(forKey: "PS_DEFAULT_LANG"))
+		{
+			store.myLang = tryLang
+		}
 //		if store.products.count < 1 || store.forceRefresh
 //		{
-		//DONT NEvarTO REFRESH EVERYTIME!
+		//DONT NEED TO REFRESH EVERYTIME!
 			store.forceRefresh = false
 			refresh()	//load products
 //		}

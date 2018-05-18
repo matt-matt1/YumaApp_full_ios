@@ -168,7 +168,7 @@ class CheckoutStepsCell: UICollectionViewCell
 		//addConstraint(NSLayoutConstraint(item: label, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0))
 		//addConstraint(NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		//addConstraint(NSLayoutConstraint(item: label, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0))
-		if store.customer != nil && !(store.customer?.email.isEmpty)!
+		if store.customer != nil && !(store.customer?.email?.isEmpty)!
 		{
 			done.append(1)
 			addSubview(label)
@@ -179,11 +179,11 @@ class CheckoutStepsCell: UICollectionViewCell
 			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1(50)]-\(space)-[v2]", views: label, boldLabel, signoutLabel)
 			//addConstraintsWithFormat(format: "V:|-\(space)", views: boldLabel)
 			label.text = R.string.logAs
-			if !(store.customer?.lastname.isEmpty)! && !(store.customer?.firstname.isEmpty)!
+			if !(store.customer?.lastname?.isEmpty)! && !(store.customer?.firstname?.isEmpty)!
 			{
 				boldLabel.text = "\((store.customer?.firstname)!) \((store.customer?.lastname)!)"
 			}
-			else if !(store.customer?.id_gender?.isEmpty)! && !(store.customer?.firstname.isEmpty)!
+			else if !(store.customer?.id_gender?.isEmpty)! && !(store.customer?.firstname?.isEmpty)!
 			{
 				boldLabel.text = "\(Int((store.customer?.id_gender)!) == 1 ? R.string.mr : R.string.mrs)) \((store.customer?.lastname)!)"
 			}

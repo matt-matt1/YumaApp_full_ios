@@ -69,7 +69,8 @@ class MyAccAddr2ViewController: UIViewController
 	var addresses: [Address] = []
 	var id_customer = 3
 
-
+	@IBOutlet weak var scrollForm: UIScrollView!
+	
 	// MARK: Overrides
 	override func viewDidLoad()
 	{
@@ -105,6 +106,9 @@ class MyAccAddr2ViewController: UIViewController
 			leftButtonLeft.alpha = 0
 			//add AddressExpandedViewController
 		}
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 
 	
@@ -315,6 +319,26 @@ class MyAccAddr2ViewController: UIViewController
 ////////end
 	
 	// MARK: Actions
+	@objc func adjustForKeyboard(notification: Notification)
+	{
+		let userInfo = notification.userInfo!
+		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+		
+		if notification.name == Notification.Name.UIKeyboardWillHide
+		{
+			self.scrollForm.contentInset = UIEdgeInsets.zero
+		}
+		else
+		{
+			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+		}
+		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+		//let selectedRange = self.scrollForm.selectedRange
+		//self.scrollForm.scrollRangeToVisible(selectedRange)
+	}
+
+
 	@IBAction func leftButtonLeftAct(_ sender: Any)
 	{
 		self.address = self.addresses[pageControl.currentPage]

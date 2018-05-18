@@ -1353,6 +1353,7 @@
                         <outlet property="postcodeInvalid" destination="nqp-JF-ABX" id="lAE-iz-KcV"/>
                         <outlet property="postcodeLabel" destination="9nA-ZD-rEP" id="gOE-cd-ASp"/>
                         <outlet property="rightPanelButton" destination="3bF-af-mA4" id="C76-xo-aUd"/>
+                        <outlet property="scrollForm" destination="aIP-lf-0SQ" id="NYi-XF-dII"/>
                         <outlet property="stackFields" destination="W2b-4Y-qXk" id="bwh-51-EU6"/>
                         <outlet property="stateBorder" destination="Ftp-cl-o2W" id="za0-Od-TEQ"/>
                         <outlet property="stateField" destination="uyf-bm-7m1" id="8gz-HI-li6"/>
@@ -2325,6 +2326,7 @@
                         <outlet property="postcodeField" destination="fQe-i2-3CE" id="ecL-Fn-gLG"/>
                         <outlet property="postcodeInvalid" destination="iO4-I6-vPt" id="N1D-M0-ahz"/>
                         <outlet property="postcodeLabel" destination="lGK-Zo-Bmp" id="vp2-8s-Lw4"/>
+                        <outlet property="scrollForm" destination="hrC-O0-LRv" id="pLh-DC-LqT"/>
                         <outlet property="stackFields" destination="pQh-CH-Nnn" id="zsp-bD-87n"/>
                         <outlet property="stateBorder" destination="ZS2-7x-5lv" id="iH9-gl-dcr"/>
                         <outlet property="stateField" destination="fxv-dc-PSM" id="Z5z-EA-yVe"/>

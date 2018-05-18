@@ -62,6 +62,8 @@ extension ProductsViewController
 				}
 			}
 		}
+		let falseBottom = UIView(frame: .zero)
+		stack.addArrangedSubview(falseBottom)
 		return stack
 	}
 	
@@ -167,6 +169,8 @@ extension ProductsViewController
 				}
 			}
 		}
+		let falseBottom = UIView(frame: .zero)
+		stack.addArrangedSubview(falseBottom)
 		return stack
 	}
 	

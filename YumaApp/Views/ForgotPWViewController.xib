@@ -51,7 +51,7 @@
                                     </textAttributes>
                                     <items>
                                         <navigationItem title="Forgot my password" id="Jxu-Wh-2sF">
-                                            <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="5wj-Gx-kJq">
+                                            <barButtonItem key="leftBarButtonItem" systemItem="stop" id="5wj-Gx-kJq">
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="navCloseAct:" destination="-1" id="f7F-4V-MUC"/>

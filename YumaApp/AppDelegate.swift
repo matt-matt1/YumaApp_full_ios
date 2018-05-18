@@ -27,7 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		let collection = SwipingController(collectionViewLayout: layout)
 		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
 		window?.rootViewController = collection
-		
+
+//		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+//		{
+//			statusbar.backgroundColor = UIColor.lightGray
+//		}
+
 //		let myView = UIViewController()
 //		myView.view.backgroundColor = .purple
 //		window?.rootViewController = myView
@@ -38,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		shadow.shadowBlurRadius = 3
 		let navBarAppearance = UINavigationBar.appearance()
 		navBarAppearance.tintColor = UIColor.white
-		navBarAppearance.barTintColor = R.color.YumaRed
+//		navBarAppearance.barTintColor = UIColor.lightGray//R.color.YumaRed
 		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor : R.color.YumaYel,
 												NSAttributedStringKey.shadow : shadow]
 		navBarAppearance.shadowImage = UIImage()

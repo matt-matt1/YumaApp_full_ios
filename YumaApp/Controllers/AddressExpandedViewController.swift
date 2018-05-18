@@ -60,6 +60,7 @@ class AddressExpandedViewController: UIViewController
 	let store = DataStore.sharedInstance
 	var pickerData: [[String]] = [[String]]()
 	
+	@IBOutlet weak var scrollForm: UIScrollView!
 	
 	override func viewDidLoad()
 	{
@@ -77,6 +78,9 @@ class AddressExpandedViewController: UIViewController
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		prepareLabels()
 		fillDetails()
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 	
     override func didReceiveMemoryWarning() {
@@ -217,7 +221,27 @@ class AddressExpandedViewController: UIViewController
 		}
 		return status
 	}
+
 	
+	@objc func adjustForKeyboard(notification: Notification)
+	{
+		let userInfo = notification.userInfo!
+		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+		
+		if notification.name == Notification.Name.UIKeyboardWillHide
+		{
+			self.scrollForm.contentInset = UIEdgeInsets.zero
+		}
+		else
+		{
+			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+		}
+		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+		//let selectedRange = self.scrollForm.selectedRange
+		//self.scrollForm.scrollRangeToVisible(selectedRange)
+	}
+
     
 	@IBAction func navHelpAct(_ sender: Any)
 	{

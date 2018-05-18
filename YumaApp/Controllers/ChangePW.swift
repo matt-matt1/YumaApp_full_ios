@@ -47,7 +47,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	}()
 	let exisiting: InputField =
 	{
-		let view = InputField()
+		let view = InputField(frame: .zero, inputType: .hiddenLikePassword, hasShowHideIcon: true)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.exist
 		view.label.textColor = UIColor.darkGray
@@ -71,7 +71,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	}()
 	let newPW: InputField =
 	{
-		let view = InputField()
+		let view = InputField(frame: .zero, inputType: .hiddenLikePassword, hasShowHideIcon: true)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.newPW
 		view.label.textColor = UIColor.darkGray
@@ -81,7 +81,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	}()
 	let verifyPW: InputField =
 	{
-		let view = InputField()
+		let view = InputField(frame: .zero, inputType: .hiddenLikePassword, hasShowHideIcon: true)
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.label.text = R.string.verify
 		view.label.textColor = UIColor.darkGray
@@ -284,29 +284,30 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	{
 		var success = true
 		clearErrors()
-		if exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!
+		if exisiting.textEdit.text == nil || (exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!)
 		{
 			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-			exisiting.container.layer.borderColor = UIColor.red.cgColor
+			exisiting.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
-		if newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!
+		if newPW.textEdit.text == nil || (newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!)
 		{
 			newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-			newPW.container.layer.borderColor = UIColor.red.cgColor
+			newPW.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
-		if verifyPW.textEdit.text != nil && (verifyPW.textEdit.text?.isEmpty)! && verifyPW.textEdit.text != newPW.textEdit.text
+		if verifyPW.textEdit.text == nil || (verifyPW.textEdit.text != nil && ((verifyPW.textEdit.text?.isEmpty)! || verifyPW.textEdit.text != newPW.textEdit.text))
 		{
 			verifyPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-			verifyPW.container.layer.borderColor = UIColor.red.cgColor
+			verifyPW.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
 		return success
 	}
 	
 	
-	override func didReceiveMemoryWarning() {
+	override func didReceiveMemoryWarning()
+	{
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}

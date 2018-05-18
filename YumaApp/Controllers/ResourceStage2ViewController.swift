@@ -29,7 +29,7 @@ class ResourceStage2ViewController: UIViewController
 		layout.minimumLineSpacing = 0
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
+		//view.backgroundColor = UIColor.red
 		view.isPagingEnabled = true
 		return view
 	}()
@@ -71,11 +71,14 @@ class ResourceStage2ViewController: UIViewController
 		panel.addSubview(pageControl)
 		panel.addSubview(collView)
 		self.view.addSubview(panel)
+		let line = UIView()
+		line.translatesAutoresizingMaskIntoConstraints = false
+		line.backgroundColor = R.color.YumaDRed
+		self.view.addSubview(line)
 		NSLayoutConstraint.activate([
 			pageControl.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
 			pageControl.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
 			pageControl.topAnchor.constraint(equalTo: panel.topAnchor, constant: 2),
-			pageControl.heightAnchor.constraint(equalToConstant: 30),
 			
 			collView.leadingAnchor.constraint(equalTo: panel.leadingAnchor/*, constant: 2*/),
 			collView.trailingAnchor.constraint(equalTo: panel.trailingAnchor/*, constant: -2*/),
@@ -84,10 +87,24 @@ class ResourceStage2ViewController: UIViewController
 			
 			panel.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 5),
 			panel.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -5),
-			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
 			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -5),
+			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 2),
+
+			line.topAnchor.constraint(equalTo: view.safeTopAnchor),
+			line.heightAnchor.constraint(equalToConstant: 2),
+			line.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor),
+			line.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor),
 			])
     }
+
+
+	override func viewWillDisappear(_ animated: Bool)
+	{
+		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+		{
+			statusbar.backgroundColor = UIColor.clear
+		}
+	}
 
 
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
@@ -101,11 +118,34 @@ class ResourceStage2ViewController: UIViewController
 
 	func setNavigation()
 	{
-		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
+//		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
 		navigationItem.title = name?.replacingOccurrences(of: "_", with: " ").capitalized ?? "Resource"
 //		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(navCloseAct(_:)))
 //		navClose.style = UIBarButtonItemStyle.done
 //		self.navigationItem.leftBarButtonItems = [navClose]
+		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
+//		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+//		{
+//			statusbar.backgroundColor = UIColor.lightGray
+//		}
+		UIApplication.statusBar?.backgroundColor = UIColor.lightGray
+//		UIApplication.shared.statusBarStyle = .default
+//		navigationController?.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+	}
+
+
+	func myGradientV(frame: CGRect, colors: [UIColor]) -> UIImage?
+	{
+		//		print("frame-x: \(view.frame.origin.x), y: \(view.frame.origin.y), w: \(view.frame.size.width), h: \(view.frame.size.height)")
+		let cgcolors = colors.map { 	$0.cgColor 	}
+		UIGraphicsBeginImageContextWithOptions(frame.size, true, 0.0/*frame.origin.x*/)
+		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
+		defer { 	UIGraphicsEndImageContext() 	}
+		var locations: [CGFloat] = [0.0, 1.0]
+		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
+		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: /*statusBarFrame.height*/frame.origin.y), end: CGPoint(x: 0.0, y: frame.height), options: [])
+		//context.clear(statusBarFrame)
+		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 
 
@@ -155,6 +195,8 @@ class ResourceStage2ViewCell: UICollectionViewCell
 	{
 		let view = UITableView()
 		view.translatesAutoresizingMaskIntoConstraints = false
+		view.separatorStyle = .none
+		//view.clipsToBounds = true
 		return view
 	}()
 	var resourceList: [Property] = []
@@ -171,11 +213,13 @@ class ResourceStage2ViewCell: UICollectionViewCell
 		addSubview(tableView)
 		tableView.delegate = self
 		tableView.dataSource = self
+		tableView.register(ResourceStage2TableCell.self, forCellReuseIdentifier: "stage2Table")
 		addConstraintsWithFormat(format: "H:|[v0]|", views: tableView)
 		addConstraintsWithFormat(format: "V:|[v0]|", views: tableView)
 	}
 	
-	required init?(coder aDecoder: NSCoder) {
+	required init?(coder aDecoder: NSCoder)
+	{
 		fatalError("init(coder:) has not been implemented")
 	}
 	
@@ -662,15 +706,24 @@ extension ResourceStage2ViewCell: UITableViewDelegate, UITableViewDataSource
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: cellId)
-		cell.textLabel?.text = resourceList[indexPath.row].key
-		if let val = resourceList[indexPath.row].value as? String
+//		let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: cellId)
+//		cell.textLabel?.text = resourceList[indexPath.row].key
+//		if let val = resourceList[indexPath.row].value as? String
+//		{
+//			cell.detailTextLabel?.text = val
+//		}
+//		else
+//		{
+//			cell.detailTextLabel?.text = "-"
+//		}
+		let cell = tableView.dequeueReusableCell(withIdentifier: "stage2Table") as! ResourceStage2TableCell
+		if resourceList[indexPath.row].value is String
 		{
-			cell.detailTextLabel?.text = val
+			cell.setup(resourceList[indexPath.row].key!, resourceList[indexPath.row].value as? String)
 		}
 		else
 		{
-			cell.detailTextLabel?.text = "-"
+			cell.setup(resourceList[indexPath.row].key!)
 		}
 		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.init(hex: altRowColor) : UIColor.white
 		return cell
@@ -681,4 +734,64 @@ extension ResourceStage2ViewCell: UITableViewDelegate, UITableViewDataSource
 	{
 		return 40
 	}
+}
+
+
+
+class ResourceStage2TableCell: UITableViewCell
+{
+	var labelKey: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.text = "key"
+		view.textColor = UIColor.darkGray
+		view.font = UIFont.boldSystemFont(ofSize: 17)
+		//		view.attributedText = NSMutableAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17),														NSAttributedStringKey.foregroundColor: UIColor.blueApple])
+		return view
+	}()
+	var labelValue: UILabel =
+	{
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.text = "value"
+		view.textColor = UIColor.gray
+		view.font = UIFont.systemFont(ofSize: 17)
+		//		view.attributedText = NSMutableAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 17)])
+		return view
+	}()
+	let store = DataStore.sharedInstance
+	var properties: [String : String]?
+
+
+//	override init(style: UITableViewCellStyle, reuseIdentifier: String?)
+//	{
+//		super.init(style: style, reuseIdentifier: reuseIdentifier)
+//		//setup(<#T##key: String##String#>, <#T##value: String?##String?#>)
+//	}
+//
+//	required init?(coder aDecoder: NSCoder)
+//	{
+//		fatalError("init(coder:) has not been implemented")
+//	}
+
+
+	func setup(_ key: String, _ value: String? = nil)
+	{
+		addSubview(labelKey)
+		addSubview(labelValue)
+		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelKey)
+		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelValue)
+		addConstraintsWithFormat(format: "H:|-4-[v0]-2-[v1]-4-|", views: labelKey, labelValue)
+		labelKey.text = key.replacingOccurrences(of: "_", with: " ").capitalized
+		if value != nil
+		{
+			labelValue.text = value
+		}
+		else
+		{
+			labelValue.text = "-"
+		}
+	}
+	
 }

@@ -10,6 +10,17 @@ import UIKit
 import Security
 
 
+
+extension UIApplication
+{
+	static let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+//	if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+//	{
+//		statusbar.backgroundColor = UIColor.clear
+//	}
+}
+
+
 extension UINavigationBar
 {
 	/// Applies a background gradient with the given colors
@@ -63,6 +74,13 @@ extension UINavigationBar
 ///////////////////////////////////////////////////////////
 extension UIView
 {
+	func autoPinEdgesToSuperviewEdges(with: UIEdgeInsets)
+	{
+		addConstraint(NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 0, constant: with.top))
+		addConstraint(NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 0, constant: with.left))
+		addConstraint(NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 0, constant: with.bottom))
+		addConstraint(NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 0, constant: with.right))
+	}
 	/// Assign a constraint to one or many views with nil metrics and default options
 	func addConstraintsWithFormat(format: String, views: UIView...)
 	{

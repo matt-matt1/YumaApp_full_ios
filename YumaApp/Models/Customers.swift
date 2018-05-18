@@ -15,7 +15,7 @@ struct CustomerAssociations: Codable
 }
 struct Customer: Codable
 {
-	var id: 						String?
+	var id: 						Int?
 	var id_customer: 				String?
 	var id_default_group: 			String?
 	var id_lang: 					String?
@@ -24,10 +24,10 @@ struct Customer: Codable
 	var last_passwd_gen: 			String?//read_only
 	var secure_key: 				String?//read_only + md5
 	var deleted: 					String?//Bool
-	var passwd: 					String//!..60
-	var lastname: 					String//!..255
-	var firstname: 					String//!..255
-	var email: 						String//!
+	var passwd: 					String?//!..60
+	var lastname: 					String?//!..255
+	var firstname: 					String?//!..255
+	var email: 						String?//!
 	var id_gender: 					String?
 	var birthday: 					String?//bdate
 	var newsletter: 				String?//Bool
@@ -50,4 +50,8 @@ struct Customer: Codable
 	var reset_password_token: 		String?//sha1..40
 	var reset_password_validity: 	String?//date
 	var associations: 				CustomerAssociations?
+}
+struct Customers: Decodable
+{
+	let customers: [Customer]?
 }

@@ -64,6 +64,7 @@
                 <outlet property="passwordInvalid" destination="ibZ-xz-yA9" id="rNQ-or-eAU"/>
                 <outlet property="passwordLabel" destination="3Mx-o4-0hY" id="iNo-6J-E5s"/>
                 <outlet property="passwordShow" destination="a0m-NG-XLO" id="vGT-e3-s8i"/>
+                <outlet property="scrollForm" destination="nH6-AO-DPQ" id="8OC-lX-rt9"/>
                 <outlet property="showPass" destination="t1N-uc-AqQ" id="xgl-QL-tnF"/>
                 <outlet property="switch0" destination="bq4-uR-t5c" id="2l4-6D-ATv"/>
                 <outlet property="switch0Label" destination="gep-xe-g9Y" id="OBe-5X-1A5"/>
@@ -434,7 +435,7 @@
                                                                                                             <constraints>
                                                                                                                 <constraint firstAttribute="width" constant="50" id="aCh-Pa-ZJa"/>
                                                                                                             </constraints>
-                                                                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="40"/>
+                                                                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="30"/>
                                                                                                             <color key="textColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                             <nil key="highlightedColor"/>
                                                                                                         </label>

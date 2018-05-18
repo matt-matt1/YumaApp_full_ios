@@ -74,6 +74,7 @@ class MyAccInfoViewController: UIViewController
 	var addNew = false
 	var passwordVisible = false
 	
+	@IBOutlet weak var scrollForm: UIScrollView!
 	
 	// MARK: Overrides
 	override func viewDidLoad()
@@ -126,6 +127,9 @@ class MyAccInfoViewController: UIViewController
 			buttonText.setTitle(R.string.createAcc.uppercased(), for: .normal)
 			passwordGenerateDo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(makePassword(_:))))
 		}
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 	}
 
 
@@ -314,8 +318,28 @@ class MyAccInfoViewController: UIViewController
 		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let today = df.string(from: date)
 		let ipAddr: String = store.getIPAddress()!
-		let newRow = Customer(id: "", id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
+		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
 		return newRow
+	}
+
+
+	@objc func adjustForKeyboard(notification: Notification)
+	{
+		let userInfo = notification.userInfo!
+		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+		
+		if notification.name == Notification.Name.UIKeyboardWillHide
+		{
+			self.scrollForm.contentInset = UIEdgeInsets.zero
+		}
+		else
+		{
+			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+		}
+		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+		//let selectedRange = self.scrollForm.selectedRange
+		//self.scrollForm.scrollRangeToVisible(selectedRange)
 	}
 
 
@@ -575,7 +599,7 @@ class MyAccInfoViewController: UIViewController
 	@IBAction func navHelpAct(_ sender: Any)
 	{
 		let viewC = Assistance()
-		if store.customer != nil && !(store.customer?.lastname.isEmpty)!
+		if store.customer != nil && !(store.customer?.lastname?.isEmpty)!
 		{
 			viewC.array = R.array.help_my_account_information_guide.loggedIn
 		}

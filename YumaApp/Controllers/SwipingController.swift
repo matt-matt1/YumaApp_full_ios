@@ -55,7 +55,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	{
 		super.viewDidLoad()
 		self.view.backgroundColor = UIColor.white
-		
+		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+		{
+			statusbar.backgroundColor = UIColor.clear
+		}
 		drawLayout()
 		
 		collectionView?.backgroundColor = UIColor.white
@@ -63,10 +66,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		
-		if Reachability.isConnectedToNetwork()
-		{
-			getValues()
-		}
+		getValues()
 //		var ws = WebService()
 //		ws.startURL = R.string.WSbase
 //		ws.resource = APIResource.addresses
@@ -156,7 +156,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.countries.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Countries")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCountries() { 	(items, err) in
 					if self.store.debug > 5
@@ -196,7 +196,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.states.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "States")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetStates(id_country: 0) { 	(items, err) in
 					if self.store.debug > 5
@@ -236,7 +236,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.carriers.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Carriers")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCarriers { 	(items, err) in
 					if self.store.debug > 5
@@ -276,7 +276,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderStates.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderStates")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderStates() { 	(items, err) in
 					if self.store.debug > 5
@@ -317,7 +317,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.langs.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Languages")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetLanguages() { 	(items, err) in
 					if self.store.debug > 5
@@ -357,7 +357,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderHistories.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderHistories")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderHistories() { 	(items, err) in
 					if self.store.debug > 5
@@ -397,7 +397,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.categories.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Categories")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCategories() { 	(items, err) in
 					if self.store.debug > 5
@@ -437,7 +437,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.combinations.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Combinations")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCombinations() { 	(items, err) in
 					if self.store.debug > 5
@@ -477,7 +477,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderCarriers.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderCarriers")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderCarriers() { 	(items, err) in
 					if self.store.debug > 5
@@ -517,7 +517,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.productOptions.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "ProductOptions")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetProductOptions() { 	(items, err) in
 					if self.store.debug > 5
@@ -557,7 +557,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.currencies.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Currencies")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCurrencies() { 	(items, err) in
 					if self.store.debug > 5
@@ -612,7 +612,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.taxes.count < 1	//check if not already in data store
 		{
 			let taxes = UserDefaults.standard.string(forKey: "Taxes")
-			if taxes == nil
+			if taxes == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetTaxes { (taxes, err) in
 					if self.store.debug > 5
@@ -652,7 +652,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.configurations.count < 1	//check if not already in data store
 		{
 			let configurations = UserDefaults.standard.string(forKey: "Configurations")
-			if configurations == nil
+			if configurations == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetConfigurations { (configurations, err) in
 					if self.store.debug > 5
@@ -688,11 +688,12 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		else
 		{
 			print("data store has \(store.configurations.count) configurations")
+//			let configDict = store.config2Dict()
 		}
 		if store.tags.count < 1	//check if not already in data store
 		{
 			let tags = UserDefaults.standard.string(forKey: "Tags")
-			if tags == nil
+			if tags == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetTags { (tags, err) in	//api get
 					if self.store.debug > 5
@@ -733,7 +734,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			//UserDefaults.standard.removeObject(forKey: "Contacts")
 			let contacts = UserDefaults.standard.string(forKey: "Contacts")
-			if contacts == nil
+			if contacts == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetContacts(completion:
 				{ 	(contacts, err) in	//api get
@@ -777,7 +778,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.productOptionValues.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "ProductOptionValues")
-			if items == nil
+			if items == nil && Reachability.isConnectedToNetwork()
 			{
 				store.callGetProductOptionValues(completion:
 				{ 	(items, err) in	//api get

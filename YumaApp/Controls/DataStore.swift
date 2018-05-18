@@ -1569,4 +1569,53 @@ final class DataStore
 		}
 	}
 
+	func configValue(forKey: String) -> String
+	{
+		for conf in configurations
+		{
+			if conf.name == forKey
+			{
+				return conf.value!
+			}
+		}
+		return ""
+	}
+
+	func configDateAdd(forKey: String) -> String
+	{
+		for conf in configurations
+		{
+			if conf.name == forKey
+			{
+				return conf.date_add!
+			}
+		}
+		return ""
+	}
+
+	func configDateUpd(forKey: String) -> String
+	{
+		for conf in configurations
+		{
+			if conf.name == forKey
+			{
+				return conf.date_upd!
+			}
+		}
+		return ""
+	}
+
+//	func config2Dict() -> [String: String]
+//	{
+//		var dict = [String: String]()
+//		for conf in configurations
+//		{
+//			if conf.name != nil
+//			{
+//				dict[conf.name!] = conf.value!
+//			}
+//		}
+//		return dict
+//	}
+
 }

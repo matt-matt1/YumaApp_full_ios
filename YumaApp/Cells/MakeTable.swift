@@ -49,17 +49,25 @@ class MakeTable: UIView
 		//makeView()
 	}
 	
+	init(frame: CGRect, structure: MyTable, data: [Any])
+	{
+		super.init(frame: frame)
+		self.structure = structure
+		self.data = data
+		makeView()
+	}
+	
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
 
-	func returnTable()
-	{
-		let table = buildView()
-		table.translatesAutoresizingMaskIntoConstraints = false
-		addSubview(table)
-	}
+//	func returnTable()
+//	{
+//		let table = buildView()
+//		table.translatesAutoresizingMaskIntoConstraints = false
+//		addSubview(table)
+//	}
 
 	fileprivate func buildCell(row: Any, col: MyTableColumn) -> UILabel
 	{
@@ -180,7 +188,7 @@ class MakeTable: UIView
 		return column
 	}
 	
-	
+	/*
 	func buildView() -> UIView
 	{
 		let table = UIView()
@@ -224,12 +232,12 @@ class MakeTable: UIView
 		//			])
 		return table
 	}
-	
-	/*
+*/
+	/**/
 	func makeView()
 	{
 		let table = UIView()
-		//table.translatesAutoresizingMaskIntoConstraints = false
+		table.translatesAutoresizingMaskIntoConstraints = false
 		//		let type = String(describing: data.self)
 		//		print("type is \(type)|")
 		let tblCaption = UILabel()
@@ -242,7 +250,10 @@ class MakeTable: UIView
 		let tblColumns = UIStackView()
 		//tblColumns.translatesAutoresizingMaskIntoConstraints = false
 		tblColumns.axis = .horizontal
-		tblColumns.spacing = (structure?.columnSpacing)!
+		if structure?.columnSpacing != nil
+		{
+			tblColumns.spacing = (structure?.columnSpacing)!
+		}
 		//		let keys = Orders().propertyNames()
 		//		print("keys:\(keys)")
 		//print("columns-")
@@ -268,7 +279,7 @@ class MakeTable: UIView
 			table.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			])
 	}
-*/
+/**/
 	
 	
 	func zoomer(min: Float, max: Float) -> UIView

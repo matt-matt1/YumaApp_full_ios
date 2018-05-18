@@ -54,6 +54,11 @@ struct R {
 	
 	struct array
 	{
+		static let help_forgot_pw_guide: [String] = [
+			"Enter your email address (remember the '@' symbol) and press \"\(R.string.proceed)\"",
+			"If an account with that email address is found, a popup box will appear for setting a new password"
+		]
+		
 		static let help_my_account_guide: [String] = [
 			"Here are some the choices to make:",
 			"Press \"\(R.string.Info)\" to see your details, like a profile",
@@ -101,17 +106,17 @@ struct R {
 		struct help_my_account_information_guide
 		{
 			static let loggedIn: [String] = [
-				"Your details will be displayed",
+				"Your details will be displayed here",
 				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
-				"\"Company\", \"Web site\", \"Siret\", \"Ape\" alond with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
-				"NOTE: your email address cannot be changed while other details can be changed",
+				"\"Company\", \"Web site\", \"Siret\", \"Ape\" along with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
+				"NOTE: your email address cannot be changed; all other details can be changed",
 				"Press \"\(R.string.txtPass)\" to change your password - a popup window will appear",
 			]
 			static let newUser: [String] = [
 				"A blank form will be shown for creating a new user account",
 				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
 				"\"Company\", \"Web site\", \"Siret\", \"Ape\" along with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
-				"NOTE: your email address cannot be changed while other details can be changed",
+				"NOTE: your email address cannot be changed; all other details can be changed",
 				"Press \"\(R.string.generate)\" to have a password of random characters be automattically used - a popup window will appear to note the password",
 			]
 		}

@@ -28,7 +28,7 @@ class ResourcesViewController: UIViewController
 	{
 		let view = UITableView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.green
+		view.separatorStyle = .none
 		return view
 	}()
 	var panel: UIView =
@@ -54,49 +54,84 @@ class ResourcesViewController: UIViewController
 		statusBarFrame = UIApplication.shared.statusBarFrame
 		setNavigation()
 		//panel = UIView(frame: CGRect(x: 5, y: statusBarFrame.height, width: view.frame.width-10, height: view.frame.height-statusBarFrame.height-5))
-		tableView = UITableView(frame: CGRect(x: 2, y: 0, width: view.frame.width-14, height: view.frame.height-statusBarFrame.height-85))
+		tableView = UITableView()//frame: CGRect(x: 2, y: 0, width: /*view.frame.width-14*/panel.frame.width, height: /*view.frame.height-statusBarFrame.height-85*/panel.frame.height))
+		tableView.translatesAutoresizingMaskIntoConstraints = false
 		tableView.register(ResourceCell.self, forCellReuseIdentifier: cellId)
 		tableView.delegate = self
 		tableView.dataSource = self
 		panel.addSubview(tableView)
 		self.view.addSubview(panel)
+		let line = UIView()
+		line.translatesAutoresizingMaskIntoConstraints = false
+		line.backgroundColor = R.color.YumaDRed
+		self.view.addSubview(line)
 		NSLayoutConstraint.activate([
 			tableView.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
 			tableView.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
-			tableView.topAnchor.constraint(equalTo: panel.topAnchor, constant: 5),
+			tableView.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
 			tableView.bottomAnchor.constraint(equalTo: panel.bottomAnchor, constant: -5),
 
 			panel.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 5),
 			panel.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -5),
-			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
-			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: /*-statusBarFrame.height*/-5)
+			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 2),
+			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -5),
+			
+			line.topAnchor.constraint(equalTo: view.safeTopAnchor),
+			line.heightAnchor.constraint(equalToConstant: 2),
+			line.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor),
+			line.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor),
 			])
 		fillContent()
     }
 
 
-    override func didReceiveMemoryWarning()
+	override func viewWillDisappear(_ animated: Bool)
+	{
+		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+		{
+			statusbar.backgroundColor = UIColor.clear
+		}
+	}
+
+	
+	override func didReceiveMemoryWarning()
 	{
         super.didReceiveMemoryWarning()
 		debugList?.removeAll()
     }
-	
-	
+
+
+//	override var prefersStatusBarHidden: Bool
+//	{
+//		return true
+//	}
+
+
 	func setNavigation()
 	{
-		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
+//		navigationController?.navigationBar.barTintColor = R.color.YumaRed
+//		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
 		//		print("frame-x: \(navigationController?.navigationBar.frame.origin.x), y: \(navigationController?.navigationBar.frame.origin.y), w: \(navigationController?.navigationBar.frame.width), h: \(navigationController?.navigationBar.frame.height)")
-//		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
-		//navigationController?.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
 		navigationItem.title = "Resources"
-		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(navCloseAct(_:)))
-		navClose.style = UIBarButtonItemStyle.done
+		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.stop, target: self, action: #selector(navCloseAct(_:)))
+		navClose.style = UIBarButtonItemStyle.bordered
 		self.navigationItem.leftBarButtonItems = [navClose]
 //		let statusBar = UIView(frame: statusBarFrame)
 //		statusBar.backgroundColor = UIColor.lightGray
+		//		navigationController?.hidesBarsOnSwipe = true
+//		navigationController?.navigationBar.backgroundColor = UIColor.lightGray
+//		navigationController?.navigationBar.isTranslucent = false
+		//		edgesForExtendedLayout = .bottom
+//		UIApplication.shared.statusBarStyle = .lightContent
+//		navigationController?.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+		{
+			statusbar.backgroundColor = UIColor.lightGray
+		}
 	}
-	
-	
+
+
 	func myGradientV(frame: CGRect, colors: [UIColor]) -> UIImage?
 	{
 		//		print("frame-x: \(view.frame.origin.x), y: \(view.frame.origin.y), w: \(view.frame.size.width), h: \(view.frame.size.height)")
@@ -206,9 +241,15 @@ class ResourcesViewController: UIViewController
 
 extension ResourcesViewController: UITableViewDelegate, UITableViewDataSource
 {
-	func numberOfSections(in tableView: UITableView) -> Int
+//	func numberOfSections(in tableView: UITableView) -> Int
+//	{
+//		return 26
+//	}
+
+
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
 	{
-		return 26
+		return ""
 	}
 
 
@@ -249,6 +290,7 @@ extension ResourcesViewController: UITableViewDelegate, UITableViewDataSource
 			vc.name = (debugList?[indexPath.row].name)!
 			vc.count = (debugList?[indexPath.row].count)!
 			navigationController?.pushViewController(vc, animated: false)
+			tableView.deselectRow(at: indexPath, animated: true)
 		}
 	}
 

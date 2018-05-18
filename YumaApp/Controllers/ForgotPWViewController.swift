@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ForgotPWViewController: UIViewController
+class ForgotPWViewController: UIViewController, UITextFieldDelegate
 {
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -49,6 +49,9 @@ class ForgotPWViewController: UIViewController
 		//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		//		}
 		configureView()
+//		let notificationCenter = NotificationCenter.default
+//		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+//		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 	}
 
 
@@ -66,11 +69,27 @@ class ForgotPWViewController: UIViewController
 		navTitle.title = R.string.forgotPW
 		fieldLabel.text = R.string.emailAddr							//set labals for my language
 		button.setTitle(R.string.proceed.uppercased(), for: .normal)
-		//closeBtn.
-		//helpBtn.
+//		navClose.title = FontAwesome.questionCircle.rawValue
+//		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navClose.setTitleTextAttributes([
+//			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//			], for: UIControlState.selected)
+		navHelp.title = FontAwesome.questionCircle.rawValue
+		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+		navHelp.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.selected)
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		fieldBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
 		fieldInvalid.text = ""
+		fieldValue.delegate = self
+	}
+
+
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool
+	{
+		buttonAct(textField)
+		return true
 	}
 
 
@@ -84,6 +103,8 @@ class ForgotPWViewController: UIViewController
 
 	func isValidEmail(_ email: String) -> Bool
 	{
+		fieldBorder.borderColor = UIColor.clear
+		fieldInvalid.text = ""
 		let emailRegEx = "(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"+"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"+"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"+"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"+"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"+"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"+"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
 		
 		let emailTest = NSPredicate(format:"SELF MATCHES[c] %@", emailRegEx)
@@ -96,7 +117,27 @@ class ForgotPWViewController: UIViewController
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+	
+//	@objc func adjustForKeyboard(notification: Notification)
+//	{
+//		let userInfo = notification.userInfo!
+//		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+//		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+//
+//		if notification.name == Notification.Name.UIKeyboardWillHide
+//		{
+//			self.scrollForm.contentInset = UIEdgeInsets.zero
+//		}
+//		else
+//		{
+//			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+//		}
+//		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+//		//let selectedRange = self.scrollForm.selectedRange
+//		//self.scrollForm.scrollRangeToVisible(selectedRange)
+//	}
+
 
 	@IBAction func navCloseAct(_ sender: Any)
 	{
@@ -104,12 +145,18 @@ class ForgotPWViewController: UIViewController
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_forgot_pw_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func buttonAct(_ sender: Any)
 	{
 		if isValidEmail(fieldValue.text!)
 		{
 			var ws = WebService()
+			ws.startURL = R.string.WSbase
 			ws.filter = ["email" : [fieldValue.text!]]
 			ws.resource = APIResource.customers
 			ws.display = ["full"]
@@ -118,34 +165,44 @@ class ForgotPWViewController: UIViewController
 			ws.get { (cust) in
 				if let data = cust.data
 				{
+					let all: Customers?
 					do
 					{
-						let result = try JSONDecoder().decode(Customer.self, from: data as Data)
+						let dataStr = String(data: data as Data, encoding: .utf8)
+						//let inner = self.store.trimJSONValueToArray(string: dataStr!)
+						//let data = inner.data(using: .utf8)
+						all = try JSONDecoder().decode(Customers.self, from: data as Data)
+						let result = all?.customers![0]
 						let df = DateFormatter()
-						df.dateFormat = "yyyy-MM-dd hh:mm:ss"
+						df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 						let now = Date()
-						let last = df.date(from: result.last_passwd_gen!)!
+						let last = df.date(from: (result?.last_passwd_gen)!)
 						var value = -1
-						for config in self.store.configurations
+//						for config in self.store.configurations
+//						{
+//							if config.name == "PS_PASSWD_TIME_FRONT"
+//							{
+//								value = Int(config.value!)!
+//								break
+//							}
+//						}
+						if let asdf = Int(self.store.configValue(forKey: "PS_PASSWD_TIME_FRONT"))
 						{
-							if config.name == "PS_PASSWD_TIME_FRONT"
-							{
-								value = Int(config.value!)!
-								break
-							}
+							value = asdf
 						}
-						if last.addingTimeInterval(TimeInterval(value)) < now
+						let after = (last?.addingTimeInterval(TimeInterval(value)))!
+						if after < now
 						{
 							let reset = df.string(from: now).toBase64()//md5(self.fieldValue.text!)//??
 							//eg. http://yumatechnical.com/en/password-recovery?token=baef23c3484858f93935c13fcebd891f&id_customer=3&reset_token=cb95ebe931744087686a8c4b0f48a5ee24ceb0a7
-							let link = "\(R.string.forgotPWLink)?token=\(result.secure_key ?? "")&id_customer=\(result.id_customer ?? "")&reset_token=\(reset ?? "")"
+							let link = "\(R.string.forgotPWLink)?token=\(result?.secure_key ?? "")&id_customer=\(result?.id_customer ?? "")&reset_token=\(reset ?? "")"
 							print(link)
 							let df = DateFormatter()
-							df.dateFormat = "yyyy-MM-dd hh:mm:ss"
+							df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 							let new__last_passwd_gen = df.string(from: Date())
 							//goto SetPW
 							//let passwd = from above
-							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": result.secure_key!, "id_customer": result.id_customer!, "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, completion: { (success) in
+							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result?.secure_key!)!, "id_customer": String((result?.id!)!), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, completion: { (success) in
 								print(success)
 								//launch my account
 							})
@@ -158,7 +215,10 @@ class ForgotPWViewController: UIViewController
 					}
 					catch let JSONerr
 					{
-						print(JSONerr)
+						if self.store.debug > 0
+						{
+							print(JSONerr)
+						}
 						OperationQueue.main.addOperation
 						{
 							let alert = 					UIAlertController(title: R.string.noAuth, message: "\(R.string.invalid) \(R.string.emailAddr)", preferredStyle: .alert)

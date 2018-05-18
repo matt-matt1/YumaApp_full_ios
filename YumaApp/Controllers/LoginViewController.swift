@@ -182,6 +182,9 @@ class LoginViewController: UIViewController
 				}
 			}
 		}
+//		let notificationCenter = NotificationCenter.default
+//		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+//		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 	}
 	
 	override func viewWillAppear(_ animated: Bool)
@@ -463,7 +466,7 @@ class LoginViewController: UIViewController
 	{
 		if self.store.debug > 5
 		{
-			print("customer logged-in with ID:\(customer.id_customer ?? customer.id ?? "0")")//String(describing: customer))")
+			print("customer logged-in with ID:\(customer.id_customer ?? "0")")//String(describing: customer))")// ?? customer.id
 		}
 		if rememberSwitchIsOn
 		{
@@ -729,7 +732,27 @@ class LoginViewController: UIViewController
 			presentingViewController?.present(MyAccountViewController(), animated: true, completion: nil)
 		}
 	}
+
 	
+//	@objc func adjustForKeyboard(notification: Notification)
+//	{
+//		let userInfo = notification.userInfo!
+//		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+//		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+//
+//		if notification.name == Notification.Name.UIKeyboardWillHide
+//		{
+//			self.scrollForm.contentInset = UIEdgeInsets.zero
+//		}
+//		else
+//		{
+//			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+//		}
+//		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+//		//let selectedRange = self.scrollForm.selectedRange
+//		//self.scrollForm.scrollRangeToVisible(selectedRange)
+//	}
+
 	@objc func swapout()
 	{
 		OperationQueue.main.addOperation

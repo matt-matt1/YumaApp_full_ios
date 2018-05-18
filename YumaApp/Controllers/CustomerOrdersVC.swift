@@ -10,7 +10,7 @@ import UIKit
 //import SwiftDataTables
 
 
-class CustomerOrdersVC: UIViewController
+class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 {
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -33,16 +33,19 @@ class CustomerOrdersVC: UIViewController
 //		//v.shadowOpacity = 1
 		return v
 	}()
+	var built: UIView!
 
 
 	override func viewDidLoad()
 	{
+		super.viewDidLoad()
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.selected)
+		setupGestureRecognizer()
 		if creditSlips
 		{
 			doCreditSlips()
@@ -53,7 +56,23 @@ class CustomerOrdersVC: UIViewController
 		}
 	}
 	
-	
+
+//	override func viewDidLayoutSubviews()
+//	{
+//		super.viewDidLayoutSubviews()
+////		let top = topLayoutGuide.length
+////		let bottom = bottomLayoutGuide.length
+////		self.mainStackView.frame = CGRect(x: 0, y: top, width: view.frame.width, height: view.frame.height - top - bottom).insetBy(dx: 10, dy: 10)
+////		DispatchQueue.main.async()
+////		{
+////
+////			self.scrollView.frame =  self.view.bounds
+////			self.scrollView.contentSize = CGSize(width: self.view.bounds.width, height: self.segmentedControl.frame.origin.y + self.segmentedControl.frame.height + 50)
+////		}
+////		print(scrollView.contentSize)
+//	}
+
+
 	func doCreditSlips()
 	{
 		navTitle.title = R.string.CreditSlips
@@ -63,7 +82,7 @@ class CustomerOrdersVC: UIViewController
 			if errorView != nil && errorView.superview != nil
 			{
 				errorView.superview?.removeFromSuperview()
-				errorView.superview?.layoutIfNeeded()
+				//errorView.superview?.layoutIfNeeded()
 			}
 			drawCSTable()
 		}
@@ -118,9 +137,9 @@ class CustomerOrdersVC: UIViewController
 	
 	func drawCSTable()
 	{
-		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
-		myTable.data = store.orders
-		myTable.structure =
+//		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
+		let myData = store.orders
+		let myTableStructure =
 			MyTable(caption: R.string.orderHistoryTop,
 					captionGap: 		10,
 					captionAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray,
@@ -207,11 +226,12 @@ class CustomerOrdersVC: UIViewController
 		)
 		//self.view.addSubview(myTable.buildView())
 		//		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
-		let built = myTable.buildView()
-		//built.sizeToFit()
-		//built.translatesAutoresizingMaskIntoConstraints = false
-		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
-		print("built(bounds)-x:\(built.bounds.origin.x), y:\(built.bounds.origin.y), w:\(built.bounds.width), h:\(built.bounds.height)")
+//		let built = myTable.buildView()
+		built = MakeTable(frame: .zero, structure: myTableStructure, data: myData)
+//		//built.sizeToFit()
+//		//built.translatesAutoresizingMaskIntoConstraints = false
+//		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
+//		print("built(bounds)-x:\(built.bounds.origin.x), y:\(built.bounds.origin.y), w:\(built.bounds.width), h:\(built.bounds.height)")
 		//			let built = myTable
 		//		let stack = UIStackView()
 		//		stack.translatesAutoresizingMaskIntoConstraints = false
@@ -288,7 +308,7 @@ class CustomerOrdersVC: UIViewController
 			//			self.view.layoutIfNeeded()
 			if errorView != nil && errorView.superview != nil
 			{
-				errorView.superview?.layoutIfNeeded()
+				//errorView.superview?.layoutIfNeeded()
 			}
 			//			if insertHere != nil
 			//			{
@@ -362,9 +382,9 @@ class CustomerOrdersVC: UIViewController
 	
 	func drawOHTable()
 	{
-		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
-		myTable.data = store.orders
-		myTable.structure =
+//		let myTable = MakeTable(/*frame: CGRect(x: tableStack.frame.origin.x, y: tableStack.frame.origin.y, width: tableStack.frame.width, height: tableStack.frame.height)*/)//frame: CGRect(x: 5, y: 100, width: 500, height: 200))
+		let myTableData = store.orders
+		let myTableStructure =
 			MyTable(caption: R.string.orderHistoryTop,
 					captionGap: 		10,
 					captionAttributes: 	[NSAttributedStringKey.foregroundColor : UIColor.darkGray,
@@ -453,31 +473,40 @@ class CustomerOrdersVC: UIViewController
 //		print("x:\(tableStack.frame.origin.x), y:\(tableStack.frame.origin.y), w:\(tableStack.frame.width), h:\(tableStack.frame.height)")
 //		let sv = UIScrollView()
 //		sv.translatesAutoresizingMaskIntoConstraints = false
-		mainStack.addSubview(scrollView2)
-		NSLayoutConstraint.activate([
-			scrollView2.leftAnchor.constraint(equalTo: mainStack.leftAnchor, constant: 0),
-			scrollView2.topAnchor.constraint(equalTo: mainStack.topAnchor, constant: 5),
-			scrollView2.rightAnchor.constraint(equalTo: mainStack.rightAnchor, constant: 0),
-			scrollView2.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 5),
-			])
-		myTable.returnTable()
-		let built = myTable//.returnTable()//buildView()
-		//built.translatesAutoresizingMaskIntoConstraints = false
+//		myTable.returnTable()
+//		let built = myTable//.returnTable()//buildView()
+		built = MakeTable(frame: .zero, structure: myTableStructure, data: myTableData)
+		built.translatesAutoresizingMaskIntoConstraints = false
 		//built.sizeToFit()
 		//built.translatesAutoresizingMaskIntoConstraints = false
-		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
+//		print("built(frame)-x:\(built.frame.origin.x), y:\(built.frame.origin.y), w:\(built.frame.width), h:\(built.frame.height)")
 		print("built(bounds)-x:\(built.bounds.origin.x), y:\(built.bounds.origin.y), w:\(built.bounds.width), h:\(built.bounds.height)")
 		//			let built = myTable
 //		let stack = UIStackView()
 //		stack.translatesAutoresizingMaskIntoConstraints = false
 //		stack.addArrangedSubview(built)
 		//scrollView.addSubview(stack)
-		scrollView2.addSubview(built)
-		scrollView2.leadingAnchor.constraint(equalTo: built.leadingAnchor).isActive = true
-		scrollView2.topAnchor.constraint(equalTo: built.topAnchor).isActive = true
-		scrollView2.widthAnchor.constraint(equalTo: built.widthAnchor).isActive = true
-		scrollView2.heightAnchor.constraint(equalTo: built.heightAnchor).isActive = true
-		mainStack.heightAnchor.constraint(equalTo: scrollView2.heightAnchor, constant: 10).isActive = true
+		scrollView.delegate = self
+		scrollView.minimumZoomScale = 0.1
+		scrollView.maximumZoomScale = 4.0
+		scrollView.zoomScale = 1.0
+//		scrollView2.addSubview(built)
+		scrollView.contentSize = built.bounds.size
+		scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		scrollView.addSubview(built)
+//		scrollView2.contentSize = CGSize(width: built.frame.width, height: built.frame.height)
+//		built.leadingAnchor.constraint(equalTo: scrollView2.leadingAnchor).isActive = true
+//		built.topAnchor.constraint(equalTo: scrollView2.topAnchor).isActive = true
+//		built.widthAnchor.constraint(equalTo: scrollView2.widthAnchor).isActive = true
+//		built.heightAnchor.constraint(equalTo: scrollView2.heightAnchor).isActive = true
+//		mainStack.heightAnchor.constraint(equalTo: scrollView2.heightAnchor, constant: 10).isActive = true
+//		mainStack.addSubview(scrollView2)
+//		NSLayoutConstraint.activate([
+//			scrollView2.leftAnchor.constraint(equalTo: mainStack.leftAnchor, constant: 0),
+//			scrollView2.topAnchor.constraint(equalTo: mainStack.topAnchor, constant: 5),
+//			scrollView2.rightAnchor.constraint(equalTo: mainStack.rightAnchor, constant: 0),
+//			scrollView2.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 5),
+//			])
 		//insertHere.addArrangedSubview(built)
 		//mainStack.addSubview(built)
 //		mainStack.translatesAutoresizingMaskIntoConstraints = false
@@ -606,6 +635,33 @@ class CustomerOrdersVC: UIViewController
 				i += 1
 			}
 			//print("got details for \(i) orders")
+		}
+	}
+
+
+	func viewForZooming(in scrollView: UIScrollView) -> UIView?
+	{
+		return built
+	}
+
+
+	func setupGestureRecognizer()
+	{
+		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(recognizer:)))
+		doubleTap.numberOfTapsRequired = 2
+		scrollView.addGestureRecognizer(doubleTap)
+	}
+
+
+	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
+	{
+		if (scrollView.zoomScale > scrollView.minimumZoomScale)
+		{
+			scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+		}
+		else
+		{
+			scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
 		}
 	}
 

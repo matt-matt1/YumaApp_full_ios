@@ -11,8 +11,11 @@ import UIKit
 
 enum inputType
 {
-	case allText
+	case textCapitalizeSentances
+	case textCapitalizeWords
+	case textCapitalizeNone
 	case hiddenLikePassword
+	case numbersOnly
 	case dateOnly
 	case dateAndTime
 	case timeOnly
@@ -21,6 +24,7 @@ enum inputType
 
 class InputField: UIView
 {
+	var placeholder = ""
 	var fieldFrameTop: Int = 5
 	var fieldFrameLeft: Int = 10
 	let fieldFrame: UIView =
@@ -50,6 +54,7 @@ class InputField: UIView
 	}()
 	var containerHeight: Int = 50
 	var textEditLeft: Int = 10
+	var textFontSize: CGFloat = 21
 	let textEdit: UITextField =
 	{
 		let view = UITextField()
@@ -79,13 +84,13 @@ class InputField: UIView
 	var fieldFrameBottom: Int = 5
 	var inputType: inputType?
 	var displayShowHideIcon = false
+	var showHideSize = 21
 	let eye: UILabel =
 	{
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textAlignment = .center
 		view.textColor = R.color.YumaRed
-		//view.text = FontAwesome.eye.rawValue
 		view.font = R.font.FontAwesomeOfSize(pointSize: 21)
 		return view
 	}()
@@ -102,18 +107,61 @@ class InputField: UIView
 		}
 		drawField()
 	}
+	
+	init(frame: CGRect, inputType: inputType, hasShowHideIcon: Bool)
+	{
+		super.init(frame: frame)
+		self.displayShowHideIcon = hasShowHideIcon
+		switch inputType
+		{
+		case .textCapitalizeNone:
+			textEdit.autocapitalizationType = .none
+			break
+		case .textCapitalizeSentances:
+			textEdit.autocapitalizationType = .sentences
+			break
+		case .textCapitalizeWords:
+			textEdit.autocapitalizationType = .words
+			break
+		case .numbersOnly:
+			break
+		case .dateOnly:
+			break
+		case .dateAndTime:
+			break
+		case .timeOnly:
+			break
+		case .hiddenLikePassword:
+			textEdit.autocapitalizationType = .none
+			textEdit.isSecureTextEntry = true
+			break
+		}
+		drawField()
+	}
 
 
 	// MARK: Methods
 	private func drawField()
 	{
+		label.adjustsFontSizeToFitWidth = true
 		fieldFrame.addSubview(label)
+		textEdit.placeholder = self.placeholder
+		if textFontSize != 21
+		{
+			textEdit.font = UIFont.systemFont(ofSize: textFontSize)
+		}
 		container.addSubview(textEdit)
 		if displayShowHideIcon
 		{
-			eye.text = canSee ? FontAwesome.eye.rawValue : FontAwesome.eyeSlash.rawValue
+			eye.text = canSee ? FontAwesome.eyeSlash.rawValue : FontAwesome.eye.rawValue
+			eye.isUserInteractionEnabled = true
+			eye.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleViewable(_:))))
+			if showHideSize != 21
+			{
+				eye.font = R.font.FontAwesomeOfSize(pointSize: showHideSize)
+			}
 			container.addSubview(eye)
-			container.addConstraintsWithFormat(format: "H:|-\(textEditLeft)-[v0]-\(textEditRight)-[v1]-2-|", views: textEdit, eye)
+			container.addConstraintsWithFormat(format: "H:|-\(textEditLeft)-[v0]-\(max(4, textEditRight/3))-[v1(\(showHideSize))]-\(textEditRight)-|", views: textEdit, eye)
 			container.addConstraint(NSLayoutConstraint(item: textEdit, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0))
 			container.addConstraint(NSLayoutConstraint(item: eye, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0))
 		}
@@ -127,7 +175,6 @@ class InputField: UIView
 		addSubview(fieldFrame)
 		fieldFrame.addConstraintsWithFormat(format: "H:|-\(fieldFrameLeft)-[v0(\(labelMaxWidth))]-\(gap)-[v1]-\(fieldFrameRight)-|", views: label, container)
 		fieldFrame.addConstraintsWithFormat(format: "H:|-\(fieldFrameLeft)-[v0]-\(fieldFrameRight)-|", views: invalid)
-//		fieldFrame.addConstraintsWithFormat(format: "V:|-\(fieldFrameTop)-[v0]-\(invalidGapTop)-[v1(\(invalidHeight))]-\(invalidGapBottom)-\(fieldFrameBottom)-|", views: label, invalid)
 		fieldFrame.addConstraintsWithFormat(format: "V:|-\(fieldFrameTop)-[v0]-\(invalidGapTop)-[v1(\(invalidHeight))]-\(invalidGapBottom)-|", views: label, invalid)
 		fieldFrame.addConstraintsWithFormat(format: "V:|-\(fieldFrameTop)-[v0(\(containerHeight))]", views: container)
 		container.addConstraintsWithFormat(format: "V:|[v0]|", views: textEdit)
@@ -135,6 +182,14 @@ class InputField: UIView
 		fieldFrame.addConstraint(NSLayoutConstraint(item: textEdit, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0))
 		addConstraintsWithFormat(format: "H:|[v0]|", views: fieldFrame)
 		addConstraintsWithFormat(format: "V:|[v0]|", views: fieldFrame)
+	}
+
+
+	@objc func toggleViewable(_ sender: AnyObject)
+	{
+		canSee = !canSee
+		eye.text = canSee ? FontAwesome.eyeSlash.rawValue : FontAwesome.eye.rawValue
+		textEdit.isSecureTextEntry = canSee ? false : true
 	}
 
 

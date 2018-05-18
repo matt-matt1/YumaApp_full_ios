@@ -200,7 +200,7 @@
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="50" id="QsV-ow-6Ug"/>
                                                                                             </constraints>
-                                                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="40"/>
+                                                                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="30"/>
                                                                                             <color key="textColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
