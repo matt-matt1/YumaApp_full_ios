@@ -93,14 +93,14 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		{
 			if row.product_id == String(sender.tag)
 			{
-				store.myOrderRows[i].product_quantity = String(Int(value))
 				break
 			}
 			i += 1
 		}
-		calcTotal()
 		if value < 1
 		{
+			sender.value = 1
+			store.myOrderRows[i].product_quantity = String(1)
 			if let prodTitle = (sender.superview?.superview?.subviews[1].subviews[0] as? UILabel)?.text//, let qty = (sender.superview?.subviews.first.subviews.first.subviews.first as? UITextFiled)?.text
 			{
 				askToDelete(message: "\(R.string.delete) \"\(prodTitle)\"", row: i)
@@ -109,6 +109,11 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			{
 				askToDelete(message: "\(R.string.delete)?", row: i)
 			}
+		}
+		else
+		{
+			store.myOrderRows[i].product_quantity = String(Int(value))
+			calcTotal()
 		}
 	}
 
@@ -150,6 +155,14 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		totalWt.text = "\(wt)"
 //		}
 		if total < 1
+		{
+			chkoutBtn.alpha = 0.2
+		}
+		else
+		{
+			chkoutBtn.alpha = 1
+		}
+		if pcs < 1
 		{
 			DispatchQueue.main.async {
 				self.alertEmpty()
@@ -306,6 +319,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 			self.view.addSubview(blurFxView)
 			alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+//				self.store.myOrderRows[row].product_quantity = String(1)
 				coloredBG.removeFromSuperview()
 				blurFxView.removeFromSuperview()
 			}))

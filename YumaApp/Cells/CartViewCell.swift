@@ -227,6 +227,7 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		prodQtyEdit.text = object.product_quantity
 		prodQtyEdit.keyboardType = .numberPad
 		prodQtyEdit.returnKeyType = .done
+		stepper.autorepeat = true
 		if object.product_id != nil
 		{
 			stepper.tag = Int(object.product_id!)!
@@ -251,11 +252,15 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 	}
 	@IBAction func stepperAct(_ sender: UIStepper)
 	{
-		//let value = Int(sender.value)
-		prodQtyEdit.text = Int(sender.value).description
-		//let prod = sender.superview
-		//let row_qty = value
-		NotificationCenter.default.post(name: CartViewController.noteName, object: sender/*, userInfo: ["sender": sender]*/)
-		//NotificationCenter.default.post(name: CartViewController.noteName, object: nil)
+		let value = Int(sender.value)
+		if value > 0
+		{
+			prodQtyEdit.text = Int(sender.value).description
+		}
+//		else
+//		{
+//			stepper.value = 1
+//		}
+		NotificationCenter.default.post(name: CartViewController.noteName, object: sender)
 	}
 }

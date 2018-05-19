@@ -170,7 +170,14 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 					}
 				}
 			}
+		}
+		if total > 1
+		{
 			chkoutBtn.alpha = 1
+		}
+		else
+		{
+			chkoutBtn.alpha = 0.2
 		}
 	}
 

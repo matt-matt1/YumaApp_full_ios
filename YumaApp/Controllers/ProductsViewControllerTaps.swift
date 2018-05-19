@@ -116,7 +116,7 @@ extension ProductsViewController
 	/////tableView
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
-		//guard viewCartBtn.alpha == 1 else { 	return 	}
+		guard chkoutBtn.alpha == 1 else { 	return 	}
 		//		store.flexView(view: self.viewCartBtn)
 		//		sender.view?.backgroundColor = R.color.YumaRed
 		//		UIView.animate(withDuration: 1, animations:
