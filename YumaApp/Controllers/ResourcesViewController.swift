@@ -115,7 +115,7 @@ class ResourcesViewController: UIViewController
 		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
 		navigationItem.title = "Resources"
 		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.stop, target: self, action: #selector(navCloseAct(_:)))
-		navClose.style = UIBarButtonItemStyle.bordered
+		navClose.style = UIBarButtonItemStyle.plain
 		self.navigationItem.leftBarButtonItems = [navClose]
 //		let statusBar = UIView(frame: statusBarFrame)
 //		statusBar.backgroundColor = UIColor.lightGray

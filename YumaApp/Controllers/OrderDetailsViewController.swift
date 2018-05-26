@@ -80,7 +80,10 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	var pickerData: [String] = [String]()
 //	var observer: NSObjectProtocol?
 
-	
+	@IBOutlet weak var scrollForm: UIScrollView!
+
+
+	// MARK: Overrides
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
@@ -93,6 +96,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		picker.dataSource = self
 		picker.delegate = self
 		addMessageList.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dropdownList(_:))))
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
 
 	
@@ -139,8 +145,9 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-	
-	
+
+
+	// MARK: Methods
 	func prepareLabels()
 	{
 		navClose.title = FontAwesome.times.rawValue
@@ -148,7 +155,8 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
+		reorderBtn.setTitle(R.string.reorder, for: .normal)
 		orderRef.text = R.string.ordRef
 		placedOn.text = R.string.placed.capitalized
 		carrierLabel.text = R.string.carr
@@ -460,8 +468,29 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //			}
 		}
 	}
-	
-	
+
+
+	// MARK: Actions
+	@objc func adjustForKeyboard(notification: Notification)
+	{
+		let userInfo = notification.userInfo!
+		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+		if notification.name == Notification.Name.UIKeyboardWillHide
+		{
+			self.scrollForm.contentInset = UIEdgeInsets.zero
+		}
+		else
+		{
+			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+		}
+		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
+		//let selectedRange = self.scrollForm.selectedRange
+		//self.scrollForm.scrollRangeToVisible(selectedRange)
+	}
+
+
 	@objc func dropdownList(_ sender: UITapGestureRecognizer)
 	{
 		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
@@ -469,9 +498,18 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		if vc != nil
 		{
 			self.present(vc!, animated: true, completion: nil)
-			vc?.dialog.layer.cornerRadius = 20
-			vc?.dialog.cornerRadius = 20
-			vc?.titleLbl.text = R.string.select + " " + R.string.prod
+//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//			blurFxView.frame = 					self.view.bounds
+//			blurFxView.alpha = 					0.5
+//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+//			vc?.backgroundView.addSubview(blurFxView)
+			vc?.dialog.shadowColor = 			R.color.YumaDRed
+			vc?.dialog.shadowOffset = 			.zero
+			vc?.dialog.shadowRadius = 			5
+			vc?.dialog.shadowOpacity = 			1
+			vc?.dialog.layer.cornerRadius = 	20
+			vc?.dialog.cornerRadius = 			20
+			vc?.titleLbl.text = 				R.string.select + " " + R.string.prod
 			vc?.button.setTitle(R.string.select, for: .normal)
 			vc?.view.addSubview(picker)
 			picker.translatesAutoresizingMaskIntoConstraints = false
@@ -500,6 +538,11 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_order_details_guide
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func buttonAct(_ sender: Any)
 	{

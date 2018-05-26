@@ -37,7 +37,8 @@ class AssistanceCell: UICollectionViewCell
 		addSubview(titleLabel)
 		addConstraintsWithFormat(format: "H:|-16-[v0]-16-|", views: titleLabel)
 //		addConstraintsWithFormat(format: "H:|-16-[v0(44)]", views: profileImageView)
-		addConstraintsWithFormat(format: "V:|-16-[v0]-8-|", views: titleLabel)
+//		addConstraintsWithFormat(format: "V:|-16-[v0]-8-|", views: titleLabel)
+		addConstraintsWithFormat(format: "V:|-16-[v0]", views: titleLabel)
 //		addConstraintsWithFormat(format: "H:|[v0]|", views: seperatorView)
 		
 //		addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: thumbImageView, attribute: .bottom, multiplier: 1, constant: 8))

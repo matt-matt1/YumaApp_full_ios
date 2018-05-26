@@ -35,7 +35,7 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		if #available(iOS 11.0, *)
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

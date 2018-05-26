@@ -19,7 +19,50 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 	var found = false
 	let store = DataStore.sharedInstance
 
+	@IBOutlet weak var eachLabel: UILabel!
+	@IBOutlet weak var eachAmt: UILabel!
 	
+	func setup(_ object: OrderRow)
+	{
+		prodTitle.text = object.product_name
+		prodQtyEdit.text = object.product_quantity
+		prodQtyEdit.keyboardType = .numberPad
+		prodQtyEdit.returnKeyType = .done
+		let asDbl = object.product_price?.toDouble()!
+		if asDbl != nil && asDbl! > 0
+		{
+			eachLabel.text = R.string.each
+			eachAmt.text = store.formatCurrency(amount: asDbl! as NSNumber, iso: store.locale)
+		}
+		else
+		{
+			eachLabel.text = ""
+			eachAmt.text = ""
+		}
+		stepper.autorepeat = true
+		if object.product_id != nil
+		{
+			stepper.tag = Int(object.product_id!)!
+		}
+		searchProducts(object.product_id!)
+		if found == false
+		{
+			searchPrinters(object.product_id!)
+		}
+		if found == false
+		{
+			searchLaptops(object.product_id!)
+		}
+		if found == false
+		{
+			searchServices(object.product_id!)
+		}
+		if found == false
+		{
+			searchToners(object.product_id!)
+		}
+	}
+
 	fileprivate func searchProducts(_ id: String)
 	{
 		for i in 0..<DataStore.sharedInstance.products.count
@@ -221,35 +264,6 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 	
-	func setup(_ object: OrderRow)
-	{
-		prodTitle.text = object.product_name
-		prodQtyEdit.text = object.product_quantity
-		prodQtyEdit.keyboardType = .numberPad
-		prodQtyEdit.returnKeyType = .done
-		stepper.autorepeat = true
-		if object.product_id != nil
-		{
-			stepper.tag = Int(object.product_id!)!
-		}
-		searchProducts(object.product_id!)
-		if found == false
-		{
-			searchPrinters(object.product_id!)
-		}
-		if found == false
-		{
-			searchLaptops(object.product_id!)
-		}
-		if found == false
-		{
-			searchServices(object.product_id!)
-		}
-		if found == false
-		{
-			searchToners(object.product_id!)
-		}
-	}
 	@IBAction func stepperAct(_ sender: UIStepper)
 	{
 		let value = Int(sender.value)

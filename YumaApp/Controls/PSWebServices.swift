@@ -1969,13 +1969,112 @@ class PSWebServices: NSObject
 	}
 	
 	/// Convert an object in XML using Prestashop's signature eg object2psxml(object: myAddress, resource: "addresses")
-	class func object2psxml(object: Any, resource: String, resource2: String, excludeId: Bool) -> String
+	class func object2psxml(object: Any, resource: String, resource2: String, omit: [String]) -> String
 	{
-		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>", excludeId: excludeId)
+		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>", omit: omit)
+	}
+	
+	fileprivate static func doXMLMiddle(_ prettyOutput: Bool, _ xml: inout String, _ object: Any, _ omit: [String]) {
+		if prettyOutput
+		{
+			xml += "\n"
+		}
+		let mirror = Mirror(reflecting: object)
+		for (key, value) in mirror.children
+		{
+			if let key = key
+			{
+				var skipped = false
+				for skip in omit
+				{
+					if key == skip
+					{
+						skipped = true
+						break
+						//continue
+					}
+				}
+				if !skipped
+				{
+					if key != "some"
+					{
+						if prettyOutput
+						{
+							xml += "\t"
+						}
+						xml += "<"
+						xml += String(key)
+					//						let val = value as? String
+					//						if val != nil
+					//						{
+					//							var vcd = "<![CDATA["
+					//							vcd += val!
+					//							vcd += "]]>"
+					//		//					if let intV = Int(val!), intV > 0
+					//		//					{
+					//		//						switch (key)
+					//		//						{
+					//		//						case "id_supplier":
+					//		//							xml += " xlink:href=\"" + R.string.WSbase + "suppliers/\(val!)\""
+					//		//							break
+					//		//						case "id_country":
+					//		//							xml += " xlink:href=\"" + R.string.WSbase + "countries/\(val!)\""
+					//		//							break
+					//		//						default:
+					//		//							break
+					//		//						}
+					//		//					}
+					//						}
+						xml += ">"
+					}
+					if value is String
+					{
+						xml += "<![CDATA["
+						xml += value as! String
+						xml += "]]>"
+					}
+					else if value is Int
+					{
+//						xml += "<![CDATA["
+						xml += "\(value)"
+//						xml += "]]>"
+					}
+//					else if value is Bool
+//					{
+//						//						xml += "<![CDATA["
+//						let val: Bool = (value == true) ? "true" : "falue"
+//						xml += val
+//						//						xml += "]]>"
+//					}
+//					else if value is Bool
+//					{
+//						//
+//					}
+					else //if value is CustomerAssociations
+					{
+						doXMLMiddle(prettyOutput, &xml, value, omit)
+					}
+//					else
+//					{
+//						xml += "null"
+//					}
+					if key != "some"
+					{
+						xml += "</"
+						xml += String(key)
+						xml += ">"
+						if prettyOutput
+						{
+							xml += "\n"
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	/// Convert an object in XML eg. objectToXML(object: myObj, head: "<?xml version=\"2.0\" encoding=\"ASCII\"?>", wrapperHead: "<my_wrapper>", wrapperTail: "</my_wrapper>")
-	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, excludeId: Bool = false, prettyOutput: Bool = true) -> String
+	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, omit: [String], prettyOutput: Bool = true) -> String
 	{
 //		let start = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>"
 		//var xml = "xml="
@@ -1996,62 +2095,7 @@ class PSWebServices: NSObject
 		{
 			xml += wrapperHead!
 		}
-		if prettyOutput
-		{
-			xml += "\n"
-		}
-		let mirror = Mirror(reflecting: object)
-		for (key, value) in mirror.children
-		{
-			if let key = key
-			{
-				if excludeId && key == "id"
-				{
-					continue
-				}
-				if prettyOutput
-				{
-					xml += "\t"
-				}
-				xml += "<"
-				xml += String(key)
-				let val = value as? String
-				if val != nil
-				{
-					var vcd = "<![CDATA["
-					vcd += val!
-					vcd += "]]>"
-//					if let intV = Int(val!), intV > 0
-//					{
-//						switch (key)
-//						{
-//						case "id_supplier":
-//							xml += " xlink:href=\"" + R.string.WSbase + "suppliers/\(val!)\""
-//							break
-//						case "id_country":
-//							xml += " xlink:href=\"" + R.string.WSbase + "countries/\(val!)\""
-//							break
-//						default:
-//							break
-//						}
-//					}
-				}
-				xml += ">"
-				if let val = value as? String
-				{
-					xml += "<![CDATA["
-					xml += val
-					xml += "]]>"
-				}
-				xml += "</"
-				xml += String(key)
-				xml += ">"
-				if prettyOutput
-				{
-					xml += "\n"
-				}
-			}
-		}
+		doXMLMiddle(prettyOutput, &xml, object, omit)
 		if wrapperTail != nil
 		{
 			xml += wrapperTail!

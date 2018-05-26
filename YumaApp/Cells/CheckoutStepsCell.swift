@@ -9,12 +9,20 @@
 import UIKit
 
 
+//protocol CellDelegate
+//{
+//	func colCategorySelected(_ indexPath : IndexPath)
+//}
+
+
 class CheckoutStepsCell: UICollectionViewCell
 {
 	let store = DataStore.sharedInstance
 	var space: CGFloat = 20
 	var curr = 1
+	var chkoutCell: CheckoutStepsCell?
 	var done: [Int] = []
+//	var delegate: CellDelegate?
 	let label: UILabel =
 	{
 		let view = UILabel()
@@ -27,7 +35,7 @@ class CheckoutStepsCell: UICollectionViewCell
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textColor = UIColor.darkGray
-		view.font = UIFont.boldSystemFont(ofSize: UIFont.systemFontSize)
+		view.font = UIFont.boldSystemFont(ofSize: 20)
 		return view
 	}()
 	let signoutLabel: UILabel =
@@ -44,9 +52,9 @@ class CheckoutStepsCell: UICollectionViewCell
 		view.font = UIFont.systemFont(ofSize: 30)
 		return view
 	}()
-	let cont: UIButton/*GradientButton*/ =
+	let cont: /*UIButton*/GradientButton =
 	{
-		let view = UIButton()/*GradientButton()*/
+		let view = /*UIButton()*/GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.cont.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
@@ -55,60 +63,46 @@ class CheckoutStepsCell: UICollectionViewCell
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
 		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
 		view.backgroundColor = R.color.YumaRed
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
+		view.topGradientColor = R.color.YumaRed
+		view.bottomGradientColor = R.color.YumaYel
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		view.shadowRadius = 2
+//		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
+//		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
-		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		return view
 	}()
-	let button: UIButton =
+	let switchView: UISwitch =
 	{
-		let view = UIButton()
+		let view = UISwitch()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
-		view.titleLabel?.shadowRadius = 3
-		view.titleLabel?.textColor = UIColor.white
-		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
-		view.backgroundColor = R.color.YumaRed
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
-		view.cornerRadius = 3
-		view.shadowColor = UIColor.darkGray
-		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		view.borderColor = R.color.YumaDRed
-		view.borderWidth = 1
-		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
+		view.tintColor = R.color.YumaRed
+		view.onTintColor = R.color.YumaRed
 		return view
 	}()
-	
+
 	
 	// MARK: Overrides
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)
-		setupContents(0)
+		chkoutCell = self
+		setupContents(0/*, vc: nil*/)
 	}
 	
 	
 	// MARK: Methods
-	func setupContents(_ index: Int)
+	func setupContents(_ index: Int/*, vc: CheckoutCollection?*/)
 	{
+//		parent = vc
 		space = max(20, self.frame.height/6)
-		subviews.forEach { (view) in
-			view.removeFromSuperview()
-		}
-		setupBackground()
+//		subviews.forEach { (view) in
+//			view.removeFromSuperview()
+//		}
+//		setupBackground()
 		switch index {
 		case 1:
 			drawStep2Addreses()
@@ -126,15 +120,18 @@ class CheckoutStepsCell: UICollectionViewCell
 			drawStep1Personal()
 			break
 		}
+		cont.isUserInteractionEnabled = true
+		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
+		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		addSubview(cont)
 		addConstraintsWithFormat(format: "H:[v0]", views: cont)
 		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
 		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-		cont.isUserInteractionEnabled = true
-		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
+//		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
 	}
-	
-	
+
+
 	private func setupBackground()
 	{
 		let bg = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
@@ -157,12 +154,28 @@ class CheckoutStepsCell: UICollectionViewCell
 			panel.topAnchor.constraint(equalTo: topAnchor),
 			panel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			])
+		addSubview(cont)
+		cont.translatesAutoresizingMaskIntoConstraints = false
+		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
 	
 	
 	private func drawStep1Personal()
 	{
-		curr = 1
+//		if curr != 1
+//		{
+			curr = 1
+//			if parent != nil
+//			{
+//				parent!.scrollTo(curr)
+//			}
+			subviews.forEach { (view) in
+				view.removeFromSuperview()
+			}
+			setupBackground()
+//		}
 		addSubview(signoutLabel)
 		addConstraintsWithFormat(format: "H:|[v0]|", views: signoutLabel)
 		//addConstraint(NSLayoutConstraint(item: label, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0))
@@ -195,9 +208,18 @@ class CheckoutStepsCell: UICollectionViewCell
 			{
 				boldLabel.text = store.customer?.email
 			}
+			if boldLabel.text != nil
+			{
+				boldLabel.underline(lineColor: UIColor.blue)
+//				boldLabel.attributedText = NSAttributedString(string: boldLabel.text!, attributes: [NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+//					NSAttributedStringKey.underlineColor: UIColor.blue])
+			}
+			boldLabel.isUserInteractionEnabled = true
+			boldLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doProfile(_:))))
 			//addConstraintsWithFormat(format: "V:|-100-[v0(50)]", views: signoutLabel)
 			signoutLabel.text = R.string.SignOut
-			addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
+			signoutLabel.isUserInteractionEnabled = true
+			signoutLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doSignout(_:))))
 		}
 		else	//	Not logged in
 		{
@@ -218,10 +240,6 @@ class CheckoutStepsCell: UICollectionViewCell
 			let line = UIView()
 			line.translatesAutoresizingMaskIntoConstraints = false
 			line.backgroundColor = UIColor.lightGray
-			let switchView = UISwitch()
-			switchView.translatesAutoresizingMaskIntoConstraints = false
-			switchView.tintColor = R.color.YumaRed
-			switchView.onTintColor = R.color.YumaRed
 			let switchLbl = UILabel()
 			switchLbl.text = R.string.without
 			switchLbl.translatesAutoresizingMaskIntoConstraints = false
@@ -245,21 +263,28 @@ class CheckoutStepsCell: UICollectionViewCell
 			addConstraint(NSLayoutConstraint(item: lineOr, attribute: .centerX, relatedBy: .equal, toItem: line, attribute: .centerX, multiplier: 1, constant: 0))
 			//			addConstraint(NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		}
-		//		addSubview(cont)
-		//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+//		addSubview(cont)
+//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		//		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 	}
 	
 	
 	private func drawStep2Addreses()
 	{
-		subviews.forEach { (view) in
-			view.removeFromSuperview()
+		if curr != 2
+		{
+			curr = 2
+//			if parent != nil
+//			{
+//				parent!.scrollTo(curr)
+//			}
+			subviews.forEach { (view) in
+				view.removeFromSuperview()
+			}
+			setupBackground()
 		}
-		setupBackground()
-		curr = 2
 		let collectionView: UICollectionView =
 		{
 			let layout = UICollectionViewFlowLayout()
@@ -268,7 +293,6 @@ class CheckoutStepsCell: UICollectionViewCell
 			view.register(Addr2CollectionViewCell.self, forCellWithReuseIdentifier: "AddrCellId")
 			return view
 		}()
-		
 		addSubview(label)
 		label.text = R.string.chk2
 		addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: label)
@@ -276,20 +300,27 @@ class CheckoutStepsCell: UICollectionViewCell
 		addSubview(collectionView)
 		addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: collectionView)
 		addConstraintsWithFormat(format: "V:|-100-[v0(50)]-80-|", views: collectionView)
-		//		addSubview(cont)
-		//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+//		addSubview(cont)
+//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
 	
 	
 	private func drawStep3Shipping()
 	{
-		subviews.forEach { (view) in
-			view.removeFromSuperview()
+		if curr != 3
+		{
+			curr = 3
+//			if parent != nil
+//			{
+//				parent!.scrollTo(curr)
+//			}
+			subviews.forEach { (view) in
+				view.removeFromSuperview()
+			}
+			setupBackground()
 		}
-		setupBackground()
-		curr = 3
 		addSubview(label)
 		label.text = "\(R.string.select) \(R.string.chk3)"
 		addConstraintsWithFormat(format: "H:|-10-[v0]", views: label)
@@ -310,11 +341,18 @@ class CheckoutStepsCell: UICollectionViewCell
 	
 	private func drawStep4Payment()
 	{
-		subviews.forEach { (view) in
-			view.removeFromSuperview()
+		if curr != 4
+		{
+			curr = 4
+//			if parent != nil
+//			{
+//				parent!.scrollTo(curr)
+//			}
+			subviews.forEach { (view) in
+				view.removeFromSuperview()
+			}
+			setupBackground()
 		}
-		setupBackground()
-		curr = 4
 		addSubview(label)
 		label.text = "\(R.string.select) \(R.string.chk4)"
 		addConstraintsWithFormat(format: "H:|-10-[v0]", views: label)
@@ -334,19 +372,28 @@ class CheckoutStepsCell: UICollectionViewCell
 		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
 		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
-	
-	
+
+
 	required init?(coder aDecoder: NSCoder)
 	{
 		super.init(coder: aDecoder)
-		setupContents(0)
+		setupContents(0/*, vc: nil*/)
 	}
-	
-	
+
+
 	// MARK: Actions
+	@objc func doProfile(_ sender: UITapGestureRecognizer)
+	{
+		if sender.view != nil
+		{
+			store.flexView(view: sender.view!)
+		}
+		let vc = MyAccInfoViewController()
+		NotificationCenter.default.post(name: CheckoutCollection.noteName, object: vc)
+	}
 	@objc func doCont(_ sender: UITapGestureRecognizer)
 	{
-		print("\(R.string.cont) from \(curr)")
+		//print("\(R.string.cont) from \(curr)")
 		switch curr
 		{
 		case 1:
@@ -364,6 +411,11 @@ class CheckoutStepsCell: UICollectionViewCell
 			}
 			else
 			{
+				if switchView.isOn
+				{
+					done.append(1)
+//					NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: nil)
+				}
 				drawStep2Addreses()
 			}
 			break
@@ -386,19 +438,102 @@ class CheckoutStepsCell: UICollectionViewCell
 			{
 				print("complete")
 			}
-			else if done.contains(3)
+//			else if done.contains(3)
+//			{
+//				drawStep4Payment()
+//			}
+			else
 			{
 				drawStep4Payment()
+				//alert step not complete
 			}
 			break
 		case 4:
+			let checkoutCollection = CheckoutCollection()	//	NOT A REAL SOLUTION
 			if done.contains(4)
 			{
-				print("complete")
+				OperationQueue.main.addOperation
+				{
+					let alert = 					UIAlertController(title: nil, message: R.string.complete, preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = 		R.color.YumaDRed
+					alert.view.shadowOffset = 		.zero
+					alert.view.shadowRadius = 		5
+					alert.view.shadowOpacity = 		1
+					alert.view.backgroundColor = 	R.color.YumaYel
+					alert.view.cornerRadius = 		15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.4
+					coloredBG.frame = 				checkoutCollection.view.bounds
+					checkoutCollection.view.addSubview(coloredBG)
+					blurFxView.frame = 				checkoutCollection.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					checkoutCollection.view.addSubview(blurFxView)
+					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+					}))
+					checkoutCollection.present(alert, animated: true, completion:
+					{
+					})
+				}
 			}
 			else
 			{
-				print("error: should be complete")
+				//print("error: should be complete")
+				OperationQueue.main.addOperation
+				{
+					let alert = 					UIAlertController(title: nil, message: "return to a previous step?", preferredStyle: .alert)
+					let coloredBG = 				UIView()
+					let blurFx = 					UIBlurEffect(style: .dark)
+					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+					alert.view.superview?.backgroundColor = R.color.YumaRed
+					alert.view.shadowColor = 		R.color.YumaDRed
+					alert.view.shadowOffset = 		.zero
+					alert.view.shadowRadius = 		5
+					alert.view.shadowOpacity = 		1
+					alert.view.backgroundColor = 	R.color.YumaYel
+					alert.view.cornerRadius = 		15
+					coloredBG.backgroundColor = 	R.color.YumaRed
+					coloredBG.alpha = 				0.4
+					coloredBG.frame = 				checkoutCollection.view.bounds
+					checkoutCollection.view.addSubview(coloredBG)
+					blurFxView.frame = 				checkoutCollection.view.bounds
+					blurFxView.alpha = 				0.5
+					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+					checkoutCollection.view.addSubview(blurFxView)
+					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+						coloredBG.removeFromSuperview()
+						blurFxView.removeFromSuperview()
+					}))
+					checkoutCollection.present(alert, animated: true, completion:
+					{
+					})
+				}
+				if done.contains(3)
+				{
+					drawStep4Payment()
+				}
+				else if done.contains(2)
+				{
+					drawStep3Shipping()
+				}
+				else if done.contains(1)
+				{
+					drawStep2Addreses()
+				}
+				else
+				{
+					drawStep1Personal()
+				}
 			}
 			break
 		default:
@@ -406,75 +541,69 @@ class CheckoutStepsCell: UICollectionViewCell
 			break
 		}
 	}
-	
-	
+
+
 	@objc func doWithoutMore(_ sender: UITapGestureRecognizer)
 	{
 		print(R.string.withoutMore)
-		let checkoutCollection = CheckoutCollection()
+		let checkoutCollection = CheckoutCollection()	//	NOT A REAL SOLUTION
 		OperationQueue.main.addOperation
+		{
+			let alert = 					UIAlertController(title: nil, message: R.string.withoutMore, preferredStyle: .alert)
+			let coloredBG = 				UIView()
+			let blurFx = 					UIBlurEffect(style: .dark)
+			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+			alert.view.superview?.backgroundColor = R.color.YumaRed
+			alert.view.shadowColor = 		R.color.YumaDRed
+			alert.view.shadowOffset = 		.zero
+			alert.view.shadowRadius = 		5
+			alert.view.shadowOpacity = 		1
+			alert.view.backgroundColor = 	R.color.YumaYel
+			alert.view.cornerRadius = 		15
+			coloredBG.backgroundColor = 	R.color.YumaRed
+			coloredBG.alpha = 				0.4
+			coloredBG.frame = 				checkoutCollection.view.bounds
+			checkoutCollection.view.addSubview(coloredBG)
+			blurFxView.frame = 				checkoutCollection.view.bounds
+			blurFxView.alpha = 				0.5
+			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+			checkoutCollection.view.addSubview(blurFxView)
+			alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+				coloredBG.removeFromSuperview()
+				blurFxView.removeFromSuperview()
+			}))
+			checkoutCollection.present(alert, animated: true, completion:
 			{
-				let alert = 					UIAlertController(title: nil, message: R.string.withoutMore, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				checkoutCollection.view.bounds
-				checkoutCollection.view.addSubview(coloredBG)
-				blurFxView.frame = 				checkoutCollection.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				checkoutCollection.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				checkoutCollection.present(alert, animated: true, completion:
-					{
-				})
+			})
 		}
 	}
-	
-	
+
+
 	@objc func doSignout(_ sender: UITapGestureRecognizer)
 	{
-		print(R.string.SignOut)
+		if sender.view != nil
+		{
+			store.flexView(view: sender.view!)
+		}
 		let checkoutCollection = CheckoutCollection()
 		store.logout(checkoutCollection, presentingViewController: checkoutCollection.self)
+		drawStep1Personal()
 	}
-	
-	
-	@objc func doLogin(_ sender: AnyObject)
+
+
+	@objc func doLogin(_ sender: UITapGestureRecognizer)
 	{
-		print(R.string.login)
-		//let checkoutCollection = CheckoutCollection()
-		let view = sender.view as UIView
-		store.flexView(view: view)
-		//		sender.view?.backgroundColor = R.color.YumaRed
-//		let spin = UIViewController.displaySpinner(onView: self.contentView/*checkoutCollection.view*/)
-		//		UIView.animate(withDuration: 1, animations:
-		//			{
-		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-		//		})
-		//		let root = CheckoutCollection(collectionViewLayout: UICollectionViewFlowLayout())
-		//		root.present(LoginViewController(), animated: false, completion: (() -> Void)?
-		//			{
-		//				UIViewController.removeSpinner(spinner: spin)
-		//				//				sender.view?.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-		//				//				sender.view?.backgroundColor = UIColor.white
-		//			})
-		//self.present
+		if sender.view != nil
+		{
+			store.flexView(view: sender.view!)
+		}
+		let vc = LoginViewController()
+		NotificationCenter.default.post(name: CheckoutCollection.noteName, object: vc)
+		drawStep1Personal()
 	}
+
 }
 
 
@@ -485,7 +614,7 @@ extension CheckoutStepsCell: UICollectionViewDelegate, UICollectionViewDataSourc
 	{
 		return store.addresses.count
 	}
-	
+
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddrCellId", for: indexPath) as! Addr2CollectionViewCell

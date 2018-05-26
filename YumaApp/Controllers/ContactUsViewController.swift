@@ -106,7 +106,7 @@ class ContactUsViewController: UIViewController
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
 		phoneBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
@@ -271,6 +271,14 @@ class ContactUsViewController: UIViewController
 		let picked = picker.selectedRow(inComponent: 0)
 		mail.setToRecipients([(store.storeContacts[picked].email)!])
 		mail.setSubject(pickerData[picked])
+//		mail.navigationBar.backgroundColor = R.color.YumaRed
+//		mail.navigationBar.barTintColor = R.color.YumaRed
+//		mail.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		mail.navigationBar.tintColor = R.color.YumaRed
+		mail.navigationBar.shadowColor = R.color.YumaDRed
+		mail.navigationBar.shadowOffset = CGSize(width: 0, height: 1)
+		mail.navigationBar.shadowRadius = 1
+		mail.navigationBar.shadowOpacity = 0.9
 //		if picked == 1
 //		{
 //			mail.setSubject(R.string.customer + " _<your name>_; " + R.string.order + " _<date>_<item(s)>_")
@@ -321,6 +329,16 @@ class ContactUsViewController: UIViewController
 				self.present(vc!, animated: true, completion: nil)
 				//vc?.dialog.layer.cornerRadius = 20
 				vc?.dialog.cornerRadius = 20
+				vc?.dialog.shadowColor = R.color.YumaDRed
+				vc?.dialog.shadowRadius = 5
+				vc?.dialog.shadowOffset = .zero
+				vc?.dialog.shadowOpacity = 1
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
 				vc?.titleLbl.text = R.string.select + " " + R.string.emailTo
 				vc?.button.setTitle(R.string.select, for: .normal)
 				vc?.view.addSubview(self.picker)
@@ -414,7 +432,7 @@ class ContactUsViewController: UIViewController
 					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
 						coloredBG.removeFromSuperview()
 						blurFxView.removeFromSuperview()
-						self.dismiss(animated: false, completion: nil)
+						//self.dismiss(animated: false, completion: nil)
 					}))
 					self.present(alert, animated: true, completion:
 						{
@@ -639,6 +657,78 @@ extension ContactUsViewController: MFMailComposeViewControllerDelegate
 {
 	func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?)
 	{
+		if error != nil
+		{
+			OperationQueue.main.addOperation
+			{
+				let alert = 					UIAlertController(title: R.string.err, message: error.debugDescription, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+				}))
+				self.present(alert, animated: true, completion:
+				{
+				})
+			}
+		}
+		else
+		{
+			//success
+		}
+//		if result != nil
+//		{
+//			OperationQueue.main.addOperation
+//				{
+//					let alert = 					UIAlertController(title: R.string.err, message: error.debugDescription, preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.4
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//					}))
+//					self.present(alert, animated: true, completion:
+//						{
+//					})
+//			}
+//		}
 		controller.dismiss(animated: true)
 	}
 }

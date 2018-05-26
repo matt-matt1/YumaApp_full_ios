@@ -529,10 +529,12 @@ extension String
 		var pswdChars: Array<Character>
 		if incSymbols
 		{
+//			let chars = CharacterSet.alphanumerics.intersection(.punctuationCharacters).intersection(.symbols)
 			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
 		}
 		else
 		{
+//			let chars = CharacterSet.lowercaseLetters.intersection(.uppercaseLetters).intersection(.decimalDigits)
 			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
 		}
 		let rndPswd = String((0..<length).map{ _ in pswdChars[Int(arc4random_uniform(UInt32(pswdChars.count)))]})
@@ -544,9 +546,9 @@ extension String
 	{
 		get
 		{
-			let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+			let letters: NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 			let len = 20 // length
-			let randomString : NSMutableString = NSMutableString(capacity: len)
+			let randomString: NSMutableString = NSMutableString(capacity: len)
 			
 			for _ in 0 ..< len
 			{
@@ -562,9 +564,9 @@ extension String
 	{
 		get
 		{
-			let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()~;,./<>?:-_[]{}=+\\|"
+			let letters: NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()~;,./<>?:-_[]{}=+\\|"
 			let len = 20 // length
-			let randomString : NSMutableString = NSMutableString(capacity: len)
+			let randomString: NSMutableString = NSMutableString(capacity: len)
 			
 			for _ in 0 ..< len
 			{
@@ -713,6 +715,15 @@ extension UIColor
 ///////////////////////////////////////////////////////////
 extension UILabel
 {
+	/// Makes a whole UILabel underlined (in lineColor color)
+	func underline(lineColor: UIColor) {
+		if let textString = self.text {
+			let attributedString = NSMutableAttributedString(string: textString)
+			attributedString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0, length: attributedString.length))
+			attributedString.addAttribute(NSAttributedStringKey.underlineColor, value: lineColor, range: NSRange(location: 0, length: attributedString.length))
+			attributedText = attributedString
+		}
+	}
 	/// Set text strikethrough and line height in UILabel
 	func setStrikethrough(text: String, color: UIColor = UIColor.black)
 	{
@@ -731,6 +742,24 @@ extension UILabel
 			style.lineSpacing = lineHeight
 			attributeString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: style, range: NSMakeRange(0, text.count))
 			self.attributedText = attributeString
+		}
+	}
+}
+
+
+
+///////////////////////////////////////////////////////////
+extension UIButton
+{
+	/// Makes a whole UIButton underlined (in lineColor color)
+	func underline(lineColor: UIColor)
+	{
+		if let text = self.titleLabel?.text
+		{
+			let attributedString = NSMutableAttributedString(string: text)
+			attributedString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSRange(location: 0, length: text.count))
+			attributedString.addAttribute(NSAttributedStringKey.underlineColor, value: lineColor, range: NSRange(location: 0, length: text.count))
+			self.setAttributedTitle(attributedString, for: .normal)
 		}
 	}
 }

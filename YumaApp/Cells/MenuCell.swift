@@ -11,6 +11,7 @@ import UIKit
 
 class MenuCell: BaseCell
 {
+	var ticked: [Int] = []
 	var menuCell: MenuCell?
 	let iconView: UILabel =
 	{

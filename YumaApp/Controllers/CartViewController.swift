@@ -46,9 +46,18 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		navClose.title = FontAwesome.close.rawValue
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navHelp.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+//		if #available (iOS 10.0, *)
+//		{
+//			navHelp.setTitleTextAttributes([
+//				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//				], for: UIControlState.selected)
+//		}
+//		else
+//		{
+			navHelp.setTitleTextAttributes([
+				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+				], for: UIControlState.highlighted)
+//		}
 		navigationItem.title = R.string.cart
 		NotificationCenter.default.addObserver(self, selector: #selector(calcTotalWrapper), name: CartViewController.noteName, object: nil)
 		tableView.layoutIfNeeded()

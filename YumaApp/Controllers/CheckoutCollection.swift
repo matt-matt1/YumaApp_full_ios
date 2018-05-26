@@ -12,6 +12,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 {
 	let store = DataStore.sharedInstance
 	var customer: Customer?
+	static let noteName = Notification.Name("fromCheckoutCollCell")
 	var checkoutCollection = self
 	lazy var menuBar: MenuBar =
 		{
@@ -33,6 +34,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		setupCollectionView()
 		setupMenuBar()
 		getCustomer()
+		NotificationCenter.default.addObserver(self, selector: #selector(doAction), name: CheckoutCollection.noteName, object: nil)
     }
 
 
@@ -59,16 +61,16 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckoutCollectionCellId", for: indexPath) as! CheckoutStepsCell
-		cell.setupContents(indexPath.item)
+		cell.setupContents(indexPath.item/*, vc: self*/)
 		return cell
 	}
 
-	
+
 	// MARK: Methods
 	private func setupNavigation()
 	{
 		navBar = (navigationController?.navigationBar)!
-//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		let navBarTop = navBar.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
 		navBarTop.priority = UILayoutPriority(rawValue: 750)
 		//navBarTop.isActive = true
@@ -82,16 +84,16 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navClose.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		navHelp = UIBarButtonItem(title: FontAwesome.questionCircle.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doHelp(_:)))
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		navigationItem.rightBarButtonItems = [navHelp]
 		navigationItem.leftBarButtonItems = [navClose]
 		navigationItem.title = R.string.Chkout
-		navigationController?.navigationBar.isTranslucent = false
+		//navigationController?.navigationBar.isTranslucent = false
 	}
 
 	
@@ -173,7 +175,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	func scrollTo(_ index: Int)
 	{
 		let indexPath = NSIndexPath(item: index, section: 0)
-		collectionView?.scrollToItem(at: indexPath as IndexPath, at: []/*UICollectionViewScrollPosition.bottom*/, animated: true)
+		collectionView?.scrollToItem(at: indexPath as IndexPath, at: [], animated: true)
 	}
 
 
@@ -190,11 +192,16 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 
 	// MARK: Actions
+	@objc func doAction(notify: Notification)
+	{
+		let dest = notify.object as! UIViewController
+		self.present(dest, animated: false, completion: nil)
+	}
+
 	@objc func doDismiss(_ sender: UITapGestureRecognizer)
 	{
 		self.dismiss(animated: false, completion: nil)
 	}
-
 
 	@objc func doHelp(_ sender: UITapGestureRecognizer)
 	{

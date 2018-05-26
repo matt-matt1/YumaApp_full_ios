@@ -91,7 +91,28 @@ class MyAccAddr2ViewController: UIViewController
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
+		if UIScreen.main.scale < 2
+		{
+			let spacer = UIBarButtonItem(title: "|", style: .plain, target: self, action: nil)
+			spacer.tintColor = R.color.YumaRed
+			spacer.setTitleTextAttributes([
+				NSAttributedStringKey.foregroundColor : R.color.YumaRed
+				], for: UIControlState.normal)
+			spacer.setTitleTextAttributes([
+				NSAttributedStringKey.foregroundColor : R.color.YumaRed
+				], for: UIControlState.highlighted)
+			navTitle.rightBarButtonItems?.append(spacer)
+		}
+		let addNew = UIBarButtonItem(title: FontAwesome.plus.rawValue, style: .done, target: self, action: #selector(addNewAct(_:)))
+		//cart.tintColor = R.color.YumaYel
+		addNew.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.normal)
+		addNew.setTitleTextAttributes([
+			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+			], for: UIControlState.highlighted)
+		navTitle.rightBarButtonItems?.append(addNew)
 		leftButtonLeft.setTitle(R.string.edit.uppercased(), for: .normal)
 		leftButtonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		leftButtonRight.setTitle(R.string.delete.uppercased(), for: .normal)
@@ -339,6 +360,12 @@ class MyAccAddr2ViewController: UIViewController
 	}
 
 
+	@objc func addNewAct(_ sender: Any)
+	{
+		let vc = AddNewAddressVC()
+		self.present(vc, animated: true, completion: nil)
+	}
+
 	@IBAction func leftButtonLeftAct(_ sender: Any)
 	{
 		self.address = self.addresses[pageControl.currentPage]
@@ -388,7 +415,7 @@ class MyAccAddr2ViewController: UIViewController
 					//					encoder.outputFormatting = .prettyPrinted
 					//					let data = try? encoder.encode(edited)
 					//					print(String(data: data!, encoding: .utf8)!)
-					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", excludeId: false)
+					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", omit: [])
 					//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
 					PSWebServices.postAddress(XMLStr: str)
 					{

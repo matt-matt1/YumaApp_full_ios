@@ -297,127 +297,133 @@ extension ProductsViewController
 		//			copiedView.addSubview(sv.copyView())
 		//		}
 		//		copiedView.alpha = 0.8
-		self.putItemInCart()
-		return
-		let animateView = self.scrollView.subviews[pageControl.currentPage+2].subviews[0].subviews[0]
-		//let animateView = (prodView.subviews.first?.subviews.first)!
-		//^^ product in scrollv, primary group, image in UIView (inner View frame, UImageView)
-		//NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
-		//let imageCopy = animateView.subviews[0].subviews[0].copy() as! UIImageView
-		//imageCopy.transform = CGAffineTransform.init(translationX: 100, y: 0)
-		
-		//		let cellHeight: CGFloat = 100
-		//print(allImageViews.first)
-		//		let mirror = allImageViews.first?.image
-		//let copy = allImageViews.first?.copyView()
-		//		let replicatorLayer = CAReplicatorLayer()
-		//		replicatorLayer.frame.size = (copy?.frame.size)!
-		//		replicatorLayer.masksToBounds = true
-		//		self.view.addSubview(replicatorLayer)
-		//print(copy)
-		//		let imageCopy = copy?.copy()
-		//		print(imageCopy)
-		//mirror.transform = CGAffineTransform(translationX: 100, y: 0)
-		
-		//self.stackRight.addArrangedSubview(added)
-		//		func listSubviewsOfView(view:UIView)
-		//		{
-		//			// Get the subviews of the view
-		//			let subviews = view.subviews
-		//			// Return if there are no subviews
-		//			if subviews.count == 0 {
-		//				return
-		//			}
-		//			for subview : AnyObject in subviews
-		//			{
-		//				// Do what you want to do with the subview
-		//				print(subview)
-		//				// List the subviews of subview
-		//				listSubviewsOfView(view: subview as! UIView)
-		//			}
-		//		}
-		//		listSubviewsOfView(view: copy!)//self.scrollView.subviews[pageControl.currentPage+2])
-		let beforeAnimation = animateView.transform							//save state
-		//		let originalFrame = self.scrollView.frame
-		let beforeCenterX = animateView.center.x
-		let beforeCenterY = animateView.center.y
-		animateView.alpha = 0.5												//dim
-		UIView.animate(withDuration: 0.3, animations:
-			{
-				//			copiedView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-				animateView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)	//reduce
-		},
-					   completion:
-			{
-				_ in
-				
-				UIView.animate(withDuration: 0.65, /*delay: 1.0, usingSpringWithDamping: CGFloat(0), initialSpringVelocity: CGFloat(0), options: [.curveEaseInOut,.allowUserInteraction],*/ animations:
-					{
-						//				copiedView.center.x += self.stackLeft.center.x + 100
-						//				copiedView.center.y -= self.stackLeft.center.y - 50
-						animateView.center.x += self.stackLeft.center.x + 100
-						animateView.center.y -= self.stackLeft.center.y - 50		//move towards cart
-				},
-							   completion:
-					{
-						_ in
-						/*
-						self.cartScroll.contentSize.height = cellHeight
-						let view = MiniCartCell(frame: CGRect(x: 0, y: 5, width: 100/*self.cartScroll.frame.width*/, height: cellHeight - 10))
-						//usually in for row in store.myOrderRow - ^y = i * cellHeight
-						self.cartScroll.addSubview(view)
-						view.imageView.image = #imageLiteral(resourceName: "home-slider-printers")//allImageViews.first?.image
-						view.qtyLabel.text = prod.quantity
-						*/
-						/*
-						let imageView = UIImageView()
-						imageView.image = allImageViews.first?.image//mirror
-						imageView.contentMode = .scaleAspectFit
-						//imageView.sizeToFit()
-						imageView.center.x = self.cartScroll.center.x
-						imageView.translatesAutoresizingMaskIntoConstraints = false
-						let label = UILabel(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: 0, height: 40)))
-						label.backgroundColor = R.color.YumaRed
-						label.cornerRadius = 10
-						label.textColor = R.color.YumaYel
-						label.text = String(qty)
-						label.sizeToFit()
-						label.center.x = self.cartScroll.center.x
-						self.cartScroll.addSubview(label)
-						let added = UIView(frame: CGRect(x: 0, y: 0, width: self.cartScroll.frame.width, height: imageView.frame.height))
-						added.translatesAutoresizingMaskIntoConstraints = false
-						added.backgroundColor = .blue
-						added.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-						added.addSubview(imageView)
-						NSLayoutConstraint.activate([
-						imageView.leftAnchor.constraint(equalTo: added.leftAnchor),
-						imageView.topAnchor.constraint(equalTo: added.topAnchor),
-						imageView.rightAnchor.constraint(equalTo: added.rightAnchor),
-						imageView.bottomAnchor.constraint(equalTo: added.bottomAnchor),
-						])
-						self.cartScroll.insertSubview(added, at: 0)
-						self.cartScroll.contentSize.width = self.cartScroll.frame.width
-						self.cartScroll.contentSize.height = imageView.frame.height * CGFloat(self.store.myOrderRows.count)
-						*/
-						//					self.scrollView.frame = originalFrame
-						animateView.center.x = beforeCenterX
-						animateView.center.y = beforeCenterY					//revert position
-						animateView.transform = beforeAnimation					//revert size
-						animateView.alpha = 1									//make vivid
-						//					sourceView.alpha = 1
-				}
-				)
-		})
-		UIView.animate(withDuration: 0.5, animations:
-			{
-				animateView.alpha = 1.0							//fade-in
-		})
+		//return
+		if self.scrollView.subviews[pageControl.currentPage+2].subviews.count > 0
 		{
-			(completed) in
+			let animateView = try self.scrollView.subviews[pageControl.currentPage+2].subviews[0].subviews[0]
+			//let animateView = (prodView.subviews.first?.subviews.first)!
+			//^^ product in scrollv, primary group, image in UIView (inner View frame, UImageView)
+			//NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
+			//let imageCopy = animateView.subviews[0].subviews[0].copy() as! UIImageView
+			//imageCopy.transform = CGAffineTransform.init(translationX: 100, y: 0)
 			
-			self.store.flexView(view: animateView)		//shake
+			//		let cellHeight: CGFloat = 100
+			//print(allImageViews.first)
+			//		let mirror = allImageViews.first?.image
+			//let copy = allImageViews.first?.copyView()
+			//		let replicatorLayer = CAReplicatorLayer()
+			//		replicatorLayer.frame.size = (copy?.frame.size)!
+			//		replicatorLayer.masksToBounds = true
+			//		self.view.addSubview(replicatorLayer)
+			//print(copy)
+			//		let imageCopy = copy?.copy()
+			//		print(imageCopy)
+			//mirror.transform = CGAffineTransform(translationX: 100, y: 0)
+			
+			//self.stackRight.addArrangedSubview(added)
+			//		func listSubviewsOfView(view:UIView)
+			//		{
+			//			// Get the subviews of the view
+			//			let subviews = view.subviews
+			//			// Return if there are no subviews
+			//			if subviews.count == 0 {
+			//				return
+			//			}
+			//			for subview : AnyObject in subviews
+			//			{
+			//				// Do what you want to do with the subview
+			//				print(subview)
+			//				// List the subviews of subview
+			//				listSubviewsOfView(view: subview as! UIView)
+			//			}
+			//		}
+			//		listSubviewsOfView(view: copy!)//self.scrollView.subviews[pageControl.currentPage+2])
+			let beforeAnimation = animateView.transform							//save state
+			//		let originalFrame = self.scrollView.frame
+			let beforeCenterX = animateView.center.x
+			let beforeCenterY = animateView.center.y
+			animateView.alpha = 0.5												//dim
+			UIView.animate(withDuration: 0.3, animations:
+				{
+					//			copiedView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+					animateView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)	//reduce
+			},
+						   completion:
+				{
+					_ in
+					
+					UIView.animate(withDuration: 0.65, /*delay: 1.0, usingSpringWithDamping: CGFloat(0), initialSpringVelocity: CGFloat(0), options: [.curveEaseInOut,.allowUserInteraction],*/ animations:
+						{
+							//				copiedView.center.x += self.stackLeft.center.x + 100
+							//				copiedView.center.y -= self.stackLeft.center.y - 50
+							animateView.center.x += self.stackLeft.center.x + 100
+							animateView.center.y -= self.stackLeft.center.y - 50		//move towards cart
+					},
+								   completion:
+						{
+							_ in
+							/*
+							self.cartScroll.contentSize.height = cellHeight
+							let view = MiniCartCell(frame: CGRect(x: 0, y: 5, width: 100/*self.cartScroll.frame.width*/, height: cellHeight - 10))
+							//usually in for row in store.myOrderRow - ^y = i * cellHeight
+							self.cartScroll.addSubview(view)
+							view.imageView.image = #imageLiteral(resourceName: "home-slider-printers")//allImageViews.first?.image
+							view.qtyLabel.text = prod.quantity
+							*/
+							/*
+							let imageView = UIImageView()
+							imageView.image = allImageViews.first?.image//mirror
+							imageView.contentMode = .scaleAspectFit
+							//imageView.sizeToFit()
+							imageView.center.x = self.cartScroll.center.x
+							imageView.translatesAutoresizingMaskIntoConstraints = false
+							let label = UILabel(frame: CGRect(origin: CGPoint.init(x: 0, y: 0), size: CGSize(width: 0, height: 40)))
+							label.backgroundColor = R.color.YumaRed
+							label.cornerRadius = 10
+							label.textColor = R.color.YumaYel
+							label.text = String(qty)
+							label.sizeToFit()
+							label.center.x = self.cartScroll.center.x
+							self.cartScroll.addSubview(label)
+							let added = UIView(frame: CGRect(x: 0, y: 0, width: self.cartScroll.frame.width, height: imageView.frame.height))
+							added.translatesAutoresizingMaskIntoConstraints = false
+							added.backgroundColor = .blue
+							added.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+							added.addSubview(imageView)
+							NSLayoutConstraint.activate([
+							imageView.leftAnchor.constraint(equalTo: added.leftAnchor),
+							imageView.topAnchor.constraint(equalTo: added.topAnchor),
+							imageView.rightAnchor.constraint(equalTo: added.rightAnchor),
+							imageView.bottomAnchor.constraint(equalTo: added.bottomAnchor),
+							])
+							self.cartScroll.insertSubview(added, at: 0)
+							self.cartScroll.contentSize.width = self.cartScroll.frame.width
+							self.cartScroll.contentSize.height = imageView.frame.height * CGFloat(self.store.myOrderRows.count)
+							*/
+							//					self.scrollView.frame = originalFrame
+							animateView.center.x = beforeCenterX
+							animateView.center.y = beforeCenterY					//revert position
+							animateView.transform = beforeAnimation					//revert size
+							animateView.alpha = 1									//make vivid
+							//					sourceView.alpha = 1
+					}
+					)
+			})
+			UIView.animate(withDuration: 0.5, animations:
+				{
+					animateView.alpha = 1.0							//fade-in
+			})
+			{
+				(completed) in
+				
+				self.store.flexView(view: animateView)		//shake
+				self.putItemInCart()
+				//DispatchQueue.main.async { 	self.tableView.reloadData() 	}
+			}
+		}
+		else
+		{
 			self.putItemInCart()
-			//DispatchQueue.main.async { 	self.tableView.reloadData() 	}
 		}
 	}
 

@@ -76,14 +76,14 @@ class LoginViewController: UIViewController
 			//				//print(customer!)
 			//				self.present(MyAccountViewController(), animated: false, completion: nil)
 			//			}
-			if #available(iOS 11.0, *)
-			{
-				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-			}
-			else
-			{
-				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-			}//***WARNING:***
+//			if #available(iOS 11.0, *)
+//			{
+//				navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//			}
+//			else
+//			{
+//				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//			}//***WARNING:***
 			/*Unable to simultaneously satisfy constraints.
 			Probably at least one of the constraints in the following list is one you don't want.
 			Try this:
@@ -116,7 +116,7 @@ class LoginViewController: UIViewController
 					print("file read error")//:\(e)")
 				}
 				let ud = UserDefaults.standard.string(forKey: "Customer")
-				if ud != nil
+				if ud != nil && (ud?.count)! > 4
 				{
 					OperationQueue.main.addOperation
 					{
@@ -364,7 +364,7 @@ class LoginViewController: UIViewController
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		emailLabel.text = R.string.emailAddr							//set labals for my language
 		passwordLabel.text = R.string.txtPass
 		rememberLabel.text = R.string.remember
@@ -392,6 +392,7 @@ class LoginViewController: UIViewController
 	
 	func getCustomerDetails()
 	{
+//		UserDefaults.standard.set("{\"id_customer\":\"3\",\"id_shop_group\":\"1\",\"id_shop\":\"1\",\"id_gender\":\"0\",\"id_default_group\":\"3\",\"id_lang\":\"1\",\"id_risk\":\"0\",\"company\":null,\"siret\":null,\"ape\":null,\"firstname\":\"Yuma\",\"lastname\":\"Technical\",\"email\":\"yumatechnical@gmail.com\",\"last_passwd_gen\":\"2018-05-11 13:55:02\",\"secure_key\":\"baef23c3484858f93935c13fcebd891f\",\"deleted\":\"0\",\"passwd\":\"$2y$10$CDgHOnQRTaVadMaCSKt.MOC9dvImGPmaxdBhTNOVOAZ.ojKlTKSyG\",\"birthday\":\"0000-00-00\",\"newsletter\":\"0\",\"ip_registration_newsletter\":null,\"newsletter_date_add\":\"0000-00-00 00:00:00\",\"optin\":\"0\",\"website\":null,\"outstanding_allow_amount\":\"0.000000\",\"show_public_prices\":\"0\",\"max_payment_days\":\"0\",\"active\":\"1\",\"note\":null,\"is_guest\":\"0\",\"date_add\":\"2016-12-29 15:15:08\",\"date_upd\":\"2018-05-22 16:18:32\",\"reset_password_token\":null,\"reset_password_validity\":\"0000-00-00 00:00:00\"}", forKey: "Customer")
 		let sv = UIViewController.displaySpinner(onView: self.view)
 		store.PostHTTP(url: url, parameters: ["email" : usernameTextField.text!, "passwd" : passwordTextField.text!], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: "Customer")
 		{ 	(customer) in
@@ -725,7 +726,7 @@ class LoginViewController: UIViewController
 
 	fileprivate func successfullyGotDetails(id_customer: Int)
 	{
-		store.myLang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
+//		store.myLang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		weak var presentingViewController = self.presentingViewController
 		self.dismiss(animated: false)
 		{

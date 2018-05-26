@@ -54,11 +54,21 @@ final class DataStore
 	var customerThreads:		[CustomerThread] = 		[]
 	var storeContacts: 			[Contact] = 			[]
 	var orderHistories: 		[OrderHistory] = 		[]
-	var idDefaultGroup = 								0
-	var idShop = 										0
-	var idShopGgroup = 									0
+	var idDefaultGroup = 								3
+	var idShop = 										1
+	var idShopGroup = 									1
 	let imageDataCache = 								NSCache<AnyObject, AnyObject>()
 	let debug = 										9
+	var defaultCurr = 									1
+	var defaultCountry = 								1
+	var defaultLangISO = 								"en"
+	var defaultCountryISO = 							"ca"
+	var custOptin = 									1
+	var custBDate = 									1
+	var preventReorderFromHist = 						0
+	var displayWeight = 								0
+	var displayDiscPrice = 								1
+	var defaultCountryState = 							1
 
 	
 	/// Sets the parameters for product shares
@@ -177,6 +187,7 @@ final class DataStore
 		{
 			let request = NSMutableURLRequest(url: myUrl as URL)
 			request.httpMethod = "PUT"
+			request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
 			if headers != nil
 			{
 				for head in headers!
@@ -197,11 +208,12 @@ final class DataStore
 	//				paramArray.append(String(format: "%@=%@", param.key, param.value.replacingOccurrences(of: " ", with: "+").replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "")))
 				}
 				paramStr = paramArray.joined(separator: "&")
+				let paramData = paramStr.data(using: .utf8)
 				if debug > 0
 				{
 //					print("parameters:\(paramStr)")
 				}
-				request.setValue("\(paramStr.count)", forHTTPHeaderField: "Content-Length")
+				request.setValue("\(paramData?.count ?? 0)", forHTTPHeaderField: "Content-Length")
 				if body == nil
 				{
 					request.httpBody = paramStr.data(using: String.Encoding.utf8)!
@@ -210,7 +222,9 @@ final class DataStore
 			if body != nil
 			{
 //				print("request body:\(body!)")
-				request.httpBody = body!.data(using: .utf8)
+				let bodyData = body!.data(using: .utf8)
+				request.httpBody = bodyData
+				request.setValue("\(bodyData?.count ?? 0)", forHTTPHeaderField: "Content-Length")
 			}
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in

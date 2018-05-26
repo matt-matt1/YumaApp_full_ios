@@ -227,6 +227,7 @@
                                                                                                                     <constraint firstItem="F4a-Do-mUW" firstAttribute="leading" secondItem="Dd9-Uy-wVa" secondAttribute="leading" id="gIU-rK-p47"/>
                                                                                                                     <constraint firstAttribute="bottom" secondItem="F4a-Do-mUW" secondAttribute="bottom" constant="118" id="ihb-ci-6hY"/>
                                                                                                                 </constraints>
+                                                                                                                <viewLayoutGuide key="safeArea" id="erW-sG-DeD"/>
                                                                                                                 <size key="customSize" width="323" height="474"/>
                                                                                                                 <connections>
                                                                                                                     <outlet property="addressBorder" destination="i4G-31-0H2" id="qoy-gU-Vof"/>

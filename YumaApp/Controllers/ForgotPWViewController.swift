@@ -78,7 +78,7 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		fieldBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
 		fieldInvalid.text = ""

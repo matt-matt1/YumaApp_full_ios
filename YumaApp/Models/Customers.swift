@@ -9,9 +9,13 @@
 import Foundation
 
 
+struct CustomerGroup: Codable
+{
+	var id: IdAsString?
+}
 struct CustomerAssociations: Codable
 {
-	var groups: [IdAsString]?
+	var groups: [CustomerGroup]?
 }
 struct Customer: Codable
 {

@@ -212,6 +212,71 @@ extension ProductsViewController
 			pageControl.currentPage = Int(round(scrollView.contentOffset.x / self.scrollView.frame.width))
 		}
 	}
+
+
+	func cannotGet()
+	{
+		OperationQueue.main.addOperation
+			{
+				let alert = 					UIAlertController(title: R.string.err, message: R.string.empty, preferredStyle: .alert)
+				let coloredBG = 				UIView()
+				let blurFx = 					UIBlurEffect(style: .dark)
+				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+				alert.view.superview?.backgroundColor = R.color.YumaRed
+				alert.view.shadowColor = 		R.color.YumaDRed
+				alert.view.shadowOffset = 		.zero
+				alert.view.shadowRadius = 		5
+				alert.view.shadowOpacity = 		1
+				alert.view.backgroundColor = 	R.color.YumaYel
+				alert.view.cornerRadius = 		15
+				coloredBG.backgroundColor = 	R.color.YumaRed
+				coloredBG.alpha = 				0.4
+				coloredBG.frame = 				self.view.bounds
+				self.view.addSubview(coloredBG)
+				blurFxView.frame = 				self.view.bounds
+				blurFxView.alpha = 				0.5
+				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+				self.view.addSubview(blurFxView)
+				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					self.dismiss(animated: false, completion: nil)
+				}))
+				self.present(alert, animated: true, completion:
+					{
+				})
+		}
+	}
+
+	fileprivate func gotProducts()
+	{
+		//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		OperationQueue.main.addOperation
+			{
+				self.leftLabel.text = " \(R.string.updated)"
+				self.centerLabel.text = FontAwesome.repeat.rawValue
+				self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
+				let date = Date()
+				let df = DateFormatter()
+				df.locale = Locale(identifier: self.store.locale)
+				df.dateFormat = "dd MMM yyyy  h:mm:ss a"
+				self.rightLabel.text = "\(df.string(from: date)) "
+				self.pageControl.currentPageIndicatorTintColor = R.color.YumaRed
+				self.pageControl.pageIndicatorTintColor = R.color.YumaYel
+				self.pageControl.numberOfPages = self.store.products.count
+				print("found \(self.store.products.count) products")
+				//print(self.store.products)
+				if self.store.products.count < 1
+				{
+					self.cannotGet()
+				}
+				print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
+				self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
+				self.insertData()
+		}
+	}
 	
 	@objc func refresh()//(_ sender: Any)
 	{
@@ -230,62 +295,10 @@ extension ProductsViewController
 				UIViewController.removeSpinner(spinner: sv)
 				if error == nil
 				{
-					//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
-					OperationQueue.main.addOperation
-						{
-							self.leftLabel.text = " \(R.string.updated)"
-							self.centerLabel.text = FontAwesome.repeat.rawValue
-							self.centerLabel.font = R.font.FontAwesomeOfSize(pointSize: 21)
-							let date = Date()
-							let df = DateFormatter()
-							df.locale = Locale(identifier: self.store.locale)
-							df.dateFormat = "dd MMM YYYY  h:mm:ss a"
-							self.rightLabel.text = "\(df.string(from: date)) "
-							self.pageControl.currentPageIndicatorTintColor = R.color.YumaRed
-							self.pageControl.pageIndicatorTintColor = R.color.YumaYel
-							self.pageControl.numberOfPages = self.store.products.count
-							print("found \(self.store.products.count) products")
-							//print(self.store.products)
-							if self.store.products.count < 1
-							{
-								OperationQueue.main.addOperation
-									{
-										let alert = 					UIAlertController(title: R.string.err, message: R.string.empty, preferredStyle: .alert)
-										let coloredBG = 				UIView()
-										let blurFx = 					UIBlurEffect(style: .dark)
-										let blurFxView = 				UIVisualEffectView(effect: blurFx)
-										alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-										alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-										alert.view.superview?.backgroundColor = R.color.YumaRed
-										alert.view.shadowColor = 		R.color.YumaDRed
-										alert.view.shadowOffset = 		.zero
-										alert.view.shadowRadius = 		5
-										alert.view.shadowOpacity = 		1
-										alert.view.backgroundColor = 	R.color.YumaYel
-										alert.view.cornerRadius = 		15
-										coloredBG.backgroundColor = 	R.color.YumaRed
-										coloredBG.alpha = 				0.4
-										coloredBG.frame = 				self.view.bounds
-										self.view.addSubview(coloredBG)
-										blurFxView.frame = 				self.view.bounds
-										blurFxView.alpha = 				0.5
-										blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-										self.view.addSubview(blurFxView)
-										alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-											coloredBG.removeFromSuperview()
-											blurFxView.removeFromSuperview()
-											self.dismiss(animated: false, completion: nil)
-										}))
-										self.present(alert, animated: true, completion:
-											{
-										})
-								}
-							}
-							print("self view width:\(self.view.frame.width), scrollView.width=\(self.scrollView.frame.width)")
-							self.scrollView.contentSize.width = self.scrollView.frame.width * CGFloat(self.store.products.count)
-							self.insertData()
-					}
-				} else {
+					self.gotProducts()
+				}
+				else
+				{
 					OperationQueue.main.addOperation
 						{
 							let alert = 					UIAlertController(title: R.string.err, message: R.string.no_data, preferredStyle: .alert)
@@ -314,12 +327,12 @@ extension ProductsViewController
 								blurFxView.removeFromSuperview()
 								self.dismiss(animated: false, completion: nil)
 							}))
-							//							alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .default, handler: { (action) in
-							//								coloredBG.removeFromSuperview()
-							//								blurFxView.removeFromSuperview()
-							//								self.dismiss(animated: false, completion: nil)
-							//								self.refresh()
-							//							}))
+							alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .default, handler: { (action) in
+								coloredBG.removeFromSuperview()
+								blurFxView.removeFromSuperview()
+								self.dismiss(animated: false, completion: nil)
+								self.refresh()
+							}))
 							self.present(alert, animated: true, completion:
 								{
 							})
@@ -344,6 +357,15 @@ extension ProductsViewController
 				print("unknown products cat. title(\(navTitle.title ?? "")), bad instantantion of products VC")
 				completeionFunc(store.products, nil)
 			}
+		}
+		else if store.products.count > 0
+		{
+			self.gotProducts()
+			//try cache
+		}
+		else
+		{
+			self.cannotGet()
 		}
 	}
 	

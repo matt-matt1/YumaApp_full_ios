@@ -66,7 +66,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		
+		UserDefaults.standard.set(nil, forKey: "Orders3")
+		//UserDefaults.standard.set(nil, forKey: "Orders9Details")
+		//UserDefaults.standard.set(nil, forKey: "Orders10Details")
+		UserDefaults.standard.set(nil, forKey: "customer")
+		//UserDefaults.standard.set(nil, forKey: "Orders8Details")
+		//UserDefaults.standard.set(nil, forKey: "Orders7Details")
+		UserDefaults.standard.set(nil, forKey: "CustomerAddresses")
 		getValues()
+		setDefaults()
 //		var ws = WebService()
 //		ws.startURL = R.string.WSbase
 //		ws.resource = APIResource.addresses
@@ -156,7 +164,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.countries.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Countries")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCountries() { 	(items, err) in
 					if self.store.debug > 5
@@ -196,7 +204,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.states.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "States")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetStates(id_country: 0) { 	(items, err) in
 					if self.store.debug > 5
@@ -236,7 +244,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.carriers.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Carriers")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCarriers { 	(items, err) in
 					if self.store.debug > 5
@@ -276,7 +284,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderStates.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderStates")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderStates() { 	(items, err) in
 					if self.store.debug > 5
@@ -317,7 +325,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.langs.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Languages")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetLanguages() { 	(items, err) in
 					if self.store.debug > 5
@@ -357,7 +365,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderHistories.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderHistories")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderHistories() { 	(items, err) in
 					if self.store.debug > 5
@@ -397,7 +405,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.categories.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Categories")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCategories() { 	(items, err) in
 					if self.store.debug > 5
@@ -437,7 +445,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.combinations.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Combinations")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCombinations() { 	(items, err) in
 					if self.store.debug > 5
@@ -477,7 +485,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.orderCarriers.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "OrderCarriers")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.getOrderCarriers() { 	(items, err) in
 					if self.store.debug > 5
@@ -517,7 +525,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.productOptions.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "ProductOptions")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetProductOptions() { 	(items, err) in
 					if self.store.debug > 5
@@ -557,7 +565,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.currencies.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Currencies")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetCurrencies() { 	(items, err) in
 					if self.store.debug > 5
@@ -611,8 +619,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		//print("\(str)")
 		if store.taxes.count < 1	//check if not already in data store
 		{
-			let taxes = UserDefaults.standard.string(forKey: "Taxes")
-			if taxes == nil && Reachability.isConnectedToNetwork()
+			let items = UserDefaults.standard.string(forKey: "Taxes")
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetTaxes { (taxes, err) in
 					if self.store.debug > 5
@@ -632,7 +640,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				do	//decode user data then insert each into the data store
 				{
-					let allTaxes = try JSONDecoder().decode(Taxes.self, from: (taxes?.data(using: .utf8))!)
+					let allTaxes = try JSONDecoder().decode(Taxes.self, from: (items?.data(using: .utf8))!)
 					for t in allTaxes.taxes!
 					{
 						store.taxes.append(t)
@@ -651,8 +659,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		if store.configurations.count < 1	//check if not already in data store
 		{
-			let configurations = UserDefaults.standard.string(forKey: "Configurations")
-			if configurations == nil && Reachability.isConnectedToNetwork()
+			let items = UserDefaults.standard.string(forKey: "Configurations")
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetConfigurations { (configurations, err) in
 					if self.store.debug > 5
@@ -672,7 +680,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				do	//decode user data then insert each into the data store
 				{
-					let all = try JSONDecoder().decode(Configurations.self, from: (configurations?.data(using: .utf8))!)
+					let all = try JSONDecoder().decode(Configurations.self, from: (items?.data(using: .utf8))!)
 					for t in all.configurations!
 					{
 						store.configurations.append(t)
@@ -692,8 +700,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		if store.tags.count < 1	//check if not already in data store
 		{
-			let tags = UserDefaults.standard.string(forKey: "Tags")
-			if tags == nil && Reachability.isConnectedToNetwork()
+			let items = UserDefaults.standard.string(forKey: "Tags")
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetTags { (tags, err) in	//api get
 					if self.store.debug > 5
@@ -713,7 +721,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			{
 				do	//decode user data then insert each into the data store
 				{
-					let allTags = try JSONDecoder().decode(Tags.self, from: (tags?.data(using: .utf8))!)
+					let allTags = try JSONDecoder().decode(Tags.self, from: (items?.data(using: .utf8))!)
 					for t in allTags.tags!
 					{
 						store.tags.append(t)
@@ -733,8 +741,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.storeContacts.count < 1	//check if not already in data store
 		{
 			//UserDefaults.standard.removeObject(forKey: "Contacts")
-			let contacts = UserDefaults.standard.string(forKey: "Contacts")
-			if contacts == nil && Reachability.isConnectedToNetwork()
+			let items = UserDefaults.standard.string(forKey: "Contacts")
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetContacts(completion:
 				{ 	(contacts, err) in	//api get
@@ -756,7 +764,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 				do	//decode user data then insert each into the data store
 				{
 					store.storeContacts.removeAll()
-					let all = try JSONDecoder().decode(Contacts.self, from: (contacts?.data(using: .utf8))!)
+					let all = try JSONDecoder().decode(Contacts.self, from: (items?.data(using: .utf8))!)
 					//let array = all.contacts as! [Contact]
 					//for t in array
 					for t in all.contacts!
@@ -778,7 +786,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		if store.productOptionValues.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "ProductOptionValues")
-			if items == nil && Reachability.isConnectedToNetwork()
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
 			{
 				store.callGetProductOptionValues(completion:
 				{ 	(items, err) in	//api get
@@ -817,8 +825,29 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			print("data store has \(store.tags.count) product_option_values")
 		}
 	}
-	
-	
+
+
+	func setDefaults()
+	{
+		store.defaultCurr = Int(store.configValue(forKey: "PS_CURRENCY_DEFAULT"))!
+//		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
+		store.defaultCountry = Int(store.configValue(forKey: "PS_COUNTRY_DEFAULT"))!
+		store.defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
+		store.defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
+		store.idShop = Int(store.configValue(forKey: "PS_SHOP_DEFAULT"))!
+		store.idDefaultGroup = Int(store.configValue(forKey: "PS_CUSTOMER_GROUP"))!
+		store.custOptin = Int(store.configValue(forKey: "PS_CUSTOMER_OPTIN"))!
+		store.custBDate = Int(store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE"))!
+		store.preventReorderFromHist = Int(store.configValue(forKey: "PS_DISALLOW_HISTORY_REORDERING"))!
+		store.displayWeight = Int(store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT"))!
+		store.displayDiscPrice = Int(store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE"))!
+		//CHEQUE_NAME, CHEQUE_ADDRESS
+		//BANK_WIRE_DETAILS, BANK_WIRE_OWNER, BANK_WIRE_ADDRESS, BANK_WIRE_RESERVATION_DAYS, BANK_WIRE_CUSTOM_TEXT
+		store.defaultCountryState = Int(store.configValue(forKey: "PS_SHOP_STATE_ID"))!
+		store.locale = String(format: "%@_%@", store.defaultLangISO, store.defaultCountryISO.uppercased())
+	}
+
+
 	//MARK: Swiping Controls
 	@objc private func handlePrev()
 	{
@@ -889,7 +918,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		return stack
 	}
 	
-	func drawIconPanel(iconText: String, labelText: String, actionSelector: Selector) -> UIView
+	func drawIconPanel(iconText: String, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
 	{
 		let myIcon = UILabel()
 		myIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -912,7 +941,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		myStack.translatesAutoresizingMaskIntoConstraints = false
 		myStack.axis = UILayoutConstraintAxis.vertical
 		myStack.backgroundColor = UIColor.lightText
-		myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
 		NSLayoutConstraint.activate([
 			myIcon.topAnchor.constraint(equalTo: myStack.topAnchor),
 			myIcon.leadingAnchor.constraint(equalTo: myStack.leadingAnchor),
@@ -920,6 +948,19 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			myIcon.heightAnchor.constraint(equalToConstant: 50)
 			])
 		
+		if canFade && !Reachability.isConnectedToNetwork()
+		{
+			myStack.alpha = 0.2
+			if canAction
+			{
+				myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+			}
+		}
+		else
+		{
+			myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+		}
+
 		let myViewStack = UIView()
 		myViewStack.translatesAutoresizingMaskIntoConstraints = false
 		myViewStack.addSubview(myStack)
@@ -970,7 +1011,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	
 	func drawTopStack() -> UIStackView
 	{
-		let loginPanel = drawIconPanel(iconText: FontAwesome.user.rawValue, labelText: R.string.login, actionSelector: #selector(loginTapped(_:)))
+		let loginPanel = drawIconPanel(iconText: FontAwesome.user.rawValue, labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
 		loginPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true
 		let loginGap = UIView()
 		let loginStack = UIStackView(arrangedSubviews: [loginPanel, loginGap])
@@ -980,7 +1021,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		myLogo.contentMode = .scaleAspectFit
 		myLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(gotoDebug)))
 
-		let cartPanel = drawIconPanel(iconText: FontAwesome.shoppingCart.rawValue, labelText: R.string.cart, actionSelector: #selector(cartTapped(_:)))
+		let cartPanel = drawIconPanel(iconText: FontAwesome.shoppingCart.rawValue, labelText: R.string.cart, actionSelector: #selector(cartTapped(_:)), canFade: true, canAction: true)
 		cartPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true
 		let cartGap = UIView()
 		let cartStack = UIStackView(arrangedSubviews: [cartGap, cartPanel])
@@ -1006,10 +1047,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	func drawButtonsTop() -> UIStackView
 	{
 		let topRow = UIStackView(arrangedSubviews: [
-			drawIconPanel(iconText: FontAwesome.home.rawValue, 			labelText: R.string.en, 		actionSelector: #selector(enTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.certificate.rawValue, 	labelText: R.string.about, 		actionSelector: #selector(aboutTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.flag.rawValue, 			labelText: R.string.qc, 		actionSelector: #selector(qcTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.phone.rawValue, 		labelText: R.string.contact, 	actionSelector: #selector(contactTapped(_:)))
+			drawIconPanel(iconText: FontAwesome.home.rawValue, 			labelText: R.string.en, 		actionSelector: #selector(enTapped(_:)), 				canFade: true, canAction: false),
+			drawIconPanel(iconText: FontAwesome.certificate.rawValue, 	labelText: R.string.about, 		actionSelector: #selector(aboutTapped(_:)), 			canFade: true, canAction: false),
+			drawIconPanel(iconText: FontAwesome.flag.rawValue, 			labelText: R.string.qc, 		actionSelector: #selector(qcTapped(_:)), 				canFade: true, canAction: false),
+			drawIconPanel(iconText: FontAwesome.phone.rawValue, 		labelText: R.string.contact, 	actionSelector: #selector(contactTapped(_:)), 			canFade: false, canAction: true)
 			])
 		topRow.translatesAutoresizingMaskIntoConstraints = false
 		topRow.distribution = UIStackViewDistribution.fillEqually
@@ -1020,10 +1061,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	func drawButtonsBottom() -> UIStackView
 	{
 		let bottomRow = UIStackView(arrangedSubviews: [
-			drawIconPanel(iconText: FontAwesome.print.rawValue, 	labelText: R.string.printers, 	actionSelector: #selector(printTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.laptop.rawValue, 	labelText: R.string.laptops, 	actionSelector: #selector(laptopTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.wrench.rawValue, 	labelText: R.string.services, 	actionSelector: #selector(servicesTapped(_:))),
-			drawIconPanel(iconText: FontAwesome.cubes.rawValue, 	labelText: R.string.toners, 	actionSelector: #selector(tonersTapped(_:)))
+			drawIconPanel(iconText: FontAwesome.print.rawValue, 	labelText: R.string.printers, 	actionSelector: #selector(printTapped(_:)), 		canFade: false, canAction: true),
+			drawIconPanel(iconText: FontAwesome.laptop.rawValue, 	labelText: R.string.laptops, 	actionSelector: #selector(laptopTapped(_:)), 		canFade: false, canAction: true),
+			drawIconPanel(iconText: FontAwesome.wrench.rawValue, 	labelText: R.string.services, 	actionSelector: #selector(servicesTapped(_:)), 		canFade: false, canAction: true),
+			drawIconPanel(iconText: FontAwesome.cubes.rawValue, 	labelText: R.string.toners, 	actionSelector: #selector(tonersTapped(_:)), 		canFade: false, canAction: true)
 			])
 		bottomRow.translatesAutoresizingMaskIntoConstraints = false
 		bottomRow.distribution = UIStackViewDistribution.fillEqually

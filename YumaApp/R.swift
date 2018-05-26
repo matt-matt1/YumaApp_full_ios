@@ -54,6 +54,13 @@ struct R {
 	
 	struct array
 	{
+		static let help_order_details_guide: [String] = [
+			"Here are the details of this order",
+			"Along with the order reference, date, carrier, payment method, status steps, addresses and messages, the item(s) and their quantities are itemized, with the shipping, tax and grand total",
+			"Press \"\(R.string.reorder)\" to order the same item(s) again",
+			"To add a message, first select a product:  Press the \"\(R.string.prod)\" gray box to get a popup with a list of the products on this order (the first product is automattically selected);  press the \"\(R.string.msg)\" gray box and enter a message;  then press \"\(R.string.addMsg)\"",
+		]
+		
 		static let help_forgot_pw_guide: [String] = [
 			"Enter your email address (remember the '@' symbol) and press \"\(R.string.proceed)\"",
 			"If an account with that email address is found, a popup box will appear for setting a new password"
@@ -71,13 +78,14 @@ struct R {
 		struct help_my_account_addresses_guide
 		{
 			static let wide: [String] = [
-				"List the addresses that belong to your account",
-				"TIP:  The left pane has a preview and can be swiped side-to-side; the right pane separates each line to edit",
-				"On the left pane, swipe left or right to view other addresses, if available; at the same time, the address will appear in the right pane - separated",
+				"List the address(es) that belong to your account, if any",
+				"TIP:  The left pane has a preview and can be swiped left or right (side-to-side) to view other addresses, if available;  at the same time, the address will appear in the right pane - separated to edit",
+				"Press the \"\(R.string.delete)\" button to mark the address as deleted",
+				"Press the \"\(R.string.upd)\" button to set the address changes",
 				"NOTE:  On a narrow device the preview pane & the edit fields will be displayed on separate screens and an \"\(R.string.edit)\" button will show"
 			]
 			static let narrow: [String] = [
-				"The addresses that belong to your account",
+				"List the address(es) that belong to your account, if any",
 				"Swipe left or right to view other addresses, if available",
 				"If you press the \"\(R.string.edit)\" button, another screen will show with the address in separate lines",
 				"Press the \"\(R.string.delete)\" button to mark the address as deleted",
@@ -106,49 +114,55 @@ struct R {
 		struct help_my_account_information_guide
 		{
 			static let loggedIn: [String] = [
-				"Your account details will be displayed here",
-				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
-				"\"Company\", \"Web site\", \"Siret\", \"Ape\" along with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
+				"Your account details will be listed here",
+				"It is required to fill-in \"\(R.string.fName)\", \"\(R.string.lName)\", \"\(R.string.emailAddr)\", a \"\(R.string.txtPass)\" (minimum 5 characters) and to accept the \"\(R.string.custDataPriv)\"",
+				"\"\(R.string.bDate)\", \"\(R.string.co)\", \"\(R.string.website)\", \"\(R.string.siret)\", \"\(R.string.ape)\" along with \"\(R.string.offersFromPartners)\" and \"\(R.string.SignUpNewsletter)\" are optional",
 				"NOTE:  Your email address cannot be changed; all other details can be changed",
 				"Press \"\(R.string.txtPass)\" to change your password - a popup window will appear that will require that you enter your current password first",
 			]
 			static let newUser: [String] = [
 				"A blank form will be shown for creating a new user account",
-				"It is required to fill-in \"First name\", \"Last name\", \"Email address\", a \"password\" (minimum 5 characters) and to accept the \"Customer data privacy\"",
-				"\"Company\", \"Web site\", \"Siret\", \"Ape\" along with \"Receive offers from our partners\" and \"Sign up for our newsletter\" are optional",
+				"It is required to fill-in \"\(R.string.fName)\", \"\(R.string.lName)\", \"\(R.string.emailAddr)\", a \"\(R.string.txtPass)\" (minimum 5 characters) and to accept the \"\(R.string.custDataPriv)\"",
+				"\"\(R.string.bDate)\", \"\(R.string.co)\", \"\(R.string.website)\", \"\(R.string.siret)\", \"\(R.string.ape)\" along with \"\(R.string.offersFromPartners)\" and \"\(R.string.SignUpNewsletter)\" are optional",
 				"NOTE:  Your email address cannot be changed; all other details can be changed",
 				"Press \"\(R.string.generate)\" to have a password of random characters be automattically used - a popup window will appear to note the password",
 			]
 		}
 		
 		static let help_product_list_guide: [String] = [
-			"Swipe left or right to view products/services",
+			"Swipe left or right to view other products/services",
 			"TIP:  Each item in your cart (right side) has a small yellow circle in the top left corner that signifys the quantity",
-			"Press the \"\(R.string.add2cart)\" button to place this item to your cart, if it is already in your cart, the quantity will just be increased",
 			"TIP:  If you double-tap (or double-click) on an item just it's picture will be displayed in a popup window along with it's name",
+			"Press the \"\(R.string.add2cart)\" button to place this item in your cart, if it is already in your cart, the quantity will just be increased",
+			"TIP:  The \"\(R.string.checkOut)\" button will only be bright when you have at least one item of value in the cart",
 			"When finished, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		static let help_cart_guide: [String] = [
+			"Displays each item in your cart including, quantity, product name, thumbnail image, if room, the unit price",
+			"The total is placed at the bottom including the number of pieces, weight and price",
+			"TIP:  The \"\(R.string.checkOut)\" button will only be bright when you have at least one item of value in the cart",
 			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
 			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed than the item, and all quantities, can then be removed from your cart",
-			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity",
+			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
 			"When the list is complete and has the correct quantity for each item, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		static let help_checkout_guide: [String] = [
 			"There are some simple steps to complete for the items in your cart to be dispatched:",
-			"Each step number is contained in the bar near the top; completed steps have a tick mark next to them",
-			"Instructions and options for each step is shown in the main panel in the middle of the page",
-			"The \"\(R.string.cont)\" button will proceed to the next step to complete",
+			"Each step number is contained in the bar near the top; also every step has a tick mark that will become bright when completed",
+			"TIP:  Press your name (if logged-in, on Step 1) to see your account details",
+			"Instructions and options for each step is shown in the main panel",
+			"The \"\(R.string.cont)\" button will advance you to the next step to be completed",
 			"When all steps are complete the item(s) are ready to be dispatched"]
 		
 		static let help_contact_us_guide: [String] = [
 			"This page details how you can contact us - phone, email and visit",
 			"Press the \"\(R.string.phoneAct)\" button to place our phone number into your dialer",
-			"Press the \"\(R.string.email)\" button to create a new message and have our email address placed into the To address",
+			"Press the \"\(R.string.email)\" button and a popup window will ask you to select the destination; then it will create a new message and use the email address placed into the To address",
 			"A map will be displayed with a red pin at our location; your current location is marked with a blue plusating dot",
-			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
+//			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
+			"TIP:  You can press \"\(R.string.plotMe)\" and a route will be drawn between your location and our local store",
 			"Press the \"\(R.string.map_big)\" button, if you have internet facilities, to display a full-screen map with a pin at our location",
-			"The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
+			"TIP:  The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
 		static let help_home_page_guide: [String] = [
 			"Welcome to our store! This is the mobile interface for \(R.string.app_name)",
@@ -487,6 +501,7 @@ struct R {
 		static let withoutMore = "ie. Forget delerivy address"
 		static let noAuth = "Cannot authorize any user"
 		static let resetOnly = "You can regenerate your password only every %d minute(s)"
+		static let same = "Don't change"
 		//		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"
@@ -520,6 +535,7 @@ struct R {
 		static let Dims = "Dimensions (width x height x depth x weight)"
 		static let Attrs = "Product Variations"
 		static let txtProdMore = "Details"
+		static let each = "each"
 		//		<!--address-->
 		static let Addr = "Address"
 		static let alias = "Alias"
@@ -528,7 +544,7 @@ struct R {
 		static let addr2 = "Address line2"
 		static let pcode = "Postcode"
 		static let city = "City"
-		static let state = "State"
+		static let state = "Province"//"State"
 		static let country = "Country"
 		static let other = "other"
 		static let ph = "Phone"

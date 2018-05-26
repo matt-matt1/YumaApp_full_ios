@@ -11,13 +11,25 @@ import UIKit
 
 enum inputType
 {
+	/// Email address
+	case emailAddress
+	/// Capitalizes the letter after a full stop (period .)
 	case textCapitalizeSentances
+	/// Capitalizes the letter after a space
 	case textCapitalizeWords
+	/// No capitalization is done
 	case textCapitalizeNone
+	/// Capitalizes all letters
+	case textCapitalizeAll
+	/// Replaces each characher with a middle dot
 	case hiddenLikePassword
+	/// Allows only numerials (0-9)
 	case numbersOnly
+	/// Allows all numerials (0-9) and slash (\), dash (-), dot (.) characters
 	case dateOnly
+	/// Allows all numerials (0-9) and slash (\), dash (-), dot (.), colon (:) characters
 	case dateAndTime
+	/// Allows all numerials (0-9) and colon (:) characters
 	case timeOnly
 }
 
@@ -105,6 +117,10 @@ class InputField: UIView
 		{
 			textEdit.isSecureTextEntry = true
 		}
+		else
+		{
+			textEdit.isSecureTextEntry = false
+		}
 		drawField()
 	}
 	
@@ -112,26 +128,43 @@ class InputField: UIView
 	{
 		super.init(frame: frame)
 		self.displayShowHideIcon = hasShowHideIcon
+		textEdit.isSecureTextEntry = false
 		switch inputType
 		{
+		case .emailAddress:
+			textEdit.keyboardType = .emailAddress
+			textEdit.autocapitalizationType = .none
+			break
+		case .textCapitalizeAll:
+			textEdit.keyboardType = .asciiCapable
+			textEdit.autocapitalizationType = .allCharacters
+			break
 		case .textCapitalizeNone:
+			textEdit.keyboardType = .asciiCapable
 			textEdit.autocapitalizationType = .none
 			break
 		case .textCapitalizeSentances:
+			textEdit.keyboardType = .asciiCapable
 			textEdit.autocapitalizationType = .sentences
 			break
 		case .textCapitalizeWords:
+			textEdit.keyboardType = .asciiCapable
 			textEdit.autocapitalizationType = .words
 			break
 		case .numbersOnly:
+			textEdit.keyboardType = .decimalPad
 			break
 		case .dateOnly:
+			textEdit.keyboardType = .phonePad
 			break
 		case .dateAndTime:
+			textEdit.keyboardType = .phonePad
 			break
 		case .timeOnly:
+			textEdit.keyboardType = .phonePad
 			break
 		case .hiddenLikePassword:
+			textEdit.keyboardType = .asciiCapable
 			textEdit.autocapitalizationType = .none
 			textEdit.isSecureTextEntry = true
 			break

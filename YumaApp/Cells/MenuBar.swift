@@ -75,6 +75,7 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MenuBarCellId", for: indexPath) as! MenuCell
 		//cell.iconView.image = UIImage(named: array[indexPath.item])?.withRenderingMode(.alwaysTemplate)
 		cell.iconView.text = array[indexPath.item]
+		cell.tick.alpha = cell.ticked.contains(indexPath.item) ? 0.5 : 0.15
 //		cell.iconView.font = R.font.FontAwesomeOfSize(pointSize: 20)
 		//let myMutableString = NSMutableAttributedString(string: "\(indexPath.item+1).", attributes: [:])
 		//myMutableString.append(NSAttributedString(string: array[indexPath.item], attributes: [NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 20)]))

@@ -62,6 +62,7 @@
 		CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50A3E5207C08A4008749F0 /* PickerViewController.swift */; };
 		CF50A3E8207C0B8D008749F0 /* HelpStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF50A3E7207C0B8D008749F0 /* HelpStoryboard.storyboard */; };
 		CF50A3EA207C22ED008749F0 /* NotifyExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF50A3E9207C22ED008749F0 /* NotifyExtention.swift */; };
+		CF55B7D520B6F0A600917B85 /* AddNewAddressVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55B7D420B6F0A600917B85 /* AddNewAddressVC.swift */; };
 		CF55FAF3208B9B0000B6CB3C /* HelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */; };
 		CF55FAF5208BA35100B6CB3C /* HelpMainPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */; };
 		CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */; };
@@ -103,6 +104,8 @@
 		CF60CADD208E4B7900B6D0EE /* SpecificPriceRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60CADC208E4B7900B6D0EE /* SpecificPriceRules.swift */; };
 		CF60CADF208E4D4C00B6D0EE /* SpecificPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60CADE208E4D4C00B6D0EE /* SpecificPrices.swift */; };
 		CF63DD302064079500025007 /* ProductOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD2F2064079500025007 /* ProductOptions.swift */; };
+		CF66957D20B89CD600A69D20 /* SelectCountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */; };
+		CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */; };
 		CF68979C208930E100998527 /* CustomerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979B208930E100998527 /* CustomerMessages.swift */; };
 		CF68979E2089354200998527 /* CustomerThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979D2089354200998527 /* CustomerThreads.swift */; };
 		CF6897A020893BD300998527 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979F20893BD300998527 /* Contacts.swift */; };
@@ -137,7 +140,6 @@
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
 		CF932A0F209B7A75007633FD /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
-		CFAB48BA2052C56300BF9E7D /* Checkout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAB48B92052C56300BF9E7D /* Checkout.storyboard */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
@@ -244,6 +246,7 @@
 		CF50A3E5207C08A4008749F0 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		CF50A3E7207C0B8D008749F0 /* HelpStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HelpStoryboard.storyboard; sourceTree = "<group>"; };
 		CF50A3E9207C22ED008749F0 /* NotifyExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyExtention.swift; sourceTree = "<group>"; };
+		CF55B7D420B6F0A600917B85 /* AddNewAddressVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAddressVC.swift; sourceTree = "<group>"; };
 		CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCell.swift; sourceTree = "<group>"; };
 		CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpMainPanel.xib; sourceTree = "<group>"; };
 		CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMainPanel.swift; sourceTree = "<group>"; };
@@ -285,6 +288,8 @@
 		CF60CADC208E4B7900B6D0EE /* SpecificPriceRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPriceRules.swift; sourceTree = "<group>"; };
 		CF60CADE208E4D4C00B6D0EE /* SpecificPrices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPrices.swift; sourceTree = "<group>"; };
 		CF63DD2F2064079500025007 /* ProductOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptions.swift; sourceTree = "<group>"; };
+		CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryCell.swift; sourceTree = "<group>"; };
+		CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryVC.swift; sourceTree = "<group>"; };
 		CF68979B208930E100998527 /* CustomerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMessages.swift; sourceTree = "<group>"; };
 		CF68979D2089354200998527 /* CustomerThreads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerThreads.swift; sourceTree = "<group>"; };
 		CF68979F20893BD300998527 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
@@ -321,7 +326,6 @@
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
 		CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
-		CFAB48B92052C56300BF9E7D /* Checkout.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Checkout.storyboard; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC091201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -456,6 +460,7 @@
 				CF4051A82041A15600AE21BC /* PageCell.swift */,
 				CF732EEB209DE918008A8741 /* RadioGroup.swift */,
 				CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */,
+				CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -477,7 +482,6 @@
 			children = (
 				CF6019EA2049CE4E00217025 /* AddrStoryboard.storyboard */,
 				CF5C73082049AB32008763DB /* CartStoryboard.storyboard */,
-				CFAB48B92052C56300BF9E7D /* Checkout.storyboard */,
 				CF7E863B2029E83D0014B787 /* ContactUsViewController.xib */,
 				CF26FFC120586C1300532C11 /* CustomerOrders.storyboard */,
 				CF4BD96020812F3B000B2ED6 /* Debug.storyboard */,
@@ -636,8 +640,10 @@
 		CFC1D201203B45F000343B25 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				CF55B7D420B6F0A600917B85 /* AddNewAddressVC.swift */,
 				CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */,
 				CF443850209FBF850028443B /* AssistanceController.swift */,
+				CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */,
 				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
 				CF717E9E20A32F3300E68F83 /* ChangePW.swift */,
 				CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */,
@@ -822,7 +828,6 @@
 				CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */,
 				CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */,
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
-				CFAB48BA2052C56300BF9E7D /* Checkout.storyboard in Resources */,
 				CF7E865E202A42800014B787 /* HeaderView.xib in Resources */,
 				CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */,
 			);
@@ -1001,9 +1006,11 @@
 			files = (
 				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
 				CF601A14204AE4AD00217025 /* OrderInvoices.swift in Sources */,
+				CF55B7D520B6F0A600917B85 /* AddNewAddressVC.swift in Sources */,
 				CF55FAF3208B9B0000B6CB3C /* HelpCell.swift in Sources */,
 				CFD2B0372087D60200E2DBE7 /* MyAccAddr2ViewController.swift in Sources */,
 				CF7E8664202B62A90014B787 /* R.swift in Sources */,
+				CF66957D20B89CD600A69D20 /* SelectCountryCell.swift in Sources */,
 				CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */,
 				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
 				CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */,
@@ -1044,6 +1051,7 @@
 				CF601A0E204AE13700217025 /* OrderCarriers.swift in Sources */,
 				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
+				CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */,

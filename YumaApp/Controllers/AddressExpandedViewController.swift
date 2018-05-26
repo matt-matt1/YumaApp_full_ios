@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddressExpandedViewController: UIViewController
+class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 {
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -56,16 +56,42 @@ class AddressExpandedViewController: UIViewController
 	@IBOutlet weak var countryField: UITextField!
 	@IBOutlet weak var countryInvalid: UILabel!
 	@IBOutlet weak var button: GradientButton!
+	@IBOutlet weak var scrollForm: UIScrollView!
 	var address: Address? = nil
 	let store = DataStore.sharedInstance
-	var pickerData: [[String]] = [[String]]()
-	
-	@IBOutlet weak var scrollForm: UIScrollView!
-	
+	let picker = UIPickerView()
+	let pickerCountry = UIPickerView()
+	var pickerCountryData: [String : Int] = [String : Int]()
+	let pickerState = UIPickerView()
+	var pickerStateData: [String] = [String]()
+	static let selectCountry = Notification.Name("selectCountry")
+
+
+	// MARK: Overrides
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
 
+		setupNavigation()
+		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		prepareLabels()
+		fillDetails()
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+//		notificationCenter.addObserver(self, selector: #selector(textFieldDidChange(_:)), name: Notification.Name.UITextFieldTextDidChange, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(tableSelectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+	// MARK: Methods
+	fileprivate func setupNavigation()
+	{
 		if #available(iOS 11.0, *)
 		{
 			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -75,41 +101,38 @@ class AddressExpandedViewController: UIViewController
 			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 		}
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		prepareLabels()
-		fillDetails()
-		let notificationCenter = NotificationCenter.default
-		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
-		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
-    }
-	
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-	
-	
-	func prepareLabels()
-	{
 		navTitle.title = R.string.Addr
 		navClose.title = FontAwesome.times.rawValue
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navHelp.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+		if #available (iOS 10.0, *)
+		{
+			navHelp.setTitleTextAttributes([
+				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+				], for: UIControlState.selected)
+		}
+		else
+		{
+			navHelp.setTitleTextAttributes([
+				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+				], for: UIControlState.highlighted)
+		}
+	}
+	
+	func prepareLabels()
+	{
 		aliasLabel.text = R.string.alias
 		aliasField.placeholder = R.string.nickName
-		aliasBorder.borderColor = UIColor.white
+		aliasBorder.borderColor = UIColor.clear
 		aliasInvalid.text = ""
 		fNameLabel.text = R.string.fName
-		fNameBorder.borderColor = UIColor.white
+		fNameBorder.borderColor = UIColor.clear
 		fNameInvalid.text = ""
 		lNameLabel.text = R.string.lName
-		lNameBorder.borderColor = UIColor.white
+		lNameBorder.borderColor = UIColor.clear
 		lNameInvalid.text = ""
 		bNameLabel.text = R.string.co
-		bNameBorder.borderColor = UIColor.white
+		bNameBorder.borderColor = UIColor.clear
 		bNameField.placeholder = R.string.optional
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
@@ -128,41 +151,56 @@ class AddressExpandedViewController: UIViewController
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
 		bNameInvalid.text = ""
 		addr1Label.text = R.string.addr1
-		addr1Border.borderColor = UIColor.white
+		addr1Border.borderColor = UIColor.clear
 		addr1Invalid.text = ""
 		addr2Label.text = R.string.addr2
-		addr2Border.borderColor = UIColor.white
+		addr2Border.borderColor = UIColor.clear
 		addr2Field.placeholder = R.string.optional
 		let addr2Optional = UILabel()
 		addr2Optional.text = R.string.optional
-		//(addr2Border.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(addr2Optional)
 		addr2Invalid.text = ""
 		cityLabel.text = R.string.city
-		cityBorder.borderColor = UIColor.white
+		cityBorder.borderColor = UIColor.clear
 		cityInvalid.text = ""
 		postcodeLabel.text = R.string.pcode
-		postcodeBorder.borderColor = UIColor.white
+		postcodeBorder.borderColor = UIColor.clear
 		postcodeInvalid.text = ""
 		postcodeField.placeholder = "eg. A1B 2C3"
-		stateLabel.text = R.string.state
-		stateBorder.borderColor = UIColor.white
-		stateInvalid.text = ""
-		let stateSelect = UIButton()
-		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
-		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
-		//(stateBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(stateSelect)
+//		let stateSelect = UIButton()
+//		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
+//		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		countryLabel.text = R.string.country
-		countryBorder.borderColor = UIColor.white
+		countryLabel.isUserInteractionEnabled = true
+		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
+		countryBorder.borderColor = UIColor.clear
 		countryInvalid.text = ""
-		let countrySelect = UIButton()
-		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
-		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
-		//(countryBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(countrySelect)
+		stateLabel.text = R.string.state
+		stateLabel.isUserInteractionEnabled = true
+		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
+		stateBorder.borderColor = UIColor.clear
+		stateInvalid.text = ""
+//		let countrySelect = UIButton()
+//		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
+//		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
+		pickerCountry.dataSource = self
+		pickerCountry.delegate = self
+		for c in store.countries
+		{
+			pickerCountryData[c.name![store.myLang].value!] = Int(c.id!)
+		}
+		pickerState.dataSource = self
+		pickerState.delegate = self
+		store.callGetStates(id_country: store.defaultCountry) { (states, err) in
+			let states = states as! [CountryState]
+			for s in states
+			{
+				self.pickerStateData.append((s.name)!)
+			}
+		}
 		button.setTitle(R.string.upd.uppercased(), for: .normal)
-		//pickerData = [[R.string.country, R.string.state]]
 	}
-	
-	
+
+
 	func fillDetails()
 	{
 		if self.address != nil
@@ -180,6 +218,7 @@ class AddressExpandedViewController: UIViewController
 				if state.id! == Int((self.address?.id_state)!)!
 				{
 					stateField.text = state.name
+					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
 					break
 				}
 			}
@@ -188,13 +227,14 @@ class AddressExpandedViewController: UIViewController
 				if country.id! == Int((self.address?.id_country)!)!
 				{
 					countryField.text = country.name?[store.myLang].value
+					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
 					break
 				}
 			}
 		}
 	}
-	
-	
+
+
 	func checkFields() -> Bool
 	{
 		var status = true
@@ -222,7 +262,8 @@ class AddressExpandedViewController: UIViewController
 		return status
 	}
 
-	
+
+	// MARK: Actions
 	@objc func adjustForKeyboard(notification: Notification)
 	{
 		let userInfo = notification.userInfo!
@@ -242,7 +283,176 @@ class AddressExpandedViewController: UIViewController
 		//self.scrollForm.scrollRangeToVisible(selectedRange)
 	}
 
-    
+	@objc func textFieldDidChange(_ sender: Any)
+	{
+		if let note = sender as? Notification, let textFieldChanged = note.object as? UITextField
+		{
+			switch textFieldChanged
+			{
+			case self.stateField:
+				break
+			case self.countryField:
+				break
+			default:
+				break
+			}
+		}
+	}
+//	@objc func dropdownList(myPicker: UIPickerView, selector: Selector)
+//	{
+//		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//		let vc = sb.instantiateInitialViewController() as? PickerViewController
+//		if vc != nil
+//		{
+//			self.present(vc!, animated: true, completion: nil)
+//			//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//			//			blurFxView.frame = 					self.view.bounds
+//			//			blurFxView.alpha = 					0.5
+//			//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+//			//			vc?.backgroundView.addSubview(blurFxView)
+//			vc?.dialog.shadowColor = 			R.color.YumaDRed
+//			vc?.dialog.shadowOffset = 			.zero
+//			vc?.dialog.shadowRadius = 			5
+//			vc?.dialog.shadowOpacity = 			1
+//			vc?.dialog.layer.cornerRadius = 	20
+//			vc?.dialog.cornerRadius = 			20
+//			if myPicker == pickerState
+//			{
+//				vc?.titleLbl.text = 			"\(R.string.select) \(R.string.state)"
+//			}
+//			else
+//			{
+//				vc?.titleLbl.text = 			"\(R.string.select) \(R.string.country)"
+//			}
+//			vc?.button.setTitle(R.string.select, for: .normal)
+//			vc?.view.addSubview(myPicker)
+//			myPicker.translatesAutoresizingMaskIntoConstraints = false
+//			NSLayoutConstraint.activate([
+//				myPicker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//				myPicker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//				])
+//			vc?.button.addTarget(self, action: selector, for: .touchUpInside)
+//		}
+//		else
+//		{
+//			print("HelpStoryboard has no initial view controller")
+//		}
+//	}
+
+	@objc func displaySelectACountry(_ sender: Any)
+	{
+		let vc = SelectCountryVC()
+		vc.isModalInPopover = true
+		vc.modalPresentationStyle = .overFullScreen
+		self.present(vc, animated: true, completion: nil)
+		vc.title = "\(R.string.select) \(R.string.country)"
+//		vc.buttonSingle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tableSelectedACountry(_:))))
+//		dropdownList(myPicker: pickerCountry, selector: Selector(("selectedACountry")))
+//		let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//		let vc = sb.instantiateInitialViewController() as? PickerViewController
+//		if vc != nil
+//		{
+//			self.present(vc!, animated: true, completion: nil)
+//			//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//			//			blurFxView.frame = 					self.view.bounds
+//			//			blurFxView.alpha = 					0.5
+//			//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+//			//			vc?.backgroundView.addSubview(blurFxView)
+//			vc?.dialog.shadowColor = 			R.color.YumaDRed
+//			vc?.dialog.shadowOffset = 			.zero
+//			vc?.dialog.shadowRadius = 			5
+//			vc?.dialog.shadowOpacity = 			1
+//			vc?.dialog.layer.cornerRadius = 	20
+//			vc?.dialog.cornerRadius = 			20
+//			vc?.titleLbl.text = 				"\(R.string.select) \(R.string.country)"
+//			vc?.button.setTitle(R.string.select, for: .normal)
+//			vc?.view.addSubview(pickerCountry)
+//			pickerCountry.translatesAutoresizingMaskIntoConstraints = false
+//			NSLayoutConstraint.activate([
+//				pickerCountry.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//				pickerCountry.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//				])
+//			vc?.button.addTarget(self, action: #selector(selectedACountry(_:)), for: .touchUpInside)
+//		}
+//		else
+//		{
+//			print("HelpStoryboard has no initial view controller")
+//		}
+	}
+
+	@objc func tableSelectedACountry(_ sender: Notification)
+	{
+		if let row = sender.object as? (String, Int)
+		{
+			countryField.text = row.0
+			fillStates(row.1)
+//			stateField.placeholder = R.string.select
+			stateField.text = ""
+		}
+	}
+
+	@objc func selectedACountry(_ sender: Any)
+	{
+		countryField.text = findCountryById(pickerCountry.selectedRow(inComponent: 0)+1)
+//		for (k, v) in pickerCountryData
+//		{
+//			if v == pickerCountry.selectedRow(inComponent: 0)+1
+//			{
+//				countryField.text = k
+//				fillStates(v)
+//			}
+//		}
+	}
+
+	@objc func displaySelectAState(_ sender: Any)
+	{
+		//		dropdownList(myPicker: pickerState, selector: Selector(("selectedAState")))
+		if !pickerStateData.isEmpty
+		{
+			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+			let vc = sb.instantiateInitialViewController() as? PickerViewController
+			if vc != nil
+			{
+				self.present(vc!, animated: true, completion: nil)
+				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+				//			blurFxView.frame = 					self.view.bounds
+				//			blurFxView.alpha = 					0.5
+				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+				//			vc?.backgroundView.addSubview(blurFxView)
+				vc?.dialog.shadowColor = 			R.color.YumaDRed
+				vc?.dialog.shadowOffset = 			.zero
+				vc?.dialog.shadowRadius = 			5
+				vc?.dialog.shadowOpacity = 			1
+				vc?.dialog.layer.cornerRadius = 	20
+				vc?.dialog.cornerRadius = 			20
+				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
+//				let country = findCountryById(pickerCountry.selectedRow(inComponent: 0)+1)
+				let country = countryField.text
+				if country != nil
+				{
+					vc?.titleLbl.text?.append(" (\(country!))")
+				}
+				vc?.button.setTitle(R.string.select, for: .normal)
+				vc?.view.addSubview(pickerState)
+				pickerState.translatesAutoresizingMaskIntoConstraints = false
+				NSLayoutConstraint.activate([
+					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+					])
+				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
+			}
+			else
+			{
+				print("HelpStoryboard has no initial view controller")
+			}
+		}
+	}
+
+	@objc func selectedAState(_ sender: Any)
+	{
+		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
+	}
+
 	@IBAction func navHelpAct(_ sender: Any)
 	{
 	}
@@ -298,52 +508,83 @@ class AddressExpandedViewController: UIViewController
 }
 
 
+
 extension AddressExpandedViewController : UIPickerViewDataSource, UIPickerViewDelegate
 {
 	func numberOfComponents(in pickerView: UIPickerView) -> Int
 	{
-		return 2
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-	{
-		return pickerData.count
+		return 1
 	}
 
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
 	{
-		return pickerData[component][row]//R.string.plsChoose
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-	{
-		stateField.text = pickerData[component][row]
-		countryField.text = pickerData[component][row]
-	}
-	
-	
-	@objc func makeSelect(sender: UIButton!)
-	{
-		if let listFor = sender.superview?.subviews.first as? UILabel
+		if pickerView == pickerState
 		{
-			if self.store.debug > 5
-			{
-				print("build list for \(listFor.text ?? "")")
-			}
-			let picker = UIPickerView()
-			picker.dataSource = self
-			picker.delegate = self
-			//pickerData[0].append(R.string.plsChoose)
-			for country in store.countries
-			{
-				pickerData[0].append(country.name![self.store.myLang].value!)
-			}
-			for state in store.states
-			{
-				pickerData[1].append(state.name!)
-			}
+			return pickerStateData.count
+		}
+		else
+		{
+			return pickerCountryData.count
 		}
 	}
 
+	func findCountryById(_ id: Int) -> String?
+	{
+		for (k, v) in pickerCountryData
+		{
+			if v == id
+			{
+				return k
+			}
+		}
+		return nil
+	}
+
+	fileprivate func fillStates(_ countryId: Int)
+	{
+		store.callGetStates(id_country: countryId, completion:{ (states, err) in
+//			if err == nil
+//			{
+				self.pickerStateData.removeAll()
+				if let states = states as? [CountryState]
+				{
+					for s in states
+					{
+						self.pickerStateData.append(s.name!)
+					}
+					self.stateField.placeholder = R.string.select
+					if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 1
+					{
+						self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+					}
+				}
+				else
+				{
+					self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+				}
+			}
+/*		}*/)
+	}
 	
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+	{
+		if pickerView == pickerState
+		{
+			return pickerStateData[row]
+		}
+		else
+		{
+			for (k, v) in pickerCountryData
+			{
+				if v == row+1
+				{
+//					countryField.text = k
+					fillStates(v)
+					return k
+				}
+			}
+			return "\(R.string.select) \(R.string.country)"
+		}
+	}
+
 }

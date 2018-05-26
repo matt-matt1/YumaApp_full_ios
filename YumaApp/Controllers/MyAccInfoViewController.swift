@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MyAccInfoViewController: UIViewController
+class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 {
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
@@ -102,7 +102,7 @@ class MyAccInfoViewController: UIViewController
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		switch1Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(alertMe(_:))))
 		switch2Group.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.alertMe(_:))))
 		clearErrors()
@@ -165,6 +165,13 @@ class MyAccInfoViewController: UIViewController
 	}
 
 
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool
+	{
+		textField.resignFirstResponder()
+		return true
+	}
+
+
 	func setLabels()
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
@@ -175,31 +182,49 @@ class MyAccInfoViewController: UIViewController
 		genderSwitch.selectedSegmentIndex = 0
 		fieldLabel1.text = R.string.fName
 		fieldEdit1.textColor = R.color.YumaRed
+		fieldEdit1.returnKeyType = UIReturnKeyType.next
 		field2Label.text = R.string.lName
 		field2Edit.textColor = R.color.YumaRed
+		field2Edit.returnKeyType = UIReturnKeyType.next
 		field3Label.text = R.string.emailAddr
 		field3Edit.textColor = R.color.YumaRed
-		field4Label.text = R.string.bDate
-		field4Edit.textColor = R.color.YumaRed
+		field3Edit.returnKeyType = UIReturnKeyType.next
+		if store.custBDate == 1
+		{
+			field4Label.text = R.string.bDate
+			field4Edit.textColor = R.color.YumaRed
+			field4Edit.returnKeyType = UIReturnKeyType.next
+		}
+		else
+		{
+			field4Border.removeFromSuperview()
+		}
 		passwordLabel.text = R.string.txtPass
 		passwordEdit.textColor = R.color.YumaRed
+		passwordEdit.placeholder = R.string.same
+		passwordEdit.returnKeyType = UIReturnKeyType.next
 		passwordGenerateLabel.text = ""
 		(passwordGenerateDo.subviews.first as! UILabel).text = R.string.generate
 		field5Label.text = R.string.co
 		field5Edit.textColor = R.color.YumaRed
 		field5Edit.placeholder = R.string.optional
+		field5Edit.returnKeyType = UIReturnKeyType.next
 		field6Label.text = R.string.website
 		field6Edit.textColor = R.color.YumaRed
 		field6Edit.placeholder = R.string.optional
+		field6Edit.returnKeyType = UIReturnKeyType.next
 		field7Label.text = R.string.siret
 		field7Edit.placeholder = R.string.optional
 		field7Edit.textColor = R.color.YumaRed
+		field7Edit.returnKeyType = UIReturnKeyType.next
 		field8Label.text = R.string.ape
 		field8Edit.textColor = R.color.YumaRed
 		field8Edit.placeholder = R.string.optional
+		field8Edit.returnKeyType = UIReturnKeyType.next
 		switch0Label.text = R.string.offersFromPartners
 		switch1Label.text = R.string.SignUpNewsletter
 		switch1Label2.text = R.string.SignUpNewsletterMore
+		switch1.isOn = store.custOptin==1 ? true : false
 		switch2Label.text = R.string.custDataPriv
 		switch2Label2.text = R.string.custDataPrivMore
 		buttonText.setTitle(R.string.save.uppercased(), for: .normal)
@@ -301,12 +326,12 @@ class MyAccInfoViewController: UIViewController
 			field3Border.layer.borderColor = UIColor.red.cgColor
 			passed = false
 		}
-		if passwordEdit.text != nil && (passwordEdit.text?.isEmpty)!
-		{
-			passwordInvalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-			passwordBorder.layer.borderColor = UIColor.red.cgColor
-			passed = false
-		}
+//		if passwordEdit.text != nil && (passwordEdit.text?.isEmpty)!
+//		{
+//			passwordInvalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+//			passwordBorder.layer.borderColor = UIColor.red.cgColor
+//			passed = false
+//		}
 		return passed
 	}
 
@@ -318,7 +343,9 @@ class MyAccInfoViewController: UIViewController
 		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let today = df.string(from: date)
 		let ipAddr: String = store.getIPAddress()!
-		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: genderSwitch.selectedSegmentIndex == 0 ? R.string.mr : R.string.mrs, birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: "", company: "", siret: "", ape: "", outstanding_allow_amount: "0", show_public_prices: "1", id_risk: "0", max_payment_days: "100", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGgroup), date_add: today, date_upd: today, reset_password_token: "", reset_password_validity: "", associations: nil)
+		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "0000-00-00 00:00:00", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: String(genderSwitch.selectedSegmentIndex), birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text, company: field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text, siret: field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text, ape: field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text, outstanding_allow_amount: "0.000000", show_public_prices: "1", id_risk: "0", max_payment_days: "0", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGroup), date_add: today, date_upd: today, reset_password_token: nil, reset_password_validity: "0000-00-00 00:00:00", associations: CustomerAssociations(groups: [CustomerGroup(id: nil)]))
+		let encode = try? JSONEncoder().encode(newRow)
+		UserDefaults.standard.set(encode, forKey: "updateCustomer.\(df.string(from: date))")
 		return newRow
 	}
 
@@ -456,7 +483,7 @@ class MyAccInfoViewController: UIViewController
 				//print(newRow)
 				// Add a row
 				//ws.schema = nil
-				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
+				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
 				print(ws.xml!)
 				ws.printURL()
 				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil) 	{ 	(cust) in
@@ -531,15 +558,31 @@ class MyAccInfoViewController: UIViewController
 //					edited?.passwd = passwordEdit.text!
 //				}
 				var edited = loadEnteredValues()
-				edited.passwd = md5(passwordEdit.text!)
-				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", excludeId: false)
+//				edited.id = Int((customer?.id_customer)!)
+				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))])
+				edited.secure_key = customer?.secure_key
+				edited.last_passwd_gen = customer?.last_passwd_gen
+				edited.ip_registration_newsletter = nil
+				if passwordEdit.text != nil && !(passwordEdit.text?.isEmpty)!
+				{
+					edited.passwd = md5(passwordEdit.text!)
+				}
+				else
+				{
+					edited.passwd = customer?.passwd
+				}
+				var omit: [String] = []
+				omit.append("id_customer")
+//				omit.append("some")
+//				omit.append("associations")
+				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", omit: omit)
 				print(str)
 				//var params = [String : String]()
 				//params["ws_key"] = R.string.APIkey
 				//params["xml"] = str
 				var allowed = CharacterSet.alphanumerics
 				allowed.insert(charactersIn: ".-_~/?")
-				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml;charset=utf-8"/*"application/x-www-form-urlencoded"*/, "Accept": "text/xml"], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil) 	{ 	(cust) in
+				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "application/xml; charset=utf-8"/*"text/xml; charset=utf-8"*//*"application/x-www-form-urlencoded"*/, "Accept": "application/json, text/javascript, */*; q=0.01"/*"text/xml"*/, "Accept-Language": "en-US,en;q=0.5", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil) 	{ 	(cust) in
 //					print("return: \(cust)")
 					var title = R.string.customer
 					if !((cust as? Bool)!)

@@ -44,7 +44,7 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		setupGestureRecognizer()
 		if creditSlips
 		{
@@ -494,6 +494,11 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 		scrollView.contentSize = built.bounds.size
 		scrollView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		scrollView.addSubview(built)
+		scrollView.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: built)
+		scrollView.addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: built)
+		scrollView.translatesAutoresizingMaskIntoConstraints = false
+		mainStack.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: scrollView)
+		mainStack.addConstraintsWithFormat(format: "V:|-20-[v0]-20-|", views: scrollView)
 //		scrollView2.contentSize = CGSize(width: built.frame.width, height: built.frame.height)
 //		built.leadingAnchor.constraint(equalTo: scrollView2.leadingAnchor).isActive = true
 //		built.topAnchor.constraint(equalTo: scrollView2.topAnchor).isActive = true

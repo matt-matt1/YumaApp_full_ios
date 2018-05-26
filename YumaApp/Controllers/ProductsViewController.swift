@@ -70,7 +70,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			], for: UIControlState.normal)
 		navClose.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		//navClose.tintColor = R.color.YumaYel
 		navHelp.title = FontAwesome.questionCircle.rawValue
 		navHelp.setTitleTextAttributes([
@@ -78,14 +78,18 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			], for: UIControlState.normal)
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		//navHelp.tintColor = R.color.YumaYel
 		if UIScreen.main.scale < 2
 		{
 			let spacer = UIBarButtonItem(title: "|", style: .plain, target: self, action: nil)
+			spacer.tintColor = R.color.YumaRed
 			spacer.setTitleTextAttributes([
 				NSAttributedStringKey.foregroundColor : R.color.YumaRed
-				], for: UIControlState.application)
+				], for: UIControlState.normal)
+			spacer.setTitleTextAttributes([
+				NSAttributedStringKey.foregroundColor : R.color.YumaRed
+				], for: UIControlState.highlighted)
 			navTitle.rightBarButtonItems?.append(spacer)
 		}
 		let cart = UIBarButtonItem(title: FontAwesome.shoppingCart.rawValue, style: .done, target: self, action: #selector(navCartAct(_:)))
@@ -95,7 +99,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			], for: UIControlState.normal)
 		cart.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.selected)
+			], for: UIControlState.highlighted)
 		navTitle.rightBarButtonItems?.append(cart)
 		centerLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
 //		if self.view.frame.width > 400
@@ -112,10 +116,10 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 			store.locale = "\(store.langs[Int((store.customer?.id_lang)!)!].isoCode ?? "")_\(store.countries[Int(store.addresses[0].id_country)!].isoCode ?? "")"//combine lang iso with country iso
 		}
 		store.myLang = 0
-		if let tryLang = Int(store.configValue(forKey: "PS_DEFAULT_LANG"))
-		{
-			store.myLang = tryLang
-		}
+//		if let tryLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))
+//		{
+//			store.myLang = tryLang
+//		}
 //		if store.products.count < 1 || store.forceRefresh
 //		{
 		//DONT NEED TO REFRESH EVERYTIME!
