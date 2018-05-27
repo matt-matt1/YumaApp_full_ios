@@ -382,7 +382,7 @@ extension ProductsViewController
 				//				print("language id:\(id_lang)")
 				//view.clipsToBounds = true
 				//view.sizeToFit()
-				view.prodName.text = prod.name![store.myLang].value
+				view.prodName.text = store.valueById(object: prod.name!, id: store.myLang)//prod.name![store.myLang].value
 				view.prodName.textColor = R.color.YumaRed
 				//view.prodName.tag = prod.id!
 				view.tag = i
@@ -615,10 +615,10 @@ extension ProductsViewController
 					//						])
 				}
 				var attrText: NSAttributedString
-				if prod.description != nil && prod.description![store.myLang].value != nil
+				if prod.description != nil && store.valueById(object: prod.description!, id: store.myLang) != nil//prod.description![store.myLang].value != nil
 				{
 					attrText = try! NSAttributedString(
-						data: (prod.description![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						data: (store.valueById(object: prod.description!, id: store.myLang)?.data(using: .utf8, allowLossyConversion: true)!)!,//prod.description![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
 						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html],
 						documentAttributes: nil)
 					view.descLong.attributedText = attrText
@@ -627,10 +627,10 @@ extension ProductsViewController
 					view.descLong.lineBreakMode = NSLineBreakMode.byTruncatingTail
 					view.descLong.sizeToFit()
 				}
-				if prod.descriptionShort != nil && prod.descriptionShort![store.myLang].value != nil
+				if prod.descriptionShort != nil && store.valueById(object: prod.descriptionShort!, id: store.myLang) != nil//prod.descriptionShort![store.myLang].value != nil
 				{
 					attrText = try! NSAttributedString(
-						data: (prod.descriptionShort![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
+						data: (store.valueById(object: prod.descriptionShort!, id: store.myLang)?.data(using: .utf8, allowLossyConversion: true)!)!,//)(prod.descriptionShort![store.myLang].value?.data(using: String.Encoding.utf8, allowLossyConversion: true)!)!,
 						options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,],
 						documentAttributes: nil)
 					view.descShort.attributedText = attrText
@@ -677,10 +677,10 @@ extension ProductsViewController
 		let vc = ImageWindow()
 		let index: Int = (sender.view?.tag)! - 10
 		let prod = store.products[index]
-		if prod.name != nil && prod.name![store.myLang].value != nil
+		if prod.name != nil && store.valueById(object: prod.name!, id: store.myLang) != nil//prod.name![store.myLang].value != nil
 		{
 			//print(prod.name![store.myLang].value!)
-			vc.titleLabel.text = prod.name?[store.myLang].value
+			vc.titleLabel.text = store.valueById(object: prod.name!, id: store.myLang)//prod.name?[store.myLang].value
 			if prod.associations?.imageData != nil
 			{
 				vc.imageView.image = UIImage(data: (prod.associations?.imageData)!)

@@ -60,16 +60,22 @@ class MyAccAddr2ViewController: UIViewController
 	@IBOutlet weak var rightPanelButton: GradientButton!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var pageControl: UIPageControl!
+	@IBOutlet weak var scrollForm: UIScrollView!
 ///////
 	var address: Address? = nil
-	var pickerData: [[String]] = [[String]]()
+//	var pickerData: [[String]] = [[String]]()
 ///////
 	let store = DataStore.sharedInstance
 	var cellID = "addr2Cell"
 	var addresses: [Address] = []
 	var id_customer = 3
+	let pickerCountry = UIPickerView()
+	var pickerCountryData: [Country] = []//[String : Int] = [String : Int]()
+	let pickerState = UIPickerView()
+	var pickerStateData: [String] = [String]()
+	static let selectCountry = Notification.Name("selectCountry")
+	var displaySelectACountryDONE = false
 
-	@IBOutlet weak var scrollForm: UIScrollView!
 	
 	// MARK: Overrides
 	override func viewDidLoad()
@@ -78,6 +84,7 @@ class MyAccAddr2ViewController: UIViewController
 
 		collectionView.delegate = self
 		collectionView.dataSource = self
+		scrollForm.delegate = self
 		getAddress()
 		pageControl.numberOfPages = addresses.count
 		pageControl.currentPage = 0
@@ -130,6 +137,7 @@ class MyAccAddr2ViewController: UIViewController
 		let notificationCenter = NotificationCenter.default
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
     }
 
 	
@@ -261,24 +269,39 @@ class MyAccAddr2ViewController: UIViewController
 		postcodeInvalid.text = ""
 		postcodeField.placeholder = "eg. A1B 2C3"
 		stateLabel.text = R.string.state
+		stateLabel.isUserInteractionEnabled = true
+		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
 		stateBorder.borderColor = UIColor.white
 		stateInvalid.text = ""
-		let stateSelect = UIButton()
-		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
-		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
+//		let stateSelect = UIButton()
+//		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
+//		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		//(stateBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(stateSelect)
 		countryLabel.text = R.string.country
+		countryLabel.isUserInteractionEnabled = true
+		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
 		countryBorder.borderColor = UIColor.white
 		countryInvalid.text = ""
-		let countrySelect = UIButton()
-		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
-		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
+//		let countrySelect = UIButton()
+//		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
+//		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		//(countryBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(countrySelect)
+		pickerCountry.dataSource = self
+		pickerCountry.delegate = self
+		pickerCountryData = store.countries
+		pickerState.dataSource = self
+		pickerState.delegate = self
+		store.callGetStates(id_country: store.defaultCountry) { (states, err) in
+			let states = states as! [CountryState]
+			for s in states
+			{
+				self.pickerStateData.append((s.name)!)
+			}
+		}
 		rightPanelButton.setTitle(R.string.upd.uppercased(), for: .normal)
-		//pickerData = [[R.string.country, R.string.state]]
 	}
-	
-	
+
+
 	func fillDetails()
 	{
 		if self.address != nil
@@ -296,6 +319,7 @@ class MyAccAddr2ViewController: UIViewController
 				if state.id! == Int((self.address?.id_state)!)!
 				{
 					stateField.text = state.name
+					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
 					break
 				}
 			}
@@ -303,7 +327,8 @@ class MyAccAddr2ViewController: UIViewController
 			{
 				if country.id! == Int((self.address?.id_country)!)!
 				{
-					countryField.text = country.name?[store.myLang].value
+					countryField.text = store.valueById(object: country.name!, id: store.myLang)//country.name?[store.myLang].value
+					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
 					break
 				}
 			}
@@ -355,8 +380,86 @@ class MyAccAddr2ViewController: UIViewController
 			self.scrollForm.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
 		}
 		self.scrollForm.scrollIndicatorInsets = self.scrollForm.contentInset
-		//let selectedRange = self.scrollForm.selectedRange
-		//self.scrollForm.scrollRangeToVisible(selectedRange)
+	}
+
+
+	@objc func displaySelectACountry(_ sender: Any)
+	{
+		displaySelectACountryDONE = true
+		let vc = SelectCountryVC()
+		vc.defaultCountry = countryField.text
+		vc.title = "\(R.string.select) \(R.string.country)"
+		vc.buttonSingle.setTitle(R.string.close.uppercased(), for: .normal)
+		vc.isModalInPopover = true
+		vc.modalPresentationStyle = .overFullScreen
+		self.present(vc, animated: true, completion: nil)
+	}
+
+
+	@objc func selectedACountry(_ sender: Notification)
+	{
+		if let row = sender.object as? (String, Int)
+		{
+			if countryField.text != row.0
+			{
+				countryField.text = row.0
+				fillStates(row.1)
+				stateField.text = ""
+			}
+		}
+	}
+
+
+	@objc func displaySelectAState(_ sender: Any)
+	{
+		if !pickerStateData.isEmpty
+		{
+			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+			let vc = sb.instantiateInitialViewController() as? PickerViewController
+			if vc != nil
+			{
+				self.present(vc!, animated: true, completion: nil)
+				vc?.dialog.shadowColor = 			R.color.YumaDRed
+				vc?.dialog.shadowOffset = 			.zero
+				vc?.dialog.shadowRadius = 			5
+				vc?.dialog.shadowOpacity = 			1
+				vc?.dialog.layer.cornerRadius = 	20
+				vc?.dialog.cornerRadius = 			20
+				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
+				let country = countryField.text
+				if country != nil
+				{
+					vc?.titleLbl.text?.append(" (\(country!))")
+				}
+//				vc?.button.backgroundColor = R.color.YumaRed
+//				vc?.button.cornerRadius = 4
+//				vc?.button.setTitleColor(UIColor.white, for: .normal)
+//				vc?.button.shadowColor = R.color.YumaDRed
+//				vc?.button.shadowOffset = .zero
+//				vc?.button.shadowRadius = 3
+//				vc?.button.shadowOpacity = 1
+//				vc?.button.titleEdgeInsets = UIEdgeInsets(top: 2, left: 20, bottom: 2, right: 20)
+				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
+//				vc?.button.setTitle(R.string.select, for: .normal)
+				vc?.view.addSubview(pickerState)
+				pickerState.translatesAutoresizingMaskIntoConstraints = false
+				NSLayoutConstraint.activate([
+					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+					])
+				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
+			}
+			else
+			{
+				print("HelpStoryboard has no initial view controller")
+			}
+		}
+	}
+	
+	@objc func selectedAState(_ sender: Any)
+	{
+		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
 	}
 
 
@@ -368,6 +471,7 @@ class MyAccAddr2ViewController: UIViewController
 
 	@IBAction func leftButtonLeftAct(_ sender: Any)
 	{
+		store.flexView(view: leftButtonLeft)
 		self.address = self.addresses[pageControl.currentPage]
 		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
 		vc.address = self.addresses[pageControl.currentPage]
@@ -375,6 +479,7 @@ class MyAccAddr2ViewController: UIViewController
 	}
 	@IBAction func leftButtonRightAct(_ sender: Any)
 	{
+		store.flexView(view: leftButtonRight)
 		DispatchQueue.main.async
 			{
 				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias)\"", preferredStyle: .alert)
@@ -540,45 +645,116 @@ extension MyAccAddr2ViewController: UIPickerViewDataSource, UIPickerViewDelegate
 {
 	func numberOfComponents(in pickerView: UIPickerView) -> Int
 	{
-		return 2
+		return 1
 	}
 	
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
 	{
-		return pickerData.count
+		if pickerView == pickerState
+		{
+			return pickerStateData.count
+		}
+		else
+		{
+			return pickerCountryData.count
+		}
+	}
+	
+	fileprivate func fillStates(_ countryId: Int)
+	{
+		store.callGetStates(id_country: countryId, completion:{ (states, err) in
+			self.pickerStateData.removeAll()
+			if let states = states as? [CountryState]
+			{
+				for s in states
+				{
+					self.pickerStateData.append(s.name!)
+				}
+				OperationQueue.main.addOperation
+					{
+						self.stateField.placeholder = R.string.select
+						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
+						{
+							self.stateBorder.alpha = 1
+							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+						}
+				}
+			}
+			else
+			{
+				OperationQueue.main.addOperation
+				{
+					self.stateBorder.alpha = 0.2
+					self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+				}
+			}
+		})
 	}
 	
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
 	{
-		return pickerData[component][row]//R.string.plsChoose
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-	{
-		stateField.text = pickerData[component][row]
-		countryField.text = pickerData[component][row]
-	}
-	
-	
-	@objc func makeSelect(sender: UIButton!)
-	{
-		if let listFor = sender.superview?.subviews.first as? UILabel
+		if pickerView == pickerState
 		{
-			print("build list for \(listFor.text ?? "")")
-			let picker = UIPickerView()
-			picker.dataSource = self
-			picker.delegate = self
-			//pickerData[0].append(R.string.plsChoose)
-			for country in store.countries
-			{
-				pickerData[0].append(country.name![self.store.myLang].value!)
-			}
-			for state in store.states
-			{
-				pickerData[1].append(state.name!)
-			}
+			return pickerStateData[row]
 		}
+		else if pickerView == pickerCountry
+		{
+			for c in pickerCountryData
+			{
+				if c.id == row+1
+				{
+					if displaySelectACountryDONE
+					{
+						fillStates(c.id!)
+					}
+				}
+			}
+			return "\(R.string.select) \(R.string.country)"
+		}
+		return R.string.select
 	}
+
+//	func numberOfComponents(in pickerView: UIPickerView) -> Int
+//	{
+//		return 2
+//	}
+//
+//	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+//	{
+//		return pickerData.count
+//	}
+//
+//	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+//	{
+//		return pickerData[component][row]//R.string.plsChoose
+//	}
+//
+//	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+//	{
+//		stateField.text = pickerData[component][row]
+//		countryField.text = pickerData[component][row]
+//	}
+//
+//
+//	@objc func makeSelect(sender: UIButton!)
+//	{
+//		if let listFor = sender.superview?.subviews.first as? UILabel
+//		{
+//			print("build list for \(listFor.text ?? "")")
+//			let picker = UIPickerView()
+//			picker.dataSource = self
+//			picker.delegate = self
+//			//pickerData[0].append(R.string.plsChoose)
+//			for country in store.countries
+//			{
+//				pickerData[0].append(country.name![self.store.myLang].value!)
+//			}
+//			for state in store.states
+//			{
+//				pickerData[1].append(state.name!)
+//			}
+//		}
+//	}
 	
 	
 }

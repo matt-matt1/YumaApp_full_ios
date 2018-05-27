@@ -830,7 +830,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	func setDefaults()
 	{
 		store.defaultCurr = Int(store.configValue(forKey: "PS_CURRENCY_DEFAULT"))!
-//		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
+		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
 		store.defaultCountry = Int(store.configValue(forKey: "PS_COUNTRY_DEFAULT"))!
 		store.defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
 		store.defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")

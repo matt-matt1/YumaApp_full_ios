@@ -319,7 +319,7 @@ class ContactUsViewController: UIViewController
 			{
 				for contact in store.storeContacts
 				{
-					pickerData.append(contact.name![store.myLang].value!)
+					pickerData.append(store.valueById(object: contact.name!, id: store.myLang)!)//contact.name![store.myLang].value!)
 				}
 			}
 			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
@@ -347,10 +347,10 @@ class ContactUsViewController: UIViewController
 					self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
 					self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
 					])
-				if vc?.pickerView != nil
-				{
-					vc?.pickerView.removeFromSuperview()
-				}
+//				if vc?.pickerView != nil
+//				{
+//					vc?.pickerView.removeFromSuperview()
+//				}
 				vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
 				//on pick goto writePickedValue
 			}

@@ -1400,6 +1400,19 @@ final class DataStore
 		)
 	}
 
+	/// Returns the value associated with the supplied ID of a part object (array of IdValue)
+	func valueById(object: [IdValue], id: Int) -> String?
+	{
+		for rec in object
+		{
+			if Int(rec.id) == id
+			{
+				return rec.value
+			}
+		}
+		return nil
+	}
+
 	/// Trims a JSON string, by removing the wrapper, returns the JSON array as a string
 	func trimJSONValueToArray(string: String) -> String
 	{

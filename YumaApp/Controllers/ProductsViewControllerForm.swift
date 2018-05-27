@@ -150,7 +150,7 @@ extension ProductsViewController
 						wrapperLbl.translatesAutoresizingMaskIntoConstraints = false
 						let lbl = UILabel()
 						lbl.translatesAutoresizingMaskIntoConstraints = false
-						lbl.text = cat.name![store.myLang].value
+						lbl.text = store.valueById(object: cat.name!, id: store.myLang)//cat.name![store.myLang].value
 						wrapperLbl.addSubview(lbl)
 						NSLayoutConstraint.activate([
 							wrapperLbl.topAnchor.constraint(equalTo: lbl.topAnchor),

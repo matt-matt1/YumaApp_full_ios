@@ -274,7 +274,7 @@ extension ProductsViewController
 			//					)
 			//				}
 			//			}
-			let row = OrderRow(id: "\(count)", product_id: "\(prod.id)", product_attribute_id: prod.cacheHasAttachments! == true ? "1" : "", product_quantity: "\(qty)", product_name: "\(prod.name![store.myLang].value ?? "")", product_reference: String(prod.reference!), product_ean13: String(prod.ean13!), product_isbn: String(prod.isbn!), product_upc: String(prod.upc!), product_price: String(prod.price!), unit_price_tax_incl: String(prod.price!), unit_price_tax_excl: String(prod.price!), productImage: prod_image)
+			let row = OrderRow(id: "\(count)", product_id: "\(prod.id)", product_attribute_id: prod.cacheHasAttachments! == true ? "1" : "", product_quantity: "\(qty)", product_name: "\(store.valueById(object: prod.name!, id: store.myLang) ?? "")", product_reference: String(prod.reference!), product_ean13: String(prod.ean13!), product_isbn: String(prod.isbn!), product_upc: String(prod.upc!), product_price: String(prod.price!), unit_price_tax_incl: String(prod.price!), unit_price_tax_excl: String(prod.price!), productImage: prod_image)//prod.name![store.myLang].value ?? ""
 			store.myOrderRows.append(row)
 			latest = row
 			latestIsUpdate = false

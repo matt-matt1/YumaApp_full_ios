@@ -13,8 +13,11 @@ class PickerViewController: UIViewController
 	@IBOutlet var backgroundView: UIView!
 	@IBOutlet weak var dialog: UIView!
 	@IBOutlet weak var titleLbl: UILabel!
-	@IBOutlet weak var pickerView: UIPickerView!
+//	@IBOutlet weak var pickerView: UIPickerView!
 	@IBOutlet weak var button: UIButton!
+	@IBOutlet weak var buttonContainer: UIView!
+//	@IBOutlet weak var buttonBackground: UIView!
+//	@IBOutlet weak var buttonLabel: UILabel!
 	//var onSelected: ((_ data: String) -> ())?
 	
 	
@@ -32,10 +35,11 @@ class PickerViewController: UIViewController
         // Dispose of any resources that can be recreated.
     }
     
-	@IBAction func buttonAct(_ sender: Any)
+	@IBAction func buttonAct(_ sender: UIButton)
 	{
 //		NotificationCenter.default.post(name: NSNotification.Name.gotNameFromPopup, object: self)
 		//onSelected
+		DataStore.sharedInstance.flexView(view: sender)
 		self.dismiss(animated: false, completion: nil)
 	}
 

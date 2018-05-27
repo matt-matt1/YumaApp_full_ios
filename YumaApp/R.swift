@@ -300,7 +300,8 @@ struct R {
 		fileprivate init() {}
 	}
 	
-	struct string {
+	struct string
+	{
 		static let app_name = "Yuma Technical Mobile App"
 		static let google_maps_key = "AIzaSyCGFpjQESGvGTS8LAkZujvq8rCgHS1mAuQ"
 
@@ -350,6 +351,7 @@ struct R {
 		static let pieces = "pcs."
 		static let kg = "kg"
 		static let dismiss = "dismiss"
+		static let close = "close"
 		static let load = "Loading"
 		static let customer = "Customer"
 		static let ords = "Orders"
