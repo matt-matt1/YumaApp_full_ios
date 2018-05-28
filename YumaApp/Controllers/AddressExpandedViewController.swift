@@ -55,6 +55,18 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	@IBOutlet weak var countryLabel: UILabel!
 	@IBOutlet weak var countryField: UITextField!
 	@IBOutlet weak var countryInvalid: UILabel!
+	@IBOutlet weak var phoneBorder: UIView!
+	@IBOutlet weak var phoneLabel: UILabel!
+	@IBOutlet weak var phoneField: UITextField!
+	@IBOutlet weak var phoneInvalid: UILabel!
+	@IBOutlet weak var mobBorder: UIView!
+	@IBOutlet weak var mobLabel: UILabel!
+	@IBOutlet weak var mobField: UITextField!
+	@IBOutlet weak var mobInvalid: UILabel!
+	@IBOutlet weak var otherBorder: UIView!
+	@IBOutlet weak var otherLabel: UILabel!
+	@IBOutlet weak var otherField: UITextField!
+	@IBOutlet weak var otherInvalid: UILabel!
 	@IBOutlet weak var button: GradientButton!
 	@IBOutlet weak var scrollForm: UIScrollView!
 	var address: Address? = nil
@@ -75,6 +87,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 
 		setupNavigation()
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		clearErrors()
 		prepareLabels()
 		fillDetails()
 		let notificationCenter = NotificationCenter.default
@@ -119,21 +132,45 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				], for: UIControlState.highlighted)
 		}
 	}
-	
+
+
+	func clearErrors()
+	{
+		aliasBorder.borderColor = UIColor.clear
+		aliasInvalid.text = ""
+		fNameBorder.borderColor = UIColor.clear
+		fNameInvalid.text = ""
+		lNameBorder.borderColor = UIColor.clear
+		lNameInvalid.text = ""
+		bNameBorder.borderColor = UIColor.clear
+		bNameInvalid.text = ""
+		addr1Border.borderColor = UIColor.clear
+		addr1Invalid.text = ""
+		addr2Border.borderColor = UIColor.clear
+		addr2Invalid.text = ""
+		cityBorder.borderColor = UIColor.clear
+		cityInvalid.text = ""
+		postcodeBorder.borderColor = UIColor.clear
+		postcodeInvalid.text = ""
+		stateBorder.borderColor = UIColor.clear
+		stateInvalid.text = ""
+		countryBorder.borderColor = UIColor.clear
+		countryInvalid.text = ""
+		phoneBorder.borderColor = UIColor.clear
+		phoneInvalid.text = ""
+		mobBorder.borderColor = UIColor.clear
+		mobInvalid.text = ""
+		otherBorder.borderColor = UIColor.clear
+		otherInvalid.text = ""
+	}
+
 	func prepareLabels()
 	{
 		aliasLabel.text = R.string.alias
 		aliasField.placeholder = R.string.nickName
-		aliasBorder.borderColor = UIColor.clear
-		aliasInvalid.text = ""
 		fNameLabel.text = R.string.fName
-		fNameBorder.borderColor = UIColor.clear
-		fNameInvalid.text = ""
 		lNameLabel.text = R.string.lName
-		lNameBorder.borderColor = UIColor.clear
-		lNameInvalid.text = ""
 		bNameLabel.text = R.string.co
-		bNameBorder.borderColor = UIColor.clear
 		bNameField.placeholder = R.string.optional
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
@@ -150,22 +187,13 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 //Will attempt to recover by breaking constraint
 //	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
-		bNameInvalid.text = ""
 		addr1Label.text = R.string.addr1
-		addr1Border.borderColor = UIColor.clear
-		addr1Invalid.text = ""
 		addr2Label.text = R.string.addr2
-		addr2Border.borderColor = UIColor.clear
 		addr2Field.placeholder = R.string.optional
 		let addr2Optional = UILabel()
 		addr2Optional.text = R.string.optional
-		addr2Invalid.text = ""
 		cityLabel.text = R.string.city
-		cityBorder.borderColor = UIColor.clear
-		cityInvalid.text = ""
 		postcodeLabel.text = R.string.pcode
-		postcodeBorder.borderColor = UIColor.clear
-		postcodeInvalid.text = ""
 		postcodeField.placeholder = "eg. A1B 2C3"
 //		let stateSelect = UIButton()
 //		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
@@ -173,13 +201,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		countryLabel.text = R.string.country
 		countryLabel.isUserInteractionEnabled = true
 		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
-		countryBorder.borderColor = UIColor.clear
-		countryInvalid.text = ""
 		stateLabel.text = R.string.state
 		stateLabel.isUserInteractionEnabled = true
 //		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
-		stateBorder.borderColor = UIColor.clear
-		stateInvalid.text = ""
 //		let countrySelect = UIButton()
 //		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
 //		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
@@ -199,6 +223,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				self.pickerStateData.append((s.name)!)
 			}
 		}
+		phoneLabel.text = R.string.ph
+		mobLabel.text = R.string.ph_mob
+		otherLabel.text = R.string.other
 		button.setTitle(R.string.upd.uppercased(), for: .normal)
 	}
 
@@ -233,12 +260,17 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 					break
 				}
 			}
+			phoneField.text = self.address?.phone
+			mobField.text = self.address?.phone_mobile
+			otherField.text = self.address?.other
+			fillStates(Int((self.address?.id_country)!)!)
 		}
 	}
 
 
 	func checkFields() -> Bool
 	{
+		clearErrors()
 		var status = true
 		for v in stackFields.subviews
 		{
@@ -304,9 +336,65 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	@objc func displaySelectACountry(_ sender: Any)
 	{
 		displaySelectACountryDONE = true
+//		if !pickerCountryData.isEmpty
+//		{
+//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//			let vc = sb.instantiateInitialViewController() as? PickerViewController
+//			if vc != nil
+//			{
+//				vc?.defaultCountry = countryField.text
+//				self.present(vc!, animated: true, completion: nil)
+//				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//				//			blurFxView.frame = 					self.view.bounds
+//				//			blurFxView.alpha = 					0.5
+//				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+//				//			vc?.backgroundView.addSubview(blurFxView)
+//				vc?.dialog.layer.cornerRadius = 	20
+//				vc?.dialog.layer.masksToBounds = 	true
+//				vc?.dialog.layer.shadowColor = 		UIColor.black.cgColor
+//				vc?.dialog.layer.shadowOffset = 	.zero
+//				vc?.dialog.layer.shadowRadius = 	5
+//				vc?.dialog.layer.shadowOpacity = 	1
+//				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.country)"
+//				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
+//				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
+//				vc?.titleLbl.shadowRadius = 		3
+//				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//				//				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
+//				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
+//				vc?.view.addSubview(pickerCountry)
+//				pickerCountry.translatesAutoresizingMaskIntoConstraints = false
+//				NSLayoutConstraint.activate([
+//					pickerCountry.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//					pickerCountry.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//					])
+//				vc?.button.addTarget(self, action: #selector(selectedACountry(_:)), for: .touchUpInside)
+//			}
+//			else
+//			{
+//				print("HelpStoryboard has no initial view controller")
+//			}
+//		}
+		
 		let vc = SelectCountryVC()
 		vc.defaultCountry = countryField.text
-		vc.title = "\(R.string.select) \(R.string.country)"
+		vc.dialogWindow.layer.masksToBounds = true
+		vc.dialogWindow.borderWidth = 3
+		vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
+//		vc..layer.shadowColor = R.color.YumaDRed.cgColor
+//		vc.dialogWindow.layer.shadowOffset = .zero
+//		vc.dialogWindow.layer.shadowRadius = 5
+//		vc.dialogWindow.layer.shadowOpacity = 1
+		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonSingle.shadowColor = R.color.YumaDRed
+		vc.buttonSingle.shadowOffset = .zero
+		vc.buttonSingle.shadowRadius = 5
+		vc.buttonSingle.shadowOpacity = 0.5
+//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
+//		vc.buttonSingle.shadowOffset = .zero
+//		vc.buttonSingle.shadowRadius = 5
+//		vc.buttonSingle.shadowOpacity = 0.5
+//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
 		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
 		vc.isModalInPopover = true
 		vc.modalPresentationStyle = .overFullScreen
@@ -318,16 +406,16 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	{
 		if let row = sender.object as? Country
 		{
-			if countryField.text != store.valueById(object: row.name!, id: store.myLang)//row.name![store.myLang].value
+			if countryField.text != store.valueById(object: row.name!, id: store.myLang)
 			{
-				countryField.text = store.valueById(object: row.name!, id: store.myLang)//row.name![store.myLang].value
-				if row.containsStates != nil && row.containsStates != "" && row.containsStates != "0"
+				countryField.text = store.valueById(object: row.name!, id: store.myLang)
+				if row.containsStates != nil && row.containsStates != false
 				{
 					if stateBorder.alpha < 1
 					{
 						stateBorder.alpha = 1
 					}
-					fillStates(Int(row.idCurrency!)!)
+					fillStates(row.id!)
 					stateField.placeholder = R.string.select
 					OperationQueue.main.addOperation
 					{
@@ -376,9 +464,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				{
 					vc?.titleLbl.text?.append(" (\(country!))")
 				}
-				vc?.titleLbl.shadowOffset = CGSize(width: 1, height: 1)
-				vc?.titleLbl.shadowColor = R.color.YumaDRed
-				vc?.titleLbl.shadowRadius = 3
+				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
+				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
+				vc?.titleLbl.shadowRadius = 		3
 				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 //				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
 				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)

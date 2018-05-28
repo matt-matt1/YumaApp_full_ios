@@ -263,6 +263,15 @@ struct R {
 			return shadow
 		}
 
+		static func darkGray1_downright1() -> NSShadow
+		{
+			let shadow = NSShadow()
+			shadow.shadowBlurRadius = 1
+			shadow.shadowOffset = CGSize(width: 1, height: 1)
+			shadow.shadowColor = UIColor.darkGray
+			return shadow
+		}
+		
 		static func darkGray5_downright1() -> NSShadow
 		{
 			let shadow = NSShadow()

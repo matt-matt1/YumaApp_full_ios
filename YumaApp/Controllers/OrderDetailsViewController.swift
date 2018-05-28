@@ -325,7 +325,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				{
 					if del.id! == Int((order?.id_address_delivery)!)!
 					{
-						deliveryAddrField.text = store.formatAddress(del)
+						deliveryAddrField.text = store.formatAddress(del, phoneNums: .full)
 						break
 					}
 				}
@@ -339,7 +339,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				{
 					if order?.id_address_invoice != nil && inva.id! == Int((order?.id_address_invoice)!)!
 					{
-						invoiceAddrField.text = store.formatAddress(inva)
+						invoiceAddrField.text = store.formatAddress(inva, phoneNums: .full)
 						break
 					}
 				}

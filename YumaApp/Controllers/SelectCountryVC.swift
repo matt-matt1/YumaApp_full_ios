@@ -9,11 +9,17 @@
 import UIKit
 
 
-class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDelegate
+class SelectCountryVC: UIViewController
 {
 	let cellId = "selectCounty"
 	var initalDone = false
 	var tableView: UITableView!
+	var searchControl: UISearchController =
+	{
+		let view = UISearchController(searchResultsController: nil)
+		return view
+	}()
+//	var searchBox: UISearchBar!
 	var searchBox: UISearchBar =
 	{
 		let view = UISearchBar()
@@ -22,32 +28,17 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 //		view.showsCancelButton = true
 		view.showsBookmarkButton = false
 //		view.searchBarStyle = UISearchBarStyle.default
-		view.placeholder = "\(R.string.action_search) \(R.string.country)"
+		view.placeholder = "\(R.string.search_hint) \(R.string.country)"
 		view.tintColor = R.color.YumaRed
+		view.autocapitalizationType = .none
 		view.showsSearchResultsButton = false
 		return view
 	}()
-//	let searchControl: UISearchController =
-//	{
-//		let view = UISearchController(searchResultsController: nil)
-//		view.obscuresBackgroundDuringPresentation = false
-//		view.searchBar.placeholder = R.string.select
-//		return view
-//	}()
 	var find: String?
 	var isSearching = false
-	var records: [Country] = []//[String : Int]?
-	var filtered: [Country] = []//[String : Int]?
+	var records: [Country] = []
+	var filtered: [Country] = []
 	static var selectedRow = IndexPath(row: 0, section: 0)
-//	{
-//		didSet
-//		{
-//			OperationQueue.main.addOperation
-//			{
-//				self.tableView.scrollToRow(at: self.selectedRow, at: .middle, animated: true)
-//			}
-//		}
-//	}
 	let dialogWindow: UIView =
 	{
 		let view = UIView()
@@ -55,7 +46,7 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		view.isUserInteractionEnabled = true
 		view.backgroundColor = UIColor.white
 		view.cornerRadius = 20
-		view.shadowColor = R.color.YumaDRed
+		view.shadowColor = R.color.YumaDRed.withAlphaComponent(0.5)
 		view.shadowRadius = 5
 		view.shadowOffset = .zero
 		view.shadowOpacity = 1
@@ -74,30 +65,46 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		view.layer.masksToBounds = true
 		view.textColor = UIColor.white
 		view.textAlignment = .center
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 20)!, NSAttributedStringKey.shadow : titleShadow])
+		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
+		view.shadowColor = UIColor.black
+		view.shadowRadius = 3
+		view.shadowOffset = CGSize(width: 1, height: 1)
 		return view
 	}()
-	let buttonSingle: UIButton =
+	let buttonSingle: GradientButton =
 	{
-		let view = UIButton()
+		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.cont.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.backgroundColor = /*R.color.YumaYel*/R.color.YumaRed.withAlphaComponent(0.8)
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
+		view.topGradientColor = R.color.YumaRed
+		view.bottomGradientColor = R.color.YumaYel
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
-		//		view.shadowOpacity = 0.9
-		//		view.titleEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		return view
 	}()
 	let backgroundAlpha: CGFloat = 0.7
@@ -126,19 +133,10 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		dialogHeight = min(max(view.frame.height/2, minHeight), maxHeight)
 		self.view.backgroundColor = R.color.YumaRed.withAlphaComponent(backgroundAlpha)
 		records.removeAll()
-//		records = [:]
-//		for c in store.countries
-//		{
-//			if c.name != nil && c.id != nil
-//			{
-//				records![c.name![store.myLang].value!] = c.id!
-//			}
-//		}
 		records = store.countries
-//		filtered = nil
-//		searchControl.searchResultsUpdater = self
 		definesPresentationContext = true
-//		navigationItem.searchController = searchControl
+//		searchBox = searchControl.searchBar
+		
 		drawTitle()
 		drawSearch()
 		drawTable()
@@ -148,10 +146,11 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonSingle)
 		
 		drawDialog()
-//		OperationQueue.main.addOperation
-//		{
-//			tableView.scrollToRow(at: self.selectedRow, at: .middle, animated: true)
-//		}
+		DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute:
+		{
+			self.tableView.reloadData()
+			self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: true)
+		})
 	}
 
 
@@ -159,14 +158,27 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 	{
 		super.viewDidLayoutSubviews()
 //		tableView.reloadData()
+		var i = 0
+		for c in store.countries
+		{
+			if defaultCountry == store.valueById(object: c.name!, id: store.myLang)
+			{
+				SelectCountryVC.selectedRow = IndexPath(row: i, section: 0)
+				self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: false)
+			}
+			i += 1
+		}
 //		self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: true)
+//		let _ = titleLabel.addBackgroundGradient(colors: [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor], isVertical: true)
+		titleLabel.text = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
+//		titleLabel.font = UIFont.systemFont(ofSize: 21)
+		let _ = buttonSingle.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 
 
 	func drawTitle()
 	{
-		titleLabel.text = "\(R.string.select) \(R.string.country)"
-		titleLabel.font = UIFont.systemFont(ofSize: 21)
 		dialogWindow.addSubview(titleLabel)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0, constant: titleBarHeight))
@@ -177,13 +189,13 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 	{
 		filtered = store.countries
 		dialogWindow.addSubview(searchBox)
-//		searchBox.translatesAutoresizingMaskIntoConstraints = false
 		searchBox.delegate = self
 		searchBox.becomeFirstResponder()
 		searchBox.returnKeyType = UIReturnKeyType.done
-//		dialogWindow.addConstraintsWithFormat(format: "H:|-3-[v0(25)]-2-[v1]-2-[v2(25)]|", views: buttonPrev, pageControl, buttonNext)
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonPrev, attribute: .centerY, relatedBy: .equal, toItem: pageControl, attribute: .centerY, multiplier: 1, constant: 0))
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonNext, attribute: .centerY, relatedBy: .equal, toItem: pageControl, attribute: .centerY, multiplier: 1, constant: 0))
+		
+		searchControl.searchResultsUpdater = self
+		searchControl.dimsBackgroundDuringPresentation = false
+
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchBox)
 	}
 	
@@ -197,6 +209,7 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 //		tableView.showsVerticalScrollIndicator = false
 //		tableView.showsHorizontalScrollIndicator = false
 		tableView.backgroundColor = UIColor.white
+		tableView.tableHeaderView = searchControl.searchBar
 		dialogWindow.addSubview(tableView)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: tableView)
 	}
@@ -204,7 +217,6 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 	
 	func drawButton()
 	{
-//		buttonSingle.setTitle(R.string.dismiss.uppercased(), for: .normal)
 		dialogWindow.addSubview(buttonSingle)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 2))
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
@@ -236,7 +248,7 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		{
 			for c in filtered
 			{
-				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName//c.name?[store.myLang].value == fromName
+				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName
 				{
 					return c
 				}
@@ -246,7 +258,7 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 		{
 			for c in store.countries
 			{
-				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName//c.name?[store.myLang].value == fromName
+				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName
 				{
 					return c
 				}
@@ -312,18 +324,9 @@ class SelectCountryVC: UIViewController//, UITableViewDataSource, UITableViewDel
 	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
 	{
 		self.dismiss(animated: true, completion: nil)
-		NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: findCountryObject(fromRow: SelectCountryVC.selectedRow.row))
-//		if records != nil
-//		{
-//			for (k, v) in records!
-//			{
-//				if v == SelectCountryVC.selectedRow.row+1
-//				{
-//					NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: (k,v))
-//					break
-//				}
-//			}
-//		}
+		let object = findCountryObject(fromRow: SelectCountryVC.selectedRow.row)
+		defaultCountry = store.valueById(object: (object?.name)!, id: store.myLang)
+		NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: object)
 	}
 
 }
@@ -341,12 +344,13 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 	// MARK: UITableViewDataSource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-		if isSearching
-		{
-			return filtered.count
-		}
-		return store.countries.count
-//		return (filtered != nil && isSearching) ? filtered!.count : (records != nil) ? records!.count : 0
+//		if isSearching
+//		{
+//			return filtered.count
+//		}
+//		return store.countries.count
+//		return (isSearching) ? filtered.count : store.countries.count
+		return filtered.count
 	}
 
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -356,8 +360,9 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 		let obj = findCountryObject(fromRow: indexPath.row)
 		if obj != nil
 		{
-			cell.titleLabel.text = store.valueById(object: (obj?.name)!, id: store.myLang)//obj?.name?[store.myLang].value
-			if indexPath == SelectCountryVC.selectedRow
+			let name = store.valueById(object: (obj?.name)!, id: store.myLang)
+			cell.titleLabel.text = name
+			if name == defaultCountry//indexPath == SelectCountryVC.selectedRow //&& isSearching
 			{
 				cell.titleLabel.textColor = UIColor.white
 				cell.contentView.backgroundColor = R.color.YumaRed
@@ -372,56 +377,6 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 		{
 			cell.titleLabel.text = "not yet"
 		}
-
-		
-//		if isSearching
-//		{
-//			cell.setupViews()
-//			for (k, v) in filtered!
-//			{
-//				if v == indexPath.row+1
-//				{
-//					if defaultCountry == k// && SelectCountryVC.selectedRow.row != v
-//					{	// highlight last selected country
-//						SelectCountryVC.selectedRow = IndexPath(row: v-1, section: 0)
-//						cell.titleLabel.textColor = UIColor.white
-//						cell.contentView.backgroundColor = R.color.YumaRed
-//					}
-//					else
-//					{
-//						cell.contentView.backgroundColor = UIColor.white
-//						cell.titleLabel.textColor = UIColor.darkGray
-//					}
-//					cell.titleLabel.text = k
-//					cell.tag = v
-//					break
-//				}
-//			}
-//		}
-//		else
-//		{
-//			cell.setupViews()
-//			for (k, v) in records!
-//			{
-//				if v == indexPath.row+1
-//				{
-//					if defaultCountry == k// && SelectCountryVC.selectedRow.row != v-1
-//					{
-//						SelectCountryVC.selectedRow = IndexPath(row: v-1, section: 0)
-//						cell.titleLabel.textColor = UIColor.white
-//						cell.contentView.backgroundColor = R.color.YumaRed
-//					}
-//					else
-//					{
-//						cell.contentView.backgroundColor = UIColor.white
-//						cell.titleLabel.textColor = UIColor.darkGray
-//					}
-//					cell.titleLabel.text = k
-//					cell.tag = v
-//					break
-//				}
-//			}
-//		}
 		return cell
 	}
 
@@ -437,14 +392,18 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 		}
 		if let cell = tableView.cellForRow(at: indexPath) as? SelectCountryCell
 		{
-			SelectCountryVC.selectedRow = indexPath
-			UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
-				cell.titleLabel.textColor = UIColor.white
-				cell.contentView.backgroundColor = R.color.YumaRed
-			}, completion: { (finished) in
-				cell.titleLabel.textColor = UIColor.white
-				cell.contentView.backgroundColor = R.color.YumaRed
-			})
+//			if !isSearching
+//			{
+			defaultCountry = cell.titleLabel.text
+				SelectCountryVC.selectedRow = indexPath
+				UIView.animate(withDuration: 0.25, delay: 0, options: [], animations: {
+					cell.titleLabel.textColor = UIColor.white
+					cell.contentView.backgroundColor = R.color.YumaRed
+				}, completion: { (finished) in
+					cell.titleLabel.textColor = UIColor.white
+					cell.contentView.backgroundColor = R.color.YumaRed
+				})
+//			}
 		}
 	}
 
@@ -468,20 +427,17 @@ extension SelectCountryVC: UISearchBarDelegate, UISearchResultsUpdating
 			if searchBar.text == nil || (searchBar.text?.isEmpty)!
 			{
 				isSearching = false
+				filtered = store.countries
 				view.endEditing(true)
 			}
 			else
 			{
-//				isSearching = true
 				filtered.removeAll()
-//				filtered = [:]
 				filtered = store.countries.filter({ (country) -> Bool in
-//					return (country.name?[store.myLang].value?.lowercased().contains(searchText.lowercased()))!
 					return (store.valueById(object: country.name!, id: store.myLang)?.lowercased().contains(searchText.lowercased()))!
 				})
-//				records = data.filter({$0 == text})
 				let _ = filtered.sorted { (a, b) -> Bool in
-					(store.valueById(object: a.name!, id: store.myLang)!)/*a.name?[store.myLang].value)!*/ < (store.valueById(object: b.name!, id: store.myLang)!)/*b.name?[store.myLang].value)!*/
+					(store.valueById(object: a.name!, id: store.myLang)!) < (store.valueById(object: b.name!, id: store.myLang)!)
 				}
 				isSearching = (filtered.count == 0) ? false : true
 			}
@@ -509,4 +465,5 @@ extension SelectCountryVC: UISearchBarDelegate, UISearchResultsUpdating
 		isSearching = false
 	}
 
+	
 }

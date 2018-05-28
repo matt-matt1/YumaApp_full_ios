@@ -31,85 +31,120 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	let alias: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let company: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let lastname: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let firstname: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let vatNo: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let addr1: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let addr2: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let pc: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let city: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let other: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let phone: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let mob: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let state: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let country: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
+//	var stack: UIStackView =
+//	{
+//		let view = UIStackView()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.axis = .vertical
+//		view.alignment = .fill
+//		view.distribution = .fill
+//		view.spacing = 5
+//		view.backgroundColor = UIColor.blue	///!!!!?????
+//		view.borderColor = UIColor.red
+//		view.borderWidth = 2
+//		return view
+//	}()
+	let scroll: UIScrollView =
+	{
+		let view = UIScrollView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.backgroundColor = UIColor.clear
+//		view.contentSize.width = view.frame.width-20
 		return view
 	}()
 
@@ -130,20 +165,47 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		allStackTop2.priority = UILayoutPriority(rawValue: 250)
 		allStackTop2.isActive = true
 		NSLayoutConstraint.activate([
-//			allStack.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
 			allStack.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
 			allStack.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
 			allStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
 			])
 		setupNavigation()
         setupBackground()
-		allStack.addConstraintsWithFormat(format: "V:|[v0][v1]-5-|", views: navBar, panel)
+		allStack.addConstraintsWithFormat(format: "V:|[v0]-1-[v1]-5-|", views: navBar, panel)
 		setupFields()
 		clearErrors()
 		setupLabels()
     }
 
-    override func didReceiveMemoryWarning()
+	override func viewDidLayoutSubviews()
+	{
+		super.viewDidLayoutSubviews()
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		print("view:x=\(view.frame.origin.x), y=\(view.frame.origin.y), w=\(view.frame.width), h=\(view.frame.height)")
+		print("alias:x=\(self.alias.frame.origin.x), y=\(self.alias.frame.origin.y), w=\(self.alias.frame.width), h=\(self.alias.frame.height)")
+//		print("stack:x=\(self.stack.frame.origin.x), y=\(self.stack.frame.origin.y), w=\(self.stack.frame.width), h=\(self.stack.frame.height)")
+		print("scroll:x=\(self.scroll.frame.origin.x), y=\(self.scroll.frame.origin.y), w=\(self.scroll.frame.width), h=\(self.scroll.frame.height), cw=\(self.scroll.contentSize.width), ch=\(self.scroll.contentSize.height)")
+	}
+
+	override func viewWillAppear(_ animated: Bool)
+	{
+		super.viewWillAppear(animated)
+//		self.navigationController?.navigationItem.hidesBackButton = true//self.navigationItem.hidesBackButton = true
+	}
+
+//	override init(frame: CGRect)
+//	{
+//		super.init(frame: frame)
+//		self.navigationController?.navigationItem.hidesBackButton = true
+//	}
+//
+//	required init?(coder aDecoder: NSCoder)
+//	{
+//		super.init(coder: aDecoder)
+//		fatalError("init(coder:) has not been implemented")
+//	}
+	
+	override func didReceiveMemoryWarning()
 	{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -155,10 +217,8 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	private func setupNavigation()
 	{
 //		navBar = (navigationController?.navigationBar)!
-		let navAppear = UINavigationBar.appearance()
-		navAppear.barTintColor = R.color.YumaRed
-//		navAppear.setBackgroundImage(gradientV(size: navBar.frame.size, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
-//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		let navAppear = UINavigationBar.appearance()
+//		navAppear.barTintColor = R.color.YumaRed
 		allStack.addSubview(navBar)
 		allStack.addConstraintsWithFormat(format: "H:|[v0]|", views: navBar)
 //		navBar.topAnchor.constraint(equalTo: allStack.topAnchor, constant: 0).isActive = true
@@ -179,20 +239,16 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			], for: UIControlState.highlighted)
 		navRight.rightBarButtonItem = navHelp
 		navBar.setItems([navLeft, navRight], animated: false)
-		navBar.topItem?.title = R.string.addAddr
+		navBar.topItem?.title = R.string.addAddr.capitalized
 		navBar.isTranslucent = false
-	}
-
-	func gradientV(size: CGSize, colors: [UIColor]) -> UIImage?
-	{
-		let cgcolors = colors.map { 	$0.cgColor 	}
-		UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
-		guard let context = UIGraphicsGetCurrentContext() else { 	return nil 	}
-		defer { 	UIGraphicsEndImageContext() 	}
-		var locations: [CGFloat] = [0.0, 1.0]
-		guard let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgcolors as NSArray as CFArray, locations: &locations) else { 	return nil 	}
-		context.drawLinearGradient(gradient, start: CGPoint(x: 0.0, y: 0.0), end: CGPoint(x: 0.0, y: size.height), options: [])
-		return UIGraphicsGetImageFromCurrentImageContext()
+		self.navigationItem.setHidesBackButton(true, animated: false)
+//		navBar.backItem?.hidesBackButton = true
+//		navigationController?.navigationBar.topItem?.hidesBackButton = false
+		navBar.layer.masksToBounds = false
+		navBar.layer.shadowColor = /*UIColor.black.cgColor*/R.color.YumaDRed.cgColor
+		navBar.layer.shadowOpacity = 1//0.8
+		navBar.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+		navBar.layer.shadowRadius = 1
 	}
 
 
@@ -209,20 +265,24 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 
 	func setupFields()
 	{
-		let scroll = UIScrollView()
-		scroll.translatesAutoresizingMaskIntoConstraints = false
-//		scroll.backgroundColor = UIColor.clear
-		let stack = UIStackView(arrangedSubviews: [alias, company, lastname, firstname, vatNo, addr1, addr2, pc, city, phone, other, mob, state, country])
+//		stack = UIStackView(arrangedSubviews: [alias, company, lastname, firstname, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other])
+		let stack = UIStackView(arrangedSubviews: [alias, company, lastname, firstname, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other])
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.axis = .vertical
 		stack.alignment = .fill
 		stack.distribution = .fill
 		stack.spacing = 5
+		stack.borderColor = UIColor.red
+		stack.borderWidth = 2
 		stack.backgroundColor = UIColor.blue	///!!!!?????
 		scroll.addSubview(stack)
+		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: alias)
+		scroll.addConstraintsWithFormat(format: "H:|[v0]|", views: stack)
+		scroll.addConstraintsWithFormat(format: "V:|[v0]|", views: stack)
+//		stack.addConstraint(NSLayoutConstraint(item: alias, attribute: .right, relatedBy: .equal, toItem: stack, attribute: .right, multiplier: 1, constant: 0))
 		NSLayoutConstraint.activate([
-			alias.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
-			alias.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+//			alias.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
+//			alias.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
 			company.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
 			company.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
 			lastname.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
@@ -239,29 +299,30 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			pc.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
 			city.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
 			city.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
-			phone.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
-			phone.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
-			other.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
-			other.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
-			mob.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
-			mob.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
 			state.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
 			state.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
 			country.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
 			country.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
-			stack.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 0),
-			stack.leadingAnchor.constraint(equalTo: scroll.leadingAnchor, constant: 0),
-			stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: 0),
-			stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: 0),
+			phone.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
+			phone.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+			mob.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
+			mob.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+			other.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
+			other.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+//			stack.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 0),
+//			stack.leadingAnchor.constraint(equalTo: scroll.leadingAnchor, constant: 0),
+//			stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: 0),
+//			stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: 0),
 			])
 		panel.addSubview(scroll)
-		scroll.contentSize.width = view.frame.width-20
-		NSLayoutConstraint.activate([
-			scroll.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
-			scroll.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
-			scroll.bottomAnchor.constraint(equalTo: panel.bottomAnchor, constant: 0),
-			scroll.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
-			])
+		panel.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: scroll)
+		panel.addConstraintsWithFormat(format: "V:|[v0]|", views: scroll)
+//		NSLayoutConstraint.activate([
+//			scroll.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
+////			scroll.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
+//			scroll.bottomAnchor.constraint(equalTo: panel.bottomAnchor, constant: 0),
+////			scroll.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
+//			])
 	}
 
 	
@@ -303,12 +364,12 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		phone.fieldFrame.borderColor = UIColor.clear
 		phone.fieldFrame.borderWidth = 2
 		phone.invalid.text = ""
-		other.fieldFrame.borderColor = UIColor.clear
-		other.fieldFrame.borderWidth = 2
-		other.invalid.text = ""
 		mob.fieldFrame.borderColor = UIColor.clear
 		mob.fieldFrame.borderWidth = 2
 		mob.invalid.text = ""
+		other.fieldFrame.borderColor = UIColor.clear
+		other.fieldFrame.borderWidth = 2
+		other.invalid.text = ""
 	}
 
 
@@ -326,8 +387,8 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		state.label.text = R.string.state
 		country.label.text = R.string.country
 		phone.label.text = R.string.ph
-		other.label.text = R.string.other
 		mob.label.text = R.string.ph_mob
+		other.label.text = R.string.other
 	}
 
 

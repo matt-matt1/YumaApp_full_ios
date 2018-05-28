@@ -619,7 +619,7 @@ extension CheckoutStepsCell: UICollectionViewDelegate, UICollectionViewDataSourc
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddrCellId", for: indexPath) as! Addr2CollectionViewCell
 		cell.aliasEdit.text = store.addresses[indexPath.item].alias
-		cell.addressEdit.text = store.formatAddress(store.addresses[indexPath.item])
+		cell.addressEdit.text = store.formatAddress(store.addresses[indexPath.item], phoneNums: .hideLast4)
 		return cell
 	}
 	

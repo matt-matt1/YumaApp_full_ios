@@ -25,11 +25,10 @@ class Addr2CollectionViewCell: UICollectionViewCell
 		addressBorder.borderColor = UIColor.white
 		addressBorder.borderWidth = 2
 		aliasEdit.text = address.alias
-		addressEdit.text = DataStore.sharedInstance.formatAddress(address)//R.formatAddress(address)
+		addressEdit.text = DataStore.sharedInstance.formatAddress(address, phoneNums: .hideLast4)
 		if address.deleted != nil && address.deleted != "" && address.deleted != "0"
 		{
 			let cellView = aliasBorder.superview?.superview
-			//			let deleted = UILabel(frame: CGRect(x: 0, y: ((aliasBorder?.superview?.frame.height)!/2)-20, width: aliasEdit.frame.width, height: 40))
 			let deleted = UILabel(frame: CGRect(x: 0, y: 50, width: aliasBorder.frame.width, height: 40))
 			deleted.backgroundColor = R.color.YumaRed.withAlphaComponent(0.7)
 			deleted.text = R.string.deld

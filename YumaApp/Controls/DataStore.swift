@@ -1221,9 +1221,17 @@ final class DataStore
 		let vc = 					sender as! UIViewController
 		vc.present(alertViewController, animated: true, completion: nil)
 	}
-	
+
+	enum PhoneNumsStyle
+	{
+		case none
+		case full
+		case hideLast4
+		case hideAll
+	}
+
 	/// Formats an address into a basic string (converting the countryID and the stateID)
-	func formatAddress(_ address: Address) -> String
+	func formatAddress(_ address: Address, phoneNums: PhoneNumsStyle) -> String
 	{
 		var formed = ""
 		if address.company != nil && address.company != ""
@@ -1295,7 +1303,7 @@ final class DataStore
 				{
 					if c.id == Int(address.id_country)
 					{
-						country = c.name![0].value!
+						country = valueById(object: c.name!, id: myLang)!//c.name![0].value!
 						break
 					}
 				}
@@ -1304,6 +1312,48 @@ final class DataStore
 			else
 			{
 				formed.append("\(address.id_country)\n")
+			}
+		}
+		if phoneNums != .hideAll
+		{
+			if address.phone != nil && address.phone != ""
+			{
+				if phoneNums == .hideLast4 && (address.phone?.count)! > 3
+				{
+					let start = address.phone?.index((address.phone?.startIndex)!, offsetBy: 4)
+					let end = address.phone?.endIndex
+					formed.append("\(address.phone!.replacingCharacters(in: start!..<end!, with: "****"))\n")
+				}
+				else
+				{
+					formed.append("\(address.phone!)\n")
+				}
+			}
+			if address.phone_mobile != nil && address.phone_mobile != ""
+			{
+				if phoneNums == .hideLast4 && (address.phone_mobile?.count)! > 3
+				{
+					let start = address.phone_mobile?.index((address.phone_mobile?.startIndex)!, offsetBy: 4)
+					let end = address.phone_mobile?.endIndex
+					formed.append("\(address.phone_mobile!.replacingCharacters(in: start!..<end!, with: "****"))\n")
+				}
+				else
+				{
+					formed.append("\(address.phone_mobile!)\n")
+				}
+			}
+			if address.other != nil && address.other != ""
+			{
+				if phoneNums == .hideLast4 && (address.other?.count)! > 3
+				{
+					let start = address.other?.index((address.other?.startIndex)!, offsetBy: 4)
+					let end = address.other?.endIndex
+					formed.append("\(address.other!.replacingCharacters(in: start!..<end!, with: "****"))\n")
+				}
+				else
+				{
+					formed.append("\(address.other!)\n")
+				}
 			}
 		}
 		return formed

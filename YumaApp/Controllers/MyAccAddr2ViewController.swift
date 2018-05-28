@@ -57,6 +57,18 @@ class MyAccAddr2ViewController: UIViewController
 	@IBOutlet weak var countryLabel: UILabel!
 	@IBOutlet weak var countryField: UITextField!
 	@IBOutlet weak var countryInvalid: UILabel!
+	@IBOutlet weak var phoneBorder: UIView!
+	@IBOutlet weak var phoneLabel: UILabel!
+	@IBOutlet weak var phoneField: UITextField!
+	@IBOutlet weak var phoneInvalid: UILabel!
+	@IBOutlet weak var mobBorder: UIView!
+	@IBOutlet weak var mobLabel: UILabel!
+	@IBOutlet weak var mobField: UITextField!
+	@IBOutlet weak var mobInvalid: UILabel!
+	@IBOutlet weak var otherBorder: UIView!
+	@IBOutlet weak var otherLabel: UILabel!
+	@IBOutlet weak var otherField: UITextField!
+	@IBOutlet weak var otherInvalid: UILabel!
 	@IBOutlet weak var rightPanelButton: GradientButton!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var pageControl: UIPageControl!
@@ -216,6 +228,37 @@ class MyAccAddr2ViewController: UIViewController
 	
 	
 ////////from AddressE...
+	
+	func clearErrors()
+	{
+		aliasBorder.borderColor = UIColor.clear
+		aliasInvalid.text = ""
+		fNameBorder.borderColor = UIColor.clear
+		fNameInvalid.text = ""
+		lNameBorder.borderColor = UIColor.clear
+		lNameInvalid.text = ""
+		bNameBorder.borderColor = UIColor.clear
+		bNameInvalid.text = ""
+		addr1Border.borderColor = UIColor.clear
+		addr1Invalid.text = ""
+		addr2Border.borderColor = UIColor.clear
+		addr2Invalid.text = ""
+		cityBorder.borderColor = UIColor.clear
+		cityInvalid.text = ""
+		postcodeBorder.borderColor = UIColor.clear
+		postcodeInvalid.text = ""
+		stateBorder.borderColor = UIColor.clear
+		stateInvalid.text = ""
+		countryBorder.borderColor = UIColor.clear
+		countryInvalid.text = ""
+		phoneBorder.borderColor = UIColor.clear
+		phoneInvalid.text = ""
+		mobBorder.borderColor = UIColor.clear
+		mobInvalid.text = ""
+		otherBorder.borderColor = UIColor.clear
+		otherInvalid.text = ""
+	}
+
 	func prepareLabels()
 	{
 //		navTitle.title = R.string.Addr
@@ -224,16 +267,9 @@ class MyAccAddr2ViewController: UIViewController
 //		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		aliasLabel.text = R.string.alias
 		aliasField.placeholder = R.string.nickName
-		aliasBorder.borderColor = UIColor.white
-		aliasInvalid.text = ""
 		fNameLabel.text = R.string.fName
-		fNameBorder.borderColor = UIColor.white
-		fNameInvalid.text = ""
 		lNameLabel.text = R.string.lName
-		lNameBorder.borderColor = UIColor.white
-		lNameInvalid.text = ""
 		bNameLabel.text = R.string.co
-		bNameBorder.borderColor = UIColor.white
 		bNameField.placeholder = R.string.optional
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
@@ -250,29 +286,18 @@ class MyAccAddr2ViewController: UIViewController
 		//Will attempt to recover by breaking constraint
 		//	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
-		bNameInvalid.text = ""
 		addr1Label.text = R.string.addr1
-		addr1Border.borderColor = UIColor.white
-		addr1Invalid.text = ""
 		addr2Label.text = R.string.addr2
-		addr2Border.borderColor = UIColor.white
 		addr2Field.placeholder = R.string.optional
 		let addr2Optional = UILabel()
 		addr2Optional.text = R.string.optional
 		//(addr2Border.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(addr2Optional)
-		addr2Invalid.text = ""
 		cityLabel.text = R.string.city
-		cityBorder.borderColor = UIColor.white
-		cityInvalid.text = ""
 		postcodeLabel.text = R.string.pcode
-		postcodeBorder.borderColor = UIColor.white
-		postcodeInvalid.text = ""
 		postcodeField.placeholder = "eg. A1B 2C3"
 		stateLabel.text = R.string.state
 		stateLabel.isUserInteractionEnabled = true
 		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
-		stateBorder.borderColor = UIColor.white
-		stateInvalid.text = ""
 //		let stateSelect = UIButton()
 //		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
 //		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
@@ -280,8 +305,6 @@ class MyAccAddr2ViewController: UIViewController
 		countryLabel.text = R.string.country
 		countryLabel.isUserInteractionEnabled = true
 		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
-		countryBorder.borderColor = UIColor.white
-		countryInvalid.text = ""
 //		let countrySelect = UIButton()
 //		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
 //		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
@@ -298,6 +321,9 @@ class MyAccAddr2ViewController: UIViewController
 				self.pickerStateData.append((s.name)!)
 			}
 		}
+		phoneLabel.text = R.string.ph
+		mobLabel.text = R.string.ph_mob
+		otherLabel.text = R.string.other
 		rightPanelButton.setTitle(R.string.upd.uppercased(), for: .normal)
 	}
 
@@ -332,12 +358,17 @@ class MyAccAddr2ViewController: UIViewController
 					break
 				}
 			}
+			phoneField.text = self.address?.phone
+			mobField.text = self.address?.phone_mobile
+			otherField.text = self.address?.other
+			fillStates(Int((self.address?.id_country)!)!)
 		}
 	}
 	
 	
 	func checkFields() -> Bool
 	{
+		clearErrors()
 		var status = true
 		for v in stackFields.subviews
 		{
