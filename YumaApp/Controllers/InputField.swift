@@ -37,7 +37,9 @@ enum inputType
 class InputField: UIView
 {
 	var placeholder = ""
+	/// Spacing to top of the whole field
 	var fieldFrameTop: Int = 5
+	/// Spacing from the left for the whole field
 	var fieldFrameLeft: Int = 10
 	let fieldFrame: UIView =
 	{
@@ -55,7 +57,9 @@ class InputField: UIView
 		view.textAlignment = .right
 		return view
 	}()
-	var labelMaxWidth: CGFloat = 100
+	/// Maximum allow space for the field label
+	var labelMaxWidth: CGFloat = 120
+	/// Space between field label and the dark area surrounding the input field
 	var gap: Int = 10
 	let container: UIView =
 	{
@@ -64,8 +68,11 @@ class InputField: UIView
 		view.backgroundColor = UIColor.lightGray
 		return view
 	}()
-	var containerHeight: Int = 50
+	/// Height of dark area surrounding the inout field
+	var containerHeight: Int = 45
+	/// Gap inside dark area, between the left edge and the input field's start
 	var textEditLeft: Int = 10
+	/// Size of the font in the input field
 	var textFontSize: CGFloat = 21
 	let textEdit: UITextField =
 	{
@@ -79,24 +86,35 @@ class InputField: UIView
 		view.isSecureTextEntry = true
 		return view
 	}()
+	/// Gap inside dark area, between the right edge and the input field's end
 	var textEditRight: Int = 10
+	/// Spacing between the dark area and the whole field's right edge
 	var fieldFrameRight: Int = 10
+	/// Invalid message font size
+	var invalidFontSize: CGFloat = 15
 	let invalid: UILabel =
 	{
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textAlignment = .center
+		view.font = UIFont.systemFont(ofSize: 15)
 		view.textColor = UIColor.red
 		view.text = "invalid"
 		return view
 	}()
-	var invalidGapTop: Int = 5
-	var invalidHeight: Int = 25
-	var invalidGapBottom: Int = 5
+	/// Spacing between the dark area's bottom and the invalid message's top
+	var invalidGapTop: Int = 2
+	/// Height of the invalid message
+	var invalidHeight: Int = 20
+	/// Spacing between the invalid message's bottom and the whole field
+	var invalidGapBottom: Int = 2
+	/// Spacing below the whole field's bottom
 	var fieldFrameBottom: Int = 5
 	var inputType: inputType?
 	var displayShowHideIcon = false
+	/// Size of font for Show/Hide icon
 	var showHideSize = 21
+	/// Show/Hide icon
 	let eye: UILabel =
 	{
 		let view = UILabel()
@@ -205,6 +223,10 @@ class InputField: UIView
 		}
 		fieldFrame.addSubview(container)
 		fieldFrame.addSubview(invalid)
+		if invalidFontSize != 15
+		{
+			textEdit.font = UIFont.systemFont(ofSize: invalidFontSize)
+		}
 		addSubview(fieldFrame)
 		fieldFrame.addConstraintsWithFormat(format: "H:|-\(fieldFrameLeft)-[v0(\(labelMaxWidth))]-\(gap)-[v1]-\(fieldFrameRight)-|", views: label, container)
 		fieldFrame.addConstraintsWithFormat(format: "H:|-\(fieldFrameLeft)-[v0]-\(fieldFrameRight)-|", views: invalid)

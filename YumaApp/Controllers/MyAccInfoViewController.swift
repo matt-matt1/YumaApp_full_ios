@@ -493,6 +493,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					{
 						title = R.string.err
 					}
+					UIViewController.removeSpinner(spinner: spinner)
 					OperationQueue.main.addOperation
 					{
 						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
@@ -535,7 +536,6 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 //						print("----add^")
 //					}
 //				}
-				UIViewController.removeSpinner(spinner: spinner)
 			}
 			else	//update information
 			{
@@ -589,6 +589,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					{
 						title = R.string.err
 					}
+					UIViewController.removeSpinner(spinner: spinner)
 					OperationQueue.main.addOperation
 					{
 						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
@@ -631,7 +632,6 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		//				print("fatal error: ", String(error.localizedDescription))
 		//			}
 		//		}
-				UIViewController.removeSpinner(spinner: spinner)
 			}
 		}
 	}

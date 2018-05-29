@@ -54,19 +54,30 @@ struct R {
 	
 	struct array
 	{
-		static let help_order_details_guide: [String] = [
+		static let help_add_address_guide: [String] =
+		[
+			"Enter your address details - an alias (nickname) is for easy reference",
+			"\"\(R.string.co)\", \"\(R.string.taxNo)\", \"\(R.string.addr2)\", \"\(R.string.state)\", \"\(R.string.ph)\", \"\(R.string.ph_mob)\" and \"\(R.string.other)\" are optional",//	\"\(R.string)\"
+			"TIP:  Enter your phone contact(s), so the couriers can notify you, if required",
+			"Press \"\(R.string.addAddr.uppercased())\" to save the information you entered"
+		]
+		
+		static let help_order_details_guide: [String] =
+		[
 			"Here are the details of this order",
 			"Along with the order reference, date, carrier, payment method, status steps, addresses and messages, the item(s) and their quantities are itemized, with the shipping, tax and grand total",
 			"Press \"\(R.string.reorder)\" to order the same item(s) again",
 			"To add a message, first select a product:  Press the \"\(R.string.prod)\" gray box to get a popup with a list of the products on this order (the first product is automattically selected);  press the \"\(R.string.msg)\" gray box and enter a message;  then press \"\(R.string.addMsg)\"",
 		]
 		
-		static let help_forgot_pw_guide: [String] = [
+		static let help_forgot_pw_guide: [String] =
+		[
 			"Enter your email address (remember the '@' symbol) and press \"\(R.string.proceed)\"",
 			"If an account with that email address is found, a popup box will appear for setting a new password"
 		]
 		
-		static let help_my_account_guide: [String] = [
+		static let help_my_account_guide: [String] =
+		[
 			"Here are some the choices to make:",
 			"Press \"\(R.string.Info)\" to see your details, like your profile",
 			"Press \"\(R.string.Addrs)\" to see each address, if any, related to your account",
@@ -551,6 +562,7 @@ struct R {
 		static let Addr = "Address"
 		static let alias = "Alias"
 		static let co = "Company"
+		static let taxNo = "Tax Number"
 		static let addr1 = "Address line1"
 		static let addr2 = "Address line2"
 		static let pcode = "Postcode"

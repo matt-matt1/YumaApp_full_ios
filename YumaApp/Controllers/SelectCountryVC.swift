@@ -17,26 +17,30 @@ class SelectCountryVC: UIViewController
 	var searchControl: UISearchController =
 	{
 		let view = UISearchController(searchResultsController: nil)
+		view.searchBar.placeholder = "\(R.string.search_hint) \(R.string.country)"
+		view.searchBar.tintColor = R.color.YumaRed
+		view.searchBar.autocapitalizationType = .none
 		return view
 	}()
 //	var searchBox: UISearchBar!
-	var searchBox: UISearchBar =
-	{
-		let view = UISearchBar()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.isUserInteractionEnabled = false
-//		view.showsCancelButton = true
-		view.showsBookmarkButton = false
-//		view.searchBarStyle = UISearchBarStyle.default
-		view.placeholder = "\(R.string.search_hint) \(R.string.country)"
-		view.tintColor = R.color.YumaRed
-		view.autocapitalizationType = .none
-		view.showsSearchResultsButton = false
-		return view
-	}()
+//	var searchBox: UISearchBar =
+//	{
+//		let view = UISearchBar()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.isUserInteractionEnabled = false
+////		view.showsCancelButton = true
+//		view.showsBookmarkButton = false
+////		view.searchBarStyle = UISearchBarStyle.default
+//		view.placeholder = "\(R.string.search_hint) \(R.string.country)"
+//		view.tintColor = R.color.YumaRed
+//		view.autocapitalizationType = .none
+//		view.showsSearchResultsButton = false
+//		return view
+//	}()
 	var find: String?
 	var isSearching = false
-	var records: [Country] = []
+	private var isRemovingTextWithBackspace = true
+//	var records: [Country] = []
 	var filtered: [Country] = []
 	static var selectedRow = IndexPath(row: 0, section: 0)
 	let dialogWindow: UIView =
@@ -132,8 +136,8 @@ class SelectCountryVC: UIViewController
 		dialogWidth = min(max(view.frame.width/2, minWidth), maxWidth)
 		dialogHeight = min(max(view.frame.height/2, minHeight), maxHeight)
 		self.view.backgroundColor = R.color.YumaRed.withAlphaComponent(backgroundAlpha)
-		records.removeAll()
-		records = store.countries
+//		records.removeAll()
+//		records = store.countries
 		definesPresentationContext = true
 //		searchBox = searchControl.searchBar
 		
@@ -143,8 +147,10 @@ class SelectCountryVC: UIViewController
 		drawButton()
 		
 		let str = "V:|[v0(\(titleBarHeight))][v1(\(searchBoxHeight))][v2]-5-[v3(\(buttonHeight))]-5-|"
-		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonSingle)
-		
+		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchControl.searchBar, tableView, buttonSingle)
+//		let str = "V:|[v0(\(titleBarHeight))][v1]-5-[v2(\(buttonHeight))]-5-|"
+//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, tableView, buttonSingle)
+
 		drawDialog()
 		DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute:
 		{
@@ -188,15 +194,20 @@ class SelectCountryVC: UIViewController
 	func drawSearch()
 	{
 		filtered = store.countries
-		dialogWindow.addSubview(searchBox)
-		searchBox.delegate = self
-		searchBox.becomeFirstResponder()
-		searchBox.returnKeyType = UIReturnKeyType.done
+		dialogWindow.addSubview(searchControl.searchBar)
+		searchControl.searchBar.delegate = self
+		searchControl.searchBar.becomeFirstResponder()
+		searchControl.searchBar.returnKeyType = .done
+//		dialogWindow.addSubview(searchBox)
+//		searchBox.delegate = self
+//		searchBox.becomeFirstResponder()
+//		searchBox.returnKeyType = UIReturnKeyType.done
 		
 		searchControl.searchResultsUpdater = self
 		searchControl.dimsBackgroundDuringPresentation = false
 
-		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchBox)
+//		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchBox)
+		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchControl.searchBar)
 	}
 	
 	
@@ -420,8 +431,31 @@ extension SelectCountryVC: UISearchBarDelegate, UISearchResultsUpdating
 		self.tableView.reloadData()
 	}
 
+//	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+//	{
+//		self.isRemovingTextWithBackspace = (NSString(string: searchBar.text!).replacingCharacters(in: range, with: text).count == 0)
+//		return true
+//	}
+
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
 	{
+//		if isSearching
+//		{
+//			searchBarShouldBeginEditing = searchBar.isFirstResponder
+//		}
+//		if searchText.count == 0 && !isRemovingTextWithBackspace
+//		{
+////			NSLog("Has clicked on clear!")
+//			print("Has clicked on clear!")
+//		}
+//		if !searchBar.isFirstResponder
+//		{
+//			shouldBeginEditing = false
+//		}
+//		else if (searchBar.text?.isEmpty)!
+//		{
+//			performSelector(onMainThread: "resignFirstResponder", with: nil, waitUntilDone: true, modes: nil)
+//		}
 //		if searchBar == searchBox
 //		{
 			if searchBar.text == nil || (searchBar.text?.isEmpty)!
@@ -444,24 +478,35 @@ extension SelectCountryVC: UISearchBarDelegate, UISearchResultsUpdating
 			tableView.reloadData()
 //		}
 	}
+	
+//	@objc func makeSearchBarFirstResponder(_ sender: UISearchBar)
+//	{
+//		sender.becomeFirstResponder()
+//	}
 
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
 	{
+//		searchBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(makeSearchBarFirstResponder(_:))))
+//		print("searchBarTextDidBeginEditing")//fires on start typing
 		isSearching = true
 	}
 
 	func searchBarTextDidEndEditing(_ searchBar: UISearchBar)
 	{
+//		print("searchBarTextDidEndEditing")//fires on delete all characters
 		isSearching = false
 	}
 
 	func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
 	{
+		searchBar.text = ""
+		print("searchBarCancelButtonClicked")
 		isSearching = false
 	}
 
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
 	{
+		print("searchBarSearchButtonClicked")
 		isSearching = false
 	}
 

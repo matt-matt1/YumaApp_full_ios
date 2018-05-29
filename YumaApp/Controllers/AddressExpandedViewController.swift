@@ -102,6 +102,20 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
         // Dispose of any resources that can be recreated.
     }
 
+	deinit
+	{
+		if #available(iOS 9, *)
+		{
+			//
+		}
+		else
+		{
+			let notificationCenter = NotificationCenter.default
+			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
+			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+			notificationCenter.removeObserver(self, name: AddressExpandedViewController.selectCountry, object: nil)
+		}
+	}
 
 	// MARK: Methods
 	fileprivate func setupNavigation()
@@ -134,76 +148,55 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	}
 
 
-	func clearErrors()
-	{
-		aliasBorder.borderColor = UIColor.clear
-		aliasInvalid.text = ""
-		fNameBorder.borderColor = UIColor.clear
-		fNameInvalid.text = ""
-		lNameBorder.borderColor = UIColor.clear
-		lNameInvalid.text = ""
-		bNameBorder.borderColor = UIColor.clear
-		bNameInvalid.text = ""
-		addr1Border.borderColor = UIColor.clear
-		addr1Invalid.text = ""
-		addr2Border.borderColor = UIColor.clear
-		addr2Invalid.text = ""
-		cityBorder.borderColor = UIColor.clear
-		cityInvalid.text = ""
-		postcodeBorder.borderColor = UIColor.clear
-		postcodeInvalid.text = ""
-		stateBorder.borderColor = UIColor.clear
-		stateInvalid.text = ""
-		countryBorder.borderColor = UIColor.clear
-		countryInvalid.text = ""
-		phoneBorder.borderColor = UIColor.clear
-		phoneInvalid.text = ""
-		mobBorder.borderColor = UIColor.clear
-		mobInvalid.text = ""
-		otherBorder.borderColor = UIColor.clear
-		otherInvalid.text = ""
-	}
-
 	func prepareLabels()
 	{
 		aliasLabel.text = R.string.alias
+		aliasInvalid.text = "\(R.string.invalid.capitalized) \(R.string.alias)"
 		aliasField.placeholder = R.string.nickName
 		fNameLabel.text = R.string.fName
+		fNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.fName)"
 		lNameLabel.text = R.string.lName
+		lNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.lName)"
 		bNameLabel.text = R.string.co
 		bNameField.placeholder = R.string.optional
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
+		bNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.co)"
+		//		(bNameBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(bNameOptional)
+		//^
+		//[LayoutConstraints] Unable to simultaneously satisfy constraints.
+		//		(
+		//		"<NSLayoutConstraint:0x60400028d020 H:[UIView:0x7f96d5743340]-(0)-|   (active, names: '|':UIStackView:0x7f96d5742e50 )>",
+		//		"<NSLayoutConstraint:0x60400028f960 'UISV-canvas-connection' H:[UILabel:0x7f96d565c810'Optional']-(0)-|   (active, names: '|':UIStackView:0x7f96d5742e50 )>",
+		//		"<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>"
+		//		)
+		//
+		//Will attempt to recover by breaking constraint
+		//	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
 		//print(bNameOptional.frame)
-//		(bNameBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(bNameOptional)
-//^
-//[LayoutConstraints] Unable to simultaneously satisfy constraints.
-//		(
-//		"<NSLayoutConstraint:0x60400028d020 H:[UIView:0x7f96d5743340]-(0)-|   (active, names: '|':UIStackView:0x7f96d5742e50 )>",
-//		"<NSLayoutConstraint:0x60400028f960 'UISV-canvas-connection' H:[UILabel:0x7f96d565c810'Optional']-(0)-|   (active, names: '|':UIStackView:0x7f96d5742e50 )>",
-//		"<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>"
-//		)
-//
-//Will attempt to recover by breaking constraint
-//	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
 		addr1Label.text = R.string.addr1
+		addr1Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr1)"
 		addr2Label.text = R.string.addr2
+		addr2Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr2)"
 		addr2Field.placeholder = R.string.optional
 		let addr2Optional = UILabel()
 		addr2Optional.text = R.string.optional
 		cityLabel.text = R.string.city
+		cityInvalid.text = "\(R.string.invalid.capitalized) \(R.string.city)"
 		postcodeLabel.text = R.string.pcode
+		postcodeInvalid.text = "\(R.string.invalid.capitalized) \(R.string.pcode)"
 		postcodeField.placeholder = "eg. A1B 2C3"
 //		let stateSelect = UIButton()
 //		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
 //		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		countryLabel.text = R.string.country
+		countryInvalid.text = "\(R.string.invalid.capitalized) \(R.string.country)"
 		countryLabel.isUserInteractionEnabled = true
 		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
 		stateLabel.text = R.string.state
+		stateInvalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
 		stateLabel.isUserInteractionEnabled = true
-//		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
 //		let countrySelect = UIButton()
 //		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
 //		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
@@ -216,17 +209,47 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		pickerCountryData = store.countries
 		pickerState.dataSource = self
 		pickerState.delegate = self
-		store.callGetStates(id_country: store.defaultCountry) { (states, err) in
-			let states = states as! [CountryState]
-			for s in states
-			{
-				self.pickerStateData.append((s.name)!)
-			}
-		}
 		phoneLabel.text = R.string.ph
+		phoneInvalid.text = "\(R.string.invalid.capitalized) \(R.string.ph)"
+		phoneField.placeholder = R.string.optional
 		mobLabel.text = R.string.ph_mob
+		mobInvalid.text = "\(R.string.invalid.capitalized) \(R.string.ph_mob)"
+		mobField.placeholder = R.string.optional
 		otherLabel.text = R.string.other
+		otherInvalid.text = "\(R.string.invalid.capitalized) \(R.string.other)"
+		otherField.placeholder = R.string.optional
 		button.setTitle(R.string.upd.uppercased(), for: .normal)
+	}
+
+
+	func clearErrors()
+	{
+		aliasBorder.borderColor = UIColor.clear
+		aliasInvalid.alpha = 0
+		fNameBorder.borderColor = UIColor.clear
+		fNameInvalid.alpha = 0
+		lNameBorder.borderColor = UIColor.clear
+		lNameInvalid.alpha = 0
+		bNameBorder.borderColor = UIColor.clear
+		bNameInvalid.alpha = 0
+		addr1Border.borderColor = UIColor.clear
+		addr1Invalid.alpha = 0
+		addr2Border.borderColor = UIColor.clear
+		addr2Invalid.alpha = 0
+		cityBorder.borderColor = UIColor.clear
+		cityInvalid.alpha = 0
+		postcodeBorder.borderColor = UIColor.clear
+		postcodeInvalid.alpha = 0
+		stateBorder.borderColor = UIColor.clear
+		stateInvalid.alpha = 0
+		countryBorder.borderColor = UIColor.clear
+		countryInvalid.alpha = 0
+		phoneBorder.borderColor = UIColor.clear
+		phoneInvalid.alpha = 0
+		mobBorder.borderColor = UIColor.clear
+		mobInvalid.alpha = 0
+		otherBorder.borderColor = UIColor.clear
+		otherInvalid.alpha = 0
 	}
 
 
@@ -242,6 +265,19 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			addr2Field.text = self.address?.address2
 			cityField.text = self.address?.city
 			postcodeField.text = self.address?.postcode
+			store.callGetStates(id_country: store.defaultCountry) { (states, err) in
+				if let states = states as? [CountryState]
+				{
+					for s in states
+					{
+						self.pickerStateData.append((s.name)!)
+					}
+					OperationQueue.main.addOperation
+					{
+						self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+					}
+				}
+			}
 			for state in store.states
 			{
 				if state.id! == Int((self.address?.id_state)!)!
@@ -270,7 +306,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 
 	func checkFields() -> Bool
 	{
-		clearErrors()
+//		clearErrors()
 		var status = true
 		for v in stackFields.subviews
 		{
@@ -282,13 +318,13 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 					if field.placeholder != R.string.optional && ((field.text?.isEmpty)! || String(field.text!).count < 2)
 					{
 						v.borderColor = UIColor.red
-						invalid.text = R.string.invalid
+						invalid.alpha = 1
 						status = true
 					}
 					else
 					{
 						v.borderColor = UIColor.clear
-						invalid.text = ""
+						invalid.alpha = 0
 					}
 				}
 			}
@@ -409,31 +445,38 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			if countryField.text != store.valueById(object: row.name!, id: store.myLang)
 			{
 				countryField.text = store.valueById(object: row.name!, id: store.myLang)
+				stateField.text = ""
 				if row.containsStates != nil && row.containsStates != false
 				{
-					if stateBorder.alpha < 1
-					{
-						stateBorder.alpha = 1
-					}
+//					if stateBorder.alpha < 1
+//					{
+//						stateBorder.alpha = 1
+//					}
 					fillStates(row.id!)
 					stateField.placeholder = R.string.select
 					OperationQueue.main.addOperation
 					{
-						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
-						{
-							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-						}
+						// WHY CAN'T REMOVE GESTURE...
+//						if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
+//						{
+//							self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//						}
+						self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
 					}
 				}
 				else
 				{
-					stateBorder.alpha = 0.2
+//					stateBorder.alpha = 0.2
+					stateField.text = "N/A"
 					OperationQueue.main.addOperation
 					{
-						self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+						if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
+						{
+							self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+							self.pickerStateData.removeAll()
+						}
 					}
 				}
-				stateField.text = ""
 			}
 		}
 	}
@@ -462,7 +505,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				let country = countryField.text
 				if country != nil
 				{
-					vc?.titleLbl.text?.append(" (\(country!))")
+					vc?.titleLbl.text?.append(" (\(country!.uppercased()))")
 				}
 				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
 				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
