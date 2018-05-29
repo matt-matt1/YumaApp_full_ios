@@ -54,24 +54,14 @@ struct R {
 	
 	struct array
 	{
-		static let help_add_address_guide: [String] =
-		[
+		static let help_add_address_guide: [String] = [
 			"Enter your address details - an alias (nickname) is for easy reference",
 			"\"\(R.string.co)\", \"\(R.string.taxNo)\", \"\(R.string.addr2)\", \"\(R.string.state)\", \"\(R.string.ph)\", \"\(R.string.ph_mob)\" and \"\(R.string.other)\" are optional",//	\"\(R.string)\"
 			"TIP:  Enter your phone contact(s), so the couriers can notify you, if required",
 			"Press \"\(R.string.addAddr.uppercased())\" to save the information you entered"
 		]
 		
-		static let help_order_details_guide: [String] =
-		[
-			"Here are the details of this order",
-			"Along with the order reference, date, carrier, payment method, status steps, addresses and messages, the item(s) and their quantities are itemized, with the shipping, tax and grand total",
-			"Press \"\(R.string.reorder)\" to order the same item(s) again",
-			"To add a message, first select a product:  Press the \"\(R.string.prod)\" gray box to get a popup with a list of the products on this order (the first product is automattically selected);  press the \"\(R.string.msg)\" gray box and enter a message;  then press \"\(R.string.addMsg)\"",
-		]
-		
-		static let help_forgot_pw_guide: [String] =
-		[
+		static let help_forgot_pw_guide: [String] = [
 			"Enter your email address (remember the '@' symbol) and press \"\(R.string.proceed)\"",
 			"If an account with that email address is found, a popup box will appear for setting a new password"
 		]
@@ -107,9 +97,16 @@ struct R {
 		static let help_my_account_order_history_guide: [String] = [
 			"Displays a table of the orders made, if any",
 			"Press \"\(R.string.details)\" to view more information",
-			"Press \"\(R.string.reorder)\" to place the whole order again"
+			"Press \"\(R.string.reorder)\" to place the whole order again, if the store permits it"
 		]
 		
+		static let help_order_details_guide: [String] = [
+			"Here are the details of this order",
+			"Along with the order reference, date, carrier, payment method, status steps, addresses and messages, the item(s) and their quantities are itemized, with the shipping, tax and grand total",
+			"Press \"\(R.string.reorder)\" to order the same item(s) again, if the store permits it",
+			"To add a message, first select a product:  Press the \"\(R.string.prod)\" gray box to get a popup with a list of the products on this order (the first product is automattically selected);  press the \"\(R.string.msg)\" gray box and enter a message;  then press \"\(R.string.addMsg)\"",
+		]
+
 		static let help_login_guide: [String] = [
 			"If you have an account with the store, enter your email address (eg. sam@amce_inc.com) and your password, then press the \"\(R.string.login)\" button",
 			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app prompt for login next time",
@@ -168,10 +165,10 @@ struct R {
 		static let help_contact_us_guide: [String] = [
 			"This page details how you can contact us - phone, email and visit",
 			"Press the \"\(R.string.phoneAct)\" button to place our phone number into your dialer",
-			"Press the \"\(R.string.email)\" button and a popup window will ask you to select the destination; then it will create a new message and use the email address placed into the To address",
+			"Press the \"\(R.string.email)\" button and a popup window will ask you to select the destination; then it will create a new message and place the destination's email address as the To address",
 			"A map will be displayed with a red pin at our location; your current location is marked with a blue plusating dot",
 //			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
-			"TIP:  You can press \"\(R.string.plotMe)\" and a route will be drawn between your location and our local store",
+			"TIP:  You can press \"\(R.string.plotMe)\", if you have internet facilities, and a route will be drawn between your location and our local store",
 			"Press the \"\(R.string.map_big)\" button, if you have internet facilities, to display a full-screen map with a pin at our location",
 			"TIP:  The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
@@ -523,7 +520,7 @@ struct R {
 		static let withoutMore = "ie. Forget delerivy address"
 		static let noAuth = "Cannot authorize any user"
 		static let resetOnly = "You can regenerate your password only every %d minute(s)"
-		static let same = "Don't change"
+		static let same = "Keep the same or press to change"
 		//		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"
@@ -615,7 +612,7 @@ struct R {
 		static let APIjson = "output_format=JSON"
 		static let APIfull = "display=full"
 		//		<!--help-->
-		static let help = "Assistance"
+		static let help = "Help"//"Assistance"
 		static let section_name = "section name"
 		static let help2 = "All Guides"
 		//		<!--orders-->

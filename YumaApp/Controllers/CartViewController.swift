@@ -356,6 +356,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_cart_guide
+		viewC.title = "\(R.string.cart.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle   = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

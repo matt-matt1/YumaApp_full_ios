@@ -650,6 +650,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		{
 			viewC.array = R.array.help_my_account_information_guide.newUser
 		}
+		viewC.title = "\(R.string.my_account.capitalized) \(R.string.Info.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

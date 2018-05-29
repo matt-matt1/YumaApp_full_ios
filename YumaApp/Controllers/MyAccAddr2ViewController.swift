@@ -94,16 +94,57 @@ class MyAccAddr2ViewController: UIViewController
 	{
         super.viewDidLoad()
 
-		collectionView.delegate = self
-		collectionView.dataSource = self
+		setCollection()
 		scrollForm.delegate = self
 		getAddress()
 		pageControl.numberOfPages = addresses.count
 		pageControl.currentPage = 0
+		setNavigation()
+		if self.view.frame.width > 900
+		{
+			rightPanelButton.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.75, isVertical: true)
+			self.address = self.addresses[pageControl.currentPage]
+			prepareLabels()
+			clearErrors()
+			fillDetails()
+			//set divider width
+			leftButtonLeft.alpha = 0
+			//add AddressExpandedViewController
+		}
+		let notificationCenter = NotificationCenter.default
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
+    }
+
+	
+	override func viewDidAppear(_ animated: Bool)
+	{
+		super.viewDidAppear(animated)
+		collectionView.reloadData()
+	}
+
+
+	override func didReceiveMemoryWarning()
+	{
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+	// MARK: Methods
+	fileprivate func setCollection()
+	{
+		collectionView.delegate = self
+		collectionView.dataSource = self
 		collectionView?.isPagingEnabled = true
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		collectionView.collectionViewLayout = layout
+	}
+	
+	fileprivate func setNavigation()
+	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)	//navigation
 		navTitle.title = "\(R.string.my_account) \(R.string.Addr)"
 		navHelp.title = FontAwesome.questionCircle.rawValue
@@ -136,38 +177,8 @@ class MyAccAddr2ViewController: UIViewController
 		leftButtonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		leftButtonRight.setTitle(R.string.delete.uppercased(), for: .normal)
 		leftButtonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		if self.view.frame.width > 900
-		{
-			rightPanelButton.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-			self.address = self.addresses[pageControl.currentPage]
-			prepareLabels()
-			fillDetails()
-			//set divider width
-			leftButtonLeft.alpha = 0
-			//add AddressExpandedViewController
-		}
-		let notificationCenter = NotificationCenter.default
-		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
-		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
-		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
-    }
-
-	
-	override func viewDidAppear(_ animated: Bool)
-	{
-		super.viewDidAppear(animated)
-		collectionView.reloadData()
 	}
-
-
-	override func didReceiveMemoryWarning()
-	{
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-	// MARK: Methods
+	
 	func getAddress()
 	{
 		if store.addresses.count < 1
@@ -232,31 +243,31 @@ class MyAccAddr2ViewController: UIViewController
 	func clearErrors()
 	{
 		aliasBorder.borderColor = UIColor.clear
-		aliasInvalid.text = ""
+		aliasInvalid.alpha = 0
 		fNameBorder.borderColor = UIColor.clear
-		fNameInvalid.text = ""
+		fNameInvalid.alpha = 0
 		lNameBorder.borderColor = UIColor.clear
-		lNameInvalid.text = ""
+		lNameInvalid.alpha = 0
 		bNameBorder.borderColor = UIColor.clear
-		bNameInvalid.text = ""
+		bNameInvalid.alpha = 0
 		addr1Border.borderColor = UIColor.clear
-		addr1Invalid.text = ""
+		addr1Invalid.alpha = 0
 		addr2Border.borderColor = UIColor.clear
-		addr2Invalid.text = ""
+		addr2Invalid.alpha = 0
 		cityBorder.borderColor = UIColor.clear
-		cityInvalid.text = ""
+		cityInvalid.alpha = 0
 		postcodeBorder.borderColor = UIColor.clear
-		postcodeInvalid.text = ""
+		postcodeInvalid.alpha = 0
 		stateBorder.borderColor = UIColor.clear
-		stateInvalid.text = ""
+		stateInvalid.alpha = 0
 		countryBorder.borderColor = UIColor.clear
-		countryInvalid.text = ""
+		countryInvalid.alpha = 0
 		phoneBorder.borderColor = UIColor.clear
-		phoneInvalid.text = ""
+		phoneInvalid.alpha = 0
 		mobBorder.borderColor = UIColor.clear
-		mobInvalid.text = ""
+		mobInvalid.alpha = 0
 		otherBorder.borderColor = UIColor.clear
-		otherInvalid.text = ""
+		otherInvalid.alpha = 0
 	}
 
 	func prepareLabels()
@@ -266,14 +277,17 @@ class MyAccAddr2ViewController: UIViewController
 //		navHelp.title = FontAwesome.questionCircle.rawValue
 //		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		aliasLabel.text = R.string.alias
+		aliasInvalid.text = "\(R.string.invalid.capitalized) \(R.string.alias)"
 		aliasField.placeholder = R.string.nickName
 		fNameLabel.text = R.string.fName
+		fNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.fName)"
 		lNameLabel.text = R.string.lName
+		lNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.lName)"
 		bNameLabel.text = R.string.co
 		bNameField.placeholder = R.string.optional
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
-		//print(bNameOptional.frame)
+		bNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.co)"
 		//		(bNameBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(bNameOptional)
 		//^
 		//[LayoutConstraints] Unable to simultaneously satisfy constraints.
@@ -285,45 +299,61 @@ class MyAccAddr2ViewController: UIViewController
 		//
 		//Will attempt to recover by breaking constraint
 		//	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
+		//print(bNameOptional.frame)
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
 		addr1Label.text = R.string.addr1
+		addr1Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr1)"
 		addr2Label.text = R.string.addr2
+		addr2Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr2)"
 		addr2Field.placeholder = R.string.optional
 		let addr2Optional = UILabel()
 		addr2Optional.text = R.string.optional
-		//(addr2Border.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(addr2Optional)
 		cityLabel.text = R.string.city
+		cityInvalid.text = "\(R.string.invalid.capitalized) \(R.string.city)"
 		postcodeLabel.text = R.string.pcode
+		postcodeInvalid.text = "\(R.string.invalid.capitalized) \(R.string.pcode)"
 		postcodeField.placeholder = "eg. A1B 2C3"
-		stateLabel.text = R.string.state
-		stateLabel.isUserInteractionEnabled = true
-		stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectAState(_:))))
-//		let stateSelect = UIButton()
-//		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
-//		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
-		//(stateBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(stateSelect)
+		//		let stateSelect = UIButton()
+		//		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
+		//		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		countryLabel.text = R.string.country
+		countryLabel.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+		countryLabel.cornerRadius = 4
+		countryLabel.borderWidth = 1
+		countryLabel.borderColor = R.color.YumaRed
+		countryLabel.textAlignment = .center
+		countryInvalid.text = "\(R.string.invalid.capitalized) \(R.string.country)"
 		countryLabel.isUserInteractionEnabled = true
-		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
-//		let countrySelect = UIButton()
-//		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
-//		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
-		//(countryBorder.subviews.first?.subviews.first as! UIStackView).addArrangedSubview(countrySelect)
-		pickerCountry.dataSource = self
-		pickerCountry.delegate = self
-		pickerCountryData = store.countries
-		pickerState.dataSource = self
-		pickerState.delegate = self
-		store.callGetStates(id_country: store.defaultCountry) { (states, err) in
-			let states = states as! [CountryState]
-			for s in states
-			{
-				self.pickerStateData.append((s.name)!)
-			}
-		}
+		countryBorder.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
+		stateLabel.text = R.string.state
+		stateLabel.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+		stateLabel.cornerRadius = 4
+		stateLabel.borderWidth = 1
+		stateLabel.borderColor = R.color.YumaRed
+		stateLabel.textAlignment = .center
+		stateInvalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
+		stateLabel.isUserInteractionEnabled = true
+		//		let countrySelect = UIButton()
+		//		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
+		//		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
+		//		pickerCountry.dataSource = self
+		//		pickerCountry.delegate = self
+		//		for c in store.countries
+		//		{
+		//			pickerCountryData[c.name![store.myLang].value!] = Int(c.id!)
+		//		}
+		//		pickerCountryData = store.countries
+		//		pickerState.dataSource = self
+		//		pickerState.delegate = self
 		phoneLabel.text = R.string.ph
+		phoneInvalid.text = "\(R.string.invalid.capitalized) \(R.string.ph)"
+		phoneField.placeholder = R.string.optional
 		mobLabel.text = R.string.ph_mob
+		mobInvalid.text = "\(R.string.invalid.capitalized) \(R.string.ph_mob)"
+		mobField.placeholder = R.string.optional
 		otherLabel.text = R.string.other
+		otherInvalid.text = "\(R.string.invalid.capitalized) \(R.string.other)"
+		otherField.placeholder = R.string.optional
 		rightPanelButton.setTitle(R.string.upd.uppercased(), for: .normal)
 	}
 
@@ -340,6 +370,19 @@ class MyAccAddr2ViewController: UIViewController
 			addr2Field.text = self.address?.address2
 			cityField.text = self.address?.city
 			postcodeField.text = self.address?.postcode
+			store.callGetStates(id_country: store.defaultCountry) { (states, err) in
+				if let states = states as? [CountryState]
+				{
+					for s in states
+					{
+						self.pickerStateData.append((s.name)!)
+					}
+					OperationQueue.main.addOperation
+						{
+							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+					}
+				}
+			}
 			for state in store.states
 			{
 				if state.id! == Int((self.address?.id_state)!)!
@@ -368,7 +411,7 @@ class MyAccAddr2ViewController: UIViewController
 	
 	func checkFields() -> Bool
 	{
-		clearErrors()
+//		clearErrors()
 		var status = true
 		for v in stackFields.subviews
 		{
@@ -380,18 +423,49 @@ class MyAccAddr2ViewController: UIViewController
 					if field.placeholder != R.string.optional && ((field.text?.isEmpty)! || String(field.text!).count < 2)
 					{
 						v.borderColor = UIColor.red
-						invalid.text = R.string.invalid
+						invalid.alpha = 1
 						status = true
 					}
 					else
 					{
 						v.borderColor = UIColor.clear
-						invalid.text = ""
+						invalid.alpha = 0
 					}
 				}
 			}
 		}
 		return status
+	}
+	
+	fileprivate func fillStates(_ countryId: Int)
+	{
+		store.callGetStates(id_country: countryId, completion:{ (states, err) in
+			self.pickerStateData.removeAll()
+			if let states = states as? [CountryState]
+			{
+				for s in states
+				{
+					self.pickerStateData.append(s.name!)
+				}
+				OperationQueue.main.addOperation
+					{
+						self.stateField.placeholder = "< \(R.string.select)"
+						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
+						{
+							self.stateBorder.alpha = 1
+							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+						}
+				}
+			}
+			else
+			{
+				OperationQueue.main.addOperation
+					{
+						self.stateBorder.alpha = 0.2
+						self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+				}
+			}
+		})
 	}
 ////////end
 	
@@ -623,6 +697,7 @@ class MyAccAddr2ViewController: UIViewController
 		{
 			viewC.array = R.array.help_my_account_addresses_guide.narrow
 		}
+		viewC.title = "\(R.string.Addr.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
@@ -667,125 +742,5 @@ extension MyAccAddr2ViewController: UICollectionViewDataSource, UICollectionView
 		//print("collView height was=\(view.frame.height), now=\(view.frame.height/3*2)")
 		return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
 	}
-	
-}
-
-
-
-extension MyAccAddr2ViewController: UIPickerViewDataSource, UIPickerViewDelegate
-{
-	func numberOfComponents(in pickerView: UIPickerView) -> Int
-	{
-		return 1
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData.count
-		}
-		else
-		{
-			return pickerCountryData.count
-		}
-	}
-	
-	fileprivate func fillStates(_ countryId: Int)
-	{
-		store.callGetStates(id_country: countryId, completion:{ (states, err) in
-			self.pickerStateData.removeAll()
-			if let states = states as? [CountryState]
-			{
-				for s in states
-				{
-					self.pickerStateData.append(s.name!)
-				}
-				OperationQueue.main.addOperation
-					{
-						self.stateField.placeholder = R.string.select
-						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
-						{
-							self.stateBorder.alpha = 1
-							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-						}
-				}
-			}
-			else
-			{
-				OperationQueue.main.addOperation
-				{
-					self.stateBorder.alpha = 0.2
-					self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-				}
-			}
-		})
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData[row]
-		}
-		else if pickerView == pickerCountry
-		{
-			for c in pickerCountryData
-			{
-				if c.id == row+1
-				{
-					if displaySelectACountryDONE
-					{
-						fillStates(c.id!)
-					}
-				}
-			}
-			return "\(R.string.select) \(R.string.country)"
-		}
-		return R.string.select
-	}
-
-//	func numberOfComponents(in pickerView: UIPickerView) -> Int
-//	{
-//		return 2
-//	}
-//
-//	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-//	{
-//		return pickerData.count
-//	}
-//
-//	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-//	{
-//		return pickerData[component][row]//R.string.plsChoose
-//	}
-//
-//	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-//	{
-//		stateField.text = pickerData[component][row]
-//		countryField.text = pickerData[component][row]
-//	}
-//
-//
-//	@objc func makeSelect(sender: UIButton!)
-//	{
-//		if let listFor = sender.superview?.subviews.first as? UILabel
-//		{
-//			print("build list for \(listFor.text ?? "")")
-//			let picker = UIPickerView()
-//			picker.dataSource = self
-//			picker.delegate = self
-//			//pickerData[0].append(R.string.plsChoose)
-//			for country in store.countries
-//			{
-//				pickerData[0].append(country.name![self.store.myLang].value!)
-//			}
-//			for state in store.states
-//			{
-//				pickerData[1].append(state.name!)
-//			}
-//		}
-//	}
-	
 	
 }

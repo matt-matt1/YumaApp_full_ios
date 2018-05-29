@@ -351,7 +351,7 @@ extension CALayer
 	}
 
 	/// Applies a range of colors (that merge) to the background
-	func addBackgroundGradient(colors:[UIColor] = [UIColor.red,UIColor.blue], width: CGFloat = 1, isVertical: Bool)
+	func addBackgroundGradient(colors:[UIColor] = [UIColor.red,UIColor.blue], isVertical: Bool)
 	{
 		let gradientLayer = CAGradientLayer()
 		gradientLayer.frame =  CGRect(origin: .zero, size: self.bounds.size)

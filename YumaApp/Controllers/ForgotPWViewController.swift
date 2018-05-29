@@ -147,7 +147,8 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_forgot_pw_guide
-		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.title = "\(R.string.forgotPW.capitalized) \(R.string.help.capitalized)"
+		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
 	}
@@ -168,7 +169,7 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 					let all: Customers?
 					do
 					{
-						let dataStr = String(data: data as Data, encoding: .utf8)
+//						let dataStr = String(data: data as Data, encoding: .utf8)
 						//let inner = self.store.trimJSONValueToArray(string: dataStr!)
 						//let data = inner.data(using: .utf8)
 						all = try JSONDecoder().decode(Customers.self, from: data as Data)

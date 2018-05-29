@@ -509,8 +509,8 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			vc?.dialog.shadowOpacity = 			1
 			vc?.dialog.layer.cornerRadius = 	20
 			vc?.dialog.cornerRadius = 			20
-			vc?.titleLbl.text = 				R.string.select + " " + R.string.prod
-			vc?.button.setTitle(R.string.select, for: .normal)
+			vc?.titleLbl.text = 				R.string.select.uppercased() + " " + R.string.prod.uppercased()
+			vc?.button.setTitle(R.string.select.uppercased(), for: .normal)
 			vc?.view.addSubview(picker)
 			picker.translatesAutoresizingMaskIntoConstraints = false
 			NSLayoutConstraint.activate([
@@ -540,7 +540,8 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_order_details_guide
-		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.title = "\(R.string.order.capitalized) \(R.string.details.capitalized) \(R.string.help.capitalized)"
+		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
 	}

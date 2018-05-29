@@ -816,6 +816,7 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 		{
 			viewC.array = R.array.help_my_account_order_history_guide
 		}
+		viewC.title = "\(R.string.OrdHist.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

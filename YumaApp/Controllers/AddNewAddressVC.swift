@@ -30,7 +30,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let alias: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		let view = InputField()
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -39,7 +39,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let company: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeWords)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -49,7 +49,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let lastname: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeWords)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -58,7 +58,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let firstname: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeWords, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeWords)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -67,7 +67,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let vatNo: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -77,7 +77,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let addr1: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -86,7 +86,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let addr2: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -96,7 +96,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let pc: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -105,7 +105,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let city: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		let view = InputField()
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -114,7 +114,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let other: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		let view = InputField()
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -124,7 +124,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let phone: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -134,7 +134,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let mob: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeNone, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeNone)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textEdit.placeholder = R.string.optional
@@ -144,20 +144,22 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let state: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, likeButton: true)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
+		view.labelLooksLikeButton = true
 		view.invalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
 		return view
 	}()
 	let country: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, likeButton: true)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
 		view.invalid.text = "\(R.string.invalid.capitalized) \(R.string.country)"
+		view.labelLooksLikeButton = true
 		return view
 	}()
 	let gapBeforeButton: UIView =
@@ -215,12 +217,14 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		return view
 	}()
 	let store = DataStore.sharedInstance
-	let pickerCountry = UIPickerView()
-	var pickerCountryData: [Country] = []//[String : Int] = [String : Int]()
-	let pickerState = UIPickerView()
+//	let pickerCountry = UIPickerView()
+//	var pickerCountryData: [Country] = []//[String : Int] = [String : Int]()
+//	let pickerState = UIPickerView()
 	var pickerStateData: [String] = [String]()
 	static let selectCountry = Notification.Name("selectCountry")
 	var displaySelectACountryDONE = false
+	var countryId = -1
+	var stateId = -1
 
 
 	// MARK: Overrides
@@ -254,6 +258,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedAState(_:)), name: AddressExpandedViewController.selectState, object: nil)
     }
 
 	override func viewDidLayoutSubviews()
@@ -298,6 +303,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
 			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 			notificationCenter.removeObserver(self, name: AddressExpandedViewController.selectCountry, object: nil)
+			notificationCenter.removeObserver(self, name: AddressExpandedViewController.selectState, object: nil)
 		}
 	}
 
@@ -441,28 +447,28 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		state.label.text = R.string.state
 		country.label.text = R.string.country
 		country.label.isUserInteractionEnabled = true
-		country.label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
+		country.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
 		phone.label.text = R.string.ph
 		mob.label.text = R.string.ph_mob
 		other.label.text = R.string.other
 	}
 
 
-	func loadEnteredValues() -> Address
+	func loadEnteredValues(id: Int = 0) -> Address
 	{
 		let date = Date()
 		let df = DateFormatter()
 		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let today = df.string(from: date)
-		let newRow = Address(id: 0, id_customer: String((store.customer?.id_customer)!), id_manufacturer: "", id_supplier: "", id_warehouse: "", id_country: "TBD", id_state: "TBD", alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vat_number: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phone_mobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: "0", date_add: today, date_upd: today)
-		let encode = try? JSONEncoder().encode(newRow)
-		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
-		{
+		let newRow = Address(id: id, id_customer: String((store.customer?.id_customer)!), id_manufacturer: "", id_supplier: "", id_warehouse: "", id_country: "TBD", id_state: "TBD", alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vat_number: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phone_mobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: "0", date_add: today, date_upd: today)
+//		let encode = try? JSONEncoder().encode(newRow)
+//		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
+//		{
 //			let jsonStr = String(data: encode!, encoding: .utf8)!
 			//{"id_supplier":"","other":"","lastname":"Last","company":"","firstname":"","phone_mobile":"","id_customer":"3","dni":"","deleted":"0","address1":"","alias":"","city":"","vat_number":"","id":0,"date_upd":"2018-05-28 17:21:24","address2":"","id_warehouse":"","phone":"","id_manufacturer":"","id_state":"TBD","postcode":"","date_add":"2018-05-28 17:21:24","id_country":"TBD"}
 //			print(jsonStr)
 //			UserDefaults.standard.set(encode, forKey: "updateAddress.\(df.string(from: date))")
-		}
+//		}
 		return newRow
 	}
 
@@ -496,6 +502,21 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			i += 1
 		}
 		return status
+	}
+
+
+	fileprivate func fillStates(_ countryId: Int)
+	{
+		store.callGetStates(id_country: countryId, completion:{ (states, err) in
+			self.pickerStateData.removeAll()
+			if let states = states as? [CountryState]
+			{
+				for s in states
+				{
+					self.pickerStateData.append(s.name!)
+				}
+			}
+		})
 	}
 
 
@@ -670,7 +691,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 						//						{
 						//							self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
 						//						}
-						self.state.textEdit.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+						self.state.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
 					}
 				}
 				else
@@ -681,7 +702,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 					{
 						if self.state.textEdit.gestureRecognizers != nil && (self.state.textEdit.gestureRecognizers?.count)! > 0
 						{
-							self.state.textEdit.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+							self.state.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
 							self.pickerStateData.removeAll()
 						}
 					}
@@ -692,55 +713,41 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	
 	@objc func displaySelectAState(_ sender: Any)
 	{
-		if !pickerStateData.isEmpty
-		{
-			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-			let vc = sb.instantiateInitialViewController() as? PickerViewController
-			if vc != nil
-			{
-				self.present(vc!, animated: true, completion: nil)
-				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-				//			blurFxView.frame = 					self.view.bounds
-				//			blurFxView.alpha = 					0.5
-				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
-				//			vc?.backgroundView.addSubview(blurFxView)
-				vc?.dialog.layer.cornerRadius = 	20
-				vc?.dialog.layer.masksToBounds = 	true
-				vc?.dialog.layer.shadowColor = 		UIColor.black.cgColor
-				vc?.dialog.layer.shadowOffset = 	.zero
-				vc?.dialog.layer.shadowRadius = 	5
-				vc?.dialog.layer.shadowOpacity = 	1
-				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
-				let myCountry = country.textEdit.text
-				if myCountry != nil
-				{
-					vc?.titleLbl.text?.append(" (\(myCountry!.uppercased()))")
-				}
-				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
-				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
-				vc?.titleLbl.shadowRadius = 		3
-				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-				//				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
-				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
-				vc?.view.addSubview(pickerState)
-				pickerState.translatesAutoresizingMaskIntoConstraints = false
-				NSLayoutConstraint.activate([
-					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-					])
-				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
-			}
-			else
-			{
-				print("HelpStoryboard has no initial view controller")
-			}
-		}
+		let vc = SelectStateVC()
+		vc.defaultState = state.textEdit.text
+		vc.dialogWindow.layer.masksToBounds = true
+		vc.dialogWindow.borderWidth = 3
+		vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
+		//		vc..layer.shadowColor = R.color.YumaDRed.cgColor
+		//		vc.dialogWindow.layer.shadowOffset = .zero
+		//		vc.dialogWindow.layer.shadowRadius = 5
+		//		vc.dialogWindow.layer.shadowOpacity = 1
+		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonSingle.shadowColor = R.color.YumaDRed
+		vc.buttonSingle.shadowOffset = .zero
+		vc.buttonSingle.shadowRadius = 5
+		vc.buttonSingle.shadowOpacity = 0.5
+		//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
+		//		vc.buttonSingle.shadowOffset = .zero
+		//		vc.buttonSingle.shadowRadius = 5
+		//		vc.buttonSingle.shadowOpacity = 0.5
+		//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
+		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+		vc.isModalInPopover = true
+		vc.modalPresentationStyle = .overFullScreen
+		self.present(vc, animated: true, completion: nil)
 	}
 	
-	@objc func selectedAState(_ sender: Any)
+	@objc func selectedAState(_ sender: Notification)
 	{
-		//		store.flexView(view: sender)
-		state.textEdit.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
+		if let row = sender.object as? CountryState
+		{
+			if state.textEdit.text != row.name!
+			{
+				state.textEdit.text = row.name!
+				stateId = row.id!
+			}
+		}
 	}
 
 
@@ -759,6 +766,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_add_address_guide
+		viewC.title = "\(R.string.addAddr.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle   = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
@@ -850,115 +858,4 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
 	}
 
-}
-
-
-
-extension AddNewAddressVC: UIPickerViewDataSource, UIPickerViewDelegate
-{
-	func numberOfComponents(in pickerView: UIPickerView) -> Int
-	{
-		return 1
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData.count
-		}
-		else
-		{
-			return pickerCountryData.count
-		}
-	}
-	
-	//	func findCountryNameById(_ id: Int) -> String?
-	//	{
-	//		for c in pickerCountryData
-	//		{
-	//			if c.id == id
-	//			{
-	//				return c.name?[store.myLang].value
-	//			}
-	//		}
-	////		for (k, v) in pickerCountryData
-	////		{
-	////			if v == id
-	////			{
-	////				return k
-	////			}
-	////		}
-	//		return nil
-	//	}
-	
-	fileprivate func fillStates(_ countryId: Int)
-	{
-		store.callGetStates(id_country: countryId, completion:{ (states, err) in
-			//			if err == nil
-			//			{
-			self.pickerStateData.removeAll()
-			if let states = states as? [CountryState]
-			{
-				for s in states
-				{
-					self.pickerStateData.append(s.name!)
-				}
-				//					OperationQueue.main.addOperation
-				//					{
-				//						self.stateField.placeholder = R.string.select
-				//						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
-				//						{
-				//							self.stateBorder.alpha = 1
-				//							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-				//						}
-				//					}
-			}
-			//				else
-			//				{
-			//					OperationQueue.main.addOperation
-			//					{
-			//						self.stateBorder.alpha = 0.2
-			//						self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-			//					}
-			//				}
-		}
-			/*		}*/)
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData[row]
-		}
-		else if pickerView == pickerCountry
-		{
-			for c in pickerCountryData
-			{
-				if c.id == row+1
-				{
-					if displaySelectACountryDONE
-					{
-						fillStates(c.id!)
-					}
-				}
-			}
-			//			for (k, v) in pickerCountryData
-			//			{
-			//				if v == row+1
-			//				{
-			////					countryField.text = k
-			//					if displaySelectACountryDONE
-			//					{
-			//						fillStates(v)
-			//					}
-			//					return k
-			//				}
-			//			}
-			return "\(R.string.select) \(R.string.country)"
-		}
-		return R.string.select
-	}
-	
 }

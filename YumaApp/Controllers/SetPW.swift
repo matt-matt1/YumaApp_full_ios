@@ -37,9 +37,23 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = R.color.YumaRed
 		view.text = "Title"
-		view.textColor = UIColor.white
+		view.textColor = R.color.YumaYel
 		view.textAlignment = .center
 		view.layer.masksToBounds = true
+		//		view.cornerRadius = 20
+		//		view.clipsToBounds = true
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font : UIFont(name: "ArialRoundedMTBold", size: 20)!, NSAttributedStringKey.shadow : titleShadow])
+		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
+		view.shadowColor = UIColor.black
+		view.shadowRadius = 3
+		view.shadowOffset = CGSize(width: 1, height: 1)
 		return view
 	}()
 	let generate: UILabel =
@@ -71,9 +85,9 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		view.label.textColor = UIColor.darkGray
 		return view
 	}()
-	let buttonLeft: UIButton =
+	let buttonLeft: GradientButton =
 	{
-		let view = UIButton()
+		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.cont.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
@@ -81,25 +95,28 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
 		//view.widthAnchor.constraint(equalToConstant: 200).isActive = true
-		view.backgroundColor = /*R.color.YumaYel*/R.color.YumaRed.withAlphaComponent(0.8)
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
+		view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.8)
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
-		//		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		//		view.shadowOpacity = 0.9
-		//		view.titleEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		return view
 	}()
-	let buttonRight: UIButton =
+	let buttonRight: GradientButton =
 	{
-		let view = UIButton()
+		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.cont.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
@@ -107,20 +124,23 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
 		//view.widthAnchor.constraint(equalToConstant: 200).isActive = true
-		view.backgroundColor = /*R.color.YumaYel*/R.color.YumaRed.withAlphaComponent(0.8)
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
+		view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.8)
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
-		//		view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		//		view.shadowOpacity = 0.9
-		//		view.titleEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		return view
 	}()
 	let backgroundAlpha: CGFloat = 0.7
@@ -159,7 +179,17 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		drawDialog()
 	}
 	
-	
+
+	override func viewDidLayoutSubviews()
+	{
+		super.viewDidLayoutSubviews()
+		_ = buttonLeft.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+		_ = buttonRight.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+	}
+
+
 	// MARK: Methods
 	private func drawTitle()
 	{

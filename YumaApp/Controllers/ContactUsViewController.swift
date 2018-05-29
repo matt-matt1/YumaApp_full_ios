@@ -521,6 +521,7 @@ class ContactUsViewController: UIViewController
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_contact_us_guide
+		viewC.title = "\(R.string.contact.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle   = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

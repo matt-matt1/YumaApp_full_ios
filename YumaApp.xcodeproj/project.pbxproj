@@ -132,6 +132,8 @@
 		CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8667202B88570014B787 /* LoginViewController.swift */; };
 		CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8668202B88570014B787 /* LoginViewController.xib */; };
 		CF877BC820923E7400E871F9 /* arbitraryJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF877BC720923E7400E871F9 /* arbitraryJSON.swift */; };
+		CF8E241020BDAC750004A8A3 /* SelectStateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */; };
+		CF8E241420BDB0840004A8A3 /* SelectStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */; };
 		CF904E47205850320086068E /* CustomerOrdersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF904E46205850320086068E /* CustomerOrdersVC.swift */; };
 		CF9231BE2035FEFD00D44BB6 /* MyAccInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */; };
 		CF9231BF2035FEFD00D44BB6 /* MyAccInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */; };
@@ -318,6 +320,8 @@
 		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
 		CF877BC720923E7400E871F9 /* arbitraryJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = arbitraryJSON.swift; sourceTree = "<group>"; };
 		CF8DC9BF20765CBA00D06575 /* ISSUES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ISSUES.md; sourceTree = "<group>"; };
+		CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateVC.swift; sourceTree = "<group>"; };
+		CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateCell.swift; sourceTree = "<group>"; };
 		CF904E46205850320086068E /* CustomerOrdersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersVC.swift; sourceTree = "<group>"; };
 		CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccInfoViewController.swift; sourceTree = "<group>"; };
 		CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccInfoViewController.xib; sourceTree = "<group>"; };
@@ -461,6 +465,7 @@
 				CF732EEB209DE918008A8741 /* RadioGroup.swift */,
 				CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */,
 				CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */,
+				CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -643,7 +648,6 @@
 				CF55B7D420B6F0A600917B85 /* AddNewAddressVC.swift */,
 				CF4FD08D20790C9C00D92A07 /* AddressExpandedViewController.swift */,
 				CF443850209FBF850028443B /* AssistanceController.swift */,
-				CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */,
 				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
 				CF717E9E20A32F3300E68F83 /* ChangePW.swift */,
 				CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */,
@@ -672,7 +676,9 @@
 				CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */,
 				CF472DB720AB334000189F35 /* ResourcesViewController.swift */,
 				CF472DB920AB83F700189F35 /* ResourceStage2ViewController.swift */,
+				CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */,
 				CF101FA920A64ED8006917DA /* SetPW.swift */,
+				CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */,
 				CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */,
 			);
 			path = Controllers;
@@ -1080,6 +1086,7 @@
 				CF12694A204C8CF2008EFD04 /* Manufacturers.swift in Sources */,
 				CF60CADF208E4D4C00B6D0EE /* SpecificPrices.swift in Sources */,
 				CF63DD302064079500025007 /* ProductOptions.swift in Sources */,
+				CF8E241020BDAC750004A8A3 /* SelectStateVC.swift in Sources */,
 				CF601A16204AE61500217025 /* OrderPayments.swift in Sources */,
 				CF4D85482094D5B8001A1744 /* WebService.swift in Sources */,
 				CF331F5B209A3B6200992F92 /* CheckoutCollection.swift in Sources */,
@@ -1104,6 +1111,7 @@
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,
 				CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */,
 				CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */,
+				CF8E241420BDB0840004A8A3 /* SelectStateCell.swift in Sources */,
 				CF384BF2205EBB17005CCD57 /* APIError.swift in Sources */,
 				CF182DC4203219900070B9E5 /* Carts.swift in Sources */,
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,

@@ -207,6 +207,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_checkout_guide
+		viewC.title = "\(R.string.checkOut.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle   = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

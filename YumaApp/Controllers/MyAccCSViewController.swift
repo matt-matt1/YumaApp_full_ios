@@ -48,6 +48,7 @@ class MyAccCSViewController: UIViewController
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_my_account_credit_slips_guide
+		viewC.title = "\(R.string.CreditSlips.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)

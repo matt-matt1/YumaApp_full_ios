@@ -165,7 +165,8 @@ extension ProductsViewController
 	{
 		let viewC = Assistance()
 		viewC.array = R.array.help_product_list_guide
-		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.title = "\(R.string.prod.capitalized) \(R.string.help.capitalized)"
+		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
 	}

@@ -49,6 +49,8 @@ class InputField: UIView
 		view.borderWidth = 2
 		return view
 	}()
+	/// Whether to make label look like a button - default is no
+	var labelLooksLikeButton = false
 	let label: UILabel =
 	{
 		let view = UILabel()
@@ -142,10 +144,18 @@ class InputField: UIView
 		drawField()
 	}
 	
-	init(frame: CGRect, inputType: inputType, hasShowHideIcon: Bool)
+	init(frame: CGRect, inputType: inputType = .textCapitalizeSentances, hasShowHideIcon: Bool = false, likeButton: Bool = false)
 	{
 		super.init(frame: frame)
 		self.displayShowHideIcon = hasShowHideIcon
+		if likeButton
+		{
+			label.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+			label.cornerRadius = 4
+			label.borderWidth = 1
+			label.borderColor = R.color.YumaRed
+			label.textAlignment = .center
+		}
 		textEdit.isSecureTextEntry = false
 		switch inputType
 		{

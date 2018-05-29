@@ -125,6 +125,12 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 	}
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_contact_us_guide
+		viewC.title = "\(R.string.map_big.capitalized) \(R.string.help.capitalized)"
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func mapZoomMinusAct(_ sender: Any)
 	{

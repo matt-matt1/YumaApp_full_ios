@@ -28,9 +28,16 @@ class PickerViewController: UIViewController
 			view.centerXAnchor.constraint(equalTo: dialog.centerXAnchor),
 			view.centerYAnchor.constraint(equalTo: dialog.centerYAnchor),
 		])
+		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
     }
 
-    override func didReceiveMemoryWarning() {
+
+//	override func viewDidLayoutSubviews()
+//	{
+//		super.viewDidLayoutSubviews()
+//	}
+
+	override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

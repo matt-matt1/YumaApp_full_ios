@@ -71,13 +71,12 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	@IBOutlet weak var scrollForm: UIScrollView!
 	var address: Address? = nil
 	let store = DataStore.sharedInstance
-//	let picker = UIPickerView()
-	let pickerCountry = UIPickerView()
-	var pickerCountryData: [Country] = []//[String : Int] = [String : Int]()
-	let pickerState = UIPickerView()
 	var pickerStateData: [String] = [String]()
 	static let selectCountry = Notification.Name("selectCountry")
+	static let selectState = Notification.Name("selectState")
 	var displaySelectACountryDONE = false
+	var countryId = -1
+	var stateId = -1
 
 
 	// MARK: Overrides
@@ -95,6 +94,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 //		notificationCenter.addObserver(self, selector: #selector(textFieldDidChange(_:)), name: Notification.Name.UITextFieldTextDidChange, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedAState(_:)), name: AddressExpandedViewController.selectState, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,6 +114,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillHide, object: nil)
 			notificationCenter.removeObserver(self, name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 			notificationCenter.removeObserver(self, name: AddressExpandedViewController.selectCountry, object: nil)
+			notificationCenter.removeObserver(self, name: AddressExpandedViewController.selectState, object: nil)
 		}
 	}
 
@@ -191,24 +192,34 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 //		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
 //		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
 		countryLabel.text = R.string.country
+		countryLabel.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+		countryLabel.cornerRadius = 4
+		countryLabel.borderWidth = 1
+		countryLabel.borderColor = R.color.YumaRed
+		countryLabel.textAlignment = .center
 		countryInvalid.text = "\(R.string.invalid.capitalized) \(R.string.country)"
 		countryLabel.isUserInteractionEnabled = true
-		countryLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
+		countryBorder.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displaySelectACountry(_:))))
 		stateLabel.text = R.string.state
+		stateLabel.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+		stateLabel.cornerRadius = 4
+		stateLabel.borderWidth = 1
+		stateLabel.borderColor = R.color.YumaRed
+		stateLabel.textAlignment = .center
 		stateInvalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
 		stateLabel.isUserInteractionEnabled = true
 //		let countrySelect = UIButton()
 //		countrySelect.setTitle(FontAwesome.angleDown.rawValue, for: .normal)
 //		countrySelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)
-		pickerCountry.dataSource = self
-		pickerCountry.delegate = self
+//		pickerCountry.dataSource = self
+//		pickerCountry.delegate = self
 //		for c in store.countries
 //		{
 //			pickerCountryData[c.name![store.myLang].value!] = Int(c.id!)
 //		}
-		pickerCountryData = store.countries
-		pickerState.dataSource = self
-		pickerState.delegate = self
+//		pickerCountryData = store.countries
+//		pickerState.dataSource = self
+//		pickerState.delegate = self
 		phoneLabel.text = R.string.ph
 		phoneInvalid.text = "\(R.string.invalid.capitalized) \(R.string.ph)"
 		phoneField.placeholder = R.string.optional
@@ -283,7 +294,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				if state.id! == Int((self.address?.id_state)!)!
 				{
 					stateField.text = state.name
-					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
+//					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
 					break
 				}
 			}
@@ -292,7 +303,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				if country.id! == Int((self.address?.id_country)!)!
 				{
 					countryField.text = store.valueById(object: country.name!, id: store.myLang)//country.name?[store.myLang].value
-					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
+//					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
 					break
 				}
 			}
@@ -330,6 +341,60 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			}
 		}
 		return status
+	}
+
+	
+	func loadEnteredValues(id: Int = 0) -> Address
+	{
+		let date = Date()
+		let df = DateFormatter()
+		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+		let today = df.string(from: date)
+		let newRow = Address(id: id, id_customer: String((store.customer?.id_customer)!), id_manufacturer: "", id_supplier: "", id_warehouse: "", id_country: String(countryId), id_state: String(stateId), alias: aliasField.text != nil ? aliasField.text! : "", company: bNameField.text != nil ? bNameField.text! : "", lastname: lNameField.text != nil ? lNameField.text! : "", firstname: fNameField.text != nil ? fNameField.text! : "", vat_number: /*taxNo.text != nil ? taxNo.text! : */"", address1: addr1Field.text != nil ? addr1Field.text! : "", address2: addr2Field.text != nil ? addr2Field.text! : "", postcode: postcodeField.text != nil ? postcodeField.text! : "", city: cityField.text != nil ? cityField.text! : "", other: otherField.text != nil ? otherField.text! : "", phone: phoneField.text != nil ? phoneField.text! : "", phone_mobile: mobField.text != nil ? mobField.text! : "", dni: "", deleted: "0", date_add: today, date_upd: today)
+//		let encode = try? JSONEncoder().encode(newRow)
+//		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
+//		{
+			//			let jsonStr = String(data: encode!, encoding: .utf8)!
+//						print(jsonStr)
+			//{"id_supplier":"","other":"","lastname":"Technical","company":"","firstname":"Yuma","phone_mobile":"","id_customer":"3","dni":"","deleted":"0","address1":"1 yumatechnical","alias":"My Address","city":"Toronto","vat_number":"","id":0,"date_upd":"2018-05-29 10:53:12","address2":"","id_warehouse":"","phone":"","id_manufacturer":"","id_state":"TBD","postcode":"M1S 5T5","date_add":"2018-05-29 10:53:12","id_country":"TBD"}
+			//			UserDefaults.standard.set(encode, forKey: "updateAddress.\(df.string(from: date))")
+//		}
+		return newRow
+	}
+
+
+	fileprivate func fillStates(_ countryId: Int)
+	{
+		store.callGetStates(id_country: countryId, completion:{ (states, err) in
+//			if err == nil
+//			{
+				self.pickerStateData.removeAll()
+				if let states = states as? [CountryState]
+				{
+					for s in states
+					{
+						self.pickerStateData.append(s.name!)
+					}
+//					OperationQueue.main.addOperation
+//					{
+//						self.stateField.placeholder = R.string.select
+//						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
+//						{
+//							self.stateBorder.alpha = 1
+//							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//						}
+//					}
+				}
+//				else
+//				{
+//					OperationQueue.main.addOperation
+//					{
+//						self.stateBorder.alpha = 0.2
+//						self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//					}
+//				}
+			}
+/*		}*/)
 	}
 
 
@@ -445,6 +510,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			if countryField.text != store.valueById(object: row.name!, id: store.myLang)
 			{
 				countryField.text = store.valueById(object: row.name!, id: store.myLang)
+				countryId = row.id!
 				stateField.text = ""
 				if row.containsStates != nil && row.containsStates != false
 				{
@@ -453,7 +519,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 //						stateBorder.alpha = 1
 //					}
 					fillStates(row.id!)
-					stateField.placeholder = R.string.select
+					stateField.placeholder = "< \(R.string.select)"
 					OperationQueue.main.addOperation
 					{
 						// WHY CAN'T REMOVE GESTURE...
@@ -483,59 +549,129 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 
 	@objc func displaySelectAState(_ sender: Any)
 	{
-		if !pickerStateData.isEmpty
-		{
-			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-			let vc = sb.instantiateInitialViewController() as? PickerViewController
-			if vc != nil
-			{
-				self.present(vc!, animated: true, completion: nil)
-				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-				//			blurFxView.frame = 					self.view.bounds
-				//			blurFxView.alpha = 					0.5
-				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
-				//			vc?.backgroundView.addSubview(blurFxView)
-				vc?.dialog.layer.cornerRadius = 	20
-				vc?.dialog.layer.masksToBounds = 	true
-				vc?.dialog.layer.shadowColor = 		UIColor.black.cgColor
-				vc?.dialog.layer.shadowOffset = 	.zero
-				vc?.dialog.layer.shadowRadius = 	5
-				vc?.dialog.layer.shadowOpacity = 	1
-				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
-				let country = countryField.text
-				if country != nil
-				{
-					vc?.titleLbl.text?.append(" (\(country!.uppercased()))")
-				}
-				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
-				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
-				vc?.titleLbl.shadowRadius = 		3
-				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-//				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
-				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
-				vc?.view.addSubview(pickerState)
-				pickerState.translatesAutoresizingMaskIntoConstraints = false
-				NSLayoutConstraint.activate([
-					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-					])
-				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
-			}
-			else
-			{
-				print("HelpStoryboard has no initial view controller")
-			}
-		}
+		let vc = SelectStateVC()
+		vc.defaultState = stateField.text
+		vc.dialogWindow.layer.masksToBounds = true
+		vc.dialogWindow.borderWidth = 3
+		vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
+		//		vc..layer.shadowColor = R.color.YumaDRed.cgColor
+		//		vc.dialogWindow.layer.shadowOffset = .zero
+		//		vc.dialogWindow.layer.shadowRadius = 5
+		//		vc.dialogWindow.layer.shadowOpacity = 1
+		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonSingle.shadowColor = R.color.YumaDRed
+		vc.buttonSingle.shadowOffset = .zero
+		vc.buttonSingle.shadowRadius = 5
+		vc.buttonSingle.shadowOpacity = 0.5
+		//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
+		//		vc.buttonSingle.shadowOffset = .zero
+		//		vc.buttonSingle.shadowRadius = 5
+		//		vc.buttonSingle.shadowOpacity = 0.5
+		//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
+		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+		vc.isModalInPopover = true
+		vc.modalPresentationStyle = .overFullScreen
+		self.present(vc, animated: true, completion: nil)
+//		if !pickerStateData.isEmpty
+//		{
+//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//			let vc = sb.instantiateInitialViewController() as? PickerViewController
+//			if vc != nil
+//			{
+//				self.present(vc!, animated: true, completion: nil)
+//				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+//				//			blurFxView.frame = 					self.view.bounds
+//				//			blurFxView.alpha = 					0.5
+//				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
+//				//			vc?.backgroundView.addSubview(blurFxView)
+//				vc?.dialog.layer.cornerRadius = 	20
+//				vc?.dialog.layer.masksToBounds = 	true
+//				vc?.dialog.layer.shadowColor = 		UIColor.black.cgColor
+//				vc?.dialog.layer.shadowOffset = 	.zero
+//				vc?.dialog.layer.shadowRadius = 	5
+//				vc?.dialog.layer.shadowOpacity = 	1
+//				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
+//				let country = countryField.text
+//				if country != nil
+//				{
+//					vc?.titleLbl.text?.append(" (\(country!.uppercased()))")
+//				}
+//				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
+//				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
+//				vc?.titleLbl.shadowRadius = 		3
+//				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+////				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
+//				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
+//				vc?.view.addSubview(pickerState)
+//				pickerState.translatesAutoresizingMaskIntoConstraints = false
+//				NSLayoutConstraint.activate([
+//					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//					])
+//				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
+//			}
+//			else
+//			{
+//				print("HelpStoryboard has no initial view controller")
+//			}
+//		}
 	}
 
-	@objc func selectedAState(_ sender: Any)
+	@objc func selectedAState(_ sender: Notification)
 	{
-//		store.flexView(view: sender)
-		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
+		if let row = sender.object as? CountryState
+		{
+			if stateField.text != row.name!
+			{
+				stateField.text = row.name!
+				stateId = row.id!
+//				stateField.text = ""
+//				if row.containsStates != nil && row.containsStates != false
+//				{
+//					//					if stateBorder.alpha < 1
+//					//					{
+//					//						stateBorder.alpha = 1
+//					//					}
+//					fillStates(row.id!)
+//					stateField.placeholder = R.string.select
+//					OperationQueue.main.addOperation
+//						{
+//							// WHY CAN'T REMOVE GESTURE...
+//							//						if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
+//							//						{
+//							//							self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//							//						}
+//							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//					}
+//				}
+//				else
+//				{
+//					//					stateBorder.alpha = 0.2
+//					stateField.text = "N/A"
+//					OperationQueue.main.addOperation
+//						{
+//							if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
+//							{
+//								self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+//								self.pickerStateData.removeAll()
+//							}
+//					}
+//				}
+			}
+		}
+////		store.flexView(view: sender)
+//		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
+////		stateId = .id	//	TBD
 	}
 
 	@IBAction func navHelpAct(_ sender: Any)
 	{
+		let viewC = Assistance()
+		viewC.array = R.array.help_add_address_guide
+		viewC.title = "\(R.string.Addr.capitalized) \(R.string.help.capitalized)"
+		viewC.modalTransitionStyle   = .crossDissolve
+		viewC.modalPresentationStyle = .overCurrentContext
+		self.present(viewC, animated: true, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{
@@ -546,9 +682,22 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		store.flexView(view: button)
 		if checkFields()
 		{
-			DispatchQueue.main.async
+			let newRow = loadEnteredValues()
+			//			print("ready to add new address:\(newRow)")
+			let spinner = UIViewController.displaySpinner(onView: self.view)
+			var ws = WebService()
+			ws.startURL = R.string.WSbase
+			ws.resource = APIResource.addresses
+			ws.keyAPI = R.string.APIkey
+			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
+			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
+			print("posting to:\"\(url)\"")
+			print(ws.xml!)
+			store.PutHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "application/xml; charset=utf-8"/*"text/xml; charset=utf-8"*//*"application/x-www-form-urlencoded"*/, "Accept": "application/json, text/javascript, */*; q=0.01"/*"text/xml"*/, "Accept-Language": "en-US,en;q=0.5", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/    /*"Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"*/], body: "\(ws.xml!)", save: nil) 	{ 	(result) in
+				UIViewController.removeSpinner(spinner: spinner)
+				DispatchQueue.main.async
 				{
-					let alert = UIAlertController(title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
+					let alert = UIAlertController(title: R.string.Addr, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
 					let coloredBG = 				UIView()
 					let blurFx = 					UIBlurEffect(style: .dark)
 					let blurFxView = 				UIVisualEffectView(effect: blurFx)
@@ -581,120 +730,12 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 //						//self.collectionView.reloadData()
 //					}))
 					self.present(alert, animated: true, completion:
-						{
+					{
 					})
 			}
-		}
-	}
-}
-
-
-
-extension AddressExpandedViewController : UIPickerViewDataSource, UIPickerViewDelegate
-{
-	func numberOfComponents(in pickerView: UIPickerView) -> Int
-	{
-		return 1
-	}
-
-	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData.count
-		}
-		else
-		{
-			return pickerCountryData.count
-		}
-	}
-
-//	func findCountryNameById(_ id: Int) -> String?
-//	{
-//		for c in pickerCountryData
-//		{
-//			if c.id == id
-//			{
-//				return c.name?[store.myLang].value
-//			}
-//		}
-////		for (k, v) in pickerCountryData
-////		{
-////			if v == id
-////			{
-////				return k
-////			}
-////		}
-//		return nil
-//	}
-
-	fileprivate func fillStates(_ countryId: Int)
-	{
-		store.callGetStates(id_country: countryId, completion:{ (states, err) in
-//			if err == nil
-//			{
-				self.pickerStateData.removeAll()
-				if let states = states as? [CountryState]
-				{
-					for s in states
-					{
-						self.pickerStateData.append(s.name!)
-					}
-//					OperationQueue.main.addOperation
-//					{
-//						self.stateField.placeholder = R.string.select
-//						if self.stateLabel.gestureRecognizers == nil || (self.stateLabel.gestureRecognizers?.count)! < 2
-//						{
-//							self.stateBorder.alpha = 1
-//							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-//						}
-//					}
-				}
-//				else
-//				{
-//					OperationQueue.main.addOperation
-//					{
-//						self.stateBorder.alpha = 0.2
-//						self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-//					}
-//				}
+		
 			}
-/*		}*/)
-	}
-	
-	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-	{
-		if pickerView == pickerState
-		{
-			return pickerStateData[row]
 		}
-		else if pickerView == pickerCountry
-		{
-			for c in pickerCountryData
-			{
-				if c.id == row+1
-				{
-					if displaySelectACountryDONE
-					{
-						fillStates(c.id!)
-					}
-				}
-			}
-//			for (k, v) in pickerCountryData
-//			{
-//				if v == row+1
-//				{
-////					countryField.text = k
-//					if displaySelectACountryDONE
-//					{
-//						fillStates(v)
-//					}
-//					return k
-//				}
-//			}
-			return "\(R.string.select) \(R.string.country)"
-		}
-		return R.string.select
 	}
 
 }

@@ -1,48 +1,47 @@
 //
-//  SelectCountryVC.swift
+//  SelectStateVC.swift
 //  YumaApp
 //
-//  Created by Yuma Usa on 2018-05-25.
+//  Created by Yuma Usa on 2018-05-29.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
 import UIKit
 
 
-class SelectCountryVC: UIViewController
+class SelectStateVC: UIViewController, UISearchControllerDelegate
 {
-	let cellId = "selectCounty"
+	let cellId = "selectState"
 	var initalDone = false
 	var tableView: UITableView!
-//	var dataSource?
-//	var searchControl: UISearchController!
-//	var searchControl: UISearchController =
-//	{
-//		let view = UISearchController(searchResultsController: nil)
-//		view.searchBar.placeholder = "\(R.string.search_hint) \(R.string.country)"
-//		view.searchBar.tintColor = R.color.YumaRed
-//		view.searchBar.autocapitalizationType = .none
-//		return view
-//	}()
-//	var searchBox: UISearchBar!
+	//	var dataSource?
+	//	var searchControl: UISearchController =
+	//	{
+	//		let view = UISearchController(searchResultsController: nil)
+	//		view.searchBar.placeholder = "\(R.string.search_hint) \(R.string.country)"
+	//		view.searchBar.tintColor = R.color.YumaRed
+	//		view.searchBar.autocapitalizationType = .none
+	//		return view
+	//	}()
+	//	var searchBox: UISearchBar!
 	var searchBox: UISearchBar =
 	{
 		let view = UISearchBar()
 		view.translatesAutoresizingMaskIntoConstraints = false
 //		view.isUserInteractionEnabled = false
-//		view.showsCancelButton = true
+		//		view.showsCancelButton = true
 		view.showsBookmarkButton = false
-//		view.searchBarStyle = UISearchBarStyle.default
-		view.placeholder = "\(R.string.search_hint) \(R.string.country)"
+		//		view.searchBarStyle = UISearchBarStyle.default
+		view.placeholder = "\(R.string.search_hint) \(R.string.state)"
 		view.tintColor = R.color.YumaRed
 		view.autocapitalizationType = .none
 		view.showsSearchResultsButton = false
 		return view
 	}()
-//	var find: String?
+	var find: String?
 	var isSearching = false
-//	private var isRemovingTextWithBackspace = true
-	var filtered: [Country] = []
+	//	private var isRemovingTextWithBackspace = true
+	var filtered: [CountryState] = []
 	static var selectedRow = IndexPath(row: 0, section: 0)
 	let dialogWindow: UIView =
 	{
@@ -57,15 +56,15 @@ class SelectCountryVC: UIViewController
 		view.shadowOpacity = 1
 		return view
 	}()
-	var defaultCountryId: Int? = nil
-	var defaultCountry: String? = nil
+	var defaultStateId: Int? = nil
+	var defaultState: String? = nil
 	let titleLabel: UILabel =
 	{
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = R.color.YumaRed
 		view.text = "Title"
-//		view.cornerRadius = 20
+		//		view.cornerRadius = 20
 		view.clipsToBounds = true
 		view.layer.masksToBounds = true
 		view.textColor = UIColor.white
@@ -81,7 +80,6 @@ class SelectCountryVC: UIViewController
 		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
 		view.shadowColor = UIColor.black
 		view.shadowRadius = 3
-		view.shadowOpacity = 0.5
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		return view
 	}()
@@ -138,9 +136,9 @@ class SelectCountryVC: UIViewController
 		dialogWidth = min(max(view.frame.width/2, minWidth), maxWidth)
 		dialogHeight = min(max(view.frame.height/2, minHeight), maxHeight)
 		self.view.backgroundColor = R.color.YumaRed.withAlphaComponent(backgroundAlpha)
-//		records.removeAll()
-//		records = store.countries
-//		searchBox = searchControl.searchBar
+		//		records.removeAll()
+		//		records = store.countries
+		//		searchBox = searchControl.searchBar
 		
 		drawTitle()
 		drawSearch()
@@ -148,49 +146,46 @@ class SelectCountryVC: UIViewController
 		drawButton()
 		
 		let str = "V:|[v0(\(titleBarHeight))][v1(\(searchBoxHeight))][v2]-5-[v3(\(buttonHeight))]-5-|"
-//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchControl.searchBar, tableView, buttonSingle)
+		//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchControl.searchBar, tableView, buttonSingle)
 		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonSingle)
-//		let str = "V:|[v0(\(titleBarHeight))][v1]-5-[v2(\(buttonHeight))]-5-|"
-//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, tableView, buttonSingle)
-
+		//		let str = "V:|[v0(\(titleBarHeight))][v1]-5-[v2(\(buttonHeight))]-5-|"
+		//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, tableView, buttonSingle)
+		
 		drawDialog()
 //		DispatchQueue.main.asyncAfter(deadline: .now()+0.1, execute:
-//		{
-//			self.tableView.reloadData()
-//			if SelectCountryVC.selectedRow.row < self.tableView.numberOfRows(inSection: 0)
 //			{
-//				self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: true)
-//			}
+//				self.tableView.reloadData()
+//				self.tableView.scrollToRow(at: SelectStateVC.selectedRow, at: .middle, animated: true)
 //		})
 	}
-
-
+	
+	
 	override func viewDidLayoutSubviews()
 	{
 		super.viewDidLayoutSubviews()
-//		tableView.reloadData()
+		//		tableView.reloadData()
 		var i = 0
-		for c in store.countries
+		for c in store.states
 		{
-			if defaultCountry == store.valueById(object: c.name!, id: store.myLang)
+			if defaultState == c.name!
 			{
-				SelectCountryVC.selectedRow = IndexPath(row: i, section: 0)
-				if SelectCountryVC.selectedRow.row < self.tableView.numberOfRows(inSection: 0)
+				SelectStateVC.selectedRow = IndexPath(row: i, section: 0)
+				if SelectStateVC.selectedRow.row < self.tableView.numberOfRows(inSection: 0)
 				{
-					self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: false)
+					self.tableView.scrollToRow(at: SelectStateVC.selectedRow, at: .middle, animated: false)
 				}
 			}
 			i += 1
 		}
-//		self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: true)
-//		let _ = titleLabel.addBackgroundGradient(colors: [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor], isVertical: true)
-		titleLabel.text = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-//		titleLabel.font = UIFont.systemFont(ofSize: 21)
+		//		self.tableView.scrollToRow(at: SelectCountryVC.selectedRow, at: .middle, animated: true)
+		//		let _ = titleLabel.addBackgroundGradient(colors: [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor], isVertical: true)
+		titleLabel.text = "\(R.string.select.uppercased()) \(R.string.state.uppercased())"
+		//		titleLabel.font = UIFont.systemFont(ofSize: 21)
 		let _ = buttonSingle.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
-		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
-
-
+	
+	
 	func drawTitle()
 	{
 		dialogWindow.addSubview(titleLabel)
@@ -201,22 +196,22 @@ class SelectCountryVC: UIViewController
 	
 	func drawSearch()
 	{
-		filtered = store.countries
-//		searchControl = UISearchController(searchResultsController: nil)
-//		searchControl.searchResultsUpdater = self
-//		searchControl.dimsBackgroundDuringPresentation = false
-//		definesPresentationContext = true
-//		dialogWindow.addSubview(searchControl.searchBar)
-//		searchControl.searchBar.delegate = self
-//		searchControl.searchBar.becomeFirstResponder()
-//		searchControl.searchBar.returnKeyType = .done
+		filtered = store.states
+		//		dialogWindow.addSubview(searchControl.searchBar)
+		//		searchControl.searchBar.delegate = self
+		//		searchControl.searchBar.becomeFirstResponder()
+		//		searchControl.searchBar.returnKeyType = .done
 		dialogWindow.addSubview(searchBox)
 		searchBox.delegate = self
 		searchBox.becomeFirstResponder()
 		searchBox.returnKeyType = UIReturnKeyType.done
 		
+		//		searchControl.searchResultsUpdater = self
+		//		searchControl.dimsBackgroundDuringPresentation = false
+		//		definesPresentationContext = true
+		
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchBox)
-//		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchControl.searchBar)
+		//		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: searchControl.searchBar)
 	}
 	
 	
@@ -225,10 +220,10 @@ class SelectCountryVC: UIViewController
 		tableView = UITableView()
 		tableView.dataSource = self
 		tableView.delegate = self
-//		tableView.tableHeaderView = searchControl.searchBar
+		//		tableView.tableHeaderView = searchControl.searchBar
 		tableView.register(SelectCountryCell.self, forCellReuseIdentifier: cellId)
-//		tableView.showsVerticalScrollIndicator = false
-//		tableView.showsHorizontalScrollIndicator = false
+		//		tableView.showsVerticalScrollIndicator = false
+		//		tableView.showsHorizontalScrollIndicator = false
 		tableView.backgroundColor = UIColor.white
 		dialogWindow.addSubview(tableView)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: tableView)
@@ -260,61 +255,61 @@ class SelectCountryVC: UIViewController
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-
-
-	func findCountryObject(fromName: String) -> Country?
-	{
-		if isSearching
-		{
-			for c in filtered
-			{
-				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName
-				{
-					return c
-				}
-			}
-		}
-		else
-		{
-			for c in store.countries
-			{
-				if c.name != nil && store.valueById(object: c.name!, id: store.myLang) == fromName
-				{
-					return c
-				}
-			}
-		}
-		return nil
-	}
-
-
-	func findCountryObject(fromId: Int) -> Country?
-	{
-		if isSearching
-		{
-			for c in filtered
-			{
-				if c.id == fromId
-				{
-					return c
-				}
-			}
-		}
-		else
-		{
-			for c in store.countries
-			{
-				if c.id == fromId
-				{
-					return c
-				}
-			}
-		}
-		return nil
-	}
-
 	
-	func findCountryObject(fromRow: Int) -> Country?
+	
+	func findStateObject(fromName: String) -> CountryState?
+	{
+		if isSearching
+		{
+			for c in filtered
+			{
+				if c.name != nil && c.name! == fromName
+				{
+					return c
+				}
+			}
+		}
+		else
+		{
+			for c in store.states
+			{
+				if c.name != nil && c.name! == fromName
+				{
+					return c
+				}
+			}
+		}
+		return nil
+	}
+	
+	
+	func findStateObject(fromId: Int) -> CountryState?
+	{
+		if isSearching
+		{
+			for c in filtered
+			{
+				if c.id == fromId
+				{
+					return c
+				}
+			}
+		}
+		else
+		{
+			for c in store.states
+			{
+				if c.id == fromId
+				{
+					return c
+				}
+			}
+		}
+		return nil
+	}
+	
+	
+	func findStateObject(fromRow: Int) -> CountryState?
 	{
 		if isSearching
 		{
@@ -328,68 +323,68 @@ class SelectCountryVC: UIViewController
 		}
 		else
 		{
-			for i in 0 ..< store.countries.count
+			for i in 0 ..< store.states.count
 			{
 				if i == fromRow
 				{
-					return store.countries[i]
+					return store.states[i]
 				}
 			}
 		}
 		return nil
 	}
-
-
+	
+	
 	// MARK: Actions
 	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
 	{
 		self.dismiss(animated: true, completion: nil)
-		if let object = findCountryObject(fromRow: SelectCountryVC.selectedRow.row)
+		if let object = findStateObject(fromRow: SelectStateVC.selectedRow.row)
 		{
-			defaultCountry = store.valueById(object: (object.name)!, id: store.myLang)
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: object)
+			defaultState = (object.name)!
+			NotificationCenter.default.post(name: AddressExpandedViewController.selectState, object: object)
 		}
 		else
 		{
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: nil)
+			NotificationCenter.default.post(name: AddressExpandedViewController.selectState, object: nil)
 		}
 	}
-
+	
 }
 
 
 
-extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
+extension SelectStateVC: UITableViewDataSource, UITableViewDelegate
 {
 	func numberOfSections(in tableView: UITableView) -> Int
 	{
 		return 1
 	}
-
-
+	
+	
 	// MARK: UITableViewDataSource
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-//		if isSearching
-//		{
-//			return filtered.count
-//		}
-//		return store.countries.count
-//		return (isSearching) ? filtered.count : store.countries.count
+		//		if isSearching
+		//		{
+		//			return filtered.count
+		//		}
+		//		return store.countries.count
+		//		return (isSearching) ? filtered.count : store.countries.count
 		return filtered.count
 	}
-
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
 		let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! SelectCountryCell
 		cell.setupViews()
-		let obj = findCountryObject(fromRow: indexPath.row)
+		let obj = findStateObject(fromRow: indexPath.row)
 		if obj != nil
 		{
-			let name = store.valueById(object: (obj?.name)!, id: store.myLang)
+			let name = (obj?.name)!
 			cell.titleLabel.text = name
 			cell.tag = (obj?.id)!+10
-			if name == defaultCountry || defaultCountryId == cell.tag-10//indexPath == SelectCountryVC.selectedRow //&& isSearching
+			if name == defaultState || defaultStateId == cell.tag-10//indexPath == SelectCountryVC.selectedRow //&& isSearching
 			{
 				cell.titleLabel.textColor = UIColor.white
 				cell.contentView.backgroundColor = R.color.YumaRed
@@ -406,12 +401,12 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 		}
 		return cell
 	}
-
+	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 	{
-		if SelectCountryVC.selectedRow.row > -1
+		if SelectStateVC.selectedRow.row > -1
 		{	// unhighlight row hightlighted before
-			if let cell = tableView.cellForRow(at: SelectCountryVC.selectedRow) as? SelectCountryCell
+			if let cell = tableView.cellForRow(at: SelectStateVC.selectedRow) as? SelectCountryCell
 			{
 				cell.contentView.backgroundColor = UIColor.clear
 				cell.titleLabel.textColor = UIColor.darkGray
@@ -419,113 +414,113 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 		}
 		if let cell = tableView.cellForRow(at: indexPath) as? SelectCountryCell
 		{
-//			if !isSearching
-//			{
-			defaultCountry = cell.titleLabel.text
-			defaultCountryId = cell.tag-10
-				SelectCountryVC.selectedRow = indexPath
-				UIView.animate(withDuration: 0.25, delay: 0, options: [], animations: {
-					cell.titleLabel.textColor = UIColor.white
-					cell.contentView.backgroundColor = R.color.YumaRed
-				}, completion: { (finished) in
-					cell.titleLabel.textColor = UIColor.white
-					cell.contentView.backgroundColor = R.color.YumaRed
-				})
-//			}
+			//			if !isSearching
+			//			{
+			defaultState = cell.titleLabel.text
+			defaultStateId = cell.tag-10
+			SelectStateVC.selectedRow = indexPath
+			UIView.animate(withDuration: 0.25, delay: 0, options: [], animations: {
+				cell.titleLabel.textColor = UIColor.white
+				cell.contentView.backgroundColor = R.color.YumaRed
+			}, completion: { (finished) in
+				cell.titleLabel.textColor = UIColor.white
+				cell.contentView.backgroundColor = R.color.YumaRed
+			})
+			//			}
 		}
 	}
-
+	
 }
 
 
 
-extension SelectCountryVC: UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate
+extension SelectStateVC: UISearchBarDelegate, UISearchResultsUpdating
 {
 	// MARK: UISearchResultsUpdating
 	func updateSearchResults(for searchController: UISearchController)
 	{
-//		find = searchController.searchBar.text
+		find = searchController.searchBar.text
 		self.tableView.reloadData()
 	}
-
-//	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
-//	{
-//		self.isRemovingTextWithBackspace = (NSString(string: searchBar.text!).replacingCharacters(in: range, with: text).count == 0)
-//		return true
-//	}
-
+	
+	//	func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+	//	{
+	//		self.isRemovingTextWithBackspace = (NSString(string: searchBar.text!).replacingCharacters(in: range, with: text).count == 0)
+	//		return true
+	//	}
+	
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
 	{
-//		if isSearching
-//		{
-//			searchBarShouldBeginEditing = searchBar.isFirstResponder
-//		}
-//		if searchText.count == 0 && !isRemovingTextWithBackspace
-//		{
-////			NSLog("Has clicked on clear!")
-//			print("Has clicked on clear!")
-//		}
-//		if !searchBar.isFirstResponder
-//		{
-//			shouldBeginEditing = false
-//		}
-//		else if (searchBar.text?.isEmpty)!
-//		{
-//			performSelector(onMainThread: "resignFirstResponder", with: nil, waitUntilDone: true, modes: nil)
-//		}
-//		if searchBar == searchBox
-//		{
-			if searchBar.text == nil || (searchBar.text?.isEmpty)!
-			{
-				isSearching = false
-				filtered = store.countries
-//				view.endEditing(true)
+		//		if isSearching
+		//		{
+		//			searchBarShouldBeginEditing = searchBar.isFirstResponder
+		//		}
+		//		if searchText.count == 0 && !isRemovingTextWithBackspace
+		//		{
+		////			NSLog("Has clicked on clear!")
+		//			print("Has clicked on clear!")
+		//		}
+		//		if !searchBar.isFirstResponder
+		//		{
+		//			shouldBeginEditing = false
+		//		}
+		//		else if (searchBar.text?.isEmpty)!
+		//		{
+		//			performSelector(onMainThread: "resignFirstResponder", with: nil, waitUntilDone: true, modes: nil)
+		//		}
+		//		if searchBar == searchBox
+		//		{
+		if searchBar.text == nil || (searchBar.text?.isEmpty)!
+		{
+			isSearching = false
+			filtered = store.states
+			view.endEditing(true)
+		}
+		else
+		{
+			filtered.removeAll()
+			filtered = store.states.filter({ (state) -> Bool in
+				return (state.name?.lowercased().contains(searchText.lowercased()))!
+			})
+			let _ = filtered.sorted { (a, b) -> Bool in
+				(a.name!) < (b.name!)
 			}
-			else
-			{
-				filtered.removeAll()
-				filtered = store.countries.filter({ (country) -> Bool in
-					return (store.valueById(object: country.name!, id: store.myLang)?.lowercased().contains(searchText.lowercased()))!
-				})
-				let _ = filtered.sorted { (a, b) -> Bool in
-					(store.valueById(object: a.name!, id: store.myLang)!) < (store.valueById(object: b.name!, id: store.myLang)!)
-				}
-				isSearching = (filtered.count == 0) ? false : true
-			}
-			tableView.reloadData()
-//		}
+			isSearching = (filtered.count == 0) ? false : true
+		}
+		tableView.reloadData()
+		//		}
 	}
 	
-//	@objc func makeSearchBarFirstResponder(_ sender: UISearchBar)
-//	{
-//		sender.becomeFirstResponder()
-//	}
-
+	//	@objc func makeSearchBarFirstResponder(_ sender: UISearchBar)
+	//	{
+	//		sender.becomeFirstResponder()
+	//	}
+	
 	func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
 	{
-//		searchBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(makeSearchBarFirstResponder(_:))))
-		searchBar.becomeFirstResponder()
-//		print("searchBarTextDidBeginEditing")//fires on start typing
+		//		searchBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(makeSearchBarFirstResponder(_:))))
+		//		print("searchBarTextDidBeginEditing")//fires on start typing
 		isSearching = true
 	}
-
+	
 	func searchBarTextDidEndEditing(_ searchBar: UISearchBar)
 	{
-//		print("searchBarTextDidEndEditing")//fires on delete all characters
+		//		print("searchBarTextDidEndEditing")//fires on delete all characters
 		isSearching = false
 	}
-
+	
 	func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
 	{
-//		searchBar.text = ""
+		searchBar.text = ""
 		print("searchBarCancelButtonClicked")
 		isSearching = false
 	}
-
+	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
 	{
 		print("searchBarSearchButtonClicked")
 		isSearching = false
 	}
-
+	
 }
+

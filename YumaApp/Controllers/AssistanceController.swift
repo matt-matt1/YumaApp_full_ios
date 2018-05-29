@@ -36,30 +36,48 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		view.textColor = UIColor.white
 		view.textAlignment = .center
 		view.layer.masksToBounds = true
+//		view.cornerRadius = 20
+//		view.clipsToBounds = true
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 20)!, NSAttributedStringKey.shadow : titleShadow])
+		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
+		view.shadowColor = UIColor.black
+		view.shadowRadius = 3
+		view.shadowOffset = CGSize(width: 1, height: 1)
 		return view
 	}()
-	let buttonSingle: UIButton =
+	let buttonSingle: GradientButton =
 	{
-		let view = UIButton()
+		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.setTitle(R.string.cont.uppercased(), for: .normal)
+		view.setTitle(R.string.dismiss.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.backgroundColor = /*R.color.YumaYel*/R.color.YumaRed.withAlphaComponent(0.8)
-		//view.topGradientColor = R.color.YumaRed
-		//view.bottomGradientColor = R.color.YumaYel
+		view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.8)
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
-		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
-//		view.shadowOpacity = 0.9
-//		view.titleEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+		view.shadowOpacity = 0.9
 		return view
 	}()
 	let buttonPrev: UILabel =
@@ -131,11 +149,19 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 		drawDialog()
     }
 
-	
+
+	override func viewDidLayoutSubviews()
+	{
+		super.viewDidLayoutSubviews()
+		let _ = buttonSingle.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+	}
+
+
 	func drawTitle()
 	{
-		titleLabel.text = R.string.help
-		titleLabel.font = UIFont.systemFont(ofSize: 21)
+		titleLabel.text = title//R.string.help
+//		titleLabel.font = UIFont.systemFont(ofSize: 21)
 		dialogWindow.addSubview(titleLabel)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: titleLabel)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0, constant: titleBarHeight))
