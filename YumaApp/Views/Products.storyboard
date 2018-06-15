@@ -364,7 +364,7 @@
                                                                                                             <constraint firstAttribute="height" constant="50" id="Fw0-G0-gNn"/>
                                                                                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="qP7-s5-bhh"/>
                                                                                                         </constraints>
-                                                                                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="16"/>
+                                                                                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="15"/>
                                                                                                         <size key="titleShadowOffset" width="1" height="1"/>
                                                                                                         <state key="normal" title="CHECKOUT">
                                                                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

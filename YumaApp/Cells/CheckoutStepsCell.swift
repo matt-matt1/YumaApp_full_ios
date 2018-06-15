@@ -56,7 +56,7 @@ class CheckoutStepsCell: UICollectionViewCell
 	{
 		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.setTitle(R.string.cont.uppercased(), for: .normal)
+		view.setTitle(R.string.markComp.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
@@ -80,7 +80,7 @@ class CheckoutStepsCell: UICollectionViewCell
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		return view
 	}()
 //	let cont: /*UIButton*/GradientButton =
@@ -142,6 +142,15 @@ class CheckoutStepsCell: UICollectionViewCell
 //			view.removeFromSuperview()
 //		}
 //		setupBackground()
+		cont.isUserInteractionEnabled = true
+		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
+		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		addSubview(cont)
+		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		//		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		switch index {
 		case 1:
 			drawStep2Addreses()
@@ -159,15 +168,6 @@ class CheckoutStepsCell: UICollectionViewCell
 			drawStep1Personal()
 			break
 		}
-		cont.isUserInteractionEnabled = true
-		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
-		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
-		addSubview(cont)
-		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
-//		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
 	}
 
 
