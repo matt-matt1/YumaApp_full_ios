@@ -291,7 +291,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			}
 			for state in store.states
 			{
-				if state.id! == Int((self.address?.id_state)!)!
+				if state.id! == (self.address?.idState)!
 				{
 					stateField.text = state.name
 //					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
@@ -300,7 +300,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			}
 			for country in store.countries
 			{
-				if country.id! == Int((self.address?.id_country)!)!
+				if country.id! == (self.address?.idCountry)!
 				{
 					countryField.text = store.valueById(object: country.name!, id: store.myLang)//country.name?[store.myLang].value
 //					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
@@ -308,9 +308,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 				}
 			}
 			phoneField.text = self.address?.phone
-			mobField.text = self.address?.phone_mobile
+			mobField.text = self.address?.phoneMobile
 			otherField.text = self.address?.other
-			fillStates(Int((self.address?.id_country)!)!)
+			fillStates((self.address?.idCountry)!)
 		}
 	}
 
@@ -347,10 +347,10 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	func loadEnteredValues(id: Int = 0) -> Address
 	{
 		let date = Date()
-		let df = DateFormatter()
-		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-		let today = df.string(from: date)
-		let newRow = Address(id: id, id_customer: String((store.customer?.id_customer)!), id_manufacturer: "", id_supplier: "", id_warehouse: "", id_country: String(countryId), id_state: String(stateId), alias: aliasField.text != nil ? aliasField.text! : "", company: bNameField.text != nil ? bNameField.text! : "", lastname: lNameField.text != nil ? lNameField.text! : "", firstname: fNameField.text != nil ? fNameField.text! : "", vat_number: /*taxNo.text != nil ? taxNo.text! : */"", address1: addr1Field.text != nil ? addr1Field.text! : "", address2: addr2Field.text != nil ? addr2Field.text! : "", postcode: postcodeField.text != nil ? postcodeField.text! : "", city: cityField.text != nil ? cityField.text! : "", other: otherField.text != nil ? otherField.text! : "", phone: phoneField.text != nil ? phoneField.text! : "", phone_mobile: mobField.text != nil ? mobField.text! : "", dni: "", deleted: "0", date_add: today, date_upd: today)
+//		let df = DateFormatter()
+//		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//		let today = df.string(from: date)
+		let newRow = Address(id: id, idCustomer: Int((store.customer?.id_customer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: aliasField.text != nil ? aliasField.text! : "", company: bNameField.text != nil ? bNameField.text! : "", lastname: lNameField.text != nil ? lNameField.text! : "", firstname: fNameField.text != nil ? fNameField.text! : "", vatNumber: /*taxNo.text != nil ? taxNo.text! : */"", address1: addr1Field.text != nil ? addr1Field.text! : "", address2: addr2Field.text != nil ? addr2Field.text! : "", postcode: postcodeField.text != nil ? postcodeField.text! : "", city: cityField.text != nil ? cityField.text! : "", other: otherField.text != nil ? otherField.text! : "", phone: phoneField.text != nil ? phoneField.text! : "", phoneMobile: mobField.text != nil ? mobField.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
 //		let encode = try? JSONEncoder().encode(newRow)
 //		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
 //		{

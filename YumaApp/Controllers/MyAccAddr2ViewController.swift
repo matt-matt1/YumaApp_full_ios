@@ -385,7 +385,7 @@ class MyAccAddr2ViewController: UIViewController
 			}
 			for state in store.states
 			{
-				if state.id! == Int((self.address?.id_state)!)!
+				if state.id! == (self.address?.idState)!
 				{
 					stateField.text = state.name
 					pickerState.selectRow(state.id!, inComponent: 0, animated: false)
@@ -394,7 +394,7 @@ class MyAccAddr2ViewController: UIViewController
 			}
 			for country in store.countries
 			{
-				if country.id! == Int((self.address?.id_country)!)!
+				if country.id! == (self.address?.idCountry)!
 				{
 					countryField.text = store.valueById(object: country.name!, id: store.myLang)//country.name?[store.myLang].value
 					pickerCountry.selectRow(country.id!-1, inComponent: 0, animated: false)
@@ -402,9 +402,9 @@ class MyAccAddr2ViewController: UIViewController
 				}
 			}
 			phoneField.text = self.address?.phone
-			mobField.text = self.address?.phone_mobile
+			mobField.text = self.address?.phoneMobile
 			otherField.text = self.address?.other
-			fillStates(Int((self.address?.id_country)!)!)
+			fillStates((self.address?.idCountry)!)
 		}
 	}
 	
@@ -587,7 +587,7 @@ class MyAccAddr2ViewController: UIViewController
 		store.flexView(view: leftButtonRight)
 		DispatchQueue.main.async
 			{
-				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias)\"", preferredStyle: .alert)
+				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias ?? "no name")\"", preferredStyle: .alert)
 				let coloredBG = 				UIView()
 				let blurFx = 					UIBlurEffect(style: .dark)
 				let blurFxView = 				UIVisualEffectView(effect: blurFx)
@@ -616,11 +616,11 @@ class MyAccAddr2ViewController: UIViewController
 					//print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
-					self.addresses[self.pageControl.currentPage].deleted = "1"
+					self.addresses[self.pageControl.currentPage].deleted = true
 					self.collectionView.reloadData()
 					var edited = self.addresses[self.pageControl.currentPage]
-					print("address was deleted \(edited.deleted ?? "")")
-					edited.deleted = "1"
+					print("address was deleted \(edited.deleted! ? "OK" : "failed")")
+					edited.deleted = true
 					//					let encoder = JSONEncoder()
 					//					encoder.outputFormatting = .prettyPrinted
 					//					let data = try? encoder.encode(edited)

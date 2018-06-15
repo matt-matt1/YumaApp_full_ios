@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
+platform :ios , '9.1'
 
 #project '/Volumes/SHARED/xcode/YumaApp/YumaApp.xcworkspace'
 project '/Volumes/SHARED/xcode/YumaApp/YumaApp.xcodeproj'
@@ -22,6 +23,10 @@ target 'YumaApp' do
 #pod "SwiftDataTables"
 #pod 'PCLBlurEffectAlert'
 pod 'MGSwipeTableCell'
+#pod 'Awesome'
+pod 'AwesomeEnum', '~> 1.2.0'
+#pod 'XMLMapper'
+pod 'SWXMLHash', '~> 4.0.0'
 
   target 'YumaAppTests' do
     inherit! :search_paths

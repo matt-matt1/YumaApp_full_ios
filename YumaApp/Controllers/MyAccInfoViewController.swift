@@ -6,7 +6,9 @@
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
+import SWXMLHash
 import UIKit
+
 
 class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 {
@@ -343,7 +345,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let today = df.string(from: date)
 		let ipAddr: String = store.getIPAddress()!
-		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "0000-00-00 00:00:00", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: String(genderSwitch.selectedSegmentIndex), birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text, company: field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text, siret: field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text, ape: field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text, outstanding_allow_amount: "0.000000", show_public_prices: "1", id_risk: "0", max_payment_days: "0", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGroup), date_add: today, date_upd: today, reset_password_token: nil, reset_password_validity: "0000-00-00 00:00:00", associations: CustomerAssociations(groups: [CustomerGroup(id: nil)]))
+		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "0000-00-00 00:00:00", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: String(genderSwitch.selectedSegmentIndex), birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text, company: field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text, siret: field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text, ape: field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text, outstanding_allow_amount: "0.000000", show_public_prices: "1", id_risk: "0", max_payment_days: "0", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGroup), date_add: today, date_upd: today, reset_password_token: nil, reset_password_validity: "0000-00-00 00:00:00", associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
 		let encode = try? JSONEncoder().encode(newRow)
 		UserDefaults.standard.set(encode, forKey: "updateCustomer.\(df.string(from: date))")
 		return newRow
@@ -559,7 +561,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 //				}
 				var edited = loadEnteredValues()
 //				edited.id = Int((customer?.id_customer)!)
-				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))])
+				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: [IdAsString(id: (customer?.id_customer)!)])])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
 				edited.secure_key = customer?.secure_key
 				edited.last_passwd_gen = customer?.last_passwd_gen
 				edited.ip_registration_newsletter = nil
@@ -582,17 +584,22 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				//params["xml"] = str
 				var allowed = CharacterSet.alphanumerics
 				allowed.insert(charactersIn: ".-_~/?")
-				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "application/xml; charset=utf-8"/*"text/xml; charset=utf-8"*//*"application/x-www-form-urlencoded"*/, "Accept": "application/json, text/javascript, */*; q=0.01"/*"text/xml"*/, "Accept-Language": "en-US,en;q=0.5", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil) 	{ 	(cust) in
+				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": /*"application/xml; charset=utf-8"*/"text/xml; charset=utf-8"/*"application/x-www-form-urlencoded"*/, "Accept": "*/*"/*"text/xml"*/, "Accept-Language": "en-US,en", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil)//, "Accept": "application/json, text/javascript, */*; q=0.01"
+				{ 	(cust) in
 //					print("return: \(cust)")
 					var title = R.string.customer
-					if !((cust as? Bool)!)
+					if cust is Bool && !((cust as? Bool)!)
 					{
 						title = R.string.err
 					}
 					UIViewController.removeSpinner(spinner: spinner)
+//					if let xml = cust as? SWXMLHash.XMLIndexer
+//					{
+						self.store.enumerate(cust as! XMLIndexer)
+//					}
 					OperationQueue.main.addOperation
 					{
-						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
+						let alert = 					UIAlertController(title: title, message: self.store.XMLstr /*cust as? String*/, preferredStyle: .alert)
 						let coloredBG = 				UIView()
 						let blurFx = 					UIBlurEffect(style: .dark)
 						let blurFxView = 				UIVisualEffectView(effect: blurFx)
@@ -621,6 +628,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 						}))
 						self.present(alert, animated: true, completion:
 						{
+							self.store.XMLstr = ""
 						})
 					}
 				}
@@ -655,7 +663,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		viewC.modalPresentationStyle = .overCurrentContext
 		self.present(viewC, animated: true, completion: nil)
 	}
-	
+
 }
 
 

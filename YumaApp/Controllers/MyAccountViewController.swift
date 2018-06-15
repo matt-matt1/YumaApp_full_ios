@@ -65,9 +65,43 @@ class MyAccountViewController: UIViewController
 			], for: UIControlState.highlighted)
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		infoBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		var attrs = NSMutableAttributedString(string: "")
+		var attr3 = NSAttributedString(string: R.string.Info.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
+		let attr2 = NSAttributedString(string: "   ", attributes: nil)
+		var attr1 = Awesome.regular.addressCard.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		attrs.append(attr1)
+		attrs.append(attr2)
+		attrs.append(attr3)
+		infoBtn.setAttributedTitle(attrs, for: .normal)
+		infoBtn.setAttributedTitle(attrs, for: .highlighted)
+//		infoBtn.setAttributedTitle(attr, for: .normal)
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		attrs = NSMutableAttributedString(string: "")
+		attr3 = NSAttributedString(string: R.string.Addrs.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
+		attr1 = Awesome.solid.mapPin.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		attrs.append(attr1)
+		attrs.append(attr2)
+		attrs.append(attr3)
+		addrBtn.setAttributedTitle(attrs, for: .normal)
+		addrBtn.setAttributedTitle(attrs, for: .highlighted)
 		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		attrs = NSMutableAttributedString(string: "")
+		attr3 = NSAttributedString(string: R.string.OrdHist.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
+		attr1 = Awesome.regular.calendarAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		attrs.append(attr1)
+		attrs.append(attr2)
+		attrs.append(attr3)
+		orderHistBtn.setAttributedTitle(attrs, for: .normal)
+		orderHistBtn.setAttributedTitle(attrs, for: .highlighted)
 		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		attrs = NSMutableAttributedString(string: "")
+		attr3 = NSAttributedString(string: R.string.CreditSlips.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
+		attr1 = Awesome.solid.tasks.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		attrs.append(attr1)
+		attrs.append(attr2)
+		attrs.append(attr3)
+		creditSlipsBtn.setAttributedTitle(attrs, for: .normal)
+		creditSlipsBtn.setAttributedTitle(attrs, for: .highlighted)
 		//signOutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		//drawXIB2()
 //		let store = DataStore.sharedInstance
@@ -594,10 +628,11 @@ class MyAccountViewController: UIViewController
 			print("MyAccCSViewController")
 		}
 		store.flexView(view: self.creditSlipsBtn)
-		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as! CustomerOrdersVC?
-		vc?.creditSlips = true
+//		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as! CustomerOrdersVC?
+		let vc = MyAccCS_ViewController()
+//		vc?.creditSlips = true
 //		self.present(MyAccCSViewController(), animated: true, completion: nil)
-		self.present(vc!, animated: true, completion: nil)
+		self.present(vc, animated: true, completion: nil)
 	}
 	@IBAction func OHBtnAct(_ sender: Any)
 	{
@@ -611,9 +646,10 @@ class MyAccountViewController: UIViewController
 //		{
 //			print("row: \(row), id:\(String(describing: store.orders[row].id))")
 //		}
-		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController?
+//		let vc = UIStoryboard(name: "CustomerOrders", bundle: nil).instantiateInitialViewController() as UIViewController?
 //		self.present(MyAccOHViewController(), animated: true, completion: nil)
-		self.present(vc!, animated: true, completion: nil)
+		let vc = MyAccOHViewController()
+		self.present(vc, animated: true, completion: nil)
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
 	{

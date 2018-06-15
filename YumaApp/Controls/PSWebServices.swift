@@ -928,6 +928,41 @@ class PSWebServices: NSObject
 		}
 	}
 	
+//	///return an Object containing a list of the order credit slips
+//	class func getOrderCreditSlips(id_customer: Int, completionHandler: @escaping (OrderSlips?, Error?) -> Void)
+//	{
+//		let url = "\(R.string.WSbase)order_slip?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+//		if let myUrl = URL(string: url)
+//		{
+//			URLSession.shared.dataTask(with: myUrl)
+//			{
+//				(data, response, err) in
+//				//				if err
+//				//				else if response.status_code != 200
+//				if let myData = data
+//				{
+//					//					if saveName != nil && saveName != ""
+//					//					{
+//					let dataStr = String(data: myData, encoding: .utf8)
+//					UserDefaults.standard.set(dataStr, forKey: "Customer\(id_customer)CreditSlips")
+//					//					}
+//					do
+//					{
+//						let myData = try JSONDecoder().decode(OrderSlips.self, from: myData)
+//						//						print(myData)
+//						completionHandler(myData, nil)
+//					}
+//					catch let JSONerr
+//					{
+//						print("\(R.string.err) \(JSONerr)")
+//						completionHandler(nil, JSONerr)
+//					}
+//				}
+//				return
+//			}.resume()
+//		}
+//	}
+	
 	///return an Object containing a list of the order details
 	class func getOrderDetails(id_order: Int, completionHandler: @escaping (OrderDetails?, Error?) -> Void)
 	{
@@ -962,7 +997,7 @@ class PSWebServices: NSObject
 			}.resume()
 		}
 	}
-	
+
 	///return an Object containing a list of the order histories
 	class func getOrderHistories(completionHandler: @escaping ([OrderHistory]?, Error?) -> Void)
 	{
@@ -1068,10 +1103,10 @@ class PSWebServices: NSObject
 		}
 	}
 	
-	///return an Object containing a list of the order slip
-	class func getOrderSlips(completionHandler: @escaping ([OrderSlip]?, Error?) -> Void)
+	///return an Object containing a list of the order slips for a customer
+	class func getOrderSlips(id_customer: Int, completionHandler: @escaping ([OrderSlip]?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)order_slip?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
+		let url = "\(R.string.WSbase)order_slip?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
 			URLSession.shared.dataTask(with: myUrl)
@@ -1084,13 +1119,18 @@ class PSWebServices: NSObject
 					//					if saveName != nil && saveName != ""
 					//					{
 					let dataStr = String(data: myData, encoding: .utf8)
-					UserDefaults.standard.set(dataStr, forKey: "OrderSlips")
+					UserDefaults.standard.set(dataStr, forKey: "OrderSlipsCustomer\(id_customer)")
 					//					}
+					if dataStr == "[]"
+					{
+						return
+						//completionHandler(nil, nil)
+					}
 					do
 					{
 						let myData = try JSONDecoder().decode(OrderSlips.self, from: myData)
 						//						print(myData)
-						completionHandler(myData.order_slips, nil)
+						completionHandler(myData.orderSlips, nil)
 					}
 					catch let JSONerr
 					{
@@ -1099,7 +1139,7 @@ class PSWebServices: NSObject
 					}
 				}
 				return
-				}.resume()
+			}.resume()
 		}
 	}
 	
@@ -1974,7 +2014,7 @@ class PSWebServices: NSObject
 		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>", omit: omit)
 	}
 	
-	fileprivate static func doXMLMiddle(_ prettyOutput: Bool, _ xml: inout String, _ object: Any, _ omit: [String]) {
+	fileprivate static func doXMLMiddle(_ prettyOutput: Bool, _ xml: inout String, _ object: Any, _ omit: [String], printTabs: Bool = false) {
 		if prettyOutput
 		{
 			xml += "\n"
@@ -1998,7 +2038,7 @@ class PSWebServices: NSObject
 				{
 					if key != "some"
 					{
-						if prettyOutput
+						if prettyOutput && printTabs
 						{
 							xml += "\t"
 						}
@@ -2036,7 +2076,7 @@ class PSWebServices: NSObject
 					else if value is Int
 					{
 //						xml += "<![CDATA["
-						xml += "\(value)"
+						xml += String(value as! Int)// "\(value)"
 //						xml += "]]>"
 					}
 //					else if value is Bool
@@ -2050,9 +2090,14 @@ class PSWebServices: NSObject
 //					{
 //						//
 //					}
+//					else if let val = value
+//					{
+//						xml += "null"
+//					}
 					else //if value is CustomerAssociations
 					{
-						doXMLMiddle(prettyOutput, &xml, value, omit)
+						xml += "null"
+//						doXMLMiddle(prettyOutput, &xml, value, omit)
 					}
 //					else
 //					{

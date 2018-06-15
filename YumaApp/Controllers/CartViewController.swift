@@ -223,15 +223,16 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			}
 			for oh in self.store.orderHistories
 			{
+				let df = DateFormatter()
 				var str = ""
-				if oh.date_app != nil
+				if oh.dateAdd != nil
 				{
-					str += String(oh.date_app!)
+					str += df.string(from: oh.dateAdd!)//String(oh.dateAdd!)
 				}
 				if oh.id != nil
 				{
 					str += " ("
-					str += String(oh.id_order!)
+					str += String(oh.idOrder!)
 					str += ")"
 				}
 				self.pickerData.append(str)

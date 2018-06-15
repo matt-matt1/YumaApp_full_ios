@@ -261,10 +261,10 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				{
 					if carr.idReference != nil
 					{
-						if Int((carr.idReference)!)! == Int((order?.id_carrier)!)!
+						if Int((carr.idReference)!) == Int((order?.id_carrier)!)!
 						{
 							found = true
-							if Int((carr.deleted)!)! != 1
+							if carr.deleted != nil && carr.deleted!
 							{
 								carrier.setStrikethrough(text: carr.name!)//, color: R.color.YumaRed)
 							}

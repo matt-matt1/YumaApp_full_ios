@@ -20,9 +20,43 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 			view.checkoutCollection = self
 			return view
 		}()
-	var navBar = UINavigationBar()
-	var navClose = UIBarButtonItem()
-	var navHelp = UIBarButtonItem()
+//	let stackAll: UIStackView =
+//	{
+//		let view = UIStackView()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.axis = .vertical
+//		return view
+//	}()
+//	var navBar = UINavigationBar()
+//	var navClose = UIBarButtonItem()
+//	var navHelp = UIBarButtonItem()
+	var navBar: UINavigationBar =
+	{
+		let view = UINavigationBar()
+		view.backgroundColor = R.color.YumaDRed
+		return view
+	}()
+	let navTitle: UINavigationItem =
+	{
+		let view = UINavigationItem()
+		return view
+	}()
+	var navClose: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		view.image = Awesome.solid.times.asImage(size: 24)
+		view.action = #selector(doDismiss(_:))
+		view.style = UIBarButtonItemStyle.plain
+		return view
+	}()
+	var navHelp: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		view.image = Awesome.solid.questionCircle.asImage(size: 24)
+		view.action = #selector(doHelp(_:))
+		view.style = UIBarButtonItemStyle.plain
+		return view
+	}()
 
 	
 	// MARK: Overrides
@@ -30,6 +64,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	{
         super.viewDidLoad()
 		//setupBackground()
+//		view.addSubview(stackAll)
 		setupNavigation()
 		setupCollectionView()
 		setupMenuBar()
@@ -69,22 +104,43 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	// MARK: Methods
 	private func setupNavigation()
 	{
+//		navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
+//		navBar.setItems([navTitle], animated: false)
+//		navBar.tintColor = UIColor.white
+//		stackAll.addArrangedSubview(navBar)
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		navBar.topItem?.title = R.string.CreditSlips.capitalized
+//		navClose = UIBarButtonItem(barButtonSystemItem: .stop, target: nil, action: #selector(doDismiss(_:)))
+//		navTitle.leftBarButtonItems = [navClose]
+//		navTitle.rightBarButtonItems = [navHelp]
 		navBar = (navigationController?.navigationBar)!
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		if #available(iOS 11.0, *) {
+//			stackAll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		} else {
+//			//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//			let topMargin = stackAll.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0)
+//			topMargin.priority = UILayoutPriority(rawValue: 250)
+//			topMargin.isActive = true
+//			let top20 = stackAll.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+//			top20.priority = UILayoutPriority(rawValue: 750)
+//			top20.isActive = true
+//		}
 		let navBarTop = navBar.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
-		navBarTop.priority = UILayoutPriority(rawValue: 750)
-		//navBarTop.isActive = true
+		navBarTop.priority = UILayoutPriority(rawValue: 250)
+//		navBarTop.isActive = true
 		let navBarTop2 = navBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
-		navBarTop2.priority = UILayoutPriority(rawValue: 250)
-		//navBarTop2.isActive = true
+		navBarTop2.priority = UILayoutPriority(rawValue: 750)
+//		navBarTop2.isActive = true
 		//navBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
 //		navBar.heightAnchor.constraint(equalToConstant: 46).isActive = true
 		//navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(doDismiss(_:)))
-		navClose = UIBarButtonItem(title: FontAwesome.times.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doDismiss(_:)))
-		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navClose.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.highlighted)
+//		navClose = UIBarButtonItem(title: FontAwesome.times.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doDismiss(_:)))
+//		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navClose.setTitleTextAttributes([
+//			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//			], for: UIControlState.highlighted)
+		navClose = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(doDismiss(_:)))
 		navHelp = UIBarButtonItem(title: FontAwesome.questionCircle.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doHelp(_:)))
 		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 		navHelp.setTitleTextAttributes([
@@ -162,6 +218,9 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		view.addSubview(menuBar)
 		view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
 		view.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
+//		stackAll.addSubview(menuBar)
+//		stackAll.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
+//		stackAll.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
 		menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
 //		if #available(iOS 11.0, *)
 //		{

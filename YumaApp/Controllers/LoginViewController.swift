@@ -721,6 +721,53 @@ class LoginViewController: UIViewController
 				//print("getting \(store.orderDetails.count) order details")
 			}
 		}
+		if store.creditSlips.count < 1
+		{
+			let slips = UserDefaults.standard.string(forKey: "CreditSlipsCustomer\(id_customer)")
+			if slips == nil || slips == ""
+			{
+				store.getOrderCreditSlips(id_customer: id_customer, completion:
+					{
+						(slips, error) in
+						
+						if error != nil
+						{
+							if self.store.debug > 0
+							{
+								print(error!)
+							}
+						}
+						else
+						{
+							if self.store.debug > 5
+							{
+								print("got \(String(describing: slips?.count)) slips")
+							}
+						}
+					}
+				)
+			}
+			else
+			{
+				let dataStr = slips?.data(using: .utf8)
+				do
+				{
+					let orderSlips = try JSONDecoder().decode(OrderSlips.self, from: dataStr!)
+					store.creditSlips = orderSlips.orderSlips!
+					if self.store.debug > 5
+					{
+						print("decoded \(String(describing: store.creditSlips.count)) slips")
+					}
+				}
+				catch let JSONerr
+				{
+					if self.store.debug > 0
+					{
+						print("\(R.string.err) \(JSONerr)")
+					}
+				}
+			}
+		}
 		self.successfullyGotDetails(id_customer: id_customer)
 	}
 

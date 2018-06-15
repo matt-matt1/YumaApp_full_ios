@@ -10,6 +10,7 @@
 		77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */; };
 		905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */; };
 		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
+		CF058C5B20D1830600974E2B /* MyXMLParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF058C5A20D1830600974E2B /* MyXMLParserDelegate.swift */; };
 		CF101FAA20A64ED8006917DA /* SetPW.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF101FA920A64ED8006917DA /* SetPW.swift */; };
 		CF126940204C4A6F008EFD04 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12693F204C4A6F008EFD04 /* Categories.swift */; };
 		CF126942204C7B76008EFD04 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF126941204C7B76008EFD04 /* Images.swift */; };
@@ -43,6 +44,9 @@
 		CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF384BFE20604D3E005CCD57 /* ScoialMedia.swift */; };
 		CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A620419A8C00AE21BC /* SwipingController.swift */; };
 		CF4051A92041A15600AE21BC /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4051A82041A15600AE21BC /* PageCell.swift */; };
+		CF42562920D41F5D0002AF12 /* MyAccCS_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF42562820D41F5D0002AF12 /* MyAccCS_Cell.swift */; };
+		CF42562B20D41FC30002AF12 /* MyAccCS_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF42562A20D41FC30002AF12 /* MyAccCS_ViewController.swift */; };
+		CF42562D20D420470002AF12 /* MyAccCS_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF42562C20D420470002AF12 /* MyAccCS_Collection.swift */; };
 		CF44384F209F44A20028443B /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF44384E209F44A20028443B /* InputField.swift */; };
 		CF443851209FBF850028443B /* AssistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF443850209FBF850028443B /* AssistanceController.swift */; };
 		CF443853209FC1BF0028443B /* AssistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF443852209FC1BF0028443B /* AssistanceCell.swift */; };
@@ -120,6 +124,9 @@
 		CF717EB020A3975200E68F83 /* CustomProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF717EAF20A3975200E68F83 /* CustomProductView.swift */; };
 		CF717EB220A3981100E68F83 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF717EB120A3981100E68F83 /* SwiftyJSON.swift */; };
 		CF732EEC209DE918008A8741 /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF732EEB209DE918008A8741 /* RadioGroup.swift */; };
+		CF75E7B620D2BBE000A5FA12 /* MyAccOrderHistory.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF75E7B520D2BBE000A5FA12 /* MyAccOrderHistory.xib */; };
+		CF75E7B820D2C53800A5FA12 /* MyAccOH_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF75E7B720D2C53800A5FA12 /* MyAccOH_Collection.swift */; };
+		CF75E7BA20D2C55C00A5FA12 /* MyAccOH_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF75E7B920D2C55C00A5FA12 /* MyAccOH_Cell.swift */; };
 		CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF78CC0A2083FE620030789D /* PropertyNames.swift */; };
 		CF7BFD1320AF7844009FE1F8 /* ImageWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */; };
 		CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */; };
@@ -132,6 +139,8 @@
 		CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8667202B88570014B787 /* LoginViewController.swift */; };
 		CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8668202B88570014B787 /* LoginViewController.xib */; };
 		CF877BC820923E7400E871F9 /* arbitraryJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF877BC720923E7400E871F9 /* arbitraryJSON.swift */; };
+		CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8C656220D19D6400E12C88 /* MyXMLMethods.swift */; };
+		CF8C656520D1A99F00E12C88 /* PrestashopError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8C656420D1A99F00E12C88 /* PrestashopError.swift */; };
 		CF8E241020BDAC750004A8A3 /* SelectStateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */; };
 		CF8E241420BDB0840004A8A3 /* SelectStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */; };
 		CF904E47205850320086068E /* CustomerOrdersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF904E46205850320086068E /* CustomerOrdersVC.swift */; };
@@ -142,6 +151,16 @@
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
 		CF932A0F209B7A75007633FD /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
+		CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF120C71961006C098C /* fa-brands-400.ttf */; };
+		CFA4ABF520C71961006C098C /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF220C71961006C098C /* fa-solid-900.ttf */; };
+		CFA4ABF620C71961006C098C /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF320C71961006C098C /* fa-regular-400.ttf */; };
+		CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABF920C71A45006C098C /* Awesome.swift */; };
+		CFA4AC0420C71A45006C098C /* NSAttributedString+Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */; };
+		CFA4AC0520C71A45006C098C /* Amazing+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */; };
+		CFA4AC0620C71A45006C098C /* Image+Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */; };
+		CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFF20C71A45006C098C /* Fonts.swift */; };
+		CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0020C71A45006C098C /* Crossplatform.swift */; };
+		CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0220C71A45006C098C /* Amazing.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
@@ -194,6 +213,7 @@
 		7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.release.xcconfig"; sourceTree = "<group>"; };
 		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF058C5A20D1830600974E2B /* MyXMLParserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyXMLParserDelegate.swift; sourceTree = "<group>"; };
 		CF101FA920A64ED8006917DA /* SetPW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPW.swift; sourceTree = "<group>"; };
 		CF12693F204C4A6F008EFD04 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		CF126941204C7B76008EFD04 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
@@ -228,6 +248,9 @@
 		CF384BFE20604D3E005CCD57 /* ScoialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoialMedia.swift; sourceTree = "<group>"; };
 		CF4051A620419A8C00AE21BC /* SwipingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingController.swift; sourceTree = "<group>"; };
 		CF4051A82041A15600AE21BC /* PageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
+		CF42562820D41F5D0002AF12 /* MyAccCS_Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCS_Cell.swift; sourceTree = "<group>"; };
+		CF42562A20D41FC30002AF12 /* MyAccCS_ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCS_ViewController.swift; sourceTree = "<group>"; };
+		CF42562C20D420470002AF12 /* MyAccCS_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCS_Collection.swift; sourceTree = "<group>"; };
 		CF44384E209F44A20028443B /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		CF443850209FBF850028443B /* AssistanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistanceController.swift; sourceTree = "<group>"; };
 		CF443852209FC1BF0028443B /* AssistanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistanceCell.swift; sourceTree = "<group>"; };
@@ -306,6 +329,9 @@
 		CF717EAF20A3975200E68F83 /* CustomProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProductView.swift; sourceTree = "<group>"; };
 		CF717EB120A3981100E68F83 /* SwiftyJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		CF732EEB209DE918008A8741 /* RadioGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
+		CF75E7B520D2BBE000A5FA12 /* MyAccOrderHistory.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccOrderHistory.xib; sourceTree = "<group>"; };
+		CF75E7B720D2C53800A5FA12 /* MyAccOH_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOH_Collection.swift; sourceTree = "<group>"; };
+		CF75E7B920D2C55C00A5FA12 /* MyAccOH_Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOH_Cell.swift; sourceTree = "<group>"; };
 		CF78CC0A2083FE620030789D /* PropertyNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyNames.swift; sourceTree = "<group>"; };
 		CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageWindow.swift; sourceTree = "<group>"; };
 		CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fontAwesomeIcons.swift; sourceTree = "<group>"; };
@@ -319,6 +345,8 @@
 		CF7E8668202B88570014B787 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
 		CF877BC720923E7400E871F9 /* arbitraryJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = arbitraryJSON.swift; sourceTree = "<group>"; };
+		CF8C656220D19D6400E12C88 /* MyXMLMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyXMLMethods.swift; sourceTree = "<group>"; };
+		CF8C656420D1A99F00E12C88 /* PrestashopError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestashopError.swift; sourceTree = "<group>"; };
 		CF8DC9BF20765CBA00D06575 /* ISSUES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ISSUES.md; sourceTree = "<group>"; };
 		CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateVC.swift; sourceTree = "<group>"; };
 		CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateCell.swift; sourceTree = "<group>"; };
@@ -330,6 +358,17 @@
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
 		CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
+		CFA4ABF120C71961006C098C /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
+		CFA4ABF220C71961006C098C /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
+		CFA4ABF320C71961006C098C /* fa-regular-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-regular-400.ttf"; sourceTree = "<group>"; };
+		CFA4ABF920C71A45006C098C /* Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Awesome.swift; sourceTree = "<group>"; };
+		CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Awesome.swift"; sourceTree = "<group>"; };
+		CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Amazing+Tools.swift"; sourceTree = "<group>"; };
+		CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Awesome.swift"; sourceTree = "<group>"; };
+		CFA4ABFF20C71A45006C098C /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		CFA4AC0020C71A45006C098C /* Crossplatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crossplatform.swift; sourceTree = "<group>"; };
+		CFA4AC0220C71A45006C098C /* Amazing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amazing.swift; sourceTree = "<group>"; };
+		CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeEnum.h; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC091201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -498,11 +537,59 @@
 				CF7E8668202B88570014B787 /* LoginViewController.xib */,
 				CF337F362038E35600C93FAF /* MyAccountViewController.xib */,
 				CF9231BD2035FEFD00D44BB6 /* MyAccInfoViewController.xib */,
+				CF75E7B520D2BBE000A5FA12 /* MyAccOrderHistory.xib */,
 				CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */,
 				CFB02E3B204F42ED00429798 /* Products.storyboard */,
 				CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CFA4ABF720C71A45006C098C /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */,
+				CFA4ABF820C71A45006C098C /* Enums */,
+				CFA4ABFA20C71A45006C098C /* Extensions */,
+				CFA4ABFE20C71A45006C098C /* Libs */,
+				CFA4AC0120C71A45006C098C /* Protocols */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		CFA4ABF820C71A45006C098C /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				CFA4ABF920C71A45006C098C /* Awesome.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		CFA4ABFA20C71A45006C098C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */,
+				CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */,
+				CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CFA4ABFE20C71A45006C098C /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				CFA4ABFF20C71A45006C098C /* Fonts.swift */,
+				CFA4AC0020C71A45006C098C /* Crossplatform.swift */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		CFA4AC0120C71A45006C098C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				CFA4AC0220C71A45006C098C /* Amazing.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		CFAFC07B201F6DA1002CBC1B = {
@@ -538,6 +625,7 @@
 				CF717EB120A3981100E68F83 /* SwiftyJSON.swift */,
 				CF601A032049F87400217025 /* MyExtentions.swift */,
 				CF7E8663202B62A90014B787 /* R.swift */,
+				CFA4ABF720C71A45006C098C /* Classes */,
 				CF5C730C2049B932008763DB /* Cells */,
 				CFC1D201203B45F000343B25 /* Controllers */,
 				CF7E8675202E1D860014B787 /* YumaApp.entitlements */,
@@ -574,6 +662,9 @@
 		CFAFC0B5201F7857002CBC1B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CFA4ABF120C71961006C098C /* fa-brands-400.ttf */,
+				CFA4ABF320C71961006C098C /* fa-regular-400.ttf */,
+				CFA4ABF220C71961006C098C /* fa-solid-900.ttf */,
 				CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */,
 				CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */,
 			);
@@ -602,6 +693,7 @@
 				CF68979B208930E100998527 /* CustomerMessages.swift */,
 				CF68979D2089354200998527 /* CustomerThreads.swift */,
 				CF182DCD203327880070B9E5 /* Customers.swift */,
+				CF8C656420D1A99F00E12C88 /* PrestashopError.swift */,
 				CF60CABC208E1C4100B6D0EE /* Customizations.swift */,
 				CF60CABE208E1D2500B6D0EE /* Deliveries.swift */,
 				CF60CAC0208E1EAF00B6D0EE /* Employees.swift */,
@@ -663,7 +755,14 @@
 				CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */,
 				CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */,
 				CF9231BC2035FEFD00D44BB6 /* MyAccInfoViewController.swift */,
+				CF8C656220D19D6400E12C88 /* MyXMLMethods.swift */,
+				CF058C5A20D1830600974E2B /* MyXMLParserDelegate.swift */,
+				CF42562A20D41FC30002AF12 /* MyAccCS_ViewController.swift */,
+				CF42562C20D420470002AF12 /* MyAccCS_Collection.swift */,
+				CF42562820D41F5D0002AF12 /* MyAccCS_Cell.swift */,
 				CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */,
+				CF75E7B720D2C53800A5FA12 /* MyAccOH_Collection.swift */,
+				CF75E7B920D2C55C00A5FA12 /* MyAccOH_Cell.swift */,
 				CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */,
 				CF4FD08B2078256400D92A07 /* OrderDetailsViewController.swift */,
 				CF50A3E5207C08A4008749F0 /* PickerViewController.swift */,
@@ -671,11 +770,11 @@
 				CF717EA420A38BA900E68F83 /* ProductsViewControllerMethods.swift */,
 				CF717EA020A3869400E68F83 /* ProductsViewControllerTaps.swift */,
 				CFB02E3D204F445A00429798 /* ProductsViewController.swift */,
+				CF472DB720AB334000189F35 /* ResourcesViewController.swift */,
+				CF472DB920AB83F700189F35 /* ResourceStage2ViewController.swift */,
 				CF4051A620419A8C00AE21BC /* SwipingController.swift */,
 				CF5C72AA20485072008763DB /* SwipingControllerCollection.swift */,
 				CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */,
-				CF472DB720AB334000189F35 /* ResourcesViewController.swift */,
-				CF472DB920AB83F700189F35 /* ResourceStage2ViewController.swift */,
 				CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */,
 				CF101FA920A64ED8006917DA /* SetPW.swift */,
 				CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */,
@@ -696,7 +795,6 @@
 				CFAFC081201F6DA1002CBC1B /* Frameworks */,
 				CFAFC082201F6DA1002CBC1B /* Resources */,
 				D6AFC8110EC5A5A664BEAB02 /* [CP] Embed Pods Frameworks */,
-				BDDE96B069BD7EF930801DFC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -715,8 +813,6 @@
 				CFAFC094201F6DA1002CBC1B /* Sources */,
 				CFAFC095201F6DA1002CBC1B /* Frameworks */,
 				CFAFC096201F6DA1002CBC1B /* Resources */,
-				87D8AF0704538539E140DB4C /* [CP] Embed Pods Frameworks */,
-				C2C087027B4AB483337C6D86 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -736,8 +832,6 @@
 				CFAFC09F201F6DA1002CBC1B /* Sources */,
 				CFAFC0A0201F6DA1002CBC1B /* Frameworks */,
 				CFAFC0A1201F6DA1002CBC1B /* Resources */,
-				1261E962EF387282181461AD /* [CP] Embed Pods Frameworks */,
-				0904CA2E46F8DCAA71017A33 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -821,8 +915,11 @@
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
 				CFB02E3C204F42ED00429798 /* Products.storyboard in Resources */,
 				CF5C73092049AB32008763DB /* CartStoryboard.storyboard in Resources */,
+				CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */,
+				CFA4ABF520C71961006C098C /* fa-solid-900.ttf in Resources */,
 				CFF4A8C0204EFFFB005AE5C8 /* Assets.xcassets in Resources */,
 				CF26FFC220586C1300532C11 /* CustomerOrders.storyboard in Resources */,
+				CF75E7B620D2BBE000A5FA12 /* MyAccOrderHistory.xib in Resources */,
 				CF9231BF2035FEFD00D44BB6 /* MyAccInfoViewController.xib in Resources */,
 				CF337F372038E35600C93FAF /* MyAccountViewController.xib in Resources */,
 				CF7E863D2029E83D0014B787 /* ContactUsViewController.xib in Resources */,
@@ -834,6 +931,7 @@
 				CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */,
 				CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */,
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
+				CFA4ABF620C71961006C098C /* fa-regular-400.ttf in Resources */,
 				CF7E865E202A42800014B787 /* HeaderView.xib in Resources */,
 				CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */,
 			);
@@ -856,36 +954,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0904CA2E46F8DCAA71017A33 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1261E962EF387282181461AD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		15784A9F3066C5EC026E8F57 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -940,51 +1008,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		87D8AF0704538539E140DB4C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BDDE96B069BD7EF930801DFC /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C2C087027B4AB483337C6D86 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YumaAppTests/Pods-YumaAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D6AFC8110EC5A5A664BEAB02 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -992,11 +1015,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AwesomeEnum/AwesomeEnum.framework",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwesomeEnum.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1019,6 +1046,7 @@
 				CF66957D20B89CD600A69D20 /* SelectCountryCell.swift in Sources */,
 				CF384BFF20604D3E005CCD57 /* ScoialMedia.swift in Sources */,
 				CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */,
+				CF8C656520D1A99F00E12C88 /* PrestashopError.swift in Sources */,
 				CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */,
 				CF44384F209F44A20028443B /* InputField.swift in Sources */,
 				CF50A3EA207C22ED008749F0 /* NotifyExtention.swift in Sources */,
@@ -1037,7 +1065,11 @@
 				CF384BF4205EBB6D005CCD57 /* Result.swift in Sources */,
 				CF60CAD7208E44C400B6D0EE /* ShopGroups.swift in Sources */,
 				CF182DD2203344C00070B9E5 /* Addresses.swift in Sources */,
+				CF42562920D41F5D0002AF12 /* MyAccCS_Cell.swift in Sources */,
+				CF058C5B20D1830600974E2B /* MyXMLParserDelegate.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
+				CFA4AC0420C71A45006C098C /* NSAttributedString+Awesome.swift in Sources */,
+				CFA4AC0620C71A45006C098C /* Image+Awesome.swift in Sources */,
 				CF60CAD3208E409100B6D0EE /* ProductSuppliers.swift in Sources */,
 				CF60CADB208E490200B6D0EE /* Shops.swift in Sources */,
 				CF60CAD1208E3F7400B6D0EE /* ProductFeatures.swift in Sources */,
@@ -1046,8 +1078,10 @@
 				CF7E864C202A0FBA0014B787 /* Countries.swift in Sources */,
 				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF384BFD205FFF0A005CCD57 /* Contents.swift in Sources */,
+				CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */,
 				CF68979E2089354200998527 /* CustomerThreads.swift in Sources */,
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
+				CF42562B20D41FC30002AF12 /* MyAccCS_ViewController.swift in Sources */,
 				CF331F5F209A3D8200992F92 /* MenuCell.swift in Sources */,
 				CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */,
 				CF4BD95D2081228F000B2ED6 /* Configurations.swift in Sources */,
@@ -1058,6 +1092,7 @@
 				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
 				CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */,
+				CF75E7B820D2C53800A5FA12 /* MyAccOH_Collection.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */,
@@ -1068,7 +1103,9 @@
 				CF601A042049F87400217025 /* MyExtentions.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
 				CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */,
+				CF75E7BA20D2C55C00A5FA12 /* MyAccOH_Cell.swift in Sources */,
 				CF50A3E2207BFAC2008749F0 /* HelpVC.swift in Sources */,
+				CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */,
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
 				CF68979C208930E100998527 /* CustomerMessages.swift in Sources */,
@@ -1081,6 +1118,7 @@
 				CF601A20204AEC6A00217025 /* Taxes.swift in Sources */,
 				CF443851209FBF850028443B /* AssistanceController.swift in Sources */,
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,
+				CF42562D20D420470002AF12 /* MyAccCS_Collection.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
 				CF60CABF208E1D2500B6D0EE /* Deliveries.swift in Sources */,
 				CF12694A204C8CF2008EFD04 /* Manufacturers.swift in Sources */,
@@ -1095,11 +1133,13 @@
 				CF60CABB208E190B00B6D0EE /* CMS.swift in Sources */,
 				CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,
+				CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */,
 				CF60CAC9208E369F00B6D0EE /* OrderSlips.swift in Sources */,
 				CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */,
 				CF126948204C8B63008EFD04 /* Currencies.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
 				CF717EA820A3946400E68F83 /* CustomizableAlertController.swift in Sources */,
+				CFA4AC0520C71A45006C098C /* Amazing+Tools.swift in Sources */,
 				CF384BF8205EBF74005CCD57 /* Endpoint.swift in Sources */,
 				CF601A1C204AEAE700217025 /* States.swift in Sources */,
 				CF60CAC3208E225A00B6D0EE /* Groups.swift in Sources */,
@@ -1116,6 +1156,7 @@
 				CF182DC4203219900070B9E5 /* Carts.swift in Sources */,
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,
 				CF4B9AB520A1F13E00AD1486 /* CheckoutStepsCell.swift in Sources */,
+				CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */,
 				CF601A12204AE33900217025 /* OrderHistories.swift in Sources */,
 				CF472DB820AB334000189F35 /* ResourcesViewController.swift in Sources */,
 				CF126946204C8674008EFD04 /* Combinations.swift in Sources */,
@@ -1128,6 +1169,7 @@
 				CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */,
 				CF717EB020A3975200E68F83 /* CustomProductView.swift in Sources */,
 				CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */,
+				CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */,
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
 				CF4B9AB720A1F27900AD1486 /* CartCell.swift in Sources */,
 				CF877BC820923E7400E871F9 /* arbitraryJSON.swift in Sources */,

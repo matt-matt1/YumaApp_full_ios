@@ -7,17 +7,23 @@
 //
 
 import Foundation
+import SWXMLHash
 
 
-struct CustomerGroup: Codable
+//struct CustomerGroupId: Codable, XMLIndexerDeserializable
+//{
+//	var id: IdAsString?
+//}
+struct CustomerGroup: Codable, XMLIndexerDeserializable
 {
-	var id: IdAsString?
+//	var group: [CustomerGroupId]?
+	var id: [IdAsString]?
 }
-struct CustomerAssociations: Codable
+struct CustomerAssociations: Codable, XMLIndexerDeserializable
 {
 	var groups: [CustomerGroup]?
 }
-struct Customer: Codable
+struct Customer: Codable, XMLIndexerDeserializable
 {
 	var id: 						Int?
 	var id_customer: 				String?
@@ -54,6 +60,11 @@ struct Customer: Codable
 	var reset_password_token: 		String?//sha1..40
 	var reset_password_validity: 	String?//date
 	var associations: 				CustomerAssociations?
+
+	static func deserialize(_ node: XMLIndexer) throws -> Customer
+	{
+		return try Customer(id: Int(node["id"].value()), id_customer: node["id_customer"].value(), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: node["newsletter_date_add"].value(), ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: node["last_passwd_gen"].value(), secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: node["birthday"].value(), newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: node["date_add"].value(), date_upd: node["date_upd"].value(), reset_password_token: node["reset_password_token"].value(), reset_password_validity: node["reset_password_validity"].value(), associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
+	}
 }
 struct Customers: Decodable
 {

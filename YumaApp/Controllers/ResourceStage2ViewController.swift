@@ -22,6 +22,41 @@ class ResourceStage2ViewController: UIViewController
 	var count: Int?
 	let cellId = "resourceColl"
 	var statusBarFrame: CGRect!
+	let stackAll: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		return view
+	}()
+	var navBar: UINavigationBar =
+	{
+		let view = UINavigationBar()
+		view.backgroundColor = R.color.YumaDRed
+		return view
+	}()
+	var navBarHeight: CGFloat = 44
+	let navTitle: UINavigationItem =
+	{
+		let view = UINavigationItem()
+		return view
+	}()
+	var navClose: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		view.image = Awesome.solid.angleLeft.asImage(size: 34)
+		view.action = #selector(navCloseAct(_:))
+		view.style = UIBarButtonItemStyle.plain
+		return view
+	}()
+//	var navHelp: UIBarButtonItem =
+//	{
+//		let view = UIBarButtonItem()
+//		view.image = Awesome.solid.questionCircle.asImage(size: 24)
+////		view.action = #selector(navHelpAct(_:))
+//		view.style = UIBarButtonItemStyle.plain
+//		return view
+//	}()
 	var collView: UICollectionView =
 	{
 		let layout = UICollectionViewFlowLayout()
@@ -37,6 +72,7 @@ class ResourceStage2ViewController: UIViewController
 	{
 		let view = UIPageControl()
 		view.translatesAutoresizingMaskIntoConstraints = false
+		view.isUserInteractionEnabled = false
 		view.pageIndicatorTintColor = R.color.YumaYel
 		view.currentPageIndicatorTintColor = R.color.YumaRed
 		return view
@@ -59,7 +95,8 @@ class ResourceStage2ViewController: UIViewController
         super.viewDidLoad()
 
 		view.backgroundColor = UIColor.lightGray
-		statusBarFrame = UIApplication.shared.statusBarFrame
+//		statusBarFrame = UIApplication.shared.statusBarFrame
+		setViews()
 		setNavigation()
 		collView.delegate = self
 		collView.dataSource = self
@@ -70,11 +107,12 @@ class ResourceStage2ViewController: UIViewController
 		}
 		panel.addSubview(pageControl)
 		panel.addSubview(collView)
-		self.view.addSubview(panel)
-		let line = UIView()
-		line.translatesAutoresizingMaskIntoConstraints = false
-		line.backgroundColor = R.color.YumaDRed
-		self.view.addSubview(line)
+		stackAll.addSubview(panel)
+//		self.view.addSubview(panel)
+//		let line = UIView()
+//		line.translatesAutoresizingMaskIntoConstraints = false
+//		line.backgroundColor = R.color.YumaDRed
+//		self.view.addSubview(line)
 		NSLayoutConstraint.activate([
 			pageControl.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 5),
 			pageControl.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: -5),
@@ -85,15 +123,21 @@ class ResourceStage2ViewController: UIViewController
 			collView.topAnchor.constraint(equalTo: pageControl.bottomAnchor/*, constant: 2*/),
 			collView.bottomAnchor.constraint(equalTo: panel.bottomAnchor/*, constant: -2*/),
 			
-			panel.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 5),
-			panel.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -5),
-			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -5),
-			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 2),
+//			panel.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 5),
+//			panel.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: -5),
+//			panel.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -5),
+//			panel.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 20),
 
-			line.topAnchor.constraint(equalTo: view.safeTopAnchor),
-			line.heightAnchor.constraint(equalToConstant: 2),
-			line.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor),
-			line.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor),
+			panel.leadingAnchor.constraint(equalTo: stackAll.leadingAnchor, constant: 5),
+			panel.trailingAnchor.constraint(equalTo: stackAll.trailingAnchor, constant: -5),
+//			panel.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 0),
+			panel.topAnchor.constraint(equalTo: stackAll.topAnchor, constant: navBarHeight),
+			panel.bottomAnchor.constraint(equalTo: stackAll.bottomAnchor, constant: -5),
+			
+//			line.topAnchor.constraint(equalTo: view.safeTopAnchor),
+//			line.heightAnchor.constraint(equalToConstant: 20),
+//			line.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor),
+//			line.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor),
 			])
     }
 
@@ -116,21 +160,38 @@ class ResourceStage2ViewController: UIViewController
 	}
 
 
+	fileprivate func setViews()
+	{
+		view.addSubview(stackAll)
+		if #available(iOS 11.0, *) {
+			stackAll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+			let topMargin = stackAll.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0)
+			topMargin.priority = UILayoutPriority(rawValue: 250)
+			topMargin.isActive = true
+			let top20 = stackAll.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+			top20.priority = UILayoutPriority(rawValue: 750)
+			top20.isActive = true
+		}
+		stackAll.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0).isActive = true
+		stackAll.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0).isActive = true
+		stackAll.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0).isActive = true
+	}
+
+
 	func setNavigation()
 	{
-//		navigationController?.navigationBar.backgroundColor = R.color.YumaRed
-		navigationItem.title = name?.replacingOccurrences(of: "_", with: " ").capitalized ?? "Resource"
-//		let navClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(navCloseAct(_:)))
-//		navClose.style = UIBarButtonItemStyle.done
-//		self.navigationItem.leftBarButtonItems = [navClose]
-		navigationController?.navigationBar.setBackgroundImage(myGradientV(frame: (navigationController?.navigationBar.frame)!, colors: [R.color.YumaDRed, R.color.YumaRed]), for: .default)
-//		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
-//		{
-//			statusbar.backgroundColor = UIColor.lightGray
-//		}
-		UIApplication.statusBar?.backgroundColor = UIColor.lightGray
-//		UIApplication.shared.statusBarStyle = .default
-//		navigationController?.navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: navBarHeight))
+		navTitle.title = R.string.OrdHist
+		navBar.setItems([navTitle], animated: false)
+		navBar.tintColor = UIColor.white
+		stackAll.addArrangedSubview(navBar)
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navBar.topItem?.title = self.name?.replacingOccurrences(of: "_", with: "").capitalized
+//		navClose = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(navCloseAct(_:)))
+		navTitle.leftBarButtonItems = [navClose]
+//		navTitle.rightBarButtonItems = [navHelp]
 	}
 
 
@@ -154,6 +215,10 @@ class ResourceStage2ViewController: UIViewController
         super.didReceiveMemoryWarning()
     }
 
+	@objc func navCloseAct(_ sender: UITapGestureRecognizer)
+	{
+		self.dismiss(animated: false, completion: nil)
+	}
 }
 
 
@@ -176,9 +241,9 @@ extension ResourceStage2ViewController: UICollectionViewDelegate, UICollectionVi
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-		let colours = [UIColor.blue, UIColor.brown, UIColor.cyan, UIColor.red, UIColor.green, UIColor.blueApple, UIColor.gray]
+//		let colours = [UIColor.blue, UIColor.brown, UIColor.cyan, UIColor.red, UIColor.green, UIColor.blueApple, UIColor.gray]
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ResourceStage2ViewCell
-		cell.backgroundColor = indexPath.item < colours.count ? colours[indexPath.item] : UIColor.blue
+//		cell.backgroundColor = indexPath.item < colours.count ? colours[indexPath.item] : UIColor.blue
 		cell.resource = name!
 		cell.itemNo = indexPath.item
 		cell.setup()
@@ -721,6 +786,14 @@ extension ResourceStage2ViewCell: UITableViewDelegate, UITableViewDataSource
 		{
 			cell.setup(resourceList[indexPath.row].key!, resourceList[indexPath.row].value as? String)
 		}
+		else if resourceList[indexPath.row].value is Bool
+		{
+			cell.setup(resourceList[indexPath.row].key!, resourceList[indexPath.row].value as! Bool ? "true" : "false")
+		}
+		else if resourceList[indexPath.row].value is Int
+		{
+			cell.setup(resourceList[indexPath.row].key!, "\(resourceList[indexPath.row].value as! Int)")
+		}
 		else
 		{
 			cell.setup(resourceList[indexPath.row].key!)
@@ -783,7 +856,7 @@ class ResourceStage2TableCell: UITableViewCell
 		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelKey)
 		addConstraintsWithFormat(format: "V:|-8-[v0]-8-|", views: labelValue)
 		addConstraintsWithFormat(format: "H:|-4-[v0]-2-[v1]-4-|", views: labelKey, labelValue)
-		labelKey.text = key.replacingOccurrences(of: "_", with: " ").capitalized
+		labelKey.text = key//.snake_caseToCamelCase()//key.replacingOccurrences(of: "_", with: " ").capitalized
 		if value != nil
 		{
 			labelValue.text = value

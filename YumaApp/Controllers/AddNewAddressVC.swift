@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SWXMLHash
 
 
 class AddNewAddressVC: UIViewController, UITextFieldDelegate
@@ -457,10 +458,10 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	func loadEnteredValues(id: Int = 0) -> Address
 	{
 		let date = Date()
-		let df = DateFormatter()
-		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-		let today = df.string(from: date)
-		let newRow = Address(id: id, id_customer: String((store.customer?.id_customer)!), id_manufacturer: "", id_supplier: "", id_warehouse: "", id_country: "TBD", id_state: "TBD", alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vat_number: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phone_mobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: "0", date_add: today, date_upd: today)
+//		let df = DateFormatter()
+//		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//		let today = df.string(from: date)
+		let newRow = Address(id: id, idCustomer: Int((store.customer?.id_customer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vatNumber: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phoneMobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
 //		let encode = try? JSONEncoder().encode(newRow)
 //		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
 //		{
@@ -476,7 +477,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	func checkFields() -> Bool
 	{
 //		clearErrors()
-		var status = true
+		var allGood = true
 		var i = 0
 		for v in stack.subviews
 		{
@@ -490,7 +491,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 					{
 						v.subviews.first?.borderColor = UIColor.red
 						invalid.alpha = 1
-						status = true
+						allGood = false
 					}
 					else
 					{
@@ -501,7 +502,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			}
 			i += 1
 		}
-		return status
+		return allGood
 	}
 
 
@@ -561,9 +562,10 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil) 	{ 	(result) in
 				UIViewController.removeSpinner(spinner: spinner)
 				let title = R.string.Addr
+				self.store.enumerate(result as! XMLIndexer)
 				OperationQueue.main.addOperation
 				{
-					let alert = 					UIAlertController(title: title, message: result as? String, preferredStyle: .alert)
+					let alert = 					UIAlertController(title: title, message: self.store.XMLstr/*result as? String*/, preferredStyle: .alert)
 					let coloredBG = 				UIView()
 					let blurFx = 					UIBlurEffect(style: .dark)
 					let blurFxView = 				UIVisualEffectView(effect: blurFx)
@@ -591,7 +593,8 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 							//								self.dismiss(animated: false, completion: nil)
 					}))
 					self.present(alert, animated: true, completion:
-						{
+					{
+						self.store.XMLstr = ""
 					})
 				}
 			}

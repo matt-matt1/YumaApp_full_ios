@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SWXMLHash	//https://github.com/drmohundro/SWXMLHash?ref=ioscookies.com
 
 
 final class DataStore
@@ -69,6 +70,11 @@ final class DataStore
 	var displayWeight = 								0
 	var displayDiscPrice = 								1
 	var defaultCountryState = 							1
+	var elementValue: String?
+	var success = false
+	var parser = XMLParser()
+	var XMLstr = ""
+	var creditSlips: 			[OrderSlip] = 			[]
 
 	
 	/// Sets the parameters for product shares
@@ -116,7 +122,7 @@ final class DataStore
 				{
 //					print("parameters:\(bodyStr)")
 				}
-				request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
+//				request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
 			}
 			if body != nil
 			{
@@ -132,8 +138,14 @@ final class DataStore
 				}
 			}
 			request.httpBody = bodyStr.data(using: String.Encoding.utf8)!
+			request.setValue("\(bodyStr.count)", forHTTPHeaderField: "Content-Length")
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in
+				if error != nil
+				{
+					print("error:\(String(describing: error))")
+					return
+				}
 				if let unwrappedData = data
 				{
 //					if let response = response
@@ -157,23 +169,25 @@ final class DataStore
 							{
 								UserDefaults.standard.set(str, forKey: save!)
 							}
-							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+							let xml = SWXMLHash.parse(unwrappedData)
+//							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
 //							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
 //							let token = tokenDictionary["access_token"] as? String
-							completion(customer)
+//							completion(customer)
+							completion(xml["prestashop"])
 						}
 					}
-					catch
-					{
-//						print("POST failed")
-						completion(false)
-						let alertView = UIAlertController(title: "Login failed",
-														  message: "Wrong username or password." as String, preferredStyle:.alert)
-						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
-						alertView.addAction(okAction)
-//						self.present(alertView, animated: true, completion: nil)
-						return
-					}
+//					catch
+//					{
+////						print("POST failed")
+//						completion(false)
+//						let alertView = UIAlertController(title: "Login failed",
+//														  message: "Wrong username or password." as String, preferredStyle:.alert)
+//						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+//						alertView.addAction(okAction)
+////						self.present(alertView, animated: true, completion: nil)
+//						return
+//					}
 				}
 			}
 			task.resume()
@@ -228,6 +242,11 @@ final class DataStore
 			}
 			let task = URLSession.shared.dataTask(with: request as URLRequest)
 			{	(data, response, error) -> Void in
+				if error != nil
+				{
+					print("error:\(String(describing: error))")
+					return
+				}
 				if let unwrappedData = data
 				{
 					let str = String(data: unwrappedData, encoding: .utf8)
@@ -252,25 +271,48 @@ final class DataStore
 								UserDefaults.standard.set(str, forKey: save!)
 							}
 							//parse the xml
-							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+							let xml = SWXMLHash.parse(unwrappedData)
+//							let objectXMLParser = MyXMLParserDelegate()
+//							let result = objectXMLParser.XmlToObject(data: unwrappedData)
+//							self.parser.delegate = MyXMLParserDelegate.self as? XMLParserDelegate
+//							let success: Bool = self.parser.parse()
+//							if success
+//							{
+//								print("successfully parsed XML")
+//							}
+//							else
+//							{
+//								print("failed to parse XML")
+//							}
+//							let objXmlParser = BbXmlParser()
+//							let dictResponse = objXmlParser.getdictionaryFromXmlData(xmldata: data! as NSData)
+//							let parser = XMLParser(data: unwrappedData)
+//							parser.delegate = self as? XMLParserDelegate
+//							parser.parse()
+//							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
 							//							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
 							//							let token = tokenDictionary["access_token"] as? String
-							completion(customer)
+//							completion(dictResponse)
+//							let str = ", ".join(xml["prestashop"].all.map 	{ 	elem in
+//								elem.element!.text!
+//							})
+							completion(xml["prestashop"])
+//							completion(customer)
 						}
 					}
-					catch
-					{
-//						print("PUT failed (\(str ?? "unknown error"))")
-						completion(false)
-						//						self.emailTextField.text = ""
-						//						self.passwordTextField.text = ""
-						let alertView = UIAlertController(title: "Login failed",
-														  message: "Wrong username or password." as String, preferredStyle:.alert)
-						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
-						alertView.addAction(okAction)
-						//						self.present(alertView, animated: true, completion: nil)
-						return
-					}
+//					catch
+//					{
+////						print("PUT failed (\(str ?? "unknown error"))")
+//						completion(false)
+//						//						self.emailTextField.text = ""
+//						//						self.passwordTextField.text = ""
+//						let alertView = UIAlertController(title: "Login failed",
+//														  message: "Wrong username or password." as String, preferredStyle:.alert)
+//						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+//						alertView.addAction(okAction)
+//						//						self.present(alertView, animated: true, completion: nil)
+//						return
+//					}
 				}
 			}
 			task.resume()
@@ -470,6 +512,49 @@ final class DataStore
 				{
 					for ords in (result?.orders)!			{	self.orders.append(ords)	}
 					OperationQueue.main.addOperation		{	completion(result, nil)		}
+				}
+			}
+		)
+	}
+
+	/// Use the api to collect details about the orders made by the logged-in customer, if any
+	func getOrderCreditSlips(id_customer: Int, completion: @escaping ([OrderSlip]?, Error?) -> Void)
+	{
+		PSWebServices.getOrderSlips(id_customer: id_customer, completionHandler:
+			{
+				(result, err) in
+				
+				if err != nil	//if has error
+				{
+					let dataStr = 				UserDefaults.standard.string(forKey: "CreditSlipsCustomer\(id_customer)")
+					
+					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+					let tempObj: 	[OrderSlip]
+					do
+					{
+						tempObj = try JSONDecoder().decode([OrderSlip].self, from: tempCarr.data(using: .utf8)!)
+						for ords in tempObj					{	self.creditSlips.append(ords)	}
+						OperationQueue.main.addOperation	{	completion(tempObj, nil)		}
+					}
+					catch let jsonErr
+					{
+						print(jsonErr)
+						OperationQueue.main.addOperation	{	completion(nil, jsonErr)		}
+					}
+				}
+				else
+				{
+					if let result = result
+					{
+						let array = result
+						OperationQueue.main.addOperation	{
+							//							for carr in result.orderDetails!{	self.orderDetails.append(carr)	}
+							completion(array, nil)			}
+					}
+					else
+					{
+						OperationQueue.main.addOperation	{	completion(nil, nil)		}
+					}
 				}
 			}
 		)
@@ -1240,11 +1325,11 @@ final class DataStore
 		}
 		if address.firstname != ""
 		{
-			formed.append("\(address.firstname) ")
+			formed.append("\(address.firstname ?? "") ")
 		}
 		if address.lastname != ""
 		{
-			formed.append(address.lastname)
+			formed.append(address.lastname!)
 		}
 		if address.firstname != "" || address.lastname != ""
 		{
@@ -1252,7 +1337,7 @@ final class DataStore
 		}
 		if address.address1 != ""
 		{
-			formed.append("\(address.address1)\n")
+			formed.append("\(address.address1 ?? "")\n")
 		}
 		if address.address2 != nil && address.address2 != ""
 		{
@@ -1260,13 +1345,13 @@ final class DataStore
 		}
 		if address.city != ""
 		{
-			formed.append("\(address.city)\n")
+			formed.append("\(address.city ?? "")\n")
 		}
 		if address.postcode != nil && address.postcode != ""
 		{
 			formed.append("\(address.postcode!)")
 		}
-		if address.id_state != nil && address.id_state != ""
+		if address.idState != nil //&& address.idState != ""
 		{
 			if address.postcode != nil && address.postcode != ""
 			{
@@ -1277,7 +1362,7 @@ final class DataStore
 				var stateName = ""
 				for c in self.states
 				{
-					if c.id == Int(address.id_state!)
+					if c.id == Int(address.idState!)
 					{
 						stateName = c.name!
 						break
@@ -1287,21 +1372,21 @@ final class DataStore
 			}
 			else
 			{
-				formed.append(address.id_state!)
+				formed.append(String(address.idState!))
 			}
 		}
-		if address.postcode != nil && address.postcode != "" || address.id_state != nil && address.id_state != ""
+		if address.postcode != nil && address.postcode != "" || address.idState != nil //&& address.id_state != ""
 		{
 			formed.append("\n")
 		}
-		if address.id_country != ""
-		{
+//		if address.idCountry != ""
+//		{
 			if self.countries.count > 0
 			{
 				var country = ""
 				for c in self.countries
 				{
-					if c.id == Int(address.id_country)
+					if c.id! == address.idCountry
 					{
 						country = valueById(object: c.name!, id: myLang)!//c.name![0].value!
 						break
@@ -1311,9 +1396,9 @@ final class DataStore
 			}
 			else
 			{
-				formed.append("\(address.id_country)\n")
+				formed.append("\(address.idCountry ?? 0)\n")
 			}
-		}
+//		}
 		if phoneNums != .hideAll
 		{
 			if address.phone != nil && address.phone != ""
@@ -1329,17 +1414,17 @@ final class DataStore
 					formed.append("\(address.phone!)\n")
 				}
 			}
-			if address.phone_mobile != nil && address.phone_mobile != ""
+			if address.phoneMobile != nil && address.phoneMobile != ""
 			{
-				if phoneNums == .hideLast4 && (address.phone_mobile?.count)! > 3
+				if phoneNums == .hideLast4 && (address.phoneMobile?.count)! > 3
 				{
-					let start = address.phone_mobile?.index((address.phone_mobile?.startIndex)!, offsetBy: 4)
-					let end = address.phone_mobile?.endIndex
-					formed.append("\(address.phone_mobile!.replacingCharacters(in: start!..<end!, with: "****"))\n")
+					let start = address.phoneMobile?.index((address.phoneMobile?.startIndex)!, offsetBy: 4)
+					let end = address.phoneMobile?.endIndex
+					formed.append("\(address.phoneMobile!.replacingCharacters(in: start!..<end!, with: "****"))\n")
 				}
 				else
 				{
-					formed.append("\(address.phone_mobile!)\n")
+					formed.append("\(address.phoneMobile!)\n")
 				}
 			}
 			if address.other != nil && address.other != ""
@@ -1695,4 +1780,46 @@ final class DataStore
 //		return dict
 //	}
 
+	func enumerate(_ indexer: XMLIndexer)
+	{
+		for child in indexer.children
+		{
+			let str = "\(child.element!.name) : \(child.element!.text.replacingOccurrences(of: "\n", with: " "))."
+//			print(str)
+			XMLstr.append(str)
+			enumerate(child)
+		}
+	}
+
 }
+
+
+//
+//extension DataStore: XMLParserDelegate
+//{
+//
+//	private func parser(parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+//		if elementName == "success" {
+//			elementValue = String()
+//		}
+//	}
+//
+//	func parser(_ parser: XMLParser, foundCharacters string: String) {
+//		if elementValue != nil {
+//			elementValue! += string
+//		}
+//	}
+//
+//	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+//		if elementName == "success" {
+//			if elementValue == "true" {
+//				success = true
+//			}
+//			elementValue = nil
+//		}
+//	}
+//
+//	func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+//		print("parseErrorOccurred: \(parseError)")
+//	}
+//}

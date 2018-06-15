@@ -26,7 +26,7 @@ class Addr2CollectionViewCell: UICollectionViewCell
 		addressBorder.borderWidth = 2
 		aliasEdit.text = address.alias
 		addressEdit.text = DataStore.sharedInstance.formatAddress(address, phoneNums: .hideLast4)
-		if address.deleted != nil && address.deleted != "" && address.deleted != "0"
+		if address.deleted != nil && address.deleted != false
 		{
 			let cellView = aliasBorder.superview?.superview
 			let deleted = UILabel(frame: CGRect(x: 0, y: 50, width: aliasBorder.frame.width, height: 40))

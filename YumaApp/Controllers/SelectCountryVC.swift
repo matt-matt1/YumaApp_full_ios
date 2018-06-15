@@ -409,6 +409,7 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
 	{
+		searchBox.resignFirstResponder()
 		if SelectCountryVC.selectedRow.row > -1
 		{	// unhighlight row hightlighted before
 			if let cell = tableView.cellForRow(at: SelectCountryVC.selectedRow) as? SelectCountryCell

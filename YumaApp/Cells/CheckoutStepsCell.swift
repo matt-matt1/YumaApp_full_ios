@@ -52,29 +52,68 @@ class CheckoutStepsCell: UICollectionViewCell
 		view.font = UIFont.systemFont(ofSize: 30)
 		return view
 	}()
-	let cont: /*UIButton*/GradientButton =
+	let cont: GradientButton =
 	{
-		let view = /*UIButton()*/GradientButton()
+		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.cont.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
 		view.backgroundColor = R.color.YumaRed
 		view.topGradientColor = R.color.YumaRed
-		view.bottomGradientColor = R.color.YumaYel
+		view.bottomGradientColor = R.color.YumaDRed
+		//		view.bottomGradientColor = R.color.YumaYel
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 2
-//		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
-//		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		view.shadowRadius = 3
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
+		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		return view
 	}()
+//	let cont: /*UIButton*/GradientButton =
+//	{
+//		let view = /*UIButton()*/GradientButton()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+////		view.setTitle(R.string.commit.uppercased(), for: .normal)
+//		let shadow: NSShadow =
+//		{
+//			var view = NSShadow()
+//			view.shadowColor = UIColor.black
+//			view.shadowOffset = CGSize(width: 1, height: 1)
+//			return view
+//		}()
+//		view.setAttributedTitle(NSAttributedString(string: R.string.cont.uppercased(), attributes: [NSAttributedStringKey.shadow : shadow]), for: .normal)
+////		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
+//		view.titleLabel?.shadowRadius = 3
+//		view.titleLabel?.textColor = UIColor.white
+////		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
+//		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+////		view.backgroundColor = R.color.YumaRed
+//		view.topGradientColor = R.color.YumaRed
+//		view.bottomGradientColor = R.color.YumaYel
+//		view.cornerRadius = 3
+//		view.shadowColor = UIColor.darkGray
+//		view.shadowOffset = CGSize(width: 0, height: 0)
+//		view.shadowRadius = 5
+////		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
+////		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		view.borderColor = R.color.YumaDRed
+//		view.borderWidth = 1
+//		return view
+//	}()
 	let switchView: UISwitch =
 	{
 		let view = UISwitch()
@@ -84,7 +123,7 @@ class CheckoutStepsCell: UICollectionViewCell
 		return view
 	}()
 
-	
+
 	// MARK: Overrides
 	override init(frame: CGRect)
 	{
@@ -121,8 +160,8 @@ class CheckoutStepsCell: UICollectionViewCell
 			break
 		}
 		cont.isUserInteractionEnabled = true
-		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
+		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		addSubview(cont)
 		addConstraintsWithFormat(format: "H:[v0]", views: cont)

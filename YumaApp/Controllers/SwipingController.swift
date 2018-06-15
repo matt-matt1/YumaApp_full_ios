@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AwesomeEnum
+//import AwesomeSwift
 //import PCLBlurEffectAlert
 
 
@@ -24,20 +26,20 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		Slide(id: 1, image: "home-slider-laptops", caption1: "Laptop Computers", caption2: "", target: #selector(laptopTapped))
 	]
 	let store = DataStore.sharedInstance
-	let prevBtn: 			UIButton =
-	{
-		let button = 		UIButton(type: .system)
-		button.setTitle("PREV", for: .normal)
-		button.addTarget(self, action: #selector(handlePrev), for: .touchUpInside)
-		return button
-	}()
-	let nextBtn: 			UIButton =
-	{
-		let button = 		UIButton(type: .system)
-		button.setTitle("NEXT", for: .normal)
-		button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
-		return button
-	}()
+//	let prevBtn: 			UIButton =
+//	{
+//		let button = 		UIButton(type: .system)
+//		button.setTitle("PREV", for: .normal)
+//		button.addTarget(self, action: #selector(handlePrev), for: .touchUpInside)
+//		return button
+//	}()
+//	let nextBtn: 			UIButton =
+//	{
+//		let button = 		UIButton(type: .system)
+//		button.setTitle("NEXT", for: .normal)
+//		button.addTarget(self, action: #selector(handleNext), for: .touchUpInside)
+//		return button
+//	}()
 	lazy var pageControl: 	UIPageControl =
 	{
 		let pc = 			UIPageControl()
@@ -492,7 +494,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					{
 						if err == nil
 						{
-							print("got \((items as! [OrderCarrier]?)?.count ?? 0) order_carriers")
+							print("got \((items as! [OrderCarrier]?)?.count ?? 0) order carriers")
 						}
 						else
 						{
@@ -510,7 +512,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					{
 						store.orderCarriers.append(t)
 					}
-					print("decoded \(store.orderCarriers.count) order_carriers")
+					print("decoded \(store.orderCarriers.count) order carriers")
 				}
 				catch let JSONerr
 				{
@@ -520,7 +522,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		else
 		{
-			print("data store has \(store.orderCarriers.count) order_carriers")
+			print("data store has \(store.orderCarriers.count) order carriers")
 		}
 		if store.productOptions.count < 1	//check if not already in data store
 		{
@@ -794,7 +796,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					{
 						if err == nil
 						{
-							print("got \((items)?.count ?? 0) product_option_values")
+							print("got \((items)?.count ?? 0) product option values")
 						}
 						else
 						{
@@ -812,7 +814,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					{
 						store.productOptionValues.append(t)
 					}
-					print("decoded \(store.productOptionValues.count) product_option_values")
+					print("decoded \(store.productOptionValues.count) product option values")
 				}
 				catch let JSONerr
 				{
@@ -1009,9 +1011,195 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		return myView
 	}
 	
+	func drawIconPanel2(iconImage: UIImage, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
+	{
+		let myIcon = UIImageView(image: iconImage)
+//		myIcon.addSubview(img)
+		myIcon.translatesAutoresizingMaskIntoConstraints = false
+//		myIcon.attributedText = NSMutableAttributedString(string: iconText, attributes: R.attribute.iconText)
+//		myIcon.textAlignment = .center
+		myIcon.shadowColor = R.color.YumaYel
+		myIcon.shadowOffset = CGSize(width: 2, height: 2)
+		
+		let myLabel = UILabel()
+		myLabel.translatesAutoresizingMaskIntoConstraints = false
+		myLabel.text = R.string.login
+		myLabel.textAlignment = .center
+		myLabel.attributedText = NSMutableAttributedString(string: labelText, attributes: R.attribute.labelText)
+		myLabel.shadowColor = R.color.YumaYel
+		myLabel.shadowOffset = CGSize(width: 1, height: 1)
+		myLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+		myLabel.numberOfLines = 3
+		
+		let myStack = UIStackView(arrangedSubviews: [myIcon, myLabel])
+		myStack.translatesAutoresizingMaskIntoConstraints = false
+		myStack.axis = UILayoutConstraintAxis.vertical
+		myStack.backgroundColor = UIColor.lightText
+		NSLayoutConstraint.activate([
+			myIcon.topAnchor.constraint(equalTo: myStack.topAnchor),
+			myIcon.leadingAnchor.constraint(equalTo: myStack.leadingAnchor),
+			myIcon.trailingAnchor.constraint(equalTo: myStack.trailingAnchor),
+			myIcon.heightAnchor.constraint(equalToConstant: 50)
+			])
+		
+		if canFade && !Reachability.isConnectedToNetwork()
+		{
+			myStack.alpha = 0.2
+			if canAction
+			{
+				myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+			}
+		}
+		else
+		{
+			myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+		}
+		
+		let myViewStack = UIView()
+		myViewStack.translatesAutoresizingMaskIntoConstraints = false
+		myViewStack.addSubview(myStack)
+		NSLayoutConstraint.activate([
+			myStack.topAnchor.constraint(equalTo: myViewStack.topAnchor),
+			myStack.leadingAnchor.constraint(equalTo: myViewStack.leadingAnchor),
+			myStack.bottomAnchor.constraint(equalTo: myViewStack.bottomAnchor),
+			myStack.trailingAnchor.constraint(equalTo: myViewStack.trailingAnchor)
+			])
+		
+		let myViewInner = UIView()
+		myViewInner.translatesAutoresizingMaskIntoConstraints = false
+		myViewInner.layer.borderColor = UIColor.lightGray.cgColor
+		myViewInner.layer.borderWidth = 1
+		myViewInner.addSubview(myViewStack)
+		NSLayoutConstraint.activate([
+			myViewStack.topAnchor.constraint(equalTo: myViewInner.topAnchor, constant: 2),
+			myViewStack.leadingAnchor.constraint(equalTo: myViewInner.leadingAnchor, constant: 2),
+			myViewStack.bottomAnchor.constraint(equalTo: myViewInner.bottomAnchor, constant: -2),
+			myViewStack.trailingAnchor.constraint(equalTo: myViewInner.trailingAnchor, constant: -2)
+			])
+		
+		let myViewOuter = UIView()
+		myViewOuter.translatesAutoresizingMaskIntoConstraints = false
+		myViewOuter.layer.borderColor = UIColor.lightGray.cgColor
+		myViewOuter.layer.borderWidth = 1
+		myViewOuter.addSubview(myViewInner)
+		NSLayoutConstraint.activate([
+			myViewInner.topAnchor.constraint(equalTo: myViewOuter.topAnchor, constant: 2),
+			myViewInner.leadingAnchor.constraint(equalTo: myViewOuter.leadingAnchor, constant: 2),
+			myViewInner.bottomAnchor.constraint(equalTo: myViewOuter.bottomAnchor, constant: -2),
+			myViewInner.trailingAnchor.constraint(equalTo: myViewOuter.trailingAnchor, constant: -2)
+			])
+		
+		let myView = UIView()
+		myView.translatesAutoresizingMaskIntoConstraints = false
+		myView.addSubview(myViewOuter)
+		NSLayoutConstraint.activate([
+			myViewStack.topAnchor.constraint(equalTo: myView.topAnchor, constant: 3),
+			myViewStack.leadingAnchor.constraint(equalTo: myView.leadingAnchor, constant: 3),
+			myViewStack.bottomAnchor.constraint(equalTo: myView.bottomAnchor, constant: -3),
+			myViewStack.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -3),
+			myView.heightAnchor.constraint(equalToConstant: 120),
+			//myView.widthAnchor.constraint(equalToConstant: 90)	// trows wobbly
+			])
+		return myView
+	}
+	
+	func drawIconPanel3(iconAttr: NSAttributedString, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
+	{
+		let myIcon = UILabel()
+		//		myIcon.addSubview(img)
+		myIcon.translatesAutoresizingMaskIntoConstraints = false
+		myIcon.attributedText = iconAttr
+		//		myIcon.textAlignment = .center
+		myIcon.shadowColor = R.color.YumaYel
+		myIcon.shadowOffset = CGSize(width: 2, height: 2)
+		
+		let myLabel = UILabel()
+		myLabel.translatesAutoresizingMaskIntoConstraints = false
+		myLabel.text = R.string.login
+		myLabel.textAlignment = .center
+		myLabel.attributedText = NSMutableAttributedString(string: labelText, attributes: R.attribute.labelText)
+		myLabel.shadowColor = R.color.YumaYel
+		myLabel.shadowOffset = CGSize(width: 1, height: 1)
+		myLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+		myLabel.numberOfLines = 3
+		
+		let myStack = UIStackView(arrangedSubviews: [myIcon, myLabel])
+		myStack.translatesAutoresizingMaskIntoConstraints = false
+		myStack.axis = UILayoutConstraintAxis.vertical
+		myStack.backgroundColor = UIColor.lightText
+		NSLayoutConstraint.activate([
+			myIcon.topAnchor.constraint(equalTo: myStack.topAnchor),
+			myIcon.leadingAnchor.constraint(equalTo: myStack.leadingAnchor),
+			myIcon.trailingAnchor.constraint(equalTo: myStack.trailingAnchor),
+			myIcon.heightAnchor.constraint(equalToConstant: 50)
+			])
+		
+		if canFade && !Reachability.isConnectedToNetwork()
+		{
+			myStack.alpha = 0.2
+			if canAction
+			{
+				myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+			}
+		}
+		else
+		{
+			myStack.addGestureRecognizer(UITapGestureRecognizer(target: self, action: actionSelector))
+		}
+		
+		let myViewStack = UIView()
+		myViewStack.translatesAutoresizingMaskIntoConstraints = false
+		myViewStack.addSubview(myStack)
+		NSLayoutConstraint.activate([
+			myStack.topAnchor.constraint(equalTo: myViewStack.topAnchor),
+			myStack.leadingAnchor.constraint(equalTo: myViewStack.leadingAnchor),
+			myStack.bottomAnchor.constraint(equalTo: myViewStack.bottomAnchor),
+			myStack.trailingAnchor.constraint(equalTo: myViewStack.trailingAnchor)
+			])
+		
+		let myViewInner = UIView()
+		myViewInner.translatesAutoresizingMaskIntoConstraints = false
+		myViewInner.layer.borderColor = UIColor.lightGray.cgColor
+		myViewInner.layer.borderWidth = 1
+		myViewInner.addSubview(myViewStack)
+		NSLayoutConstraint.activate([
+			myViewStack.topAnchor.constraint(equalTo: myViewInner.topAnchor, constant: 2),
+			myViewStack.leadingAnchor.constraint(equalTo: myViewInner.leadingAnchor, constant: 2),
+			myViewStack.bottomAnchor.constraint(equalTo: myViewInner.bottomAnchor, constant: -2),
+			myViewStack.trailingAnchor.constraint(equalTo: myViewInner.trailingAnchor, constant: -2)
+			])
+		
+		let myViewOuter = UIView()
+		myViewOuter.translatesAutoresizingMaskIntoConstraints = false
+		myViewOuter.layer.borderColor = UIColor.lightGray.cgColor
+		myViewOuter.layer.borderWidth = 1
+		myViewOuter.addSubview(myViewInner)
+		NSLayoutConstraint.activate([
+			myViewInner.topAnchor.constraint(equalTo: myViewOuter.topAnchor, constant: 2),
+			myViewInner.leadingAnchor.constraint(equalTo: myViewOuter.leadingAnchor, constant: 2),
+			myViewInner.bottomAnchor.constraint(equalTo: myViewOuter.bottomAnchor, constant: -2),
+			myViewInner.trailingAnchor.constraint(equalTo: myViewOuter.trailingAnchor, constant: -2)
+			])
+		
+		let myView = UIView()
+		myView.translatesAutoresizingMaskIntoConstraints = false
+		myView.addSubview(myViewOuter)
+		NSLayoutConstraint.activate([
+			myViewStack.topAnchor.constraint(equalTo: myView.topAnchor, constant: 3),
+			myViewStack.leadingAnchor.constraint(equalTo: myView.leadingAnchor, constant: 3),
+			myViewStack.bottomAnchor.constraint(equalTo: myView.bottomAnchor, constant: -3),
+			myViewStack.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -3),
+			myView.heightAnchor.constraint(equalToConstant: 120),
+			//myView.widthAnchor.constraint(equalToConstant: 90)	// trows wobbly
+			])
+		return myView
+	}
+
 	func drawTopStack() -> UIStackView
 	{
-		let loginPanel = drawIconPanel(iconText: FontAwesome.user.rawValue, labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
+		let loginPanel = drawIconPanel3(iconAttr: Awesome.solid.user.asAttributedText(fontSize: 32, color: R.color.YumaRed, backgroundColor: .clear), labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
+//		let loginPanel = drawIconPanel2(iconImage: Awesome.solid.handScissors.asImage(size: 30), labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
+//		let loginPanel = drawIconPanel(iconText: FontAwesome.user.rawValue, labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
 		loginPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true
 		let loginGap = UIView()
 		let loginStack = UIStackView(arrangedSubviews: [loginPanel, loginGap])

@@ -56,7 +56,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	{
 		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.setTitle(R.string.dismiss.uppercased(), for: .normal)
+		view.setTitle(R.string.close.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white

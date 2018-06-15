@@ -1,12 +1,24 @@
 PODS:
+  - AwesomeEnum (1.2.0)
   - MGSwipeTableCell (1.6.6)
+  - SWXMLHash (4.0.0)
 
 DEPENDENCIES:
+  - AwesomeEnum (~> 1.2.0)
   - MGSwipeTableCell
+  - SWXMLHash (~> 4.0.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AwesomeEnum
+    - MGSwipeTableCell
+    - SWXMLHash
 
 SPEC CHECKSUMS:
+  AwesomeEnum: fe633a08020f92ab57277956c1df4d52fbfa27e0
   MGSwipeTableCell: c3bc6e261e7bc06c112909fe3fb8205de286082c
+  SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
 
-PODFILE CHECKSUM: 870fb14b45ef670978457eaff8e9d73c1b2c55ba
+PODFILE CHECKSUM: 8fae61d5e8e8c8372aca5b17661419d8c546e3c0
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
