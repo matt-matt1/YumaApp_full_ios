@@ -488,7 +488,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
 				print(ws.xml!)
 				ws.printURL()
-				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil) 	{ 	(cust) in
+				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(cust) in
 					//print("return: \(cust)")
 					var title = R.string.customer
 					if !((cust as? Bool)!)

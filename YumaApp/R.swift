@@ -5,6 +5,8 @@
 //  Created by Yuma Usa on 2018-02-07.
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
+//  Resources like in Android Studio
+//
 
 import Foundation
 import UIKit
@@ -55,34 +57,34 @@ struct R {
 	struct array
 	{
 		static let help_add_address_guide: [String] = [
-			"Enter your address details - an alias (nickname) is for easy reference",
+			"Enter address details - an alias (nickname) is for easy reference",
 			"\"\(R.string.co)\", \"\(R.string.taxNo)\", \"\(R.string.addr2)\", \"\(R.string.state)\", \"\(R.string.ph)\", \"\(R.string.ph_mob)\" and \"\(R.string.other)\" are optional",//	\"\(R.string)\"
-			"TIP:  Enter your phone contact(s), so the couriers can notify you, if required",
+			"TIP:  Enter your phone contact(s), so the couriers can notify the contact person, if required",
 			"Press \"\(R.string.addAddr.uppercased())\" to save the information you entered"
 		]
 		
 		static let help_checkout_guide: [String] = [
 			"There are some simple steps to complete for the items in your cart to be dispatched:",
-			"Each step number is contained in the bar near the top; also every step has a tick mark that will become bright when completed",
+			"Each step number is contained in the bar near the top; also every step has a tick mark that will become bright when the step is completed",
 			"TIP:  Press your name (if logged-in, on Step 1) to see your account details",
 			"Instructions and options for each step is shown in the main panel",
-			"The \"\(R.string.cont)\" button will advance you to the next step to be completed",
+			"The \"\(R.string.markComp)\" button will advance you to the next step to be completed",
 			"When all steps are complete the item(s) are ready to be dispatched"]
 		
 		static let help_contact_us_guide: [String] = [
 			"This page details how you can contact us - phone, email and visit",
 			"Press the \"\(R.string.phoneAct)\" button to place our phone number into your dialer",
 			"Press the \"\(R.string.email)\" button and a popup window will ask you to select the destination; then it will create a new message and place the destination's email address as the To address",
-			"A map will be displayed with a red pin at our location; your current location is marked with a blue plusating dot",
+			"A map will be displayed with a red pin at our location; your current location is marked with a blue dot that pulsates when en route",
 			//			"If you have internet facilities, you can tap \"\(R.string.plotMe)\" and see a route to our local store",
 			"TIP:  You can press \"\(R.string.plotMe)\", if you have internet facilities, and a route will be drawn between your location and our local store",
 			"Press the \"\(R.string.map_big)\" button, if you have internet facilities, to display a full-screen map with a pin at our location",
 			"TIP:  The map can be zoomed using the slider at the bottom, or by pressing the plus and minus buttons"]
 		
 		static let help_home_page_guide: [String] = [
-			"Welcome to our store! This is the mobile interface for \(R.string.app_name)",
-			"A small slide-show of our products/services is in the middle, that can be pressed",
-			"Click a button (containing an icon and below a word or two) to view that page"]
+			"Welcome to our store!  This is the mobile interface for \(R.string.app_name)",
+			"A small slide-show of our products/services is in the middle"/*, that can be pressed"*/,
+			"Click a button (containing an icon and below a few words) to view that page"]
 		
 		static let help_forgot_pw_guide: [String] = [
 			"Enter your email address (remember the '@' symbol) and press \"\(R.string.proceed)\"",
@@ -94,32 +96,31 @@ struct R {
 			"Ensure the \"\(R.string.remember)\" switch is on to prevent the app from asking you to login next time, otherwise switch off to make the app prompt for login next time",
 			"If you don't have an account with the store, press \"\(R.string.createAcc)\" to create a new account, fill-in the form and press \"\(R.string.createAcc)\"",
 			"If you have an account, but have forgotten your password, press \"\(R.string.forgotPW)\" and enter your email address then press \"\(R.string.proceed)\""
-			
 		]
 		
 		static let help_my_account_guide: [String] =
 		[
-			"Here are some the choices to make:",
-			"Press \"\(R.string.Info)\" to see your details, like your profile",
+			"Here are some details related to your account:",
+			"Press \"\(R.string.Info)\" to see your account details, like your profile",
 			"Press \"\(R.string.Addrs)\" to see each address, if any, related to your account",
-			"Press \"\(R.string.OrdHist)\" to see a table of the orders, if any, related to your account",
-			"Press \"\(R.string.CreditSlips)\" to see a table of the credit slips, if any, related to your account",
-			"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only; thus it will prompt for login next time"
+			"Press \"\(R.string.OrdHist)\" to see the orders, if any, made with this account",
+			"Press \"\(R.string.CreditSlips)\" to see the credit slips, if any, connected to this account",
+			"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only;  thus the app will prompt for login next time.  The screen will change to the login screen"
 		]
 		
 		struct help_my_account_addresses_guide
 		{
 			static let wide: [String] = [
-				"List the address(es) that belong to your account, if any",
-				"TIP:  The left pane has a preview and can be swiped left or right (side-to-side) to view other addresses, if available;  at the same time, the address will appear in the right pane - separated to edit",
+				"List the address(es) that belong to the account, if any",
+				"TIP:  The left pane has a preview and can be swiped left or right (side-to-side) to view another address, if available;  at the same time, the address will appear in the right pane - separated to edit",
 				"Press the \"\(R.string.delete)\" button to mark the address as deleted",
-				"Press the \"\(R.string.upd)\" button to set the address changes",
+				"Press the \"\(R.string.upd)\" button to set the changes to the address",
 				"NOTE:  On a narrow device the preview pane & the edit fields will be displayed on separate screens and an \"\(R.string.edit)\" button will show"
 			]
 			static let narrow: [String] = [
-				"List the address(es) that belong to your account, if any",
-				"Swipe left or right to view other addresses, if available",
-				"If you press the \"\(R.string.edit)\" button, another screen will show with the address in separate lines",
+				"List the address(es) that belong to the account, if any",
+				"Swipe left or right to view another address, if available",
+				"If you press the \"\(R.string.edit)\" button, another screen will show the address in separated lines to easily change",
 				"Press the \"\(R.string.delete)\" button to mark the address as deleted",
 				"NOTE:  On a wide device both the swipe preview & the separated form will be displayed on the same screen"
 			]
@@ -128,18 +129,18 @@ struct R {
 		struct help_my_account_information_guide
 		{
 			static let loggedIn: [String] = [
-				"Your account details will be listed here",
+				"The account profile details will be listed here",
 				"It is required to fill-in \"\(R.string.fName)\", \"\(R.string.lName)\", \"\(R.string.emailAddr)\", a \"\(R.string.txtPass)\" (minimum 5 characters) and to accept the \"\(R.string.custDataPriv)\"",
 				"\"\(R.string.bDate)\", \"\(R.string.co)\", \"\(R.string.website)\", \"\(R.string.siret)\", \"\(R.string.ape)\" along with \"\(R.string.offersFromPartners)\" and \"\(R.string.SignUpNewsletter)\" are optional",
-				"NOTE:  Your email address cannot be changed; all other details can be changed",
+				"NOTE:  Your email address cannot be changed;  but all other details can be changed",
 				"Press \"\(R.string.txtPass)\" to change your password - a popup window will appear that will require that you enter your current password first",
 			]
 			static let newUser: [String] = [
-				"A blank form will be shown for creating a new user account",
+				"A blank form will be shown for creating an account for a user",
 				"It is required to fill-in \"\(R.string.fName)\", \"\(R.string.lName)\", \"\(R.string.emailAddr)\", a \"\(R.string.txtPass)\" (minimum 5 characters) and to accept the \"\(R.string.custDataPriv)\"",
 				"\"\(R.string.bDate)\", \"\(R.string.co)\", \"\(R.string.website)\", \"\(R.string.siret)\", \"\(R.string.ape)\" along with \"\(R.string.offersFromPartners)\" and \"\(R.string.SignUpNewsletter)\" are optional",
-				"NOTE:  Your email address cannot be changed; all other details can be changed",
-				"Press \"\(R.string.generate)\" to have a password of random characters be automattically used - a popup window will appear to note the password",
+				"NOTE:  Your email address cannot be changed;  but all other details can be changed",
+				"Press \"\(R.string.generate)\" to issue a password of random characters - a popup window will appear to note the password",
 			]
 		}
 		
@@ -154,33 +155,34 @@ struct R {
 		]
 		
 		static let help_order_details_guide: [String] = [
-			"Here are the details of this order",
+			"Here are the details of this order:",
 			"Along with the order reference, date, carrier, payment method, status steps, addresses and messages, the item(s) and their quantities are itemized, with the shipping, tax and grand total",
-			"Press \"\(R.string.reorder)\" to order the same item(s) again, if the store permits it",
+			"Press \"\(R.string.reorder)\" to place the entire order again, if the store permits it",
 			"To add a message, first select a product:  Press the \"\(R.string.prod)\" gray box to get a popup with a list of the products on this order (the first product is automattically selected);  press the \"\(R.string.msg)\" gray box and enter a message;  then press \"\(R.string.addMsg)\"",
 		]
 
 		static let help_product_list_guide: [String] = [
-			"Swipe left or right to view other products/services",
-			"TIP:  Each item in your cart (right side) has a small yellow circle in the top left corner that signifys the quantity",
+			"Swipe left or right to view another product or service, if more",
+			"TIP:  Each item in your cart (right side) has a small yellow circle in the top left corner that signifys the quantity for the order",
 			"TIP:  If you double-tap (or double-click) on an item just it's picture will be displayed in a popup window along with it's name",
 			"Press the \"\(R.string.add2cart)\" button to place this item in your cart, if it is already in your cart, the quantity will just be increased",
 			"TIP:  The \"\(R.string.checkOut)\" button will only be bright when you have at least one item of value in the cart",
 			"When finished, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		static let help_cart_guide: [String] = [
-			"Displays each item in your cart including, quantity, product name, thumbnail image, if room, the unit price",
+			"Displays each item in your cart including, quantity, product name, thumbnail image, and if room, the unit price",
 			"The total is placed at the bottom including the number of pieces, weight and price",
 			"TIP:  The \"\(R.string.checkOut)\" button will only be bright when you have at least one item of value in the cart",
 			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
-			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed than the item, and all quantities, can then be removed from your cart",
+			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed, the item, and all it's quantities, can then be removed from your cart",
 			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
-			"When the list is complete and has the correct quantity for each item, press the \"\(R.string.checkOut)\" to finalize and pay"]
+			"When the list is complete including the desired quantity for each item, press the \"\(R.string.checkOut)\" to finalize and pay"]
 		
 		fileprivate init() {}
 	}
 	
-	struct color {
+	struct color
+	{
 		static let YumaRed = UIColor(red: 0.66666666669999997, green: 0.0, blue: 0.094117647060000004, alpha: 1)
 		//aa0018
 		static let YumaYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
@@ -639,80 +641,5 @@ struct R {
 	fileprivate class Class {}
 	
 	fileprivate init() {}
-	
-//	static func format_Address(_ address: Address) -> String
-//	{
-//		var formed = ""
-//		if address.company != nil && address.company != ""
-//		{
-//			formed.append("\(address.company!)\n")
-//		}
-//		if address.firstname != nil && address.firstname != ""
-//		{
-//			formed.append("\(address.firstname) ")
-//		}
-//		if address.lastname != nil && address.lastname != ""
-//		{
-//			formed.append(address.lastname)
-//		}
-//		if address.firstname != nil && address.firstname != "" || address.lastname != nil && address.lastname != ""
-//		{
-//			formed.append("\n")
-//		}
-//		if address.address1 != ""
-//		{
-//			formed.append("\(address.address1)\n")
-//		}
-//		if address.address2 != nil && address.address2 != ""
-//		{
-//			formed.append("\(address.address2!)\n")
-//		}
-//		if address.city != nil && address.city != ""
-//		{
-//			formed.append("\(address.city)\n")
-//		}
-//		if address.postcode != nil && address.postcode != ""
-//		{
-//			formed.append(address.postcode!)
-//		}
-//		if address.id_state != nil && address.id_state != ""
-//		{
-//			formed.append(address.id_state!)
-//		}
-//		if address.postcode != nil && address.postcode != "" || address.id_state != nil && address.id_state != ""
-//		{
-//			formed.append("\n")
-//		}
-//		if address.id_country != nil && address.id_country != ""
-//		{
-//			formed.append("\(address.id_country)\n")
-//		}
-//		return formed
-//	}
 
-}
-
-
-extension UIColor
-{
-	convenience init(hex: String, alpha: CGFloat = 1.0)
-	{
-		var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-		
-		if (cString.hasPrefix("#")) { 	cString.removeFirst() 	}
-		
-		if ((cString.count) != 6)
-		{
-			self.init(hex: "ff0000") // return red color for wrong hex input
-			return
-		}
-		
-		var rgbValue: UInt32 = 0
-		Scanner(string: cString).scanHexInt32(&rgbValue)
-		
-		self.init(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-				  green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-				  blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-				  alpha: alpha)
-	}
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 
-extension MyAccOHViewController: UICollectionViewDelegate, UICollectionViewDataSource
+extension MyAccOHViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
 	func numberOfSections(in collectionView: UICollectionView) -> Int
 	{
@@ -51,5 +51,29 @@ extension MyAccOHViewController: UICollectionViewDelegate, UICollectionViewDataS
 			}
 		}
 		self.present(vc, animated: false, completion: nil)
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets
+	{
+		guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+			return .zero
+		}
+		
+		let cellCount = CGFloat(collectionView.numberOfItems(inSection: section))
+		
+		if cellCount > 0
+		{
+			let cellWidth = flowLayout.itemSize.width + flowLayout.minimumInteritemSpacing
+			
+			let totalCellWidth = cellWidth * cellCount
+			let contentWidth = collectionView.frame.size.width - collectionView.contentInset.left - collectionView.contentInset.right - flowLayout.headerReferenceSize.width - flowLayout.footerReferenceSize.width
+			
+			if (totalCellWidth < contentWidth)	// one row?
+			{
+				let padding = (contentWidth - totalCellWidth + flowLayout.minimumInteritemSpacing) / 2.0
+				return UIEdgeInsetsMake(0, padding, 0, padding)
+			}
+		}
+		return minCollEdgeInsets//UIEdgeInsets(top: 20, left: 8, bottom: 20, right: 8)
 	}
 }

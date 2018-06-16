@@ -203,7 +203,7 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 							let new__last_passwd_gen = df.string(from: Date())
 							//goto SetPW
 							//let passwd = from above
-							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result?.secure_key!)!, "id_customer": String((result?.id!)!), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, completion: { (success) in
+							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result?.secure_key!)!, "id_customer": String((result?.id!)!), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
 								print(success)
 								//launch my account
 							})

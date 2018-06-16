@@ -559,7 +559,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
 			print("posting to:\"\(url)\"")
 			print(ws.xml!)
-			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil) 	{ 	(result) in
+			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(result) in
 				UIViewController.removeSpinner(spinner: spinner)
 				let title = R.string.Addr
 				self.store.enumerate(result as! XMLIndexer)

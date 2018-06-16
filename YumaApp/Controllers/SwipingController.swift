@@ -293,7 +293,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					{
 						if err == nil
 						{
-							print("got \((items as! [OrderState]?)?.count ?? 0) order states")
+							print("got \((items as! OrderStates).order_states?.count ?? 0) order states")
 						}
 						else
 						{
@@ -831,21 +831,137 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 
 	func setDefaults()
 	{
-		store.defaultCurr = Int(store.configValue(forKey: "PS_CURRENCY_DEFAULT"))!
-		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
-		store.defaultCountry = Int(store.configValue(forKey: "PS_COUNTRY_DEFAULT"))!
-		store.defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
-		store.defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
-		store.idShop = Int(store.configValue(forKey: "PS_SHOP_DEFAULT"))!
-		store.idDefaultGroup = Int(store.configValue(forKey: "PS_CUSTOMER_GROUP"))!
-		store.custOptin = Int(store.configValue(forKey: "PS_CUSTOMER_OPTIN"))!
-		store.custBDate = Int(store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE"))!
-		store.preventReorderFromHist = Int(store.configValue(forKey: "PS_DISALLOW_HISTORY_REORDERING"))!
-		store.displayWeight = Int(store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT"))!
-		store.displayDiscPrice = Int(store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE"))!
+		let defaultCurr = store.configValue(forKey: "PS_CURRENCY_DEFAULT")
+		if !defaultCurr.isEmpty
+		{
+			store.defaultCurr = Int(defaultCurr)!
+		}
+		else
+		{
+			store.defaultCurr = 0
+		}
+//		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
+		let myLang = store.configValue(forKey: "PS_LANG_DEFAULT")
+		if !myLang.isEmpty
+		{
+			store.myLang = Int(myLang)!
+		}
+		else
+		{
+			store.myLang = 0
+		}
+//		store.defaultCountry = Int(store.configValue(forKey: "PS_COUNTRY_DEFAULT"))!
+		let defaultCountry = store.configValue(forKey: "PS_COUNTRY_DEFAULT")
+		if !defaultCountry.isEmpty
+		{
+			store.defaultCountry = Int(defaultCountry)!
+		}
+		else
+		{
+			store.defaultCountry = 0
+		}
+//		store.defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
+		let defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
+		if !defaultCountryISO.isEmpty
+		{
+			store.defaultCountryISO = defaultCountryISO
+		}
+		else
+		{
+			store.defaultCountryISO = ""
+		}
+//		store.defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
+		let defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
+		if !defaultLangISO.isEmpty
+		{
+			store.defaultLangISO = defaultLangISO
+		}
+		else
+		{
+			store.defaultLangISO = ""
+		}
+//		store.idShop = Int(store.configValue(forKey: "PS_SHOP_DEFAULT"))!
+		let idShop = store.configValue(forKey: "PS_SHOP_DEFAULT")
+		if !idShop.isEmpty
+		{
+			store.idShop = Int(idShop)!
+		}
+		else
+		{
+			store.idShop = 0
+		}
+//		store.idDefaultGroup = Int(store.configValue(forKey: "PS_CUSTOMER_GROUP"))!
+		let idDefaultGroup = store.configValue(forKey: "PS_CUSTOMER_GROUP")
+		if !idDefaultGroup.isEmpty
+		{
+			store.idDefaultGroup = Int(idDefaultGroup)!
+		}
+		else
+		{
+			store.idDefaultGroup = 0
+		}
+//		store.custOptin = Int(store.configValue(forKey: "PS_CUSTOMER_OPTIN"))!
+		let custOptin = store.configValue(forKey: "PS_CUSTOMER_OPTIN")
+		if !custOptin.isEmpty
+		{
+			store.custOptin = Int(custOptin)!
+		}
+		else
+		{
+			store.custOptin = 0
+		}
+//		store.custBDate = Int(store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE"))!
+		let custBDate = store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE")
+		if !custBDate.isEmpty
+		{
+			store.custBDate = Int(custBDate)!
+		}
+		else
+		{
+			store.custBDate = 0
+		}
+//		store.preventReorderFromHist = Int(store.configValue(forKey: "PS_DISALLOW_HISTORY_REORDERING"))!
+		let preventReorderFromHist = store.configValue(forKey: "PS_DISALLOW_HISTORY_REORDERING")
+		if !preventReorderFromHist.isEmpty
+		{
+			store.preventReorderFromHist = Int(preventReorderFromHist)!
+		}
+		else
+		{
+			store.preventReorderFromHist = 0
+		}
+//		store.displayWeight = Int(store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT"))!
+		let displayWeight = store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT")
+		if !displayWeight.isEmpty
+		{
+			store.displayWeight = Int(displayWeight)!
+		}
+		else
+		{
+			store.displayWeight = 0
+		}
+//		store.displayDiscPrice = Int(store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE"))!
+		let displayDiscPrice = store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE")
+		if !displayDiscPrice.isEmpty
+		{
+			store.displayDiscPrice = Int(displayDiscPrice)!
+		}
+		else
+		{
+			store.displayDiscPrice = 0
+		}
 		//CHEQUE_NAME, CHEQUE_ADDRESS
 		//BANK_WIRE_DETAILS, BANK_WIRE_OWNER, BANK_WIRE_ADDRESS, BANK_WIRE_RESERVATION_DAYS, BANK_WIRE_CUSTOM_TEXT
-		store.defaultCountryState = Int(store.configValue(forKey: "PS_SHOP_STATE_ID"))!
+//		store.defaultCountryState = Int(store.configValue(forKey: "PS_SHOP_STATE_ID"))!
+		let defaultCountryState = store.configValue(forKey: "PS_SHOP_STATE_ID")
+		if !defaultCountryState.isEmpty
+		{
+			store.defaultCountryState = Int(defaultCountryState)!
+		}
+		else
+		{
+			store.defaultCountryState = 0
+		}
 		store.locale = String(format: "%@_%@", store.defaultLangISO, store.defaultCountryISO.uppercased())
 	}
 

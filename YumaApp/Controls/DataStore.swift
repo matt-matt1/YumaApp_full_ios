@@ -88,7 +88,7 @@ final class DataStore
 	}
 	
 	/// Send data via HTTP POST to add a new resource
-	func PostHTTP(url: String, parameters: [String : String]?, headers: [String : String]?, body: String?, save: String? = nil, completion: @escaping (Any) -> Void)
+	func PostHTTP(url: String, parameters: [String : String]?, headers: [String : String]?, body: String?, save: String? = nil, asJSON: Bool = false, completion: @escaping (Any) -> Void)
 	{
 		if let myUrl = URL(string: url)
 		{
@@ -169,25 +169,33 @@ final class DataStore
 							{
 								UserDefaults.standard.set(str, forKey: save!)
 							}
-							let xml = SWXMLHash.parse(unwrappedData)
-//							let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+							if asJSON
+							{
+								do
+								{
+									let customer = try JSONDecoder().decode(Customer.self, from: unwrappedData)
+									completion(customer)
+								}
+								catch
+								{
+									completion(false)
+//									let alertView = UIAlertController(title: "Login failed",
+//																	  message: "Wrong username or password." as String, preferredStyle:.alert)
+//									let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
+//									alertView.addAction(okAction)
+			//						self.present(alertView, animated: true, completion: nil)
+									return
+								}
+							}
+							else
+							{
+								let xml = SWXMLHash.parse(unwrappedData)
+								completion(xml["prestashop"])
+							}
 //							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
 //							let token = tokenDictionary["access_token"] as? String
-//							completion(customer)
-							completion(xml["prestashop"])
 						}
 					}
-//					catch
-//					{
-////						print("POST failed")
-//						completion(false)
-//						let alertView = UIAlertController(title: "Login failed",
-//														  message: "Wrong username or password." as String, preferredStyle:.alert)
-//						let okAction = UIAlertAction(title: "Try Again!", style: .default, handler: nil)
-//						alertView.addAction(okAction)
-////						self.present(alertView, animated: true, completion: nil)
-//						return
-//					}
 				}
 			}
 			task.resume()
