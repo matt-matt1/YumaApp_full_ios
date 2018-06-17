@@ -11,6 +11,7 @@ import UIKit
 
 class SelectCountryVC: UIViewController
 {
+	var noteName = Notification.Name("")
 	let cellId = "selectCounty"
 	var initalDone = false
 	var tableView: UITableView!
@@ -347,11 +348,11 @@ class SelectCountryVC: UIViewController
 		if let object = findCountryObject(fromRow: SelectCountryVC.selectedRow.row)
 		{
 			defaultCountry = store.valueById(object: (object.name)!, id: store.myLang)
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: object)
+			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectCountry*/, object: object)
 		}
 		else
 		{
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: nil)
+			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectCountry*/, object: nil)
 		}
 	}
 

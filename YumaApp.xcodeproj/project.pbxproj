@@ -151,6 +151,7 @@
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
 		CF932A0F209B7A75007633FD /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
+		CFA2115320D69446006E8830 /* SelectDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2115220D69446006E8830 /* SelectDate.swift */; };
 		CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF120C71961006C098C /* fa-brands-400.ttf */; };
 		CFA4ABF520C71961006C098C /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF220C71961006C098C /* fa-solid-900.ttf */; };
 		CFA4ABF620C71961006C098C /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF320C71961006C098C /* fa-regular-400.ttf */; };
@@ -176,6 +177,8 @@
 		CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D203203C569000343B25 /* ExpandMapViewController.xib */; };
 		CFD2B0372087D60200E2DBE7 /* MyAccAddr2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */; };
 		CFD2B0392087F48200E2DBE7 /* Addr2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */; };
+		CFD4E78F20D5BCB8000BA1DF /* ProductLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */; };
+		CFD4E79320D5C4DF000BA1DF /* ProductTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD4E79220D5C4DF000BA1DF /* ProductTags.swift */; };
 		CFEC7B2D203DD1FA00F98C57 /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B2C203DD1FA00F98C57 /* Entry.swift */; };
 		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
 		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
@@ -358,6 +361,7 @@
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
 		CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
+		CFA2115220D69446006E8830 /* SelectDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDate.swift; sourceTree = "<group>"; };
 		CFA4ABF120C71961006C098C /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
 		CFA4ABF220C71961006C098C /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
 		CFA4ABF320C71961006C098C /* fa-regular-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-regular-400.ttf"; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 		CFC1D203203C569000343B25 /* ExpandMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandMapViewController.xib; sourceTree = "<group>"; };
 		CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccAddr2ViewController.swift; sourceTree = "<group>"; };
 		CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Addr2CollectionViewCell.swift; sourceTree = "<group>"; };
+		CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductLabelCell.swift; sourceTree = "<group>"; };
+		CFD4E79220D5C4DF000BA1DF /* ProductTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTags.swift; sourceTree = "<group>"; };
 		CFEC7B2C203DD1FA00F98C57 /* Entry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
 		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
 		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -505,6 +511,7 @@
 				CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */,
 				CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */,
 				CF8E241320BDB0840004A8A3 /* SelectStateCell.swift */,
+				CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -776,9 +783,11 @@
 				CF5C72AA20485072008763DB /* SwipingControllerCollection.swift */,
 				CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */,
 				CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */,
+				CFA2115220D69446006E8830 /* SelectDate.swift */,
 				CF101FA920A64ED8006917DA /* SetPW.swift */,
 				CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */,
 				CF182DB72030F7FB0070B9E5 /* WebpageViewController.swift */,
+				CFD4E79220D5C4DF000BA1DF /* ProductTags.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1075,6 +1084,7 @@
 				CF60CAD1208E3F7400B6D0EE /* ProductFeatures.swift in Sources */,
 				CF717EAE20A3954D00E68F83 /* UIImage+Extension.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* Order.swift in Sources */,
+				CFD4E78F20D5BCB8000BA1DF /* ProductLabelCell.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* Countries.swift in Sources */,
 				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF384BFD205FFF0A005CCD57 /* Contents.swift in Sources */,
@@ -1089,6 +1099,7 @@
 				CF7E8660202A44950014B787 /* HeaderController.swift in Sources */,
 				CF60CADD208E4B7900B6D0EE /* SpecificPriceRules.swift in Sources */,
 				CF601A0E204AE13700217025 /* OrderCarriers.swift in Sources */,
+				CFA2115320D69446006E8830 /* SelectDate.swift in Sources */,
 				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
 				CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */,
@@ -1112,6 +1123,7 @@
 				CF60CAD9208E46F300B6D0EE /* ShopUrls.swift in Sources */,
 				CF60CAC7208E2BE200B6D0EE /* ImageTypes.swift in Sources */,
 				CF717EA120A3869400E68F83 /* ProductsViewControllerTaps.swift in Sources */,
+				CFD4E79320D5C4DF000BA1DF /* ProductTags.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */,
 				CF60CACD208E3CEE00B6D0EE /* ProductCustomizationFields.swift in Sources */,

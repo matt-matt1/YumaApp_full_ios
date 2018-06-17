@@ -127,6 +127,7 @@ class SelectStateVC: UIViewController, UISearchControllerDelegate
 	var dialogWidth: CGFloat = 0
 	var dialogHeight: CGFloat = 0
 	let store = DataStore.sharedInstance
+	var noteName = Notification.Name("")
 	
 	
 	override func viewDidLoad()
@@ -342,11 +343,11 @@ class SelectStateVC: UIViewController, UISearchControllerDelegate
 		if let object = findStateObject(fromRow: SelectStateVC.selectedRow.row)
 		{
 			defaultState = (object.name)!
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectState, object: object)
+			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectState*/, object: object)
 		}
 		else
 		{
-			NotificationCenter.default.post(name: AddressExpandedViewController.selectState, object: nil)
+			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectState*/, object: nil)
 		}
 	}
 	

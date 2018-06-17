@@ -12,13 +12,62 @@ import SWXMLHash
 
 class AddNewAddressVC: UIViewController, UITextFieldDelegate
 {
-	var navBar = UINavigationBar()
-	var navClose = UIBarButtonItem()
-	var navHelp = UIBarButtonItem()
-	let allStack = UIStackView()
+//	var navBar = UINavigationBar()
+//	var navClose = UIBarButtonItem()
+//	var navHelp = UIBarButtonItem()
+//	let allStack = UIStackView()
 	let picker = UIPickerView()
 	var pickerData: [String] = [String]()
-	let panel: UIView =
+	let stackAll: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 0
+		return view
+	}()
+	var navBar: UINavigationBar =
+	{
+		let view = UINavigationBar()
+		view.backgroundColor = R.color.YumaDRed
+		return view
+	}()
+	let navTitle: UINavigationItem =
+	{
+		let view = UINavigationItem()
+		return view
+	}()
+	var navClose: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		view.image = Awesome.solid.times.asImage(size: 24)
+		view.action = #selector(doDismiss(_:))
+		view.style = UIBarButtonItemStyle.plain
+		return view
+	}()
+	var navHelp: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		view.image = Awesome.solid.questionCircle.asImage(size: 24)
+		view.action = #selector(doHelp(_:))
+		view.style = UIBarButtonItemStyle.plain
+		return view
+	}()
+	let viewOuter: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.lightGray
+		return view
+	}()
+	let stackPanel: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.lightGray
+		return view
+	}()
+	let viewPanel: UIView =
 	{
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
@@ -166,13 +215,13 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	let gapBeforeButton: UIView =
 	{
 		let view = UIView()
-		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
 	let button: GradientButton =
 	{
 		let view = GradientButton()
-		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.addAddr.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
@@ -218,11 +267,9 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		return view
 	}()
 	let store = DataStore.sharedInstance
-//	let pickerCountry = UIPickerView()
-//	var pickerCountryData: [Country] = []//[String : Int] = [String : Int]()
-//	let pickerState = UIPickerView()
 	var pickerStateData: [String] = [String]()
 	static let selectCountry = Notification.Name("selectCountry")
+	static let selectState = Notification.Name("selectState")
 	var displaySelectACountryDONE = false
 	var countryId = -1
 	var stateId = -1
@@ -235,22 +282,23 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
         super.viewDidLoad()
 
 		view.backgroundColor = UIColor.lightGray
-		view.addSubview(allStack)
-		allStack.translatesAutoresizingMaskIntoConstraints = false
-		let allStackTop = allStack.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
-		allStackTop.priority = UILayoutPriority(rawValue: 750)
-		allStackTop.isActive = true
-		let allStackTop2 = allStack.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
-		allStackTop2.priority = UILayoutPriority(rawValue: 250)
-		allStackTop2.isActive = true
-		NSLayoutConstraint.activate([
-			allStack.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
-			allStack.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
-			allStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
-			])
+//		view.addSubview(allStack)
+//		allStack.translatesAutoresizingMaskIntoConstraints = false
+//		let allStackTop = allStack.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor)
+//		allStackTop.priority = UILayoutPriority(rawValue: 750)
+//		allStackTop.isActive = true
+//		let allStackTop2 = allStack.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20)
+//		allStackTop2.priority = UILayoutPriority(rawValue: 250)
+//		allStackTop2.isActive = true
+//		NSLayoutConstraint.activate([
+//			allStack.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
+//			allStack.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
+//			allStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+//			])
 		setupNavigation()
-        setupBackground()
-		allStack.addConstraintsWithFormat(format: "V:|[v0]-1-[v1]-5-|", views: navBar, panel)
+		setViews()
+//        setupBackground()
+//		allStack.addConstraintsWithFormat(format: "V:|[v0]-1-[v1]-5-|", views: navBar, panel)
 		setupFields()
 		drawButton()
 		clearErrors()
@@ -265,11 +313,10 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	override func viewDidLayoutSubviews()
 	{
 		super.viewDidLayoutSubviews()
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-//		print("view:x=\(view.frame.origin.x), y=\(view.frame.origin.y), w=\(view.frame.width), h=\(view.frame.height)")
-//		print("alias:x=\(self.alias.frame.origin.x), y=\(self.alias.frame.origin.y), w=\(self.alias.frame.width), h=\(self.alias.frame.height)")
-//		print("stack:x=\(self.stack.frame.origin.x), y=\(self.stack.frame.origin.y), w=\(self.stack.frame.width), h=\(self.stack.frame.height)")
-//		print("scroll:x=\(self.scroll.frame.origin.x), y=\(self.scroll.frame.origin.y), w=\(self.scroll.frame.width), h=\(self.scroll.frame.height), cw=\(self.scroll.contentSize.width), ch=\(self.scroll.contentSize.height)")
+		print("view:x=\(view.frame.origin.x), y=\(view.frame.origin.y), w=\(view.frame.width), h=\(view.frame.height)")
+		print("alias:x=\(self.alias.frame.origin.x), y=\(self.alias.frame.origin.y), w=\(self.alias.frame.width), h=\(self.alias.frame.height)")
+		print("stack:x=\(self.stack.frame.origin.x), y=\(self.stack.frame.origin.y), w=\(self.stack.frame.width), h=\(self.stack.frame.height)")
+		print("scroll:x=\(self.scroll.frame.origin.x), y=\(self.scroll.frame.origin.y), w=\(self.scroll.frame.width), h=\(self.scroll.frame.height), cw=\(self.scroll.contentSize.width), ch=\(self.scroll.contentSize.height)")
 		let _ = button.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
@@ -280,17 +327,6 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		self.navigationController?.navigationItem.hidesBackButton = true//self.navigationItem.hidesBackButton = true
 	}
 
-//	override init(frame: CGRect)
-//	{
-//		super.init(frame: frame)
-//		self.navigationController?.navigationItem.hidesBackButton = true
-//	}
-//
-//	required init?(coder aDecoder: NSCoder)
-//	{
-//		super.init(coder: aDecoder)
-//		fatalError("init(coder:) has not been implemented")
-//	}
 
 	deinit
 	{
@@ -322,75 +358,86 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 
 	// MARK: Methods
 
-	private func setupNavigation()
+	fileprivate func setViews()
 	{
-//		navBar = (navigationController?.navigationBar)!
-//		let navAppear = UINavigationBar.appearance()
-//		navAppear.barTintColor = R.color.YumaRed
-		allStack.addSubview(navBar)
-		allStack.addConstraintsWithFormat(format: "H:|[v0]|", views: navBar)
-//		navBar.topAnchor.constraint(equalTo: allStack.topAnchor, constant: 0).isActive = true
-//		navBar.heightAnchor.constraint(equalToConstant: 46).isActive = true
-		let navLeft = UINavigationItem(title: "")
-		navClose = UIBarButtonItem(title: FontAwesome.times.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doDismiss(_:)))
-		navClose.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navClose.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.highlighted)
-		navLeft.leftBarButtonItem = navClose
-		navLeft.setHidesBackButton(true, animated: false)
-		let navRight = UINavigationItem(title: "")
-		navHelp = UIBarButtonItem(title: FontAwesome.questionCircle.rawValue, style: UIBarButtonItemStyle.done, target: self, action: #selector(doHelp(_:)))
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navHelp.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.highlighted)
-		navRight.rightBarButtonItem = navHelp
-		navBar.setItems([navLeft, navRight], animated: false)
-		navBar.topItem?.title = R.string.addAddr.capitalized
-		navBar.isTranslucent = false
-		self.navigationItem.setHidesBackButton(true, animated: false)
-//		navBar.backItem?.hidesBackButton = true
-//		navigationController?.navigationBar.topItem?.hidesBackButton = false
-		navBar.layer.masksToBounds = false
-		navBar.layer.shadowColor = /*UIColor.black.cgColor*/R.color.YumaDRed.cgColor
-		navBar.layer.shadowOpacity = 1//0.8
-		navBar.layer.shadowOffset = CGSize(width: 0, height: 1.0)
-		navBar.layer.shadowRadius = 1
+		viewPanel.addSubview(scroll)
+		viewPanel.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: scroll)
+		viewPanel.addConstraintsWithFormat(format: "V:|-10-[v0]-5-|", views: scroll)
+//		scroll.topAnchor.constraint(equalTo: viewPanel.topAnchor, constant: 10).isActive = true
+//		scroll.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
+//		scroll.bottomAnchor.constraint(equalTo: viewPanel.bottomAnchor, constant: -5).isActive = true
+//		scroll.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
+
+		stackPanel.addSubview(viewPanel)
+		stackPanel.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: viewPanel)
+		stackPanel.addConstraintsWithFormat(format: "V:|-0-[v0]-0-|", views: viewPanel)
+//		viewPanel.topAnchor.constraint(equalTo: stackPanel.topAnchor, constant: 0).isActive = true
+//		viewPanel.leadingAnchor.constraint(equalTo: stackPanel.leadingAnchor, constant: 0).isActive = true
+//		viewPanel.bottomAnchor.constraint(equalTo: stackPanel.bottomAnchor, constant: 0).isActive = true
+//		viewPanel.trailingAnchor.constraint(equalTo: stackPanel.trailingAnchor, constant: 0).isActive = true
+		
+		viewOuter.addSubview(stackPanel)
+		viewOuter.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: stackPanel)
+		viewOuter.addConstraintsWithFormat(format: "V:|-0-[v0]-5-|", views: stackPanel)
+//		stackPanel.topAnchor.constraint(equalTo: viewOuter.topAnchor, constant: 0).isActive = true
+//		stackPanel.leadingAnchor.constraint(equalTo: viewOuter.leadingAnchor, constant: 5).isActive = true
+//		stackPanel.bottomAnchor.constraint(equalTo: viewOuter.bottomAnchor, constant: -5).isActive = true
+//		stackPanel.trailingAnchor.constraint(equalTo: viewOuter.trailingAnchor, constant: -5).isActive = true
+		
+		stackAll.addArrangedSubview(viewOuter)
+		
+		view.addSubview(stackAll)
+		if #available(iOS 11.0, *) {
+			stackAll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		} else {
+			let topMargin = stackAll.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 0)
+			topMargin.priority = UILayoutPriority(rawValue: 250)
+			topMargin.isActive = true
+			let top20 = stackAll.topAnchor.constraint(equalTo: view.topAnchor, constant: 20)
+			top20.priority = UILayoutPriority(rawValue: 750)
+			top20.isActive = true
+		}
+		stackAll.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0).isActive = true
+		stackAll.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0).isActive = true
+		stackAll.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0).isActive = true
 	}
 
 
-	private func setupBackground()
+	private func setupNavigation()
 	{
-		panel.translatesAutoresizingMaskIntoConstraints = false
-		allStack.addSubview(panel)
-		NSLayoutConstraint.activate([
-			panel.trailingAnchor.constraint(equalTo: allStack.trailingAnchor, constant: -5),
-			panel.leadingAnchor.constraint(equalTo: allStack.leadingAnchor, constant: 5)
-			])
+		navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
+		navBar.setItems([navTitle], animated: false)
+		navBar.tintColor = UIColor.white
+		stackAll.addArrangedSubview(navBar)
+		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+		navBar.topItem?.title = R.string.addAddr.capitalized
+		navClose = UIBarButtonItem(barButtonSystemItem: .stop, target: nil, action: #selector(doDismiss(_:)))
+		navTitle.leftBarButtonItems = [navClose]
+		navTitle.rightBarButtonItems = [navHelp]
+		let line = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 2))
+		line.backgroundColor = UIColor.black
+		stackAll.addArrangedSubview(line)
 	}
 
 
 	func setupFields()
 	{
 		stack = UIStackView(arrangedSubviews: [alias, company, lastname, firstname, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other, gapBeforeButton, button])
-//		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.axis = .vertical
 //		stack.alignment = .fill
 //		stack.distribution = .fill
 //		stack.spacing = 0
 		scroll.addSubview(stack)
-		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: alias)
-		stack.addConstraintsWithFormat(format: "H:|[v0]|", views: gapBeforeButton)
+		alias.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0).isActive = true
+		alias.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0).isActive = true
+		stack.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
+		stack.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
 		stack.addConstraint(NSLayoutConstraint(item: gapBeforeButton, attribute: .height, relatedBy: .equal, toItem: stack, attribute: .height, multiplier: 0, constant: 10))
 		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: stack, attribute: .height, multiplier: 0, constant: 45))
 		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: stack, attribute: .width, multiplier: 0, constant: 200))
-		scroll.addConstraintsWithFormat(format: "H:|[v0]|", views: stack)
+
+		scroll.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: stack)
 		scroll.addConstraintsWithFormat(format: "V:|-20-[v0]-10-|", views: stack)
-		panel.addSubview(scroll)
-		panel.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: scroll)
-		panel.addConstraintsWithFormat(format: "V:|[v0]|", views: scroll)
-		panel.addConstraint(NSLayoutConstraint(item: stack, attribute: .width, relatedBy: .equal, toItem: scroll, attribute: .width, multiplier: 1, constant: 0))
 	}
 
 
@@ -476,7 +523,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	
 	func checkFields() -> Bool
 	{
-//		clearErrors()
+		clearErrors()
 		var allGood = true
 		var i = 0
 		for v in stack.subviews
@@ -485,7 +532,6 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			{
 				if let field = v.subviews.first?.subviews[1].subviews.first as? UITextField
 				{
-//					let label =  v.subviews.first?.subviews.first as! UILabel
 					let invalid = v.subviews.first?.subviews.last as! UILabel
 					if (field.placeholder == nil || field.placeholder != R.string.optional) && ((field.text?.isEmpty)! || String(field.text!).count < 2)
 					{
@@ -646,6 +692,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		//		}
 		
 		let vc = SelectCountryVC()
+		vc.noteName = AddNewAddressVC.selectCountry
 		vc.defaultCountry = country.textEdit.text
 		vc.dialogWindow.layer.masksToBounds = true
 		vc.dialogWindow.borderWidth = 3
@@ -717,6 +764,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	@objc func displaySelectAState(_ sender: Any)
 	{
 		let vc = SelectStateVC()
+		vc.noteName = AddNewAddressVC.selectState
 		vc.defaultState = state.textEdit.text
 		vc.dialogWindow.layer.masksToBounds = true
 		vc.dialogWindow.borderWidth = 3

@@ -19,6 +19,7 @@ class PickerViewController: UIViewController
 //	@IBOutlet weak var buttonBackground: UIView!
 //	@IBOutlet weak var buttonLabel: UILabel!
 	//var onSelected: ((_ data: String) -> ())?
+	var noteName = Notification.Name("")
 	
 	
     override func viewDidLoad()

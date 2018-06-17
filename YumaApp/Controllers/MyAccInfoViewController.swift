@@ -75,7 +75,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	var customer: Customer?
 	var addNew = false
 	var passwordVisible = false
-	
+	static let selectBDate = Notification.Name("selectBDate")
+
 	@IBOutlet weak var scrollForm: UIScrollView!
 	
 	// MARK: Overrides
@@ -132,6 +133,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		let notificationCenter = NotificationCenter.default
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedADate(_:)), name: MyAccInfoViewController.selectBDate, object: nil)
 	}
 
 
@@ -174,6 +176,24 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	}
 
 
+	@objc func getBDate(_ sender: UITapGestureRecognizer)
+	{
+		let vc = SelectDateVC()
+		vc.noteName = MyAccInfoViewController.selectBDate
+		if field4Edit.text != nil && !(field4Edit.text?.contains("-00"))!
+		{
+			vc.selectedDate = field4Edit.text!
+		}
+		else
+		{
+			vc.selectedDate = "2000-06-15"
+		}
+		self.present(vc, animated: false) {
+			//
+		}
+	}
+
+
 	func setLabels()
 	{
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
@@ -194,6 +214,13 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		if store.custBDate == 1
 		{
 			field4Label.text = R.string.bDate
+			field4Label.textAlignment = .center
+			field4Label.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+			field4Label.borderWidth = 1
+			field4Label.borderColor = R.color.YumaRed
+			field4Label.cornerRadius = 4
+			field4Label.isUserInteractionEnabled = true
+			field4Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getBDate(_:))))
 			field4Edit.textColor = R.color.YumaRed
 			field4Edit.returnKeyType = UIReturnKeyType.next
 		}
@@ -423,6 +450,10 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				})
 		}
 		//		store.Alert(fromView: self, title: mTitle, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: mMessage, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
+	}
+	@objc func selectedADate(_ sender: Notification)
+	{
+		field4Edit.text = (sender.object as! String)
 	}
 	@objc func makePassword(_ sender: UITapGestureRecognizer)
 	{

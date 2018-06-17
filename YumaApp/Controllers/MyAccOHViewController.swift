@@ -87,13 +87,6 @@ class MyAccOHViewController: UIViewController
 		//		view.layer.shadowOpacity = 0.8
 		return view
 	}()
-	let topGap: UIView =
-	{
-		let view = UIView()
-		//		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.white
-		return view
-	}()
 	let minCollEdgeInsets = UIEdgeInsets(top: 20, left: 8, bottom: 20, right: 8)
 	let myCollection: UICollectionView =
 	{
@@ -268,8 +261,8 @@ class MyAccOHViewController: UIViewController
 					}
 				}
 			}
-			myCollection.deselectAllItems()
-			myCollection.delegate = self as UICollectionViewDelegate
+//			myCollection.deselectAllItems()
+			myCollection.delegate = self //as UICollectionViewDelegate
 			myCollection.dataSource = self
 			myCollection.register(MyAccOH_Cell.self, forCellWithReuseIdentifier: cellId)
 			stackWindow.addArrangedSubview(myCollection)

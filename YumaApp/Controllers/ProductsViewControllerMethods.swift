@@ -371,6 +371,7 @@ extension ProductsViewController
 	
 	func insertData()
 	{
+//		print("scroll:\(scrollView.frame)-content:\(scrollView.contentSize)")
 		var i = 0
 		//let id_lang = (store.customer != nil) ? Int((store.customer?.id_lang)!)! : 0
 		for prod in store.products

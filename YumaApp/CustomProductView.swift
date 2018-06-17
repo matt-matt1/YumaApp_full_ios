@@ -9,7 +9,7 @@
 import UIKit
 
 
-class CustomView: UIView	// product cell view
+class CustomView: UIScrollView//UIView	// product cell view
 {
 	var prodId: Int = 0
 	let prodImage: UIImageView =
@@ -124,30 +124,30 @@ class CustomView: UIView	// product cell view
 		//		imageFrame.shadowRadius = 5
 		//		imageFrame.shadowOpacity = 1
 		imageFrame.addSubview(prodImage)
-		NSLayoutConstraint.activate([
-			prodImage.topAnchor.constraint(equalTo: imageFrame.topAnchor/*, constant: 5*/),
-			prodImage.trailingAnchor.constraint(equalTo: imageFrame.trailingAnchor/*, constant: -5*/),
-			prodImage.leadingAnchor.constraint(equalTo: imageFrame.leadingAnchor/*, constant: 5*/),
-			prodImage.bottomAnchor.constraint(equalTo: imageFrame.bottomAnchor/*, constant: -5*/),
-			])
+//		NSLayoutConstraint.activate([
+//			prodImage.topAnchor.constraint(equalTo: imageFrame.topAnchor/*, constant: 5*/),
+//			prodImage.trailingAnchor.constraint(equalTo: imageFrame.trailingAnchor/*, constant: -5*/),
+//			prodImage.leadingAnchor.constraint(equalTo: imageFrame.leadingAnchor/*, constant: 5*/),
+//			prodImage.bottomAnchor.constraint(equalTo: imageFrame.bottomAnchor/*, constant: -5*/),
+//			])
 		
 		//		imageView.shadowColor = UIColor.red
 		//		imageView.shadowOffset = CGSize(width: 1, height: 1)
 		//		imageView.shadowRadius = 5
 		//		imageView.shadowOpacity = 1
 		imageView.addSubview(imageFrame)
-		NSLayoutConstraint.activate([
-			imageFrame.topAnchor.constraint(equalTo: imageView.topAnchor/*, constant: 5*/),
-			imageFrame.trailingAnchor.constraint(equalTo: imageView.trailingAnchor/*, constant: -5*/),
-			imageFrame.leadingAnchor.constraint(equalTo: imageView.leadingAnchor/*, constant: 5*/),
-			imageFrame.bottomAnchor.constraint(equalTo: imageView.bottomAnchor/*, constant: -5*/),
-//			imageFrame.heightAnchor.constraint(equalToConstant: 200),
-			])
+//		NSLayoutConstraint.activate([
+//			imageFrame.topAnchor.constraint(equalTo: imageView.topAnchor/*, constant: 5*/),
+//			imageFrame.trailingAnchor.constraint(equalTo: imageView.trailingAnchor/*, constant: -5*/),
+//			imageFrame.leadingAnchor.constraint(equalTo: imageView.leadingAnchor/*, constant: 5*/),
+//			imageFrame.bottomAnchor.constraint(equalTo: imageView.bottomAnchor/*, constant: -5*/),
+////			imageFrame.heightAnchor.constraint(equalToConstant: 200),
+//			])
 		
 		let stack1 = UIStackView(arrangedSubviews: [imageView, prodName, prodPrice, /*detailsView*/])
 		stack1.axis = .vertical
 		stack1.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
-		stack1.translatesAutoresizingMaskIntoConstraints = false
+//		stack1.translatesAutoresizingMaskIntoConstraints = false
 		stack1.distribution = UIStackViewDistribution.fill
 		//stack1.alignment = UIStackViewAlignment.center
 		stack1.backgroundColor = .gray
@@ -167,7 +167,7 @@ class CustomView: UIView	// product cell view
 		let stack2 = UIStackView()
 		stack2.axis = .vertical
 		stack2.spacing = (self.frame.height > 400) ? (self.frame.height > 800) ? 15 : 10 : 5
-		stack2.translatesAutoresizingMaskIntoConstraints = false
+//		stack2.translatesAutoresizingMaskIntoConstraints = false
 		stack2.distribution = UIStackViewDistribution.fill
 		stack2.backgroundColor = .gray
 
@@ -279,6 +279,28 @@ class CustomView: UIView	// product cell view
 //			stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
 			stack.widthAnchor.constraint(equalTo: self.widthAnchor/*, constant: -20*/),
 			])
+//		let scrollView = UIScrollView()
+//				scrollView.translatesAutoresizingMaskIntoConstraints = false
+//		scrollView.addSubview(stack)
+//		NSLayoutConstraint.activate([
+//			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+//			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
+////			stack.widthAnchor.constraint(equalTo: self.widthAnchor/*, constant: -20*/),
+////			stack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+////			stack.topAnchor.constraint(equalTo: scrollView.topAnchor),
+////			stack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -50),
+////			stack.widthAnchor.constraint(equalTo: scrollView.widthAnchor/*, constant: -20*/),
+//			])
+//
+//		self.addSubview(scrollView)
+//		NSLayoutConstraint.activate([
+//			stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+//			stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+//			scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+//			scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+//			scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -50),
+//			scrollView.widthAnchor.constraint(equalTo: self.widthAnchor/*, constant: -20*/),
+//			])
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

@@ -37,7 +37,7 @@ extension ProductsViewController
 		}
 		return stack
 	}
-	
+
 	func formTagsView(tagIDs: [IdAsString], maxWidth: CGFloat, maxHeight: CGFloat) -> UIStackView
 	{
 		let stack = UIStackView()
@@ -66,7 +66,43 @@ extension ProductsViewController
 		stack.addArrangedSubview(falseBottom)
 		return stack
 	}
-	
+
+	func numberOfSections(in collectionView: UICollectionView) -> Int
+	{
+		return 1
+	}
+
+	func formTagsView2(tagIDs: [IdAsString], maxWidth: CGFloat, maxHeight: CGFloat) -> UICollectionView
+	{
+		let layout = UICollectionViewLayout()
+		let stack = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		//stack.translatesAutoresizingMaskIntoConstraints = false
+//		stack.spacing = 8
+//		number of cells = tagIds.count
+		stack.backgroundColor = UIColor.white
+//		stack.distribution = .fill
+		for prodTag in tagIDs
+		{
+			let find = Int(prodTag.id)!
+			if find < store.tags.count
+			{
+				for storeTag in store.tags
+				{
+					if storeTag.id == find
+					{
+						let tagView = makeTag(string: storeTag.name!)
+						//tagView.translatesAutoresizingMaskIntoConstraints = false
+//						stack.addArrangedSubview(tagView)
+						break
+					}
+				}
+			}
+		}
+//		let falseBottom = UIView(frame: .zero)
+//		stack.addArrangedSubview(falseBottom)
+		return stack
+	}
+
 	func formImageViews(imageIDs: [IdAsString]) -> UIStackView
 	{
 		let stack = UIStackView()

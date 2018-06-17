@@ -86,6 +86,7 @@ class MyAccAddr2ViewController: UIViewController
 	let pickerState = UIPickerView()
 	var pickerStateData: [String] = [String]()
 	static let selectCountry = Notification.Name("selectCountry")
+	static let selectState = Notification.Name("selectState")
 	var displaySelectACountryDONE = false
 
 	
@@ -492,6 +493,7 @@ class MyAccAddr2ViewController: UIViewController
 	{
 		displaySelectACountryDONE = true
 		let vc = SelectCountryVC()
+		vc.noteName = MyAccAddr2ViewController.selectCountry
 		vc.defaultCountry = countryField.text
 		vc.title = "\(R.string.select) \(R.string.country)"
 		vc.buttonSingle.setTitle(R.string.close.uppercased(), for: .normal)
@@ -523,6 +525,7 @@ class MyAccAddr2ViewController: UIViewController
 			let vc = sb.instantiateInitialViewController() as? PickerViewController
 			if vc != nil
 			{
+				vc?.noteName = MyAccAddr2ViewController.selectState
 				self.present(vc!, animated: true, completion: nil)
 				vc?.dialog.shadowColor = 			R.color.YumaDRed
 				vc?.dialog.shadowOffset = 			.zero
