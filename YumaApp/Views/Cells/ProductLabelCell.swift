@@ -29,7 +29,7 @@ class ProductLabelCell: UICollectionViewCell
 	}
 
 	
-	func makeTag(string: String) -> UIView
+	func makeTag(string: String) //-> UIView
 	{
 		let tagView = UIView()
 		//tagView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,7 +88,8 @@ class ProductLabelCell: UICollectionViewCell
 		tagBlock1.transform = CGAffineTransform(rotationAngle: .pi/180*45)
 		tagBlock2.transform = CGAffineTransform(rotationAngle: -.pi/180*45)
 //		tagView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displayCat(_:))))
-		return tagView
+//		return tagView
+		self.addSubview(tagView)
 	}
 
 	func setupView()

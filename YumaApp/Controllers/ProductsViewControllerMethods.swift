@@ -378,6 +378,8 @@ extension ProductsViewController
 		{
 			if prod.active != nil && prod.active!// == "1"
 			{
+				collectionTags = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+				collectionCats = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
 				let view = CustomView(frame: CGRect(x: 10 + (self.scrollView.frame.width * CGFloat(i)), y: 0, width: self.scrollView.frame.width - 20, height: self.scrollView.frame.height))
 				print("self:\(self.view.frame.width), scroll:\(self.scrollView.frame.width)")
 				//				print("language id:\(id_lang)")
@@ -517,8 +519,9 @@ extension ProductsViewController
 				{
 					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
 					//temp
-					let stack = formTagsView(tagIDs: (prod.associations?.tags)!, maxWidth: self.scrollView.frame.width, maxHeight: self.scrollView.frame.height)
-					stack.translatesAutoresizingMaskIntoConstraints = false
+					formTagsView2(tagIDs: (prod.associations?.tags)!/*, maxWidth: self.scrollView.frame.width, maxHeight: self.scrollView.frame.height*/)
+//					let stack = formTagsView2(tagIDs: (prod.associations?.tags)!, maxWidth: self.scrollView.frame.width, maxHeight: self.scrollView.frame.height)
+//					stack.translatesAutoresizingMaskIntoConstraints = false
 					//print("stack frame x:\(stack.frame.origin.x), y:\(stack.frame.origin.y), w:\(stack.frame.width), h:\(stack.frame.height)")
 					//print("stack bounds x:\(stack.bounds.origin.x), y:\(stack.bounds.origin.y), w:\(stack.bounds.width), h:\(stack.bounds.height)")
 					//let scroll = UIScrollView(frame: CGRect(x: 0/*stack.frame.origin.x*/, y: 0/*stack.frame.origin.y*/, width: self.scrollView.frame.width/*stack.frame.width*/, height: self.scrollView.frame.height/*stack.frame.height*/))
@@ -533,7 +536,8 @@ extension ProductsViewController
 //					stack.widthAnchor.constraint(equalToConstant: scroll.contentSize.width).isActive = true
 					//stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: 0).isActive = true
 					//stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: 0).isActive = true
-					view.tagsView.addArrangedSubview(stack)
+					view.tagsView.addArrangedSubview(collectionTags)
+//					view.tagsView.addArrangedSubview(stack)
 					//view.tagsView.addArrangedSubview(scroll)
 					//view.tagsView.translatesAutoresizingMaskIntoConstraints = false
 //					view.addConstraintsWithFormat(format: "H:|[v0]", views: view.tagsView)

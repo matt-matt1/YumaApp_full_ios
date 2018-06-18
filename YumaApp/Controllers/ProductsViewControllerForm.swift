@@ -55,7 +55,8 @@ extension ProductsViewController
 					if storeTag.id == find
 					{
 						let tagView = makeTag(string: storeTag.name!)
-						//tagView.translatesAutoresizingMaskIntoConstraints = false
+//						tagView.translatesAutoresizingMaskIntoConstraints = false
+//						print("tagView frame:\(tagView.bounds), stack frame:\(stack.bounds)")
 						stack.addArrangedSubview(tagView)
 						break
 					}
@@ -72,15 +73,9 @@ extension ProductsViewController
 		return 1
 	}
 
-	func formTagsView2(tagIDs: [IdAsString], maxWidth: CGFloat, maxHeight: CGFloat) -> UICollectionView
+	func formTagsView2(tagIDs: [IdAsString]/*, maxWidth: CGFloat, maxHeight: CGFloat*/) //-> UICollectionView
 	{
-		let layout = UICollectionViewLayout()
-		let stack = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		//stack.translatesAutoresizingMaskIntoConstraints = false
-//		stack.spacing = 8
-//		number of cells = tagIds.count
-		stack.backgroundColor = UIColor.white
-//		stack.distribution = .fill
+		var array: [String] = []
 		for prodTag in tagIDs
 		{
 			let find = Int(prodTag.id)!
@@ -90,17 +85,23 @@ extension ProductsViewController
 				{
 					if storeTag.id == find
 					{
-						let tagView = makeTag(string: storeTag.name!)
-						//tagView.translatesAutoresizingMaskIntoConstraints = false
-//						stack.addArrangedSubview(tagView)
+						array.append(storeTag.name!)
 						break
 					}
 				}
 			}
 		}
-//		let falseBottom = UIView(frame: .zero)
-//		stack.addArrangedSubview(falseBottom)
-		return stack
+		collectionTags.register(ProductLabelCell.self, forCellWithReuseIdentifier: "prodTags")
+		collectionTags.delegate = self
+		collectionTags.dataSource = self
+		let stack = ProductTagsCollection.init(/*numberOfCells: tagIDs.count,*/ arrayOfStrings: array)
+		//stack.translatesAutoresizingMaskIntoConstraints = false
+		//stack.spacing = 8
+		//stack.distribution = .fill
+		stack.backgroundColor = UIColor.white
+		//let falseBottom = UIView(frame: .zero)
+		//stack.addArrangedSubview(falseBottom)
+//		return stack
 	}
 
 	func formImageViews(imageIDs: [IdAsString]) -> UIStackView

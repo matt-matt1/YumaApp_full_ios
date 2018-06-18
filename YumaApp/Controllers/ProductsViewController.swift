@@ -49,6 +49,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 	var total: 				Float = 	0
 	var pcs: 				Int = 		0
 	var wt: 				Float = 	0
+	var collectionTags: 	UICollectionView!
+	var collectionCats: 	UICollectionView!
 
 	
 		//MARK: Override Methods

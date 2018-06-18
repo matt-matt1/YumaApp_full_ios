@@ -1348,7 +1348,7 @@
                                                                                                                     <constraint firstAttribute="width" constant="200" id="P9o-lW-t0H"/>
                                                                                                                     <constraint firstAttribute="height" constant="50" id="pLR-G4-PR5"/>
                                                                                                                 </constraints>
-                                                                                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                                                                                <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
                                                                                                                 <size key="titleShadowOffset" width="1" height="1"/>
                                                                                                                 <state key="normal" title="SAVE">
                                                                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

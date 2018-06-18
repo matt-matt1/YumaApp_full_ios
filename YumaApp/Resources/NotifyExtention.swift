@@ -11,5 +11,5 @@ import Foundation
 
 extension Notification.Name
 {
-	static let gotNameFromPopup = Notification.Name(rawValue: "gotNameFromPopup")
+//	static let gotNameFromPopup = Notification.Name(rawValue: "gotNameFromPopup")
 }
