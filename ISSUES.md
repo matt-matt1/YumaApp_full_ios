@@ -32,9 +32,9 @@ MyAccInfo: email field wrong - fixed 20180408,
 changePW wont work - fixed 20180517
 setPW wont work
 
-MyAccOH: table wont show properly
+MyAccOH: table wont show properly - fixed: changed to a collection 
 
-MyAccCS: ""
+MyAccCS: "" - as above
 
-Debug: only capitalizes the first character
+Debug: only capitalizes the first character - fixed as in model 2018 06 16
 

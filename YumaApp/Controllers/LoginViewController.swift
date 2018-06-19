@@ -894,7 +894,12 @@ class LoginViewController: UIViewController
 	}
 	@IBAction func forgotBtnAct(_ sender: Any)
 	{
-		self.present(ForgotPWViewController(), animated: true, completion: nil)
+		let vc = ForgotPWViewController()
+		if usernameTextField.text != nil && !(usernameTextField.text?.isEmpty)!
+		{
+			vc.email = usernameTextField.text!
+		}
+		self.present(vc, animated: true, completion: nil)
 	}
 	@IBAction func createBtnAct(_ sender: Any)
 	{

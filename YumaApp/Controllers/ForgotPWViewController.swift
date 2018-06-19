@@ -22,6 +22,7 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 	
 	let url = "\(R.string.forgotPWLink)"
 	let store = DataStore.sharedInstance
+	var email = ""
 
 
 	override func viewDidLoad()
@@ -83,6 +84,10 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 		fieldBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
 		fieldInvalid.text = ""
 		fieldValue.delegate = self
+		if !email.isEmpty
+		{
+			fieldValue.text = email
+		}
 	}
 
 

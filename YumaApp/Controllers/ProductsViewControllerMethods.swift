@@ -137,6 +137,7 @@ extension ProductsViewController
 		//				//categoryStr.append("> \(store.categories[Int(catId.id!)!]) ")
 		//			}
 		//		}
+		view.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(navCartAct(_:))))
 	}
 	
 	/////tableView
