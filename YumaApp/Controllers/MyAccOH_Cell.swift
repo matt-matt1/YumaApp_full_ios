@@ -12,6 +12,7 @@ import UIKit
 class MyAccOH_Cell: UICollectionViewCell
 {
 	let store = DataStore.sharedInstance
+	var delegate: UIViewController?
 	var wideScreen = false
 	let reference: UILabel =
 	{
@@ -92,6 +93,13 @@ class MyAccOH_Cell: UICollectionViewCell
 		view.font = UIFont.systemFont(ofSize: 20)
 		return view
 	}()
+	let stackBottom: UIStackView =
+	{
+		let view = UIStackView()
+		view.distribution = .equalCentering
+		view.translatesAutoresizingMaskIntoConstraints = false
+		return view
+	}()
 
 	
 	// MARK: Overrides
@@ -152,9 +160,10 @@ class MyAccOH_Cell: UICollectionViewCell
 				dateMade.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
 				])
 		}
-		let stackBottom = UIStackView(arrangedSubviews: [details, reorder])
-		stackBottom.distribution = .equalCentering
-		stackBottom.translatesAutoresizingMaskIntoConstraints = false
+//		let stackBottom = UIStackView(arrangedSubviews: [details, reorder])
+		stackBottom.addArrangedSubview(details)
+//		stackBottom.distribution = .equalCentering
+//		stackBottom.translatesAutoresizingMaskIntoConstraints = false
 		let verticalStack: UIStackView
 //			if wideScreen
 //			{
@@ -188,6 +197,17 @@ class MyAccOH_Cell: UICollectionViewCell
 		status.text = (order.current_state?.count)! > 1 ? order.current_state : ""
 		invoice.text = (order.invoice_number?.count)! > 1 ? order.invoice_number : ""
 		contentView.tag = order.id! + 10
+		if !store.disallowReorder
+		{
+			reorder.isUserInteractionEnabled = true
+			reorder.addTapGestureRecognizer {
+				myAlertOKCancel(self.delegate!, title: R.string.reorder, message: "\(self.reference.text ?? "this order") (\(self.totalPrice.text ?? ""))?", okAction: {
+					// TBD: reorder this
+				}, cancelAction: {
+				})
+			}
+			stackBottom.addArrangedSubview(reorder)
+		}
 	}
 
 }

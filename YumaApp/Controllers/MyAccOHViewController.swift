@@ -168,23 +168,27 @@ class MyAccOHViewController: UIViewController
 	fileprivate func setViews()
 	{
 		viewPanel.addSubview(stackWindow)
-		stackWindow.topAnchor.constraint(equalTo: viewPanel.topAnchor, constant: 10).isActive = true
+		stackWindow.topAnchor.constraint(equalTo: viewPanel.topAnchor, constant: 5).isActive = true
 		stackWindow.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
 		myCollectionHeight = (myCollection.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.height //+ minCollEdgeInsets.bottom + minCollEdgeInsets.top
 //		print("height:\(height)")
-		stackWindow.heightAnchor.constraint(equalToConstant: myCollectionHeight).isActive = true
+//		stackWindow.heightAnchor.constraint(equalToConstant: myCollectionHeight).isActive = true
 		stackWindow.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
+		stackWindow.bottomAnchor.constraint(equalTo: viewPanel.bottomAnchor, constant: 0).isActive = true
 		
 		stackPanel.addSubview(viewPanel)
+		viewPanel.bringSubview(toFront: stackWindow)
 		viewPanel.topAnchor.constraint(equalTo: stackPanel.topAnchor, constant: 0).isActive = true
 		viewPanel.leadingAnchor.constraint(equalTo: stackPanel.leadingAnchor, constant: 0).isActive = true
-		viewPanel.bottomAnchor.constraint(equalTo: stackWindow.bottomAnchor, constant: 10).isActive = true
+		viewPanel.bottomAnchor.constraint(equalTo: stackPanel.bottomAnchor, constant: 10).isActive = true
+//		viewPanel.bottomAnchor.constraint(equalTo: stackWindow.bottomAnchor, constant: 10).isActive = true
 		viewPanel.trailingAnchor.constraint(equalTo: stackPanel.trailingAnchor, constant: 0).isActive = true
 		
 		viewOuter.addSubview(stackPanel)
 		stackPanel.topAnchor.constraint(equalTo: viewOuter.topAnchor, constant: 0).isActive = true
 		stackPanel.leadingAnchor.constraint(equalTo: viewOuter.leadingAnchor, constant: 5).isActive = true
 		stackPanel.trailingAnchor.constraint(equalTo: viewOuter.trailingAnchor, constant: -5).isActive = true
+		stackPanel.bottomAnchor.constraint(equalTo: viewOuter.bottomAnchor, constant: 0).isActive = true
 		
 		stackAll.addArrangedSubview(viewOuter)
 		
@@ -261,7 +265,7 @@ class MyAccOHViewController: UIViewController
 					}
 				}
 			}
-//			myCollection.deselectAllItems()
+			myCollection.deselectAllItems()
 			myCollection.delegate = self //as UICollectionViewDelegate
 			myCollection.dataSource = self
 			myCollection.register(MyAccOH_Cell.self, forCellWithReuseIdentifier: cellId)
@@ -283,7 +287,7 @@ class MyAccOHViewController: UIViewController
 			errorView.topAnchor.constraint(equalTo: errorWrap.topAnchor, constant: 5).isActive = true
 			errorView.leadingAnchor.constraint(equalTo: errorWrap.leadingAnchor, constant: 8).isActive = true
 			//			errorView.bottomAnchor.constraint(equalTo: errorWrap.bottomAnchor, constant: -3).isActive = true
-			errorView.heightAnchor.constraint(equalToConstant: 60 + errorMsg.font.pointSize)
+			errorView.heightAnchor.constraint(equalToConstant: 60 + errorMsg.font.pointSize).isActive = true
 			errorView.trailingAnchor.constraint(equalTo: errorWrap.trailingAnchor, constant: -8).isActive = true
 			stackWindow.addArrangedSubview(errorWrap)
 			//			errorWrap.topAnchor.constraint(equalTo: stackWindow.topAnchor, constant: 15).isActive = true

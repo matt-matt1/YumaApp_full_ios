@@ -24,14 +24,22 @@ extension MyAccOHViewController: UICollectionViewDelegate, UICollectionViewDataS
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! MyAccOH_Cell
+		cell.delegate = self
 		cell.values(order: store.orders[indexPath.item])
+		cell.contentView.tag = indexPath.item+10
+//		cell.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectCell(_:))))
 		if self.view.frame.width > 500
 		{
 			cell.wideScreen = true
 		}
 		return cell
 	}
-	
+
+//	@objc func selectCell(_ sender: UITapGestureRecognizer)
+//	{
+//		print("selected \(sender.view?.frame)")
+//	}
+
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 	{
 		let cell = collectionView.cellForItem(at: indexPath)

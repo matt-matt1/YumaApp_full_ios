@@ -63,7 +63,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		tableView.layoutIfNeeded()
 		totalPcsLbl.text = R.string.pieces
 		totalLbl.text = " = "
-		totalWtLbl.text = R.string.kg
+		totalWtLbl.text = store.weightUnit//R.string.kg
 		if store.myOrderRows.count < 1
 		{
 			alertEmpty()
@@ -208,7 +208,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 				}
 				if self.store.myOrder?.total_products_wt != nil
 				{
-					str.append("\((self.store.myOrder?.total_products_wt)!)\(R.string.kg)")
+					str.append("\((self.store.myOrder?.total_products_wt)!)\(self.store.weightUnit)")//R.string.kg)")
 					str.append(" ")
 				}
 				if self.store.myOrder?.total_paid != nil && !(self.store.myOrder?.total_paid?.isEmpty)!

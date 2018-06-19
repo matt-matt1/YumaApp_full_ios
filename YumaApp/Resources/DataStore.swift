@@ -67,7 +67,7 @@ final class DataStore
 	var custOptin = 									1
 	var custBDate = 									1
 	var preventReorderFromHist = 						0
-	var displayWeight = 								0
+	var displayWeight = 								false
 	var displayDiscPrice = 								1
 	var defaultCountryState = 							1
 	var elementValue: String?
@@ -75,6 +75,9 @@ final class DataStore
 	var parser = XMLParser()
 	var XMLstr = ""
 	var creditSlips: 			[OrderSlip] = 			[]
+	var disallowReorder = 								false
+	var defaultCarrier = 								1
+	var weightUnit = 									"kg"
 
 	
 	/// Sets the parameters for product shares

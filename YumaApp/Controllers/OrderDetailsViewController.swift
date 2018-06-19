@@ -156,7 +156,10 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		navHelp.setTitleTextAttributes([
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.highlighted)
-		reorderBtn.setTitle(R.string.reorder, for: .normal)
+		if !store.disallowReorder
+		{
+			reorderBtn.setTitle(R.string.reorder, for: .normal)
+		}
 		orderRef.text = R.string.ordRef
 		placedOn.text = R.string.placed.capitalized
 		carrierLabel.text = R.string.carr

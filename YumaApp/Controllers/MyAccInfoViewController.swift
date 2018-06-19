@@ -221,6 +221,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			field4Label.cornerRadius = 4
 			field4Label.isUserInteractionEnabled = true
 			field4Label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(getBDate(_:))))
+			field4Edit.placeholder = "YYYY-MM-DD"
 			field4Edit.textColor = R.color.YumaRed
 			field4Edit.returnKeyType = UIReturnKeyType.next
 		}
@@ -229,6 +230,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			field4Border.removeFromSuperview()
 		}
 		passwordLabel.text = R.string.txtPass
+		passwordLabel.textAlignment = .center
+		passwordLabel.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
+		passwordLabel.borderWidth = 1
+		passwordLabel.borderColor = R.color.YumaRed
+		passwordLabel.cornerRadius = 4
 		passwordEdit.textColor = R.color.YumaRed
 		passwordEdit.placeholder = R.string.same
 		passwordEdit.returnKeyType = UIReturnKeyType.next
