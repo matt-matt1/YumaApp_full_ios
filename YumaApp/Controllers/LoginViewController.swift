@@ -130,7 +130,7 @@ class LoginViewController: UIViewController
 						store.customer = bits
 						if self.store.debug > 5
 						{
-							print("decoded customer (\(bits.id_customer ?? ""))")
+							print("decoded customer (\(String(bits.idCustomer!)))")
 						}
 						self.successfullyGotCustomer(bits)
 						OperationQueue.main.addOperation
@@ -406,50 +406,51 @@ class LoginViewController: UIViewController
 			UIViewController.removeSpinner(spinner: sv)
 			if let _ = customer as? Bool
 			{
-				OperationQueue.main.addOperation
-				{
-					let alert = 					UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.4
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-//					print("\(R.string.unableConnect) \(R.string.email)")
-					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-					{ 	(action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-						//self.dismiss(animated: false, completion: nil)
-					}))
-					self.present(alert, animated: true, completion:
-					{
-					})
-				}
+				myAlertOnlyDismiss(self, title: R.string.login, message: R.string.wrong)
+//				OperationQueue.main.addOperation
+//				{
+//					let alert = 					UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.4
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+////					print("\(R.string.unableConnect) \(R.string.email)")
+//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
+//					{ 	(action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						//self.dismiss(animated: false, completion: nil)
+//					}))
+//					self.present(alert, animated: true, completion:
+//					{
+//					})
+//				}
 			}
 			else
 			{
 				let cust = customer as! Customer
-				if cust.deleted != "0"
+				if cust.deleted!//if cust.deleted != "0"
 				{
 					//self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.deld)
 					self.store.Alert(fromView: self, title: R.string.acc, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: R.string.deld, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 				}
-				else if cust.active != "1"
+				else if !cust.active!//else if cust.active != "1"
 				{
 					//self.store.alertMessage(sender: self, alerttitle: R.string.acc, R.string.notAct)
 					self.store.Alert(fromView: self, title: R.string.acc, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: R.string.notAct, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
@@ -467,7 +468,7 @@ class LoginViewController: UIViewController
 	{
 		if self.store.debug > 5
 		{
-			print("customer logged-in with ID:\(customer.id_customer ?? "0")")//String(describing: customer))")// ?? customer.id
+			print("customer logged-in with ID:\(String(customer.idCustomer!))")//String(describing: customer))")// ?? customer.id
 		}
 		if rememberSwitchIsOn
 		{
@@ -487,7 +488,8 @@ class LoginViewController: UIViewController
 			////				print("error trying to write to logged.json : \(error)")
 			////			}
 		}
-		let id = customer.id == nil ? Int(customer.id_customer!) : Int(customer.id!)
+//		let id = customer.id == nil ? customer.idCustomer : Int(customer.id!)
+		let id = (customer.id != nil && customer.id! > 0) ? customer.id : customer.idCustomer
 		getDetails(id_customer: id!)
 	}
 

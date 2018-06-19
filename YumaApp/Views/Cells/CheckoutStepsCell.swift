@@ -235,9 +235,9 @@ class CheckoutStepsCell: UICollectionViewCell
 			{
 				boldLabel.text = "\((store.customer?.firstname)!) \((store.customer?.lastname)!)"
 			}
-			else if !(store.customer?.id_gender?.isEmpty)! && !(store.customer?.firstname?.isEmpty)!
+			else if (store.customer?.idGender)! > 0 && !(store.customer?.firstname?.isEmpty)!
 			{
-				boldLabel.text = "\(Int((store.customer?.id_gender)!) == 1 ? R.string.mr : R.string.mrs)) \((store.customer?.lastname)!)"
+				boldLabel.text = "\(Int((store.customer?.idGender)!) == 1 ? R.string.mr : R.string.mrs)) \((store.customer?.lastname)!)"
 			}
 			else if !(store.customer?.company?.isEmpty)!
 			{

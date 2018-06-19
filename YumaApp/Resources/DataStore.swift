@@ -505,18 +505,25 @@ final class DataStore
 				if err != nil	//if has error
 				{
 					let dataStr = 				UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
-					let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
-					let tempObj: 	[Order]
-					do
+					if dataStr == nil
 					{
-						tempObj = try JSONDecoder().decode([Order].self, from: tempCarr.data(using: .utf8)!)
-						for ords in tempObj					{	self.orders.append(ords)	}
-						OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
+						OperationQueue.main.addOperation	{	completion(nil, nil)	}
 					}
-					catch let jsonErr
+					else
 					{
-						print(jsonErr)
-						OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
+						let tempCarr: 	String = 	self.trimJSONValueToArray(string: dataStr!)
+						let tempObj: 	[Order]
+						do
+						{
+							tempObj = try JSONDecoder().decode([Order].self, from: tempCarr.data(using: .utf8)!)
+							for ords in tempObj					{	self.orders.append(ords)	}
+							OperationQueue.main.addOperation	{	completion(tempObj, nil)	}
+						}
+						catch let jsonErr
+						{
+							print(jsonErr)
+							OperationQueue.main.addOperation	{	completion(nil, jsonErr)	}
+						}
 					}
 				}
 				else

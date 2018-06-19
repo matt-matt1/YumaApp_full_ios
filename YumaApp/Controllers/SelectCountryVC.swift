@@ -314,12 +314,12 @@ class SelectCountryVC: UIViewController
 		return nil
 	}
 
-	
+
 	func findCountryObject(fromRow: Int) -> Country?
 	{
 		if isSearching
 		{
-			for i in 0 ..< filtered.count
+			for i in 0..<filtered.count
 			{
 				if i == fromRow
 				{
@@ -329,7 +329,7 @@ class SelectCountryVC: UIViewController
 		}
 		else
 		{
-			for i in 0 ..< store.countries.count
+			for i in 0..<store.countries.count
 			{
 				if i == fromRow
 				{
@@ -340,19 +340,53 @@ class SelectCountryVC: UIViewController
 		return nil
 	}
 
+	
+//	func findCountryObject(fromId: Int) -> Country?
+//	{
+//		if isSearching
+//		{
+//			//			var i = 0
+//			for obj in filtered
+//			{
+//				if obj.id == fromRow
+//				{
+//					return obj//filtered[i]
+//				}
+//			}
+//		}
+//		else
+//		{
+//			//			var i = 0
+//			for obj in store.countries
+//			{
+//				if obj.id == fromRow
+//				{
+//					return obj//store.countries[i]
+//				}
+//			}
+//		}
+//		return nil
+//	}
+
 
 	// MARK: Actions
 	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
 	{
 		self.dismiss(animated: true, completion: nil)
-		if let object = findCountryObject(fromRow: SelectCountryVC.selectedRow.row)
+		print("notify -posting to:\(noteName)")
+		if defaultCountry != nil
 		{
-			defaultCountry = store.valueById(object: (object.name)!, id: store.myLang)
-			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectCountry*/, object: object)
-		}
-		else
-		{
-			NotificationCenter.default.post(name: noteName/*AddressExpandedViewController.selectCountry*/, object: nil)
+			if let object = findCountryObject(fromName: defaultCountry!)//(fromRow: SelectCountryVC.selectedRow.row)
+			{
+	//			defaultCountry = store.valueById(object: (object.name)!, id: store.myLang)
+				NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: object)
+	//			NotificationCenter.default.post(name: noteName, object: object)
+			}
+			else
+			{
+				NotificationCenter.default.post(name: AddressExpandedViewController.selectCountry, object: nil)
+	//			NotificationCenter.default.post(name: noteName, object: nil)
+			}
 		}
 	}
 
@@ -401,10 +435,10 @@ extension SelectCountryVC: UITableViewDataSource, UITableViewDelegate
 				cell.titleLabel.textColor = UIColor.darkGray
 			}
 		}
-		else
-		{
-			cell.titleLabel.text = "not yet"
-		}
+//		else
+//		{
+//			cell.titleLabel.text = "not yet"
+//		}
 		return cell
 	}
 

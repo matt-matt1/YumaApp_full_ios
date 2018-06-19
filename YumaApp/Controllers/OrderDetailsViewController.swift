@@ -554,7 +554,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		{
 			let df = DateFormatter()
 			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			let myMsg = Message(id: "", id_cart: "", id_order: String((order?.id)!), id_customer: store.customer?.id_customer, id_employee: "", message: addMessageMessageField.text, isprivate: "", date_add: df.string(from: Date()))
+			let myMsg = Message(id: "", id_cart: "", id_order: String((order?.id)!), id_customer: String((store.customer?.idCustomer)!), id_employee: "", message: addMessageMessageField.text, isprivate: "", date_add: df.string(from: Date()))
 			print(myMsg)
 		}
 	}

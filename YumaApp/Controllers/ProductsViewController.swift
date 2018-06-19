@@ -115,7 +115,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 		store.locale = "en_CA"	//configure locale
 		if store.customer != nil && store.langs.count > 0
 		{
-			store.locale = "\(store.langs[Int((store.customer?.id_lang)!)!].isoCode ?? "")_\(store.countries[store.addresses[0].idCountry!].isoCode ?? "")"//combine lang iso with country iso
+			store.locale = "\(store.langs[Int((store.customer?.idLang)!)].isoCode ?? "")_\(store.countries[store.addresses[0].idCountry!].isoCode ?? "")"//combine lang iso with country iso
 		}
 //		store.myLang = 0
 //		if let tryLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))

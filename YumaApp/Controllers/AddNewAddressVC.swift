@@ -508,7 +508,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		let df = DateFormatter()
 //		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 //		let today = df.string(from: date)
-		let newRow = Address(id: id, idCustomer: Int((store.customer?.id_customer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vatNumber: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phoneMobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
+		let newRow = Address(id: id, idCustomer: Int((store.customer?.idCustomer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vatNumber: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phoneMobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
 //		let encode = try? JSONEncoder().encode(newRow)
 //		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
 //		{
@@ -763,30 +763,33 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	
 	@objc func displaySelectAState(_ sender: Any)
 	{
-		let vc = SelectStateVC()
-		vc.noteName = AddNewAddressVC.selectState
-		vc.defaultState = state.textEdit.text
-		vc.dialogWindow.layer.masksToBounds = true
-		vc.dialogWindow.borderWidth = 3
-		vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
-		//		vc..layer.shadowColor = R.color.YumaDRed.cgColor
-		//		vc.dialogWindow.layer.shadowOffset = .zero
-		//		vc.dialogWindow.layer.shadowRadius = 5
-		//		vc.dialogWindow.layer.shadowOpacity = 1
-		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		vc.buttonSingle.shadowColor = R.color.YumaDRed
-		vc.buttonSingle.shadowOffset = .zero
-		vc.buttonSingle.shadowRadius = 5
-		vc.buttonSingle.shadowOpacity = 0.5
-		//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
-		//		vc.buttonSingle.shadowOffset = .zero
-		//		vc.buttonSingle.shadowRadius = 5
-		//		vc.buttonSingle.shadowOpacity = 0.5
-		//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
-		vc.isModalInPopover = true
-		vc.modalPresentationStyle = .overFullScreen
-		self.present(vc, animated: true, completion: nil)
+		if state.textEdit.text != "N/A"
+		{
+			let vc = SelectStateVC()
+			vc.noteName = AddNewAddressVC.selectState
+			vc.defaultState = state.textEdit.text
+			vc.dialogWindow.layer.masksToBounds = true
+			vc.dialogWindow.borderWidth = 3
+			vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
+			//		vc..layer.shadowColor = R.color.YumaDRed.cgColor
+			//		vc.dialogWindow.layer.shadowOffset = .zero
+			//		vc.dialogWindow.layer.shadowRadius = 5
+			//		vc.dialogWindow.layer.shadowOpacity = 1
+			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonSingle.shadowColor = R.color.YumaDRed
+			vc.buttonSingle.shadowOffset = .zero
+			vc.buttonSingle.shadowRadius = 5
+			vc.buttonSingle.shadowOpacity = 0.5
+			//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
+			//		vc.buttonSingle.shadowOffset = .zero
+			//		vc.buttonSingle.shadowRadius = 5
+			//		vc.buttonSingle.shadowOpacity = 0.5
+			//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
+			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+			vc.isModalInPopover = true
+			vc.modalPresentationStyle = .overFullScreen
+			self.present(vc, animated: true, completion: nil)
+		}
 	}
 	
 	@objc func selectedAState(_ sender: Notification)

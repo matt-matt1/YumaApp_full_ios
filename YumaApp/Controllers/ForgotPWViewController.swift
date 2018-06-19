@@ -169,20 +169,40 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 			ws.outputAs = OutputFormat.JSON
 			ws.keyAPI = R.string.APIkey
 			ws.get { (cust) in
+//				if let unwrappedData = data
 				if let data = cust.data
 				{
-					let all: Customers?
+					//let all: Customer?
 					do
 					{
-//						let dataStr = String(data: data as Data, encoding: .utf8)
-						//let inner = self.store.trimJSONValueToArray(string: dataStr!)
-						//let data = inner.data(using: .utf8)
-						all = try JSONDecoder().decode(Customers.self, from: data as Data)
-						let result = all?.customers![0]
+						let dataString = String(data: data as Data, encoding: .utf8)
+//						let dataStr = String(data: (data as NSData) as Data, encoding: .utf8)
+//						var str = dataString?.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+//						str = str?.replacingOccurrences(of: "\n", with: "", options: .regularExpression, range: nil)
+//						var myData: Data
+//						if dataString != str && str != nil
+//						{
+//							myData = str!.data(using: .utf8, allowLossyConversion: true)!
+//						}
+//						else
+//						{
+//							myData = data as Data
+//						}
+						let innerEnclosed = self.store.trimJSONValueToArray(string: dataString!)
+						let inner1 = innerEnclosed.dropLast()
+						let inner = inner1.dropFirst()
+						let data = inner.data(using: .utf8)
+						let result = try JSONDecoder().decode(Customer.self, from: data!)
+//						let result = all//?.customers![0]
+//						let result = customer as! Customer
 						let df = DateFormatter()
 						df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 						let now = Date()
-						let last = df.date(from: (result?.last_passwd_gen)!)
+						var last: Date?// = "1900-06-15 12:00:00"
+//						if result.lastPasswdGen != nil
+//						{
+//							last = df.date(from: (result.lastPasswdGen)!)
+//						}
 						var value = -1
 //						for config in self.store.configurations
 //						{
@@ -201,14 +221,14 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 						{
 							let reset = df.string(from: now).toBase64()//md5(self.fieldValue.text!)//??
 							//eg. http://yumatechnical.com/en/password-recovery?token=baef23c3484858f93935c13fcebd891f&id_customer=3&reset_token=cb95ebe931744087686a8c4b0f48a5ee24ceb0a7
-							let link = "\(R.string.forgotPWLink)?token=\(result?.secure_key ?? "")&id_customer=\(result?.id_customer ?? "")&reset_token=\(reset ?? "")"
+							let link = "\(R.string.forgotPWLink)?token=\(result.secureKey ?? "")&id_customer=\(result.idCustomer!)&reset_token=\(reset ?? "")"
 							print(link)
 							let df = DateFormatter()
 							df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 							let new__last_passwd_gen = df.string(from: Date())
 							//goto SetPW
 							//let passwd = from above
-							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result?.secure_key!)!, "id_customer": String((result?.id!)!), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
+							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
 								print(success)
 								//launch my account
 							})
@@ -225,39 +245,40 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 						{
 							print(JSONerr)
 						}
-						OperationQueue.main.addOperation
-						{
-							let alert = 					UIAlertController(title: R.string.noAuth, message: "\(R.string.invalid) \(R.string.emailAddr)", preferredStyle: .alert)
-							let coloredBG = 				UIView()
-							let blurFx = 					UIBlurEffect(style: .dark)
-							let blurFxView = 				UIVisualEffectView(effect: blurFx)
-							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-							alert.view.superview?.backgroundColor = R.color.YumaRed
-							alert.view.shadowColor = 		R.color.YumaDRed
-							alert.view.shadowOffset = 		.zero
-							alert.view.shadowRadius = 		5
-							alert.view.shadowOpacity = 		1
-							alert.view.backgroundColor = 	R.color.YumaYel
-							alert.view.cornerRadius = 		15
-							coloredBG.backgroundColor = 	R.color.YumaRed
-							coloredBG.alpha = 				0.4
-							coloredBG.frame = 				self.view.bounds
-							self.view.addSubview(coloredBG)
-							blurFxView.frame = 				self.view.bounds
-							blurFxView.alpha = 				0.5
-							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-							self.view.addSubview(blurFxView)
-							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-								{ 	(action) in
-									coloredBG.removeFromSuperview()
-									blurFxView.removeFromSuperview()
-									//self.dismiss(animated: false, completion: nil)
-							}))
-							self.present(alert, animated: true, completion:
-							{
-							})
-						}
+						myAlertOnlyDismiss(self, title: R.string.acc, message: R.string.notAct)
+//						OperationQueue.main.addOperation
+//						{
+//							let alert = 					UIAlertController(title: R.string.acc, message: "\(R.string.notAct)", preferredStyle: .alert)
+//							let coloredBG = 				UIView()
+//							let blurFx = 					UIBlurEffect(style: .dark)
+//							let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//							alert.view.superview?.backgroundColor = R.color.YumaRed
+//							alert.view.shadowColor = 		R.color.YumaDRed
+//							alert.view.shadowOffset = 		.zero
+//							alert.view.shadowRadius = 		5
+//							alert.view.shadowOpacity = 		1
+//							alert.view.backgroundColor = 	R.color.YumaYel
+//							alert.view.cornerRadius = 		15
+//							coloredBG.backgroundColor = 	R.color.YumaRed
+//							coloredBG.alpha = 				0.4
+//							coloredBG.frame = 				self.view.bounds
+//							self.view.addSubview(coloredBG)
+//							blurFxView.frame = 				self.view.bounds
+//							blurFxView.alpha = 				0.5
+//							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//							self.view.addSubview(blurFxView)
+//							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
+//								{ 	(action) in
+//									coloredBG.removeFromSuperview()
+//									blurFxView.removeFromSuperview()
+//									//self.dismiss(animated: false, completion: nil)
+//							}))
+//							self.present(alert, animated: true, completion:
+//							{
+//							})
+//						}
 					}
 				}
 			}

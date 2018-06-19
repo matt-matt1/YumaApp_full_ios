@@ -116,6 +116,7 @@ class MyAccAddr2ViewController: UIViewController
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		notificationCenter.addObserver(self, selector: #selector(selectedACountry(_:)), name: AddressExpandedViewController.selectCountry, object: nil)
+		notificationCenter.addObserver(self, selector: #selector(selectedAState(_:)), name: AddressExpandedViewController.selectState, object: nil)
     }
 
 	
@@ -193,7 +194,7 @@ class MyAccAddr2ViewController: UIViewController
 			//			{
 			//				id_customer = 3
 			//			}
-			let caStr = UserDefaults.standard.string(forKey: "AddressesCustomer\(store.customer?.id_customer ?? "0")")
+			let caStr = UserDefaults.standard.string(forKey: "AddressesCustomer" + String((store.customer?.idCustomer!)!))
 			//			let caStr = UserDefaults.standard.string(forKey: "CustomerAddresses")
 			if caStr == nil || caStr == ""
 			{
@@ -512,6 +513,7 @@ class MyAccAddr2ViewController: UIViewController
 				countryField.text = row.0
 				fillStates(row.1)
 				stateField.text = ""
+				stateField.placeholder = R.string.select
 			}
 		}
 	}
@@ -519,55 +521,78 @@ class MyAccAddr2ViewController: UIViewController
 
 	@objc func displaySelectAState(_ sender: Any)
 	{
-		if !pickerStateData.isEmpty
+		if stateField.text != "N/A" //&& stateField.text != ""//!pickerStateData.isEmpty
 		{
-			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-			let vc = sb.instantiateInitialViewController() as? PickerViewController
-			if vc != nil
-			{
-				vc?.noteName = MyAccAddr2ViewController.selectState
-				self.present(vc!, animated: true, completion: nil)
-				vc?.dialog.shadowColor = 			R.color.YumaDRed
-				vc?.dialog.shadowOffset = 			.zero
-				vc?.dialog.shadowRadius = 			5
-				vc?.dialog.shadowOpacity = 			1
-				vc?.dialog.layer.cornerRadius = 	20
-				vc?.dialog.cornerRadius = 			20
-				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
-				let country = countryField.text
-				if country != nil
-				{
-					vc?.titleLbl.text?.append(" (\(country!))")
-				}
-//				vc?.button.backgroundColor = R.color.YumaRed
-//				vc?.button.cornerRadius = 4
-//				vc?.button.setTitleColor(UIColor.white, for: .normal)
-//				vc?.button.shadowColor = R.color.YumaDRed
-//				vc?.button.shadowOffset = .zero
-//				vc?.button.shadowRadius = 3
-//				vc?.button.shadowOpacity = 1
-//				vc?.button.titleEdgeInsets = UIEdgeInsets(top: 2, left: 20, bottom: 2, right: 20)
-				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
-//				vc?.button.setTitle(R.string.select, for: .normal)
-				vc?.view.addSubview(pickerState)
-				pickerState.translatesAutoresizingMaskIntoConstraints = false
-				NSLayoutConstraint.activate([
-					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-					])
-				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
-			}
-			else
-			{
-				print("HelpStoryboard has no initial view controller")
-			}
+			let vc = SelectStateVC()
+			vc.noteName = MyAccAddr2ViewController.selectState
+			vc.defaultState = stateField.text
+			vc.dialogWindow.layer.masksToBounds = true
+			vc.dialogWindow.borderWidth = 3
+			vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
+			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonSingle.shadowColor = R.color.YumaDRed
+			vc.buttonSingle.shadowOffset = .zero
+			vc.buttonSingle.shadowRadius = 5
+			vc.buttonSingle.shadowOpacity = 0.5
+			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+			vc.isModalInPopover = true
+			vc.modalPresentationStyle = .overFullScreen
+			self.present(vc, animated: true, completion: nil)
+//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
+//			let vc = sb.instantiateInitialViewController() as? PickerViewController
+//			if vc != nil
+//			{
+//				vc?.noteName = MyAccAddr2ViewController.selectState
+//				self.present(vc!, animated: true, completion: nil)
+//				vc?.dialog.shadowColor = 			R.color.YumaDRed
+//				vc?.dialog.shadowOffset = 			.zero
+//				vc?.dialog.shadowRadius = 			5
+//				vc?.dialog.shadowOpacity = 			1
+//				vc?.dialog.layer.cornerRadius = 	20
+//				vc?.dialog.cornerRadius = 			20
+//				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.state)"
+//				let country = countryField.text
+//				if country != nil
+//				{
+//					vc?.titleLbl.text?.append(" (\(country!))")
+//				}
+////				vc?.button.backgroundColor = R.color.YumaRed
+////				vc?.button.cornerRadius = 4
+////				vc?.button.setTitleColor(UIColor.white, for: .normal)
+////				vc?.button.shadowColor = R.color.YumaDRed
+////				vc?.button.shadowOffset = .zero
+////				vc?.button.shadowRadius = 3
+////				vc?.button.shadowOpacity = 1
+////				vc?.button.titleEdgeInsets = UIEdgeInsets(top: 2, left: 20, bottom: 2, right: 20)
+//				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
+////				vc?.button.setTitle(R.string.select, for: .normal)
+//				vc?.view.addSubview(pickerState)
+//				pickerState.translatesAutoresizingMaskIntoConstraints = false
+//				NSLayoutConstraint.activate([
+//					pickerState.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
+//					pickerState.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
+//					])
+//				vc?.button.addTarget(self, action: #selector(selectedAState(_:)), for: .touchUpInside)
+//			}
+//			else
+//			{
+//				print("HelpStoryboard has no initial view controller")
+//			}
 		}
 	}
 	
-	@objc func selectedAState(_ sender: Any)
+	@objc func selectedAState(_ sender: Notification)
 	{
-		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
+		if let row = sender.object as? CountryState
+		{
+			if stateField.text != row.name!
+			{
+				stateField.text = row.name!
+				stateField.tag = row.id!+10
+			}
+		}
+//		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
 	}
 
 
