@@ -174,7 +174,7 @@
 		CF99DF4220D7F97D006492AF /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4120D7F97D006492AF /* UIView.swift */; };
 		CF99DF4420D7F9B0006492AF /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4320D7F9B0006492AF /* UIViewController.swift */; };
 		CF99DF4620D7F9EB006492AF /* URLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4520D7F9EB006492AF /* URLResponse.swift */; };
-		CF99DF4820D7FACC006492AF /* MD5Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4720D7FACC006492AF /* MD5Method.swift */; };
+		CF99DF4820D7FACC006492AF /* GlobalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4720D7FACC006492AF /* GlobalMethods.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
 		CFA2115320D69446006E8830 /* SelectDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2115220D69446006E8830 /* SelectDate.swift */; };
 		CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF120C71961006C098C /* fa-brands-400.ttf */; };
@@ -409,7 +409,7 @@
 		CF99DF4120D7F97D006492AF /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		CF99DF4320D7F9B0006492AF /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		CF99DF4520D7F9EB006492AF /* URLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponse.swift; sourceTree = "<group>"; };
-		CF99DF4720D7FACC006492AF /* MD5Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MD5Method.swift; sourceTree = "<group>"; };
+		CF99DF4720D7FACC006492AF /* GlobalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMethods.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
 		CFA2115220D69446006E8830 /* SelectDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDate.swift; sourceTree = "<group>"; };
 		CFA4ABF120C71961006C098C /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
@@ -590,7 +590,7 @@
 				CF78CC0A2083FE620030789D /* PropertyNames.swift */,
 				CF4D85452094C0C3001A1744 /* Http.swift */,
 				CF4D85472094D5B8001A1744 /* WebService.swift */,
-				CF99DF4720D7FACC006492AF /* MD5Method.swift */,
+				CF99DF4720D7FACC006492AF /* GlobalMethods.swift */,
 				CFAFC0B5201F7857002CBC1B /* Fonts */,
 				CF7E8663202B62A90014B787 /* R.swift */,
 				CF99DF1420D7F1CF006492AF /* R.array.swift */,
@@ -1138,7 +1138,7 @@
 				CF8C656520D1A99F00E12C88 /* PrestashopError.swift in Sources */,
 				CF50A3E6207C08A4008749F0 /* PickerViewController.swift in Sources */,
 				CF44384F209F44A20028443B /* InputField.swift in Sources */,
-				CF99DF4820D7FACC006492AF /* MD5Method.swift in Sources */,
+				CF99DF4820D7FACC006492AF /* GlobalMethods.swift in Sources */,
 				CF7E863920290D2B0014B787 /* fontAwesomeIcons.swift in Sources */,
 				CF7BFD1320AF7844009FE1F8 /* ImageWindow.swift in Sources */,
 				CF99DF2520D7F485006492AF /* R.shadow.swift in Sources */,

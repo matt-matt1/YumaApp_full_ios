@@ -42,7 +42,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		//		view.cornerRadius = 20
 		view.clipsToBounds = true
 		view.layer.masksToBounds = true
-		view.textColor = R.color.YumaYel
+		view.textColor = UIColor.white
 		view.textAlignment = .center
 		let titleShadow: NSShadow =
 		{
@@ -51,7 +51,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font: UIFont(name: "ArialRoundedMTBold", size: 20)!, NSAttributedStringKey.shadow: titleShadow, NSAttributedStringKey.foregroundColor: R.color.YumaYel])
+		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 20)!, NSAttributedStringKey.shadow : titleShadow])
 		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
 		view.shadowColor = UIColor.black
 		view.shadowRadius = 3
@@ -128,7 +128,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
 		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		return view
@@ -161,7 +161,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
 		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
 		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		return view
@@ -176,10 +176,10 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	var dialogWidth: CGFloat = 0
 	var dialogHeight: CGFloat = 0
 	var delegate: PopupDelegate?
-	let redArea = UIView()
+//	let redArea = UIView()
 	//let blueArea = UIView()
-	let greenArea = UIView()
-	let purpleArea = UIView()
+//	let greenArea = UIView()
+//	let purpleArea = UIView()
 	let stack: UIStackView =
 	{
 		let view = UIStackView()
@@ -264,40 +264,16 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	}
 
 
-//	func checkFields()
-//	{
-//		if exisiting.textEdit.text == nil || (exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!)
-//		{
-//			exisiting.borderColor = UIColor.red
-//			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-//		}
-//		if newPW.textEdit.text == nil || (newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!)
-//		{
-//			newPW.borderColor = UIColor.red
-//			newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-//		}
-//		if verifyPW.textEdit.text == nil || (verifyPW.textEdit.text != nil && (verifyPW.textEdit.text?.isEmpty)!)
-//		{
-//			verifyPW.borderColor = UIColor.red
-//			verifyPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
-//		}
-//	}
-
-
 	func drawButton()
 	{
 		buttonLeft.setTitle(R.string.dismiss.uppercased(), for: .normal)
 		buttonRight.setTitle(R.string.complete.uppercased(), for: .normal)
 		dialogWindow.addSubview(buttonLeft)
 		dialogWindow.addSubview(buttonRight)
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 3))
 		dialogWindow.addConstraintsWithFormat(format: "H:|-20-[v0(\(dialogWidth/3))][v1(\(dialogWidth/3))]-20-|", views: buttonLeft, buttonRight)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .centerY, relatedBy: .equal, toItem: buttonRight, attribute: .centerY, multiplier: 1, constant: 0))
 		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonLeft)
 		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonRight)
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
-//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonRight, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
 		buttonLeft.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonLeftTapped(_:))))
 		buttonRight.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonRightTapped(_:))))
 	}
@@ -369,46 +345,56 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		{
 			OperationQueue.main.addOperation
 			{
-				let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-					{ 	(action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-						return
-						//self.dismiss(animated: false, completion: nil)
-				}))
-				alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
-					{ 	(action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-						let (passwd, formatted) = self.store.makePassword()
-						self.newPW.textEdit.text = passwd
-						self.verifyPW.textEdit.text = passwd
-						self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
-				}))
-				self.present(alert, animated: true, completion:
-				{
+				myAlertOKCancel(self, title: R.string.txtPass, message: R.string.overw, okAction: {
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+					let (passwd, formatted) = self.store.makePassword()
+					self.newPW.textEdit.text = passwd
+					self.verifyPW.textEdit.text = passwd
+					self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+				}, cancelAction: {
+				}, completion: {
 				})
+//				let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.4
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+//					{ 	(action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						return
+//						//self.dismiss(animated: false, completion: nil)
+//				}))
+//				alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
+//					{ 	(action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						let (passwd, formatted) = self.store.makePassword()
+//						self.newPW.textEdit.text = passwd
+//						self.verifyPW.textEdit.text = passwd
+//						self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+//				}))
+//				self.present(alert, animated: true, completion:
+//				{
+//				})
 			}
 		}
 		else

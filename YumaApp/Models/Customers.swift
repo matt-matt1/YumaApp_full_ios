@@ -460,11 +460,96 @@ struct Customer: Codable, XMLIndexerDeserializable
 		associations = nil
 //		associations = try parent.decode(CustomerAssociations.self, forKey: .associations)
 	}
+	
+	init(id: Int, id_customer: Int, id_default_group: Int, id_lang: Int, newsletter_date_add: Date, ip_registration_newsletter: String, last_passwd_gen: Date, secure_key: String, deleted: Bool, passwd: String, lastname: String, firstname: String, email: String, id_gender: Int, birthday: Date, newsletter: Bool, optin: Bool, website: String, company: String, siret: String, ape: String, outstanding_allow_amount: Float, show_public_prices: Bool, id_risk: Int, max_payment_days: Int, active: Bool, note: String, is_guest: Bool, id_shop: Int, id_shop_group: Int, date_add: Date, date_upd: Date, reset_password_token: String, reset_password_validity: Date, associations: CustomerAssociations?)
+	{
+		self.id = id
+		self.idCustomer = id_customer
+		self.idDefaultGroup = id_default_group
+		self.idLang = id_lang
+		self.newsletterDateAdd = newsletter_date_add
+		self.ipRegistrationNewsletter = ip_registration_newsletter
+		self.lastPasswdGen = last_passwd_gen
+		self.secureKey = secure_key
+		self.deleted = deleted
+		self.passwd = passwd
+		self.lastname = lastname
+		self.firstname = firstname
+		self.email = email
+		self.idGender = id_gender
+		self.birthday = birthday
+		self.website = website
+		self.company = company
+		self.siret = siret
+		self.ape = ape
+		self.outstandingAllowAmount = outstanding_allow_amount
+		self.showPublicPrices = show_public_prices
+		self.idRisk = id_risk
+		self.maxPaymentDays = max_payment_days
+		self.active = active
+		self.note = note
+		self.isGuest = is_guest
+		self.idShop = id_shop
+		self.idShopGroup = id_shop_group
+		self.dateAdd = date_add
+		self.dateUpd = date_upd
+		self.resetPasswordToken = reset_password_token
+		self.resetPasswordValidity = reset_password_validity
+		self.associations = associations
+	}
+	init(id: Int, idCustomer: Int, idDefaultGroup: Int, idLang: Int, newsletterDateAdd: Date, ipRegistrationNewsletter: String, lastPasswdGen: Date, secureKey: String, deleted: Bool, passwd: String, lastname: String, firstname: String, email: String, idGender: Int, birthday: Date, newsletter: Bool, optin: Bool, website: String, company: String, siret: String, ape: String, outstandingAllowAmount: Float, showPublicPrices: Bool, idRisk: Int, maxPaymentDays: Int, active: Bool, note: String, isGuest: Bool, idShop: Int, idShopGroup: Int, dateAdd: Date, dateUpd: Date, resetPasswordToken: String, resetPasswordValidity: Date, associations: CustomerAssociations?)
+	{
+		self.id = id
+		self.idCustomer = idCustomer
+		self.idDefaultGroup = idDefaultGroup
+		self.idLang = idLang
+		self.newsletterDateAdd = newsletterDateAdd
+		self.ipRegistrationNewsletter = ipRegistrationNewsletter
+		self.lastPasswdGen = lastPasswdGen
+		self.secureKey = secureKey
+		self.deleted = deleted
+		self.passwd = passwd
+		self.lastname = lastname
+		self.firstname = firstname
+		self.email = email
+		self.idGender = idGender
+		self.birthday = birthday
+		self.website = website
+		self.company = company
+		self.siret = siret
+		self.ape = ape
+		self.outstandingAllowAmount = outstandingAllowAmount
+		self.showPublicPrices = showPublicPrices
+		self.idRisk = idRisk
+		self.maxPaymentDays = maxPaymentDays
+		self.active = active
+		self.note = note
+		self.isGuest = isGuest
+		self.idShop = idShop
+		self.idShopGroup = idShopGroup
+		self.dateAdd = dateAdd
+		self.dateUpd = dateUpd
+		self.resetPasswordToken = resetPasswordToken
+		self.resetPasswordValidity = resetPasswordValidity
+		self.associations = associations
+	}
 
-//	static func deserialize(_ node: XMLIndexer) throws -> Customer
+//	func copy(with zone: NSZone? = nil) -> Any
 //	{
-//		return try Customer(id: Int(node["id"].value()), id_customer: Int(node["id_customer"].value()), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: node["newsletter_date_add"].value(), ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: node["last_passwd_gen"].value(), secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: node["birthday"].value(), newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: node["date_add"].value(), date_upd: node["date_upd"].value(), reset_password_token: node["reset_password_token"].value(), reset_password_validity: node["reset_password_validity"].value(), associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
+////		let copy = Customer(id: id, idCustomer: idCustomer, idDefaultGroup: idDefaultGroup, idLang: idLang, newsletterDateAdd: newsletterDateAdd, ipRegistrationNewsletter: ipRegistrationNewsletter, lastPasswdGen: lastPasswdGen, secureKey: secureKey, deleted: deleted, passwd: passwd, lastname: lastname, firstname: firstname, email: email, idGender: idGender, birthday: birthday, newsletter: newsletter, optin: optin, website: website, company: company, siret: siret, ape: ape, outstandingAllowAmount: outstandingAllowAmount, showPublicPrices: showPublicPrices, idRisk: idRisk, maxPaymentDays: maxPaymentDays, active: active, note: note, isGuest: isGuest, idShop: idShop, idShopGroup: idShopGroup, dateAdd: dateAdd, dateUpd: dateUpd, resetPasswordToken: resetPasswordToken, resetPasswordValidity: resetPasswordValidity, associations: associations)
+//		let copy = Customer(id: id!, idCustomer: idCustomer!, idDefaultGroup: idDefaultGroup!, idLang: idLang!, newsletterDateAdd: newsletterDateAdd!, ipRegistrationNewsletter: ipRegistrationNewsletter!, lastPasswdGen: lastPasswdGen!, secureKey: secureKey!, deleted: deleted!, passwd: passwd, lastname: lastname, firstname: firstname, email: email, idGender: idGender, birthday: birthday, newsletter: newsletter, optin: optin, website: website, company: company, siret: siret, ape: ape, outstandingAllowAmount: outstandingAllowAmount, showPublicPrices: showPublicPrices, idRisk: idRisk, maxPaymentDays: maxPaymentDays, active: active, note: note, isGuest: isGuest, idShop: idShop, idShopGroup: idShopGroup, dateAdd: dateAdd, dateUpd: dateUpd, resetPasswordToken: resetPasswordToken, resetPasswordValidity: resetPasswordValidity, associations: associations)
+////		let copy = Customer(id: id!, idCustomer: idCustomer!, idDefaultGroup: idDefaultGroup!, idLang: idLang!, newsletterDateAdd: newsletterDateAdd!, ipRegistrationNewsletter: ipRegistrationNewsletter!, lastPasswdGen: lastPasswdGen!, secureKey: secureKey!, deleted: deleted!, passwd: passwd!, lastname: lastname!, firstname: firstname!, email: email!, idGender: idGender!, birthday: birthday!, newsletter: newsletter!, optin: optin!, website: website!, company: company!, siret: siret!, ape: ape!, outstandingAllowAmount: outstandingAllowAmount!, showPublicPrices: showPublicPrices!, idRisk: idRisk!, maxPaymentDays: maxPaymentDays!, active: active!, note: note!, isGuest: isGuest!, idShop: idShop!, idShopGroup: idShopGroup!, dateAdd: dateAdd!, dateUpd: dateUpd!, resetPasswordToken: resetPasswordToken!, resetPasswordValidity: resetPasswordValidity!, associations: associations!)
+//		return copy
 //	}
+
+	static func deserialize(_ node: XMLIndexer) throws -> Customer
+	{
+		let date_full = DateFormatter()
+		date_full.dateFormat = "yyyy-MM-dd HH:mm:ss"
+		let date_only = DateFormatter()
+		date_only.dateFormat = "yyyy-MM-dd"
+		return try Customer(id: node["id"].value(), id_customer: node["id_customer"].value(), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: date_full.date(from: node["newsletter_date_add"].value())!, ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: date_full.date(from: node["last_passwd_gen"].value())!, secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: date_full.date(from: node["date_add"].value())!, date_upd: date_full.date(from: node["date_upd"].value())!, reset_password_token: node["reset_password_token"].value(), reset_password_validity: date_full.date(from: node["reset_password_validity"].value())!, associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
+	}
 }
 struct Customers: Decodable
 {

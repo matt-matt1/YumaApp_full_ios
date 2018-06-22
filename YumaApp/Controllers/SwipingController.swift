@@ -922,6 +922,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		41 value : "1" : "PS_INVOICE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		42 value : "360" : "PS_PASSWD_TIME_BACK" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		43 value : "360" : "PS_PASSWD_TIME_FRONT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
+		let tempPasswdTimeFront = store.configValue(forKey: "PS_PASSWD_TIME_FRONT")
+		if !tempPasswdTimeFront.isEmpty
+		{
+			store.passwdTimeFront = TimeInterval(tempPasswdTimeFront)!
+		}
+		else
+		{
+			store.passwdTimeFront = TimeInterval(0)
+		}
 //		44 value : "1440" : "PS_PASSWD_RESET_VALIDITY" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		45 value : "1" : "PS_DISP_UNAVAILABLE_ATTR" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		46 value : "3" : "PS_SEARCH_MINWORDLEN" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"

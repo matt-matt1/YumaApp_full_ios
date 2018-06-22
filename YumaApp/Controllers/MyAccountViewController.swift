@@ -6,10 +6,13 @@
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
+import SWXMLHash
 import UIKit
+
 
 class MyAccountViewController: UIViewController
 {
+	@IBOutlet weak var delAccBtn: UIButton!
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
@@ -114,6 +117,8 @@ class MyAccountViewController: UIViewController
 //					//			print(carriers)
 //			}
 //		}
+		delAccBtn.setTitle(R.string.delAcc, for: .normal)
+		delAccBtn.setTitle(R.string.delAcc, for: .highlighted)
 	}
 
 	override func didReceiveMemoryWarning()
@@ -554,57 +559,109 @@ class MyAccountViewController: UIViewController
 */
 
 	
+	@IBAction func delAccBtnAct(_ sender: Any)
+	{
+		DispatchQueue.main.async {
+			myAlertOnlyDismiss(self, title: R.string.delAcc, message: R.string.delAccMore, dismissAction: {
+				let asdf = "asdf"
+				print(asdf)
+			}) {
+				let asdf = "lkjh"
+				print(asdf)
+			}
+//		myAlertOKCancel(self, title: R.string.delAcc, message: R.string.delAccMore, okAction: {
+//		}, cancelAction: {
+//		}) {
+//		}
+//		myAlertOKCancel(self, title: R.string.delAcc, message: R.string.delAccMore, okAction: {
+////			myAlertOKCancel(self, title: R.string.delAcc, message: R.string.rusure, okAction: {
+//				let spinner = UIViewController.displaySpinner(onView: self.view)
+//				self.store.customer?.deleted = true
+//				var ws = WebService()
+//				ws.startURL = R.string.WSbase
+//				ws.resource = APIResource.customers
+//				ws.keyAPI = R.string.APIkey
+//				ws.filter = ["id" : [self.store.customer?.idCustomer! as Any]]
+//				var omit: [String] = []
+//				omit.append("id_customer")
+//				//let http = Http()
+//				//Http.put()
+//				let str = PSWebServices.object2psxml(object: self.store.customer!, resource: "customers", resource2: "customer", omit: omit)
+//				print(str)
+//				//var params = [String : String]()
+//				//params["ws_key"] = R.string.APIkey
+//				//params["xml"] = str
+//				var allowed = CharacterSet.alphanumerics
+//				allowed.insert(charactersIn: ".-_~/?")
+//				self.store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*", "Accept-Language": "en-US,en"], body: "\(str)", save: nil)
+//				{ 	(cust) in
+//					var title = R.string.customer
+//					if cust is Bool && !((cust as? Bool)!)
+//					{
+//						title = R.string.err
+//					}
+//					UIViewController.removeSpinner(spinner: spinner)
+//					self.store.enumerate(cust as! XMLIndexer)
+////					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr)
+//				}
+////			})
+//		}) {
+		}
+	}
 	@IBAction func signOutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: self.signOutBtn)
 		if !Reachability.isConnectedToNetwork()
 		{
-			DispatchQueue.main.async
-			{
-				let alert = UIAlertController(title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.3
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-					{ 	(action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				alert.addAction(UIAlertAction(title: R.string.SignOut.uppercased(), style: .destructive, handler:
-					{ 	(action) in
-						self.store.logout(self, presentingViewController: self.presentingViewController)
-//					self.store.customer = nil
-//					self.store.addresses = []
-//					UserDefaults.standard.removeObject(forKey: "Customer")
-//					OperationQueue.main.addOperation
+			myAlertOKCancel(self, title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, okAction: {
+				self.store.logout(self, presentingViewController: self.presentingViewController)
+			})
+//			DispatchQueue.main.async
+//			{
+//				let alert = UIAlertController(title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.3
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+//					{ 	(action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				alert.addAction(UIAlertAction(title: R.string.SignOut.uppercased(), style: .destructive, handler:
+//					{ 	(action) in
+//						self.store.logout(self, presentingViewController: self.presentingViewController)
+////					self.store.customer = nil
+////					self.store.addresses = []
+////					UserDefaults.standard.removeObject(forKey: "Customer")
+////					OperationQueue.main.addOperation
+////					{
+////						weak var presentingViewController = self.presentingViewController
+////						self.dismiss(animated: false, completion: {
+////							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
+////						})
+////					}
+//				}))
+//				self.present(alert, animated: true, completion:
 //					{
-//						weak var presentingViewController = self.presentingViewController
-//						self.dismiss(animated: false, completion: {
-//							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
-//						})
-//					}
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
-			}
+//				})
+//			}
 		}
 		else
 		{

@@ -12,6 +12,7 @@ import UIKit
 
 class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 {
+	@IBOutlet weak var stackElements: UIStackView!
 	@IBOutlet weak var navBar: UINavigationBar!
 	@IBOutlet weak var navTitle: UINavigationItem!
 	@IBOutlet weak var navClose: UIBarButtonItem!
@@ -129,6 +130,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			navTitle.title = R.string.createAcc
 			buttonText.setTitle(R.string.createAcc.uppercased(), for: .normal)
 			passwordGenerateDo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(makePassword(_:))))
+			passwordLabel.isUserInteractionEnabled = true
+			passwordLabel.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(setPW(_:))))
 		}
 		let notificationCenter = NotificationCenter.default
 		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -179,8 +182,10 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	@objc func getBDate(_ sender: UITapGestureRecognizer)
 	{
 		let vc = SelectDateVC()
+		vc.modalTransitionStyle = .crossDissolve
+		vc.modalPresentationStyle = .overCurrentContext
 		vc.noteName = MyAccInfoViewController.selectBDate
-		print("notify: MyAccInfoViewController.\(MyAccInfoViewController.selectBDate.rawValue)")
+//		print("notify: MyAccInfoViewController.\(MyAccInfoViewController.selectBDate.rawValue)")
 		vc.datePicker.maximumDate = Date()
 //		vc.datePicker.locale = Locale(identifier: "en_US_POSIX")
 //		vc.datePicker.locale = Locale(identifier: "en_au")//ddMMMyyyy
@@ -385,20 +390,19 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	}
 
 
-	func loadEnteredValues() -> Customer
-	{
-		let date = Date()
-		let df = DateFormatter()
-		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-		let today = df.string(from: date)
-		let ipAddr: String = store.getIPAddress()!
-//		let newRow = Customer(id: 0, id_customer: "", id_default_group: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "0000-00-00 00:00:00", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: String(genderSwitch.selectedSegmentIndex), birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text, company: field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text, siret: field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text, ape: field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text, outstanding_allow_amount: "0.000000", show_public_prices: "1", id_risk: "0", max_payment_days: "0", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGroup), date_add: today, date_upd: today, reset_password_token: nil, reset_password_validity: "0000-00-00 00:00:00", associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
-//		let newRow = Customer(id: 0, idCustomer: "", idDefaultGroup: String(store.idDefaultGroup), id_lang: String(store.myLang), newsletter_date_add: switch1.isOn ? today : "", ip_registration_newsletter: switch1.isOn ? ipAddr : "", last_passwd_gen: "0000-00-00 00:00:00", secure_key: "", deleted: "0", passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: String(genderSwitch.selectedSegmentIndex), birthday: field4Edit.text, newsletter: switch1.isOn ? "1" : "0", optin: switch0.isOn ? "1" : "0", website: field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text, company: field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text, siret: field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text, ape: field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text, outstanding_allow_amount: "0.000000", show_public_prices: "1", id_risk: "0", max_payment_days: "0", active: "1", note: "", is_guest: "0", id_shop: String(store.idShop), id_shop_group: String(store.idShopGroup), date_add: today, date_upd: today, reset_password_token: nil, reset_password_validity: "0000-00-00 00:00:00", associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
-//		let encode = try? JSONEncoder().encode(newRow)
-		UserDefaults.standard.set(encode, forKey: "updateCustomer.\(df.string(from: date))")
-//		return newRow
-		return store.customer!
-	}
+//	func loadEnteredValues() -> Bool, Customer
+//	{
+//		var changed = false
+//		let date = Date()
+//		let df = DateFormatter()
+//		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+////		let today = df.string(from: date)
+//		let ipAddr: String = store.getIPAddress()!
+//		let newRow = Customer(id: (store.customer?.id)!, id_customer: (store.customer?.idCustomer)!, id_default_group: (store.idDefaultGroup), id_lang: (store.myLang), newsletter_date_add: switch1.isOn ? date : (store.customer?.newsletterDateAdd != nil) ? store.customer?.newsletterDateAdd!) : nil, ip_registration_newsletter: switch1.isOn ? ipAddr : (store.customer?.ipRegistrationNewsletter)!, last_passwd_gen: date, secure_key: "", deleted: false, passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: (genderSwitch.selectedSegmentIndex), birthday: df.date(from: field4Edit.text!)!, newsletter: switch1.isOn, optin: switch0.isOn, website: (field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text)!, company: (field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text)!, siret: (field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text)!, ape: (field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text)!, outstanding_allow_amount: 0, show_public_prices: true, id_risk: 0, max_payment_days: 0, active: true, note: "", is_guest: false, id_shop: store.idShop, id_shop_group: store.idShopGroup, date_add: date, date_upd: date, reset_password_token: "", reset_password_validity: date, associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
+////		let encode = try? JSONEncoder().encode(newRow)
+////		UserDefaults.standard.set(encode, forKey: "updateCustomer.\(df.string(from: date))")
+//		return changed, newRow
+//	}
 
 
 	@objc func adjustForKeyboard(notification: Notification)
@@ -477,6 +481,14 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	{
 		field4Edit.text = (sender.object as! String)
 	}
+	@objc func setPW(_ sender: UITapGestureRecognizer)
+	{
+		let vc = SetPW()
+		vc.modalTransitionStyle = .crossDissolve
+		vc.modalPresentationStyle = .overCurrentContext
+		vc.delegate = self
+		self.present(vc, animated: true, completion: nil)
+	}
 	@objc func makePassword(_ sender: UITapGestureRecognizer)
 	{
 		let (passwd, formatted) = store.makePassword()
@@ -534,11 +546,82 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	//			ws.schema = Schema.blank
 	//			ws.get { (result) in
 	//			}
-				let newRow = loadEnteredValues()
+//				let newRow = loadEnteredValues()
+//				var newRow = store.customer?.copy() as! Customer
+//				var changed = false
+//				if genderSwitch.selectedSegmentIndex != store.customer?.idGender
+//				{
+//					newRow.idGender = genderSwitch.selectedSegmentIndex
+//					changed = true
+//				}
+//				if !(fieldEdit1.text?.isEmpty)! && fieldEdit1.text != store.customer?.firstname
+//				{
+//					newRow.firstname = fieldEdit1.text
+//					changed = true
+//				}
+//				if !(field2Edit.text?.isEmpty)! && field2Edit.text != store.customer?.lastname
+//				{
+//					newRow.lastname = field2Edit.text
+//					changed = true
+//				}
+//				let bdate = DateFormatter()
+//				bdate.dateFormat = "yyyy-MM-dd"
+//				if !(field4Edit.text?.isEmpty)! && field4Edit.text != bdate.string(from: (store.customer?.birthday)!)
+//				{
+//					newRow.birthday = bdate.date(from: field4Edit.text!)
+//					changed = true
+//				}
+//				if !(field5Edit.text?.isEmpty)! && field5Edit.text != store.customer?.company
+//				{
+//					newRow.company = field5Edit.text
+//					changed = true
+//				}
+//				if !(field6Edit.text?.isEmpty)! && field6Edit.text != store.customer?.website
+//				{
+//					newRow.website = field6Edit.text
+//					changed = true
+//				}
+//				if !(field7Edit.text?.isEmpty)! && field7Edit.text != store.customer?.siret
+//				{
+//					newRow.siret = field7Edit.text
+//					changed = true
+//				}
+//				if !(field8Edit.text?.isEmpty)! && field8Edit.text != store.customer?.ape
+//				{
+//					newRow.ape = field8Edit.text
+//					changed = true
+//				}
+//				if !(passwordEdit.text?.isEmpty)! && passwordEdit.text != store.customer?.passwd
+//				{
+//					newRow.passwd = passwordEdit.text
+//					changed = true
+//				}
+//				if switch0.isOn != store.customer?.optin
+//				{
+//					newRow.optin = switch0.isOn
+//					changed = true
+//				}
+//				if switch1.isOn != store.customer?.newsletter
+//				{
+//					newRow.newsletter = switch1.isOn
+//					changed = true
+//				}
+//				newRow.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
+//				for sub in stackElements.subviews
+//				{
+//					print(sub.superview)
+//					if let field = sub.superview as? InputField
+//					{
+//						print("yes")
+//						if !field.textEdit.text?.isEmpty && field.textEdit.text? != store.
+//					}
+//				}
+//				let newRow = Customer(id: (store.customer?.id)!, id_customer: (store.customer?.idCustomer)!, id_default_group: (store.idDefaultGroup), id_lang: (store.myLang), newsletter_date_add: switch1.isOn ? date : (store.customer?.newsletterDateAdd != nil) ? store.customer?.newsletterDateAdd!) : nil, ip_registration_newsletter: switch1.isOn ? ipAddr : (store.customer?.ipRegistrationNewsletter)!, last_passwd_gen: date, secure_key: "", deleted: false, passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: (genderSwitch.selectedSegmentIndex), birthday: df.date(from: field4Edit.text!)!, newsletter: switch1.isOn, optin: switch0.isOn, website: (field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text)!, company: (field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text)!, siret: (field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text)!, ape: (field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text)!, outstanding_allow_amount: 0, show_public_prices: true, id_risk: 0, max_payment_days: 0, active: true, note: "", is_guest: false, id_shop: store.idShop, id_shop_group: store.idShopGroup, date_add: date, date_upd: date, reset_password_token: "", reset_password_validity: date, associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
+
 				//print(newRow)
 				// Add a row
 				//ws.schema = nil
-				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
+//				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
 				print(ws.xml!)
 				ws.printURL()
 				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(cust) in
@@ -596,8 +679,6 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			{
 				//GET the full XML file for the resource you want to change (/api/customers/7), edit its content as needed, then PUT the whole XML file back to the same URL again
 				ws.filter = ["id" : [customer?.idCustomer! as Any]]
-//				var edited = customer
-		//		var edited = Customer(id: store.customer?.id, id_customer: store.customer?.id_customer, id_default_group: store.customer?.id_default_group, id_lang: store.customer?.id_lang, newsletter_date_add: store.customer?.newsletter_date_add, ip_registration_newsletter: store.customer?.ip_registration_newsletter, last_passwd_gen: store.customer?.last_passwd_gen, secure_key: store.customer?.secure_key, deleted: store.customer?.deleted, passwd: (store.customer?.passwd)!, lastname: (store.customer?.lastname)!, firstname: (store.customer?.firstname)!, email: (store.customer?.email)!, id_gender: store.customer?.id_gender, birthday: store.customer?.birthday, newsletter: store.customer?.newsletter, optin: store.customer?.optin, website: store.customer?.website, company: store.customer?.company, siret: store.customer?.siret, ape: store.customer?.ape, outstanding_allow_amount: store.customer?.outstanding_allow_amount, show_public_prices: store.customer?.show_public_prices, id_risk: store.customer?.id_risk, max_payment_days: store.customer?.max_payment_days, active: store.customer?.active, note: store.customer?.note, is_guest: store.customer?.is_guest, id_shop: store.customer?.id_shop, id_shop_group: store.customer?.id_shop_group, date_add: store.customer?.date_add, date_upd: store.customer?.date_upd, reset_password_token: store.customer?.reset_password_token, reset_password_validity: store.customer?.reset_password_validity, associations: store.customer?.associations)
 //				if true//changed ie. edited
 //				{
 //					let now = Date()
@@ -612,26 +693,86 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 //					edited?.active = String(switch2.isOn)
 //					edited?.passwd = passwordEdit.text!
 //				}
-				var edited = loadEnteredValues()
+//				var edited = store.customer?.copy() as! Customer
+//				var changed = false
+//				if genderSwitch.selectedSegmentIndex != store.customer?.idGender
+//				{
+//					edited.idGender = genderSwitch.selectedSegmentIndex
+//					changed = true
+//				}
+//				if !(fieldEdit1.text?.isEmpty)! && fieldEdit1.text != store.customer?.firstname
+//				{
+//					edited.firstname = fieldEdit1.text
+//					changed = true
+//				}
+//				if !(field2Edit.text?.isEmpty)! && field2Edit.text != store.customer?.lastname
+//				{
+//					edited.lastname = field2Edit.text
+//					changed = true
+//				}
+//				let bdate = DateFormatter()
+//				bdate.dateFormat = "yyyy-MM-dd"
+//				if !(field4Edit.text?.isEmpty)! && field4Edit.text != bdate.string(from: (store.customer?.birthday)!)
+//				{
+//					edited.birthday = bdate.date(from: field4Edit.text!)
+//					changed = true
+//				}
+//				if !(field5Edit.text?.isEmpty)! && field5Edit.text != store.customer?.company
+//				{
+//					edited.company = field5Edit.text
+//					changed = true
+//				}
+//				if !(field6Edit.text?.isEmpty)! && field6Edit.text != store.customer?.website
+//				{
+//					edited.website = field6Edit.text
+//					changed = true
+//				}
+//				if !(field7Edit.text?.isEmpty)! && field7Edit.text != store.customer?.siret
+//				{
+//					edited.siret = field7Edit.text
+//					changed = true
+//				}
+//				if !(field8Edit.text?.isEmpty)! && field8Edit.text != store.customer?.ape
+//				{
+//					edited.ape = field8Edit.text
+//					changed = true
+//				}
+//				if !(passwordEdit.text?.isEmpty)! && passwordEdit.text != store.customer?.passwd
+//				{
+//					edited.passwd = passwordEdit.text
+//					changed = true
+//				}
+//				if switch0.isOn != store.customer?.optin
+//				{
+//					edited.optin = switch0.isOn
+//					changed = true
+//				}
+//				if switch1.isOn != store.customer?.newsletter
+//				{
+//					edited.newsletter = switch1.isOn
+//					changed = true
+//				}
+//				var edited = loadEnteredValues()
 //				edited.id = Int((customer?.id_customer)!)
-				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
-				edited.secureKey = customer?.secureKey
-				edited.lastPasswdGen = customer?.lastPasswdGen
-				edited.ipRegistrationNewsletter = nil
-				if passwordEdit.text != nil && !(passwordEdit.text?.isEmpty)!
-				{
-					edited.passwd = md5(passwordEdit.text!)
-				}
-				else
-				{
-					edited.passwd = customer?.passwd
-				}
+//				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
+//				edited.secureKey = customer?.secureKey
+//				edited.lastPasswdGen = customer?.lastPasswdGen
+//				edited.ipRegistrationNewsletter = nil
+//				if passwordEdit.text != nil && !(passwordEdit.text?.isEmpty)!
+//				{
+//					edited.passwd = md5(passwordEdit.text!)
+//				}
+//				else
+//				{
+//					edited.passwd = customer?.passwd
+//				}
 				var omit: [String] = []
 				omit.append("id_customer")
 //				omit.append("some")
 //				omit.append("associations")
-				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", omit: omit)
-				print(str)
+//				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", omit: omit)
+				let str = ""
+//				print(str)
 				//var params = [String : String]()
 				//params["ws_key"] = R.string.APIkey
 				//params["xml"] = str
@@ -737,6 +878,16 @@ extension MyAccInfoViewController: UIScrollViewDelegate
 extension MyAccInfoViewController: PopupDelegate
 {
 	func popupValueSelected(value: String)
+	{
+		passwordEdit.text = value
+	}
+}
+
+
+
+extension MyAccInfoViewController: SetPWDelegate
+{
+	func SetPWValue(value: String)
 	{
 		passwordEdit.text = value
 	}

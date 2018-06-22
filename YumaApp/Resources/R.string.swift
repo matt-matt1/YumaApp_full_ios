@@ -56,7 +56,7 @@ extension R
 		static let action_settings = "Settings"
 		static let title_activity_tab_view = "TabView"
 		static let section_format = "Hello World from section: %1$d"
-		//		<!--general-->
+		// MARK:		<!--general-->
 		static let male = "male"
 		static let female = "female"
 		static let pieces = "pcs."
@@ -106,7 +106,8 @@ extension R
 		static let tryAgain = "Try again"
 		static let nickName = "nick name"
 		static let overw = "A new password is already in place. Over write this value?"
-		//		<!--actions-->
+		static let mismatch = "mismatch"
+		// MARK:		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"
 		static let email = "Email"
@@ -128,7 +129,7 @@ extension R
 		static let prev = "Previous"
 		static let upd = "Update"
 		static let changePass = "Change password"
-		//		<!--links-->
+		// MARK:		<!--links-->
 		static let login_link = "http://yumatechnical.com/en/login?back=my-account"
 		static let createAccLink = "http://yumatechnical.com/en/login?create_account=1"
 		static let forgotPWLink = "http://yumatechnical.com/en/password-recovery"
@@ -140,7 +141,7 @@ extension R
 		static let linkToners = "id_category=13&amp;orderby=position&amp;orderway=asc"
 		static let linkLaptops = "id_category=14&amp;orderby=position&amp;orderway=asc"
 		static let linkServices = "id_category=15&amp;orderby=position&amp;orderway=asc"
-		//		<!--forms-->
+		// MARK:		<!--forms-->
 		static let socialT = "Social title"
 		static let mr = "Mr."
 		static let mrs = "Mrs."
@@ -165,13 +166,13 @@ extension R
 		static let generate = "Generate"
 		static let genInstr = "Copy the below generated password to a safe place, then press OK"
 		//		static let noRemem = "Don't remember me"
-		//		<!--search-->
+		// MARK:		<!--search-->
 		static let action_search = "search"
 		static let searchResults = "Search results"
 		static let sorry = "Sorry for the inconvenience."
 		static let searchAgain = "Search again what you are looking for"
 		static let search_hint = "Search"
-		//		<!--login-->
+		// MARK:		<!--login/my_account-->
 		static let login = "Login"
 		static let my_account = "My Account"
 		static let txtPass = "Password"
@@ -215,7 +216,9 @@ extension R
 		static let noAuth = "Cannot authorize any user"
 		static let resetOnly = "You can regenerate your password only every %d minute(s)"
 		static let same = "Keep the same or press to change"
-		//		<!--cart-->
+		static let delAcc = "Delete account"
+		static let delAccMore = "WARNING:  This prevent anyone from loggings into this account;  Also all  connected addresses will be unaccessible;  Also the connected order history will be unaccessible"
+		// MARK:		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"
 		static let added = "Added"
@@ -224,7 +227,7 @@ extension R
 		static let checkOut = "Checkout"
 		static let connAs = "Connected as"
 		static let notYou = "Not you?"
-		//		<!--product-->
+		// MARK:		<!--product-->
 		static let prod = "Product"
 		static let prodImage = "Product Image"
 		static let prodDesc = "Product Description"
@@ -249,7 +252,7 @@ extension R
 		static let Attrs = "Product Variations"
 		static let txtProdMore = "Details"
 		static let each = "each"
-		//		<!--address-->
+		// MARK:		<!--address-->
 		static let Addr = "Address"
 		static let alias = "Alias"
 		static let co = "Company"
@@ -265,14 +268,14 @@ extension R
 		static let ph_mob = "Mobile Phone"
 		static let BillAddr = "Billing address is different"
 		static let createAddr = "Create new address"
-		//		<!--message-->
+		// MARK:		<!--message-->
 		static let msg = "Message"
 		static let msgs = "Messages"
 		static let msgSucc = "Message successfully sent"
 		static let addMsg = "Add a message"
 		static let msgTop = "If you would like to add a comment about your order, please write it in the field below."
 		static let plsChoose = "-- please choose --"
-		//		<!--checkout-->
+		// MARK:		<!--checkout-->
 		static let Chkout = "Checkout"
 		static let process = "process"
 		static let s1 = "1. "
@@ -294,7 +297,7 @@ extension R
 		static let obligation = "Order with an obligation to pay"
 		static let chkInstr = "Choose a %s, then press Next"
 		static let markComp = "Mark complete"
-		//		<!--prestashop-->
+		// MARK:		<!--prestashop-->
 		static let cookie_key = "DtMUx3asc8KUPENVAjmaWBNjZWQ8ONsInyIPeYevCnjManedCdobyVr8"
 		static let secret = "dv0YPxjVdDNn6f2RFQ7IgX63BJa9gdpcqHwO4JcuchMQKUrgqTSQvmr6"
 		static let cookie_iv = "2Yzmb84B"
@@ -306,11 +309,11 @@ extension R
 		//		<!--<string name="APIparams = "ws_key=UUXXLG3ZSDLFI86JC2USB919UHEQU7AP&amp;output_format=JSON</string>-->
 		static let APIjson = "output_format=JSON"
 		static let APIfull = "display=full"
-		//		<!--help-->
+		// MARK:		<!--help-->
 		static let help = "Help"//"Assistance"
 		static let section_name = "section name"
 		static let help2 = "All Guides"
-		//		<!--orders-->
+		// MARK:		<!--orders-->
 		static let order = "Order"
 		static let ref = "reference"
 		static let tPrice = "Total Price"

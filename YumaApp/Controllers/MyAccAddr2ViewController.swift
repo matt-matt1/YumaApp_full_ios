@@ -497,7 +497,8 @@ class MyAccAddr2ViewController: UIViewController
 		vc.noteName = MyAccAddr2ViewController.selectCountry
 		vc.defaultCountry = countryField.text
 		vc.title = "\(R.string.select) \(R.string.country)"
-		vc.buttonSingle.setTitle(R.string.close.uppercased(), for: .normal)
+		vc.buttonLeft.setTitle(R.string.close.uppercased(), for: .normal)
+//		vc.buttonSingle.setTitle(R.string.close.uppercased(), for: .normal)
 		vc.isModalInPopover = true
 		vc.modalPresentationStyle = .overFullScreen
 		self.present(vc, animated: true, completion: nil)
@@ -529,12 +530,23 @@ class MyAccAddr2ViewController: UIViewController
 			vc.dialogWindow.layer.masksToBounds = true
 			vc.dialogWindow.borderWidth = 3
 			vc.dialogWindow.borderColor = R.color.YumaDRed.withAlphaComponent(0.75)
-			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-			vc.buttonSingle.shadowColor = R.color.YumaDRed
-			vc.buttonSingle.shadowOffset = .zero
-			vc.buttonSingle.shadowRadius = 5
-			vc.buttonSingle.shadowOpacity = 0.5
-			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+//			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//			vc.buttonSingle.shadowColor = R.color.YumaDRed
+//			vc.buttonSingle.shadowOffset = .zero
+//			vc.buttonSingle.shadowRadius = 5
+//			vc.buttonSingle.shadowOpacity = 0.5
+//			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+			vc.buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonLeft.shadowColor = R.color.YumaDRed
+			vc.buttonLeft.shadowOffset = .zero
+			vc.buttonLeft.shadowRadius = 5
+			vc.buttonLeft.shadowOpacity = 0.5
+			vc.buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonRight.shadowColor = R.color.YumaDRed
+			vc.buttonRight.shadowOffset = .zero
+			vc.buttonRight.shadowRadius = 5
+			vc.buttonRight.shadowOpacity = 0.5
+			vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 			vc.isModalInPopover = true
 			vc.modalPresentationStyle = .overFullScreen
 			self.present(vc, animated: true, completion: nil)

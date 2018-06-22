@@ -66,6 +66,7 @@
                 <outlet property="passwordShow" destination="a0m-NG-XLO" id="vGT-e3-s8i"/>
                 <outlet property="scrollForm" destination="nH6-AO-DPQ" id="8OC-lX-rt9"/>
                 <outlet property="showPass" destination="t1N-uc-AqQ" id="xgl-QL-tnF"/>
+                <outlet property="stackElements" destination="lrG-Cb-t6Q" id="TcM-qa-0T4"/>
                 <outlet property="switch0" destination="bq4-uR-t5c" id="2l4-6D-ATv"/>
                 <outlet property="switch0Label" destination="gep-xe-g9Y" id="OBe-5X-1A5"/>
                 <outlet property="switch1" destination="swS-cY-i5Z" id="n0x-0n-geW"/>

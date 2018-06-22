@@ -96,205 +96,73 @@ struct Address: Codable
 		{
 			if !myNull
 			{
-				if let myInt = try? parent.decode(UInt.self, forKey: .id)
-				{
-					id = Int(myInt)
-				}
-				else if let myInt = try? parent.decode(Int.self, forKey: .id)
-				{
-					id = myInt
-				}
-				else if let str = try? parent.decode(String.self, forKey: .id)
-				{
-					id = Int(str)!
-				}
+				if let myInt = try? parent.decode(UInt.self, forKey: .id)		{	id = Int(myInt)			}
+				else if let myInt = try? parent.decode(Int.self, forKey: .id)	{	id = myInt				}
+				else if let str = try? parent.decode(String.self, forKey: .id)	{	id = Int(str)!			}
 			}
 		}
 		idCustomer = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idCustomer)
-		{
-			idCustomer = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idCustomer)
-		{
-			idCustomer = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idCustomer)		{	idCustomer = myInt		}
+		else if let str = try? parent.decode(String.self, forKey: .idCustomer)	{	idCustomer = Int(str)	}
 		idManufacturer = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idManufacturer)
-		{
-			idManufacturer = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idManufacturer)
-		{
-			idManufacturer = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idManufacturer)	{	idManufacturer = myInt	}
+		else if let str = try? parent.decode(String.self, forKey: .idManufacturer){idManufacturer = Int(str)}
 		idSupplier = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idSupplier)
-		{
-			idSupplier = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idSupplier)
-		{
-			idSupplier = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idSupplier)		{	idSupplier = myInt		}
+		else if let str = try? parent.decode(String.self, forKey: .idSupplier)	{	idSupplier = Int(str)	}
 		idWarehouse = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idWarehouse)
-		{
-			idWarehouse = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idWarehouse)
-		{
-			idWarehouse = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idWarehouse)		{	idWarehouse = myInt		}
+		else if let str = try? parent.decode(String.self, forKey: .idWarehouse)	{	idWarehouse = Int(str)	}
 		idCountry = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idCountry)
-		{
-			idCountry = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idCountry)
-		{
-			idCountry = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idCountry)			{	idCountry = myInt		}
+		else if let str = try? parent.decode(String.self, forKey: .idCountry)	{	idCountry = Int(str)	}
 		idState = 0
-		if let myInt = try? parent.decode(Int.self, forKey: .idState)
-		{
-			idState = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .idState)
-		{
-			idState = Int(str)
-		}
+		if let myInt = try? parent.decode(Int.self, forKey: .idState)			{	idState = myInt			}
+		else if let str = try? parent.decode(String.self, forKey: .idState)		{	idState = Int(str)		}
 		alias = ""
-		if let myInt = try? parent.decode(String.self, forKey: .alias)
-		{
-			alias = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .alias)
-		{
-			alias = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .alias)			{	alias = myInt			}
+		else if let _ = try? parent.decode(Bool.self, forKey: .alias)			{	alias = ""				}
 		company = ""
-		if let myInt = try? parent.decode(String.self, forKey: .company)
-		{
-			company = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .company)
-		{
-			company = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .company)		{	company = myInt			}
+		else if let _ = try? parent.decode(Bool.self, forKey: .company)			{	company = ""			}
 		lastname = ""
-		if let myInt = try? parent.decode(String.self, forKey: .lastname)
-		{
-			lastname = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .lastname)
-		{
-			lastname = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .lastname)		{	lastname = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .lastname)		{	lastname = ""			}
 		firstname = ""
-		if let myInt = try? parent.decode(String.self, forKey: .firstname)
-		{
-			firstname = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .firstname)
-		{
-			firstname = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .firstname)		{	firstname = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .firstname)		{	firstname = ""			}
 		vatNumber = ""
-		if let myInt = try? parent.decode(String.self, forKey: .vatNumber)
-		{
-			vatNumber = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .vatNumber)
-		{
-			vatNumber = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .vatNumber)		{	vatNumber = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .vatNumber)		{	vatNumber = ""			}
 		address1 = ""
-		if let myInt = try? parent.decode(String.self, forKey: .address1)
-		{
-			address1 = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .address1)
-		{
-			address1 = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .address1)		{	address1 = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .address1)		{	address1 = ""			}
 		address2 = ""
-		if let myInt = try? parent.decode(String.self, forKey: .address2)
-		{
-			address2 = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .address2)
-		{
-			address2 = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .address2)		{	address2 = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .address2)		{	address2 = ""			}
 		postcode = ""
-		if let myInt = try? parent.decode(String.self, forKey: .postcode)
-		{
-			postcode = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .postcode)
-		{
-			postcode = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .postcode)		{	postcode = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .postcode)		{	postcode = ""			}
 		city = ""
-		if let myInt = try? parent.decode(String.self, forKey: .city)
-		{
-			city = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .city)
-		{
-			city = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .city)			{	city = myInt			}
+		else if let _ = try? parent.decode(Bool.self, forKey: .city)			{	city = ""				}
 		other = ""
-		if let myInt = try? parent.decode(String.self, forKey: .other)
-		{
-			other = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .other)
-		{
-			other = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .other)			{	other = myInt			}
+		else if let _ = try? parent.decode(Bool.self, forKey: .other)			{	other = ""				}
 		phone = ""
-		if let myInt = try? parent.decode(String.self, forKey: .phone)
-		{
-			phone = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .phone)
-		{
-			phone = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .phone)			{	phone = myInt			}
+		else if let _ = try? parent.decode(Bool.self, forKey: .phone)			{	phone = ""				}
 		phoneMobile = ""
-		if let myInt = try? parent.decode(String.self, forKey: .phoneMobile)
-		{
-			phoneMobile = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .phoneMobile)
-		{
-			phoneMobile = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .phoneMobile)	{	phoneMobile = myInt		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .phoneMobile)		{	phoneMobile = ""		}
 		dni = ""
-		if let myInt = try? parent.decode(String.self, forKey: .dni)
-		{
-			dni = myInt
-		}
-		else if let _ = try? parent.decode(Bool.self, forKey: .dni)
-		{
-			dni = ""
-		}
+		if let myInt = try? parent.decode(String.self, forKey: .dni)			{	dni = myInt				}
+		else if let _ = try? parent.decode(Bool.self, forKey: .dni)				{	dni = ""				}
 		deleted = false
-		if let myInt = try? parent.decode(Bool.self, forKey: .deleted)
-		{
-			deleted = myInt
-		}
-		else if let str = try? parent.decode(String.self, forKey: .deleted)
-		{
-			deleted = str != "0"
-		}
+		if let myInt = try? parent.decode(Bool.self, forKey: .deleted)			{	deleted = myInt			}
+		else if let str = try? parent.decode(String.self, forKey: .deleted)		{	deleted = str != "0"	}
 		dateAdd = nil
-		if let myInt = try? parent.decode(Date.self, forKey: .dateAdd)
-		{
-			dateAdd = myInt
-		}
+		if let myInt = try? parent.decode(Date.self, forKey: .dateAdd)			{	dateAdd = myInt			}
 		else if let str = try? parent.decode(String.self, forKey: .dateAdd)
 		{
 			let df = DateFormatter()
@@ -302,10 +170,7 @@ struct Address: Codable
 			dateAdd = df.date(from: str)
 		}
 		dateUpd = nil
-		if let myInt = try? parent.decode(Date.self, forKey: .dateUpd)
-		{
-			dateUpd = myInt
-		}
+		if let myInt = try? parent.decode(Date.self, forKey: .dateUpd)			{	dateUpd = myInt			}
 		else if let str = try? parent.decode(String.self, forKey: .dateUpd)
 		{
 			let df = DateFormatter()

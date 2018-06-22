@@ -23,6 +23,10 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 	let url = "\(R.string.forgotPWLink)"
 	let store = DataStore.sharedInstance
 	var email = ""
+//	var password = ""
+	var result: Customer!
+	var resetStr = ""
+	var resetB64 = ""
 
 
 	override func viewDidLoad()
@@ -169,75 +173,69 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 			ws.outputAs = OutputFormat.JSON
 			ws.keyAPI = R.string.APIkey
 			ws.get { (cust) in
-//				if let unwrappedData = data
 				if let data = cust.data
 				{
-					//let all: Customer?
 					do
 					{
 						let dataString = String(data: data as Data, encoding: .utf8)
-//						let dataStr = String(data: (data as NSData) as Data, encoding: .utf8)
-//						var str = dataString?.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-//						str = str?.replacingOccurrences(of: "\n", with: "", options: .regularExpression, range: nil)
-//						var myData: Data
-//						if dataString != str && str != nil
-//						{
-//							myData = str!.data(using: .utf8, allowLossyConversion: true)!
-//						}
-//						else
-//						{
-//							myData = data as Data
-//						}
+//						print(dataString!)
 						let innerEnclosed = self.store.trimJSONValueToArray(string: dataString!)
 						let inner1 = innerEnclosed.dropLast()
 						let inner = inner1.dropFirst()
-						let data = inner.data(using: .utf8)
-						let result = try JSONDecoder().decode(Customer.self, from: data!)
-//						let result = all//?.customers![0]
-//						let result = customer as! Customer
-						let df = DateFormatter()
-						df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-						let now = Date()
-						var last: Date?// = "1900-06-15 12:00:00"
-//						if result.lastPasswdGen != nil
+						let data = inner.data(using: .utf8)!
+//						if let regex = try? NSRegularExpression(pattern: "\"id\":\"([^\"]*).*", options: .caseInsensitive)
 //						{
-//							last = df.date(from: (result.lastPasswdGen)!)
+//							let string = dataString! as NSString
+//							regex.matches(in: dataString!, options: [], range: NSRange(location: 0, length: string.length)).map{
+//								string.substring(with: $0.range)
+//							})
 //						}
-						var value = -1
-//						for config in self.store.configurations
-//						{
-//							if config.name == "PS_PASSWD_TIME_FRONT"
-//							{
-//								value = Int(config.value!)!
-//								break
-//							}
-//						}
-						if let asdf = Int(self.store.configValue(forKey: "PS_PASSWD_TIME_FRONT"))
+						let dataNums = matches(for: "[0-9]", in: dataString!)
+//						let data = data as Data
+						self.result = try JSONDecoder().decode(Customer.self, from: data)
+						self.result.id = Int(dataNums[0])
+						self.result.idCustomer = Int(dataNums[0])
+						if self.result.active! && !self.result.deleted!
 						{
-							value = asdf
+							let now = Date()
+							let last: Date = (self.result.lastPasswdGen != now) ? self.result.lastPasswdGen! : Date()// = "1900-06-15 12:00:00"
+							let after = (last.addingTimeInterval(TimeInterval(self.store.passwdTimeFront)))
+							if after < now
+							{
+								let df = DateFormatter()
+								df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+								self.resetStr = df.string(from: Date())/*new__last_passwd_gen*/
+								self.resetB64 = self.resetStr/*new__last_passwd_gen*/.toBase64()!
+//								ws.edit(completionHandler: { (httpResult) in
+//									//
+//								})
+//								self.store.PutHTTP(url: "", parameters: ["last_passwd_gen" : resetStr], headers: ["" : ""], body: "", completion: { (done) in
+//									//
+//								})
+								//eg. http://yumatechnical.com/en/password-recovery?token=baef23c3484858f93935c13fcebd891f&id_customer=3&reset_token=cb95ebe931744087686a8c4b0f48a5ee24ceb0a7
+								let link = "\(R.string.forgotPWLink)?token=\(self.result.secureKey ?? "")&id_customer=\(self.result.idCustomer!)&reset_token=\(self.resetB64)"
+								print(link)
+								DispatchQueue.main.async {
+									let vc = SetPW()
+									vc.modalTransitionStyle = .crossDissolve
+									vc.modalPresentationStyle = .overCurrentContext
+									vc.delegate = self
+									self.present(vc, animated: false, completion: {
+									})
+								}
+							}
+							else
+							{
+								myAlertOnlyDismiss(self, title: R.string.forgotPW, message: R.string.tryAgain, dismissAction: {
+								}, completion: {
+								})
+							}
 						}
-						let after = (last?.addingTimeInterval(TimeInterval(value)))!
-						if after < now
-						{
-							let reset = df.string(from: now).toBase64()//md5(self.fieldValue.text!)//??
-							//eg. http://yumatechnical.com/en/password-recovery?token=baef23c3484858f93935c13fcebd891f&id_customer=3&reset_token=cb95ebe931744087686a8c4b0f48a5ee24ceb0a7
-							let link = "\(R.string.forgotPWLink)?token=\(result.secureKey ?? "")&id_customer=\(result.idCustomer!)&reset_token=\(reset ?? "")"
-							print(link)
-							let df = DateFormatter()
-							df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-							let new__last_passwd_gen = df.string(from: Date())
-							//goto SetPW
-							//let passwd = from above
-							self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": "abc", "confirmation": "abc", "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": reset != nil ? reset! : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
-								print(success)
-								//launch my account
+						myAlertOnlyDismiss(self, title: R.string.acc, message: R.string.notAct, dismissAction: {
+						}, completion: {
+							self.dismiss(animated: false, completion: {
 							})
-						}
-						else
-						{
-							let message = String(format: R.string.resetOnly, value)
-							print(message)
-						}
+						})
 					}
 					catch let JSONerr
 					{
@@ -303,4 +301,20 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 		}
 	}
 	
+}
+
+
+
+extension ForgotPWViewController: SetPWDelegate
+{
+	func SetPWValue(value: String)
+	{
+		self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": value, "confirmation": value, "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": self.resetB64.isEmpty ? self.resetB64 : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
+			myAlertOnlyDismiss(self, title: R.string.acc, message: (success as! String).description, dismissAction: {
+			}, completion: {
+				print(success)
+			})
+			//launch my account
+		})
+	}
 }

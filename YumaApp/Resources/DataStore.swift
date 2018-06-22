@@ -78,6 +78,7 @@ final class DataStore
 	var disallowReorder = 								false
 	var defaultCarrier = 								1
 	var weightUnit = 									"kg"
+	var passwdTimeFront: 		TimeInterval = 			0
 
 	
 	/// Sets the parameters for product shares
@@ -192,8 +193,18 @@ final class DataStore
 							}
 							else
 							{
-								let xml = SWXMLHash.parse(unwrappedData)
-								completion(xml["prestashop"])
+								if (str?.contains("<?xml"))!
+								{
+									let xml = SWXMLHash.parse(unwrappedData)
+									completion(xml["prestashop"])
+								}
+								else
+								{
+//									myAlertOnlyDismiss(UIViewController.self, title: R.string.err, message: str, dismissAction: {
+//									}, completion: {
+//									})
+									print("error: \(String(describing: str))")
+								}
 							}
 //							let tokenDictionary:NSDictionary = try JSONSerialization.jsonObject(with: unwrappedData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
 //							let token = tokenDictionary["access_token"] as? String

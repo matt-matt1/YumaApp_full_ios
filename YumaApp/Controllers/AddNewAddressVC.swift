@@ -313,10 +313,10 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	override func viewDidLayoutSubviews()
 	{
 		super.viewDidLayoutSubviews()
-		print("view:x=\(view.frame.origin.x), y=\(view.frame.origin.y), w=\(view.frame.width), h=\(view.frame.height)")
-		print("alias:x=\(self.alias.frame.origin.x), y=\(self.alias.frame.origin.y), w=\(self.alias.frame.width), h=\(self.alias.frame.height)")
-		print("stack:x=\(self.stack.frame.origin.x), y=\(self.stack.frame.origin.y), w=\(self.stack.frame.width), h=\(self.stack.frame.height)")
-		print("scroll:x=\(self.scroll.frame.origin.x), y=\(self.scroll.frame.origin.y), w=\(self.scroll.frame.width), h=\(self.scroll.frame.height), cw=\(self.scroll.contentSize.width), ch=\(self.scroll.contentSize.height)")
+//		print("view:x=\(view.frame.origin.x), y=\(view.frame.origin.y), w=\(view.frame.width), h=\(view.frame.height)")
+//		print("alias:x=\(self.alias.frame.origin.x), y=\(self.alias.frame.origin.y), w=\(self.alias.frame.width), h=\(self.alias.frame.height)")
+//		print("stack:x=\(self.stack.frame.origin.x), y=\(self.stack.frame.origin.y), w=\(self.stack.frame.width), h=\(self.stack.frame.height)")
+//		print("scroll:x=\(self.scroll.frame.origin.x), y=\(self.scroll.frame.origin.y), w=\(self.scroll.frame.width), h=\(self.scroll.frame.height), cw=\(self.scroll.contentSize.width), ch=\(self.scroll.contentSize.height)")
 		let _ = button.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
@@ -508,7 +508,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		let df = DateFormatter()
 //		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 //		let today = df.string(from: date)
-		let newRow = Address(id: id, idCustomer: Int((store.customer?.idCustomer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vatNumber: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phoneMobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
+		let newRow = Address(id: id, idCustomer: store.customer?.idCustomer, idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: max(0, countryId), idState: max(0, stateId), alias: alias.textEdit.text != nil ? alias.textEdit.text! : "", company: company.textEdit.text != nil ? company.textEdit.text! : "", lastname: lastname.textEdit.text != nil ? lastname.textEdit.text! : "", firstname: firstname.textEdit.text != nil ? firstname.textEdit.text! : "", vatNumber: vatNo.textEdit.text != nil ? vatNo.textEdit.text! : "", address1: addr1.textEdit.text != nil ? addr1.textEdit.text! : "", address2: addr2.textEdit.text != nil ? addr2.textEdit.text! : "", postcode: pc.textEdit.text != nil ? pc.textEdit.text! : "", city: city.textEdit.text != nil ? city.textEdit.text! : "", other: other.textEdit.text != nil ? other.textEdit.text! : "", phone: phone.textEdit.text != nil ? phone.textEdit.text! : "", phoneMobile: mob.textEdit.text != nil ? mob.textEdit.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
 //		let encode = try? JSONEncoder().encode(newRow)
 //		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
 //		{
@@ -517,6 +517,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //			print(jsonStr)
 //			UserDefaults.standard.set(encode, forKey: "updateAddress.\(df.string(from: date))")
 //		}
+//		print(newRow)
 		return newRow
 	}
 
@@ -609,38 +610,15 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 				UIViewController.removeSpinner(spinner: spinner)
 				let title = R.string.Addr
 				self.store.enumerate(result as! XMLIndexer)
+//				DispatchQueue.main.async {
+//				}
 				OperationQueue.main.addOperation
 				{
-					let alert = 					UIAlertController(title: title, message: self.store.XMLstr/*result as? String*/, preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.4
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-						{ 	(action) in
-							coloredBG.removeFromSuperview()
-							blurFxView.removeFromSuperview()
-							//								self.dismiss(animated: false, completion: nil)
-					}))
-					self.present(alert, animated: true, completion:
-					{
+					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr, dismissAction: {
+					}, completion: {
 						self.store.XMLstr = ""
+						self.dismiss(animated: false, completion: {
+						})
 					})
 				}
 			}
@@ -651,46 +629,6 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	@objc func displaySelectACountry(_ sender: Any)
 	{
 		displaySelectACountryDONE = true
-		//		if !pickerCountryData.isEmpty
-		//		{
-		//			let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-		//			let vc = sb.instantiateInitialViewController() as? PickerViewController
-		//			if vc != nil
-		//			{
-		//				vc?.defaultCountry = countryField.text
-		//				self.present(vc!, animated: true, completion: nil)
-		//				//			let blurFxView = 					UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-		//				//			blurFxView.frame = 					self.view.bounds
-		//				//			blurFxView.alpha = 					0.5
-		//				//			blurFxView.autoresizingMask = 		[.flexibleWidth, .flexibleHeight]
-		//				//			vc?.backgroundView.addSubview(blurFxView)
-		//				vc?.dialog.layer.cornerRadius = 	20
-		//				vc?.dialog.layer.masksToBounds = 	true
-		//				vc?.dialog.layer.shadowColor = 		UIColor.black.cgColor
-		//				vc?.dialog.layer.shadowOffset = 	.zero
-		//				vc?.dialog.layer.shadowRadius = 	5
-		//				vc?.dialog.layer.shadowOpacity = 	1
-		//				vc?.titleLbl.text = 				"\(R.string.select) \(R.string.country)"
-		//				vc?.titleLbl.shadowOffset = 		CGSize(width: 1, height: 1)
-		//				vc?.titleLbl.shadowColor = 			R.color.YumaDRed
-		//				vc?.titleLbl.shadowRadius = 		3
-		//				vc?.button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		//				//				vc?.button.setAttributedTitle(NSAttributedString(string: R.string.finish.uppercased(), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20), NSAttributedStringKey.backgroundColor : R.color.YumaRed, NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.shadow : R.shadow.darkGray3_downright1()]), for: .normal)
-		//				vc?.button.setTitle(R.string.finish.uppercased(), for: .normal)
-		//				vc?.view.addSubview(pickerCountry)
-		//				pickerCountry.translatesAutoresizingMaskIntoConstraints = false
-		//				NSLayoutConstraint.activate([
-		//					pickerCountry.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-		//					pickerCountry.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-		//					])
-		//				vc?.button.addTarget(self, action: #selector(selectedACountry(_:)), for: .touchUpInside)
-		//			}
-		//			else
-		//			{
-		//				print("HelpStoryboard has no initial view controller")
-		//			}
-		//		}
-		
 		let vc = SelectCountryVC()
 		vc.noteName = AddNewAddressVC.selectCountry
 		vc.defaultCountry = country.textEdit.text
@@ -701,17 +639,28 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		//		vc.dialogWindow.layer.shadowOffset = .zero
 		//		vc.dialogWindow.layer.shadowRadius = 5
 		//		vc.dialogWindow.layer.shadowOpacity = 1
-		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		vc.buttonSingle.shadowColor = R.color.YumaDRed
-		vc.buttonSingle.shadowOffset = .zero
-		vc.buttonSingle.shadowRadius = 5
-		vc.buttonSingle.shadowOpacity = 0.5
+		vc.buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonLeft.shadowColor = R.color.YumaDRed
+		vc.buttonLeft.shadowOffset = .zero
+		vc.buttonLeft.shadowRadius = 5
+		vc.buttonLeft.shadowOpacity = 0.5
+		vc.buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonRight.shadowColor = R.color.YumaDRed
+		vc.buttonRight.shadowOffset = .zero
+		vc.buttonRight.shadowRadius = 5
+		vc.buttonRight.shadowOpacity = 0.5
+//		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		vc.buttonSingle.shadowColor = R.color.YumaDRed
+//		vc.buttonSingle.shadowOffset = .zero
+//		vc.buttonSingle.shadowRadius = 5
+//		vc.buttonSingle.shadowOpacity = 0.5
 		//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
 		//		vc.buttonSingle.shadowOffset = .zero
 		//		vc.buttonSingle.shadowRadius = 5
 		//		vc.buttonSingle.shadowOpacity = 0.5
 		//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+		//		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+		vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 		vc.isModalInPopover = true
 		vc.modalPresentationStyle = .overFullScreen
 		self.present(vc, animated: true, completion: nil)
@@ -733,6 +682,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //						state.alpha = 1
 //					}
 					fillStates(row.id!)
+					countryId = row.id!
 					state.textEdit.placeholder = R.string.select
 					OperationQueue.main.addOperation
 					{
@@ -775,17 +725,28 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			//		vc.dialogWindow.layer.shadowOffset = .zero
 			//		vc.dialogWindow.layer.shadowRadius = 5
 			//		vc.dialogWindow.layer.shadowOpacity = 1
-			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-			vc.buttonSingle.shadowColor = R.color.YumaDRed
-			vc.buttonSingle.shadowOffset = .zero
-			vc.buttonSingle.shadowRadius = 5
-			vc.buttonSingle.shadowOpacity = 0.5
+			vc.buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonLeft.shadowColor = R.color.YumaDRed
+			vc.buttonLeft.shadowOffset = .zero
+			vc.buttonLeft.shadowRadius = 5
+			vc.buttonLeft.shadowOpacity = 0.5
+			vc.buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonRight.shadowColor = R.color.YumaDRed
+			vc.buttonRight.shadowOffset = .zero
+			vc.buttonRight.shadowRadius = 5
+			vc.buttonRight.shadowOpacity = 0.5
+//			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//			vc.buttonSingle.shadowColor = R.color.YumaDRed
+//			vc.buttonSingle.shadowOffset = .zero
+//			vc.buttonSingle.shadowRadius = 5
+//			vc.buttonSingle.shadowOpacity = 0.5
 			//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
 			//		vc.buttonSingle.shadowOffset = .zero
 			//		vc.buttonSingle.shadowRadius = 5
 			//		vc.buttonSingle.shadowOpacity = 0.5
 			//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+//			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+			vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 			vc.isModalInPopover = true
 			vc.modalPresentationStyle = .overFullScreen
 			self.present(vc, animated: true, completion: nil)

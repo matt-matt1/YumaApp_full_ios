@@ -86,23 +86,24 @@ class SelectCountryVC: UIViewController
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		return view
 	}()
-	let buttonSingle: GradientButton =
+	let buttonLeft: GradientButton =
 	{
 		let view = GradientButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.setTitle(R.string.cont.uppercased(), for: .normal)
+		view.setTitle(R.string.cancel.uppercased(), for: .normal)
 		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
 		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
 		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.topGradientColor = R.color.YumaRed
-		view.bottomGradientColor = R.color.YumaYel
+		//view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+		view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.8)
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 3
 		view.borderColor = R.color.YumaDRed
 		view.borderWidth = 1
+		//		view.shadowOpacity = 0.9
 		let titleShadow: NSShadow =
 		{
 			let view = NSShadow()
@@ -111,9 +112,72 @@ class SelectCountryVC: UIViewController
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
+		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		return view
 	}()
+	let buttonRight: GradientButton =
+	{
+		let view = GradientButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.setTitle(R.string.cont.uppercased(), for: .normal)
+		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
+		view.titleLabel?.shadowRadius = 3
+		view.titleLabel?.textColor = UIColor.white
+		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
+		//view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+		view.backgroundColor = R.color.YumaRed.withAlphaComponent(0.8)
+		view.cornerRadius = 3
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowRadius = 3
+		//		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
+		//		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		view.borderColor = R.color.YumaDRed
+		view.borderWidth = 1
+		//		view.shadowOpacity = 0.9
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			//			view.shadowRadius = 3
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 17)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.layer.addBackgroundGradient(colors: [R.color.YumaRed, R.color.YumaYel], isVertical: true)
+		view.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		return view
+	}()
+//	let buttonSingle: GradientButton =
+//	{
+//		let view = GradientButton()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.setTitle(R.string.cont.uppercased(), for: .normal)
+//		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
+//		view.titleLabel?.shadowRadius = 3
+//		view.titleLabel?.textColor = UIColor.white
+//		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
+//		view.topGradientColor = R.color.YumaRed
+//		view.bottomGradientColor = R.color.YumaYel
+//		view.cornerRadius = 3
+//		view.shadowColor = UIColor.darkGray
+//		view.shadowOffset = CGSize(width: 1, height: 1)
+//		view.shadowRadius = 3
+//		view.borderColor = R.color.YumaDRed
+//		view.borderWidth = 1
+//		let titleShadow: NSShadow =
+//		{
+//			let view = NSShadow()
+//			view.shadowColor = UIColor.black
+//			//			view.shadowRadius = 3
+//			view.shadowOffset = CGSize(width: 1, height: 1)
+//			return view
+//		}()
+//		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-DemiBold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+//		return view
+//	}()
 	let backgroundAlpha: CGFloat = 0.7
 	let titleBarHeight: CGFloat = 50
 	let buttonHeight: CGFloat = 42
@@ -150,7 +214,8 @@ class SelectCountryVC: UIViewController
 		
 		let str = "V:|[v0(\(titleBarHeight))][v1(\(searchBoxHeight))][v2]-5-[v3(\(buttonHeight))]-5-|"
 //		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchControl.searchBar, tableView, buttonSingle)
-		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonSingle)
+//		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonSingle)
+		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, searchBox, tableView, buttonLeft)
 //		let str = "V:|[v0(\(titleBarHeight))][v1]-5-[v2(\(buttonHeight))]-5-|"
 //		dialogWindow.addConstraintsWithFormat(format: str, views: titleLabel, tableView, buttonSingle)
 
@@ -187,8 +252,12 @@ class SelectCountryVC: UIViewController
 //		let _ = titleLabel.addBackgroundGradient(colors: [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor], isVertical: true)
 		titleLabel.text = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
 //		titleLabel.font = UIFont.systemFont(ofSize: 21)
-		let _ = buttonSingle.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
-		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+		let _ = buttonLeft.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		let _ = buttonRight.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		let _ = buttonSingle.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+//		buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 	}
 
 
@@ -238,11 +307,21 @@ class SelectCountryVC: UIViewController
 	
 	func drawButton()
 	{
-		dialogWindow.addSubview(buttonSingle)
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 2))
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
-		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
-		buttonSingle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonSingleTapped(_:))))
+		buttonLeft.setTitle(R.string.dismiss.uppercased(), for: .normal)
+		buttonRight.setTitle(R.string.complete.uppercased(), for: .normal)
+		dialogWindow.addSubview(buttonLeft)
+		dialogWindow.addSubview(buttonRight)
+		dialogWindow.addConstraintsWithFormat(format: "H:|-20-[v0(\(dialogWidth/3))][v1(\(dialogWidth/3))]-20-|", views: buttonLeft, buttonRight)
+		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonLeft, attribute: .centerY, relatedBy: .equal, toItem: buttonRight, attribute: .centerY, multiplier: 1, constant: 0))
+		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonLeft)
+		dialogWindow.addConstraintsWithFormat(format: "V:[v0(\(buttonHeight))]-5-|", views: buttonRight)
+		buttonLeft.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonLeftTapped(_:))))
+		buttonRight.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonRightTapped(_:))))
+//		dialogWindow.addSubview(buttonSingle)
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 2))
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
+//		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
+//		buttonSingle.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(buttonSingleTapped(_:))))
 	}
 	
 	
@@ -340,40 +419,18 @@ class SelectCountryVC: UIViewController
 		return nil
 	}
 
-	
-//	func findCountryObject(fromId: Int) -> Country?
-//	{
-//		if isSearching
-//		{
-//			//			var i = 0
-//			for obj in filtered
-//			{
-//				if obj.id == fromRow
-//				{
-//					return obj//filtered[i]
-//				}
-//			}
-//		}
-//		else
-//		{
-//			//			var i = 0
-//			for obj in store.countries
-//			{
-//				if obj.id == fromRow
-//				{
-//					return obj//store.countries[i]
-//				}
-//			}
-//		}
-//		return nil
-//	}
-
-
 	// MARK: Actions
-	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
+	@objc func buttonLeftTapped(_ sender: UITapGestureRecognizer)
+	{
+		store.flexView(view: buttonLeft)
+		self.dismiss(animated: true, completion: nil)
+	}
+	
+	@objc func buttonRightTapped(_ sender: UITapGestureRecognizer)
+//	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
 	{
 		self.dismiss(animated: true, completion: nil)
-		print("notify -posting to:\(noteName)")
+//		print("notify -posting to:\(noteName)")
 		if defaultCountry != nil
 		{
 			if let object = findCountryObject(fromName: defaultCountry!)//(fromRow: SelectCountryVC.selectedRow.row)

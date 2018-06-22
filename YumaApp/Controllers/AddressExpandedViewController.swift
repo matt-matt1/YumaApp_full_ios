@@ -486,17 +486,28 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 //		vc.dialogWindow.layer.shadowOffset = .zero
 //		vc.dialogWindow.layer.shadowRadius = 5
 //		vc.dialogWindow.layer.shadowOpacity = 1
-		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		vc.buttonSingle.shadowColor = R.color.YumaDRed
-		vc.buttonSingle.shadowOffset = .zero
-		vc.buttonSingle.shadowRadius = 5
-		vc.buttonSingle.shadowOpacity = 0.5
+		vc.buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonLeft.shadowColor = R.color.YumaDRed
+		vc.buttonLeft.shadowOffset = .zero
+		vc.buttonLeft.shadowRadius = 5
+		vc.buttonLeft.shadowOpacity = 0.5
+		vc.buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+		vc.buttonRight.shadowColor = R.color.YumaDRed
+		vc.buttonRight.shadowOffset = .zero
+		vc.buttonRight.shadowRadius = 5
+		vc.buttonRight.shadowOpacity = 0.5
+//		vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		vc.buttonSingle.shadowColor = R.color.YumaDRed
+//		vc.buttonSingle.shadowOffset = .zero
+//		vc.buttonSingle.shadowRadius = 5
+//		vc.buttonSingle.shadowOpacity = 0.5
 //		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
 //		vc.buttonSingle.shadowOffset = .zero
 //		vc.buttonSingle.shadowRadius = 5
 //		vc.buttonSingle.shadowOpacity = 0.5
 //		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+//		vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+		vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 		vc.isModalInPopover = true
 		vc.modalPresentationStyle = .overFullScreen
 		self.present(vc, animated: true, completion: nil)
@@ -561,17 +572,28 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			//		vc.dialogWindow.layer.shadowOffset = .zero
 			//		vc.dialogWindow.layer.shadowRadius = 5
 			//		vc.dialogWindow.layer.shadowOpacity = 1
-			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-			vc.buttonSingle.shadowColor = R.color.YumaDRed
-			vc.buttonSingle.shadowOffset = .zero
-			vc.buttonSingle.shadowRadius = 5
-			vc.buttonSingle.shadowOpacity = 0.5
+//			vc.buttonSingle.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//			vc.buttonSingle.shadowColor = R.color.YumaDRed
+//			vc.buttonSingle.shadowOffset = .zero
+//			vc.buttonSingle.shadowRadius = 5
+//			vc.buttonSingle.shadowOpacity = 0.5
+			vc.buttonLeft.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonLeft.shadowColor = R.color.YumaDRed
+			vc.buttonLeft.shadowOffset = .zero
+			vc.buttonLeft.shadowRadius = 5
+			vc.buttonLeft.shadowOpacity = 0.5
+			vc.buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+			vc.buttonRight.shadowColor = R.color.YumaDRed
+			vc.buttonRight.shadowOffset = .zero
+			vc.buttonRight.shadowRadius = 5
+			vc.buttonRight.shadowOpacity = 0.5
+			vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 			//		vc.buttonSingle.shadowColor = R.color.YumaDRed//UIColor.black
 			//		vc.buttonSingle.shadowOffset = .zero
 			//		vc.buttonSingle.shadowRadius = 5
 			//		vc.buttonSingle.shadowOpacity = 0.5
 			//		vc.title = "\(R.string.select.uppercased()) \(R.string.country.uppercased())"
-			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
+//			vc.buttonSingle.setTitle(R.string.finish.uppercased(), for: .normal)
 			vc.isModalInPopover = true
 			vc.modalPresentationStyle = .overFullScreen
 			self.present(vc, animated: true, completion: nil)
