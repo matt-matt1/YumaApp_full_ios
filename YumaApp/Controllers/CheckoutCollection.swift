@@ -104,6 +104,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckoutCollectionCellId", for: indexPath) as! CheckoutStepsCell
+		cell.delegate = self
 		cell.setupContents(indexPath.item/*, vc: self*/)
 		let _ = cell.cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		cell.cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)

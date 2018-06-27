@@ -2009,12 +2009,31 @@ class PSWebServices: NSObject
 	}
 	
 	/// Convert an object in XML using Prestashop's signature eg object2psxml(object: myAddress, resource: "addresses")
-	class func object2psxml(object: Any, resource: String, resource2: String, omit: [String]) -> String
+	class func object2psxml(object: Any, resource: String, resource2: String, omit: [String], nilValue: String) -> String
 	{
-		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<\(resource)>\n<\(resource2)>", wrapperTail: "</\(resource2)>\n</\(resource)>\n</prestashop>", omit: omit)
+		var wrapperHead = "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n"
+		if !resource.isEmpty
+		{
+			wrapperHead += "<\(resource)>\n"
+		}
+		if !resource2.isEmpty
+		{
+			wrapperHead += "<\(resource2)>"
+		}
+		var wrapperTail = ""
+		if !resource.isEmpty
+		{
+			wrapperTail += "<\(resource)>\n"
+		}
+		if !resource2.isEmpty
+		{
+			wrapperTail += "<\(resource2)>"
+		}
+		wrapperTail += "\n</prestashop>"
+		return objectToXML(object: object, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: wrapperHead, wrapperTail: wrapperTail, omit: omit, nilValue: nilValue)
 	}
 	
-	fileprivate static func doXMLMiddle(_ prettyOutput: Bool, _ xml: inout String, _ object: Any, _ omit: [String], printTabs: Bool = false) {
+	fileprivate static func doXMLMiddle(_ prettyOutput: Bool, _ xml: inout String, _ object: Any, _ omit: [String], _ nilValue: String, printTabs: Bool = false) {
 		if prettyOutput
 		{
 			xml += "\n"
@@ -2067,17 +2086,30 @@ class PSWebServices: NSObject
 					//						}
 						xml += ">"
 					}
+					let valueType = type(of: value)
 					if value is String
 					{
-						xml += "<![CDATA["
-						xml += value as! String
-						xml += "]]>"
+						if value as? String != nil
+						{
+							xml += "<![CDATA["
+							xml += value as! String
+							xml += "]]>"
+						}
+						else
+						{
+							xml += "<![CDATA[\(nilValue)]]>"
+						}
 					}
 					else if value is Int
 					{
-//						xml += "<![CDATA["
-						xml += String(value as! Int)// "\(value)"
-//						xml += "]]>"
+						if value as? Int != nil
+						{
+							xml += String(value as! Int)// "\(value)"
+						}
+						else
+						{
+							xml += "\(nilValue)"
+						}
 					}
 //					else if value is Bool
 //					{
@@ -2096,8 +2128,14 @@ class PSWebServices: NSObject
 //					}
 					else //if value is CustomerAssociations
 					{
-						xml += "null"
-//						doXMLMiddle(prettyOutput, &xml, value, omit)
+						if value as? Bool != nil
+						{
+							xml += nilValue
+						}
+						else
+						{
+							doXMLMiddle(prettyOutput, &xml, value, omit, nilValue)
+						}
 					}
 //					else
 //					{
@@ -2119,7 +2157,7 @@ class PSWebServices: NSObject
 	}
 	
 	/// Convert an object in XML eg. objectToXML(object: myObj, head: "<?xml version=\"2.0\" encoding=\"ASCII\"?>", wrapperHead: "<my_wrapper>", wrapperTail: "</my_wrapper>")
-	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, omit: [String], prettyOutput: Bool = true) -> String
+	class func objectToXML(object: Any, head: String? = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>", wrapperHead: String? = nil, wrapperTail: String? = nil, omit: [String], prettyOutput: Bool = true, nilValue: String) -> String
 	{
 //		let start = "<?xml+version=\"1.0\"+encoding=\"UTF-8\"?>"
 		//var xml = "xml="
@@ -2140,7 +2178,7 @@ class PSWebServices: NSObject
 		{
 			xml += wrapperHead!
 		}
-		doXMLMiddle(prettyOutput, &xml, object, omit)
+		doXMLMiddle(prettyOutput, &xml, object, omit, nilValue)
 		if wrapperTail != nil
 		{
 			xml += wrapperTail!

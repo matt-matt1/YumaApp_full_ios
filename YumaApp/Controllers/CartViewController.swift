@@ -161,7 +161,10 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 					}
 				}
 			}
-		totalWt.text = "\(wt)"
+		if store.displayWeight
+		{
+			totalWt.text = "\(wt)"
+		}
 //		}
 		if total < 1
 		{
@@ -238,31 +241,32 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 				self.pickerData.append(str)
 			}
 			print(self.pickerData.joined(separator: ", "))
-			let alert = 					UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
-			let coloredBG = 				UIView()
-			let blurFx = 					UIBlurEffect(style: .dark)
-			let blurFxView = 				UIVisualEffectView(effect: blurFx)
-			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-			alert.view.superview?.backgroundColor = R.color.YumaRed
-			alert.view.shadowColor = 		R.color.YumaDRed
-			alert.view.shadowOffset = 		.zero
-			alert.view.shadowRadius = 		5
-			alert.view.shadowOpacity = 		1
-			alert.view.backgroundColor = 	R.color.YumaYel
-			alert.view.cornerRadius = 		15
-			coloredBG.backgroundColor = 	R.color.YumaRed
-			coloredBG.alpha = 				0.4
-			coloredBG.frame = 				self.view.bounds
-			self.view.addSubview(coloredBG)
-			blurFxView.frame = 				self.view.bounds
-			blurFxView.alpha = 				0.5
-			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-			self.view.addSubview(blurFxView)
-			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler:
-			{	(action) in
-				coloredBG.removeFromSuperview()
-				blurFxView.removeFromSuperview()
+			myAlertOnlyDismiss(self, title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", dismissTitle: R.string.back.uppercased(), dismissAction: {
+//			let alert = 					UIAlertController(title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", preferredStyle: .alert)
+//			let coloredBG = 				UIView()
+//			let blurFx = 					UIBlurEffect(style: .dark)
+//			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//			alert.view.superview?.backgroundColor = R.color.YumaRed
+//			alert.view.shadowColor = 		R.color.YumaDRed
+//			alert.view.shadowOffset = 		.zero
+//			alert.view.shadowRadius = 		5
+//			alert.view.shadowOpacity = 		1
+//			alert.view.backgroundColor = 	R.color.YumaYel
+//			alert.view.cornerRadius = 		15
+//			coloredBG.backgroundColor = 	R.color.YumaRed
+//			coloredBG.alpha = 				0.4
+//			coloredBG.frame = 				self.view.bounds
+//			self.view.addSubview(coloredBG)
+//			blurFxView.frame = 				self.view.bounds
+//			blurFxView.alpha = 				0.5
+//			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//			self.view.addSubview(blurFxView)
+//			alert.addAction(UIAlertAction(title: R.string.back.uppercased(), style: .default, handler:
+//			{	(action) in
+//				coloredBG.removeFromSuperview()
+//				blurFxView.removeFromSuperview()
 				self.dismiss(animated: false, completion: nil)
 				let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
 				let vc = sb.instantiateInitialViewController() as? PickerViewController
@@ -289,10 +293,10 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 				{
 					print("HelpStoryboard has no initial view controller")
 				}
-			}))
-			self.present(alert, animated: true, completion:
-			{
 			})
+//			self.present(alert, animated: true, completion:
+//			{
+//			})
 		}
 	}
 	
@@ -305,46 +309,52 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	
 	func askToDelete(message: String, row: Int)
 	{
-		DispatchQueue.main.async
-		{
-			let alert = UIAlertController(title: R.string.rusure, message: message, preferredStyle: .alert)
-			let coloredBG = 				UIView()
-			let blurFx = 					UIBlurEffect(style: .dark)
-			let blurFxView = 				UIVisualEffectView(effect: blurFx)
-			alert.titleAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-			alert.messageAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-			alert.view.superview?.backgroundColor = R.color.YumaRed
-			alert.view.shadowColor = R.color.YumaDRed
-			alert.view.shadowOffset = .zero
-			alert.view.shadowRadius = 5
-			alert.view.shadowOpacity = 1
-			alert.view.backgroundColor = R.color.YumaYel
-			alert.view.cornerRadius = 15
-			coloredBG.backgroundColor = 	R.color.YumaRed
-			coloredBG.alpha = 				0.3
-			coloredBG.frame = 				self.view.bounds
-			self.view.addSubview(coloredBG)
-			blurFxView.frame = 				self.view.bounds
-			blurFxView.alpha = 				0.5
-			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-			self.view.addSubview(blurFxView)
-			alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-//				self.store.myOrderRows[row].product_quantity = String(1)
-				coloredBG.removeFromSuperview()
-				blurFxView.removeFromSuperview()
-			}))
-			alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-				//print("delete item at position \(row)")
-				coloredBG.removeFromSuperview()
-				blurFxView.removeFromSuperview()
+		myAlertDialog(self, title: R.string.rusure, message: message, cancelTitle: R.string.cancel.uppercased(), cancelAction: nil, okTitle: R.string.delete.uppercased(), okAction: {
 				self.store.myOrderRows.remove(at: row)
 				self.tableView.reloadSections([0], with: UITableViewRowAnimation.fade)
 				self.calcTotal()
-			}))
-			self.present(alert, animated: true, completion:
-			{
-			})
+		}) {
 		}
+//		DispatchQueue.main.async
+//		{
+//			let alert = UIAlertController(title: R.string.rusure, message: message, preferredStyle: .alert)
+//			let coloredBG = 				UIView()
+//			let blurFx = 					UIBlurEffect(style: .dark)
+//			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//			alert.titleAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//			alert.messageAttributes = [NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//			alert.view.superview?.backgroundColor = R.color.YumaRed
+//			alert.view.shadowColor = R.color.YumaDRed
+//			alert.view.shadowOffset = .zero
+//			alert.view.shadowRadius = 5
+//			alert.view.shadowOpacity = 1
+//			alert.view.backgroundColor = R.color.YumaYel
+//			alert.view.cornerRadius = 15
+//			coloredBG.backgroundColor = 	R.color.YumaRed
+//			coloredBG.alpha = 				0.3
+//			coloredBG.frame = 				self.view.bounds
+//			self.view.addSubview(coloredBG)
+//			blurFxView.frame = 				self.view.bounds
+//			blurFxView.alpha = 				0.5
+//			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//			self.view.addSubview(blurFxView)
+//			alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+////				self.store.myOrderRows[row].product_quantity = String(1)
+//				coloredBG.removeFromSuperview()
+//				blurFxView.removeFromSuperview()
+//			}))
+//			alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//				//print("delete item at position \(row)")
+//				coloredBG.removeFromSuperview()
+//				blurFxView.removeFromSuperview()
+//				self.store.myOrderRows.remove(at: row)
+//				self.tableView.reloadSections([0], with: UITableViewRowAnimation.fade)
+//				self.calcTotal()
+//			}))
+//			self.present(alert, animated: true, completion:
+//			{
+//			})
+//		}
 	}
 
 

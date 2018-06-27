@@ -324,49 +324,58 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 	{
 		if (newPW.textEdit.text != nil && !(newPW.textEdit.text?.isEmpty)!) || (verifyPW.textEdit.text != nil && !(verifyPW.textEdit.text?.isEmpty)!)
 		{
-			OperationQueue.main.addOperation
-				{
-					let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.4
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-						{ 	(action) in
-							coloredBG.removeFromSuperview()
-							blurFxView.removeFromSuperview()
-							return
-							//self.dismiss(animated: false, completion: nil)
-					}))
-					alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
-						{ 	(action) in
-							coloredBG.removeFromSuperview()
-							blurFxView.removeFromSuperview()
-							let (passwd, formatted) = self.store.makePassword()
-							self.newPW.textEdit.text = passwd
-							self.verifyPW.textEdit.text = passwd
-							self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
-					}))
-					self.present(alert, animated: true, completion:
-						{
-					})
+			myAlertDialog(self, title: R.string.txtPass, message: R.string.overw, cancelTitle: nil, cancelAction: {
+				return
+			}, okTitle: R.string.proceed.uppercased(), okAction: {
+				let (passwd, formatted) = self.store.makePassword()
+				self.newPW.textEdit.text = passwd
+				self.verifyPW.textEdit.text = passwd
+				self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+			}) {
 			}
+//			OperationQueue.main.addOperation
+//				{
+//					let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.4
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+//						{ 	(action) in
+//							coloredBG.removeFromSuperview()
+//							blurFxView.removeFromSuperview()
+//							return
+//							//self.dismiss(animated: false, completion: nil)
+//					}))
+//					alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
+//						{ 	(action) in
+//							coloredBG.removeFromSuperview()
+//							blurFxView.removeFromSuperview()
+//							let (passwd, formatted) = self.store.makePassword()
+//							self.newPW.textEdit.text = passwd
+//							self.verifyPW.textEdit.text = passwd
+//							self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
+//					}))
+//					self.present(alert, animated: true, completion:
+//						{
+//					})
+//			}
 		}
 		else
 		{

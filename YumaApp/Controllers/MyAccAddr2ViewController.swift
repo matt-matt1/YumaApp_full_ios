@@ -333,6 +333,7 @@ class MyAccAddr2ViewController: UIViewController
 		stateLabel.borderWidth = 1
 		stateLabel.borderColor = R.color.YumaRed
 		stateLabel.textAlignment = .center
+		stateField.placeholder = "\(R.string.select) \(R.string.country) \(R.string.first)"
 		stateInvalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
 		stateLabel.isUserInteractionEnabled = true
 		//		let countrySelect = UIButton()
@@ -625,105 +626,130 @@ class MyAccAddr2ViewController: UIViewController
 	@IBAction func leftButtonRightAct(_ sender: Any)
 	{
 		store.flexView(view: leftButtonRight)
-		DispatchQueue.main.async
-			{
-				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias ?? "no name")\"", preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.3
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-					//print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-					self.addresses[self.pageControl.currentPage].deleted = true
-					self.collectionView.reloadData()
-					var edited = self.addresses[self.pageControl.currentPage]
-					print("address was deleted \(edited.deleted! ? "OK" : "failed")")
-					edited.deleted = true
-					//					let encoder = JSONEncoder()
-					//					encoder.outputFormatting = .prettyPrinted
-					//					let data = try? encoder.encode(edited)
-					//					print(String(data: data!, encoding: .utf8)!)
-					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", omit: [])
-					//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
-					PSWebServices.postAddress(XMLStr: str)
+		myAlertDialog(self, title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias ?? "no name")\"", cancelTitle: R.string.cancel.uppercased(), cancelAction: nil, okTitle: R.string.delete.uppercased(), okAction: {
+				self.addresses[self.pageControl.currentPage].deleted = true
+				self.collectionView.reloadData()
+				var edited = self.addresses[self.pageControl.currentPage]
+				print("address was deleted \(edited.deleted! ? "OK" : "failed")")
+				edited.deleted = true
+				//					let encoder = JSONEncoder()
+				//					encoder.outputFormatting = .prettyPrinted
+				//					let data = try? encoder.encode(edited)
+				//					print(String(data: data!, encoding: .utf8)!)
+				let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", omit: [], nilValue: "")
+				//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
+				PSWebServices.postAddress(XMLStr: str)
+				{
+					(error) in
+					if let error = error
 					{
-						(error) in
-						if let error = error
-						{
-							print("fatal error: ", String(error.localizedDescription))
-						}
+						print("fatal error: ", String(error.localizedDescription))
 					}
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
+				}
+		}) {
 		}
+//		DispatchQueue.main.async
+//			{
+//				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias ?? "no name")\"", preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.3
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//					//print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//					self.addresses[self.pageControl.currentPage].deleted = true
+//					self.collectionView.reloadData()
+//					var edited = self.addresses[self.pageControl.currentPage]
+//					print("address was deleted \(edited.deleted! ? "OK" : "failed")")
+//					edited.deleted = true
+//					//					let encoder = JSONEncoder()
+//					//					encoder.outputFormatting = .prettyPrinted
+//					//					let data = try? encoder.encode(edited)
+//					//					print(String(data: data!, encoding: .utf8)!)
+//					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", omit: [])
+//					//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
+//					PSWebServices.postAddress(XMLStr: str)
+//					{
+//						(error) in
+//						if let error = error
+//						{
+//							print("fatal error: ", String(error.localizedDescription))
+//						}
+//					}
+//				}))
+//				self.present(alert, animated: true, completion:
+//					{
+//				})
+//		}
 	}
 	@IBAction func rightPanelButtonAct(_ sender: Any)
 	{
 		store.flexView(view: rightPanelButton)
 		if checkFields()
 		{
-			DispatchQueue.main.async
-				{
-					let alert = UIAlertController(title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.3
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-					}))
-					//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-					//						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
-					//						coloredBG.removeFromSuperview()
-					//						blurFxView.removeFromSuperview()
-					//						self.address?.deleted = "1"
-					//						//self.collectionView.reloadData()
-					//					}))
-					self.present(alert, animated: true, completion:
-						{
-					})
+			myAlertDialog(self, title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", cancelTitle: R.string.dismiss.uppercased(), cancelAction: nil, okTitle: R.string.delete.uppercased(), okAction: {
+			}) {
 			}
+//			DispatchQueue.main.async
+//				{
+//					let alert = UIAlertController(title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.3
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//					}))
+//					//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//					//						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
+//					//						coloredBG.removeFromSuperview()
+//					//						blurFxView.removeFromSuperview()
+//					//						self.address?.deleted = "1"
+//					//						//self.collectionView.reloadData()
+//					//					}))
+//					self.present(alert, animated: true, completion:
+//						{
+//					})
+//			}
 		}
 	}
 	@IBAction func navHelpAct(_ sender: Any)

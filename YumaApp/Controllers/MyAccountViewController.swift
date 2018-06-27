@@ -36,21 +36,6 @@ class MyAccountViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-		/*
-		Unable to simultaneously satisfy constraints.
-		Probably at least one of the constraints in the following list is one you don't want.
-		Try this:
-		(1) look at each constraint and try to figure out which you don't expect;
-		(2) find the code that added the unwanted constraint or constraints and fix it.
-		(
-		"<NSLayoutConstraint:0x18242b10 V:|-(0)-[UIStackView:0x16ea3180]   (Names: '|':UIView:0x16e98fa0 )>",
-		"<NSLayoutConstraint:0x18147800 UINavigationBar:0x18150560.top == UIView:0x16e98fa0.top + 20>",
-		"<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>"
-		)
-		
-		Will attempt to recover by breaking constraint
-		<NSLayoutConstraint:0x1818a5d0 'UISV-canvas-connection' UIStackView:0x16ea3180.top == UINavigationBar:0x18150560.top>
-		*/
 //		if #available(iOS 11.0, *)
 //		{
 //			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -67,56 +52,59 @@ class MyAccountViewController: UIViewController
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.highlighted)
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+
 		infoBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		var attrs = NSMutableAttributedString(string: "")
-		var attr3 = NSAttributedString(string: R.string.Info.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
-		let attr2 = NSAttributedString(string: "   ", attributes: nil)
-		var attr1 = Awesome.regular.addressCard.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
-		attrs.append(attr1)
-		attrs.append(attr2)
-		attrs.append(attr3)
-		infoBtn.setAttributedTitle(attrs, for: .normal)
-		infoBtn.setAttributedTitle(attrs, for: .highlighted)
-//		infoBtn.setAttributedTitle(attr, for: .normal)
+		infoBtn.setTitle("", for: .normal)
+		infoBtn.setTitle("", for: .highlighted)
+		let lbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: infoBtn.frame.height))
+		lbl.attributedText = Awesome.regular.addressCard.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		lbl.textColor = R.color.YumaYel
+		infoBtn.addSubview(lbl)
+		let lbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: infoBtn.frame.width-60, height: infoBtn.frame.height))
+		lbl1.text = R.string.Info.uppercased()
+		lbl1.font = UIFont.systemFont(ofSize: 16)
+		lbl1.textColor = R.color.YumaYel
+		infoBtn.addSubview(lbl1)
+
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		attrs = NSMutableAttributedString(string: "")
-		attr3 = NSAttributedString(string: R.string.Addrs.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
-		attr1 = Awesome.solid.mapPin.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
-		attrs.append(attr1)
-		attrs.append(attr2)
-		attrs.append(attr3)
-		addrBtn.setAttributedTitle(attrs, for: .normal)
-		addrBtn.setAttributedTitle(attrs, for: .highlighted)
+		addrBtn.setTitle("", for: .normal)
+		addrBtn.setTitle("", for: .highlighted)
+		let addrBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: addrBtn.frame.height))
+		addrBtnlbl.attributedText = Awesome.solid.mapPin.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		addrBtnlbl.textColor = R.color.YumaYel
+		addrBtn.addSubview(addrBtnlbl)
+		let addrBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: addrBtn.frame.width-60, height: addrBtn.frame.height))
+		addrBtnlbl1.text = R.string.Addrs.uppercased()
+		addrBtnlbl1.font = UIFont.systemFont(ofSize: 16)
+		addrBtnlbl1.textColor = R.color.YumaYel
+		addrBtn.addSubview(addrBtnlbl1)
+
 		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		attrs = NSMutableAttributedString(string: "")
-		attr3 = NSAttributedString(string: R.string.OrdHist.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
-		attr1 = Awesome.regular.calendarAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
-		attrs.append(attr1)
-		attrs.append(attr2)
-		attrs.append(attr3)
-		orderHistBtn.setAttributedTitle(attrs, for: .normal)
-		orderHistBtn.setAttributedTitle(attrs, for: .highlighted)
+		orderHistBtn.setTitle("", for: .normal)
+		orderHistBtn.setTitle("", for: .highlighted)
+		let orderHistBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: orderHistBtn.frame.height))
+		orderHistBtnlbl.attributedText = Awesome.regular.calendarAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		orderHistBtnlbl.textColor = R.color.YumaYel
+		orderHistBtn.addSubview(orderHistBtnlbl)
+		let orderHistBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: orderHistBtn.frame.width-60, height: orderHistBtn.frame.height))
+		orderHistBtnlbl1.text = R.string.OrdHist.uppercased()
+		orderHistBtnlbl1.font = UIFont.systemFont(ofSize: 16)
+		orderHistBtnlbl1.textColor = R.color.YumaYel
+		orderHistBtn.addSubview(orderHistBtnlbl1)
+
 		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		attrs = NSMutableAttributedString(string: "")
-		attr3 = NSAttributedString(string: R.string.CreditSlips.uppercased(), attributes: [NSAttributedStringKey.foregroundColor : R.color.YumaYel, NSAttributedStringKey.baselineOffset : 5])
-		attr1 = Awesome.solid.tasks.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
-		attrs.append(attr1)
-		attrs.append(attr2)
-		attrs.append(attr3)
-		creditSlipsBtn.setAttributedTitle(attrs, for: .normal)
-		creditSlipsBtn.setAttributedTitle(attrs, for: .highlighted)
-		//signOutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		//drawXIB2()
-//		let store = DataStore.sharedInstance
-		//print("\n\(store.addresses)\n\n")
-//		if store.carriers.count < 1
-//		{
-//			store.callGetCarriers()
-//				{
-//					(carriers, err) in
-//					//			print(carriers)
-//			}
-//		}
+		creditSlipsBtn.setTitle("", for: .normal)
+		creditSlipsBtn.setTitle("", for: .highlighted)
+		let creditSlipsBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: creditSlipsBtn.frame.height))
+		creditSlipsBtnlbl.attributedText = Awesome.solid.tasks.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		creditSlipsBtnlbl.textColor = R.color.YumaYel
+		creditSlipsBtn.addSubview(creditSlipsBtnlbl)
+		let creditSlipsBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: creditSlipsBtn.frame.width-60, height: creditSlipsBtn.frame.height))
+		creditSlipsBtnlbl1.text = R.string.CreditSlips.uppercased()
+		creditSlipsBtnlbl1.font = UIFont.systemFont(ofSize: 16)
+		creditSlipsBtnlbl1.textColor = R.color.YumaYel
+		creditSlipsBtn.addSubview(creditSlipsBtnlbl1)
+
 		delAccBtn.setTitle(R.string.delAcc, for: .normal)
 		delAccBtn.setTitle(R.string.delAcc, for: .highlighted)
 	}
@@ -561,51 +549,44 @@ class MyAccountViewController: UIViewController
 	
 	@IBAction func delAccBtnAct(_ sender: Any)
 	{
+		store.flexView(view: self.delAccBtn)
 		DispatchQueue.main.async {
-			myAlertOnlyDismiss(self, title: R.string.delAcc, message: R.string.delAccMore, dismissAction: {
-				let asdf = "asdf"
-				print(asdf)
-			}) {
-				let asdf = "lkjh"
-				print(asdf)
-			}
-//		myAlertOKCancel(self, title: R.string.delAcc, message: R.string.delAccMore, okAction: {
-//		}, cancelAction: {
-//		}) {
-//		}
-//		myAlertOKCancel(self, title: R.string.delAcc, message: R.string.delAccMore, okAction: {
-////			myAlertOKCancel(self, title: R.string.delAcc, message: R.string.rusure, okAction: {
-//				let spinner = UIViewController.displaySpinner(onView: self.view)
-//				self.store.customer?.deleted = true
-//				var ws = WebService()
-//				ws.startURL = R.string.WSbase
-//				ws.resource = APIResource.customers
-//				ws.keyAPI = R.string.APIkey
-//				ws.filter = ["id" : [self.store.customer?.idCustomer! as Any]]
-//				var omit: [String] = []
-//				omit.append("id_customer")
-//				//let http = Http()
-//				//Http.put()
-//				let str = PSWebServices.object2psxml(object: self.store.customer!, resource: "customers", resource2: "customer", omit: omit)
-//				print(str)
-//				//var params = [String : String]()
-//				//params["ws_key"] = R.string.APIkey
-//				//params["xml"] = str
-//				var allowed = CharacterSet.alphanumerics
-//				allowed.insert(charactersIn: ".-_~/?")
-//				self.store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*", "Accept-Language": "en-US,en"], body: "\(str)", save: nil)
-//				{ 	(cust) in
-//					var title = R.string.customer
-//					if cust is Bool && !((cust as? Bool)!)
-//					{
-//						title = R.string.err
-//					}
-//					UIViewController.removeSpinner(spinner: spinner)
-//					self.store.enumerate(cust as! XMLIndexer)
-////					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr)
-//				}
-////			})
-//		}) {
+			myAlertOKCancel(self, title: R.string.delAcc, message: R.string.delAccMore, okAction: {
+				DispatchQueue.main.async {
+					myAlertOKCancel(self, title: R.string.delAcc, message: R.string.rusure, okAction: {
+						let spinner = UIViewController.displaySpinner(onView: self.view)
+						self.store.customer?.deleted = true
+						var ws = WebService()
+						ws.startURL = R.string.WSbase
+						ws.resource = APIResource.customers
+						ws.keyAPI = R.string.APIkey
+						ws.filter = ["id" : [self.store.customer?.idCustomer! as Any]]
+						var omit: [String] = []
+						omit.append("id_customer")
+						//let http = Http()
+						//Http.put()
+						let str = PSWebServices.object2psxml(object: self.store.customer!, resource: "customers", resource2: "customer", omit: omit, nilValue: "")
+						print(str)
+						//var params = [String : String]()
+						//params["ws_key"] = R.string.APIkey
+						//params["xml"] = str
+						var allowed = CharacterSet.alphanumerics
+						allowed.insert(charactersIn: ".-_~/?")
+						self.store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*", "Accept-Language": "en-US,en"], body: "\(str)", save: nil)
+						{ 	(cust) in
+							var title = R.string.customer
+							if cust is Bool && !((cust as? Bool)!)
+							{
+								title = R.string.err
+							}
+							UIViewController.removeSpinner(spinner: spinner)
+							self.store.enumerate(cust as! XMLIndexer)
+		//					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr)
+						}
+					})
+				}
+			}, cancelAction: {
+			})
 		}
 	}
 	@IBAction func signOutBtnAct(_ sender: Any)

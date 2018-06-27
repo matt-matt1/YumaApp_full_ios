@@ -107,6 +107,7 @@ extension R
 		static let nickName = "nick name"
 		static let overw = "A new password is already in place. Over write this value?"
 		static let mismatch = "mismatch"
+		static let first = "first"
 		// MARK:		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"
@@ -218,6 +219,7 @@ extension R
 		static let same = "Keep the same or press to change"
 		static let delAcc = "Delete account"
 		static let delAccMore = "WARNING:  This prevent anyone from loggings into this account;  Also all  connected addresses will be unaccessible;  Also the connected order history will be unaccessible"
+		static let minPass = "minimum 5 characters"
 		// MARK:		<!--cart-->
 		static let cart = "Cart"
 		static let add2cart = "Add to cart"

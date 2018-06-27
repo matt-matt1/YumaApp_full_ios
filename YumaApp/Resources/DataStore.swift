@@ -79,6 +79,7 @@ final class DataStore
 	var defaultCarrier = 								1
 	var weightUnit = 									"kg"
 	var passwdTimeFront: 		TimeInterval = 			0
+	var blankSchemaXML: 		[String : String] = 	[:]
 
 	
 	/// Sets the parameters for product shares

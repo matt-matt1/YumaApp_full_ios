@@ -715,51 +715,51 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			ws.startURL = R.string.WSbase
 			ws.resource = APIResource.addresses
 			ws.keyAPI = R.string.APIkey
-			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
+			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [], nilValue: "")
 			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
 			print("posting to:\"\(url)\"")
 			print(ws.xml!)
 			store.PutHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "application/xml; charset=utf-8"/*"text/xml; charset=utf-8"*//*"application/x-www-form-urlencoded"*/, "Accept": "application/json, text/javascript, */*; q=0.01"/*"text/xml"*/, "Accept-Language": "en-US,en;q=0.5", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/    /*"Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"*/], body: "\(ws.xml!)", save: nil) 	{ 	(result) in
 				UIViewController.removeSpinner(spinner: spinner)
-				DispatchQueue.main.async
-				{
-					let alert = UIAlertController(title: R.string.Addr, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.3
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-					}))
-//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-//						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
+				myAlertOnlyDismiss(self, title: R.string.Addr, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)")
+//				DispatchQueue.main.async
+//				{
+//					let alert = UIAlertController(title: R.string.Addr, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.3
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
 //						coloredBG.removeFromSuperview()
 //						blurFxView.removeFromSuperview()
-//						self.address?.deleted = "1"
-//						//self.collectionView.reloadData()
 //					}))
-					self.present(alert, animated: true, completion:
-					{
-					})
-			}
-		
+////					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+////						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
+////						coloredBG.removeFromSuperview()
+////						blurFxView.removeFromSuperview()
+////						self.address?.deleted = "1"
+////						//self.collectionView.reloadData()
+////					}))
+//					self.present(alert, animated: true, completion:
+//					{
+//					})
+//				}
 			}
 		}
 	}

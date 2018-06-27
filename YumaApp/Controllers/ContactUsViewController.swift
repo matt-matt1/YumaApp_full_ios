@@ -361,39 +361,40 @@ class ContactUsViewController: UIViewController
 		}
 		else
 		{
-			OperationQueue.main.addOperation
-			{
-				let alert = 					UIAlertController(title: R.string.err, message: R.string.email + " " + R.string.notAct, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				print("\(R.string.email) \(R.string.notAct)")
-				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-					//self.dismiss(animated: false, completion: nil)
-				}))
-				self.present(alert, animated: true, completion:
-				{
-				})
-			}
+			myAlertOnlyDismiss(self, title: R.string.err, message: R.string.email + " " + R.string.notAct)
+//			OperationQueue.main.addOperation
+//			{
+//				let alert = 					UIAlertController(title: R.string.err, message: R.string.email + " " + R.string.notAct, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.4
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				print("\(R.string.email) \(R.string.notAct)")
+//				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//					//self.dismiss(animated: false, completion: nil)
+//				}))
+//				self.present(alert, animated: true, completion:
+//				{
+//				})
+//			}
 		}
 	}
 	@IBAction func addrBtnAct(_ sender: Any)
@@ -405,39 +406,40 @@ class ContactUsViewController: UIViewController
 			guard available else
 			{
 				DataStore.sharedInstance.flexView(view: self.addrBtn)
-				OperationQueue.main.addOperation
-				{
-					let alert = 					UIAlertController(title: R.string.err + " " + R.string.internet, message: R.string.unableConnect, preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.4
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					print("\(R.string.unableConnect) \(R.string.email)")
-					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-						//self.dismiss(animated: false, completion: nil)
-					}))
-					self.present(alert, animated: true, completion:
-						{
-					})
-				}
+				myAlertOnlyDismiss(self, title: R.string.err + " " + R.string.internet, message: R.string.unableConnect)
+//				OperationQueue.main.addOperation
+//				{
+//					let alert = 					UIAlertController(title: R.string.err + " " + R.string.internet, message: R.string.unableConnect, preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.4
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					print("\(R.string.unableConnect) \(R.string.email)")
+//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//						coloredBG.removeFromSuperview()
+//						blurFxView.removeFromSuperview()
+//						//self.dismiss(animated: false, completion: nil)
+//					}))
+//					self.present(alert, animated: true, completion:
+//						{
+//					})
+//				}
 				return
 			}
 			self.present(ExpandMapViewController(), animated: false, completion: nil)
@@ -660,37 +662,38 @@ extension ContactUsViewController: MFMailComposeViewControllerDelegate
 	{
 		if error != nil
 		{
-			OperationQueue.main.addOperation
-			{
-				let alert = 					UIAlertController(title: R.string.err, message: error.debugDescription, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				self.present(alert, animated: true, completion:
-				{
-				})
-			}
+			myAlertOnlyDismiss(self, title: R.string.err, message: error.debugDescription)
+//			OperationQueue.main.addOperation
+//			{
+//				let alert = 					UIAlertController(title: R.string.err, message: error.debugDescription, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.4
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				self.present(alert, animated: true, completion:
+//				{
+//				})
+//			}
 		}
 		else
 		{

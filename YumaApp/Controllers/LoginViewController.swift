@@ -174,11 +174,12 @@ class LoginViewController: UIViewController
 				}
 				else
 				{
-					let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
-					alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
-					self.present(alert, animated: false, completion: {
-						self.dismiss(animated: false, completion: nil)
-					})
+					myAlertOnlyDismiss(self, title: R.string.internet, message: R.string.no_connect)
+//					let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
+//					alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+//					self.present(alert, animated: false, completion: {
+//						self.dismiss(animated: false, completion: nil)
+//					})
 				}
 			}
 		}
@@ -859,10 +860,11 @@ class LoginViewController: UIViewController
 			guard available else
 			{
 				self.store.flexView(view: self.loginBtn)
-				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
-				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
-				alertC.addAction(OKAct)
-				self.present(alertC, animated: true, completion: nil)
+				myAlertOnlyDismiss(self, title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect)
+//				let alertC = UIAlertController(title: "\(R.string.err) \(R.string.internet)", message: R.string.unableConnect, preferredStyle: .alert)
+//				let OKAct = UIAlertAction(title: R.string.dismiss, style: .default, handler: nil)
+//				alertC.addAction(OKAct)
+//				self.present(alertC, animated: true, completion: nil)
 				return
 			}
 			self.errorUsernameBorder.layer.borderColor = UIColor.white.cgColor

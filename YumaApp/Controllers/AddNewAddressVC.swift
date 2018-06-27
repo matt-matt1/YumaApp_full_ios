@@ -433,13 +433,75 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		stack.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
 		stack.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
 		stack.addConstraint(NSLayoutConstraint(item: gapBeforeButton, attribute: .height, relatedBy: .equal, toItem: stack, attribute: .height, multiplier: 0, constant: 10))
-		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: stack, attribute: .height, multiplier: 0, constant: 45))
-		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: stack, attribute: .width, multiplier: 0, constant: 200))
+		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .height, multiplier: 0, constant: 45))
+		stack.addConstraint(NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 0, constant: 200))
 
 		scroll.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: stack)
 		scroll.addConstraintsWithFormat(format: "V:|-20-[v0]-10-|", views: stack)
 	}
 
+//	2018-06-23 14:08:14.322 YumaApp[45781:4422172] Unable to simultaneously satisfy constraints.
+//	Probably at least one of the constraints in the following list is one you don't want.
+//	Try this:
+//	(1) look at each constraint and try to figure out which you don't expect;
+//	(2) find the code that added the unwanted constraint or constraints and fix it.
+//	(
+//	"<NSLayoutConstraint:0x17187630 H:|-(5)-[UIScrollView:0x1694f200]   (Names: '|':UIView:0x15df4b50 )>",
+//	"<NSLayoutConstraint:0x17187d50 H:[UIScrollView:0x1694f200]-(5)-|   (Names: '|':UIView:0x15df4b50 )>",
+//	"<NSLayoutConstraint:0x17187570 H:|-(0)-[UIView:0x15df4b50]   (Names: '|':UIStackView:0x15df82a0 )>",
+//	"<NSLayoutConstraint:0x171880c0 H:[UIView:0x15df4b50]-(0)-|   (Names: '|':UIStackView:0x15df82a0 )>",
+//	"<NSLayoutConstraint:0x17188270 H:|-(5)-[UIStackView:0x15df82a0]   (Names: '|':UIView:0x15dd87e0 )>",
+//	"<NSLayoutConstraint:0x17188310 H:[UIStackView:0x15df82a0]-(5)-|   (Names: '|':UIView:0x15dd87e0 )>",
+//	"<NSLayoutConstraint:0x1718a230 H:|-(0)-[UIStackView:0x1713a1e0]   (Names: '|':UIView:0x171842b0 )>",
+//	"<NSLayoutConstraint:0x1718a8c0 UIStackView:0x1713a1e0.trailing == UIView:0x171842b0.trailing>",
+//	"<NSLayoutConstraint:0x17249130 YumaApp.InputField:0x15d03df0.trailing == UIStackView:0x1718a420.trailing>",
+//	"<NSLayoutConstraint:0x17249440 UIStackView:0x1718a420.trailing == UIView:0x15df4b50.trailing - 5>",
+//	"<NSLayoutConstraint:0x172496d0 H:[YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'(200)]>",
+//	"<NSLayoutConstraint:0x172578b0 YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.centerX == UIScrollView:0x1694f200.centerX>",
+//	"<NSLayoutConstraint:0x1723b480 'UISV-alignment' YumaApp.InputField:0x15d03df0.trailing == YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.trailing>",
+//	"<NSLayoutConstraint:0x172440e0 'UISV-alignment' UINavigationBar:0x17184420.trailing == UIView:0x15dd87e0.trailing>",
+//	"<NSLayoutConstraint:0x17253570 'UISV-alignment' UINavigationBar:0x17184420.leading == UIView:0x15dd87e0.leading>",
+//	"<NSLayoutConstraint:0x1713bd70 'UISV-canvas-connection' UIStackView:0x1713a1e0.leading == UINavigationBar:0x17184420.leading>",
+//	"<NSLayoutConstraint:0x17246c30 'UISV-canvas-connection' H:[UINavigationBar:0x17184420]-(0)-|   (Names: '|':UIStackView:0x1713a1e0 )>",
+//	"<NSLayoutConstraint:0x172526c0 'UIView-Encapsulated-Layout-Width' H:[UIView:0x171842b0(1024)]>"
+//	)
+//	
+//	Will attempt to recover by breaking constraint
+//	<NSLayoutConstraint:0x1723b480 'UISV-alignment' YumaApp.InputField:0x15d03df0.trailing == YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.trailing>
+//	
+//	Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+//	The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
+//	2018-06-23 14:08:14.336 YumaApp[45781:4422172] Unable to simultaneously satisfy constraints.
+//	Probably at least one of the constraints in the following list is one you don't want.
+//	Try this:
+//	(1) look at each constraint and try to figure out which you don't expect;
+//	(2) find the code that added the unwanted constraint or constraints and fix it.
+//	(
+//	"<NSLayoutConstraint:0x17187630 H:|-(5)-[UIScrollView:0x1694f200]   (Names: '|':UIView:0x15df4b50 )>",
+//	"<NSLayoutConstraint:0x17187d50 H:[UIScrollView:0x1694f200]-(5)-|   (Names: '|':UIView:0x15df4b50 )>",
+//	"<NSLayoutConstraint:0x17187570 H:|-(0)-[UIView:0x15df4b50]   (Names: '|':UIStackView:0x15df82a0 )>",
+//	"<NSLayoutConstraint:0x171880c0 H:[UIView:0x15df4b50]-(0)-|   (Names: '|':UIStackView:0x15df82a0 )>",
+//	"<NSLayoutConstraint:0x17188270 H:|-(5)-[UIStackView:0x15df82a0]   (Names: '|':UIView:0x15dd87e0 )>",
+//	"<NSLayoutConstraint:0x17188310 H:[UIStackView:0x15df82a0]-(5)-|   (Names: '|':UIView:0x15dd87e0 )>",
+//	"<NSLayoutConstraint:0x1718a230 H:|-(0)-[UIStackView:0x1713a1e0]   (Names: '|':UIView:0x171842b0 )>",
+//	"<NSLayoutConstraint:0x1718a8c0 UIStackView:0x1713a1e0.trailing == UIView:0x171842b0.trailing>",
+//	"<NSLayoutConstraint:0x15d6f4e0 H:|-(0)-[YumaApp.InputField:0x15d03df0]   (Names: '|':UIStackView:0x1718a420 )>",
+//	"<NSLayoutConstraint:0x17249300 UIStackView:0x1718a420.leading == UIView:0x15df4b50.leading + 5>",
+//	"<NSLayoutConstraint:0x172496d0 H:[YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'(200)]>",
+//	"<NSLayoutConstraint:0x172578b0 YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.centerX == UIScrollView:0x1694f200.centerX>",
+//	"<NSLayoutConstraint:0x17247250 'UISV-alignment' YumaApp.InputField:0x15d03df0.leading == YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.leading>",
+//	"<NSLayoutConstraint:0x172440e0 'UISV-alignment' UINavigationBar:0x17184420.trailing == UIView:0x15dd87e0.trailing>",
+//	"<NSLayoutConstraint:0x17253570 'UISV-alignment' UINavigationBar:0x17184420.leading == UIView:0x15dd87e0.leading>",
+//	"<NSLayoutConstraint:0x1713bd70 'UISV-canvas-connection' UIStackView:0x1713a1e0.leading == UINavigationBar:0x17184420.leading>",
+//	"<NSLayoutConstraint:0x17246c30 'UISV-canvas-connection' H:[UINavigationBar:0x17184420]-(0)-|   (Names: '|':UIStackView:0x1713a1e0 )>",
+//	"<NSLayoutConstraint:0x172526c0 'UIView-Encapsulated-Layout-Width' H:[UIView:0x171842b0(1024)]>"
+//	)
+//	
+//	Will attempt to recover by breaking constraint
+//	<NSLayoutConstraint:0x17247250 'UISV-alignment' YumaApp.InputField:0x15d03df0.leading == YumaApp.GradientButton:0x17182b00'ADD NEW ADDRESS'.leading>
+//	
+//	Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+//	The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
 
 	func drawButton()
 	{
@@ -568,6 +630,174 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}
 
 
+	func insertValuesInBlank(_ str: String) -> String
+	{
+		var arrayXML = str.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "").trimmingCharacters(in: .whitespaces).components(separatedBy: ">")
+		var i = 0
+		for line in arrayXML
+		{
+			arrayXML[i] = "\(line)>"
+			switch(line)
+			{
+			case "<alias":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.alias.textEdit.text!)"
+				break
+			case "<company":
+				if self.company.textEdit.text != nil && !self.company.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.company.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<lastname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.lastname.textEdit.text!)"
+				break
+			case "<firstname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.firstname.textEdit.text!)"
+				break
+			case "<vat_number":
+				if self.vatNo.textEdit.text != nil && !self.vatNo.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.vatNo.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<address1":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.addr1.textEdit.text!)"
+				break
+			case "<address2":
+				if self.addr2.textEdit.text != nil && !self.addr2.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.addr2.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<postcode":
+				if self.pc.textEdit.text != nil && !self.pc.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.pc.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<city":
+				if self.city.textEdit.text != nil && !self.city.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.city.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<id_state":
+				if self.stateId > -1
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.stateId)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<id_country":
+				if self.countryId > -1
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.countryId)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "1"
+				}
+				break
+			case "<other":
+				if self.other.textEdit.text != nil && !self.other.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.other.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<phone":
+				if self.phone.textEdit.text != nil && !self.phone.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.phone.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<phone_mobile":
+				if self.mob.textEdit.text != nil && !self.mob.textEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.mob.textEdit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			default:
+				if i > 0 && !line.contains("</") && !line.contains("/>")
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			}
+			i += 1
+		}
+		let str = arrayXML.joined()
+		return String(str.dropLast())
+	}
+
+
+	func httpWriteBack(_ str: String, putIt: Bool)
+	{
+		if putIt
+		{
+			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
+			{ 	(cust) in	//xml["prestashop"])
+				if cust is String && !(cust as! String).contains("error")
+				{
+					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+				}
+				else
+				{
+					print("PUT response: \(cust)")
+				}
+			}
+		}
+		else
+		{
+			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
+			{ 	(cust) in	//xml["prestashop"])
+				if cust is String && !(cust as! String).contains("error")
+				{
+					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+				}
+				else
+				{
+					print("POST response: \(cust)")
+				}
+			}
+		}
+	}
+
+
 	// MARK: Actions
 	
 	@objc func adjustForKeyboard(notification: Notification)
@@ -595,33 +825,104 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		store.flexView(view: button)
 		if checkFields()
 		{
-			let newRow = loadEnteredValues()
+//			let newRow = loadEnteredValues()
 //			print("ready to add new address:\(newRow)")
 			let spinner = UIViewController.displaySpinner(onView: self.view)
 			var ws = WebService()
 			ws.startURL = R.string.WSbase
 			ws.resource = APIResource.addresses
 			ws.keyAPI = R.string.APIkey
-			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: ["id"])
-			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
-			print("posting to:\"\(url)\"")
-			print(ws.xml!)
-			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(result) in
-				UIViewController.removeSpinner(spinner: spinner)
-				let title = R.string.Addr
-				self.store.enumerate(result as! XMLIndexer)
-//				DispatchQueue.main.async {
-//				}
-				OperationQueue.main.addOperation
+			let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLAddress")//store.blankSchemaXML["Customer"]
+			if blank != nil && !(blank?.isEmpty)!
+			{
+				let writeBack = insertValuesInBlank(blank!)
+				//					let writeBack = insertValues(blank!)
+				//print(writeBack)
+				if !writeBack.isEmpty
 				{
-					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr, dismissAction: {
-					}, completion: {
-						self.store.XMLstr = ""
-						self.dismiss(animated: false, completion: {
-						})
-					})
+					self.store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: writeBack, save: nil)
+					{ 	(cust) in	//xml["prestashop"])
+						UIViewController.removeSpinner(spinner: spinner)
+						if cust is String && !(cust as! String).contains("error")
+						{
+							myAlertOnlyDismiss(self, title: R.string.Addr, message: cust as! String/*self.store.XMLstr*/, dismissAction: {
+							}, completion: {
+								//							self.store.XMLstr = ""
+								self.dismiss(animated: false, completion: {
+								})
+							})
+						}
+						else
+						{
+							print("PUT response: \(cust)")
+						}
+					}
+//					httpWriteBack(writeBack, putIt: false)
+				}
+//				UIViewController.removeSpinner(spinner: spinner)
+//				myAlertOnlyDismiss(self, title: R.string.Addr, message: "OK"/*self.store.XMLstr*/, dismissAction: {
+//				}, completion: {
+////					self.store.XMLstr = ""
+//					self.dismiss(animated: false, completion: {
+//					})
+//				})
+			}
+			else	// blank schema not saved - retrieve it
+			{
+				ws.schema = Schema.blank
+				ws.get { (httpResult) in
+					if let data = httpResult.data
+					{
+						let str = String(data: data as Data, encoding: .utf8)
+						self.store.blankSchemaXML["Address"] = str
+						UserDefaults.standard.set(str, forKey: "BlankSchemaXMLAddress")
+						let writeBack = self.insertValuesInBlank(str!)
+						//							let writeBack = self.insertValues(str!)
+						//print(writeBack)
+						if !writeBack.isEmpty
+						{
+							self.store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
+							{ 	(cust) in	//xml["prestashop"])
+								UIViewController.removeSpinner(spinner: spinner)
+								if cust is String && !(cust as! String).contains("error")
+								{
+									myAlertOnlyDismiss(self, title: R.string.Addr, message: cust as! String/*self.store.XMLstr*/, dismissAction: {
+									}, completion: {
+										//							self.store.XMLstr = ""
+										self.dismiss(animated: false, completion: {
+										})
+									})
+								}
+								else
+								{
+									print("PUT response: \(cust)")
+								}
+							}
+//							self.httpWriteBack(writeBack, putIt: false)
+						}
+					}
 				}
 			}
+//			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: ["id"], nilValue: "")
+//			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
+//			print("posting to:\"\(url)\"")
+//			print(ws.xml!)
+//			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(result) in
+//				UIViewController.removeSpinner(spinner: spinner)
+//				let title = R.string.Addr
+////				self.store.enumerate(result as! XMLIndexer)
+////				DispatchQueue.main.async {
+////				}
+////				OperationQueue.main.addOperation
+////				{
+//					myAlertOnlyDismiss(self, title: title, message: "OK"/*self.store.XMLstr*/, dismissAction: {
+//					}, completion: {
+//						self.store.XMLstr = ""
+//						self.dismiss(animated: false, completion: {
+//						})
+//					})
+//				}
+//			}
 		}
 //		self.dismiss(animated: true, completion: nil)
 	}
@@ -671,6 +972,8 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	{
 		if let row = sender.object as? Country
 		{
+			countryId = row.id!
+//			print(sender.description)
 			if country.textEdit.text != store.valueById(object: row.name!, id: store.myLang)
 			{
 				country.textEdit.text = store.valueById(object: row.name!, id: store.myLang)
@@ -682,7 +985,6 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //						state.alpha = 1
 //					}
 					fillStates(row.id!)
-					countryId = row.id!
 					state.textEdit.placeholder = R.string.select
 					OperationQueue.main.addOperation
 					{

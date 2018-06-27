@@ -62,21 +62,22 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		}
 		else
 		{
-			let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
-			self.present(alert, animated: false, completion: {
-				self.dismiss(animated: false, completion: nil)
-			})
+			myAlertOnlyDismiss(self, title: R.string.internet, message: R.string.no_connect)
+//			let alert = UIAlertController(title: R.string.internet, message: R.string.no_connect, preferredStyle: .alert)
+//			alert.addAction(UIAlertAction(title: R.string.dismiss, style: .default, handler: nil))
+//			self.present(alert, animated: false, completion: {
+//				self.dismiss(animated: false, completion: nil)
+//			})
 		}
 	}
 	
 	func webViewDidStartLoad(_ webView: UIWebView)
 	{
 		activitySpinner.startAnimating()
-		let alert = UIAlertController()
-		alert.title = R.string.err
-		alert.message = "start"
-		alert.show(self, sender: self)
+//		let alert = UIAlertController()
+//		alert.title = R.string.err
+//		alert.message = "start"
+//		alert.show(self, sender: self)
 	}
 	
 	func webViewDidFinishLoad(_ webView: UIWebView)
@@ -88,10 +89,10 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 	func webView(_ webView: UIWebView, didFailLoadWithError error: Error)
 	{
 		activitySpinner.stopAnimating()
-		let alert = UIAlertController()
-		alert.title = R.string.err
-		alert.message = error.localizedDescription
-		alert.show(self, sender: self)
+//		let alert = UIAlertController()
+//		alert.title = R.string.err
+//		alert.message = error.localizedDescription
+//		alert.show(self, sender: self)
 		//view.addSubview(alert)
 	}
 	

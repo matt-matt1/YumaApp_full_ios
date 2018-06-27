@@ -92,45 +92,48 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 			{
 				errorMessage.text = R.string.noCreditSlips
 			}
-			DispatchQueue.main.async
-			{
-				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.3
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
-//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-//						self.addresses[self.pageControl.currentPage].deleted = "1"
-//						//write address update via api
-//						self.collectionView.reloadData()
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
+			myAlertDialog(self, title: R.string.empty, message: R.string.tryAgain, cancelTitle: R.string.cancel.uppercased(), cancelAction: nil, okTitle: R.string.tryAgain.uppercased(), okAction: {
+			}) {
 			}
+//			DispatchQueue.main.async
+//			{
+//				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.3
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
+////						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+////						self.addresses[self.pageControl.currentPage].deleted = "1"
+////						//write address update via api
+////						self.collectionView.reloadData()
+//				}))
+//				self.present(alert, animated: true, completion:
+//					{
+//				})
+//			}
 		}
 	}
 	
@@ -321,45 +324,48 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 			{
 				errorMessage.text = R.string.noOrderHist
 			}
-			DispatchQueue.main.async
-			{
-				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.3
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
-					//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-					//						self.addresses[self.pageControl.currentPage].deleted = "1"
-					//						//write address update via api
-					//						self.collectionView.reloadData()
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
+			myAlertDialog(self, title: R.string.empty, message: R.string.tryAgain, cancelTitle: R.string.cancel.uppercased(), cancelAction: nil, okTitle: R.string.tryAgain.uppercased(), okAction: {
+			}) {
 			}
+//			DispatchQueue.main.async
+//			{
+//				let alert = UIAlertController(title: R.string.empty, message: R.string.tryAgain, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.3
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .destructive, handler: { (action) in
+//					//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//					//						self.addresses[self.pageControl.currentPage].deleted = "1"
+//					//						//write address update via api
+//					//						self.collectionView.reloadData()
+//				}))
+//				self.present(alert, animated: true, completion:
+//					{
+//				})
+//			}
 		}
 		
 		let inputField = InputField()
@@ -701,90 +707,96 @@ class CustomerOrdersVC: UIViewController, UIScrollViewDelegate
 		}
 		else
 		{
-			DispatchQueue.main.async
-				{
-					let alert = UIAlertController(title: R.string.no_data, message: nil, preferredStyle: .alert)
-					let coloredBG = 				UIView()
-					let blurFx = 					UIBlurEffect(style: .dark)
-					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-					alert.view.superview?.backgroundColor = R.color.YumaRed
-					alert.view.shadowColor = 		R.color.YumaDRed
-					alert.view.shadowOffset = 		.zero
-					alert.view.shadowRadius = 		5
-					alert.view.shadowOpacity = 		1
-					alert.view.backgroundColor = 	R.color.YumaYel
-					alert.view.cornerRadius = 		15
-					coloredBG.backgroundColor = 	R.color.YumaRed
-					coloredBG.alpha = 				0.3
-					coloredBG.frame = 				self.view.bounds
-					self.view.addSubview(coloredBG)
-					blurFxView.frame = 				self.view.bounds
-					blurFxView.alpha = 				0.5
-					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-					self.view.addSubview(blurFxView)
-					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-						coloredBG.removeFromSuperview()
-						blurFxView.removeFromSuperview()
-					}))
-//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+			myAlertDialog(self, title: R.string.no_data, message: "", cancelTitle: nil, cancelAction: nil, okTitle: nil, okAction: {
+			}) {
+			}
+//			DispatchQueue.main.async
+//				{
+//					let alert = UIAlertController(title: R.string.no_data, message: nil, preferredStyle: .alert)
+//					let coloredBG = 				UIView()
+//					let blurFx = 					UIBlurEffect(style: .dark)
+//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//					alert.view.superview?.backgroundColor = R.color.YumaRed
+//					alert.view.shadowColor = 		R.color.YumaDRed
+//					alert.view.shadowOffset = 		.zero
+//					alert.view.shadowRadius = 		5
+//					alert.view.shadowOpacity = 		1
+//					alert.view.backgroundColor = 	R.color.YumaYel
+//					alert.view.cornerRadius = 		15
+//					coloredBG.backgroundColor = 	R.color.YumaRed
+//					coloredBG.alpha = 				0.3
+//					coloredBG.frame = 				self.view.bounds
+//					self.view.addSubview(coloredBG)
+//					blurFxView.frame = 				self.view.bounds
+//					blurFxView.alpha = 				0.5
+//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//					self.view.addSubview(blurFxView)
+//					alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
 //						coloredBG.removeFromSuperview()
 //						blurFxView.removeFromSuperview()
-//						self.addresses[self.pageControl.currentPage].deleted = "1"
-//						//write address update via api
-//						self.collectionView.reloadData()
 //					}))
-					self.present(alert, animated: true, completion:
-						{
-					})
-			}
+////					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+////						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+////						coloredBG.removeFromSuperview()
+////						blurFxView.removeFromSuperview()
+////						self.addresses[self.pageControl.currentPage].deleted = "1"
+////						//write address update via api
+////						self.collectionView.reloadData()
+////					}))
+//					self.present(alert, animated: true, completion:
+//						{
+//					})
+//			}
 //			store.Alert(fromView: self, title: R.string.no_data, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: nil, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 1, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>, shadowRadius: <#T##CGFloat?#>, alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.cancel/*, button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>, hasButton2: <#T##Bool#>, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 		}
 	}
 	
 	@objc func rowReorder(_ sender: UITapGestureRecognizer)
 	{
-		DispatchQueue.main.async
-			{
-				let alert = UIAlertController(title: R.string.order, message: nil, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.3
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-				//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
-				//						coloredBG.removeFromSuperview()
-				//						blurFxView.removeFromSuperview()
-				//						self.addresses[self.pageControl.currentPage].deleted = "1"
-				//						//write address update via api
-				//						self.collectionView.reloadData()
-				//					}))
-				self.present(alert, animated: true, completion:
-					{
-				})
+		myAlertDialog(self, title: R.string.order, message: "", cancelTitle: nil, cancelAction: nil, okTitle: R.string.delete.uppercased(), okAction: {
+		}) {
 		}
+//		DispatchQueue.main.async
+//			{
+//				let alert = UIAlertController(title: R.string.order, message: nil, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.3
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//				}))
+//				//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
+//				//						print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
+//				//						coloredBG.removeFromSuperview()
+//				//						blurFxView.removeFromSuperview()
+//				//						self.addresses[self.pageControl.currentPage].deleted = "1"
+//				//						//write address update via api
+//				//						self.collectionView.reloadData()
+//				//					}))
+//				self.present(alert, animated: true, completion:
+//					{
+//				})
+//		}
 	}
 	
 

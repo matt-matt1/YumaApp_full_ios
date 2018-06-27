@@ -248,7 +248,14 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		passwordLabel.borderColor = R.color.YumaRed
 		passwordLabel.cornerRadius = 4
 		passwordEdit.textColor = R.color.YumaRed
-		passwordEdit.placeholder = R.string.same
+		if store.customer != nil && store.customer?.lastname != ""
+		{
+			passwordEdit.placeholder = R.string.same
+		}
+		else
+		{
+			passwordEdit.placeholder = R.string.minPass
+		}
 		passwordEdit.returnKeyType = UIReturnKeyType.next
 		passwordGenerateLabel.text = ""
 		(passwordGenerateDo.subviews.first as! UILabel).text = R.string.generate
@@ -404,6 +411,462 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 //		return changed, newRow
 //	}
 
+	func wrapInCdata(_ str: String) -> String
+	{
+//		return "<![CDATA[" + str + "]]>"
+		return str
+	}
+
+	func insertValuesInBlank(_ str: String) -> String
+	{
+		var arrayXML = str.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "").trimmingCharacters(in: .whitespaces).components(separatedBy: ">")
+		var i = 0
+		for line in arrayXML
+		{
+			arrayXML[i] = "\(line)>"
+			switch(line)
+			{
+			case "<id_gender":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.genderSwitch.selectedSegmentIndex)"
+				break
+			case "<firstname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.fieldEdit1.text!)"
+				break
+			case "<lastname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.field2Edit.text!)"
+				break
+			case "<email":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.field3Edit.text!)"
+				break
+			case "<birthday":
+				if self.field4Edit.text != nil && !(self.field4Edit.text?.isEmpty)!
+				{
+					let bdate = DateFormatter()
+					bdate.dateFormat = "yyyy-MM-dd"
+					arrayXML[i] = "\n" + arrayXML[i] + "\(bdate.date(from: self.field4Edit.text!)!)"
+				}
+				break
+			case "<company":
+				if self.field5Edit.text != nil && !self.field5Edit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field5Edit.text!)"
+				}
+				break
+			case "<website":
+				if self.field6Edit.text != nil && !self.field6Edit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field6Edit.text!)"
+				}
+				break
+			case "<siret":
+				if self.field7Edit.text != nil && !self.field7Edit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field7Edit.text!)"
+				}
+				break
+			case "<ape":
+				if self.field8Edit.text != nil && !self.field8Edit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field8Edit.text!)"
+				}
+				break
+			case "<passwd":
+				if self.passwordEdit.text != nil && !self.passwordEdit.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.passwordEdit.text!)"
+				}
+				break
+			case "<optin":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
+				break
+			case "<newsletter":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
+				break
+			case "<associations":
+				arrayXML[i] = "\n" + arrayXML[i]
+				break
+			default:
+				if i > 0 && !line.contains("</") && !line.contains("/>")
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			}
+			i += 1
+		}
+		let str = arrayXML.joined()
+		return String(str.dropLast())
+	}
+
+
+	func insertValues(_ str: String, isFresh: Bool = true) -> String
+	{
+//		OperationQueue.main.addOperation
+//		DispatchQueue.main.async
+//		{
+			var arrayXML = str.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "")/*replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)*/.trimmingCharacters(in: .whitespaces).components(separatedBy: ">")
+			var changed = false
+			var i = 0
+			for line in arrayXML
+			{
+				arrayXML[i] = "\(line)>"
+				switch(line)
+				{
+				case "<id_gender":
+					var data = ""
+					if isFresh
+					{
+						data = "\(self.genderSwitch.selectedSegmentIndex)"
+					}
+					else if self.store.customer != nil && self.genderSwitch.selectedSegmentIndex != self.store.customer?.idGender
+					{
+						data = "\(self.genderSwitch.selectedSegmentIndex)"
+						changed = true
+					}
+					arrayXML[i] = "\n" + arrayXML[i] + data
+					break
+				case "<firstname":
+					if self.store.customer != nil && self.fieldEdit1.text != self.store.customer?.firstname
+					{
+						changed = true
+					}
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.fieldEdit1.text!)"
+					break
+				case "<lastname":
+					if self.store.customer != nil && self.field2Edit.text != self.store.customer?.lastname
+					{
+						changed = true
+					}
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field2Edit.text!)"
+					break
+				case "<email":
+					if self.store.customer != nil && self.fieldEdit1.text != self.store.customer?.firstname
+					{
+						changed = true
+					}
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field3Edit.text!)"
+					break
+				case "<birthday":
+					if self.field4Edit.text != nil && !(self.field4Edit.text?.isEmpty)!
+					{
+						let bdate = DateFormatter()
+						bdate.dateFormat = "yyyy-MM-dd"
+						if !(self.field4Edit.text?.isEmpty)! && self.field4Edit.text != bdate.string(from: (self.store.customer?.birthday)!)
+						{
+							changed = true
+						}
+						arrayXML[i] = "\n" + arrayXML[i] + "\(bdate.date(from: self.field4Edit.text!)!)"
+					}
+					break
+				case "<company":
+					if self.field5Edit.text != nil && !self.field5Edit.text!.isEmpty
+					{
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field5Edit.text!)"
+					}
+					if !(self.field5Edit.text?.isEmpty)! && self.field5Edit.text != self.store.customer?.company
+					{
+						changed = true
+					}
+					break
+				case "<website":
+					if self.field6Edit.text != nil && !self.field6Edit.text!.isEmpty
+					{
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field6Edit.text!)"
+					}
+					break
+				case "<siret":
+					if self.field7Edit.text != nil && !self.field7Edit.text!.isEmpty
+					{
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field7Edit.text!)"
+					}
+					break
+				case "<ape":
+					if self.field8Edit.text != nil && !self.field8Edit.text!.isEmpty
+					{
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field8Edit.text!)"
+					}
+					break
+				case "<passwd":
+					if self.passwordEdit.text != nil && !self.passwordEdit.text!.isEmpty
+					{
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.passwordEdit.text!)"
+					}
+					break
+				case "<optin":
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
+					break
+				case "<newsletter":
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
+					break
+				case "<associations":
+					arrayXML[i] = "\n" + arrayXML[i]// + "<groups nodeType=\"groups\" api=\"group\" /></associations>"//<groups><group><id></id></group></groups></associations>
+					break
+				default:
+					if i > 0 && !line.contains("</") && !line.contains("/>")
+					{
+						arrayXML[i] = "\n" + arrayXML[i]
+					}
+//					print("error while inserting values.")
+					break
+				}
+				i += 1
+			}
+//		}
+//		OperationQueue.main.addOperation {
+//			if self.genderSwitch.selectedSegmentIndex != self.store.customer?.idGender
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<id_gender>"
+//					{
+//						let str = "\(line)\(self.genderSwitch.selectedSegmentIndex)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.idGender = genderSwitch.selectedSegmentIndex
+//				changed = true
+//			}
+//			if !(self.fieldEdit1.text?.isEmpty)! && self.fieldEdit1.text != self.store.customer?.firstname
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<firstname>"
+//					{
+//						let str = "\(line)\(self.fieldEdit1.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.firstname = fieldEdit1.text
+//				changed = true
+//			}
+//			if !(self.field2Edit.text?.isEmpty)! && self.field2Edit.text != self.store.customer?.lastname
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<lastname>"
+//					{
+//						let str = "\(line)\(self.field2Edit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.lastname = field2Edit.text
+//				changed = true
+//			}
+//			let bdate = DateFormatter()
+//			bdate.dateFormat = "yyyy-MM-dd"
+//			if !(self.field4Edit.text?.isEmpty)! && self.field4Edit.text != bdate.string(from: (self.store.customer?.birthday)!)
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<birthday>"
+//					{
+//						let str = "\(line)\(bdate.date(from: self.field4Edit.text!)!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.birthday = bdate.date(from: field4Edit.text!)
+//				changed = true
+//			}
+//			if !(self.field5Edit.text?.isEmpty)! && self.field5Edit.text != self.store.customer?.company
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<company>"
+//					{
+//						let str = "\(line)\(self.field5Edit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.company = field5Edit.text
+//				changed = true
+//			}
+//			if !(self.field6Edit.text?.isEmpty)! && self.field6Edit.text != self.store.customer?.website
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<website>"
+//					{
+//						let str = "\(line)\(self.field6Edit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.website = field6Edit.text
+//				changed = true
+//			}
+//			if !(self.field7Edit.text?.isEmpty)! && self.field7Edit.text != self.store.customer?.siret
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<siret>"
+//					{
+//						let str = "\(line)\(self.field7Edit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.siret = field7Edit.text
+//				changed = true
+//			}
+//			if !(self.field8Edit.text?.isEmpty)! && self.field8Edit.text != self.store.customer?.ape
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<ape>"
+//					{
+//						let str = "\(line)\(self.field8Edit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.ape = field8Edit.text
+//				changed = true
+//			}
+//			if !(self.passwordEdit.text?.isEmpty)! && self.passwordEdit.text != self.store.customer?.passwd
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<passwd>"
+//					{
+//						let str = "\(line)\(self.passwordEdit.text!)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.passwd = passwordEdit.text
+//				changed = true
+//			}
+//			if self.switch0.isOn != self.store.customer?.optin
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+//					if line == "<optin>"
+//					{
+//						let str = "\(line)\(self.switch0.isOn)"
+//						arrayXML[i] = str
+//						break
+//					}
+//					i += 1
+//				}
+//	//			newRow.optin = switch0.isOn
+//				changed = true
+//			}
+//			if self.switch1.isOn != self.store.customer?.newsletter
+//			{
+//				var i = 0
+//				for line in arrayXML
+//				{
+////					var breakNext = false
+//					if line == "<newsletter>"
+//					{
+//						let str = "\(line)\(self.switch1.isOn ? "1" : "0")"
+//						arrayXML[i] = str
+////						if breakNext
+////						{
+//							break
+////						}
+////						breakNext = true
+//					}
+////					else if self.switch1.isOn && line == "<ip_registration_newsletter>"
+////					{
+////						let str = "\(line)\(self.store.getIPAddress())"
+////						arrayXML[i] = str
+////						if breakNext
+////						{
+////							break
+////						}
+////						breakNext = true
+////					}
+//					i += 1
+//				}
+	//			newRow.newsletter = switch1.isOn
+//				changed = true
+//			}
+//			var i = 0
+//			for line in arrayXML
+//			{
+//				if line == "<associations>"
+//				{
+//					let str = "\(line)<groups><group><id></id></group></groups></associations>"
+////					let str = "\(line)\(CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((self.customer?.idCustomer)!)))]))"
+//					arrayXML[i] = str
+//					break
+//				}
+//				i += 1
+//			}
+	//		newRow.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
+	//		for sub in stackElements.subviews
+	//		{
+	//			print(sub.superview)
+	//			if let field = sub.superview as? InputField
+	//			{
+	//				print("yes")
+	//				if !field.textEdit.text?.isEmpty && field.textEdit.text? != store.
+	//			}
+	//		}
+//		}
+//		return changed ? arrayXML.joined() : ""
+		let str = arrayXML.joined()
+		return String(str.dropLast())
+	}
+
+
+	func httpWriteBack(_ str: String, putIt: Bool)
+	{
+		if putIt
+		{
+			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
+			{ 	(cust) in	//xml["prestashop"])
+				if cust is String && !(cust as! String).contains("error")
+				{
+					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+				}
+				else
+				{
+					print("PUT response: \(cust)")
+				}
+			}
+		}
+		else
+		{
+			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
+			{ 	(cust) in	//xml["prestashop"])
+				if cust is String && !(cust as! String).contains("error")
+				{
+					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+				}
+				else
+				{
+					print("POST response: \(cust)")
+				}
+			}
+		}
+	}
+
 
 	@objc func adjustForKeyboard(notification: Notification)
 	{
@@ -446,36 +909,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		}
 		OperationQueue.main.addOperation
 			{
-				let alert = 					UIAlertController(title: mTitle, message: mMessage, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
+				myAlertOnlyDismiss(self, title: mTitle, message: mMessage)
 		}
-		//		store.Alert(fromView: self, title: mTitle, titleColor: R.color.YumaRed, /*titleBackgroundColor: <#T##UIColor?#>, titleFont: <#T##UIFont?#>,*/ message: mMessage, /*messageColor: <#T##UIColor?#>, messageBackgroundColor: <#T##UIColor?#>, messageFont: <#T##UIFont?#>,*/ dialogBackgroundColor: R.color.YumaYel, backgroundBackgroundColor: R.color.YumaRed, /*backgroundBlurStyle: <#T##UIBlurEffectStyle?#>, backgroundBlurFactor: <#T##CGFloat?#>,*/ borderColor: R.color.YumaDRed, borderWidth: 2, /*cornerRadius: <#T##CGFloat?#>,*/ shadowColor: R.color.YumaDRed, /*shadowOffset: <#T##CGSize?#>, shadowOpacity: <#T##Float?#>,*/ shadowRadius: 5, /*alpha: <#T##CGFloat?#>,*/ hasButton1: true, button1Title: R.string.dismiss, /*button1Style: <#T##UIAlertActionStyle?#>, button1Color: <#T##UIColor?#>, button1Font: <#T##UIFont?#>, button1Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>,*/ hasButton2: false/*, button2Title: <#T##String?#>, button2Style: <#T##UIAlertActionStyle?#>, button2Color: <#T##UIColor?#>, button2Font: <#T##UIFont?#>, button2Action: <#T##DataStore.Closure_Void?##DataStore.Closure_Void?##() -> Void#>*/)
 	}
 	@objc func selectedADate(_ sender: Notification)
 	{
@@ -540,300 +975,79 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			ws.keyAPI = R.string.APIkey
 			if addNew
 			{
-				//GET the XML blank data for the resource (/api/customer?schema=blank), fill it with your changes, and POST the whole XML file to the /api/customers/ URL again and will return an XML file indicating that the operation has been successful, along with the ID of the newly created customer
-				//var paramsDict = [String : String]()
-				//paramsDict["id_default_group"] = String(store.idDefaultGroup)
-	//			ws.schema = Schema.blank
-	//			ws.get { (result) in
-	//			}
-//				let newRow = loadEnteredValues()
-//				var newRow = store.customer?.copy() as! Customer
-//				var changed = false
-//				if genderSwitch.selectedSegmentIndex != store.customer?.idGender
-//				{
-//					newRow.idGender = genderSwitch.selectedSegmentIndex
-//					changed = true
-//				}
-//				if !(fieldEdit1.text?.isEmpty)! && fieldEdit1.text != store.customer?.firstname
-//				{
-//					newRow.firstname = fieldEdit1.text
-//					changed = true
-//				}
-//				if !(field2Edit.text?.isEmpty)! && field2Edit.text != store.customer?.lastname
-//				{
-//					newRow.lastname = field2Edit.text
-//					changed = true
-//				}
-//				let bdate = DateFormatter()
-//				bdate.dateFormat = "yyyy-MM-dd"
-//				if !(field4Edit.text?.isEmpty)! && field4Edit.text != bdate.string(from: (store.customer?.birthday)!)
-//				{
-//					newRow.birthday = bdate.date(from: field4Edit.text!)
-//					changed = true
-//				}
-//				if !(field5Edit.text?.isEmpty)! && field5Edit.text != store.customer?.company
-//				{
-//					newRow.company = field5Edit.text
-//					changed = true
-//				}
-//				if !(field6Edit.text?.isEmpty)! && field6Edit.text != store.customer?.website
-//				{
-//					newRow.website = field6Edit.text
-//					changed = true
-//				}
-//				if !(field7Edit.text?.isEmpty)! && field7Edit.text != store.customer?.siret
-//				{
-//					newRow.siret = field7Edit.text
-//					changed = true
-//				}
-//				if !(field8Edit.text?.isEmpty)! && field8Edit.text != store.customer?.ape
-//				{
-//					newRow.ape = field8Edit.text
-//					changed = true
-//				}
-//				if !(passwordEdit.text?.isEmpty)! && passwordEdit.text != store.customer?.passwd
-//				{
-//					newRow.passwd = passwordEdit.text
-//					changed = true
-//				}
-//				if switch0.isOn != store.customer?.optin
-//				{
-//					newRow.optin = switch0.isOn
-//					changed = true
-//				}
-//				if switch1.isOn != store.customer?.newsletter
-//				{
-//					newRow.newsletter = switch1.isOn
-//					changed = true
-//				}
-//				newRow.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
-//				for sub in stackElements.subviews
-//				{
-//					print(sub.superview)
-//					if let field = sub.superview as? InputField
-//					{
-//						print("yes")
-//						if !field.textEdit.text?.isEmpty && field.textEdit.text? != store.
-//					}
-//				}
-//				let newRow = Customer(id: (store.customer?.id)!, id_customer: (store.customer?.idCustomer)!, id_default_group: (store.idDefaultGroup), id_lang: (store.myLang), newsletter_date_add: switch1.isOn ? date : (store.customer?.newsletterDateAdd != nil) ? store.customer?.newsletterDateAdd!) : nil, ip_registration_newsletter: switch1.isOn ? ipAddr : (store.customer?.ipRegistrationNewsletter)!, last_passwd_gen: date, secure_key: "", deleted: false, passwd: passwordEdit.text != nil ? md5(passwordEdit.text!) : "", lastname: field2Edit.text != nil ? field2Edit.text! : "", firstname: fieldEdit1.text != nil ? fieldEdit1.text! : "", email: field3Edit.text != nil ? field3Edit.text! : "", id_gender: (genderSwitch.selectedSegmentIndex), birthday: df.date(from: field4Edit.text!)!, newsletter: switch1.isOn, optin: switch0.isOn, website: (field6Edit.text != nil && (field6Edit.text?.isEmpty)! ? nil : field6Edit.text)!, company: (field5Edit.text != nil && (field5Edit.text?.isEmpty)! ? nil : field5Edit.text)!, siret: (field7Edit.text != nil && (field7Edit.text?.isEmpty)! ? nil : field7Edit.text)!, ape: (field8Edit.text != nil && (field8Edit.text?.isEmpty)! ? nil : field8Edit.text)!, outstanding_allow_amount: 0, show_public_prices: true, id_risk: 0, max_payment_days: 0, active: true, note: "", is_guest: false, id_shop: store.idShop, id_shop_group: store.idShopGroup, date_add: date, date_upd: date, reset_password_token: "", reset_password_validity: date, associations: CustomerAssociations(groups: nil))//associations: CustomerAssociations(groups: [CustomerGroup(group: nil)])
-
-				//print(newRow)
-				// Add a row
-				//ws.schema = nil
-//				ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [])
-				print(ws.xml!)
-				ws.printURL()
-				store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(cust) in
-					//print("return: \(cust)")
-					var title = R.string.customer
-					if !((cust as? Bool)!)
+				let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLCustomer")//store.blankSchemaXML["Customer"]
+				if blank != nil && !(blank?.isEmpty)!
+				{
+					let writeBack = insertValuesInBlank(blank!)
+//					let writeBack = insertValues(blank!)
+//					print(writeBack)
+					if !writeBack.isEmpty
 					{
-						title = R.string.err
-					}
-					UIViewController.removeSpinner(spinner: spinner)
-					OperationQueue.main.addOperation
-					{
-						let alert = 					UIAlertController(title: title, message: cust as? String, preferredStyle: .alert)
-						let coloredBG = 				UIView()
-						let blurFx = 					UIBlurEffect(style: .dark)
-						let blurFxView = 				UIVisualEffectView(effect: blurFx)
-						alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-						alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-						alert.view.superview?.backgroundColor = R.color.YumaRed
-						alert.view.shadowColor = 		R.color.YumaDRed
-						alert.view.shadowOffset = 		.zero
-						alert.view.shadowRadius = 		5
-						alert.view.shadowOpacity = 		1
-						alert.view.backgroundColor = 	R.color.YumaYel
-						alert.view.cornerRadius = 		15
-						coloredBG.backgroundColor = 	R.color.YumaRed
-						coloredBG.alpha = 				0.4
-						coloredBG.frame = 				self.view.bounds
-						self.view.addSubview(coloredBG)
-						blurFxView.frame = 				self.view.bounds
-						blurFxView.alpha = 				0.5
-						blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-						self.view.addSubview(blurFxView)
-						alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-							{ 	(action) in
-								coloredBG.removeFromSuperview()
-								blurFxView.removeFromSuperview()
-//								self.dismiss(animated: false, completion: nil)
-						}))
-						self.present(alert, animated: true, completion:
-						{
-						})
+						httpWriteBack(writeBack, putIt: false)
 					}
 				}
-//				ws.add() 	{ 	(result) in
-//					if result.data != nil
-//					{
-//						let data = String(data: result.data! as Data, encoding: .utf8)
-//						print(data!)
-//						print("----add^")
-//					}
-//				}
+				else	// blank schema not saved - retrieve it
+				{
+					ws.schema = Schema.blank
+					ws.get { (httpResult) in
+						if let data = httpResult.data
+						{
+							let str = String(data: data as Data, encoding: .utf8)
+							self.store.blankSchemaXML["Customer"] = str
+							UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
+							let writeBack = self.insertValuesInBlank(str!)
+//							let writeBack = self.insertValues(str!)
+//							print(writeBack)
+							if !writeBack.isEmpty
+							{
+								self.httpWriteBack(writeBack, putIt: false)
+							}
+						}
+					}
+				}
+				UIViewController.removeSpinner(spinner: spinner)
+//				myAlertOnlyDismiss(self, title: title, message: (cust as? String)!)
 			}
 			else	//update information
 			{
-				//GET the full XML file for the resource you want to change (/api/customers/7), edit its content as needed, then PUT the whole XML file back to the same URL again
-				ws.filter = ["id" : [customer?.idCustomer! as Any]]
-//				if true//changed ie. edited
-//				{
-//					let now = Date()
-//					let df = DateFormatter()
-//					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//					edited?.date_upd = df.string(from: now)
-//					edited?.firstname = fieldEdit1.text!
-//					edited?.lastname = field2Edit.text!
-//					edited?.birthday = field4Edit.text
-//					edited?.optin = String(switch0.isOn)
-//					edited?.newsletter = String(switch1.isOn)
-//					edited?.active = String(switch2.isOn)
-//					edited?.passwd = passwordEdit.text!
-//				}
-//				var edited = store.customer?.copy() as! Customer
-//				var changed = false
-//				if genderSwitch.selectedSegmentIndex != store.customer?.idGender
-//				{
-//					edited.idGender = genderSwitch.selectedSegmentIndex
-//					changed = true
-//				}
-//				if !(fieldEdit1.text?.isEmpty)! && fieldEdit1.text != store.customer?.firstname
-//				{
-//					edited.firstname = fieldEdit1.text
-//					changed = true
-//				}
-//				if !(field2Edit.text?.isEmpty)! && field2Edit.text != store.customer?.lastname
-//				{
-//					edited.lastname = field2Edit.text
-//					changed = true
-//				}
-//				let bdate = DateFormatter()
-//				bdate.dateFormat = "yyyy-MM-dd"
-//				if !(field4Edit.text?.isEmpty)! && field4Edit.text != bdate.string(from: (store.customer?.birthday)!)
-//				{
-//					edited.birthday = bdate.date(from: field4Edit.text!)
-//					changed = true
-//				}
-//				if !(field5Edit.text?.isEmpty)! && field5Edit.text != store.customer?.company
-//				{
-//					edited.company = field5Edit.text
-//					changed = true
-//				}
-//				if !(field6Edit.text?.isEmpty)! && field6Edit.text != store.customer?.website
-//				{
-//					edited.website = field6Edit.text
-//					changed = true
-//				}
-//				if !(field7Edit.text?.isEmpty)! && field7Edit.text != store.customer?.siret
-//				{
-//					edited.siret = field7Edit.text
-//					changed = true
-//				}
-//				if !(field8Edit.text?.isEmpty)! && field8Edit.text != store.customer?.ape
-//				{
-//					edited.ape = field8Edit.text
-//					changed = true
-//				}
-//				if !(passwordEdit.text?.isEmpty)! && passwordEdit.text != store.customer?.passwd
-//				{
-//					edited.passwd = passwordEdit.text
-//					changed = true
-//				}
-//				if switch0.isOn != store.customer?.optin
-//				{
-//					edited.optin = switch0.isOn
-//					changed = true
-//				}
-//				if switch1.isOn != store.customer?.newsletter
-//				{
-//					edited.newsletter = switch1.isOn
-//					changed = true
-//				}
-//				var edited = loadEnteredValues()
-//				edited.id = Int((customer?.id_customer)!)
-//				edited.associations = CustomerAssociations(groups: [CustomerGroup(id: IdAsString(id: String((customer?.idCustomer)!)))])//groups: [CustomerGroup(id: IdAsString(id: (customer?.id_customer)!))]
-//				edited.secureKey = customer?.secureKey
-//				edited.lastPasswdGen = customer?.lastPasswdGen
-//				edited.ipRegistrationNewsletter = nil
-//				if passwordEdit.text != nil && !(passwordEdit.text?.isEmpty)!
-//				{
-//					edited.passwd = md5(passwordEdit.text!)
-//				}
-//				else
-//				{
-//					edited.passwd = customer?.passwd
-//				}
-				var omit: [String] = []
-				omit.append("id_customer")
-//				omit.append("some")
-//				omit.append("associations")
-//				let str = PSWebServices.object2psxml(object: edited, resource: "customers", resource2: "customer", omit: omit)
-				let str = ""
-//				print(str)
-				//var params = [String : String]()
-				//params["ws_key"] = R.string.APIkey
-				//params["xml"] = str
-				var allowed = CharacterSet.alphanumerics
-				allowed.insert(charactersIn: ".-_~/?")
-				store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": /*"application/xml; charset=utf-8"*/"text/xml; charset=utf-8"/*"application/x-www-form-urlencoded"*/, "Accept": "*/*"/*"text/xml"*/, "Accept-Language": "en-US,en", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/], body: "\(str/*.addingPercentEncoding(withAllowedCharacters: allowed) ?? ""*/)", save: nil)//, "Accept": "application/json, text/javascript, */*; q=0.01"
-				{ 	(cust) in
-//					print("return: \(cust)")
-					var title = R.string.customer
-					if cust is Bool && !((cust as? Bool)!)
+//				print(PrestaShop(xmlns: "http://www.w3.org/1999/xlink", customers: Customers(customer: [store.customer!]), customer: nil).toXML()!)//<?xml version=\"1.0\"?>\n<customer>\n    <outstanding_allow_amount>0</outstanding_allow_amount>\n    <firstname>Yuma</firstname>\n    <lastname>Technical</lastname>\n    <id_shop_group>1</id_shop_group>\n    <max_payment_days>0</max_payment_days>\n    <optin>0</optin>\n    <last_passwd_gen>2018-05-11</last_passwd_gen>\n    <active>1</active>\n    <passwd>$2y$10$CDgHOnQRTaVadMaCSKt.MOC9dvImGPmaxdBhTNOVOAZ.ojKlTKSyG</passwd>\n    <id_customer>3</id_customer>\n    <id_shop>1</id_shop>\n    <id_lang>1</id_lang>\n    <newsletter>0</newsletter>\n    <date_add>2016-12-29</date_add>\n    <id_default_group>3</id_default_group>\n    <id>0</id>\n    <company></company>\n    <note></note>\n    <date_upd>2018-05-22</date_upd>\n    <deleted>0</deleted>\n    <email>yumatechnical@gmail.com</email>\n    <website></website>\n    <show_public_prices>0</show_public_prices>\n    <secure_key>baef23c3484858f93935c13fcebd891f</secure_key>\n    <siret></siret>\n    <ip_registration_newsletter></ip_registration_newsletter>\n    <ape></ape>\n    <id_gender>0</id_gender>\n    <is_guest>0</is_guest>\n    <reset_password_token></reset_password_token>\n    <id_risk>0</id_risk>\n</customer>
+//				print(PrestaShop(xmlns: "http://www.w3.org/1999/xlink", customers: nil, customer: [store.customer!]).toXML()!)////				ws.filter = ["id" : [customer?.idCustomer! as Any]]
+				let thisCustomer = UserDefaults.standard.string(forKey: "Customer\((customer?.id)!)")
+				if thisCustomer != nil && !(thisCustomer?.isEmpty)!
+				{
+					DispatchQueue.main.async
 					{
-						title = R.string.err
-					}
-					UIViewController.removeSpinner(spinner: spinner)
-//					if let xml = cust as? SWXMLHash.XMLIndexer
-//					{
-						self.store.enumerate(cust as! XMLIndexer)
-//					}
-					OperationQueue.main.addOperation
-					{
-						let alert = 					UIAlertController(title: title, message: self.store.XMLstr /*cust as? String*/, preferredStyle: .alert)
-						let coloredBG = 				UIView()
-						let blurFx = 					UIBlurEffect(style: .dark)
-						let blurFxView = 				UIVisualEffectView(effect: blurFx)
-						alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-						alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-						alert.view.superview?.backgroundColor = R.color.YumaRed
-						alert.view.shadowColor = 		R.color.YumaDRed
-						alert.view.shadowOffset = 		.zero
-						alert.view.shadowRadius = 		5
-						alert.view.shadowOpacity = 		1
-						alert.view.backgroundColor = 	R.color.YumaYel
-						alert.view.cornerRadius = 		15
-						coloredBG.backgroundColor = 	R.color.YumaRed
-						coloredBG.alpha = 				0.4
-						coloredBG.frame = 				self.view.bounds
-						self.view.addSubview(coloredBG)
-						blurFxView.frame = 				self.view.bounds
-						blurFxView.alpha = 				0.5
-						blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-						self.view.addSubview(blurFxView)
-						alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-							{ 	(action) in
-								coloredBG.removeFromSuperview()
-								blurFxView.removeFromSuperview()
-								//self.dismiss(animated: false, completion: nil)
-						}))
-						self.present(alert, animated: true, completion:
+						let writeBack = self.insertValues(thisCustomer!, isFresh: false)
+						if !writeBack.isEmpty
 						{
-							self.store.XMLstr = ""
-						})
+							self.httpWriteBack(writeBack, putIt: true)
+						}
 					}
 				}
-		//		PSWebServices.postCustomer(XMLStr: str)
-		//		{
-		//			(error) in
-		//			if let error = error
-		//			{
-		//				print("fatal error: ", String(error.localizedDescription))
-		//			}
-		//		}
+				else
+				{
+					ws.id = (customer?.id)!
+					if ws.id == 0
+					{
+						ws.id = (customer?.idCustomer)!
+					}
+					ws.get { (httpResult) in
+						if let data = httpResult.data
+						{
+							let str = String(data: data as Data, encoding: .utf8)
+							DispatchQueue.main.async
+							{
+								let writeBack = self.insertValues(str!, isFresh: false)
+								if !writeBack.isEmpty
+								{
+									self.httpWriteBack(writeBack, putIt: true)
+								}
+							}
+						}
+					}
+				}
+				UIViewController.removeSpinner(spinner: spinner)
+//				myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr /*cust as? String*/)
 			}
 		}
 	}

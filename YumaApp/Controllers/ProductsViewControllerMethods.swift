@@ -217,38 +217,39 @@ extension ProductsViewController
 
 	func cannotGet()
 	{
-		OperationQueue.main.addOperation
-			{
-				let alert = 					UIAlertController(title: R.string.err, message: R.string.empty, preferredStyle: .alert)
-				let coloredBG = 				UIView()
-				let blurFx = 					UIBlurEffect(style: .dark)
-				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-				alert.view.superview?.backgroundColor = R.color.YumaRed
-				alert.view.shadowColor = 		R.color.YumaDRed
-				alert.view.shadowOffset = 		.zero
-				alert.view.shadowRadius = 		5
-				alert.view.shadowOpacity = 		1
-				alert.view.backgroundColor = 	R.color.YumaYel
-				alert.view.cornerRadius = 		15
-				coloredBG.backgroundColor = 	R.color.YumaRed
-				coloredBG.alpha = 				0.4
-				coloredBG.frame = 				self.view.bounds
-				self.view.addSubview(coloredBG)
-				blurFxView.frame = 				self.view.bounds
-				blurFxView.alpha = 				0.5
-				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-				self.view.addSubview(blurFxView)
-				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-					coloredBG.removeFromSuperview()
-					blurFxView.removeFromSuperview()
-					self.dismiss(animated: false, completion: nil)
-				}))
-				self.present(alert, animated: true, completion:
-					{
-				})
-		}
+		myAlertOnlyDismiss(self, title: R.string.err, message: R.string.empty)
+//		OperationQueue.main.addOperation
+//			{
+//				let alert = 					UIAlertController(title: R.string.err, message: R.string.empty, preferredStyle: .alert)
+//				let coloredBG = 				UIView()
+//				let blurFx = 					UIBlurEffect(style: .dark)
+//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//				alert.view.superview?.backgroundColor = R.color.YumaRed
+//				alert.view.shadowColor = 		R.color.YumaDRed
+//				alert.view.shadowOffset = 		.zero
+//				alert.view.shadowRadius = 		5
+//				alert.view.shadowOpacity = 		1
+//				alert.view.backgroundColor = 	R.color.YumaYel
+//				alert.view.cornerRadius = 		15
+//				coloredBG.backgroundColor = 	R.color.YumaRed
+//				coloredBG.alpha = 				0.4
+//				coloredBG.frame = 				self.view.bounds
+//				self.view.addSubview(coloredBG)
+//				blurFxView.frame = 				self.view.bounds
+//				blurFxView.alpha = 				0.5
+//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//				self.view.addSubview(blurFxView)
+//				alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//					coloredBG.removeFromSuperview()
+//					blurFxView.removeFromSuperview()
+//					self.dismiss(animated: false, completion: nil)
+//				}))
+//				self.present(alert, animated: true, completion:
+//					{
+//				})
+//		}
 	}
 
 	fileprivate func gotProducts()
@@ -300,44 +301,51 @@ extension ProductsViewController
 				}
 				else
 				{
-					OperationQueue.main.addOperation
-						{
-							let alert = 					UIAlertController(title: R.string.err, message: R.string.no_data, preferredStyle: .alert)
-							let coloredBG = 				UIView()
-							let blurFx = 					UIBlurEffect(style: .dark)
-							let blurFxView = 				UIVisualEffectView(effect: blurFx)
-							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-							alert.view.superview?.backgroundColor = R.color.YumaRed
-							alert.view.shadowColor = 		R.color.YumaDRed
-							alert.view.shadowOffset = 		.zero
-							alert.view.shadowRadius = 		5
-							alert.view.shadowOpacity = 		1
-							alert.view.backgroundColor = 	R.color.YumaYel
-							alert.view.cornerRadius = 		15
-							coloredBG.backgroundColor = 	R.color.YumaRed
-							coloredBG.alpha = 				0.4
-							coloredBG.frame = 				self.view.bounds
-							self.view.addSubview(coloredBG)
-							blurFxView.frame = 				self.view.bounds
-							blurFxView.alpha = 				0.5
-							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-							self.view.addSubview(blurFxView)
-							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-								coloredBG.removeFromSuperview()
-								blurFxView.removeFromSuperview()
-								self.dismiss(animated: false, completion: nil)
-							}))
-							alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .default, handler: { (action) in
-								coloredBG.removeFromSuperview()
-								blurFxView.removeFromSuperview()
-								self.dismiss(animated: false, completion: nil)
-								self.refresh()
-							}))
-							self.present(alert, animated: true, completion:
-								{
-							})
+					myAlertDialog(self, title: R.string.err, message: R.string.no_data, cancelTitle: R.string.dismiss.uppercased(), cancelAction: {
+						self.dismiss(animated: false, completion: nil)
+					}, okTitle: R.string.tryAgain.uppercased(), okAction: {
+						self.dismiss(animated: false, completion: nil)
+						self.refresh()
+					}) {
 					}
+//					OperationQueue.main.addOperation
+//						{
+//							let alert = 					UIAlertController(title: R.string.err, message: R.string.no_data, preferredStyle: .alert)
+//							let coloredBG = 				UIView()
+//							let blurFx = 					UIBlurEffect(style: .dark)
+//							let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//							alert.view.superview?.backgroundColor = R.color.YumaRed
+//							alert.view.shadowColor = 		R.color.YumaDRed
+//							alert.view.shadowOffset = 		.zero
+//							alert.view.shadowRadius = 		5
+//							alert.view.shadowOpacity = 		1
+//							alert.view.backgroundColor = 	R.color.YumaYel
+//							alert.view.cornerRadius = 		15
+//							coloredBG.backgroundColor = 	R.color.YumaRed
+//							coloredBG.alpha = 				0.4
+//							coloredBG.frame = 				self.view.bounds
+//							self.view.addSubview(coloredBG)
+//							blurFxView.frame = 				self.view.bounds
+//							blurFxView.alpha = 				0.5
+//							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//							self.view.addSubview(blurFxView)
+//							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
+//								coloredBG.removeFromSuperview()
+//								blurFxView.removeFromSuperview()
+//								self.dismiss(animated: false, completion: nil)
+//							}))
+//							alert.addAction(UIAlertAction(title: R.string.tryAgain.uppercased(), style: .default, handler: { (action) in
+//								coloredBG.removeFromSuperview()
+//								blurFxView.removeFromSuperview()
+//								self.dismiss(animated: false, completion: nil)
+//								self.refresh()
+//							}))
+//							self.present(alert, animated: true, completion:
+//								{
+//							})
+//					}
 				}
 			}
 			switch navTitle.title

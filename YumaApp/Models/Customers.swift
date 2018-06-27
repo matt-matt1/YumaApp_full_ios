@@ -497,7 +497,8 @@ struct Customer: Codable, XMLIndexerDeserializable
 		self.resetPasswordValidity = reset_password_validity
 		self.associations = associations
 	}
-	init(id: Int, idCustomer: Int, idDefaultGroup: Int, idLang: Int, newsletterDateAdd: Date, ipRegistrationNewsletter: String, lastPasswdGen: Date, secureKey: String, deleted: Bool, passwd: String, lastname: String, firstname: String, email: String, idGender: Int, birthday: Date, newsletter: Bool, optin: Bool, website: String, company: String, siret: String, ape: String, outstandingAllowAmount: Float, showPublicPrices: Bool, idRisk: Int, maxPaymentDays: Int, active: Bool, note: String, isGuest: Bool, idShop: Int, idShopGroup: Int, dateAdd: Date, dateUpd: Date, resetPasswordToken: String, resetPasswordValidity: Date, associations: CustomerAssociations?)
+//	required init(map: XMLMap)
+	init(id: Int?, idCustomer: Int?, idDefaultGroup: Int, idLang: Int, newsletterDateAdd: Date?, ipRegistrationNewsletter: String?, lastPasswdGen: Date?, secureKey: String?, deleted: Bool, passwd: String, lastname: String, firstname: String?, email: String, idGender: Int, birthday: Date?, newsletter: Bool, optin: Bool, website: String?, company: String?, siret: String?, ape: String?, outstandingAllowAmount: Float?, showPublicPrices: Bool, idRisk: Int, maxPaymentDays: Int?, active: Bool, note: String?, isGuest: Bool, idShop: Int, idShopGroup: Int, dateAdd: Date?, dateUpd: Date?, resetPasswordToken: String?, resetPasswordValidity: Date?, associations: CustomerAssociations?)
 	{
 		self.id = id
 		self.idCustomer = idCustomer
@@ -548,10 +549,161 @@ struct Customer: Codable, XMLIndexerDeserializable
 		date_full.dateFormat = "yyyy-MM-dd HH:mm:ss"
 		let date_only = DateFormatter()
 		date_only.dateFormat = "yyyy-MM-dd"
-		return try Customer(id: node["id"].value(), id_customer: node["id_customer"].value(), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: date_full.date(from: node["newsletter_date_add"].value())!, ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: date_full.date(from: node["last_passwd_gen"].value())!, secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: date_full.date(from: node["date_add"].value())!, date_upd: date_full.date(from: node["date_upd"].value())!, reset_password_token: node["reset_password_token"].value(), reset_password_validity: date_full.date(from: node["reset_password_validity"].value())!, associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
+//		return try Customer(id: node["id"].value(), id_customer: node["id_customer"].value(), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: date_full.date(from: node["newsletter_date_add"].value())!, ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: date_full.date(from: node["last_passwd_gen"].value())!, secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: date_full.date(from: node["date_add"].value())!, date_upd: date_full.date(from: node["date_upd"].value())!, reset_password_token: node["reset_password_token"].value(), reset_password_validity: date_full.date(from: node["reset_password_validity"].value())!, associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
+		return try Customer(id: node["id"].value(), idCustomer: node["id_customer"].value(), idDefaultGroup: node["id_default_group"].value(), idLang: node["id_lang"].value(), newsletterDateAdd: date_full.date(from: node["newsletter_date_add"].value())!, ipRegistrationNewsletter: node["ip_registration_newsletter"].value(), lastPasswdGen: date_full.date(from: node["last_passwd_gen"].value())!, secureKey: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), idGender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["show_public_prices"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstandingAllowAmount: node["outstanding_allow_amount"].value(), showPublicPrices: node["show_public_prices"].value(), idRisk: node["id_risk"].value(), maxPaymentDays: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), isGuest: node["is_guest"].value(), idShop: node["id_shop"].value(), idShopGroup: node["id_shop_group"].value(), dateAdd: date_full.date(from: node["date_add"].value())!, dateUpd: date_full.date(from: node["date_upd"].value())!, resetPasswordToken: node["reset_password_token"].value(), resetPasswordValidity: date_full.date(from: node["reset_password_validity"].value())!, associations: node["associations"]["groups"]["group"]["id"].value())
 	}
 }
-struct Customers: Decodable
+struct Customers: Codable
 {
-	let customers: [Customer]?
+	let customer: [Customer]?
+}
+struct PrestaShop: Codable
+{
+	var xmlns: 	String//xmlns:xlink="http://www.w3.org/1999/xlink"
+	let customers: 	Customers?
+	let customer: 	[Customer]?
+	
+	enum CodingKeys: String, CodingKey
+	{
+		case xmlns = "xmlns:xlink"
+		case customers, customer
+	}
+}
+
+
+extension Customer
+{
+//	static func retrieveBook() -> Customer?
+//	{
+//		guard let data = Data(forResource: "customer", withExtension: "xml") else 	{ 	return nil 	}
+//		
+//		let decoder = XMLDecoder()
+//		
+//		let formatter: DateFormatter =
+//		{
+//			let formatter = DateFormatter()
+//			formatter.dateFormat = "yyyy-MM-dd"
+//			return formatter
+//		}()
+//		
+//		decoder.dateDecodingStrategy = .formatted(formatter)
+//		
+//		let customer: Customer?
+//		
+//		do
+//		{
+//			customer = try decoder.decode(Customer.self, from: data)
+//		}
+//		catch
+//		{
+//			print(error)
+//			customer = nil
+//		}
+//		return customer
+//	}
+	
+	func toXML() -> String?
+	{
+		let encoder = XMLEncoder()
+		
+		let formatter: DateFormatter =
+		{
+			let formatter = DateFormatter()
+			formatter.dateFormat = "yyyy-MM-dd"
+			return formatter
+		}()
+		
+		encoder.dateEncodingStrategy = .formatted(formatter)
+		
+		do
+		{
+			let data = try encoder.encode(self, withRootKey: "customer", header: XMLHeader(version: 1.0))
+			return String(data: data, encoding: .utf8)
+		}
+		catch
+		{
+			print(error)
+			return nil
+		}
+	}
+}
+
+
+extension Customers
+{
+//	static func retrieveLibrary() -> Customers?
+//	{
+//		guard let data = Data(forResource: "customers", withExtension: "xml") else 	{ 	return nil 	}
+//		
+//		let decoder = XMLDecoder()
+//		
+//		let formatter: DateFormatter =
+//		{
+//			let formatter = DateFormatter()
+//			formatter.dateFormat = "yyyy-MM-dd"
+//			return formatter
+//		}()
+//		
+//		decoder.dateDecodingStrategy = .formatted(formatter)
+//		
+//		let customers: Customers?
+//		
+//		do {
+//			customers = try decoder.decode(Customers.self, from: data)
+//		} catch {
+//			print(error)
+//			customers = nil
+//		}
+//		return customers
+//	}
+	
+	func toXML() -> String?
+	{
+		let encoder = XMLEncoder()
+		
+		let formatter: DateFormatter =
+		{
+			let formatter = DateFormatter()
+			formatter.dateFormat = "yyyy-MM-dd"
+			return formatter
+		}()
+		
+		encoder.dateEncodingStrategy = .formatted(formatter)
+		
+		do {
+			let data = try encoder.encode(self, withRootKey: "customers", header: XMLHeader(version: 1.0))
+			return String(data: data, encoding: .utf8)
+		} catch {
+			print(error)
+			return nil
+		}
+	}
+}
+
+
+
+extension PrestaShop
+{
+	/*mutating*/ func toXML() -> String?
+	{
+		let encoder = XMLEncoder()
+		
+		let formatter: DateFormatter =
+		{
+			let formatter = DateFormatter()
+			formatter.dateFormat = "yyyy-MM-dd"
+			return formatter
+		}()
+		
+		encoder.dateEncodingStrategy = .formatted(formatter)
+		
+		do {
+//			self.xmlns = "http://www.w3.org/1999/xlink"
+			let data = try encoder.encode(self, withRootKey: "prestashop", header: XMLHeader(version: 1.0, encoding: "UTF-8"/*, standalone: "qwerty"*/))
+			return String(data: data, encoding: .utf8)
+		} catch {
+			print(error)
+			return nil
+		}
+	}
 }

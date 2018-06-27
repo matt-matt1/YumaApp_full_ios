@@ -1025,7 +1025,7 @@
                                                                 <constraint firstAttribute="height" constant="50" id="aTR-fP-lzP"/>
                                                                 <constraint firstAttribute="width" constant="200" id="tLo-6N-wEW"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                                             <size key="titleShadowOffset" width="1" height="1"/>
                                                             <state key="normal" title="SAVE">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

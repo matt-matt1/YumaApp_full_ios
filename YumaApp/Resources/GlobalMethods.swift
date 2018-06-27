@@ -32,107 +32,173 @@ import UIKit
 
 
 /// Display an alert dialog where the only choice is DISMISS - dismissAction closure done on press
-func myAlertOnlyDismiss(_ self: UIViewController, title: String, message: String, dismissAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
+func myAlertOnlyDismiss(_ self: UIViewController, title: String, message: String, dismissTitle: String? = nil, dismissAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
 {
-	OperationQueue.main.addOperation
-	{
-		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let coloredBG = 				UIView()
-		let blurFx = 					UIBlurEffect(style: .dark)
-		let blurFxView = 				UIVisualEffectView(effect: blurFx)
-		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-		alert.view.superview?.backgroundColor = R.color.YumaRed
-		alert.view.shadowColor = 		R.color.YumaDRed
-		alert.view.shadowOffset = 		.zero
-		alert.view.shadowRadius = 		5
-		alert.view.shadowOpacity = 		1
-		alert.view.backgroundColor = 	R.color.YumaYel
-		alert.view.cornerRadius = 		15
-		coloredBG.backgroundColor = 	R.color.YumaRed
-		coloredBG.alpha = 				0.4
-		coloredBG.frame = 				self.view.bounds
-		self.view.addSubview(coloredBG)
-		blurFxView.frame = 				self.view.bounds
-		blurFxView.alpha = 				0.5
-		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-		self.view.addSubview(blurFxView)
-		alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-		{ 	(action) in
-			coloredBG.removeFromSuperview()
-			blurFxView.removeFromSuperview()
-			//								self.dismiss(animated: false, completion: nil)
-			if dismissAction != nil
-			{
-				_ = dismissAction
-			}
-		}))
-		DispatchQueue.main.async
-		{
-			self.present(alert, animated: true, completion:
-			{
-				if completion != nil
-				{
-					_ = completion
-				}
-			})
-		}
-	}
+	myAlertDialog(self, title: title, message: message, cancelTitle: (dismissTitle != nil) ? dismissTitle : R.string.dismiss.uppercased(), cancelAction: dismissAction, okTitle: nil, okAction: nil, completion: completion)
+//	OperationQueue.main.addOperation
+//	{
+//		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
+//		let coloredBG = 				UIView()
+//		let blurFx = 					UIBlurEffect(style: .dark)
+//		let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//		alert.view.superview?.backgroundColor = R.color.YumaRed
+//		alert.view.shadowColor = 		R.color.YumaDRed
+//		alert.view.shadowOffset = 		.zero
+//		alert.view.shadowRadius = 		5
+//		alert.view.shadowOpacity = 		1
+//		alert.view.backgroundColor = 	R.color.YumaYel
+//		alert.view.cornerRadius = 		15
+//		coloredBG.backgroundColor = 	R.color.YumaRed
+//		coloredBG.alpha = 				0.4
+//		coloredBG.frame = 				self.view.bounds
+//		self.view.addSubview(coloredBG)
+//		blurFxView.frame = 				self.view.bounds
+//		blurFxView.alpha = 				0.5
+//		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//		self.view.addSubview(blurFxView)
+//		alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
+//		{ 	(action) in
+//			coloredBG.removeFromSuperview()
+//			blurFxView.removeFromSuperview()
+//			//								self.dismiss(animated: false, completion: nil)
+//			if dismissAction != nil
+//			{
+//				_ = dismissAction
+//			}
+//		}))
+//		DispatchQueue.main.async
+//		{
+//			self.present(alert, animated: true, completion:
+//			{
+//				if completion != nil
+//				{
+//					_ = completion
+//				}
+//			})
+//		}
+//	}
 }
 
 
 /// Display an alert dialog where the only choices are OK & Cancel - okAction closure done on OK press - cancelAction closure done on CANCEL press
 func myAlertOKCancel(_ self: UIViewController, title: String, message: String, okAction: (() -> Void)?, cancelAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
 {
+	myAlertDialog(self, title: title, message: message, cancelTitle: R.string.cancel.uppercased(), cancelAction: cancelAction, okTitle: R.string.ok.uppercased(), okAction: okAction, completion: completion)
+//	OperationQueue.main.addOperation
+//		{
+//		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
+//		let coloredBG = 				UIView()
+//		let blurFx = 					UIBlurEffect(style: .dark)
+//		let blurFxView = 				UIVisualEffectView(effect: blurFx)
+//		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+//		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+//		alert.view.superview?.backgroundColor = R.color.YumaRed
+//		alert.view.shadowColor = 		R.color.YumaDRed
+//		alert.view.shadowOffset = 		.zero
+//		alert.view.shadowRadius = 		5
+//		alert.view.shadowOpacity = 		1
+//		alert.view.backgroundColor = 	R.color.YumaYel
+//		alert.view.cornerRadius = 		15
+//		coloredBG.backgroundColor = 	R.color.YumaRed
+//		coloredBG.alpha = 				0.4
+//		coloredBG.frame = 				self.view.bounds
+//		self.view.addSubview(coloredBG)
+//		blurFxView.frame = 				self.view.bounds
+//		blurFxView.alpha = 				0.5
+//		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+//		self.view.addSubview(blurFxView)
+//		alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+//			{ 	(action) in
+//				coloredBG.removeFromSuperview()
+//				blurFxView.removeFromSuperview()
+//				if cancelAction != nil
+//				{
+//					_ = cancelAction
+//				}
+//		}))
+//		alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler:
+//		{ 	(action) in
+//			coloredBG.removeFromSuperview()
+//			blurFxView.removeFromSuperview()
+//			if okAction != nil
+//			{
+//				_ = okAction
+//			}
+//		}))
+//		self.present(alert, animated: true, completion:
+//		{
+//			if completion != nil
+//			{
+//				_ = completion
+//			}
+//		})
+//	}
+}
+
+
+/// Complete Alert method to issue a dialog with a specific title, message and button names (with their respective actions)
+func myAlertDialog(_ self: 			UIViewController,
+				   title: 			String,
+				   message: 		String,
+				   cancelTitle: 	String? = 		R.string.cancel.uppercased(),
+				   cancelAction: 	(() -> Void)? = nil,
+				   okTitle: 		String? = 		R.string.ok.uppercased(),
+				   okAction: 		(() -> Void)? = nil,
+				   completion: 		(() -> Void)? = nil)
+{
 	OperationQueue.main.addOperation
 		{
-		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let coloredBG = 				UIView()
-		let blurFx = 					UIBlurEffect(style: .dark)
-		let blurFxView = 				UIVisualEffectView(effect: blurFx)
-		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-		alert.view.superview?.backgroundColor = R.color.YumaRed
-		alert.view.shadowColor = 		R.color.YumaDRed
-		alert.view.shadowOffset = 		.zero
-		alert.view.shadowRadius = 		5
-		alert.view.shadowOpacity = 		1
-		alert.view.backgroundColor = 	R.color.YumaYel
-		alert.view.cornerRadius = 		15
-		coloredBG.backgroundColor = 	R.color.YumaRed
-		coloredBG.alpha = 				0.4
-		coloredBG.frame = 				self.view.bounds
-		self.view.addSubview(coloredBG)
-		blurFxView.frame = 				self.view.bounds
-		blurFxView.alpha = 				0.5
-		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-		self.view.addSubview(blurFxView)
-		alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler:
-		{ 	(action) in
-			coloredBG.removeFromSuperview()
-			blurFxView.removeFromSuperview()
-			if okAction != nil
+			let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
+			let coloredBG = 				UIView()
+			let blurFx = 					UIBlurEffect(style: .dark)
+			let blurFxView = 				UIVisualEffectView(effect: blurFx)
+			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
+			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
+			alert.view.superview?.backgroundColor = R.color.YumaRed
+			alert.view.shadowColor = 		R.color.YumaDRed
+			alert.view.shadowOffset = 		.zero
+			alert.view.shadowRadius = 		5
+			alert.view.shadowOpacity = 		1
+			alert.view.backgroundColor = 	R.color.YumaYel
+			alert.view.cornerRadius = 		15
+			coloredBG.backgroundColor = 	R.color.YumaRed
+			coloredBG.alpha = 				0.4
+			coloredBG.frame = 				self.view.bounds
+			self.view.addSubview(coloredBG)
+			blurFxView.frame = 				self.view.bounds
+			blurFxView.alpha = 				0.5
+			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
+			self.view.addSubview(blurFxView)
+			alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+				{ 	(action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					if cancelAction != nil
+					{
+						cancelAction!()
+					}
+			}))
+			if okTitle != nil && okAction != nil
 			{
-				_ = okAction
+				alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler:
+				{ 	(action) in
+					coloredBG.removeFromSuperview()
+					blurFxView.removeFromSuperview()
+					if okAction != nil
+					{
+						okAction!()
+					}
+				}))
 			}
-		}))
-		alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-		{ 	(action) in
-			coloredBG.removeFromSuperview()
-			blurFxView.removeFromSuperview()
-			//								self.dismiss(animated: false, completion: nil)
-			if cancelAction != nil
-			{
-				_ = cancelAction
-			}
-		}))
-		self.present(alert, animated: true, completion:
-		{
-			if completion != nil
-			{
-				_ = completion
-			}
-		})
+			self.present(alert, animated: true, completion:
+				{
+					if completion != nil
+					{
+						completion!()
+					}
+			})
 	}
 }
 
@@ -154,6 +220,3 @@ func matches(for regex: String, in text: String) -> [String]
 		return []
 	}
 }
-
-
-

@@ -147,7 +147,6 @@
 		CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */; };
 		CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */; };
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
-		CF932A0F209B7A75007633FD /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */; };
 		CF99DF1320D7EEF4006492AF /* R.color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1220D7EEF4006492AF /* R.color.swift */; };
 		CF99DF1520D7F1CF006492AF /* R.array.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1420D7F1CF006492AF /* R.array.swift */; };
 		CF99DF1720D7F263006492AF /* R.attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1620D7F263006492AF /* R.attribute.swift */; };
@@ -175,6 +174,18 @@
 		CF99DF4420D7F9B0006492AF /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4320D7F9B0006492AF /* UIViewController.swift */; };
 		CF99DF4620D7F9EB006492AF /* URLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4520D7F9EB006492AF /* URLResponse.swift */; };
 		CF99DF4820D7FACC006492AF /* GlobalMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF4720D7FACC006492AF /* GlobalMethods.swift */; };
+		CF9A1D7520E3C5F2003F2213 /* XMLKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6720E3C5F1003F2213 /* XMLKey.swift */; };
+		CF9A1D7620E3C5F2003F2213 /* ISO8601DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6820E3C5F1003F2213 /* ISO8601DateFormatter.swift */; };
+		CF9A1D7720E3C5F2003F2213 /* XMLReferencingEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6A20E3C5F2003F2213 /* XMLReferencingEncoder.swift */; };
+		CF9A1D7820E3C5F2003F2213 /* EncodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6B20E3C5F2003F2213 /* EncodingErrorExtension.swift */; };
+		CF9A1D7920E3C5F2003F2213 /* XMLEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6C20E3C5F2003F2213 /* XMLEncoder.swift */; };
+		CF9A1D7A20E3C5F2003F2213 /* XMLEncodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6D20E3C5F2003F2213 /* XMLEncodingStorage.swift */; };
+		CF9A1D7B20E3C5F2003F2213 /* XMLStackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D6E20E3C5F2003F2213 /* XMLStackParser.swift */; };
+		CF9A1D7C20E3C5F2003F2213 /* DecodingErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7020E3C5F2003F2213 /* DecodingErrorExtension.swift */; };
+		CF9A1D7D20E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7120E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift */; };
+		CF9A1D7E20E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7220E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift */; };
+		CF9A1D7F20E3C5F2003F2213 /* XMLDecodingStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7320E3C5F2003F2213 /* XMLDecodingStorage.swift */; };
+		CF9A1D8020E3C5F2003F2213 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
 		CFA2115320D69446006E8830 /* SelectDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2115220D69446006E8830 /* SelectDate.swift */; };
 		CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF120C71961006C098C /* fa-brands-400.ttf */; };
@@ -382,7 +393,6 @@
 		CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCSViewController.swift; sourceTree = "<group>"; };
 		CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccCSViewController.xib; sourceTree = "<group>"; };
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
-		CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		CF99DF1220D7EEF4006492AF /* R.color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.color.swift; sourceTree = "<group>"; };
 		CF99DF1420D7F1CF006492AF /* R.array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.array.swift; sourceTree = "<group>"; };
 		CF99DF1620D7F263006492AF /* R.attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.attribute.swift; sourceTree = "<group>"; };
@@ -410,6 +420,18 @@
 		CF99DF4320D7F9B0006492AF /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		CF99DF4520D7F9EB006492AF /* URLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLResponse.swift; sourceTree = "<group>"; };
 		CF99DF4720D7FACC006492AF /* GlobalMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalMethods.swift; sourceTree = "<group>"; };
+		CF9A1D6720E3C5F1003F2213 /* XMLKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKey.swift; sourceTree = "<group>"; };
+		CF9A1D6820E3C5F1003F2213 /* ISO8601DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ISO8601DateFormatter.swift; sourceTree = "<group>"; };
+		CF9A1D6A20E3C5F2003F2213 /* XMLReferencingEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLReferencingEncoder.swift; sourceTree = "<group>"; };
+		CF9A1D6B20E3C5F2003F2213 /* EncodingErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncodingErrorExtension.swift; sourceTree = "<group>"; };
+		CF9A1D6C20E3C5F2003F2213 /* XMLEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLEncoder.swift; sourceTree = "<group>"; };
+		CF9A1D6D20E3C5F2003F2213 /* XMLEncodingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLEncodingStorage.swift; sourceTree = "<group>"; };
+		CF9A1D6E20E3C5F2003F2213 /* XMLStackParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLStackParser.swift; sourceTree = "<group>"; };
+		CF9A1D7020E3C5F2003F2213 /* DecodingErrorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecodingErrorExtension.swift; sourceTree = "<group>"; };
+		CF9A1D7120E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLUnkeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		CF9A1D7220E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLKeyedDecodingContainer.swift; sourceTree = "<group>"; };
+		CF9A1D7320E3C5F2003F2213 /* XMLDecodingStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecodingStorage.swift; sourceTree = "<group>"; };
+		CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
 		CFA2115220D69446006E8830 /* SelectDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDate.swift; sourceTree = "<group>"; };
 		CFA4ABF120C71961006C098C /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
@@ -630,6 +652,41 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		CF9A1D6620E3C5A3003F2213 /* XMLParsing */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A1D6F20E3C5F2003F2213 /* Decoder */,
+				CF9A1D6920E3C5F2003F2213 /* Encoder */,
+				CF9A1D6820E3C5F1003F2213 /* ISO8601DateFormatter.swift */,
+				CF9A1D6720E3C5F1003F2213 /* XMLKey.swift */,
+				CF9A1D6E20E3C5F2003F2213 /* XMLStackParser.swift */,
+			);
+			path = XMLParsing;
+			sourceTree = "<group>";
+		};
+		CF9A1D6920E3C5F2003F2213 /* Encoder */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A1D6A20E3C5F2003F2213 /* XMLReferencingEncoder.swift */,
+				CF9A1D6B20E3C5F2003F2213 /* EncodingErrorExtension.swift */,
+				CF9A1D6C20E3C5F2003F2213 /* XMLEncoder.swift */,
+				CF9A1D6D20E3C5F2003F2213 /* XMLEncodingStorage.swift */,
+			);
+			path = Encoder;
+			sourceTree = "<group>";
+		};
+		CF9A1D6F20E3C5F2003F2213 /* Decoder */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A1D7020E3C5F2003F2213 /* DecodingErrorExtension.swift */,
+				CF9A1D7120E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift */,
+				CF9A1D7220E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift */,
+				CF9A1D7320E3C5F2003F2213 /* XMLDecodingStorage.swift */,
+				CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */,
+			);
+			path = Decoder;
+			sourceTree = "<group>";
+		};
 		CFA4ABF720C71A45006C098C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -705,6 +762,7 @@
 		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF9A1D6620E3C5A3003F2213 /* XMLParsing */,
 				CF2DDBF420A4C91500AF517D /* YumaApp-Bridging-Header.h */,
 				CF717EB120A3981100E68F83 /* SwiftyJSON.swift */,
 				CF99DF2620D7F52F006492AF /* Extensions */,
@@ -823,7 +881,6 @@
 				CF443850209FBF850028443B /* AssistanceController.swift */,
 				CFEE3AAD2047444700526D92 /* CartViewController.swift */,
 				CF717E9E20A32F3300E68F83 /* ChangePW.swift */,
-				CF932A0D209B7A75007633FD /* ChangePasswordViewController.swift */,
 				CF331F5A209A3B6200992F92 /* CheckoutCollection.swift */,
 				CF7E863A2029E83D0014B787 /* ContactUsViewController.swift */,
 				CF904E46205850320086068E /* CustomerOrdersVC.swift */,
@@ -1147,7 +1204,6 @@
 				CF331F61209A3DC100992F92 /* BaseCollectionViewCell.swift in Sources */,
 				CF60CABD208E1C4100B6D0EE /* Customizations.swift in Sources */,
 				CF5C72AB20485072008763DB /* SwipingControllerCollection.swift in Sources */,
-				CF932A0F209B7A75007633FD /* ChangePasswordViewController.swift in Sources */,
 				CF9231BE2035FEFD00D44BB6 /* MyAccInfoViewController.swift in Sources */,
 				CF472DBA20AB83F700189F35 /* ResourceStage2ViewController.swift in Sources */,
 				CFAFC0ED201F9292002CBC1B /* IconPanel.swift in Sources */,
@@ -1157,6 +1213,7 @@
 				CF99DF3620D7F71D006492AF /* UICollectionView.swift in Sources */,
 				CF99DF1D20D7F34D006492AF /* R.image.swift in Sources */,
 				CF182DD2203344C00070B9E5 /* Addresses.swift in Sources */,
+				CF9A1D7920E3C5F2003F2213 /* XMLEncoder.swift in Sources */,
 				CF99DF1F20D7F392006492AF /* R.nib.swift in Sources */,
 				CF42562920D41F5D0002AF12 /* MyAccCS_Cell.swift in Sources */,
 				CF058C5B20D1830600974E2B /* MyXMLParserDelegate.swift in Sources */,
@@ -1167,6 +1224,7 @@
 				CF60CAD3208E409100B6D0EE /* ProductSuppliers.swift in Sources */,
 				CF60CADB208E490200B6D0EE /* Shops.swift in Sources */,
 				CF60CAD1208E3F7400B6D0EE /* ProductFeatures.swift in Sources */,
+				CF9A1D7B20E3C5F2003F2213 /* XMLStackParser.swift in Sources */,
 				CF717EAE20A3954D00E68F83 /* UIImage+Extension.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* Order.swift in Sources */,
 				CFD4E78F20D5BCB8000BA1DF /* ProductLabelCell.swift in Sources */,
@@ -1187,6 +1245,7 @@
 				CF99DF2C20D7F5E2006492AF /* KeyedDecodingContainer.swift in Sources */,
 				CF99DF3E20D7F8C8006492AF /* R.string.swift in Sources */,
 				CFA2115320D69446006E8830 /* SelectDate.swift in Sources */,
+				CF9A1D7C20E3C5F2003F2213 /* DecodingErrorExtension.swift in Sources */,
 				CF6897A020893BD300998527 /* Contacts.swift in Sources */,
 				CF601A18204AE69A00217025 /* OrderStates.swift in Sources */,
 				CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */,
@@ -1205,6 +1264,7 @@
 				CF75E7BA20D2C55C00A5FA12 /* MyAccOH_Cell.swift in Sources */,
 				CF50A3E2207BFAC2008749F0 /* HelpVC.swift in Sources */,
 				CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */,
+				CF9A1D7A20E3C5F2003F2213 /* XMLEncodingStorage.swift in Sources */,
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF99DF3420D7F6F1006492AF /* UIColor.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
@@ -1212,6 +1272,7 @@
 				CF60CAD9208E46F300B6D0EE /* ShopUrls.swift in Sources */,
 				CF60CAC7208E2BE200B6D0EE /* ImageTypes.swift in Sources */,
 				CF717EA120A3869400E68F83 /* ProductsViewControllerTaps.swift in Sources */,
+				CF9A1D8020E3C5F2003F2213 /* XMLDecoder.swift in Sources */,
 				CFD4E79320D5C4DF000BA1DF /* ProductTags.swift in Sources */,
 				CF99DF3820D7F79B006492AF /* UIImage.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
@@ -1222,6 +1283,7 @@
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,
 				CF99DF1520D7F1CF006492AF /* R.array.swift in Sources */,
 				CF42562D20D420470002AF12 /* MyAccCS_Collection.swift in Sources */,
+				CF9A1D7F20E3C5F2003F2213 /* XMLDecodingStorage.swift in Sources */,
 				CF7E863C2029E83D0014B787 /* ContactUsViewController.swift in Sources */,
 				CF60CABF208E1D2500B6D0EE /* Deliveries.swift in Sources */,
 				CF12694A204C8CF2008EFD04 /* Manufacturers.swift in Sources */,
@@ -1233,12 +1295,15 @@
 				CF331F5B209A3B6200992F92 /* CheckoutCollection.swift in Sources */,
 				CF182DCC20331DA00070B9E5 /* Products.swift in Sources */,
 				CF99DF3220D7F6C6006492AF /* UIButton.swift in Sources */,
+				CF9A1D7720E3C5F2003F2213 /* XMLReferencingEncoder.swift in Sources */,
 				CF60CACF208E3E7900B6D0EE /* ProductFeatureValues.swift in Sources */,
 				CF60CABB208E190B00B6D0EE /* CMS.swift in Sources */,
+				CF9A1D7620E3C5F2003F2213 /* ISO8601DateFormatter.swift in Sources */,
 				CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,
 				CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */,
 				CF60CAC9208E369F00B6D0EE /* OrderSlips.swift in Sources */,
+				CF9A1D7820E3C5F2003F2213 /* EncodingErrorExtension.swift in Sources */,
 				CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */,
 				CF126948204C8B63008EFD04 /* Currencies.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
@@ -1254,6 +1319,7 @@
 				CF60CAD5208E435300B6D0EE /* Search.swift in Sources */,
 				CF60CAC5208E26F100B6D0EE /* Guests.swift in Sources */,
 				CF4051A92041A15600AE21BC /* PageCell.swift in Sources */,
+				CF9A1D7D20E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */,
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,
 				CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */,
@@ -1274,10 +1340,12 @@
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,
 				CF717EA320A38A6400E68F83 /* ProductsViewControllerForm.swift in Sources */,
+				CF9A1D7520E3C5F2003F2213 /* XMLKey.swift in Sources */,
 				CF99DF4420D7F9B0006492AF /* UIViewController.swift in Sources */,
 				CFC1D1FB203B442500343B25 /* ForgotPWViewController.swift in Sources */,
 				CF717EB020A3975200E68F83 /* CustomProductView.swift in Sources */,
 				CF99DF4020D7F94B006492AF /* UINavigationBar.swift in Sources */,
+				CF9A1D7E20E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift in Sources */,
 				CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */,
 				CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */,
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
