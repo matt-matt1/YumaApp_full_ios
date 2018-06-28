@@ -765,39 +765,6 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}
 
 
-	func httpWriteBack(_ str: String, putIt: Bool)
-	{
-		if putIt
-		{
-			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
-			{ 	(cust) in	//xml["prestashop"])
-				if cust is String && !(cust as! String).contains("error")
-				{
-					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-				}
-				else
-				{
-					print("PUT response: \(cust)")
-				}
-			}
-		}
-		else
-		{
-			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
-			{ 	(cust) in	//xml["prestashop"])
-				if cust is String && !(cust as! String).contains("error")
-				{
-					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-				}
-				else
-				{
-					print("POST response: \(cust)")
-				}
-			}
-		}
-	}
-
-
 	// MARK: Actions
 	
 	@objc func adjustForKeyboard(notification: Notification)
@@ -825,47 +792,34 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		store.flexView(view: button)
 		if checkFields()
 		{
-//			let newRow = loadEnteredValues()
-//			print("ready to add new address:\(newRow)")
 			let spinner = UIViewController.displaySpinner(onView: self.view)
 			var ws = WebService()
 			ws.startURL = R.string.WSbase
 			ws.resource = APIResource.addresses
 			ws.keyAPI = R.string.APIkey
-			let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLAddress")//store.blankSchemaXML["Customer"]
+			let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLAddress")
 			if blank != nil && !(blank?.isEmpty)!
 			{
-				let writeBack = insertValuesInBlank(blank!)
-				//					let writeBack = insertValues(blank!)
-				//print(writeBack)
-				if !writeBack.isEmpty
+				ws.xml = insertValuesInBlank(blank!)
+				if ws.xml != nil && !(ws.xml?.isEmpty)!
 				{
-					self.store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: writeBack, save: nil)
-					{ 	(cust) in	//xml["prestashop"])
+					ws.add { (httpResult) in
+						let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 						UIViewController.removeSpinner(spinner: spinner)
-						if cust is String && !(cust as! String).contains("error")
+						if httpResult.success
 						{
-							myAlertOnlyDismiss(self, title: R.string.Addr, message: cust as! String/*self.store.XMLstr*/, dismissAction: {
+							myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok, dismissAction: {
 							}, completion: {
-								//							self.store.XMLstr = ""
 								self.dismiss(animated: false, completion: {
 								})
 							})
 						}
 						else
 						{
-							print("PUT response: \(cust)")
+							print("PUT response: \(cust!)")
 						}
 					}
-//					httpWriteBack(writeBack, putIt: false)
 				}
-//				UIViewController.removeSpinner(spinner: spinner)
-//				myAlertOnlyDismiss(self, title: R.string.Addr, message: "OK"/*self.store.XMLstr*/, dismissAction: {
-//				}, completion: {
-////					self.store.XMLstr = ""
-//					self.dismiss(animated: false, completion: {
-//					})
-//				})
 			}
 			else	// blank schema not saved - retrieve it
 			{
@@ -876,55 +830,30 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 						let str = String(data: data as Data, encoding: .utf8)
 						self.store.blankSchemaXML["Address"] = str
 						UserDefaults.standard.set(str, forKey: "BlankSchemaXMLAddress")
-						let writeBack = self.insertValuesInBlank(str!)
-						//							let writeBack = self.insertValues(str!)
-						//print(writeBack)
-						if !writeBack.isEmpty
+						ws.xml = self.insertValuesInBlank(str!)
+						if ws.xml != nil && !(ws.xml?.isEmpty)!
 						{
-							self.store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
-							{ 	(cust) in	//xml["prestashop"])
+							ws.add(completionHandler: { (httpResult) in
+								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 								UIViewController.removeSpinner(spinner: spinner)
-								if cust is String && !(cust as! String).contains("error")
+								if httpResult.success
 								{
-									myAlertOnlyDismiss(self, title: R.string.Addr, message: cust as! String/*self.store.XMLstr*/, dismissAction: {
+									myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok, dismissAction: {
 									}, completion: {
-										//							self.store.XMLstr = ""
 										self.dismiss(animated: false, completion: {
 										})
 									})
 								}
 								else
 								{
-									print("PUT response: \(cust)")
+									print("PUT response: \(cust!)")
 								}
-							}
-//							self.httpWriteBack(writeBack, putIt: false)
+							})
 						}
 					}
 				}
 			}
-//			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: ["id"], nilValue: "")
-//			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
-//			print("posting to:\"\(url)\"")
-//			print(ws.xml!)
-//			store.PostHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: "\(ws.xml!)", save: nil, asJSON: false) 	{ 	(result) in
-//				UIViewController.removeSpinner(spinner: spinner)
-//				let title = R.string.Addr
-////				self.store.enumerate(result as! XMLIndexer)
-////				DispatchQueue.main.async {
-////				}
-////				OperationQueue.main.addOperation
-////				{
-//					myAlertOnlyDismiss(self, title: title, message: "OK"/*self.store.XMLstr*/, dismissAction: {
-//					}, completion: {
-//						self.store.XMLstr = ""
-//						self.dismiss(animated: false, completion: {
-//						})
-//					})
-//				}
-//			}
 		}
-//		self.dismiss(animated: true, completion: nil)
 	}
 
 	@objc func displaySelectACountry(_ sender: Any)

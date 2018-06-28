@@ -372,8 +372,6 @@ class LoginViewController: UIViewController
 		rememberSwitchIsOn = rememberSwitch.isOn
 		forgotBtn.setTitle(R.string.forgotPW, for: .normal)
 		createBtn.setTitle("\(R.string.accountMake)", for: .normal)
-		//closeBtn.
-		//helpBtn.
 		loginBtn.setTitle(R.string.login.uppercased(), for: UIControlState.normal)
 		loginBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		errorUsernameBorder.layer.borderColor = UIColor.white.cgColor	//clear errors
@@ -408,40 +406,6 @@ class LoginViewController: UIViewController
 			if let _ = customer as? Bool
 			{
 				myAlertOnlyDismiss(self, title: R.string.login, message: R.string.wrong)
-//				OperationQueue.main.addOperation
-//				{
-//					let alert = 					UIAlertController(title: R.string.login, message: R.string.wrong, preferredStyle: .alert)
-//					let coloredBG = 				UIView()
-//					let blurFx = 					UIBlurEffect(style: .dark)
-//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//					alert.view.superview?.backgroundColor = R.color.YumaRed
-//					alert.view.shadowColor = 		R.color.YumaDRed
-//					alert.view.shadowOffset = 		.zero
-//					alert.view.shadowRadius = 		5
-//					alert.view.shadowOpacity = 		1
-//					alert.view.backgroundColor = 	R.color.YumaYel
-//					alert.view.cornerRadius = 		15
-//					coloredBG.backgroundColor = 	R.color.YumaRed
-//					coloredBG.alpha = 				0.4
-//					coloredBG.frame = 				self.view.bounds
-//					self.view.addSubview(coloredBG)
-//					blurFxView.frame = 				self.view.bounds
-//					blurFxView.alpha = 				0.5
-//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//					self.view.addSubview(blurFxView)
-////					print("\(R.string.unableConnect) \(R.string.email)")
-//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-//					{ 	(action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//						//self.dismiss(animated: false, completion: nil)
-//					}))
-//					self.present(alert, animated: true, completion:
-//					{
-//					})
-//				}
 			}
 			else
 			{

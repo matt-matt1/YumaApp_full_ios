@@ -123,9 +123,9 @@ extension ProductsViewController
 		//			{
 		//				sender.view?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 		//			})
-		store.myOrder?.total_products_wt = String(wt)
-		store.myOrder?.total_paid_tax_excl = String(total)
-		store.myOrder?.total_products = String(pcs)
+		store.myOrder?.totalProductsWt = wt
+		store.myOrder?.totalPaidTaxExcl = total
+		store.myOrder?.totalProducts = pcs
 		//		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController
 		let layout = UICollectionViewFlowLayout()
 		//layout.scrollDirection = .horizontal

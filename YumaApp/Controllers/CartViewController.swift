@@ -186,7 +186,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			totalAmt.text = "\(store.formatCurrency(amount: totalDbl, iso: store.locale))"
 			totalPcs.text = "\(pcs)"
 			let date = Date()
-			store.myOrder = Order(id: 0, id_address_delivery: "", id_address_invoice: "", id_cart: "", id_currency: "", id_lang: String((store.customer?.idLang!)!), id_customer: String((store.customer?.idCustomer!)!), id_carrier: "", current_state: "", module: "", invoice_number: "", invoice_date: "", delivery_number: "", delivery_date: "", valid: "", date_add: "\(date)", date_upd: "\(date)", shipping_number: "", id_shop_group: "", id_shop: "", secure_key: "", payment: "", recyclable: "", gift: "", gift_message: "", mobile_theme: "", total_discounts: "", total_discounts_tax_incl: "", total_discounts_tax_excl: "", total_paid: "", total_paid_tax_incl: "", total_paid_tax_excl: "\(total)", total_paid_real: "", total_products: "\(pcs)", total_products_wt: "\(wt)", total_shipping: "", total_shipping_tax_incl: "", total_shipping_tax_excl: "", carrier_tax_rate: "", total_wrapping: "", total_wrapping_tax_incl: "", total_wrapping_tax_excl: "", round_mode: "", round_type: "", conversion_rate: "", reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
+			store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: 0, idLang: (store.customer?.idLang != nil) ? (store.customer?.idLang)! : 0, idCustomer: (store.customer?.idCustomer != nil) ? (store.customer?.idCustomer)! : 0, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: nil, deliveryNumber: "", deliveryDate: nil, valid: 0, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: 0, idShop: 0, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: total, totalPaidReal: 0, totalProducts: pcs, totalProductsWt: wt, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 0, reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
 		}
 	}
 
@@ -198,27 +198,29 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			if self.store.myOrder != nil
 			{
 				var str = ""
-				if self.store.myOrder?.date_add != nil
+				let df = DateFormatter()
+				df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+				if self.store.myOrder?.dateAdd != nil
 				{
-					str.append((self.store.myOrder?.date_add)!)
+					str.append(df.string(from: (self.store.myOrder?.dateAdd)!))
 					str.append(" ")
 				}
 				str.append("(")
-				if self.store.myOrder?.total_products != nil
+				if self.store.myOrder?.totalProducts != nil
 				{
-					str.append("\((self.store.myOrder?.total_products)!)\(R.string.pieces)")
+					str.append("\((self.store.myOrder?.totalProducts)!)\(R.string.pieces)")
 					str.append(" ")
 				}
-				if self.store.myOrder?.total_products_wt != nil
+				if self.store.myOrder?.totalProductsWt != nil
 				{
-					str.append("\((self.store.myOrder?.total_products_wt)!)\(self.store.weightUnit)")//R.string.kg)")
+					str.append("\((self.store.myOrder?.totalProductsWt)!)\(self.store.weightUnit)")//R.string.kg)")
 					str.append(" ")
 				}
-				if self.store.myOrder?.total_paid != nil && !(self.store.myOrder?.total_paid?.isEmpty)!
+				if self.store.myOrder?.totalPaid != nil && Int((self.store.myOrder?.totalPaid)!) > 0
 				{
 					let format = NumberFormatter()
 					format.locale = Locale(identifier: self.store.locale)
-					let num = format.number(from: (self.store.myOrder?.total_paid)!)
+					let num = format.number(from: ("\((self.store.myOrder?.totalPaid)!)"))
 					str.append("=\(format.string(from: num!) ?? "0")")
 				}
 				str.append(")")
@@ -375,9 +377,9 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	@IBAction func chkoutBtnAct(_ sender: Any)
 	{
 		store.flexView(view: chkoutBtn)
-		store.myOrder?.total_products_wt = String(wt)
-		store.myOrder?.total_paid_tax_excl = String(total)
-		store.myOrder?.total_products = String(pcs)
+		store.myOrder?.totalProductsWt = wt
+		store.myOrder?.totalPaidTaxExcl = total
+		store.myOrder?.totalProducts = pcs
 //		let vc = UIStoryboard(name: "Checkout", bundle: nil).instantiateInitialViewController() as! CheckoutViewController
 //		let vc = UIStoryboard(name: "CheckoutTabsViewController", bundle: nil).instantiateInitialViewController() as! CheckoutTabsViewController
 //		vc.selectedViewController = vc.viewControllers?[2]

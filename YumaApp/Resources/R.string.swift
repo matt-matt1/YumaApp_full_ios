@@ -263,7 +263,7 @@ extension R
 		static let addr2 = "Address line2"
 		static let pcode = "Postcode"
 		static let city = "City"
-		static let state = "Province"//"State"
+		static let state = "Province / State"
 		static let country = "Country"
 		static let other = "other"
 		static let ph = "Phone"

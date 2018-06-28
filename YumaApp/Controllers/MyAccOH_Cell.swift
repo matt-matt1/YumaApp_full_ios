@@ -190,12 +190,14 @@ class MyAccOH_Cell: UICollectionViewCell
 	func values(order: Order)
 	{
 		reference.text = order.reference
-		dateMade.text = order.date_add
-		let doubleAmt = order.total_paid_tax_excl?.toDouble()
-		totalPrice.text = store.formatCurrency(amount: doubleAmt! as NSNumber) + " ex. tax"
+		let df = DateFormatter()
+		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+		dateMade.text = df.string(from: order.dateAdd!)
+		let doubleAmt = Double(order.totalPaidTaxExcl!)
+		totalPrice.text = store.formatCurrency(amount: doubleAmt as NSNumber) + " ex. tax"
 		payment.text = (order.payment?.count)! > 1 ? order.payment : ""
-		status.text = (order.current_state?.count)! > 1 ? order.current_state : ""
-		invoice.text = (order.invoice_number?.count)! > 1 ? order.invoice_number : ""
+		status.text = (order.currentState != nil && (order.currentState)! != 0) ? "\(order.currentState!)" : ""
+		invoice.text = (order.invoiceNumber != nil && (order.invoiceNumber)! != "0") ? "\(order.invoiceNumber!)" : ""
 		contentView.tag = order.id! + 10
 		if !store.disallowReorder
 		{

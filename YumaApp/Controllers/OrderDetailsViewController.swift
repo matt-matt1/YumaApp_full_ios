@@ -184,7 +184,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		orderTotalProd.text = ""
 		orderTotalQty.text = R.string.Total
 		//orderTotalLabel.text =
-		if order?.total_wrapping != nil && Double((order?.total_wrapping)!)! > 0
+		if order?.totalWrapping != nil && Double((order?.totalWrapping)!) > 0
 		{
 			orderWrapRow.isHidden = false
 			orderWrapProd.text = ""
@@ -194,7 +194,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 		{
 			orderWrapRow.isHidden = true
 		}
-		if order?.total_discounts != nil && Double((order?.total_discounts)!)! > 0
+		if order?.totalDiscounts != nil && Double((order?.totalDiscounts)!) > 0
 		{
 			orderDiscRow.isHidden = false
 			orderDiscProd.text = ""
@@ -245,26 +245,27 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				// http get order_payments find reference, if found add status paid ...
 			}
 			placedOnValue.text = ""
-			if self.order?.date_add != nil && self.order?.date_add != ""
+			if self.order?.dateAdd != nil
 			{
 				let df = DateFormatter()
 				df.locale = Locale(identifier: self.store.locale)
-				df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-				if let date = df.date(from: (order?.date_add)!)
-				{
+//				df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//				if let date = df.date(from: (order?.dateAdd)!)
+//				{
 					df.dateFormat = "dd MMM yyyy"
-					df.string(from: date)
-					placedOnValue.text = df.string(from: date)
-				}
+//					df.string(from: date)
+//					placedOnValue.text = df.string(from: date)
+				placedOnValue.text = df.string(from: (order?.dateAdd)!)
+//				}
 			}
-			if order?.id_carrier != nil
+			if order?.idCarrier != nil
 			{
 				var found = false
 				for carr in store.carriers
 				{
 					if carr.idReference != nil
 					{
-						if Int((carr.idReference)!) == Int((order?.id_carrier)!)!
+						if Int((carr.idReference)!) == Int((order?.idCarrier)!)
 						{
 							found = true
 							if carr.deleted != nil && carr.deleted!
@@ -287,7 +288,7 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 				}
 				if !found
 				{
-					carrier.text = "DELETED (was #" + (order?.id_carrier)! + ")"
+					carrier.text = "DELETED (was #" + "\((order?.idCarrier)!)" + ")"
 				}
 			}
 			if store.orderCarriers.count > 0
@@ -300,53 +301,55 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 						handlingIncTax = Double(carr.shipping_cost_tax_incl!)!
 					}
 					total += handlingIncTax
-					orderShipLabel.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
-					orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handlingIncTax), iso: self.store.locale)
 				}
+				orderShipLabel.text = self.store.formatCurrency(amount: NSNumber(value: handling), iso: self.store.locale)
+				orderShipAmt.text = self.store.formatCurrency(amount: NSNumber(value: handlingIncTax), iso: self.store.locale)
 			}
 			payment.text = order?.payment
-			if order?.delivery_date != nil
+			if order?.deliveryDate != nil
 			{
 				let dateField = UILabel()
 				let df = DateFormatter()
 				df.locale = Locale(identifier: self.store.locale)
 				df.dateFormat = "dd MMM YYYY"
-				if let date = df.date(from: (order?.delivery_date)!)
-				{
-					dateField.text = "\(df.string(from: date))"
+//				if let date = df.date(from: (order?.deliveryDate)!)
+//				{
+				dateField.text = df.string(from: (order?.deliveryDate)!)
 					let status = UILabel()
 					status.text = R.string.delivered
 					let stack = UIStackView(arrangedSubviews: [dateField, status])
 					stack.distribution = .fillEqually
 					statusAddHere.addArrangedSubview(stack)
-				}
+//				}
 			}
 			// order?.currentState
-			if order?.id_address_delivery != nil
+			if order?.idAddressDelivery != nil
 			{
 				for del in store.addresses
 				{
-					if del.id! == Int((order?.id_address_delivery)!)!
+					if del.id! == Int((order?.idAddressDelivery)!)
 					{
 						deliveryAddrField.text = store.formatAddress(del, phoneNums: .full)
 						break
 					}
 				}
-				self.automaticallyAdjustsScrollViewInsets = false
-				deliveryAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
-				deliveryAddrField.contentOffset = CGPoint(x: 0, y: 0)
+				deliveryAddrField.isScrollEnabled = false
+//				self.automaticallyAdjustsScrollViewInsets = false
+//				deliveryAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+//				deliveryAddrField.contentOffset = CGPoint(x: 0, y: 0)
 			}
-			if order?.id_address_invoice != nil
+			if order?.idAddressInvoice != nil
 			{
 				for inva in store.addresses
 				{
-					if order?.id_address_invoice != nil && inva.id! == Int((order?.id_address_invoice)!)!
+					if order?.idAddressInvoice != nil && inva.id! == Int((order?.idAddressInvoice)!)
 					{
 						invoiceAddrField.text = store.formatAddress(inva, phoneNums: .full)
 						break
 					}
 				}
-				invoiceAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+				invoiceAddrField.isScrollEnabled = false
+//				invoiceAddrField.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
 			}
 			if order?.associations?.order_rows != nil && (order?.associations?.order_rows?.count)! > 0
 			{
@@ -395,33 +398,33 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 //				}
 					pos += 1
 				}
-				if order?.total_wrapping != nil && Double((order?.total_wrapping)!)! > 0
+				if order?.totalWrapping != nil && Double((order?.totalWrapping)!) > 0
 				{
 					orderWrapRow.isHidden = false
-					if let exTax = Double((order?.total_wrapping_tax_excl)!)
-					{
+					/*if*/ let exTax = Double((order?.totalWrappingTaxExcl)!)
+//					{
 						orderWrapUI.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
-					}
-					if let incTax = Double((order?.total_wrapping_tax_incl)!)
-					{
+//					}
+					/*if*/ let incTax = Double((order?.totalWrappingTaxIncl)!)
+//					{
 						orderWrapTotal.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
-					}
+//					}
 				}
 				else
 				{
 					orderWrapRow.isHidden = true
 				}
-				if order?.total_discounts != nil && Double((order?.total_discounts)!)! > 0
+				if order?.totalDiscounts != nil && Double((order?.totalDiscounts)!) > 0
 				{
 					orderDiscRow.isHidden = false
-					if let exTax = Double((order?.total_discounts_tax_excl)!)
-					{
+					/*if*/ let exTax = Double((order?.totalDiscountsTaxExcl)!)
+//					{
 						orderDiscProd.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
-					}
-					if let incTax = Double((order?.total_discounts_tax_incl)!)
-					{
+//					}
+					/*if*/ let incTax = Double((order?.totalDiscountsTaxIncl)!)
+//					{
 						orderDiscQty.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
-					}
+//					}
 				}
 				else
 				{
@@ -434,21 +437,21 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			}
 			total += tax
 			orderTaxAmt.text = self.store.formatCurrency(amount: NSNumber(value: tax), iso: self.store.locale)
-			if let exTax = Double((order?.total_paid_tax_excl)!)
-			{
+			/*if*/ let exTax = Double((order?.totalPaidTaxExcl)!)
+//			{
 				orderTotalLabel.text = self.store.formatCurrency(amount: NSNumber(value: exTax), iso: self.store.locale)
-			}
-			if let incTax = Double((order?.total_paid_tax_incl)!)
-			{
+//			}
+			/*if*/ let incTax = Double((order?.totalPaidTaxIncl)!)
+//			{
 				orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
-			}
-			else if let incTax = Double((order?.total_paid)!)
+//			}
+//			/*else if*/ let incTax = Double((order?.totalPaid)!)
+//			{
+//				orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
+//			}
+			if order?.gift != nil && (order?.gift)!
 			{
-				orderTotalAmt.text = self.store.formatCurrency(amount: NSNumber(value: incTax), iso: self.store.locale)
-			}
-			if Int((order?.gift)!)! > 0
-			{
-				messagesLabel.text = order?.gift_message
+				messagesLabel.text = order?.giftMessage
 			}
 //			if order?.associations != nil
 //			{

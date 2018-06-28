@@ -835,37 +835,37 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	}
 
 
-	func httpWriteBack(_ str: String, putIt: Bool)
-	{
-		if putIt
-		{
-			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
-			{ 	(cust) in	//xml["prestashop"])
-				if cust is String && !(cust as! String).contains("error")
-				{
-					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-				}
-				else
-				{
-					print("PUT response: \(cust)")
-				}
-			}
-		}
-		else
-		{
-			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
-			{ 	(cust) in	//xml["prestashop"])
-				if cust is String && !(cust as! String).contains("error")
-				{
-					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-				}
-				else
-				{
-					print("POST response: \(cust)")
-				}
-			}
-		}
-	}
+//	func httpWriteBack(_ str: String, putIt: Bool)
+//	{
+//		if putIt
+//		{
+//			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
+//			{ 	(cust) in	//xml["prestashop"])
+//				if cust is String && !(cust as! String).contains("error")
+//				{
+//					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+//				}
+//				else
+//				{
+//					print("PUT response: \(cust)")
+//				}
+//			}
+//		}
+//		else
+//		{
+//			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
+//			{ 	(cust) in	//xml["prestashop"])
+//				if cust is String && !(cust as! String).contains("error")
+//				{
+//					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
+//				}
+//				else
+//				{
+//					print("POST response: \(cust)")
+//				}
+//			}
+//		}
+//	}
 
 
 	@objc func adjustForKeyboard(notification: Notification)
@@ -978,12 +978,26 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLCustomer")//store.blankSchemaXML["Customer"]
 				if blank != nil && !(blank?.isEmpty)!
 				{
-					let writeBack = insertValuesInBlank(blank!)
-//					let writeBack = insertValues(blank!)
-//					print(writeBack)
-					if !writeBack.isEmpty
+					ws.xml = insertValuesInBlank(blank!)
+					if ws.xml != nil && !(ws.xml?.isEmpty)!
 					{
-						httpWriteBack(writeBack, putIt: false)
+						ws.add { (httpResult) in
+							let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+							UIViewController.removeSpinner(spinner: spinner)
+							if httpResult.success
+							{
+								myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+								}, completion: {
+									self.dismiss(animated: false, completion: {
+									})
+								})
+							}
+							else
+							{
+								print("PUT response: \(cust!)")
+							}
+						}
+//						httpWriteBack(writeBack, putIt: false)
 					}
 				}
 				else	// blank schema not saved - retrieve it
@@ -995,17 +1009,33 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							let str = String(data: data as Data, encoding: .utf8)
 							self.store.blankSchemaXML["Customer"] = str
 							UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
-							let writeBack = self.insertValuesInBlank(str!)
+							ws.xml = self.insertValuesInBlank(str!)
 //							let writeBack = self.insertValues(str!)
 //							print(writeBack)
-							if !writeBack.isEmpty
+							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
-								self.httpWriteBack(writeBack, putIt: false)
+								ws.add { (httpResult) in
+									let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+									UIViewController.removeSpinner(spinner: spinner)
+									if httpResult.success
+									{
+										myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+										}, completion: {
+											self.dismiss(animated: false, completion: {
+											})
+										})
+									}
+									else
+									{
+										print("PUT response: \(cust!)")
+									}
+								}
+//								self.httpWriteBack(writeBack, putIt: false)
 							}
 						}
 					}
 				}
-				UIViewController.removeSpinner(spinner: spinner)
+//				UIViewController.removeSpinner(spinner: spinner)
 //				myAlertOnlyDismiss(self, title: title, message: (cust as? String)!)
 			}
 			else	//update information
@@ -1017,10 +1047,25 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				{
 					DispatchQueue.main.async
 					{
-						let writeBack = self.insertValues(thisCustomer!, isFresh: false)
-						if !writeBack.isEmpty
+						ws.xml = self.insertValues(thisCustomer!, isFresh: false)
+						if ws.xml != nil && !(ws.xml?.isEmpty)!
 						{
-							self.httpWriteBack(writeBack, putIt: true)
+							ws.add { (httpResult) in
+								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+								UIViewController.removeSpinner(spinner: spinner)
+								if httpResult.success
+								{
+									myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+									}, completion: {
+										self.dismiss(animated: false, completion: {
+										})
+									})
+								}
+								else
+								{
+									print("PUT response: \(cust!)")
+								}
+							}
 						}
 					}
 				}
@@ -1037,16 +1082,32 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							let str = String(data: data as Data, encoding: .utf8)
 							DispatchQueue.main.async
 							{
-								let writeBack = self.insertValues(str!, isFresh: false)
-								if !writeBack.isEmpty
+								ws.xml = self.insertValues(str!, isFresh: false)
+								if !(ws.xml?.isEmpty)!
 								{
-									self.httpWriteBack(writeBack, putIt: true)
+									ws.add { (httpResult) in
+										let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+										UIViewController.removeSpinner(spinner: spinner)
+										if httpResult.success
+										{
+											myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+											}, completion: {
+												self.dismiss(animated: false, completion: {
+												})
+											})
+										}
+										else
+										{
+											print("PUT response: \(cust!)")
+										}
+									}
+//									self.httpWriteBack(ws.xml, putIt: true)
 								}
 							}
 						}
 					}
 				}
-				UIViewController.removeSpinner(spinner: spinner)
+//				UIViewController.removeSpinner(spinner: spinner)
 //				myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr /*cust as? String*/)
 			}
 		}

@@ -65,6 +65,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
         super.viewDidLoad()
 		//setupBackground()
 //		view.addSubview(stackAll)
+		createOrder()
 		setupNavigation()
 		setupCollectionView()
 		setupMenuBar()
@@ -113,6 +114,24 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 
 	// MARK: Methods
+	private func createOrder()
+	{
+		var ws = WebService()
+		ws.startURL = R.string.WSbase
+		ws.resource = APIResource.orders
+		ws.keyAPI = R.string.APIkey
+//		ws.schema = .blank
+//		ws.get { (httpResult) in
+//			//
+//		}
+		ws.xml = PSWebServices.object2psxml(object: store.myOrder!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [], nilValue: "")
+		print(ws.xml!)
+//		ws.add { (httpResult) in
+//			//
+//		}
+	}
+
+
 	private func setupNavigation()
 	{
 //		navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
