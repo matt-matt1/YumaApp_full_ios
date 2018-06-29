@@ -489,77 +489,14 @@ class CheckoutStepsCell: UICollectionViewCell
 			}
 			break
 		case 4:
-			let checkoutCollection = CheckoutCollection()	//	NOT A REAL SOLUTION
 			if done.contains(4)
 			{
 				myAlertOnlyDismiss(delegate!, title: "", message: R.string.complete)
-//				OperationQueue.main.addOperation
-//				{
-//					let alert = 					UIAlertController(title: nil, message: R.string.complete, preferredStyle: .alert)
-//					let coloredBG = 				UIView()
-//					let blurFx = 					UIBlurEffect(style: .dark)
-//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//					alert.view.superview?.backgroundColor = R.color.YumaRed
-//					alert.view.shadowColor = 		R.color.YumaDRed
-//					alert.view.shadowOffset = 		.zero
-//					alert.view.shadowRadius = 		5
-//					alert.view.shadowOpacity = 		1
-//					alert.view.backgroundColor = 	R.color.YumaYel
-//					alert.view.cornerRadius = 		15
-//					coloredBG.backgroundColor = 	R.color.YumaRed
-//					coloredBG.alpha = 				0.4
-//					coloredBG.frame = 				checkoutCollection.view.bounds
-//					checkoutCollection.view.addSubview(coloredBG)
-//					blurFxView.frame = 				checkoutCollection.view.bounds
-//					blurFxView.alpha = 				0.5
-//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//					checkoutCollection.view.addSubview(blurFxView)
-//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//					}))
-//					checkoutCollection.present(alert, animated: true, completion:
-//					{
-//					})
-//				}
 			}
 			else
 			{
 				//print("error: should be complete")
 				myAlertOnlyDismiss(delegate!, title: "", message: "return to a previous step?")
-//				OperationQueue.main.addOperation
-//				{
-//					let alert = 					UIAlertController(title: nil, message: "return to a previous step?", preferredStyle: .alert)
-//					let coloredBG = 				UIView()
-//					let blurFx = 					UIBlurEffect(style: .dark)
-//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//					alert.view.superview?.backgroundColor = R.color.YumaRed
-//					alert.view.shadowColor = 		R.color.YumaDRed
-//					alert.view.shadowOffset = 		.zero
-//					alert.view.shadowRadius = 		5
-//					alert.view.shadowOpacity = 		1
-//					alert.view.backgroundColor = 	R.color.YumaYel
-//					alert.view.cornerRadius = 		15
-//					coloredBG.backgroundColor = 	R.color.YumaRed
-//					coloredBG.alpha = 				0.4
-//					coloredBG.frame = 				checkoutCollection.view.bounds
-//					checkoutCollection.view.addSubview(coloredBG)
-//					blurFxView.frame = 				checkoutCollection.view.bounds
-//					blurFxView.alpha = 				0.5
-//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//					checkoutCollection.view.addSubview(blurFxView)
-//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//					}))
-//					checkoutCollection.present(alert, animated: true, completion:
-//					{
-//					})
-//				}
 				if done.contains(3)
 				{
 					drawStep4Payment()
@@ -589,38 +526,6 @@ class CheckoutStepsCell: UICollectionViewCell
 	{
 		print(R.string.withoutMore)
 		myAlertOnlyDismiss(delegate!, title: "", message: R.string.withoutMore)
-//		let checkoutCollection = CheckoutCollection()	//	NOT A REAL SOLUTION
-//		OperationQueue.main.addOperation
-//		{
-//			let alert = 					UIAlertController(title: nil, message: R.string.withoutMore, preferredStyle: .alert)
-//			let coloredBG = 				UIView()
-//			let blurFx = 					UIBlurEffect(style: .dark)
-//			let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//			alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//			alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//			alert.view.superview?.backgroundColor = R.color.YumaRed
-//			alert.view.shadowColor = 		R.color.YumaDRed
-//			alert.view.shadowOffset = 		.zero
-//			alert.view.shadowRadius = 		5
-//			alert.view.shadowOpacity = 		1
-//			alert.view.backgroundColor = 	R.color.YumaYel
-//			alert.view.cornerRadius = 		15
-//			coloredBG.backgroundColor = 	R.color.YumaRed
-//			coloredBG.alpha = 				0.4
-//			coloredBG.frame = 				checkoutCollection.view.bounds
-//			checkoutCollection.view.addSubview(coloredBG)
-//			blurFxView.frame = 				checkoutCollection.view.bounds
-//			blurFxView.alpha = 				0.5
-//			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//			checkoutCollection.view.addSubview(blurFxView)
-//			alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-//				coloredBG.removeFromSuperview()
-//				blurFxView.removeFromSuperview()
-//			}))
-//			checkoutCollection.present(alert, animated: true, completion:
-//			{
-//			})
-//		}
 	}
 
 

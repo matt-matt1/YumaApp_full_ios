@@ -2086,7 +2086,7 @@ class PSWebServices: NSObject
 					//						}
 						xml += ">"
 					}
-					let valueType = type(of: value)
+//					let valueType = type(of: value)
 					if value is String
 					{
 						if value as? String != nil

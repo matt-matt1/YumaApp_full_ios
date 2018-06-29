@@ -612,7 +612,30 @@ class MyAccAddr2ViewController: UIViewController
 	@objc func addNewAct(_ sender: Any)
 	{
 		let vc = AddNewAddressVC()
-		self.present(vc, animated: true, completion: nil)
+		self.present(vc, animated: true, completion: {
+			//UserDefaults.standard.removeObject(forKey: "AddressesCustomer\(self.id_customer)")
+			self.store.callGetAddresses(id_customer: self.id_customer, completion:
+				{
+					(addresses, error) in
+					
+					if error != nil
+					{
+						if self.store.debug > 0
+						{
+							print(error!)
+						}
+					}
+					else
+					{
+						let addr = addresses?.addresses
+						if self.store.debug > 5
+						{
+							print("got \(String(describing: addr?.count)) addresses")
+						}
+					}
+			})
+			self.collectionView.reloadData()
+		})
 	}
 
 	@IBAction func leftButtonLeftAct(_ sender: Any)
@@ -621,7 +644,8 @@ class MyAccAddr2ViewController: UIViewController
 		self.address = self.addresses[pageControl.currentPage]
 		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddressExpandedViewController") as! AddressExpandedViewController
 		vc.address = self.addresses[pageControl.currentPage]
-		present(vc, animated: false, completion: nil)
+		present(vc, animated: false, completion: {
+		})
 	}
 	@IBAction func leftButtonRightAct(_ sender: Any)
 	{
@@ -645,6 +669,7 @@ class MyAccAddr2ViewController: UIViewController
 					{
 						print("fatal error: ", String(error.localizedDescription))
 					}
+					self.collectionView.reloadData()
 				}
 		}) {
 		}

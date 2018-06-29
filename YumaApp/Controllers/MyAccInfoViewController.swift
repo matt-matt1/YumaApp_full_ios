@@ -984,20 +984,46 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 						ws.add { (httpResult) in
 							let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 							UIViewController.removeSpinner(spinner: spinner)
+							if self.store.debug > 4
+							{
+								print("PUT response: \(cust!)")
+							}
 							if httpResult.success
 							{
-								myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+								myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+									self.dismiss(animated: false, completion: {
+										OperationQueue.main.addOperation {
+											let vc = FloatingAlertViewController()
+											vc.modalTransitionStyle = .crossDissolve
+											vc.modalPresentationStyle = .overCurrentContext
+											vc.floatingMessage.text = "\(R.string.login): \(self.field3Edit.text!)"
+											self.present(vc, animated: true) {
+												self.dismiss(animated: false, completion: {
+												})
+											}
+										}
+									})
 								}, completion: {
+								})
+							}
+							else if (cust?.contains("<error"))!
+							{
+								print("PUT response: \(cust!)")
+								let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+								let ps = PrestashopXMLroot()
+								parser.delegate = ps
+								parser.parse()
+								var errors = ""
+								for err in ps.errors
+								{
+									errors.append("\(err.message) (\(err.code))")
+								}
+								myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 									self.dismiss(animated: false, completion: {
 									})
 								})
 							}
-							else
-							{
-								print("PUT response: \(cust!)")
-							}
 						}
-//						httpWriteBack(writeBack, putIt: false)
 					}
 				}
 				else	// blank schema not saved - retrieve it
@@ -1010,33 +1036,44 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							self.store.blankSchemaXML["Customer"] = str
 							UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
 							ws.xml = self.insertValuesInBlank(str!)
-//							let writeBack = self.insertValues(str!)
-//							print(writeBack)
 							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
 								ws.add { (httpResult) in
 									let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 									UIViewController.removeSpinner(spinner: spinner)
+									if self.store.debug > 4
+									{
+										print("PUT response: \(cust!)")
+									}
 									if httpResult.success
 									{
-										myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+										myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+											self.dismiss(animated: false, completion: {
+											})
 										}, completion: {
+										})
+									}
+									else if (cust?.contains("<error"))!
+									{
+										let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+										let ps = PrestashopXMLroot()
+										parser.delegate = ps
+										parser.parse()
+										var errors = ""
+										for err in ps.errors
+										{
+											errors.append("\(err.message) (\(err.code))")
+										}
+										myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 											self.dismiss(animated: false, completion: {
 											})
 										})
 									}
-									else
-									{
-										print("PUT response: \(cust!)")
-									}
 								}
-//								self.httpWriteBack(writeBack, putIt: false)
 							}
 						}
 					}
 				}
-//				UIViewController.removeSpinner(spinner: spinner)
-//				myAlertOnlyDismiss(self, title: title, message: (cust as? String)!)
 			}
 			else	//update information
 			{
@@ -1053,17 +1090,33 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							ws.add { (httpResult) in
 								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 								UIViewController.removeSpinner(spinner: spinner)
+								if self.store.debug > 4
+								{
+									print("PUT response: \(cust!)")
+								}
 								if httpResult.success
 								{
-									myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+									myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+										self.dismiss(animated: false, completion: {
+										})
 									}, completion: {
+									})
+								}
+								else if (cust?.contains("<error"))!
+								{
+									let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+									let ps = PrestashopXMLroot()
+									parser.delegate = ps
+									parser.parse()
+									var errors = ""
+									for err in ps.errors
+									{
+										errors.append("\(err.message) (\(err.code))")
+									}
+									myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 										self.dismiss(animated: false, completion: {
 										})
 									})
-								}
-								else
-								{
-									print("PUT response: \(cust!)")
 								}
 							}
 						}
@@ -1088,20 +1141,35 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 									ws.add { (httpResult) in
 										let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 										UIViewController.removeSpinner(spinner: spinner)
+										if self.store.debug > 4
+										{
+											print("PUT response: \(cust!)")
+										}
 										if httpResult.success
 										{
-											myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok/*cust!*/, dismissAction: {
+											myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+												self.dismiss(animated: false, completion: {
+												})
 											}, completion: {
+											})
+										}
+										else if (cust?.contains("<error"))!
+										{
+											let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+											let ps = PrestashopXMLroot()
+											parser.delegate = ps
+											parser.parse()
+											var errors = ""
+											for err in ps.errors
+											{
+												errors.append("\(err.message) (\(err.code))")
+											}
+											myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 												self.dismiss(animated: false, completion: {
 												})
 											})
 										}
-										else
-										{
-											print("PUT response: \(cust!)")
-										}
 									}
-//									self.httpWriteBack(ws.xml, putIt: true)
 								}
 							}
 						}

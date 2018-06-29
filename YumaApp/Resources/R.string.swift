@@ -108,6 +108,9 @@ extension R
 		static let overw = "A new password is already in place. Over write this value?"
 		static let mismatch = "mismatch"
 		static let first = "first"
+		static let success = "success"
+		static let failed = "failed"
+		static let auto = "Automatic"
 		// MARK:		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"

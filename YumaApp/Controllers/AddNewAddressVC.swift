@@ -751,6 +751,9 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 					arrayXML[i] = "\n" + arrayXML[i]
 				}
 				break
+			case "<id_customer":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(store.customer?.idCustomer ?? 0)"
+				break
 			default:
 				if i > 0 && !line.contains("</") && !line.contains("/>")
 				{
@@ -806,17 +809,35 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 					ws.add { (httpResult) in
 						let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 						UIViewController.removeSpinner(spinner: spinner)
+						if self.store.debug > 4
+						{
+							print("PUT response: \(cust!)")
+						}
 						if httpResult.success
 						{
-							myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok, dismissAction: {
-							}, completion: {
+							OperationQueue.main.addOperation {
+								myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
+									self.dismiss(animated: false, completion: {
+									})
+								}, completion: {
+								})
+							}
+						}
+						else if (cust?.contains("<error"))!
+						{
+							let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+							let ps = PrestashopXMLroot()
+							parser.delegate = ps
+							parser.parse()
+							var errors = ""
+							for err in ps.errors
+							{
+								errors.append("\(err.message) (\(err.code))")
+							}
+							myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 								self.dismiss(animated: false, completion: {
 								})
 							})
-						}
-						else
-						{
-							print("PUT response: \(cust!)")
 						}
 					}
 				}
@@ -836,17 +857,33 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 							ws.add(completionHandler: { (httpResult) in
 								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 								UIViewController.removeSpinner(spinner: spinner)
+								if self.store.debug > 4
+								{
+									print("PUT response: \(cust!)")
+								}
 								if httpResult.success
 								{
-									myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok, dismissAction: {
+									myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
+										self.dismiss(animated: false, completion: {
+										})
 									}, completion: {
+									})
+								}
+								else if (cust?.contains("<error"))!
+								{
+									let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+									let ps = PrestashopXMLroot()
+									parser.delegate = ps
+									parser.parse()
+									var errors = ""
+									for err in ps.errors
+									{
+										errors.append("\(err.message) (\(err.code))")
+									}
+									myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
 										self.dismiss(animated: false, completion: {
 										})
 									})
-								}
-								else
-								{
-									print("PUT response: \(cust!)")
 								}
 							})
 						}

@@ -574,11 +574,11 @@ class MyAccountViewController: UIViewController
 						allowed.insert(charactersIn: ".-_~/?")
 						self.store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*", "Accept-Language": "en-US,en"], body: "\(str)", save: nil)
 						{ 	(cust) in
-							var title = R.string.customer
-							if cust is Bool && !((cust as? Bool)!)
-							{
-								title = R.string.err
-							}
+//							var title = R.string.customer
+//							if cust is Bool && !((cust as? Bool)!)
+//							{
+//								title = R.string.err
+//							}
 							UIViewController.removeSpinner(spinner: spinner)
 							self.store.enumerate(cust as! XMLIndexer)
 		//					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr)
@@ -597,66 +597,12 @@ class MyAccountViewController: UIViewController
 			myAlertOKCancel(self, title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, okAction: {
 				self.store.logout(self, presentingViewController: self.presentingViewController)
 			})
-//			DispatchQueue.main.async
-//			{
-//				let alert = UIAlertController(title: R.string.rusure, message: R.string.unableConnect + ", " + R.string.noAuth, preferredStyle: .alert)
-//				let coloredBG = 				UIView()
-//				let blurFx = 					UIBlurEffect(style: .dark)
-//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//				alert.view.superview?.backgroundColor = R.color.YumaRed
-//				alert.view.shadowColor = 		R.color.YumaDRed
-//				alert.view.shadowOffset = 		.zero
-//				alert.view.shadowRadius = 		5
-//				alert.view.shadowOpacity = 		1
-//				alert.view.backgroundColor = 	R.color.YumaYel
-//				alert.view.cornerRadius = 		15
-//				coloredBG.backgroundColor = 	R.color.YumaRed
-//				coloredBG.alpha = 				0.3
-//				coloredBG.frame = 				self.view.bounds
-//				self.view.addSubview(coloredBG)
-//				blurFxView.frame = 				self.view.bounds
-//				blurFxView.alpha = 				0.5
-//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//				self.view.addSubview(blurFxView)
-//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-//					{ 	(action) in
-//					coloredBG.removeFromSuperview()
-//					blurFxView.removeFromSuperview()
-//				}))
-//				alert.addAction(UIAlertAction(title: R.string.SignOut.uppercased(), style: .destructive, handler:
-//					{ 	(action) in
-//						self.store.logout(self, presentingViewController: self.presentingViewController)
-////					self.store.customer = nil
-////					self.store.addresses = []
-////					UserDefaults.standard.removeObject(forKey: "Customer")
-////					OperationQueue.main.addOperation
-////					{
-////						weak var presentingViewController = self.presentingViewController
-////						self.dismiss(animated: false, completion: {
-////							presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
-////						})
-////					}
-//				}))
-//				self.present(alert, animated: true, completion:
-//					{
-//				})
-//			}
 		}
 		else
 		{
-			self.store.logout(self, presentingViewController: self.presentingViewController)
-//			self.store.customer = nil
-//			self.store.addresses = []
-//			UserDefaults.standard.removeObject(forKey: "Customer")
-//			OperationQueue.main.addOperation
-//			{
-//				weak var presentingViewController = self.presentingViewController
-//				self.dismiss(animated: false, completion: {
-//					presentingViewController?.present(LoginViewController(), animated: false, completion: nil)
-//				})
-//			}
+			myAlertOKCancel(self, title: R.string.SignOut, message: R.string.rusure, okAction: {
+				self.store.logout(self, presentingViewController: self.presentingViewController)
+			})
 		}
 	}
 	@IBAction func CSBtnAct(_ sender: Any)

@@ -770,14 +770,22 @@ class LoginViewController: UIViewController
 
 	@objc func swapout()
 	{
-		OperationQueue.main.addOperation
-		{
+//		OperationQueue.main.addOperation
+//		{
 			weak var presentingViewController = self.presentingViewController
+			let vc = FloatingAlertViewController()
+			vc.modalTransitionStyle = .crossDissolve
+			vc.modalPresentationStyle = .overCurrentContext
+			vc.floatingMessage.text = "\(R.string.auto) \(R.string.login)"
+			self.present(vc, animated: true) {
+				self.dismiss(animated: false, completion: {
+				})
+			}
 			self.dismiss(animated: false, completion: {
 //				let _ = UIViewController.displaySpinner(onView: (presentingViewController?.view)!)
 				presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
 			})
-		}
+//		}
 	}
 	
 	
