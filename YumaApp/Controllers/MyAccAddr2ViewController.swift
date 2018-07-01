@@ -108,7 +108,10 @@ class MyAccAddr2ViewController: UIViewController
 		if self.view.frame.width > 900
 		{
 			rightPanelButton.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.75, isVertical: true)
-			self.address = self.addresses[pageControl.currentPage]
+			if self.addresses.count > 0 && self.addresses.count > pageControl.currentPage
+			{
+				self.address = self.addresses[pageControl.currentPage]
+			}
 			prepareLabels()
 			clearErrors()
 			fillDetails()
@@ -289,10 +292,13 @@ class MyAccAddr2ViewController: UIViewController
 		aliasField.placeholder = R.string.nickName
 		fNameLabel.text = R.string.fName
 		fNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.fName)"
+		fNameField.autocapitalizationType = .words
 		lNameLabel.text = R.string.lName
 		lNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.lName)"
+		lNameField.autocapitalizationType = .words
 		bNameLabel.text = R.string.co
 		bNameField.placeholder = R.string.optional
+		bNameField.autocapitalizationType = .words
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
 		bNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.co)"
@@ -321,9 +327,11 @@ class MyAccAddr2ViewController: UIViewController
 		addr2Optional.text = R.string.optional
 		cityLabel.text = R.string.city
 		cityInvalid.text = "\(R.string.invalid.capitalized) \(R.string.city)"
+		cityField.autocapitalizationType = .words
 		postcodeLabel.text = R.string.pcode
 		postcodeInvalid.text = "\(R.string.invalid.capitalized) \(R.string.pcode)"
 		postcodeField.placeholder = "eg. A1B 2C3"
+		postcodeField.autocapitalizationType = .allCharacters
 		//		let stateSelect = UIButton()
 		//		stateSelect.setTitle(FontAwesome.caretSquareODown.rawValue, for: .normal)
 		//		stateSelect.addTarget(self, action: #selector(makeSelect), for: .touchUpInside)

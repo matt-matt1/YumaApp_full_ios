@@ -33,6 +33,8 @@ class MyAccountViewController: UIViewController
 	let helpScroll = UIScrollView()
 
 
+	// Mark: Overrides
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -115,6 +117,135 @@ class MyAccountViewController: UIViewController
 		// Dispose of any resources that can be recreated.
 	}
 	
+
+	// Mark: Methods
+
+	func insertValuesInBlank(_ str: String) -> String
+	{
+		var arrayXML = str.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "").trimmingCharacters(in: .whitespaces).components(separatedBy: ">")
+		var i = 0
+		for line in arrayXML
+		{
+			arrayXML[i] = "\(line)>"
+			switch(line)
+			{
+			case "<active":
+				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				break
+			case "<id_gender":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.idGender)!)"
+				break
+			case "<firstname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.firstname)!)"
+				break
+			case "<lastname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.lastname)!)"
+				break
+			case "<email":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.email)!)"
+				break
+			case "<birthday":
+				if store.customer?.birthday != nil
+				{
+					let bdate = DateFormatter()
+					bdate.dateFormat = "yyyy-MM-dd"
+					arrayXML[i] = "\n" + arrayXML[i] + bdate.string(from: (store.customer?.birthday)!)
+				}
+				break
+			case "<company":
+				if store.customer?.company != nil && !(store.customer?.company?.isEmpty)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.company)!)"
+				}
+				break
+			case "<website":
+				if store.customer?.website != nil && !(store.customer?.website!.isEmpty)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.website)!)"
+				}
+				break
+			case "<siret":
+				if store.customer?.siret != nil && !(store.customer?.siret!.isEmpty)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.company)!)"
+				}
+				break
+			case "<ape":
+				if store.customer?.ape != nil && !(store.customer?.ape!.isEmpty)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.company)!)"
+				}
+				break
+			case "<passwd":
+				if store.customer?.passwd != nil && !(store.customer?.passwd!.isEmpty)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.company)!)"
+				}
+				break
+			case "<optin":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.optin)! ? "1" : "0")"
+				break
+			case "<newsletter":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.newsletter)! ? "1" : "0")"
+				break
+			case "<associations":
+				arrayXML[i] = "\n" + arrayXML[i]
+				break
+			case "<deleted":
+				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				break
+			default:
+				if i > 0 && !line.contains("</") && !line.contains("/>")
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			}
+			i += 1
+		}
+		let str = arrayXML.joined()
+		return String(str.dropLast())
+	}
+
+	fileprivate func deleteResource(_ ws: WebService, _ spinner: UIView)
+	{
+		ws.edit { (httpResult) in
+			let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+			UIViewController.removeSpinner(spinner: spinner)
+			if self.store.debug > 4
+			{
+				print("PUT response: \(cust!)")
+			}
+			if httpResult.success
+			{
+				OperationQueue.main.addOperation {
+					myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.acc) \(R.string.deld)"/*cust!*/, dismissAction: {
+						self.dismiss(animated: false, completion: {
+						})
+					}, completion: {
+					})
+				}
+			}
+			else if (cust?.contains("<error"))!
+			{
+				let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+				let ps = PrestashopXMLroot()
+				parser.delegate = ps
+				parser.parse()
+				var errors = ""
+				for err in ps.errors
+				{
+					errors.append("\(err.message) (\(err.code))")
+				}
+				myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+					self.dismiss(animated: false, completion: {
+					})
+				})
+			}
+		}
+	}
+
+
 /*
 	func coverStackOpen() -> UIStackView
 	{
@@ -546,8 +677,10 @@ class MyAccountViewController: UIViewController
 	}
 */
 
-	
-	@IBAction func delAccBtnAct(_ sender: Any)
+
+	// Mark: Actions
+
+	@IBAction func delAccBtnAct(_ sender: Any)	//more work needed
 	{
 		store.flexView(view: self.delAccBtn)
 		DispatchQueue.main.async {
@@ -555,33 +688,44 @@ class MyAccountViewController: UIViewController
 				DispatchQueue.main.async {
 					myAlertOKCancel(self, title: R.string.delAcc, message: R.string.rusure, okAction: {
 						let spinner = UIViewController.displaySpinner(onView: self.view)
-						self.store.customer?.deleted = true
+//						self.store.customer?.deleted = true
 						var ws = WebService()
 						ws.startURL = R.string.WSbase
 						ws.resource = APIResource.customers
 						ws.keyAPI = R.string.APIkey
-						ws.filter = ["id" : [self.store.customer?.idCustomer! as Any]]
-						var omit: [String] = []
-						omit.append("id_customer")
-						//let http = Http()
-						//Http.put()
-						let str = PSWebServices.object2psxml(object: self.store.customer!, resource: "customers", resource2: "customer", omit: omit, nilValue: "")
-						print(str)
-						//var params = [String : String]()
-						//params["ws_key"] = R.string.APIkey
-						//params["xml"] = str
-						var allowed = CharacterSet.alphanumerics
-						allowed.insert(charactersIn: ".-_~/?")
-						self.store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*", "Accept-Language": "en-US,en"], body: "\(str)", save: nil)
-						{ 	(cust) in
-//							var title = R.string.customer
-//							if cust is Bool && !((cust as? Bool)!)
-//							{
-//								title = R.string.err
-//							}
-							UIViewController.removeSpinner(spinner: spinner)
-							self.store.enumerate(cust as! XMLIndexer)
-		//					myAlertOnlyDismiss(self, title: title, message: self.store.XMLstr)
+						let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLCustomer")
+						if blank != nil && !(blank?.isEmpty)!
+						{
+							ws.xml = self.insertValuesInBlank(blank!)
+							if ws.xml != nil && !(ws.xml?.isEmpty)!
+							{
+								self.deleteResource(ws, spinner)
+							}
+							else
+							{
+								print("error occurred while deleteing account, failed to get blank schema")
+							}
+						}
+						else	// blank schema not saved - retrieve it
+						{
+							ws.schema = Schema.blank
+							ws.get { (httpResult) in
+								if let data = httpResult.data
+								{
+									let str = String(data: data as Data, encoding: .utf8)
+									self.store.blankSchemaXML["Customer"] = str
+									UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
+									ws.xml = self.insertValuesInBlank(str!)
+									if ws.xml != nil && !(ws.xml?.isEmpty)!
+									{
+										self.deleteResource(ws, spinner)
+									}
+									else
+									{
+										print("error occurred while deleteing account, failed to get blank schema")
+									}
+								}
+							}
 						}
 					})
 				}

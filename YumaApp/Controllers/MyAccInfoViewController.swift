@@ -216,9 +216,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		genderSwitch.selectedSegmentIndex = 0
 		fieldLabel1.text = R.string.fName
 		fieldEdit1.textColor = R.color.YumaRed
+		fieldEdit1.autocapitalizationType = .words
 		fieldEdit1.returnKeyType = UIReturnKeyType.next
 		field2Label.text = R.string.lName
 		field2Edit.textColor = R.color.YumaRed
+		field2Edit.autocapitalizationType = .words
 		field2Edit.returnKeyType = UIReturnKeyType.next
 		field3Label.text = R.string.emailAddr
 		field3Edit.textColor = R.color.YumaRed
@@ -262,6 +264,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		field5Label.text = R.string.co
 		field5Edit.textColor = R.color.YumaRed
 		field5Edit.placeholder = R.string.optional
+		field5Edit.autocapitalizationType = .words
 		field5Edit.returnKeyType = UIReturnKeyType.next
 		field6Label.text = R.string.website
 		field6Edit.textColor = R.color.YumaRed
@@ -426,6 +429,9 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			arrayXML[i] = "\(line)>"
 			switch(line)
 			{
+			case "<active":
+				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				break
 			case "<id_gender":
 				arrayXML[i] = "\n" + arrayXML[i] + "\(self.genderSwitch.selectedSegmentIndex)"
 				break

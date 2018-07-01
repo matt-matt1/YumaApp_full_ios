@@ -63,7 +63,8 @@ extension R
 				"Press \"\(R.string.Addrs.uppercased())\" to see each address, if any, related to your account",
 				"Press \"\(R.string.OrdHist.uppercased())\" to see the orders, if any, made with this account",
 				"Press \"\(R.string.CreditSlips.uppercased())\" to see the credit slips, if any, connected to this account",
-				"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only;  thus the app will prompt for login next time.  The screen will change to the login screen"
+				"Press \"\(R.string.SignOut)\" to have the app temporarily forget the logged-in user, remove your details for this session only;  thus the app will prompt for login next time.  The screen will change to the login screen",
+				"Press \"\(R.string.delAcc)\" to have the app permanetly delete this account and forget the logged-in user;  WARNING: the details will be removed forever;  thus the app will never  be able to login this account again.  The screen will change to the login screen"
 		]
 		
 		struct help_my_account_addresses_guide

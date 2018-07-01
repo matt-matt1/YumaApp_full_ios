@@ -547,13 +547,18 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	{
 		alias.label.text = R.string.alias
 		company.label.text = R.string.co
+		company.textEdit.autocapitalizationType = .words
 		lastname.label.text = R.string.lName
+		lastname.textEdit.autocapitalizationType = .words
 		firstname.label.text = R.string.fName
+		firstname.textEdit.autocapitalizationType = .words
 		vatNo.label.text = R.string.taxNo
 		addr1.label.text = R.string.addr1
 		addr2.label.text = R.string.addr2
 		pc.label.text = R.string.pcode
+		pc.textEdit.autocapitalizationType = .allCharacters
 		city.label.text = R.string.city
+		city.textEdit.autocapitalizationType = .words
 		state.label.text = R.string.state
 		country.label.text = R.string.country
 		country.label.isUserInteractionEnabled = true
@@ -767,30 +772,9 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		return String(str.dropLast())
 	}
 
-
-	// MARK: Actions
 	
-	@objc func adjustForKeyboard(notification: Notification)
+	fileprivate func addResource(_ ws: WebService, _ spinner: UIView)
 	{
-		let userInfo = notification.userInfo!
-		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-		
-		if notification.name == Notification.Name.UIKeyboardWillHide
-		{
-			self.scroll.contentInset = UIEdgeInsets.zero
-		}
-		else
-		{
-			self.scroll.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
-		}
-		self.scroll.scrollIndicatorInsets = self.scroll.contentInset
-		//let selectedRange = self.scrollForm.selectedRange
-		//self.scrollForm.scrollRangeToVisible(selectedRange)
-	}
-
-
-	fileprivate func addResource(_ ws: WebService, _ spinner: UIView) {
 		ws.add { (httpResult) in
 			let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 			UIViewController.removeSpinner(spinner: spinner)
@@ -825,6 +809,28 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 				})
 			}
 		}
+	}
+
+
+	// MARK: Actions
+	
+	@objc func adjustForKeyboard(notification: Notification)
+	{
+		let userInfo = notification.userInfo!
+		let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+		let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+		
+		if notification.name == Notification.Name.UIKeyboardWillHide
+		{
+			self.scroll.contentInset = UIEdgeInsets.zero
+		}
+		else
+		{
+			self.scroll.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+		}
+		self.scroll.scrollIndicatorInsets = self.scroll.contentInset
+		//let selectedRange = self.scrollForm.selectedRange
+		//self.scrollForm.scrollRangeToVisible(selectedRange)
 	}
 	
 	@objc func buttonTapped(_ sender: UITapGestureRecognizer)

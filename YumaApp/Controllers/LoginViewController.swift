@@ -83,20 +83,7 @@ class LoginViewController: UIViewController
 //			else
 //			{
 //				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-//			}//***WARNING:***
-			/*Unable to simultaneously satisfy constraints.
-			Probably at least one of the constraints in the following list is one you don't want.
-			Try this:
-			(1) look at each constraint and try to figure out which you don't expect;
-			(2) find the code that added the unwanted constraint or constraints and fix it.
-			(
-			"<NSLayoutConstraint:0x145ca3a0 V:|-(0)-[UIStackView:0x146faff0]   (Names: '|':UIView:0x146faf00 )>",
-			"<NSLayoutConstraint:0x145d45d0 UINavigationBar:0x146eae60.top == UIView:0x146faf00.top + 20>",
-			"<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>"
-			)
-			
-			Will attempt to recover by breaking constraint
-			<NSLayoutConstraint:0x146429e0 'UISV-canvas-connection' UIStackView:0x146faff0.top == UINavigationBar:0x146eae60.top>*/
+//			}
 			//IN A FILE?
 			var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
 			docURL = docURL?.appendingPathComponent("logged.json")
@@ -770,25 +757,23 @@ class LoginViewController: UIViewController
 
 	@objc func swapout()
 	{
-//		OperationQueue.main.addOperation
-//		{
-			weak var presentingViewController = self.presentingViewController
-			OperationQueue.main.addOperation
-			{
-				let vc = FloatingAlertViewController()
-				vc.modalTransitionStyle = .crossDissolve
-				vc.modalPresentationStyle = .overCurrentContext
-				vc.floatingMessage.text = "\(R.string.auto) \(R.string.login)"
-				self.present(vc, animated: true) {
-					self.dismiss(animated: false, completion: {
-					})
-				}
+		weak var presentingViewController = self.presentingViewController
+		OperationQueue.main.addOperation
+		{
+//			let _ = UIViewController.displaySpinner(onView: self.view)
+			let vc = FloatingAlertViewController()
+			vc.modalTransitionStyle = .crossDissolve
+			vc.modalPresentationStyle = .overFullScreen
+			vc.floatingMessage.text = "\(R.string.auto) \(R.string.login) ..."
+			self.present(vc, animated: true) {
+//			presentingViewController?.present(vc, animated: true) {
+				self.dismiss(animated: false, completion: {
+				})
 			}
-			self.dismiss(animated: false, completion: {
-//				let _ = UIViewController.displaySpinner(onView: (presentingViewController?.view)!)
-				presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
-			})
-//		}
+		}
+		self.dismiss(animated: false, completion: {
+			presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
+		})
 	}
 	
 	
