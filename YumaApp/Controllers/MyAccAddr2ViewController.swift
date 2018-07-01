@@ -33,6 +33,10 @@ class MyAccAddr2ViewController: UIViewController
 	@IBOutlet weak var bNameLabel: UILabel!
 	@IBOutlet weak var bNameField: UITextField!
 	@IBOutlet weak var bNameInvalid: UILabel!
+	@IBOutlet weak var vatBorder: UIView!
+	@IBOutlet weak var vatLabel: UILabel!
+	@IBOutlet weak var vatField: UITextField!
+	@IBOutlet weak var vatInvalid: UILabel!
 	@IBOutlet weak var addr1Border: UIView!
 	@IBOutlet weak var addr1Label: UILabel!
 	@IBOutlet weak var addr1Field: UITextField!
@@ -252,6 +256,8 @@ class MyAccAddr2ViewController: UIViewController
 		lNameInvalid.alpha = 0
 		bNameBorder.borderColor = UIColor.clear
 		bNameInvalid.alpha = 0
+		vatBorder.borderColor = UIColor.clear
+		vatInvalid.alpha = 0
 		addr1Border.borderColor = UIColor.clear
 		addr1Invalid.alpha = 0
 		addr2Border.borderColor = UIColor.clear
@@ -303,6 +309,9 @@ class MyAccAddr2ViewController: UIViewController
 		//	<NSLayoutConstraint:0x60400028fa00 'UISV-spacing' H:[UIView:0x7f96d5743340]-(10)-[UILabel:0x7f96d565c810'Optional']   (active)>
 		//print(bNameOptional.frame)
 		//(bNameBorder.subviews.first?.subviews.first as! UIStackView).layoutIfNeeded()
+		vatLabel.text = "\(R.string.taxNo)"
+		vatInvalid.text = "\(R.string.invalid.capitalized) \(R.string.taxNo)"
+		vatField.placeholder = R.string.optional
 		addr1Label.text = R.string.addr1
 		addr1Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr1)"
 		addr2Label.text = R.string.addr2
@@ -369,6 +378,7 @@ class MyAccAddr2ViewController: UIViewController
 			fNameField.text = self.address?.firstname
 			lNameField.text = self.address?.lastname
 			bNameField.text = self.address?.company
+			vatField.text = self.address?.vatNumber
 			addr1Field.text = self.address?.address1
 			addr2Field.text = self.address?.address2
 			cityField.text = self.address?.city
@@ -673,61 +683,6 @@ class MyAccAddr2ViewController: UIViewController
 				}
 		}) {
 		}
-//		DispatchQueue.main.async
-//			{
-//				let alert = UIAlertController(title: R.string.rusure, message: "\(R.string.delete) \"\(self.addresses[self.pageControl.currentPage].alias ?? "no name")\"", preferredStyle: .alert)
-//				let coloredBG = 				UIView()
-//				let blurFx = 					UIBlurEffect(style: .dark)
-//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//				alert.view.superview?.backgroundColor = R.color.YumaRed
-//				alert.view.shadowColor = 		R.color.YumaDRed
-//				alert.view.shadowOffset = 		.zero
-//				alert.view.shadowRadius = 		5
-//				alert.view.shadowOpacity = 		1
-//				alert.view.backgroundColor = 	R.color.YumaYel
-//				alert.view.cornerRadius = 		15
-//				coloredBG.backgroundColor = 	R.color.YumaRed
-//				coloredBG.alpha = 				0.3
-//				coloredBG.frame = 				self.view.bounds
-//				self.view.addSubview(coloredBG)
-//				blurFxView.frame = 				self.view.bounds
-//				blurFxView.alpha = 				0.5
-//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//				self.view.addSubview(blurFxView)
-//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler: { (action) in
-//					coloredBG.removeFromSuperview()
-//					blurFxView.removeFromSuperview()
-//				}))
-//				alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-//					//print("delete item:\(self.addresses[self.pageControl.currentPage].alias),\(self.store.formatAddress(self.addresses[self.pageControl.currentPage]))")
-//					coloredBG.removeFromSuperview()
-//					blurFxView.removeFromSuperview()
-//					self.addresses[self.pageControl.currentPage].deleted = true
-//					self.collectionView.reloadData()
-//					var edited = self.addresses[self.pageControl.currentPage]
-//					print("address was deleted \(edited.deleted! ? "OK" : "failed")")
-//					edited.deleted = true
-//					//					let encoder = JSONEncoder()
-//					//					encoder.outputFormatting = .prettyPrinted
-//					//					let data = try? encoder.encode(edited)
-//					//					print(String(data: data!, encoding: .utf8)!)
-//					let str = PSWebServices.object2psxml(object: edited, resource: "addresses", resource2: "address", omit: [])
-//					//					let str = PSWebServices.objectToXML(object: edited, head: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", wrapperHead: "<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\"><addresses>", wrapperTail: "</addresses></prestashop>")
-//					PSWebServices.postAddress(XMLStr: str)
-//					{
-//						(error) in
-//						if let error = error
-//						{
-//							print("fatal error: ", String(error.localizedDescription))
-//						}
-//					}
-//				}))
-//				self.present(alert, animated: true, completion:
-//					{
-//				})
-//		}
 	}
 	@IBAction func rightPanelButtonAct(_ sender: Any)
 	{
@@ -737,44 +692,6 @@ class MyAccAddr2ViewController: UIViewController
 			myAlertDialog(self, title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", cancelTitle: R.string.dismiss.uppercased(), cancelAction: nil, okTitle: R.string.delete.uppercased(), okAction: {
 			}) {
 			}
-//			DispatchQueue.main.async
-//				{
-//					let alert = UIAlertController(title: R.string.upd, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)", preferredStyle: .alert)
-//					let coloredBG = 				UIView()
-//					let blurFx = 					UIBlurEffect(style: .dark)
-//					let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//					alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//					alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//					alert.view.superview?.backgroundColor = R.color.YumaRed
-//					alert.view.shadowColor = 		R.color.YumaDRed
-//					alert.view.shadowOffset = 		.zero
-//					alert.view.shadowRadius = 		5
-//					alert.view.shadowOpacity = 		1
-//					alert.view.backgroundColor = 	R.color.YumaYel
-//					alert.view.cornerRadius = 		15
-//					coloredBG.backgroundColor = 	R.color.YumaRed
-//					coloredBG.alpha = 				0.3
-//					coloredBG.frame = 				self.view.bounds
-//					self.view.addSubview(coloredBG)
-//					blurFxView.frame = 				self.view.bounds
-//					blurFxView.alpha = 				0.5
-//					blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//					self.view.addSubview(blurFxView)
-//					alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler: { (action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//					}))
-//					//					alert.addAction(UIAlertAction(title: R.string.delete.uppercased(), style: .destructive, handler: { (action) in
-//					//						print("delete item:\(self.address!.alias),\(self.store.formatAddress(self.address))")
-//					//						coloredBG.removeFromSuperview()
-//					//						blurFxView.removeFromSuperview()
-//					//						self.address?.deleted = "1"
-//					//						//self.collectionView.reloadData()
-//					//					}))
-//					self.present(alert, animated: true, completion:
-//						{
-//					})
-//			}
 		}
 	}
 	@IBAction func navHelpAct(_ sender: Any)

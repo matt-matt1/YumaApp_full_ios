@@ -773,13 +773,16 @@ class LoginViewController: UIViewController
 //		OperationQueue.main.addOperation
 //		{
 			weak var presentingViewController = self.presentingViewController
-			let vc = FloatingAlertViewController()
-			vc.modalTransitionStyle = .crossDissolve
-			vc.modalPresentationStyle = .overCurrentContext
-			vc.floatingMessage.text = "\(R.string.auto) \(R.string.login)"
-			self.present(vc, animated: true) {
-				self.dismiss(animated: false, completion: {
-				})
+			OperationQueue.main.addOperation
+			{
+				let vc = FloatingAlertViewController()
+				vc.modalTransitionStyle = .crossDissolve
+				vc.modalPresentationStyle = .overCurrentContext
+				vc.floatingMessage.text = "\(R.string.auto) \(R.string.login)"
+				self.present(vc, animated: true) {
+					self.dismiss(animated: false, completion: {
+					})
+				}
 			}
 			self.dismiss(animated: false, completion: {
 //				let _ = UIViewController.displaySpinner(onView: (presentingViewController?.view)!)

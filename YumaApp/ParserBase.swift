@@ -14,7 +14,8 @@ class ParserBase: NSObject, XMLParserDelegate
 	var currentElement: String = ""
 	var foundCharacters = ""
 	weak var parent: ParserBase? = nil
-	
+
+
 	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String])
 	{
 		currentElement = elementName

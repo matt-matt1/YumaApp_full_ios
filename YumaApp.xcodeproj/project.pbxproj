@@ -115,6 +115,9 @@
 		CF68979C208930E100998527 /* CustomerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979B208930E100998527 /* CustomerMessages.swift */; };
 		CF68979E2089354200998527 /* CustomerThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979D2089354200998527 /* CustomerThreads.swift */; };
 		CF6897A020893BD300998527 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979F20893BD300998527 /* Contacts.swift */; };
+		CF6DB04120E813130084146A /* PS_Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6DB04020E813130084146A /* PS_Customer.swift */; };
+		CF6DB04320E818F20084146A /* PS_CustomerAssocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6DB04220E818F20084146A /* PS_CustomerAssocations.swift */; };
+		CF6DB04520E81D120084146A /* PS_Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6DB04420E81D120084146A /* PS_Address.swift */; };
 		CF717E9F20A32F3300E68F83 /* ChangePW.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF717E9E20A32F3300E68F83 /* ChangePW.swift */; };
 		CF717EA120A3869400E68F83 /* ProductsViewControllerTaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF717EA020A3869400E68F83 /* ProductsViewControllerTaps.swift */; };
 		CF717EA320A38A6400E68F83 /* ProductsViewControllerForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF717EA220A38A6400E68F83 /* ProductsViewControllerForm.swift */; };
@@ -363,6 +366,9 @@
 		CF68979B208930E100998527 /* CustomerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMessages.swift; sourceTree = "<group>"; };
 		CF68979D2089354200998527 /* CustomerThreads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerThreads.swift; sourceTree = "<group>"; };
 		CF68979F20893BD300998527 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
+		CF6DB04020E813130084146A /* PS_Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS_Customer.swift; sourceTree = "<group>"; };
+		CF6DB04220E818F20084146A /* PS_CustomerAssocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS_CustomerAssocations.swift; sourceTree = "<group>"; };
+		CF6DB04420E81D120084146A /* PS_Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS_Address.swift; sourceTree = "<group>"; };
 		CF717E9E20A32F3300E68F83 /* ChangePW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePW.swift; sourceTree = "<group>"; };
 		CF717EA020A3869400E68F83 /* ProductsViewControllerTaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewControllerTaps.swift; sourceTree = "<group>"; };
 		CF717EA220A38A6400E68F83 /* ProductsViewControllerForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsViewControllerForm.swift; sourceTree = "<group>"; };
@@ -786,7 +792,10 @@
 				CFAFC0E9201F911D002CBC1B /* Models */,
 				CF5A9DE420E674B900659FCE /* ParserBase.swift */,
 				CF5A9DE620E6759A00659FCE /* PrestashopXMLroot.swift */,
+				CF6DB04420E81D120084146A /* PS_Address.swift */,
 				CF5A9DE820E676E000659FCE /* PS_Error.swift */,
+				CF6DB04020E813130084146A /* PS_Customer.swift */,
+				CF6DB04220E818F20084146A /* PS_CustomerAssocations.swift */,
 			);
 			path = YumaApp;
 			sourceTree = "<group>";
@@ -1216,6 +1225,7 @@
 				CF331F5D209A3D5400992F92 /* MenuBar.swift in Sources */,
 				CF331F61209A3DC100992F92 /* BaseCollectionViewCell.swift in Sources */,
 				CF60CABD208E1C4100B6D0EE /* Customizations.swift in Sources */,
+				CF6DB04120E813130084146A /* PS_Customer.swift in Sources */,
 				CF5C72AB20485072008763DB /* SwipingControllerCollection.swift in Sources */,
 				CF9231BE2035FEFD00D44BB6 /* MyAccInfoViewController.swift in Sources */,
 				CF472DBA20AB83F700189F35 /* ResourceStage2ViewController.swift in Sources */,
@@ -1283,6 +1293,7 @@
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF99DF3420D7F6F1006492AF /* UIColor.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
+				CF6DB04520E81D120084146A /* PS_Address.swift in Sources */,
 				CF68979C208930E100998527 /* CustomerMessages.swift in Sources */,
 				CF60CAD9208E46F300B6D0EE /* ShopUrls.swift in Sources */,
 				CF60CAC7208E2BE200B6D0EE /* ImageTypes.swift in Sources */,
@@ -1335,6 +1346,7 @@
 				CF60CAD5208E435300B6D0EE /* Search.swift in Sources */,
 				CF60CAC5208E26F100B6D0EE /* Guests.swift in Sources */,
 				CF4051A92041A15600AE21BC /* PageCell.swift in Sources */,
+				CF6DB04320E818F20084146A /* PS_CustomerAssocations.swift in Sources */,
 				CF9A1D7D20E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */,
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,

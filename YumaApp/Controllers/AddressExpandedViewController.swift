@@ -31,6 +31,10 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	@IBOutlet weak var bNameLabel: UILabel!
 	@IBOutlet weak var bNameField: UITextField!
 	@IBOutlet weak var bNameInvalid: UILabel!
+	@IBOutlet weak var vatBorder: UIView!
+	@IBOutlet weak var vatLabel: UILabel!
+	@IBOutlet weak var vatField: UITextField!
+	@IBOutlet weak var vatInvalid: UILabel!
 	@IBOutlet weak var addr1Border: UIView!
 	@IBOutlet weak var addr1Label: UILabel!
 	@IBOutlet weak var addr1Field: UITextField!
@@ -163,6 +167,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		let bNameOptional = UILabel()
 		bNameOptional.text = R.string.optional
 		bNameInvalid.text = "\(R.string.invalid.capitalized) \(R.string.co)"
+		vatLabel.text = R.string.taxNo
+		vatInvalid.text = "\(R.string.invalid.capitalized) \(R.string.taxNo)"
+		vatField.placeholder = R.string.optional
 		addr1Label.text = R.string.addr1
 		addr1Invalid.text = "\(R.string.invalid.capitalized) \(R.string.addr1)"
 		addr2Label.text = R.string.addr2
@@ -215,6 +222,8 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		lNameInvalid.alpha = 0
 		bNameBorder.borderColor = UIColor.clear
 		bNameInvalid.alpha = 0
+		vatBorder.borderColor = UIColor.clear
+		vatInvalid.alpha = 0
 		addr1Border.borderColor = UIColor.clear
 		addr1Invalid.alpha = 0
 		addr2Border.borderColor = UIColor.clear
@@ -244,6 +253,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			fNameField.text = self.address?.firstname
 			lNameField.text = self.address?.lastname
 			bNameField.text = self.address?.company
+			vatField.text = self.address?.vatNumber
 			addr1Field.text = self.address?.address1
 			addr2Field.text = self.address?.address2
 			cityField.text = self.address?.city
@@ -313,23 +323,168 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		return status
 	}
 
-	
+
 	func loadEnteredValues(id: Int = 0) -> Address
 	{
 		let date = Date()
-//		let df = DateFormatter()
-//		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//		let today = df.string(from: date)
-		let newRow = Address(id: id, idCustomer: Int((store.customer?.idCustomer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: aliasField.text != nil ? aliasField.text! : "", company: bNameField.text != nil ? bNameField.text! : "", lastname: lNameField.text != nil ? lNameField.text! : "", firstname: fNameField.text != nil ? fNameField.text! : "", vatNumber: /*taxNo.text != nil ? taxNo.text! : */"", address1: addr1Field.text != nil ? addr1Field.text! : "", address2: addr2Field.text != nil ? addr2Field.text! : "", postcode: postcodeField.text != nil ? postcodeField.text! : "", city: cityField.text != nil ? cityField.text! : "", other: otherField.text != nil ? otherField.text! : "", phone: phoneField.text != nil ? phoneField.text! : "", phoneMobile: mobField.text != nil ? mobField.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
-//		let encode = try? JSONEncoder().encode(newRow)
-//		if let jsonStr = String(data: encode!, encoding: .utf8)//encode != nil
-//		{
-			//			let jsonStr = String(data: encode!, encoding: .utf8)!
-//						print(jsonStr)
-			//{"id_supplier":"","other":"","lastname":"Technical","company":"","firstname":"Yuma","phone_mobile":"","id_customer":"3","dni":"","deleted":"0","address1":"1 yumatechnical","alias":"My Address","city":"Toronto","vat_number":"","id":0,"date_upd":"2018-05-29 10:53:12","address2":"","id_warehouse":"","phone":"","id_manufacturer":"","id_state":"TBD","postcode":"M1S 5T5","date_add":"2018-05-29 10:53:12","id_country":"TBD"}
-			//			UserDefaults.standard.set(encode, forKey: "updateAddress.\(df.string(from: date))")
-//		}
+		let newRow = Address(id: id, idCustomer: Int((store.customer?.idCustomer)!), idManufacturer: 0, idSupplier: 0, idWarehouse: 0, idCountry: countryId, idState: stateId, alias: aliasField.text != nil ? aliasField.text! : "", company: bNameField.text != nil ? bNameField.text! : "", lastname: lNameField.text != nil ? lNameField.text! : "", firstname: fNameField.text != nil ? fNameField.text! : "", vatNumber: vatField.text != nil ? vatField.text! : "", address1: addr1Field.text != nil ? addr1Field.text! : "", address2: addr2Field.text != nil ? addr2Field.text! : "", postcode: postcodeField.text != nil ? postcodeField.text! : "", city: cityField.text != nil ? cityField.text! : "", other: otherField.text != nil ? otherField.text! : "", phone: phoneField.text != nil ? phoneField.text! : "", phoneMobile: mobField.text != nil ? mobField.text! : "", dni: "", deleted: false, dateAdd: date, dateUpd: date)
 		return newRow
+	}
+
+
+	func insertValuesInBlank(_ str: String) -> String
+	{
+		var arrayXML = str.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "\t", with: "").trimmingCharacters(in: .whitespaces).components(separatedBy: ">")
+		var changed = false
+		var i = 0
+		for line in arrayXML
+		{
+			arrayXML[i] = "\(line)>"
+			switch(line)
+			{
+			case "<id":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((address?.id)!)"
+				break
+			case "<alias":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.aliasField.text!)"
+				changed = true
+				break
+			case "<company":
+				if self.bNameField.text != nil && !self.bNameField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.bNameField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<lastname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.lNameField.text!)"
+				changed = true
+				break
+			case "<firstname":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.fNameField.text!)"
+				changed = true
+				break
+			case "<vat_number":
+				if self.vatField.text != nil && !self.vatField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.vatField.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<address1":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(self.addr1Field.text!)"
+				changed = true
+				break
+			case "<address2":
+				if self.addr2Field.text != nil && !self.addr2Field.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.addr2Field.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<postcode":
+				if self.postcodeField.text != nil && !self.postcodeField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.postcodeField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<city":
+				if self.cityField.text != nil && !self.cityField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.cityField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<id_state":
+				if self.stateId > -1
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.stateId)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<id_country":
+				if self.countryId > -1
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.countryId)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "1"
+				}
+				break
+			case "<other":
+				if self.otherField.text != nil && !self.otherField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.otherField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<phone":
+				if self.phoneField.text != nil && !self.phoneField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.phoneField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<phone_mobile":
+				if self.mobField.text != nil && !self.mobField.text!.isEmpty
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(self.mobField.text!)"
+					changed = true
+				}
+				else
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			case "<id_customer":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(store.customer?.idCustomer ?? 0)"
+				changed = true
+				break
+			default:
+				if i > 0 && !line.contains("</") && !line.contains("/>")
+				{
+					arrayXML[i] = "\n" + arrayXML[i]
+				}
+				break
+			}
+			i += 1
+		}
+		let str = arrayXML.joined()
+		return changed ? String(str.dropLast()) : ""
 	}
 
 
@@ -348,7 +503,100 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	}
 
 
+	fileprivate func parseBlankInsert(_ blank: String?, _ ws: inout WebService, _ spinner: UIView)
+	{
+		ws.xml = insertValuesInBlank(blank!)
+		ws.id = (address?.id)!
+//		let parser = XMLParser(data: (blank?.data(using: .utf8))!)
+//		let ps = PrestashopXMLroot()
+//		parser.delegate = ps
+//		parser.parse()
+//		var addrs = ""
+//		var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<address>"
+//		for a in ps.addresses
+//		{
+//			//addrs.append("\(a.address1!) \(a.address2!) \(a.firstname!) \(a.lastname!) (\(a.alias!))")
+//			xml += "\n\t<id>\((address?.id)!)</id>"
+//			xml += "\n\t<id_customer>\((store.customer?.idCustomer)!)</id_customer>"
+//			xml += "\n\t<id_manufacturer></id_manufacturer>"
+//			xml += "\n\t<id_supplier></id_supplier>"
+//			xml += "\n\t<id_warehouse></id_warehouse>"
+//			xml += "\n\t<id_country>\(countryId)</id_country>"
+//			xml += "\n\t<id_state>\(stateId)</id_state>"
+//			xml += "\n\t<alias>\(aliasField.text!)</alias>"
+//			xml += "\n\t<company>\(bNameField.text!)</company>"
+//			xml += "\n\t<lastname>\(lNameField.text!)</lastname>"
+//			xml += "\n\t<firstname>\(fNameField.text!)</firstname>"
+//			xml += "\n\t<vat_number></vat_number>"//missing?
+//			xml += "\n\t<address1>\(addr1Field.text!)</address1>"
+//			xml += "\n\t<address2>\(addr2Field.text!)</address2>"
+//			xml += "\n\t<postcode>\(postcodeField.text!)</postcode>"
+//			xml += "\n\t<city>\(cityField.text!)</city>"
+//			xml += "\n\t<other>\(otherField.text!)</other>"
+//			xml += "\n\t<phone>\(phoneField.text!)</phone>"
+//			xml += "\n\t<phone_mobile>\(mobField.text!)</phone_mobile>"
+//			xml += "\n\t<dni></dni>"
+//			xml += "\n\t<deleted>0</deleted>"
+//			xml += "\n\t<date_add>\(a.dateAdd!)</date_add>"
+//			xml += "\n\t<date_upd>\(Data())</date_upd>"
+////			for node in a.dictionaryWithValues(forKeys: [])
+////			{
+////				let line = "\n\t<\(node.key)>\(node.value)<\(node.key)>"
+////				xml += line
+////			}
+//		}
+//		xml += "\n</address>\n</prestashop>"
+//		ws.xml = xml
+		print(ws.xml!)
+
+//		ws.xml = ""//insertValuesInBlank(blank!)
+		if ws.xml != nil && !(ws.xml?.isEmpty)!
+		{
+			ws.edit { (httpResult) in
+				let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+				UIViewController.removeSpinner(spinner: spinner)
+				if self.store.debug > 4
+				{
+					print("PUT response: \(cust!)")
+				}
+				if httpResult.success
+				{
+					myAlertOnlyDismiss(self, title: R.string.Addr, message: "\((self.address?.alias)!) \(R.string.ok)", dismissAction: {
+						self.dismiss(animated: false, completion: {
+						})
+					}, completion: {
+						self.dismiss(animated: false, completion: {
+						})
+					})
+				}
+				else if (cust?.contains("<error"))!
+				{
+					let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+					let ps = PrestashopXMLroot()
+					parser.delegate = ps
+					parser.parse()
+					var errors = ""
+					for err in ps.errors
+					{
+						errors.append("\(err.message) (\(err.code))")
+					}
+					myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+						self.dismiss(animated: false, completion: {
+						})
+					})
+				}
+			}
+		}
+		else
+		{
+			UIViewController.removeSpinner(spinner: spinner)
+			myAlertOnlyDismiss(self, title: R.string.err, message: R.string.noChange)
+		}
+	}
+
+
 	// MARK: Actions
+
 	@objc func adjustForKeyboard(notification: Notification)
 	{
 		let userInfo = notification.userInfo!
@@ -518,42 +766,8 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			{
 				stateField.text = row.name!
 				stateId = row.id!
-//				stateField.text = ""
-//				if row.containsStates != nil && row.containsStates != false
-//				{
-//					//					if stateBorder.alpha < 1
-//					//					{
-//					//						stateBorder.alpha = 1
-//					//					}
-//					fillStates(row.id!)
-//					stateField.placeholder = R.string.select
-//					OperationQueue.main.addOperation
-//						{
-//							// WHY CAN'T REMOVE GESTURE...
-//							//						if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
-//							//						{
-//							//							self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-//							//						}
-//							self.stateLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-//					}
-//				}
-//				else
-//				{
-//					//					stateBorder.alpha = 0.2
-//					stateField.text = "N/A"
-//					OperationQueue.main.addOperation
-//						{
-//							if self.stateLabel.gestureRecognizers != nil && (self.stateLabel.gestureRecognizers?.count)! > 0
-//							{
-//								self.stateLabel.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
-//								self.pickerStateData.removeAll()
-//							}
-//					}
-//				}
 			}
 		}
-////		store.flexView(view: sender)
-//		stateField.text = pickerStateData[pickerState.selectedRow(inComponent: 0)]
 	}
 
 	@IBAction func navHelpAct(_ sender: Any)
@@ -569,10 +783,11 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	{
 		self.dismiss(animated: false, completion: nil)
 	}
+	
 	@IBAction func buttonAct(_ sender: Any)
 	{
 		store.flexView(view: button)
-		if checkFields()
+		if checkFields()	//update the address:
 		{
 			let spinner = UIViewController.displaySpinner(onView: self.view)
 			var ws = WebService()
@@ -582,41 +797,17 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 			let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLAddress")
 			if blank != nil && !(blank?.isEmpty)!
 			{
-				ws.xml = ""//insertValuesInBlank(blank!)
-				if ws.xml != nil && !(ws.xml?.isEmpty)!
-				{
-					ws.add { (httpResult) in
-						let cust = String(data: httpResult.data! as Data, encoding: .utf8)
-						UIViewController.removeSpinner(spinner: spinner)
-						if httpResult.success
-						{
-							myAlertOnlyDismiss(self, title: R.string.Addr, message: R.string.ok, dismissAction: {
-							}, completion: {
-								self.dismiss(animated: false, completion: {
-								})
-							})
-						}
-						else
-						{
-							print("PUT response: \(cust!)")
-						}
-					}
+				parseBlankInsert(blank, &ws, spinner)
+			}
+			else
+			{
+				ws.schema = .blank
+				ws.get { (httpResult) in
+					let blank = String(data: httpResult.data! as Data, encoding: .utf8)
+//					UIViewController.removeSpinner(spinner: spinner)
+					self.parseBlankInsert(blank, &ws, spinner)
 				}
 			}
-//			let newRow = loadEnteredValues()
-//			//			print("ready to add new address:\(newRow)")
-//			let spinner = UIViewController.displaySpinner(onView: self.view)
-//			var ws = WebService()
-//			ws.startURL = R.string.WSbase
-//			ws.resource = APIResource.addresses
-//			ws.keyAPI = R.string.APIkey
-//			ws.xml = PSWebServices.object2psxml(object: newRow, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), omit: [], nilValue: "")
-//			let url = ws.makeURL()//ws.startURL! + ws.resource!.rawValue + ws.keyAPI!
-//			print("posting to:\"\(url)\"")
-//			print(ws.xml!)
-//			store.PutHTTP(url: url/*"\(R.string.WSbase)\(APIResource.addresses)?\(R.string.API_key)"*/, parameters: nil, headers: ["Content-Type": "application/xml; charset=utf-8"/*"text/xml; charset=utf-8"*//*"application/x-www-form-urlencoded"*/, "Accept": "application/json, text/javascript, */*; q=0.01"/*"text/xml"*/, "Accept-Language": "en-US,en;q=0.5", /*"Referer": "",*/ /*"cache-control": "no-cache",*/ /*"X-Requested-With": "XMLHttpRequest"*/    /*"Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"*/], body: "\(ws.xml!)", save: nil) 	{ 	(result) in
-//				UIViewController.removeSpinner(spinner: spinner)
-//				myAlertOnlyDismiss(self, title: R.string.Addr, message: "\(R.string.save) \"\(self.address?.alias ?? "")\" \(R.string.ok)")
 		}
 	}
 

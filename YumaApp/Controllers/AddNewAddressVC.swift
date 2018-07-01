@@ -790,6 +790,43 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}
 
 
+	fileprivate func addResource(_ ws: WebService, _ spinner: UIView) {
+		ws.add { (httpResult) in
+			let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+			UIViewController.removeSpinner(spinner: spinner)
+			if self.store.debug > 4
+			{
+				print("PUT response: \(cust!)")
+			}
+			if httpResult.success
+			{
+				OperationQueue.main.addOperation {
+					myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
+						self.dismiss(animated: false, completion: {
+						})
+					}, completion: {
+					})
+				}
+			}
+			else if (cust?.contains("<error"))!
+			{
+				let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+				let ps = PrestashopXMLroot()
+				parser.delegate = ps
+				parser.parse()
+				var errors = ""
+				for err in ps.errors
+				{
+					errors.append("\(err.message) (\(err.code))")
+				}
+				myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+					self.dismiss(animated: false, completion: {
+					})
+				})
+			}
+		}
+	}
+	
 	@objc func buttonTapped(_ sender: UITapGestureRecognizer)
 	{
 		store.flexView(view: button)
@@ -806,40 +843,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 				ws.xml = insertValuesInBlank(blank!)
 				if ws.xml != nil && !(ws.xml?.isEmpty)!
 				{
-					ws.add { (httpResult) in
-						let cust = String(data: httpResult.data! as Data, encoding: .utf8)
-						UIViewController.removeSpinner(spinner: spinner)
-						if self.store.debug > 4
-						{
-							print("PUT response: \(cust!)")
-						}
-						if httpResult.success
-						{
-							OperationQueue.main.addOperation {
-								myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
-									self.dismiss(animated: false, completion: {
-									})
-								}, completion: {
-								})
-							}
-						}
-						else if (cust?.contains("<error"))!
-						{
-							let parser = XMLParser(data: (cust?.data(using: .utf8))!)
-							let ps = PrestashopXMLroot()
-							parser.delegate = ps
-							parser.parse()
-							var errors = ""
-							for err in ps.errors
-							{
-								errors.append("\(err.message) (\(err.code))")
-							}
-							myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
-								self.dismiss(animated: false, completion: {
-								})
-							})
-						}
-					}
+					addResource(ws, spinner)
 				}
 			}
 			else	// blank schema not saved - retrieve it
@@ -854,38 +858,39 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 						ws.xml = self.insertValuesInBlank(str!)
 						if ws.xml != nil && !(ws.xml?.isEmpty)!
 						{
-							ws.add(completionHandler: { (httpResult) in
-								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
-								UIViewController.removeSpinner(spinner: spinner)
-								if self.store.debug > 4
-								{
-									print("PUT response: \(cust!)")
-								}
-								if httpResult.success
-								{
-									myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
-										self.dismiss(animated: false, completion: {
-										})
-									}, completion: {
-									})
-								}
-								else if (cust?.contains("<error"))!
-								{
-									let parser = XMLParser(data: (cust?.data(using: .utf8))!)
-									let ps = PrestashopXMLroot()
-									parser.delegate = ps
-									parser.parse()
-									var errors = ""
-									for err in ps.errors
-									{
-										errors.append("\(err.message) (\(err.code))")
-									}
-									myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
-										self.dismiss(animated: false, completion: {
-										})
-									})
-								}
-							})
+							self.addResource(ws, spinner)
+//							ws.add(completionHandler: { (httpResult) in
+//								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+//								UIViewController.removeSpinner(spinner: spinner)
+//								if self.store.debug > 4
+//								{
+//									print("PUT response: \(cust!)")
+//								}
+//								if httpResult.success
+//								{
+//									myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.alias): \(self.alias.textEdit.text!)"/*cust!*/, dismissAction: {
+//										self.dismiss(animated: false, completion: {
+//										})
+//									}, completion: {
+//									})
+//								}
+//								else if (cust?.contains("<error"))!
+//								{
+//									let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+//									let ps = PrestashopXMLroot()
+//									parser.delegate = ps
+//									parser.parse()
+//									var errors = ""
+//									for err in ps.errors
+//									{
+//										errors.append("\(err.message) (\(err.code))")
+//									}
+//									myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+//										self.dismiss(animated: false, completion: {
+//										})
+//									})
+//								}
+//							})
 						}
 					}
 				}

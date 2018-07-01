@@ -829,44 +829,57 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	//			}
 	//		}
 //		}
-//		return changed ? arrayXML.joined() : ""
 		let str = arrayXML.joined()
-		return String(str.dropLast())
+		return changed ? String(str.dropLast()) : ""
+//		return String(str.dropLast())
 	}
 
-
-//	func httpWriteBack(_ str: String, putIt: Bool)
-//	{
-//		if putIt
-//		{
-//			store.PutHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "*/*"/*, "Accept-Language": "en-US,en"*/], body: str, save: nil)
-//			{ 	(cust) in	//xml["prestashop"])
-//				if cust is String && !(cust as! String).contains("error")
-//				{
-//					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-//				}
-//				else
-//				{
-//					print("PUT response: \(cust)")
-//				}
-//			}
-//		}
-//		else
-//		{
-//			store.PostHTTP(url: "\(R.string.WSbase)\(APIResource.customers)?\(R.string.API_key)", parameters: nil, headers: ["Content-Type": "text/xml; charset=utf-8", "Accept": "text/xml"], body: str, save: nil, asJSON: false)
-//			{ 	(cust) in	//xml["prestashop"])
-//				if cust is String && !(cust as! String).contains("error")
-//				{
-//					myAlertOnlyDismiss(self, title: R.string.customer, message: R.string.msgSucc)
-//				}
-//				else
-//				{
-//					print("POST response: \(cust)")
-//				}
-//			}
-//		}
-//	}
-
+	fileprivate func addResource(_ ws: WebService, _ spinner: UIView)
+	{
+		ws.add { (httpResult) in
+			let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+			UIViewController.removeSpinner(spinner: spinner)
+			if self.store.debug > 4
+			{
+				print("PUT response: \(cust!)")
+			}
+			if httpResult.success
+			{
+				myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+					self.dismiss(animated: false, completion: {
+						OperationQueue.main.addOperation {
+							let vc = FloatingAlertViewController()
+							vc.modalTransitionStyle = .crossDissolve
+							vc.modalPresentationStyle = .overCurrentContext
+							vc.floatingMessage.text = "\(R.string.login): \(self.field3Edit.text!)"
+							self.present(vc, animated: true) {
+								self.dismiss(animated: false, completion: {
+								})
+							}
+						}
+					})
+				}, completion: {
+				})
+			}
+			else if (cust?.contains("<error"))!
+			{
+				print("PUT response: \(cust!)")
+				let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+				let ps = PrestashopXMLroot()
+				parser.delegate = ps
+				parser.parse()
+				var errors = ""
+				for err in ps.errors
+				{
+					errors.append("\(err.message) (\(err.code))")
+				}
+				myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+					self.dismiss(animated: false, completion: {
+					})
+				})
+			}
+		}
+	}
 
 	@objc func adjustForKeyboard(notification: Notification)
 	{
@@ -963,6 +976,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		passwordEdit.becomeFirstResponder()
 		passwordVisible = !passwordVisible
 	}
+	
 	@IBAction func buttonAct(_ sender: Any)
 	{
 		store.flexView(view: buttonText)
@@ -981,49 +995,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					ws.xml = insertValuesInBlank(blank!)
 					if ws.xml != nil && !(ws.xml?.isEmpty)!
 					{
-						ws.add { (httpResult) in
-							let cust = String(data: httpResult.data! as Data, encoding: .utf8)
-							UIViewController.removeSpinner(spinner: spinner)
-							if self.store.debug > 4
-							{
-								print("PUT response: \(cust!)")
-							}
-							if httpResult.success
-							{
-								myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
-									self.dismiss(animated: false, completion: {
-										OperationQueue.main.addOperation {
-											let vc = FloatingAlertViewController()
-											vc.modalTransitionStyle = .crossDissolve
-											vc.modalPresentationStyle = .overCurrentContext
-											vc.floatingMessage.text = "\(R.string.login): \(self.field3Edit.text!)"
-											self.present(vc, animated: true) {
-												self.dismiss(animated: false, completion: {
-												})
-											}
-										}
-									})
-								}, completion: {
-								})
-							}
-							else if (cust?.contains("<error"))!
-							{
-								print("PUT response: \(cust!)")
-								let parser = XMLParser(data: (cust?.data(using: .utf8))!)
-								let ps = PrestashopXMLroot()
-								parser.delegate = ps
-								parser.parse()
-								var errors = ""
-								for err in ps.errors
-								{
-									errors.append("\(err.message) (\(err.code))")
-								}
-								myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
-									self.dismiss(animated: false, completion: {
-									})
-								})
-							}
-						}
+						addResource(ws, spinner)
 					}
 				}
 				else	// blank schema not saved - retrieve it
@@ -1038,38 +1010,39 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							ws.xml = self.insertValuesInBlank(str!)
 							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
-								ws.add { (httpResult) in
-									let cust = String(data: httpResult.data! as Data, encoding: .utf8)
-									UIViewController.removeSpinner(spinner: spinner)
-									if self.store.debug > 4
-									{
-										print("PUT response: \(cust!)")
-									}
-									if httpResult.success
-									{
-										myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
-											self.dismiss(animated: false, completion: {
-											})
-										}, completion: {
-										})
-									}
-									else if (cust?.contains("<error"))!
-									{
-										let parser = XMLParser(data: (cust?.data(using: .utf8))!)
-										let ps = PrestashopXMLroot()
-										parser.delegate = ps
-										parser.parse()
-										var errors = ""
-										for err in ps.errors
-										{
-											errors.append("\(err.message) (\(err.code))")
-										}
-										myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
-											self.dismiss(animated: false, completion: {
-											})
-										})
-									}
-								}
+								self.addResource(ws, spinner)
+//								ws.add { (httpResult) in
+//									let cust = String(data: httpResult.data! as Data, encoding: .utf8)
+//									UIViewController.removeSpinner(spinner: spinner)
+//									if self.store.debug > 4
+//									{
+//										print("PUT response: \(cust!)")
+//									}
+//									if httpResult.success
+//									{
+//										myAlertOnlyDismiss(self, title: R.string.success, message: "\(R.string.login): \(self.field3Edit.text!)"/*cust!*/, dismissAction: {
+//											self.dismiss(animated: false, completion: {
+//											})
+//										}, completion: {
+//										})
+//									}
+//									else if (cust?.contains("<error"))!
+//									{
+//										let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+//										let ps = PrestashopXMLroot()
+//										parser.delegate = ps
+//										parser.parse()
+//										var errors = ""
+//										for err in ps.errors
+//										{
+//											errors.append("\(err.message) (\(err.code))")
+//										}
+//										myAlertOnlyDismiss(self, title: R.string.err, message: errors, dismissAction: {
+//											self.dismiss(animated: false, completion: {
+//											})
+//										})
+//									}
+//								}
 							}
 						}
 					}
@@ -1077,17 +1050,67 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			}
 			else	//update information
 			{
+//				<?xml version="1.0" encoding="UTF-8"?>
+//				<prestashop xmlns:xlink="http://www.w3.org/1999/xlink">
+//				<customer>
+//				<id>3</id>
+//				<id_default_group xlink:href="http://yumatechnical.com/api/groups/3">3</id_default_group>
+//				<id_lang xlink:href="http://yumatechnical.com/api/languages/1">1</id_lang>
+//				<newsletter_date_add>0000-00-00 00:00:00</newsletter_date_add>
+//				<ip_registration_newsletter></ip_registration_newsletter>
+//				<last_passwd_gen>2018-05-11 13:55:02</last_passwd_gen>
+//				<secure_key>baef23c3484858f93935c13fcebd891f</secure_key>
+//				<deleted>0</deleted>
+//				<passwd>kB670xK3sO</passwd>
+//				<lastname>Manager</lastname>
+//				<firstname>Yuma</firstname>
+//				<email>sales@yumatechnical.com</email>
+//				<id_gender>0</id_gender>
+//				<birthday>0000-00-00</birthday>
+//				<newsletter>0</newsletter>
+//				<optin>0</optin>
+//				<website></website>
+//				<company>red</company>
+//				<siret></siret>
+//				<ape></ape>
+//				<outstanding_allow_amount>0.000000</outstanding_allow_amount>
+//				<show_public_prices>0</show_public_prices>
+//				<id_risk>0</id_risk>
+//				<max_payment_days>0</max_payment_days>
+//				<active>1</active>
+//				<note></note>
+//				<is_guest>0</is_guest>
+//				<id_shop>1</id_shop>
+//				<id_shop_group>1</id_shop_group>
+//				<date_add>2016-12-29 15:15:08</date_add>
+//				<date_upd>2018-05-22 16:18:32</date_upd>
+//				<reset_password_token></reset_password_token>
+//				<reset_password_validity>0000-00-00 00:00:00</reset_password_validity>
+//				<associations></associations>
+//				</customer>
+//				</prestashop>
+
 //				print(PrestaShop(xmlns: "http://www.w3.org/1999/xlink", customers: Customers(customer: [store.customer!]), customer: nil).toXML()!)//<?xml version=\"1.0\"?>\n<customer>\n    <outstanding_allow_amount>0</outstanding_allow_amount>\n    <firstname>Yuma</firstname>\n    <lastname>Technical</lastname>\n    <id_shop_group>1</id_shop_group>\n    <max_payment_days>0</max_payment_days>\n    <optin>0</optin>\n    <last_passwd_gen>2018-05-11</last_passwd_gen>\n    <active>1</active>\n    <passwd>$2y$10$CDgHOnQRTaVadMaCSKt.MOC9dvImGPmaxdBhTNOVOAZ.ojKlTKSyG</passwd>\n    <id_customer>3</id_customer>\n    <id_shop>1</id_shop>\n    <id_lang>1</id_lang>\n    <newsletter>0</newsletter>\n    <date_add>2016-12-29</date_add>\n    <id_default_group>3</id_default_group>\n    <id>0</id>\n    <company></company>\n    <note></note>\n    <date_upd>2018-05-22</date_upd>\n    <deleted>0</deleted>\n    <email>yumatechnical@gmail.com</email>\n    <website></website>\n    <show_public_prices>0</show_public_prices>\n    <secure_key>baef23c3484858f93935c13fcebd891f</secure_key>\n    <siret></siret>\n    <ip_registration_newsletter></ip_registration_newsletter>\n    <ape></ape>\n    <id_gender>0</id_gender>\n    <is_guest>0</is_guest>\n    <reset_password_token></reset_password_token>\n    <id_risk>0</id_risk>\n</customer>
 //				print(PrestaShop(xmlns: "http://www.w3.org/1999/xlink", customers: nil, customer: [store.customer!]).toXML()!)////				ws.filter = ["id" : [customer?.idCustomer! as Any]]
 				let thisCustomer = UserDefaults.standard.string(forKey: "Customer\((customer?.id)!)")
 				if thisCustomer != nil && !(thisCustomer?.isEmpty)!
 				{
+//					let parser = XMLParser(data: (thisCustomer?.data(using: .utf8))!)
+//					let ps = PrestashopXMLroot()
+//					parser.delegate = ps
+//					parser.parse()
+//					var custs = ""
+//					for c in ps.customers
+//					{
+//						custs.append("\(c.active!) \(c.company!) \(c.firstname!) \(c.lastname!) \(c.email!) (\(c.ape!))")
+//					}
+
 					DispatchQueue.main.async
 					{
 						ws.xml = self.insertValues(thisCustomer!, isFresh: false)
 						if ws.xml != nil && !(ws.xml?.isEmpty)!
 						{
-							ws.add { (httpResult) in
+							ws.edit { (httpResult) in
 								let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 								UIViewController.removeSpinner(spinner: spinner)
 								if self.store.debug > 4
@@ -1138,7 +1161,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 								ws.xml = self.insertValues(str!, isFresh: false)
 								if !(ws.xml?.isEmpty)!
 								{
-									ws.add { (httpResult) in
+									ws.edit { (httpResult) in
 										let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 										UIViewController.removeSpinner(spinner: spinner)
 										if self.store.debug > 4
@@ -1170,6 +1193,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 											})
 										}
 									}
+								}
+								else
+								{
+									UIViewController.removeSpinner(spinner: spinner)
+									myAlertOnlyDismiss(self, title: R.string.err, message: R.string.noChange)
 								}
 							}
 						}
