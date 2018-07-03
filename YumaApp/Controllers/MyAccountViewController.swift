@@ -151,9 +151,7 @@ class MyAccountViewController: UIViewController
 			case "<birthday":
 				if store.customer?.birthday != nil
 				{
-					let bdate = DateFormatter()
-					bdate.dateFormat = "yyyy-MM-dd"
-					arrayXML[i] = "\n" + arrayXML[i] + bdate.string(from: (store.customer?.birthday)!)
+					arrayXML[i] = "\n" + arrayXML[i] + (store.customer?.birthday)!
 				}
 				break
 			case "<company":
@@ -706,7 +704,7 @@ class MyAccountViewController: UIViewController
 							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
 								self.deleteResource(ws, spinner)
-								self.store.logout(self, presentingViewController: self.presentingViewController)
+//								self.store.logout(self, presentingViewController: self.presentingViewController)
 							}
 							else
 							{
@@ -728,7 +726,7 @@ class MyAccountViewController: UIViewController
 									if ws.xml != nil && !(ws.xml?.isEmpty)!
 									{
 										self.deleteResource(ws, spinner)
-										self.store.logout(self, presentingViewController: self.presentingViewController)
+//										self.store.logout(self, presentingViewController: self.presentingViewController)
 									}
 									else
 									{

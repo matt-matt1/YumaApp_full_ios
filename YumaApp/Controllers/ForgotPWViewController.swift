@@ -191,27 +191,29 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 						let data = inner.data(using: .utf8)!
 						self.result = try JSONDecoder().decode(Customer.self, from: data)
 						let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
-						self.result.id = jsonResult?["id"] as? Int
-						self.result.idCustomer = jsonResult?["id"] as? Int
+						self.result.id = jsonResult?["id"] as? Int		//for some reason the id is missing
+						self.result.idCustomer = jsonResult?["id"] as? Int	//^so we get it from jsonser.
 						if self.result.active! && !self.result.deleted! //&& self.result.resetPasswordToken == nil
 						{
 							let now = Date()
-							let last: Date = (self.result.lastPasswdGen != now) ? self.result.lastPasswdGen! : Date()// = "1900-06-15 12:00:00"
+							let df = DateFormatter()
+							df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+							let last: Date = (self.result.lastPasswdGen != nil && !(self.result.lastPasswdGen?.contains("00-"))!) ? df.date(from: self.result.lastPasswdGen!)! : Date()// = "1900-06-15 12:00:00"
 							let after = (last.addingTimeInterval(TimeInterval(self.store.passwdTimeFront*60)))
 							if after < now
 							{
-								let df = DateFormatter()
-								df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-								self.resetStr = df.string(from: Date())/*new__last_passwd_gen*/
-								self.resetEncoded = self.resetStr.sha1
-//								let link = "\(R.string.forgotPWLink)?token=\(self.result.secureKey ?? "")&id_customer=\(self.result.idCustomer!)&reset_token=\(self.resetEncoded)"
-//								print(link)
-								self.result.resetPasswordValidity = Date().addingTimeInterval(TimeInterval(self.store.passwdTimeResetValidity))
-								self.result.resetPasswordToken = self.resetEncoded
-								ws.xml = self.result.toXML()
-								ws.id = self.result.idCustomer!
-								print("xml=\(ws.xml!)")
-								ws.edit(completionHandler: { (httpResult) in
+//								let df = DateFormatter()
+//								df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//								self.resetStr = df.string(from: Date())/*new__last_passwd_gen*/
+//								self.resetEncoded = self.resetStr.sha1
+////								let link = "\(R.string.forgotPWLink)?token=\(self.result.secureKey ?? "")&id_customer=\(self.result.idCustomer!)&reset_token=\(self.resetEncoded)"
+////								print(link)
+//								self.result.resetPasswordValidity = Date().addingTimeInterval(TimeInterval(self.store.passwdTimeResetValidity))
+//								self.result.resetPasswordToken = self.resetEncoded
+//								ws.xml = self.result.toXML()
+//								ws.id = self.result.idCustomer!
+//								print("xml=\(ws.xml!)")
+//								ws.edit(completionHandler: { (httpResult) in
 									DispatchQueue.main.async {
 										let vc = SetPW()
 										vc.modalTransitionStyle = .crossDissolve
@@ -220,11 +222,11 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 										self.present(vc, animated: false, completion: {
 										})
 									}
-								})
+//								})
 							}
 							else
 							{
-								myAlertOnlyDismiss(self, title: R.string.forgotPW, message: R.string.tryAgain, dismissAction: {
+								myAlertOnlyDismiss(self, title: R.string.forgotPW, message: R.string.tryAgainLater, dismissAction: {
 								}, completion: {
 								})
 							}
@@ -271,20 +273,42 @@ extension ForgotPWViewController: SetPWDelegate
 {
 	func SetPWValue(value: String)
 	{
-		self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": value, "confirmation": value, "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": self.resetEncoded.isEmpty ? self.resetEncoded : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
-			
-			if success is Bool
+		self.result.passwd = value
+		let df = DateFormatter()
+		df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+		self.result.lastPasswdGen = df.string(from: Date())
+		var ws = WebService()
+		ws.startURL = R.string.WSbase
+		ws.resource = APIResource.customers
+		ws.keyAPI = R.string.APIkey
+		ws.xml = self.result.toXML(header: XMLHeader(version: 1.0, encoding: "UTF-8"), wrapper: "prestashop", wrapperNS: "xmlns:xlink=\"http://www.w3.org/1999/xlink\"")
+		ws.id = self.result.idCustomer!
+//		ws.printURL()
+		print("httpBody \(ws.xml!)")
+		ws.edit { (httpResult) in
+			let success = httpResult.success
+//		self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": value, "confirmation": value, "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": self.resetEncoded.isEmpty ? self.resetEncoded : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
+		
+			if !success //is Bool
 			{
 				myAlertOnlyDismiss(self, title: R.string.forgotPW, message: R.string.failed)
+				if httpResult.error != nil
+				{
+					print((httpResult.error?.localizedDescription)! + (httpResult.error?.localizedFailureReason)! + httpResult.error.debugDescription)
+				}
+				else if let data = httpResult.data
+				{
+					print(String(data: data as Data, encoding: .utf8)!)
+				}
 			}
 			else
 			{
-				myAlertOnlyDismiss(self, title: R.string.acc, message: (success as! String).description, dismissAction: {
+				myAlertOnlyDismiss(self, title: R.string.acc, message: String(data: httpResult.data! as Data, encoding: .utf8)!/*(success as! String).description*/, dismissAction: {
 				}, completion: {
 					print(success)
 				})
 			}
 			//launch my account
-		})
+		}//)
 	}
 }

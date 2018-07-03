@@ -55,7 +55,7 @@ final class DataStore
 	var customerThreads:		[CustomerThread] = 		[]
 	var storeContacts: 			[Contact] = 			[]
 	var orderHistories: 		[OrderHistory] = 		[]
-	var idDefaultGroup = 								3
+	var idDefaultGroup = 								3//Customer
 	var idShop = 										1
 	var idShopGroup = 									1
 	let imageDataCache = 								NSCache<AnyObject, AnyObject>()
@@ -81,8 +81,9 @@ final class DataStore
 	var passwdTimeFront: 		TimeInterval = 			0
 	var blankSchemaXML: 		[String : String] = 	[:]
 	var passwdTimeResetValidity:TimeInterval = 			0
+	var groups: 				[Group] = 				[]
 
-	
+
 	/// Sets the parameters for product shares
 	func initShares()
 	{
@@ -1184,7 +1185,7 @@ final class DataStore
 			})
 		}
 	}
-	
+
 	/// Use the api to collect customer threads, if any
 	func callGetContacts(completion: @escaping (Any?, Error?) -> Void)
 	{
@@ -1209,6 +1210,33 @@ final class DataStore
 					completion(nil, nil)
 				}
 			})
+		}
+	}
+
+	/// Use the api to collect customer threads, if any
+	func callGetGroups(completion: @escaping (Any?, Error?) -> Void)
+	{
+		//DispatchQueue.main.asyncAfter(deadline: .now() + 30)
+		OperationQueue.main.addOperation
+			{
+				PSWebServices.getGroups(completionHandler:
+					{
+						(groups, error) in//array, Error
+						
+						if error != nil
+						{
+							completion(nil, error)
+						}
+						else if groups != nil
+						{
+							self.groups = groups!
+							completion(groups!, nil)
+						}
+						else
+						{
+							completion(nil, nil)
+						}
+				})
 		}
 	}
 

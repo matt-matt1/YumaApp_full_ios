@@ -29,9 +29,9 @@ struct Customer: Codable, XMLIndexerDeserializable
 	var idCustomer: 				Int?
 	var idDefaultGroup: 			Int?
 	var idLang: 					Int?
-	var newsletterDateAdd: 			Date?
+	var newsletterDateAdd: 			String?
 	var ipRegistrationNewsletter: 	String?
-	var lastPasswdGen: 				Date?//read_only
+	var lastPasswdGen: 				String?//read_only
 	var secureKey: 					String?//read_only + md5
 	var deleted: 					Bool?//Bool
 	var passwd: 					String?//!..60
@@ -39,7 +39,7 @@ struct Customer: Codable, XMLIndexerDeserializable
 	var firstname: 					String?//!..255
 	var email: 						String?//!
 	var idGender: 					Int?
-	var birthday: 					Date?//bdate
+	var birthday: 					String?//bdate
 	var newsletter: 				Bool?//Bool
 	var optin: 						Bool?//Bool
 	var website: 					String?//URL
@@ -55,10 +55,10 @@ struct Customer: Codable, XMLIndexerDeserializable
 	var isGuest: 					Bool?//Bool
 	var idShop: 					Int?
 	var idShopGroup: 				Int?
-	var dateAdd: 					Date?//date
-	var dateUpd: 					Date?//date
+	var dateAdd: 					String?//date
+	var dateUpd: 					String?//date
 	var resetPasswordToken: 		String?//sha1..40
-	var resetPasswordValidity: 		Date?//date
+	var resetPasswordValidity: 		String?//date
 	var associations: 				CustomerAssociations?
 
 	enum CodingKeys: String, CodingKey
@@ -142,13 +142,17 @@ struct Customer: Codable, XMLIndexerDeserializable
 		newsletterDateAdd = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .newsletterDateAdd)
 		{
-			newsletterDateAdd = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			newsletterDateAdd = df.string(from: myInt)
+//			newsletterDateAdd = myInt
 		}
 		else if let str = try? parent.decode(String.self, forKey: .newsletterDateAdd)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			newsletterDateAdd = df.date(from: str)
+//			let df = DateFormatter()
+//			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//			newsletterDateAdd = df.string(from: str)
+			newsletterDateAdd = str
 		}
 		ipRegistrationNewsletter = ""
 		if (try? parent.decodeNil(forKey: .ipRegistrationNewsletter)) != nil
@@ -165,13 +169,13 @@ struct Customer: Codable, XMLIndexerDeserializable
 		lastPasswdGen = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .lastPasswdGen)
 		{
-			lastPasswdGen = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			lastPasswdGen = df.string(from: myInt)
 		}
 		else if let str = try? parent.decode(String.self, forKey: .lastPasswdGen)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			lastPasswdGen = df.date(from: str)
+			lastPasswdGen = str
 		}
 		secureKey = ""
 		if (try? parent.decodeNil(forKey: .secureKey)) != nil
@@ -254,13 +258,13 @@ struct Customer: Codable, XMLIndexerDeserializable
 		birthday = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .birthday)
 		{
-			birthday = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd"
+			birthday = df.string(from: myInt)
 		}
 		else if let str = try? parent.decode(String.self, forKey: .birthday)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd"
-			birthday = df.date(from: str)
+			birthday = str
 		}
 		newsletter = false
 		if let myInt = try? parent.decode(Bool.self, forKey: .newsletter)
@@ -415,24 +419,24 @@ struct Customer: Codable, XMLIndexerDeserializable
 		dateAdd = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .dateAdd)
 		{
-			dateAdd = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			dateAdd = df.string(from: myInt)
 		}
 		else if let str = try? parent.decode(String.self, forKey: .dateAdd)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			dateAdd = df.date(from: str)
+			dateAdd = str
 		}
 		dateUpd = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .dateUpd)
 		{
-			dateUpd = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			dateUpd = df.string(from: myInt)
 		}
 		else if let str = try? parent.decode(String.self, forKey: .dateUpd)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			dateUpd = df.date(from: str)
+			dateUpd = str
 		}
 		resetPasswordToken = ""
 		if (try? parent.decodeNil(forKey: .resetPasswordToken)) != nil
@@ -449,19 +453,19 @@ struct Customer: Codable, XMLIndexerDeserializable
 		resetPasswordValidity = nil
 		if let myInt = try? parent.decode(Date.self, forKey: .resetPasswordValidity)
 		{
-			resetPasswordValidity = myInt
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+			resetPasswordValidity = df.string(from: myInt)
 		}
 		else if let str = try? parent.decode(String.self, forKey: .resetPasswordValidity)
 		{
-			let df = DateFormatter()
-			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-			resetPasswordValidity = df.date(from: str)
+			resetPasswordValidity = str
 		}
 		associations = nil
 //		associations = try parent.decode(CustomerAssociations.self, forKey: .associations)
 	}
 	
-	init(id: Int, id_customer: Int, id_default_group: Int, id_lang: Int, newsletter_date_add: Date, ip_registration_newsletter: String, last_passwd_gen: Date, secure_key: String, deleted: Bool, passwd: String, lastname: String, firstname: String, email: String, id_gender: Int, birthday: Date, newsletter: Bool, optin: Bool, website: String, company: String, siret: String, ape: String, outstanding_allow_amount: Float, show_public_prices: Bool, id_risk: Int, max_payment_days: Int, active: Bool, note: String, is_guest: Bool, id_shop: Int, id_shop_group: Int, date_add: Date, date_upd: Date, reset_password_token: String, reset_password_validity: Date, associations: CustomerAssociations?)
+	init(id: Int, id_customer: Int, id_default_group: Int, id_lang: Int, newsletter_date_add: String, ip_registration_newsletter: String, last_passwd_gen: String, secure_key: String, deleted: Bool, passwd: String, lastname: String, firstname: String, email: String, id_gender: Int, birthday: String, newsletter: Bool, optin: Bool, website: String, company: String, siret: String, ape: String, outstanding_allow_amount: Float, show_public_prices: Bool, id_risk: Int, max_payment_days: Int, active: Bool, note: String, is_guest: Bool, id_shop: Int, id_shop_group: Int, date_add: String, date_upd: String, reset_password_token: String, reset_password_validity: String, associations: CustomerAssociations?)
 	{
 		self.id = id
 		self.idCustomer = id_customer
@@ -498,7 +502,7 @@ struct Customer: Codable, XMLIndexerDeserializable
 		self.associations = associations
 	}
 //	required init(map: XMLMap)
-	init(id: Int?, idCustomer: Int?, idDefaultGroup: Int, idLang: Int, newsletterDateAdd: Date?, ipRegistrationNewsletter: String?, lastPasswdGen: Date?, secureKey: String?, deleted: Bool, passwd: String, lastname: String, firstname: String?, email: String, idGender: Int, birthday: Date?, newsletter: Bool, optin: Bool, website: String?, company: String?, siret: String?, ape: String?, outstandingAllowAmount: Float?, showPublicPrices: Bool, idRisk: Int, maxPaymentDays: Int?, active: Bool, note: String?, isGuest: Bool, idShop: Int, idShopGroup: Int, dateAdd: Date?, dateUpd: Date?, resetPasswordToken: String?, resetPasswordValidity: Date?, associations: CustomerAssociations?)
+	init(id: Int?, idCustomer: Int?, idDefaultGroup: Int, idLang: Int, newsletterDateAdd: String?, ipRegistrationNewsletter: String?, lastPasswdGen: String?, secureKey: String?, deleted: Bool, passwd: String, lastname: String, firstname: String?, email: String, idGender: Int, birthday: String?, newsletter: Bool, optin: Bool, website: String?, company: String?, siret: String?, ape: String?, outstandingAllowAmount: Float?, showPublicPrices: Bool, idRisk: Int, maxPaymentDays: Int?, active: Bool, note: String?, isGuest: Bool, idShop: Int, idShopGroup: Int, dateAdd: String?, dateUpd: String?, resetPasswordToken: String?, resetPasswordValidity: String?, associations: CustomerAssociations?)
 	{
 		self.id = id
 		self.idCustomer = idCustomer
@@ -545,12 +549,12 @@ struct Customer: Codable, XMLIndexerDeserializable
 
 	static func deserialize(_ node: XMLIndexer) throws -> Customer
 	{
-		let date_full = DateFormatter()
-		date_full.dateFormat = "yyyy-MM-dd HH:mm:ss"
-		let date_only = DateFormatter()
-		date_only.dateFormat = "yyyy-MM-dd"
+//		let date_full = DateFormatter()
+//		date_full.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//		let date_only = DateFormatter()
+//		date_only.dateFormat = "yyyy-MM-dd"
 //		return try Customer(id: node["id"].value(), id_customer: node["id_customer"].value(), id_default_group: node["id_default_group"].value(), id_lang: node["id_lang"].value(), newsletter_date_add: date_full.date(from: node["newsletter_date_add"].value())!, ip_registration_newsletter: node["ip_registration_newsletter"].value(), last_passwd_gen: date_full.date(from: node["last_passwd_gen"].value())!, secure_key: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), id_gender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["newsletter"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstanding_allow_amount: node["outstanding_allow_amount"].value(), show_public_prices: node["show_public_prices"].value(), id_risk: node["id_risk"].value(), max_payment_days: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), is_guest: node["is_guest"].value(), id_shop: node["id_shop"].value(), id_shop_group: node["id_shop_group"].value(), date_add: date_full.date(from: node["date_add"].value())!, date_upd: date_full.date(from: node["date_upd"].value())!, reset_password_token: node["reset_password_token"].value(), reset_password_validity: date_full.date(from: node["reset_password_validity"].value())!, associations: /*CustomerAssociations*//*nil*/node["associations"]["groups"]["group"]["id"].value())
-		return try Customer(id: node["id"].value(), idCustomer: node["id_customer"].value(), idDefaultGroup: node["id_default_group"].value(), idLang: node["id_lang"].value(), newsletterDateAdd: date_full.date(from: node["newsletter_date_add"].value())!, ipRegistrationNewsletter: node["ip_registration_newsletter"].value(), lastPasswdGen: date_full.date(from: node["last_passwd_gen"].value())!, secureKey: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), idGender: node["id_gender"].value(), birthday: date_only.date(from: node["birthday"].value())!, newsletter: node["show_public_prices"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstandingAllowAmount: node["outstanding_allow_amount"].value(), showPublicPrices: node["show_public_prices"].value(), idRisk: node["id_risk"].value(), maxPaymentDays: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), isGuest: node["is_guest"].value(), idShop: node["id_shop"].value(), idShopGroup: node["id_shop_group"].value(), dateAdd: date_full.date(from: node["date_add"].value())!, dateUpd: date_full.date(from: node["date_upd"].value())!, resetPasswordToken: node["reset_password_token"].value(), resetPasswordValidity: date_full.date(from: node["reset_password_validity"].value())!, associations: node["associations"]["groups"]["group"]["id"].value())
+		return try Customer(id: node["id"].value(), idCustomer: node["id_customer"].value(), idDefaultGroup: node["id_default_group"].value(), idLang: node["id_lang"].value(), newsletterDateAdd: node["newsletter_date_add"].value(), ipRegistrationNewsletter: node["ip_registration_newsletter"].value(), lastPasswdGen: node["last_passwd_gen"].value(), secureKey: node["secure_key"].value(), deleted: node["deleted"].value(), passwd: node["passwd"].value(), lastname: node["lastname"].value(), firstname: node["firstname"].value(), email: node["email"].value(), idGender: node["id_gender"].value(), birthday: node["birthday"].value(), newsletter: node["show_public_prices"].value(), optin: node["optin"].value(), website: node["website"].value(), company: node["company"].value(), siret: node["siret"].value(), ape: node["ape"].value(), outstandingAllowAmount: node["outstanding_allow_amount"].value(), showPublicPrices: node["show_public_prices"].value(), idRisk: node["id_risk"].value(), maxPaymentDays: node["max_payment_days"].value(), active: node["active"].value(), note: node["note"].value(), isGuest: node["is_guest"].value(), idShop: node["id_shop"].value(), idShopGroup: node["id_shop_group"].value(), dateAdd: node["date_add"].value(), dateUpd: node["date_upd"].value(), resetPasswordToken: node["reset_password_token"].value(), resetPasswordValidity: node["reset_password_validity"].value(), associations: node["associations"]["groups"]["group"]["id"].value())
 	}
 }
 struct Customers: Codable
@@ -602,7 +606,7 @@ extension Customer
 //		return customer
 //	}
 	
-	func toXML() -> String?
+	func toXML(header: XMLHeader, wrapper: String? = nil, wrapperNS: String? = nil) -> String?
 	{
 		let encoder = XMLEncoder()
 		
@@ -617,8 +621,11 @@ extension Customer
 		
 		do
 		{
-			let data = try encoder.encode(self, withRootKey: "customer", header: XMLHeader(version: 1.0))
-			return String(data: data, encoding: .utf8)
+			let data = try encoder.encode(self, withRootKey: "customer")
+			//let data2 = try encoder.encode(data, withRootKey: "prestashop", header: XMLHeader(version: 1.0, encoding: "UTF-8"))
+			let str = String(data: data, encoding: .utf8)
+			return header.toXML()! + ((wrapper != nil) ? "<\(wrapper!)" + ((wrapperNS != nil) ? " \(wrapperNS!)>\n" : ">\n") : "") + str! + ((wrapper != nil) ? "\n</\(wrapper!)>" : "")
+//			return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<prestashop xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n" + str! + "\n</prestashop>"
 		}
 		catch
 		{
@@ -657,27 +664,27 @@ extension Customers
 //		return customers
 //	}
 	
-	func toXML() -> String?
-	{
-		let encoder = XMLEncoder()
-		
-		let formatter: DateFormatter =
-		{
-			let formatter = DateFormatter()
-			formatter.dateFormat = "yyyy-MM-dd"
-			return formatter
-		}()
-		
-		encoder.dateEncodingStrategy = .formatted(formatter)
-		
-		do {
-			let data = try encoder.encode(self, withRootKey: "customers", header: XMLHeader(version: 1.0))
-			return String(data: data, encoding: .utf8)
-		} catch {
-			print(error)
-			return nil
-		}
-	}
+//	func toXML() -> String?
+//	{
+//		let encoder = XMLEncoder()
+//
+//		let formatter: DateFormatter =
+//		{
+//			let formatter = DateFormatter()
+//			formatter.dateFormat = "yyyy-MM-dd"
+//			return formatter
+//		}()
+//
+//		encoder.dateEncodingStrategy = .formatted(formatter)
+//
+//		do {
+//			let data = try encoder.encode(self, withRootKey: "customers", header: XMLHeader(version: 1.0))
+//			return String(data: data, encoding: .utf8)
+//		} catch {
+//			print(error)
+//			return nil
+//		}
+//	}
 }
 
 

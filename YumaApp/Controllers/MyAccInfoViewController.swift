@@ -344,11 +344,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		field3Edit.text = self.customer?.email
 		//field3Label.alpha = 0//.isHidden = true
 		field3Edit.textColor = UIColor.darkGray
-		let df = DateFormatter()
-		df.dateFormat = "yyyy-MM-dd"
+//		let df = DateFormatter()
+//		df.dateFormat = "yyyy-MM-dd"
 		if self.customer?.birthday != nil
 		{
-			field4Edit.text = df.string(from: (self.customer?.birthday)!)
+			field4Edit.text = (self.customer?.birthday)!
 		}
 		field5Edit.text = self.customer?.company
 		field6Edit.text = self.customer?.website
@@ -603,13 +603,13 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				case "<birthday":
 					if self.field4Edit.text != nil && !(self.field4Edit.text?.isEmpty)!
 					{
-						let bdate = DateFormatter()
-						bdate.dateFormat = "yyyy-MM-dd"
-						if !(self.field4Edit.text?.isEmpty)! && self.field4Edit.text != bdate.string(from: (self.store.customer?.birthday)!)
+//						let bdate = DateFormatter()
+//						bdate.dateFormat = "yyyy-MM-dd"
+						if !(self.field4Edit.text?.isEmpty)! && self.field4Edit.text != (self.store.customer?.birthday)!
 						{
 							changed = true
 						}
-						arrayXML[i] = "\n" + arrayXML[i] + "\(bdate.date(from: self.field4Edit.text!)!)"
+						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field4Edit.text!)!"
 					}
 					break
 				case "<company":

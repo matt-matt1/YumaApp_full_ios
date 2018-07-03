@@ -422,7 +422,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 
 	func setupFields()
 	{
-		stack = UIStackView(arrangedSubviews: [alias, company, lastname, firstname, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other, gapBeforeButton, button])
+		stack = UIStackView(arrangedSubviews: [alias, firstname, lastname, company, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other, gapBeforeButton, button])
 		stack.axis = .vertical
 //		stack.alignment = .fill
 //		stack.distribution = .fill

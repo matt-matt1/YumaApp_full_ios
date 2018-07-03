@@ -76,7 +76,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		//UserDefaults.standard.set(nil, forKey: "Orders7Details")
 		UserDefaults.standard.set(nil, forKey: "CustomerAddresses")
 		getValues()
-		setDefaults()
+		setDefaults()// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
 //		var ws = WebService()
 //		ws.startURL = R.string.WSbase
 //		ws.resource = APIResource.addresses
@@ -160,7 +160,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
 
-	
+
 	fileprivate func getValues()
 	{
 		if store.countries.count < 1	//check if not already in data store
@@ -824,60 +824,110 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 		else
 		{
-			print("data store has \(store.tags.count) product_option_values")
+			print("data store has \(store.tags.count) groups")
+		}
+		if store.groups.count < 1	//check if not already in data store
+		{
+			let items = UserDefaults.standard.string(forKey: "Groups")
+			if (items == nil || items == "[]") && Reachability.isConnectedToNetwork()
+			{
+				store.callGetGroups(completion:
+					{ 	(items, err) in	//api get
+						if self.store.debug > 5
+						{
+							if err == nil
+							{
+								print("got \(((items) as AnyObject).count ?? 0) groups")
+							}
+							else
+							{
+								print("\(R.string.err) \(err?.localizedDescription ?? err.debugDescription)")
+							}
+						}
+				})
+			}
+			else
+			{
+				do	//decode user data then insert each into the data store
+				{
+					let all = try JSONDecoder().decode(Groups.self, from: (items?.data(using: .utf8))!)
+					for t in all.groups!
+					{
+						store.groups.append(t)
+					}
+					print("decoded \(store.groups.count) groups")
+				}
+				catch let JSONerr
+				{
+					print("\(R.string.err) \(JSONerr)")
+				}
+			}
+		}
+		else
+		{
+			print("data store has \(store.tags.count) groups")
 		}
 	}
 
 
-	func setDefaults()
+	func setDefaults()	// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
 	{
+/**/
 //		//572 elements
 //		0 : "1" : "PS_LANG_DEFAULT" date_add : "2016-12-18 22:19:37"date_upd : "2016-12-18 22:19:37"
 		//		store.myLang = Int(store.configValue(forKey: "PS_LANG_DEFAULT"))!
 		let myLang = store.configValue(forKey: "PS_LANG_DEFAULT")
-		if !myLang.isEmpty
-		{
-			store.myLang = Int(myLang)!
-		}
-		else
-		{
-			store.myLang = 0
-		}
+//		if !myLang.isEmpty
+//		{
+//			store.myLang = Int(myLang)!
+//		}
+//		else
+//		{
+//			store.myLang = 0
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		//		store.weightUnit = (!tempWeightUnit.isEmpty) ? tempWeightUnit : "kg"
+		store.myLang = (!myLang.isEmpty) ? Int(myLang)! : 0
 //		1 : value : "1.7.2.4" name : "PS_VERSION_DB" date_add : "2016-12-18 22:19:37" date_upd : "2016-12-18 22:19:37"
 //		2 : value : "1.7.0.2" name : "PS_INSTALL_VERSION" date_add : "2016-12-18 22:19:37" date_upd : "2016-12-18 22:19:37"
 //		3 : value : "1" : "PS_CARRIER_DEFAULT" date_add : "2016-12-18 22:19:42" date_upd : "2018-04-25 16:28:31"
 		let tempDefaultCarrier = store.configValue(forKey: "PS_CARRIER_DEFAULT")
-		if !tempDefaultCarrier.isEmpty
-		{
-			store.defaultCarrier = Int(tempDefaultCarrier)!
-		}
-		else
-		{
-			store.defaultCarrier = 1
-		}
+//		if !tempDefaultCarrier.isEmpty
+//		{
+//			store.defaultCarrier = Int(tempDefaultCarrier)!
+//		}
+//		else
+//		{
+//			store.defaultCarrier = 1
+//		}
+		store.defaultCarrier = (!tempDefaultCarrier.isEmpty) ? Int(tempDefaultCarrier)! : 1
 //		4 value : "1" : "PS_GROUP_FEATURE_ACTIVE" date_add : "2016-12-18 22:19:43" date_upd : "2016-12-18 22:19:43"
 //		5 value : "1" : "PS_SEARCH_INDEXATION" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		6 value : "1" : "PS_CURRENCY_DEFAULT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		let defaultCurr = store.configValue(forKey: "PS_CURRENCY_DEFAULT")
-		if !defaultCurr.isEmpty
-		{
-			store.defaultCurr = Int(defaultCurr)!
-		}
-		else
-		{
-			store.defaultCurr = 0
-		}
+//		if !defaultCurr.isEmpty
+//		{
+//			store.defaultCurr = Int(defaultCurr)!
+//		}
+//		else
+//		{
+//			store.defaultCurr = 0
+//		}
+		store.defaultCurr = (!defaultCurr.isEmpty) ? Int(defaultCurr)! : 0
 //		7 value : "4" : "PS_COUNTRY_DEFAULT" date_add : "0000-00-00 00:00:00" date_upd : "2016-12-18 22:19:46"
 		//		store.defaultCountry = Int(store.configValue(forKey: "PS_COUNTRY_DEFAULT"))!
 		let defaultCountry = store.configValue(forKey: "PS_COUNTRY_DEFAULT")
-		if !defaultCountry.isEmpty
-		{
-			store.defaultCountry = Int(defaultCountry)!
-		}
-		else
-		{
-			store.defaultCountry = 0
-		}
+//		if !defaultCountry.isEmpty
+//		{
+//			store.defaultCountry = Int(defaultCountry)!
+//		}
+//		else
+//		{
+//			store.defaultCountry = 0
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+//		store.weightUnit = (!tempWeightUnit.isEmpty) ? tempWeightUnit : "kg"
+		store.defaultCountry = (!defaultCountry.isEmpty) ? Int(defaultCountry)! : 0
 //		8 value : "1" : "PS_REWRITING_SETTINGS" date_add : "0000-00-00 00:00:00" date_upd : "2016-12-18 22:19:46"
 //		9 value : "1" : "PS_ORDER_OUT_OF_STOCK" date_add : "0000-00-00 00:00:00" date_upd : "2016-12-19 21:27:48"
 //		10 value : "3" : "PS_LAST_QTIES" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -901,14 +951,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		29 value : "0" : "PS_SSL_ENABLED" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		30 value : "kg" : "PS_WEIGHT_UNIT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		let tempWeightUnit = store.configValue(forKey: "PS_WEIGHT_UNIT")
-		if !tempWeightUnit.isEmpty
-		{
-			store.weightUnit = tempWeightUnit
-		}
-		else
-		{
-			store.weightUnit = "kg"
-		}
+//		if !tempWeightUnit.isEmpty
+//		{
+//			store.weightUnit = tempWeightUnit
+//		}
+//		else
+//		{
+//			store.weightUnit = "kg"
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.weightUnit = (!tempWeightUnit.isEmpty) ? tempWeightUnit : "kg"
 //		31 value : "1" : "PS_BLOCK_CART_AJAX" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		32 value : "0" : "PS_ORDER_RETURN" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		33 value : "14" : "PS_ORDER_RETURN_NB_DAYS" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -923,24 +975,28 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		42 value : "360" : "PS_PASSWD_TIME_BACK" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		43 value : "360" : "PS_PASSWD_TIME_FRONT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		let tempPasswdTimeFront = store.configValue(forKey: "PS_PASSWD_TIME_FRONT")
-		if !tempPasswdTimeFront.isEmpty
-		{
-			store.passwdTimeFront = TimeInterval(tempPasswdTimeFront)!
-		}
-		else
-		{
-			store.passwdTimeFront = TimeInterval(0)
-		}
+//		if !tempPasswdTimeFront.isEmpty
+//		{
+//			store.passwdTimeFront = TimeInterval(tempPasswdTimeFront)!
+//		}
+//		else
+//		{
+//			store.passwdTimeFront = TimeInterval(0)
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.passwdTimeFront = (!tempPasswdTimeFront.isEmpty) ? TimeInterval(tempPasswdTimeFront)! : TimeInterval(0)
 //		44 value : "1440" : "PS_PASSWD_RESET_VALIDITY" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		let passwdTimeResetValidity = store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
-		if !passwdTimeResetValidity.isEmpty
-		{
-			store.passwdTimeResetValidity = TimeInterval(passwdTimeResetValidity)!
-		}
-		else
-		{
-			store.passwdTimeResetValidity = TimeInterval(0)
-		}
+//		if !passwdTimeResetValidity.isEmpty
+//		{
+//			store.passwdTimeResetValidity = TimeInterval(passwdTimeResetValidity)!
+//		}
+//		else
+//		{
+//			store.passwdTimeResetValidity = TimeInterval(0)
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.passwdTimeResetValidity = (!passwdTimeResetValidity.isEmpty) ? TimeInterval(passwdTimeResetValidity)! : TimeInterval(0)
 //		45 value : "1" : "PS_DISP_UNAVAILABLE_ATTR" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		46 value : "3" : "PS_SEARCH_MINWORDLEN" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		47 value : "6" : "PS_SEARCH_WEIGHT_PNAME" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -990,25 +1046,29 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		91 value : "en" : "PS_LOCALE_LANGUAGE" date_add : "0000-00-00 00:00:00" date_upd : "2016-12-18 22:19:46"
 		//		store.defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
 		let defaultLangISO = store.configValue(forKey: "PS_LOCALE_LANGUAGE")
-		if !defaultLangISO.isEmpty
-		{
-			store.defaultLangISO = defaultLangISO
-		}
-		else
-		{
-			store.defaultLangISO = ""
-		}
+//		if !defaultLangISO.isEmpty
+//		{
+//			store.defaultLangISO = defaultLangISO
+//		}
+//		else
+//		{
+//			store.defaultLangISO = ""
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.defaultLangISO = (!defaultLangISO.isEmpty) ? defaultLangISO : ""
 //		92 value : "ca" : "PS_LOCALE_COUNTRY" date_add : "0000-00-00 00:00:00" date_upd : "2016-12-18 22:19:46"
 		//		store.defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
 		let defaultCountryISO = store.configValue(forKey: "PS_LOCALE_COUNTRY")
-		if !defaultCountryISO.isEmpty
-		{
-			store.defaultCountryISO = defaultCountryISO
-		}
-		else
-		{
-			store.defaultCountryISO = ""
-		}
+//		if !defaultCountryISO.isEmpty
+//		{
+//			store.defaultCountryISO = defaultCountryISO
+//		}
+//		else
+//		{
+//			store.defaultCountryISO = ""
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.defaultCountryISO = (!defaultCountryISO.isEmpty) ? defaultCountryISO : ""
 //		93 value : "8" : "PS_ATTACHMENT_MAXIMUM_SIZE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		94 value : "1" : "PS_SMARTY_CACHE" date_add : "0000-00-00 00:00:00" date_upd : "2017-06-01 18:58:18"
 //		95 value : "cm" : "PS_DIMENSION_UNIT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -1060,14 +1120,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		141 value : "1" : "PS_SHOP_DEFAULT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		//		store.idShop = Int(store.configValue(forKey: "PS_SHOP_DEFAULT"))!
 		let idShop = store.configValue(forKey: "PS_SHOP_DEFAULT")
-		if !idShop.isEmpty
-		{
-			store.idShop = Int(idShop)!
-		}
-		else
-		{
-			store.idShop = 0
-		}
+//		if !idShop.isEmpty
+//		{
+//			store.idShop = Int(idShop)!
+//		}
+//		else
+//		{
+//			store.idShop = 0
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.idShop = (!idShop.isEmpty) ? Int(idShop)! : 0
 //		142 value : "0" : "PS_CARRIER_DEFAULT_SORT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		143 value : "1" : "PS_STOCK_MVT_INC_REASON_DEFAULT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		144 value : "2" : "PS_STOCK_MVT_DEC_REASON_DEFAULT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -1082,14 +1144,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		153 value : "3" : "PS_CUSTOMER_GROUP" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		//		store.idDefaultGroup = Int(store.configValue(forKey: "PS_CUSTOMER_GROUP"))!
 		let idDefaultGroup = store.configValue(forKey: "PS_CUSTOMER_GROUP")
-		if !idDefaultGroup.isEmpty
-		{
-			store.idDefaultGroup = Int(idDefaultGroup)!
-		}
-		else
-		{
-			store.idDefaultGroup = 0
-		}
+//		if !idDefaultGroup.isEmpty
+//		{
+//			store.idDefaultGroup = Int(idDefaultGroup)!
+//		}
+//		else
+//		{
+//			store.idDefaultGroup = 0
+//		}
+		//store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.idDefaultGroup = (!idDefaultGroup.isEmpty) ? Int(idDefaultGroup)! : 0
 //		154 value : "0" : "PS_SMARTY_CONSOLE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		155 value : "invoice" : "PS_INVOICE_MODEL" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		156 value : "2" : "PS_LIMIT_UPLOAD_IMAGE_VALUE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -1198,25 +1262,29 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		259 value : "1" : "PS_CUSTOMER_OPTIN" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		//		store.custOptin = Int(store.configValue(forKey: "PS_CUSTOMER_OPTIN"))!
 		let custOptin = store.configValue(forKey: "PS_CUSTOMER_OPTIN")
-		if !custOptin.isEmpty
-		{
-			store.custOptin = Int(custOptin)!
-		}
-		else
-		{
-			store.custOptin = 0
-		}
+//		if !custOptin.isEmpty
+//		{
+//			store.custOptin = Int(custOptin)!
+//		}
+//		else
+//		{
+//			store.custOptin = 0
+//		}
+//		store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.custOptin = (!custOptin.isEmpty) ? Int(custOptin)! : 0
 //		260 value : "1" : "PS_CUSTOMER_BIRTHDATE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		//		store.custBDate = Int(store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE"))!
 		let custBDate = store.configValue(forKey: "PS_CUSTOMER_BIRTHDATE")
-		if !custBDate.isEmpty
-		{
-			store.custBDate = Int(custBDate)!
-		}
-		else
-		{
-			store.custBDate = 0
-		}
+//		if !custBDate.isEmpty
+//		{
+//			store.custBDate = Int(custBDate)!
+//		}
+//		else
+//		{
+//			store.custBDate = 0
+//		}
+//		store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+		store.custBDate = (!custBDate.isEmpty) ? Int(custBDate)! : 0
 //		261 value : "0" : "PS_PACK_STOCK_TYPE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		262 value : "0" : "PS_LOG_MODULE_PERFS_MODULO" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		263 value : "0" : "PS_DISALLOW_HISTORY_REORDERING" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -1231,29 +1299,32 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			store.preventReorderFromHist = 0
 //		}
 		let tempDisallowReorder = store.configValue(forKey: "PS_DISALLOW_HISTORY_REORDERING")
-		if /*tempDisallowReorder is String &&*/ !tempDisallowReorder.isEmpty
-		{
-			store.disallowReorder = (tempDisallowReorder == "1")
-		}
-//		else if tempDisallowReorder is Int
+//		if /*tempDisallowReorder is String &&*/ !tempDisallowReorder.isEmpty
 //		{
-//			store.disallowReorder = (tempDisallowReorder == 1)
+//			store.disallowReorder = (tempDisallowReorder == "1")
 //		}
-		else
-		{
-			store.disallowReorder = false
-		}
+////		else if tempDisallowReorder is Int
+////		{
+////			store.disallowReorder = (tempDisallowReorder == 1)
+////		}
+//		else
+//		{
+//			store.disallowReorder = false
+//		}
+		store.disallowReorder = (!tempDisallowReorder.isEmpty) ? (tempDisallowReorder == "1") : false
+//		store.disallowReorder = (!tempDisallowReorder.isEmpty) ? Int(tempDisallowReorder)! : 0
 //		264 value : "0" : "PS_DISPLAY_PRODUCT_WEIGHT" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 		//		store.displayWeight = Int(store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT"))!
 		let displayWeight = store.configValue(forKey: "PS_DISPLAY_PRODUCT_WEIGHT")
-		if !displayWeight.isEmpty
-		{
-			store.displayWeight = (displayWeight == "1")
-		}
-		else
-		{
-			store.displayWeight = false
-		}
+//		if !displayWeight.isEmpty
+//		{
+//			store.displayWeight = (displayWeight == "1")
+//		}
+//		else
+//		{
+//			store.displayWeight = false
+//		}
+		store.displayWeight = (!displayWeight.isEmpty) ? (displayWeight == "1") : false
 //		265 value : "2" : "PS_PRODUCT_WEIGHT_PRECISION" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		266 value : "0" : "PS_ACTIVE_CRONJOB_EXCHANGE_RATE" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
 //		267 value : "1" : "PS_ORDER_RECALCULATE_SHIPPING" date_add : "0000-00-00 00:00:00" date_upd : "0000-00-00 00:00:00"
@@ -1315,14 +1386,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		323 value : "1" : "PS_DISPLAY_DISCOUNT_PRICE" date_add : "2016-12-19 21:27:48" date_upd : "2016-12-23 16:09:23"
 		//		store.displayDiscPrice = Int(store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE"))!
 		let displayDiscPrice = store.configValue(forKey: "PS_DISPLAY_DISCOUNT_PRICE")
-		if !displayDiscPrice.isEmpty
-		{
-			store.displayDiscPrice = Int(displayDiscPrice)!
-		}
-		else
-		{
-			store.displayDiscPrice = 0
-		}
+//		if !displayDiscPrice.isEmpty
+//		{
+//			store.displayDiscPrice = Int(displayDiscPrice)!
+//		}
+//		else
+//		{
+//			store.displayDiscPrice = 0
+//		}
+		store.displayDiscPrice = (!displayDiscPrice.isEmpty) ? Int(displayDiscPrice)! : 0
 //		324 value : "0" : "PS_FINAL_SUMMARY_ENABLED" date_add : "2016-12-19 21:29:02" date_upd : "2016-12-19 21:29:02"
 //		325 value : "0" : "PS_SHIP_WHEN_AVAILABLE" date_add : "2016-12-19 21:29:02" date_upd : "2016-12-19 21:29:02"
 //		326 value : "0" : "PS_GIFT_WRAPPING_TAX_RULES_GROUP" date_add : "2016-12-19 21:29:02" date_upd : "2016-12-19 21:29:02"
@@ -1546,14 +1618,15 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		544 value : "89" : "PS_SHOP_STATE_ID" id_shop_group : "1" id_shop : "1" date_add : "2017-01-18 18:05:30" date_upd : "2017-01-18 18:05:30"
 		//		store.defaultCountryState = Int(store.configValue(forKey: "PS_SHOP_STATE_ID"))!
 		let defaultCountryState = store.configValue(forKey: "PS_SHOP_STATE_ID")
-		if !defaultCountryState.isEmpty
-		{
-			store.defaultCountryState = Int(defaultCountryState)!
-		}
-		else
-		{
-			store.defaultCountryState = 0
-		}
+//		if !defaultCountryState.isEmpty
+//		{
+//			store.defaultCountryState = Int(defaultCountryState)!
+//		}
+//		else
+//		{
+//			store.defaultCountryState = 0
+//		}
+		store.defaultCountryState = (!defaultCountryState.isEmpty) ? Int(defaultCountryState)! : 0
 //		545 value : "Ontario" : "PS_SHOP_STATE" id_shop_group : "1" id_shop : "1" date_add : "2017-01-18 18:05:30" date_upd : "2017-01-18 18:05:30"
 //		546 value : "1" : "PS_STATSDATA_PAGESVIEWS" id_shop_group : "1" id_shop : "1" date_add : "2017-02-05 10:51:28" date_upd : "2017-02-05 10:51:28"
 //		547 value : "1" : "PS_SMARTY_CACHE" id_shop_group : "1" id_shop : "1" date_add : "2017-02-17 10:02:10" date_upd : "2017-02-17 10:02:10"
@@ -1583,6 +1656,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		571	- value : nil : "PS_MAINTENANCE_IP" id_shop_group : "1" id_shop : "2" date_add : "2017-01-02 22:55:07" date_upd : "2017-01-02 22:55:07"
 		//CHEQUE_NAME, CHEQUE_ADDRESS
 		//BANK_WIRE_DETAILS, BANK_WIRE_OWNER, BANK_WIRE_ADDRESS, BANK_WIRE_RESERVATION_DAYS, BANK_WIRE_CUSTOM_TEXT
+/**/
 		store.locale = String(format: "%@_%@", store.defaultLangISO, store.defaultCountryISO.uppercased())
 	}
 

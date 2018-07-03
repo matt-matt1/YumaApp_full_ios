@@ -104,6 +104,7 @@ extension R
 		static let or = "or"
 		static let ok = "OK"
 		static let tryAgain = "Try again"
+		static let tryAgainLater = "Try again later"
 		static let nickName = "nick name"
 		static let overw = "A new password is already in place. Over write this value?"
 		static let mismatch = "mismatch"
