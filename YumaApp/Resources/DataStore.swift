@@ -80,6 +80,7 @@ final class DataStore
 	var weightUnit = 									"kg"
 	var passwdTimeFront: 		TimeInterval = 			0
 	var blankSchemaXML: 		[String : String] = 	[:]
+	var passwdTimeResetValidity:TimeInterval = 			0
 
 	
 	/// Sets the parameters for product shares
@@ -164,7 +165,7 @@ final class DataStore
 					do
 					{
 						let str = String(data: unwrappedData, encoding: .utf8)
-						if str == "" || str == "BAD"
+						if str == "" || str == "BAD" || (str != nil && (str?.contains("<html"))!)
 						{
 							completion(false)
 						}
@@ -440,7 +441,8 @@ final class DataStore
 				
 				if error != nil
 				{
-					print(error!)
+//					print(error!)
+					completion(nil, error)
 				}
 				else
 				{

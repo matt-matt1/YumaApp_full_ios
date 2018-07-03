@@ -185,7 +185,7 @@ class SetPW: UIViewController, UIGestureRecognizerDelegate
 		dialogWidth = min(max(view.frame.width/2, minWidth), maxWidth)
 		dialogHeight = min(max(view.frame.height/2, minHeight), maxHeight)
 		UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIViewAnimationOptions.curveEaseOut, animations: {
-//			self.view.backgroundColor = R.color.YumaRed.withAlphaComponent(self.backgroundAlpha)
+			self.view.backgroundColor = R.color.YumaRed.withAlphaComponent(self.backgroundAlpha)
 		}, completion: nil)
 		
 		drawTitle()

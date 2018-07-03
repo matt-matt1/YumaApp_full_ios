@@ -26,8 +26,10 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 //	var password = ""
 	var result: Customer!
 	var resetStr = ""
-	var resetB64 = ""
+	var resetEncoded = ""
 
+
+	// MARK: Overrides
 
 	override func viewDidLoad()
 	{
@@ -59,6 +61,15 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 //		notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 	}
 
+	
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+
+
+	// MARK: Methods
 
 	fileprivate func configureView()
 	{
@@ -120,13 +131,8 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 		return emailTest.evaluate(with: email)
 	}
 
-
-	override func didReceiveMemoryWarning()
-	{
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+	
+	// MARK: Actions
 	
 //	@objc func adjustForKeyboard(notification: Notification)
 //	{
@@ -165,6 +171,7 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 	{
 		if isValidEmail(fieldValue.text!)
 		{
+//			var results: [Customer] = []
 			var ws = WebService()
 			ws.startURL = R.string.WSbase
 			ws.filter = ["email" : [fieldValue.text!]]
@@ -178,51 +185,42 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 					do
 					{
 						let dataString = String(data: data as Data, encoding: .utf8)
-//						print(dataString!)
 						let innerEnclosed = self.store.trimJSONValueToArray(string: dataString!)
 						let inner1 = innerEnclosed.dropLast()
 						let inner = inner1.dropFirst()
 						let data = inner.data(using: .utf8)!
-//						if let regex = try? NSRegularExpression(pattern: "\"id\":\"([^\"]*).*", options: .caseInsensitive)
-//						{
-//							let string = dataString! as NSString
-//							regex.matches(in: dataString!, options: [], range: NSRange(location: 0, length: string.length)).map{
-//								string.substring(with: $0.range)
-//							})
-//						}
-						let dataNums = matches(for: "[0-9]", in: dataString!)
-//						let data = data as Data
 						self.result = try JSONDecoder().decode(Customer.self, from: data)
-						self.result.id = Int(dataNums[0])
-						self.result.idCustomer = Int(dataNums[0])
-						if self.result.active! && !self.result.deleted!
+						let jsonResult = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String:Any]
+						self.result.id = jsonResult?["id"] as? Int
+						self.result.idCustomer = jsonResult?["id"] as? Int
+						if self.result.active! && !self.result.deleted! //&& self.result.resetPasswordToken == nil
 						{
 							let now = Date()
 							let last: Date = (self.result.lastPasswdGen != now) ? self.result.lastPasswdGen! : Date()// = "1900-06-15 12:00:00"
-							let after = (last.addingTimeInterval(TimeInterval(self.store.passwdTimeFront)))
+							let after = (last.addingTimeInterval(TimeInterval(self.store.passwdTimeFront*60)))
 							if after < now
 							{
 								let df = DateFormatter()
 								df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 								self.resetStr = df.string(from: Date())/*new__last_passwd_gen*/
-								self.resetB64 = self.resetStr/*new__last_passwd_gen*/.toBase64()!
-//								ws.edit(completionHandler: { (httpResult) in
-//									//
-//								})
-//								self.store.PutHTTP(url: "", parameters: ["last_passwd_gen" : resetStr], headers: ["" : ""], body: "", completion: { (done) in
-//									//
-//								})
-								//eg. http://yumatechnical.com/en/password-recovery?token=baef23c3484858f93935c13fcebd891f&id_customer=3&reset_token=cb95ebe931744087686a8c4b0f48a5ee24ceb0a7
-								let link = "\(R.string.forgotPWLink)?token=\(self.result.secureKey ?? "")&id_customer=\(self.result.idCustomer!)&reset_token=\(self.resetB64)"
-								print(link)
-								DispatchQueue.main.async {
-									let vc = SetPW()
-									vc.modalTransitionStyle = .crossDissolve
-									vc.modalPresentationStyle = .overCurrentContext
-									vc.delegate = self
-									self.present(vc, animated: false, completion: {
-									})
-								}
+								self.resetEncoded = self.resetStr.sha1
+//								let link = "\(R.string.forgotPWLink)?token=\(self.result.secureKey ?? "")&id_customer=\(self.result.idCustomer!)&reset_token=\(self.resetEncoded)"
+//								print(link)
+								self.result.resetPasswordValidity = Date().addingTimeInterval(TimeInterval(self.store.passwdTimeResetValidity))
+								self.result.resetPasswordToken = self.resetEncoded
+								ws.xml = self.result.toXML()
+								ws.id = self.result.idCustomer!
+								print("xml=\(ws.xml!)")
+								ws.edit(completionHandler: { (httpResult) in
+									DispatchQueue.main.async {
+										let vc = SetPW()
+										vc.modalTransitionStyle = .crossDissolve
+										vc.modalPresentationStyle = .overCurrentContext
+										vc.delegate = self
+										self.present(vc, animated: false, completion: {
+										})
+									}
+								})
 							}
 							else
 							{
@@ -231,68 +229,32 @@ class ForgotPWViewController: UIViewController, UITextFieldDelegate
 								})
 							}
 						}
+//						else if self.result.resetPasswordToken != nil
+//						{
+//							DispatchQueue.main.async {
+//								let vc = SetPW()
+//								vc.modalTransitionStyle = .crossDissolve
+//								vc.modalPresentationStyle = .overCurrentContext
+//								vc.delegate = self
+//								self.present(vc, animated: false, completion: {
+//								})
+//							}
+//						}
+					}
+					catch let JSONerr
+					{
 						myAlertOnlyDismiss(self, title: R.string.acc, message: R.string.notAct, dismissAction: {
 						}, completion: {
 							self.dismiss(animated: false, completion: {
 							})
 						})
-					}
-					catch let JSONerr
-					{
 						if self.store.debug > 0
 						{
-							print(JSONerr)
+							print(JSONerr.localizedDescription)
 						}
-						myAlertOnlyDismiss(self, title: R.string.acc, message: R.string.notAct)
-//						OperationQueue.main.addOperation
-//						{
-//							let alert = 					UIAlertController(title: R.string.acc, message: "\(R.string.notAct)", preferredStyle: .alert)
-//							let coloredBG = 				UIView()
-//							let blurFx = 					UIBlurEffect(style: .dark)
-//							let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//							alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//							alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//							alert.view.superview?.backgroundColor = R.color.YumaRed
-//							alert.view.shadowColor = 		R.color.YumaDRed
-//							alert.view.shadowOffset = 		.zero
-//							alert.view.shadowRadius = 		5
-//							alert.view.shadowOpacity = 		1
-//							alert.view.backgroundColor = 	R.color.YumaYel
-//							alert.view.cornerRadius = 		15
-//							coloredBG.backgroundColor = 	R.color.YumaRed
-//							coloredBG.alpha = 				0.4
-//							coloredBG.frame = 				self.view.bounds
-//							self.view.addSubview(coloredBG)
-//							blurFxView.frame = 				self.view.bounds
-//							blurFxView.alpha = 				0.5
-//							blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//							self.view.addSubview(blurFxView)
-//							alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-//								{ 	(action) in
-//									coloredBG.removeFromSuperview()
-//									blurFxView.removeFromSuperview()
-//									//self.dismiss(animated: false, completion: nil)
-//							}))
-//							self.present(alert, animated: true, completion:
-//							{
-//							})
-//						}
 					}
 				}
 			}
-//			store.callGetCustomerDetails(from: "\(R.string.WSbase)customers?\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)") { (cust) in
-//				print(cust)
-//			}
-//			store.PostHTTP(url: R.string.forgotPWLink, parameters: ["email": fieldValue.text!], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil) 	{ 	(link) in
-//				self.alertMessage(alerttitle: R.string.login, link as! String)
-//			}
-//			let send = "\(url)?email=\(fieldValue)"
-//			print("getting response for '\(send)'")
-//			store.get(from: send, completion:
-//				{
-//					(customer) in
-//				}
-//			)
 		}
 		else
 		{
@@ -309,11 +271,19 @@ extension ForgotPWViewController: SetPWDelegate
 {
 	func SetPWValue(value: String)
 	{
-		self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": value, "confirmation": value, "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": self.resetB64.isEmpty ? self.resetB64 : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
-			myAlertOnlyDismiss(self, title: R.string.acc, message: (success as! String).description, dismissAction: {
-			}, completion: {
-				print(success)
-			})
+		self.store.PostHTTP(url: R.string.forgotPWLink, parameters: ["passwd": value, "confirmation": value, "token": (result.secureKey!), "id_customer": String((result.id!)), "reset_token": self.resetEncoded.isEmpty ? self.resetEncoded : ""], headers: ["Content-Type": "application/x-www-form-urlencoded"], body: nil, save: nil, asJSON: false, completion: { (success) in
+			
+			if success is Bool
+			{
+				myAlertOnlyDismiss(self, title: R.string.forgotPW, message: R.string.failed)
+			}
+			else
+			{
+				myAlertOnlyDismiss(self, title: R.string.acc, message: (success as! String).description, dismissAction: {
+				}, completion: {
+					print(success)
+				})
+			}
 			//launch my account
 		})
 	}

@@ -222,7 +222,7 @@ extension R
 		static let resetOnly = "You can regenerate your password only every %d minute(s)"
 		static let same = "Keep the same or press to change"
 		static let delAcc = "Delete account"
-		static let delAccMore = "WARNING:  This prevent anyone from loggings into this account;  Also all  connected addresses will be unaccessible;  Also the connected order history will be unaccessible"
+		static let delAccMore = "WARNING:  This prevents login to this account;  Also all connected addresses will be inaccessible;  Also the connected order history will be inaccessible"
 		static let minPass = "minimum 5 characters"
 		// MARK:		<!--cart-->
 		static let cart = "Cart"

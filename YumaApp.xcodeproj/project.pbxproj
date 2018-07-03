@@ -218,6 +218,7 @@
 		CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */; };
 		CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC1D202203C569000343B25 /* ExpandMapViewController.swift */; };
 		CFC1D205203C569000343B25 /* ExpandMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFC1D203203C569000343B25 /* ExpandMapViewController.xib */; };
+		CFC4BB2220EAF7EA00B927ED /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC4BB2120EAF7EA00B927ED /* Data.swift */; };
 		CFD2B0372087D60200E2DBE7 /* MyAccAddr2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */; };
 		CFD2B0392087F48200E2DBE7 /* Addr2CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */; };
 		CFD4E78F20D5BCB8000BA1DF /* ProductLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */; };
@@ -478,6 +479,7 @@
 		CFC1D1FA203B442500343B25 /* ForgotPWViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForgotPWViewController.xib; sourceTree = "<group>"; };
 		CFC1D202203C569000343B25 /* ExpandMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandMapViewController.swift; sourceTree = "<group>"; };
 		CFC1D203203C569000343B25 /* ExpandMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandMapViewController.xib; sourceTree = "<group>"; };
+		CFC4BB2120EAF7EA00B927ED /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		CFD2B0362087D60200E2DBE7 /* MyAccAddr2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccAddr2ViewController.swift; sourceTree = "<group>"; };
 		CFD2B0382087F48200E2DBE7 /* Addr2CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Addr2CollectionViewCell.swift; sourceTree = "<group>"; };
 		CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductLabelCell.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				CF99DF2720D7F552006492AF /* CALayer.swift */,
+				CFC4BB2120EAF7EA00B927ED /* Data.swift */,
 				CF99DF2920D7F5AE006492AF /* Dictionary.swift */,
 				CF99DF2B20D7F5E2006492AF /* KeyedDecodingContainer.swift */,
 				CF99DF2D20D7F62E006492AF /* String.swift */,
@@ -1304,6 +1307,7 @@
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */,
 				CF60CACD208E3CEE00B6D0EE /* ProductCustomizationFields.swift in Sources */,
+				CFC4BB2220EAF7EA00B927ED /* Data.swift in Sources */,
 				CF601A20204AEC6A00217025 /* Taxes.swift in Sources */,
 				CF443851209FBF850028443B /* AssistanceController.swift in Sources */,
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,

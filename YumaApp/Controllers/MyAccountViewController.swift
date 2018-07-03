@@ -33,7 +33,7 @@ class MyAccountViewController: UIViewController
 	let helpScroll = UIScrollView()
 
 
-	// Mark: Overrides
+	// MARK: Overrides
 
 	override func viewDidLoad()
 	{
@@ -80,6 +80,10 @@ class MyAccountViewController: UIViewController
 		addrBtnlbl1.font = UIFont.systemFont(ofSize: 16)
 		addrBtnlbl1.textColor = R.color.YumaYel
 		addrBtn.addSubview(addrBtnlbl1)
+		if store.addresses.count < 1
+		{
+			addrBtn.alpha = 0.2
+		}
 
 		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		orderHistBtn.setTitle("", for: .normal)
@@ -130,7 +134,7 @@ class MyAccountViewController: UIViewController
 			switch(line)
 			{
 			case "<active":
-				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.active)! ? "1" : "0")"
 				break
 			case "<id_gender":
 				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.idGender)!)"
@@ -192,7 +196,7 @@ class MyAccountViewController: UIViewController
 				arrayXML[i] = "\n" + arrayXML[i]
 				break
 			case "<deleted":
-				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.deleted)! ? "1" : "0")"
 				break
 			default:
 				if i > 0 && !line.contains("</") && !line.contains("/>")
@@ -678,7 +682,7 @@ class MyAccountViewController: UIViewController
 */
 
 
-	// Mark: Actions
+	// MARK: Actions
 
 	@IBAction func delAccBtnAct(_ sender: Any)	//more work needed
 	{
@@ -696,10 +700,13 @@ class MyAccountViewController: UIViewController
 						let blank = UserDefaults.standard.string(forKey: "BlankSchemaXMLCustomer")
 						if blank != nil && !(blank?.isEmpty)!
 						{
+							self.store.customer?.active = false
 							ws.xml = self.insertValuesInBlank(blank!)
+							ws.id = (self.store.customer?.idCustomer)!
 							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
 								self.deleteResource(ws, spinner)
+								self.store.logout(self, presentingViewController: self.presentingViewController)
 							}
 							else
 							{
@@ -715,10 +722,13 @@ class MyAccountViewController: UIViewController
 									let str = String(data: data as Data, encoding: .utf8)
 									self.store.blankSchemaXML["Customer"] = str
 									UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
+									self.store.customer?.active = false
 									ws.xml = self.insertValuesInBlank(str!)
+									ws.id = (self.store.customer?.idCustomer)!
 									if ws.xml != nil && !(ws.xml?.isEmpty)!
 									{
 										self.deleteResource(ws, spinner)
+										self.store.logout(self, presentingViewController: self.presentingViewController)
 									}
 									else
 									{
@@ -785,13 +795,16 @@ class MyAccountViewController: UIViewController
 		{
 			print("MyAccAddrViewController")
 		}
-		store.flexView(view: self.addrBtn)
-		//let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
-		let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "MyAccAddr2ViewController") as UIViewController?
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		//self.present(MyAccAddrViewController(), animated: true, completion: nil)
-		self.present(vc!/*(collectViewLayout: layout)*/, animated: true, completion: nil)
+		if store.addresses.count > 0
+		{
+			store.flexView(view: self.addrBtn)
+			//let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateInitialViewController() as UIViewController?
+			let vc = UIStoryboard(name: "AddrStoryboard", bundle: nil).instantiateViewController(withIdentifier: "MyAccAddr2ViewController") as UIViewController?
+			let layout = UICollectionViewFlowLayout()
+			layout.scrollDirection = .horizontal
+			//self.present(MyAccAddrViewController(), animated: true, completion: nil)
+			self.present(vc!/*(collectViewLayout: layout)*/, animated: true, completion: nil)
+		}
 	}
 	@IBAction func infoBtnAct(_ sender: Any)
 	{

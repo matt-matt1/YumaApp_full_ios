@@ -11,6 +11,24 @@ import UIKit
 
 extension String
 {
+	//https://stackoverflow.com/questions/25761344/how-to-hash-nsstring-with-sha1-in-swift
+//	func sha1() -> String
+//	{
+//		let data = self.data(using: String.Encoding.utf8)!
+//		var digest = [UInt8](repeating: 0, count:Int(CC_SHA1_DIGEST_LENGTH))
+//		data.withUnsafeBytes {
+//			_ = CC_SHA1($0, CC_LONG(data.count), &digest)
+//		}
+//		let hexBytes = digest.map { String(format: "%02hhx", $0) }
+//		return hexBytes.joined()
+//	}
+	var sha1: String
+	{
+		guard let data = data(using: .utf8, allowLossyConversion: false) 	else	 { 	fatalError("sha1 error")//
+		}
+		return data.digestSHA1.hexString
+	}
+
 	//https://gist.github.com/bhind/c96ee94b5f6ac2b870f4488619786141
 	static private let SNAKECASE_PATTERN:String = "(\\w{0,1})_"
 	static private let CAMELCASE_PATTERN:String = "[A-Z][a-z,\\d]*"

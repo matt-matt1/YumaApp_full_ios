@@ -759,6 +759,9 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			case "<id_customer":
 				arrayXML[i] = "\n" + arrayXML[i] + "\(store.customer?.idCustomer ?? 0)"
 				break
+			case "<deleted":
+				arrayXML[i] = "\n" + arrayXML[i] + "0"
+				break
 			default:
 				if i > 0 && !line.contains("</") && !line.contains("/>")
 				{

@@ -429,8 +429,53 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 			arrayXML[i] = "\(line)>"
 			switch(line)
 			{
+			case "<id_shop":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(store.idShop)"
+				break
+			case "<id_shop_group":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(store.idShopGroup)"
+				break
+			case "<id_lang":
+				arrayXML[i] = "\n" + arrayXML[i] + "\(store.myLang)"
+				break
+			case "<secure_key":
+				let pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
+				let rndPswd = String((0..<32).map{ _ in pswdChars[Int(arc4random_uniform(UInt32(pswdChars.count)))]
+				})
+//				let (passwd, formatted) = self.store.makePassword(length: 20, formattedFontSize: 20, formattedTextColor: .black, formattedBackgroundColor: .white, formattedKern: 20, normalTextColor: .blue, normalBackgroundColor: .clear, normalFontSize: 20)
+				arrayXML[i] = "\n" + arrayXML[i] + md5(rndPswd)
+				break
+			case "<last_passwd_gen":
+//				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
+//				{
+					let df = DateFormatter()
+					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+					let after = Date().addingTimeInterval(TimeInterval(-self.store.passwdTimeFront*60))
+					arrayXML[i] = "\n" + arrayXML[i] + df.string(from: after)
+//				}
+				break
+			case "<newsletter_date_add":
+				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
+				{
+					let df = DateFormatter()
+					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+					arrayXML[i] = "\n" + arrayXML[i] + df.string(from: Date())
+				}
+				break
+			case "<ip_registration_newsletter":
+				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
+				{
+					arrayXML[i] = "\n" + arrayXML[i] + store.getIPAddress()!
+				}
+				break
+			case "<id_default_group":
+//				if self.store.customer?.isGuest//store.customer?.newsletter != nil && (store.customer?.newsletter)!
+//				{
+					arrayXML[i] = "\n" + arrayXML[i] + "\(store.idDefaultGroup)"
+//				}
+				break
 			case "<active":
-				arrayXML[i] = "\n" + arrayXML[i] + "1"
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.active)! ? "1" : "0")"
 				break
 			case "<id_gender":
 				arrayXML[i] = "\n" + arrayXML[i] + "\(self.genderSwitch.selectedSegmentIndex)"
@@ -487,6 +532,9 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				break
 			case "<newsletter":
 				arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
+				break
+			case "<deleted":
+				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.deleted)! ? "1" : "0")"
 				break
 			case "<associations":
 				arrayXML[i] = "\n" + arrayXML[i]
@@ -999,6 +1047,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				if blank != nil && !(blank?.isEmpty)!
 				{
 					ws.xml = insertValuesInBlank(blank!)
+					store.customer?.active = true
+					store.customer?.deleted = false
 					if ws.xml != nil && !(ws.xml?.isEmpty)!
 					{
 						addResource(ws, spinner)
@@ -1013,6 +1063,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							let str = String(data: data as Data, encoding: .utf8)
 							self.store.blankSchemaXML["Customer"] = str
 							UserDefaults.standard.set(str, forKey: "BlankSchemaXMLCustomer")
+							self.store.customer?.active = true
+							self.store.customer?.deleted = false
 							ws.xml = self.insertValuesInBlank(str!)
 							if ws.xml != nil && !(ws.xml?.isEmpty)!
 							{
@@ -1114,6 +1166,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					DispatchQueue.main.async
 					{
 						ws.xml = self.insertValues(thisCustomer!, isFresh: false)
+//						self.store.customer?.active = true
+//						self.store.customer?.deleted = false
 						if ws.xml != nil && !(ws.xml?.isEmpty)!
 						{
 							ws.edit { (httpResult) in
@@ -1164,6 +1218,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 							let str = String(data: data as Data, encoding: .utf8)
 							DispatchQueue.main.async
 							{
+//								self.store.customer?.active = true
+//								self.store.customer?.deleted = false
 								ws.xml = self.insertValues(str!, isFresh: false)
 								if !(ws.xml?.isEmpty)!
 								{

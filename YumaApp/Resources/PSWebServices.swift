@@ -18,7 +18,7 @@ class PSWebServices: NSObject
 	///return an Object containing a list of addresses belonging to a customer - The Customer, Brand and Customer addresses
 	class func getAddresses(id_customer: Int, completionHandler: @escaping (Addresses?, Error?) -> Void)
 	{
-		let url = "\(R.string.WSbase)/addresses"
+		let url = "\(R.string.WSbase)addresses"
 		let myUrl = "\(url)?filter[id_customer]=[\(id_customer)]&\(R.string.APIfull)&\(R.string.APIjson)&\(R.string.API_key)"
 		if let myUrl = URL(string: myUrl)
 		{
@@ -39,6 +39,10 @@ class PSWebServices: NSObject
 				{
 					let dataStr = String(data: data, encoding: .utf8)
 					UserDefaults.standard.set(dataStr, forKey: "AddressesCustomer\(id_customer)")
+					if dataStr == "[]"
+					{
+						return
+					}
 					do
 					{
 						let addresses = try JSONDecoder().decode(Addresses.self, from: data)

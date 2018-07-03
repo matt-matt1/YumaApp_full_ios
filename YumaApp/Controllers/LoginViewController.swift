@@ -38,7 +38,8 @@ class LoginViewController: UIViewController
 	let store = DataStore.sharedInstance
 	
 	
-	//MARK: Overrides
+	// MARK: Overrides
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -129,7 +130,7 @@ class LoginViewController: UIViewController
 					{
 						if self.store.debug > 0
 						{
-							print("\(R.string.err) \(JSONerr)")
+							print("Decoding Customer \(R.string.err) \(JSONerr)")
 						}
 					}
 				}
@@ -186,7 +187,8 @@ class LoginViewController: UIViewController
 	}
 
 
-// MARK: My Methods
+	// MARK: Methods
+
 	func drawNavBar(_ attachTo: UIView)
 	{
 		let nav = UINavigationBar()
@@ -467,7 +469,7 @@ class LoginViewController: UIViewController
 					{
 						if self.store.debug > 0
 						{
-							print(err!)
+							print("Decoding Orders: \(err!)")
 						}
 						return
 					}
@@ -499,7 +501,7 @@ class LoginViewController: UIViewController
 				{
 					if self.store.debug > 0
 					{
-						print(jsonErr)
+						print("Decoding order \(jsonErr)")
 					}
 				}
 				if self.store.debug > 5
@@ -510,11 +512,19 @@ class LoginViewController: UIViewController
 		}
 		if store.customer != nil && store.customer?.lastname != ""
 		{
-			let addr = UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
-			if addr == nil || addr == ""
+			let cartStr = UserDefaults.standard.string(forKey: "CartsCustomer\(id_customer)")
+			if cartStr == nil || cartStr == ""
 			{
 				store.callGetCarts(id_customer: id_customer) { (carts, err) in
-					if err == nil
+					if err != nil
+					{
+						if self.store.debug > 0
+						{
+							print("Decoding carts: \(err!)")
+						}
+					}
+					if let carts = carts
+//					if err == nil
 					{
 						if self.store.debug > 5
 						{
@@ -525,7 +535,7 @@ class LoginViewController: UIViewController
 			}
 			else
 			{
-				let dataStr = addr?.data(using: .utf8)
+				let dataStr = cartStr?.data(using: .utf8)
 				do
 				{
 					let carts = try JSONDecoder().decode(Carts.self, from: dataStr!)
@@ -539,7 +549,7 @@ class LoginViewController: UIViewController
 				{
 					if self.store.debug > 0
 					{
-						print("\(R.string.err) \(JSONerr)")
+						print("Decoding Carts \(R.string.err) \(JSONerr)")
 					}
 				}
 			}
@@ -547,7 +557,7 @@ class LoginViewController: UIViewController
 		if store.addresses.count < 1
 		{
 			let addr = UserDefaults.standard.string(forKey: "AddressesCustomer\(id_customer)")
-			if addr == nil || addr == ""
+			if addr == nil || addr == "" || addr == "[]"
 			{
 				store.callGetAddresses(id_customer: id_customer, completion:
 		//			PSWebServices.getAddresses(id_customer: Int(customer.id!)!, completionHandler:
@@ -556,18 +566,19 @@ class LoginViewController: UIViewController
 
 						if error != nil
 						{
-							if self.store.debug > 0
-							{
-								print(error!)
-							}
+//							if self.store.debug > 0
+//							{
+//								print(error!)
+//							}
 						}
-						else
+						if let addresses = addresses
+//						else
 						{
 		//				UIViewController.removeSpinner(spinner: sv2)
 							//print(addresses)
 							//print("got \(addresses.addresses.count) addresses")
 							//UserDefaults.standard.set(addresses, forKey: "CustomerAddresses")
-							let addr = addresses?.addresses
+							let addr = addresses.addresses
 							if self.store.debug > 5
 							{
 								print("got \(String(describing: addr?.count)) addresses")
@@ -601,7 +612,7 @@ class LoginViewController: UIViewController
 				{
 					if self.store.debug > 0
 					{
-						print("\(R.string.err) \(JSONerr)")
+						print("Decoding Addresses \(R.string.err) \(JSONerr)")
 					}
 				}
 			}
@@ -628,7 +639,7 @@ class LoginViewController: UIViewController
 						{
 							if self.store.debug > 0
 							{
-								print(err!)
+								print("Decoding orders \(err!)")
 							}
 							return
 						}
@@ -664,7 +675,7 @@ class LoginViewController: UIViewController
 					{
 						if self.store.debug > 0
 						{
-							print(jsonErr)
+							print("Decoding order details: \(jsonErr)")
 						}
 					}
 					if self.store.debug > 5
@@ -686,10 +697,10 @@ class LoginViewController: UIViewController
 						
 						if error != nil
 						{
-							if self.store.debug > 0
-							{
-								print(error!)
-							}
+//							if self.store.debug > 0
+//							{
+//								print(error!)
+//							}
 						}
 						else
 						{
@@ -717,7 +728,7 @@ class LoginViewController: UIViewController
 				{
 					if self.store.debug > 0
 					{
-						print("\(R.string.err) \(JSONerr)")
+						print("Decoding credit slips \(R.string.err) \(JSONerr)")
 					}
 				}
 			}
@@ -777,7 +788,8 @@ class LoginViewController: UIViewController
 	}
 	
 	
-//MARK: Actions
+	// MARK: Actions
+
 	@IBAction func remeberSwitchAct(_ sender: Any)
 	{
 		self.rememberSwitchIsOn = rememberSwitch.isOn
