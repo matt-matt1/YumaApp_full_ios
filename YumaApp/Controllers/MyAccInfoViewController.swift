@@ -627,11 +627,19 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					{
 						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field6Edit.text!)"
 					}
+					if !(self.field6Edit.text?.isEmpty)! && self.field6Edit.text != self.store.customer?.website
+					{
+						changed = true
+					}
 					break
 				case "<siret":
 					if self.field7Edit.text != nil && !self.field7Edit.text!.isEmpty
 					{
 						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field7Edit.text!)"
+					}
+					if !(self.field7Edit.text?.isEmpty)! && self.field7Edit.text != self.store.customer?.siret
+					{
+						changed = true
 					}
 					break
 				case "<ape":
@@ -639,11 +647,19 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					{
 						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field8Edit.text!)"
 					}
+					if !(self.field8Edit.text?.isEmpty)! && self.field8Edit.text != self.store.customer?.ape
+					{
+						changed = true
+					}
 					break
 				case "<passwd":
 					if self.passwordEdit.text != nil && !self.passwordEdit.text!.isEmpty
 					{
 						arrayXML[i] = "\n" + arrayXML[i] + "\(self.passwordEdit.text!)"
+					}
+					if !(self.passwordEdit.text?.isEmpty)! && self.passwordEdit.text != self.store.customer?.passwd
+					{
+						changed = true
 					}
 					break
 				case "<optin":
@@ -1034,6 +1050,8 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	@IBAction func buttonAct(_ sender: Any)
 	{
 		store.flexView(view: buttonText)
+		buttonText.becomeFirstResponder()
+		buttonText.resignFirstResponder()
 		if areFieldsValid()
 		{
 			let spinner = UIViewController.displaySpinner(onView: self.view)
