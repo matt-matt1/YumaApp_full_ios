@@ -122,7 +122,7 @@ extension String
 		if incSymbols
 		{
 			//			let chars = CharacterSet.alphanumerics.intersection(.punctuationCharacters).intersection(.symbols)
-			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
+			pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-!@#$%\\^&*()_")
 		}
 		else
 		{

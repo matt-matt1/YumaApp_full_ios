@@ -822,17 +822,20 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		dialogWindow.addSubview(stack)
 //		dialogWindow.addConstraintsWithFormat(format: "V:[v0]", views: stack)
 		dialogWindow.addConstraintsWithFormat(format: "H:|[v0]|", views: stack)
+		exisiting.invalid.text = "\(R.string.wrong) \(R.string.txtPass)"
+		newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass) - \(R.string.minPass)"
+		verifyPW.invalid.text = "\(R.string.txtPass) \(R.string.mismatch)"
 	}
 
 
 	func clearErrors()
 	{
 		exisiting.fieldFrame.borderColor = UIColor.clear
-		exisiting.invalid.text = ""
+		exisiting.invalid.alpha = 0
+		newPW.invalid.alpha = 0
+		verifyPW.invalid.alpha = 0
 		newPW.fieldFrame.borderColor = UIColor.clear
-		newPW.invalid.text = ""
 		verifyPW.fieldFrame.borderColor = UIColor.clear
-		verifyPW.invalid.text = ""
 	}
 
 
@@ -865,21 +868,21 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	{
 		var success = true
 		clearErrors()
-		if exisiting.textEdit.text == nil || (exisiting.textEdit.text != nil && (exisiting.textEdit.text?.isEmpty)!)
+		if exisiting.textEdit.text == nil || (exisiting.textEdit.text?.isEmpty)!
 		{
-			exisiting.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+			exisiting.invalid.alpha = 1
 			exisiting.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
-		if newPW.textEdit.text == nil || (newPW.textEdit.text != nil && (newPW.textEdit.text?.isEmpty)!)
+		if newPW.textEdit.text == nil || (newPW.textEdit.text?.isEmpty)! || !isValid(.passwd, newPW.textEdit.text!)
 		{
-			newPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+			newPW.invalid.alpha = 1
 			newPW.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
-		if verifyPW.textEdit.text == nil || (verifyPW.textEdit.text != nil && ((verifyPW.textEdit.text?.isEmpty)! || verifyPW.textEdit.text != newPW.textEdit.text))
+		if verifyPW.textEdit.text == nil || (verifyPW.textEdit.text?.isEmpty)! || verifyPW.textEdit.text != newPW.textEdit.text
 		{
-			verifyPW.invalid.text = "\(R.string.invalid) \(R.string.txtPass)"
+			verifyPW.invalid.alpha = 1
 			verifyPW.fieldFrame.borderColor = UIColor.red
 			success = false
 		}
@@ -909,17 +912,20 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 			delegate?.popupValueSelected(value: newPW.textEdit.text!)
 			self.dismiss(animated: true, completion: nil)
 		}
+//		else
+//		{
+//			newPW.invalid.alpha = 1
+//			newPW.fieldFrame.borderColor = .red
+//		}
 	}
 
 	@objc func doGenerate(_ sender: UITapGestureRecognizer)
 	{
-		if (newPW.textEdit.text != nil && !(newPW.textEdit.text?.isEmpty)!) || (verifyPW.textEdit.text != nil && !(verifyPW.textEdit.text?.isEmpty)!)
+		if isValid(.passwd, newPW.textEdit.text!) && ((newPW.textEdit.text != nil && !(newPW.textEdit.text?.isEmpty)!) || (verifyPW.textEdit.text != nil && !(verifyPW.textEdit.text?.isEmpty)!))
 		{
 			OperationQueue.main.addOperation
 			{
 				myAlertOKCancel(self, title: R.string.txtPass, message: R.string.overw, okAction: {
-//					coloredBG.removeFromSuperview()
-//					blurFxView.removeFromSuperview()
 					let (passwd, formatted) = self.store.makePassword()
 					self.newPW.textEdit.text = passwd
 					self.verifyPW.textEdit.text = passwd
@@ -927,46 +933,6 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 				}, cancelAction: {
 				}, completion: {
 				})
-//				let alert = 					UIAlertController(title: R.string.txtPass, message: R.string.overw, preferredStyle: .alert)
-//				let coloredBG = 				UIView()
-//				let blurFx = 					UIBlurEffect(style: .dark)
-//				let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//				alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//				alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//				alert.view.superview?.backgroundColor = R.color.YumaRed
-//				alert.view.shadowColor = 		R.color.YumaDRed
-//				alert.view.shadowOffset = 		.zero
-//				alert.view.shadowRadius = 		5
-//				alert.view.shadowOpacity = 		1
-//				alert.view.backgroundColor = 	R.color.YumaYel
-//				alert.view.cornerRadius = 		15
-//				coloredBG.backgroundColor = 	R.color.YumaRed
-//				coloredBG.alpha = 				0.4
-//				coloredBG.frame = 				self.view.bounds
-//				self.view.addSubview(coloredBG)
-//				blurFxView.frame = 				self.view.bounds
-//				blurFxView.alpha = 				0.5
-//				blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//				self.view.addSubview(blurFxView)
-//				alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-//					{ 	(action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//						return
-//						//self.dismiss(animated: false, completion: nil)
-//				}))
-//				alert.addAction(UIAlertAction(title: R.string.proceed.uppercased(), style: .default, handler:
-//					{ 	(action) in
-//						coloredBG.removeFromSuperview()
-//						blurFxView.removeFromSuperview()
-//						let (passwd, formatted) = self.store.makePassword()
-//						self.newPW.textEdit.text = passwd
-//						self.verifyPW.textEdit.text = passwd
-//						self.store.myAlert(title: R.string.txtPass, message: "", attributedMessage: formatted, viewController: self)
-//				}))
-//				self.present(alert, animated: true, completion:
-//				{
-//				})
 			}
 		}
 		else

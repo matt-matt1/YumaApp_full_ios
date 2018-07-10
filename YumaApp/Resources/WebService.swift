@@ -290,12 +290,12 @@ struct WebService
 	}
 
 	/// Form the basic Authorization header (key, value)
-	func authHeader(_ username: String, _ password: String) -> [String : String]?
+	func authHeaderValue(_ username: String, _ password: String) -> String?
 	{
 		let auth = "\(username):\(password)"//NSString(format: "%@:%@", username, password)
 		guard let authData = auth.data(using: String.Encoding.utf8) else 	{ 	return nil 	}
 		let md5auth = authData.base64EncodedString()
-		return ["Authorization" : "Basic \(md5auth)"]
+		return "Basic \(md5auth)"
 	}
 
 	/// Delete a Resource (database row) having the ID, or mark the resource as deleted
@@ -335,7 +335,7 @@ struct WebService
 		let http = Http()
 		let url = URL(string: makeURL())
 		let sendXML = xml?.replacingOccurrences(of: "\n", with: "")/*.replacingOccurrences(of: " ", with: "+")*/.data(using: .utf8)
-		http.post(url: url! as NSURL, headers: authHeader(self.keyAPI!, "")!, data: sendXML! as NSData) 	{ 	(result) in
+		http.post(url: url! as NSURL, headers: ["Authorization" : authHeaderValue(self.keyAPI!, "")!], data: sendXML! as NSData) 	{ 	(result) in
 			print(result)
 			completionHandler(result)
 		}
@@ -363,7 +363,7 @@ struct WebService
 		let url = URL(string: makeURL())
 		//let send = "xml=\(xml!)"
 		let send = "\(xml!)"
-		http.put(url: url! as NSURL, headers: authHeader(self.keyAPI!, "")!, data: send.data(using: .utf8)! as NSData?) 	{ 	(result) in
+		http.put(url: url! as NSURL, headers: ["Authorization" : authHeaderValue(self.keyAPI!, "")!, "Content-Type":"text/xml;charset=utf-8"], data: send.data(using: .utf8)! as NSData?) 	{ 	(result) in
 //			if !result.success
 //			{
 //				print(String(data: result.data! as Data, encoding: .utf8)!)
@@ -392,7 +392,7 @@ struct WebService
 		let http = Http()
 		//let url = String(format: "%@%@/%@", R.string.WSbase, resource as! CVarArg, id)
 		let myUrl = URL(string: makeURL()/*url*/)
-		http.get(url: myUrl! as NSURL, headers: authHeader(self.keyAPI!, "")!, data: nil) 	{ 	(result) in
+		http.get(url: myUrl! as NSURL, headers: ["Authorization" : authHeaderValue(self.keyAPI!, "")!], data: nil) 	{ 	(result) in
 			completionHandler(result)
 		}
 		self.schema = nil

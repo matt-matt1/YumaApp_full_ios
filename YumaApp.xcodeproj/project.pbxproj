@@ -154,6 +154,7 @@
 		CF9231CA2035FF6000D44BB6 /* MyAccCSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */; };
 		CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */; };
 		CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */; };
+		CF92B49020EFD9BF00AEDEC8 /* Validate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF92B48F20EFD9BF00AEDEC8 /* Validate.swift */; };
 		CF99DF1320D7EEF4006492AF /* R.color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1220D7EEF4006492AF /* R.color.swift */; };
 		CF99DF1520D7F1CF006492AF /* R.array.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1420D7F1CF006492AF /* R.array.swift */; };
 		CF99DF1720D7F263006492AF /* R.attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF99DF1620D7F263006492AF /* R.attribute.swift */; };
@@ -408,6 +409,7 @@
 		CF9231C82035FF6000D44BB6 /* MyAccCSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccCSViewController.swift; sourceTree = "<group>"; };
 		CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyAccCSViewController.xib; sourceTree = "<group>"; };
 		CF9231CC20386CDF00D44BB6 /* MyAccOHViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccOHViewController.swift; sourceTree = "<group>"; };
+		CF92B48F20EFD9BF00AEDEC8 /* Validate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validate.swift; sourceTree = "<group>"; };
 		CF99DF1220D7EEF4006492AF /* R.color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.color.swift; sourceTree = "<group>"; };
 		CF99DF1420D7F1CF006492AF /* R.array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.array.swift; sourceTree = "<group>"; };
 		CF99DF1620D7F263006492AF /* R.attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.attribute.swift; sourceTree = "<group>"; };
@@ -799,6 +801,7 @@
 				CF5A9DE820E676E000659FCE /* PS_Error.swift */,
 				CF6DB04020E813130084146A /* PS_Customer.swift */,
 				CF6DB04220E818F20084146A /* PS_CustomerAssocations.swift */,
+				CF92B48F20EFD9BF00AEDEC8 /* Validate.swift */,
 			);
 			path = YumaApp;
 			sourceTree = "<group>";
@@ -1370,6 +1373,7 @@
 				CF717EAA20A394DD00E68F83 /* MobileDataItem.swift in Sources */,
 				CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */,
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
+				CF92B49020EFD9BF00AEDEC8 /* Validate.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,
 				CF717EA320A38A6400E68F83 /* ProductsViewControllerForm.swift in Sources */,
 				CF9A1D7520E3C5F2003F2213 /* XMLKey.swift in Sources */,

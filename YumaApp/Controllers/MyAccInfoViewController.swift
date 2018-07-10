@@ -427,120 +427,155 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		for line in arrayXML
 		{
 			arrayXML[i] = "\(line)>"
+			let df = DateFormatter()
+			df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 			switch(line)
 			{
 			case "<id_shop":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(store.idShop)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.idShop)"
 				break
 			case "<id_shop_group":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(store.idShopGroup)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.idShopGroup)"
 				break
 			case "<id_lang":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(store.myLang)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.myLang)"
 				break
 			case "<secure_key":
 				let pswdChars = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()_+{}|:<>?-=[]\\;,./")
 				let rndPswd = String((0..<32).map{ _ in pswdChars[Int(arc4random_uniform(UInt32(pswdChars.count)))]
 				})
 //				let (passwd, formatted) = self.store.makePassword(length: 20, formattedFontSize: 20, formattedTextColor: .black, formattedBackgroundColor: .white, formattedKern: 20, normalTextColor: .blue, normalBackgroundColor: .clear, normalFontSize: 20)
-				arrayXML[i] = "\n" + arrayXML[i] + md5(rndPswd)
+				arrayXML[i] = "\n\t" + arrayXML[i] + md5(rndPswd)
 				break
 			case "<last_passwd_gen":
 //				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
 //				{
-					let df = DateFormatter()
-					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//					let df = DateFormatter()
+//					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
 					let after = Date().addingTimeInterval(TimeInterval(-self.store.passwdTimeFront*60))
-					arrayXML[i] = "\n" + arrayXML[i] + df.string(from: after)
+					arrayXML[i] = "\n\t" + arrayXML[i] + df.string(from: after)
 //				}
 				break
 			case "<newsletter_date_add":
 				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
 				{
-					let df = DateFormatter()
-					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-					arrayXML[i] = "\n" + arrayXML[i] + df.string(from: Date())
+//					let df = DateFormatter()
+//					df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+					arrayXML[i] = "\n\t" + arrayXML[i] + df.string(from: Date())
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<ip_registration_newsletter":
 				if self.switch1.isOn//store.customer?.newsletter != nil && (store.customer?.newsletter)!
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + store.getIPAddress()!
+					arrayXML[i] = "\n\t" + arrayXML[i] + store.getIPAddress()!
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<id_default_group":
 //				if self.store.customer?.isGuest//store.customer?.newsletter != nil && (store.customer?.newsletter)!
 //				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(store.idDefaultGroup)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "3"//"\(store.idDefaultGroup)"
 //				}
 				break
 			case "<active":
-				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.active)! ? "1" : "0")"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\((store.customer?.active)! ? "1" : "0")"
 				break
 			case "<id_gender":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.genderSwitch.selectedSegmentIndex)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.genderSwitch.selectedSegmentIndex)"
 				break
 			case "<firstname":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.fieldEdit1.text!)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.fieldEdit1.text!)"
 				break
 			case "<lastname":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.field2Edit.text!)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field2Edit.text!)"
 				break
 			case "<email":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.field3Edit.text!)"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field3Edit.text!)"
 				break
 			case "<birthday":
 				if self.field4Edit.text != nil && !(self.field4Edit.text?.isEmpty)!
 				{
-					let bdate = DateFormatter()
-					bdate.dateFormat = "yyyy-MM-dd"
-					arrayXML[i] = "\n" + arrayXML[i] + "\(bdate.date(from: self.field4Edit.text!)!)"
+//					let bdate = DateFormatter()
+//					bdate.dateFormat = "yyyy-MM-dd"
+//					arrayXML[i] = "\n\t" + arrayXML[i] + "\(bdate.date(from: self.field4Edit.text!)!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field4Edit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<company":
 				if self.field5Edit.text != nil && !self.field5Edit.text!.isEmpty
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field5Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field5Edit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<website":
 				if self.field6Edit.text != nil && !self.field6Edit.text!.isEmpty
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field6Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field6Edit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<siret":
 				if self.field7Edit.text != nil && !self.field7Edit.text!.isEmpty
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field7Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field7Edit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<ape":
 				if self.field8Edit.text != nil && !self.field8Edit.text!.isEmpty
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field8Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field8Edit.text!)"
+				}
+				else
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
 				}
 				break
 			case "<passwd":
 				if self.passwordEdit.text != nil && !self.passwordEdit.text!.isEmpty
 				{
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.passwordEdit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.passwordEdit.text!)"
 				}
 				break
 			case "<optin":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
 				break
 			case "<newsletter":
-				arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
 				break
 			case "<deleted":
-				arrayXML[i] = "\n" + arrayXML[i] + "\((store.customer?.deleted)! ? "1" : "0")"
+				arrayXML[i] = "\n\t" + arrayXML[i] + "\((store.customer?.deleted)! ? "1" : "0")"
 				break
 			case "<associations":
-				arrayXML[i] = "\n" + arrayXML[i]
+				arrayXML[i] = "\n\t" + arrayXML[i]
 				break
 			default:
-				if i > 0 && !line.contains("</") && !line.contains("/>")
+				if i > 2 && !line.contains("</") && !line.contains("/>") && !line.contains("<![CDATA[")
+				{
+					arrayXML[i] = "\n\t" + arrayXML[i]
+				}
+				else if (i > 0 && i < 3) || (i > (arrayXML.count-4) && i < (arrayXML.count-1))
 				{
 					arrayXML[i] = "\n" + arrayXML[i]
 				}
@@ -552,7 +587,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		return String(str.dropLast())
 	}
 
-
+	/// Update XML by reading the customer record and inserting the (updated) values in another XML
 	func insertValues(_ str: String, isFresh: Bool = true) -> String
 	{
 //		OperationQueue.main.addOperation
@@ -566,6 +601,27 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				arrayXML[i] = "\(line)>"
 				switch(line)
 				{
+				case "<is_guest":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\((store.customer?.isGuest)! ? "1" : "0")"
+					break
+				case "<deleted":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\((store.customer?.deleted)! ? "1" : "0")"
+					break
+				case "<active":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\((store.customer?.active)! ? "1" : "0")"
+					break
+				case "<id_shop":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.idShop)"
+					break
+				case "<id_shop_group":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.idShopGroup)"
+					break
+				case "<id_lang":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(store.myLang)"
+					break
+				case "<id_default_group":
+					arrayXML[i] = "\n\t" + arrayXML[i] + "3"//"\(store.idDefaultGroup)"
+					break
 				case "<id_gender":
 					var data = ""
 					if isFresh
@@ -577,28 +633,28 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 						data = "\(self.genderSwitch.selectedSegmentIndex)"
 						changed = true
 					}
-					arrayXML[i] = "\n" + arrayXML[i] + data
+					arrayXML[i] = "\n\t" + arrayXML[i] + data
 					break
 				case "<firstname":
 					if self.store.customer != nil && self.fieldEdit1.text != self.store.customer?.firstname
 					{
 						changed = true
 					}
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.fieldEdit1.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.fieldEdit1.text!)"
 					break
 				case "<lastname":
 					if self.store.customer != nil && self.field2Edit.text != self.store.customer?.lastname
 					{
 						changed = true
 					}
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field2Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field2Edit.text!)"
 					break
 				case "<email":
 					if self.store.customer != nil && self.fieldEdit1.text != self.store.customer?.firstname
 					{
 						changed = true
 					}
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.field3Edit.text!)"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field3Edit.text!)"
 					break
 				case "<birthday":
 					if self.field4Edit.text != nil && !(self.field4Edit.text?.isEmpty)!
@@ -609,13 +665,28 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 						{
 							changed = true
 						}
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field4Edit.text!)!"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field4Edit.text!)"
+					}
+					break
+				case "<id":
+					if self.customer?.idCustomer != nil && (self.customer?.idCustomer)! > 0
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\((self.customer?.idCustomer)!)"
+//						changed = true
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					break
 				case "<company":
 					if self.field5Edit.text != nil && !self.field5Edit.text!.isEmpty
 					{
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field5Edit.text!)"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field5Edit.text!)"
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					if !(self.field5Edit.text?.isEmpty)! && self.field5Edit.text != self.store.customer?.company
 					{
@@ -625,7 +696,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				case "<website":
 					if self.field6Edit.text != nil && !self.field6Edit.text!.isEmpty
 					{
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field6Edit.text!)"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field6Edit.text!)"
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					if !(self.field6Edit.text?.isEmpty)! && self.field6Edit.text != self.store.customer?.website
 					{
@@ -635,7 +710,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				case "<siret":
 					if self.field7Edit.text != nil && !self.field7Edit.text!.isEmpty
 					{
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field7Edit.text!)"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field7Edit.text!)"
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					if !(self.field7Edit.text?.isEmpty)! && self.field7Edit.text != self.store.customer?.siret
 					{
@@ -645,7 +724,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				case "<ape":
 					if self.field8Edit.text != nil && !self.field8Edit.text!.isEmpty
 					{
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.field8Edit.text!)"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.field8Edit.text!)"
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					if !(self.field8Edit.text?.isEmpty)! && self.field8Edit.text != self.store.customer?.ape
 					{
@@ -655,7 +738,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				case "<passwd":
 					if self.passwordEdit.text != nil && !self.passwordEdit.text!.isEmpty
 					{
-						arrayXML[i] = "\n" + arrayXML[i] + "\(self.passwordEdit.text!)"
+						arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.passwordEdit.text!)"
+					}
+					else
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
 					}
 					if !(self.passwordEdit.text?.isEmpty)! && self.passwordEdit.text != self.store.customer?.passwd
 					{
@@ -663,16 +750,20 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 					}
 					break
 				case "<optin":
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.switch0.isOn ? "1" : "0")"
 					break
 				case "<newsletter":
-					arrayXML[i] = "\n" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
+					arrayXML[i] = "\n\t" + arrayXML[i] + "\(self.switch1.isOn ? "1" : "0")"
 					break
 				case "<associations":
-					arrayXML[i] = "\n" + arrayXML[i]// + "<groups nodeType=\"groups\" api=\"group\" /></associations>"//<groups><group><id></id></group></groups></associations>
+					arrayXML[i] = "\n\t" + arrayXML[i]// + "<groups nodeType=\"groups\" api=\"group\" /></associations>"//<groups><group><id></id></group></groups></associations>
 					break
 				default:
-					if i > 0 && !line.contains("</") && !line.contains("/>")
+					if i > 2 && !line.contains("</") && !line.contains("/>") && !line.contains("<![CDATA[")
+					{
+						arrayXML[i] = "\n\t" + arrayXML[i]
+					}
+					else if (i > 0 && i < 3) || (i > (arrayXML.count-4) && i < (arrayXML.count-1))
 					{
 						arrayXML[i] = "\n" + arrayXML[i]
 					}
@@ -1225,22 +1316,44 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 				}
 				else
 				{
-					ws.id = (customer?.id)!
-					if ws.id == 0
-					{
-						ws.id = (customer?.idCustomer)!
-					}
+//					ws.id = (customer?.id)!
+//					if ws.id == 0
+//					{
+//						ws.id = (customer?.idCustomer)!
+//					}
+					ws.schema = Schema.blank
 					ws.get { (httpResult) in
 						if let data = httpResult.data
 						{
 							let str = String(data: data as Data, encoding: .utf8)
 							DispatchQueue.main.async
 							{
+								ws.schema = nil
+								ws.id = (self.customer?.idCustomer)!
+								ws.get(completionHandler: { (httpResult) in
+									if let data2 = httpResult.data
+									{
+										let cust = String(data: data2 as Data, encoding: .utf8)
+										let arrayXML = cust?.split(separator: ">")
+										print(arrayXML?.joined() as Any)
+										let parser = XMLParser(data: (cust?.data(using: .utf8))!)
+										let ps = PrestashopXMLroot()
+										parser.delegate = ps
+										parser.parse()
+										for node in ps.customers
+										{
+											print(node.firstname!)
+										}
+									}
+								})
 //								self.store.customer?.active = true
 //								self.store.customer?.deleted = false
+								self.store.customer?.idCustomer = self.customer?.idCustomer
+								self.store.customer?.id = self.customer?.idCustomer
 								ws.xml = self.insertValues(str!, isFresh: false)
 								if !(ws.xml?.isEmpty)!
 								{
+									ws.id = (self.customer?.idCustomer)!
 									ws.edit { (httpResult) in
 										let cust = String(data: httpResult.data! as Data, encoding: .utf8)
 										UIViewController.removeSpinner(spinner: spinner)

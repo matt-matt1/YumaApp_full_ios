@@ -72,7 +72,7 @@ class MyAccountViewController: UIViewController
 		addrBtn.setTitle("", for: .normal)
 		addrBtn.setTitle("", for: .highlighted)
 		let addrBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: addrBtn.frame.height))
-		addrBtnlbl.attributedText = Awesome.solid.mapPin.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		addrBtnlbl.attributedText = Awesome.solid.mapMarkerAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
 		addrBtnlbl.textColor = R.color.YumaYel
 		addrBtn.addSubview(addrBtnlbl)
 		let addrBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: addrBtn.frame.width-60, height: addrBtn.frame.height))
@@ -102,7 +102,7 @@ class MyAccountViewController: UIViewController
 		creditSlipsBtn.setTitle("", for: .normal)
 		creditSlipsBtn.setTitle("", for: .highlighted)
 		let creditSlipsBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: creditSlipsBtn.frame.height))
-		creditSlipsBtnlbl.attributedText = Awesome.solid.tasks.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		creditSlipsBtnlbl.attributedText = Awesome.solid.fileAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)//tasks
 		creditSlipsBtnlbl.textColor = R.color.YumaYel
 		creditSlipsBtn.addSubview(creditSlipsBtnlbl)
 		let creditSlipsBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: creditSlipsBtn.frame.width-60, height: creditSlipsBtn.frame.height))
