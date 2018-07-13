@@ -112,7 +112,7 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 //		{
 //			stackRight.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
 //		}
-		store.locale = "en_CA"	//configure locale
+		store.locale = "en_CA"	//configure default locale
 		if store.customer != nil && store.langs.count > 0
 		{
 			store.locale = "\(store.langs[Int((store.customer?.idLang)!)].isoCode ?? "")_\(store.countries[store.addresses[0].idCountry!].isoCode ?? "")"//combine lang iso with country iso

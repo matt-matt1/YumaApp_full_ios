@@ -77,10 +77,11 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	var addNew = false
 	var passwordVisible = false
 	static let selectBDate = Notification.Name("selectBDate")
-
 	@IBOutlet weak var scrollForm: UIScrollView!
-	
+
+
 	// MARK: Overrides
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -139,15 +140,20 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 		notificationCenter.addObserver(self, selector: #selector(selectedADate(_:)), name: MyAccInfoViewController.selectBDate, object: nil)
 	}
 
-
 	override func didReceiveMemoryWarning()
 	{
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 
+	override func viewDidLayoutSubviews()
+	{
+//		print(fieldEdit1.bounds)
+	}
+
 
 	// MARK: Methods
+
 	func clearErrors()
 	{
 		genderBorder.layer.borderColor = UIColor.clear.cgColor
@@ -372,30 +378,60 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 	{
 		clearErrors()
 		var passed = true
-		if fieldEdit1.text != nil && (fieldEdit1.text?.isEmpty)!
+		if fieldEdit1.text == nil || (fieldEdit1.text?.isEmpty)! || !isValid(.name, fieldEdit1.text!)
 		{
 			fieldInvalid1.text = "\(R.string.invalid) \(R.string.fName)"
 			fieldBorder1.layer.borderColor = UIColor.red.cgColor
 			passed = false
 		}
-		if field2Edit.text != nil && (field2Edit.text?.isEmpty)!
+		if field2Edit.text == nil || (field2Edit.text?.isEmpty)! || !isValid(.name, field2Edit.text!)
 		{
 			field2Invalid.text = "\(R.string.invalid) \(R.string.lName)"
 			field2Border.layer.borderColor = UIColor.red.cgColor
 			passed = false
 		}
-		if field3Edit.text != nil && (field3Edit.text?.isEmpty)!
+		if field3Edit.text == nil || (field3Edit.text?.isEmpty)! || !isValid(.email, field3Edit.text!)
 		{
 			field3Invalid.text = "\(R.string.invalid) \(R.string.emailAddr)"
 			field3Border.layer.borderColor = UIColor.red.cgColor
 			passed = false
 		}
-//		if passwordEdit.text != nil && (passwordEdit.text?.isEmpty)!
+//		if passwordEdit.text == nil || (passwordEdit.text?.isEmpty)! || !isValid(.passwd, passwordEdit.text!)
 //		{
 //			passwordInvalid.text = "\(R.string.invalid) \(R.string.txtPass)"
 //			passwordBorder.layer.borderColor = UIColor.red.cgColor
 //			passed = false
 //		}
+		if field4Edit.text != nil && (field4Edit.text?.isEmpty)! && !isValid(.birthDate, field4Edit.text!)
+		{
+			field4Invalid.text = "\(R.string.invalid) \(R.string.bDate)"
+			field4Border.layer.borderColor = UIColor.red.cgColor
+			passed = false
+		}
+		if field5Edit.text != nil && (field5Edit.text?.isEmpty)! && !isValid(.name, field5Edit.text!)
+		{
+			field5Invalid.text = "\(R.string.invalid) \(R.string.co)"
+			field5Border.layer.borderColor = UIColor.red.cgColor
+			passed = false
+		}
+		if field6Edit.text != nil && (field6Edit.text?.isEmpty)! && !isValid(.url, field6Edit.text!)
+		{
+			field6Invalid.text = "\(R.string.invalid) \(R.string.website)"
+			field6Border.layer.borderColor = UIColor.red.cgColor
+			passed = false
+		}
+		if field7Edit.text != nil && (field7Edit.text?.isEmpty)! && !isValid(.genericName, field7Edit.text!)
+		{
+			field7Invalid.text = "\(R.string.invalid) \(R.string.siret)"
+			field7Border.layer.borderColor = UIColor.red.cgColor
+			passed = false
+		}
+		if field8Edit.text != nil && (field8Edit.text?.isEmpty)! && !isValid(.genericName, field8Edit.text!)
+		{
+			field8Invalid.text = "\(R.string.invalid) \(R.string.ape)"
+			field8Border.layer.borderColor = UIColor.red.cgColor
+			passed = false
+		}
 		return passed
 	}
 
@@ -1342,7 +1378,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 										parser.parse()
 										for node in ps.customers
 										{
-											print(node.firstname!)
+											print(node.firstname)
 										}
 									}
 								})

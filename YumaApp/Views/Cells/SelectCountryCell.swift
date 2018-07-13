@@ -10,19 +10,6 @@ import UIKit
 
 class SelectCountryCell: UITableViewCell
 {
-//	let titleLabel: UITextView =
-//	{
-//		let view = UITextView()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		let attr = NSMutableAttributedString(string: view.text, attributes: [:])
-//		view.attributedText = attr
-//		view.textAlignment = .center
-//		view.font = UIFont.systemFont(ofSize: 20)
-//		view.textColor = UIColor.darkGray
-//		view.isEditable = false
-//		view.isScrollEnabled = false
-//		return view
-//	}()
 	let titleLabel: UILabel =
 	{
 		let view = UILabel()

@@ -81,6 +81,11 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	var displaySelectACountryDONE = false
 	var countryId = -1
 	var stateId = -1
+	var filtered: [Country] = []
+	var filteredAttr: [NSMutableAttributedString] = []
+	var isSearching = false
+	private var tableView: UITableView!
+	var countryFrame: CGRect!
 
 
 	// MARK: Overrides
@@ -88,6 +93,7 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 	{
         super.viewDidLoad()
 
+		//setTableView()
 		setupNavigation()
 		button.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		clearErrors()
@@ -105,6 +111,29 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+	override func viewDidLayoutSubviews()
+	{
+		countryFrame = self.view.convert(countryField.frame, from: countryField.superview)
+//		if countryFrame.origin.y > view.frame.height
+//		{
+//			scrollForm.scrollRectToVisible(countryFrame, animated: false)
+//			countryFrame = self.view.convert(countryField.frame, from: countryField.superview)
+//		}
+		if (countryFrame.origin.y + countryFrame.height + 10 + (3 * countryFrame.height)) < scrollForm.contentSize.height//view.frame.height
+		{	//	position below field
+			tableView = UITableView(frame: CGRect(x: countryFrame.origin.x + 5, y: countryFrame.origin.y + countryFrame.height + 10, width: countryFrame.width, height: 3 * countryFrame.height))
+		}
+		else if (countryFrame.origin.y - 10 - (3 * countryFrame.height)) > view.frame.origin.y
+		{	//	position above field
+			tableView = UITableView(frame: CGRect(x: countryFrame.origin.x + 5, y: countryFrame.origin.y - (3 * countryFrame.height) - 10, width: countryFrame.width, height: 3 * countryFrame.height))
+		}
+		else
+		{
+			print("cannot position country suggestions")
+		}
+//		setTableView()
+	}
 
 	deinit
 	{
@@ -287,6 +316,9 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 					break
 				}
 			}
+			countryField.addTarget(self, action: #selector(self.textFieldDidChange2(_:)), for: .editingChanged)
+			countryField.addTarget(self, action: #selector(self.textFieldDidBeginEditing(_:)), for: UIControlEvents.editingDidBegin)
+			countryField.addTarget(self, action: #selector(self.textFieldDidEndEditing(_:)), for: UIControlEvents.editingDidEnd)
 			phoneField.text = self.address?.phone
 			mobField.text = self.address?.phoneMobile
 			otherField.text = self.address?.other
@@ -811,4 +843,89 @@ class AddressExpandedViewController: UIViewController, UITextFieldDelegate
 		}
 	}
 
+}
+
+
+
+extension AddressExpandedViewController: UITableViewDelegate, UITableViewDataSource
+{
+	func setTableView()
+	{
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: "suggCell")
+		tableView.dataSource = self
+		tableView.delegate = self
+	}
+	
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+	{
+		countryField.text = store.valueById(object: filtered[indexPath.row].name!, id: store.myLang)
+		tableView.removeFromSuperview()
+	}
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+	{
+		return filtered.count
+	}
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+	{
+		let cell = tableView.dequeueReusableCell(withIdentifier: "suggCell", for: indexPath)
+		cell.textLabel!.textColor = UIColor.blueApple
+		cell.backgroundColor = UIColor.init(hex: "e0e0e0")
+		cell.textLabel!.attributedText = filteredAttr[indexPath.row]
+		return cell
+	}
+	
+	
+	@objc func textFieldDidBeginEditing(_ textField: UITextField)
+	{
+		self.view.addSubview(tableView)
+	}
+	
+	@objc func textFieldDidEndEditing(_ textField: UITextField)
+	{
+		tableView.removeFromSuperview()
+	}
+	
+	
+	func hightlightSearchResult(searchString: String, resultString: String) -> NSMutableAttributedString
+	{
+		let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: resultString)
+		let pattern = searchString.lowercased()
+		let range: NSRange = NSMakeRange(0, resultString.count)
+		
+		let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options())
+		
+		regex.enumerateMatches(in: resultString.lowercased(), options: NSRegularExpression.MatchingOptions(), range: range) { (textCheckingResult, matchingFlags, stop) -> Void in
+			let subRange = textCheckingResult?.range
+			attributedString.addAttributes([NSAttributedStringKey.backgroundColor : UIColor.yellow, NSAttributedStringKey.foregroundColor : UIColor.red], range: subRange!)
+		}
+		return attributedString
+	}
+	
+	@objc func textFieldDidChange2(_ textField: UITextField)
+	{
+		if textField.text == nil || (textField.text?.isEmpty)!
+		{
+			isSearching = false
+			filtered = store.countries
+			//				view.endEditing(true)
+		}
+		else
+		{
+			filtered.removeAll()
+			filtered = store.countries.filter({ (country) -> Bool in
+				return (store.valueById(object: country.name!, id: store.myLang)?.lowercased().contains(textField.text!.lowercased()))!
+			})
+			//			let _ = filtered.sorted { (a, b) -> Bool in
+			//				(store.valueById(object: a.name!, id: store.myLang)!) < (store.valueById(object: b.name!, id: store.myLang)!)
+			//			}
+			filteredAttr.removeAll()
+			filtered.forEach { (country) in
+				filteredAttr.append(hightlightSearchResult(searchString: textField.text!, resultString: store.valueById(object: country.name!, id: store.myLang)!))
+			}
+			isSearching = (filtered.count == 0) ? false : true
+		}
+		tableView.reloadData()
+	}
+	
 }

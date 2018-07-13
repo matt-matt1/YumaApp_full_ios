@@ -45,6 +45,13 @@ class PageCell: UICollectionViewCell
 		return tv
 	}()
 
+
+	override func prepareForReuse()
+	{
+		super.prepareForReuse()
+		myImage.image = nil
+	}
+
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)

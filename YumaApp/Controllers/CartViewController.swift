@@ -408,7 +408,8 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
-		let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! CartViewCell
+		guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? CartViewCell else
+		{	fatalError("The dequeued cell is not an instance of CartViewCell.") 	}
 		cell.setup(store.myOrderRows[indexPath.row])
 		cell.rightButtons = [MGSwipeButton(title: R.string.delete, backgroundColor: .red) {
 			(sender: MGSwipeTableCell!) -> Bool in

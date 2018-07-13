@@ -21,7 +21,14 @@ class CartViewCell: /*UITableViewCell*/MGSwipeTableCell
 
 	@IBOutlet weak var eachLabel: UILabel!
 	@IBOutlet weak var eachAmt: UILabel!
-	
+
+
+	override func prepareForReuse()
+	{
+		super.prepareForReuse()
+		prodImage.image = nil
+	}
+
 	func setup(_ object: OrderRow)
 	{
 		prodTitle.text = object.product_name

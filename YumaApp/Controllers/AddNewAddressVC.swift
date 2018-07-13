@@ -202,6 +202,23 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		view.invalid.text = "\(R.string.invalid.capitalized) \(R.string.state)"
 		return view
 	}()
+	let suggStates: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor(hex: "e0e0e0")
+		//		view.numberOfLines = 5
+		//		view.textColor = UIColor.blueApple
+		return view
+	}()
+	let suggStatesStack: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 10
+		return view
+	}()
 	let country: InputField =
 	{
 		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, likeButton: true)
@@ -210,6 +227,23 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		view.fieldFrame.borderWidth = 2
 		view.invalid.text = "\(R.string.invalid.capitalized) \(R.string.country)"
 		view.labelLooksLikeButton = true
+		return view
+	}()
+	let suggCountries: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor(hex: "e0e0e0")
+//		view.numberOfLines = 5
+//		view.textColor = UIColor.blueApple
+		return view
+	}()
+	let suggCountriesStack: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 10
 		return view
 	}()
 	let gapBeforeButton: UIView =
@@ -273,6 +307,14 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	var displaySelectACountryDONE = false
 	var countryId = -1
 	var stateId = -1
+	var filtered: [Country] = []
+	var filteredAttr: [NSMutableAttributedString] = []
+	var filteredCountryIDs: [Int] = []
+	var searchSelectedCountry: Country?
+	var filteredStates: [String] = []//[CountryState] = []
+	var filteredStatesAttr: [NSMutableAttributedString] = []
+	var filteredStatesIDs: [Int] = []
+	var searchSelectedState: CountryState?
 
 
 	// MARK: Overrides
@@ -438,6 +480,14 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 
 		scroll.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: stack)
 		scroll.addConstraintsWithFormat(format: "V:|-20-[v0]-10-|", views: stack)
+		
+		country.textEdit.addTarget(self, action: #selector(textChangedCountrySearchBox(_:)), for: .editingChanged)
+		country.textEdit.addTarget(self, action: #selector(showCountrySearchBox(_:)), for: .editingDidBegin)
+		country.textEdit.addTarget(self, action: #selector(hideCountrySearchBox(_:)), for: .editingDidEnd)
+		
+		state.textEdit.addTarget(self, action: #selector(textChangedStateSearchBox(_:)), for: .editingChanged)
+		state.textEdit.addTarget(self, action: #selector(showStateSearchBox(_:)), for: .editingDidBegin)
+		state.textEdit.addTarget(self, action: #selector(hideStateSearchBox(_:)), for: .editingDidEnd)
 	}
 
 //	2018-06-23 14:08:14.322 YumaApp[45781:4422172] Unable to simultaneously satisfy constraints.
@@ -629,6 +679,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 				for s in states
 				{
 					self.pickerStateData.append(s.name!)
+					self.filteredStatesIDs.append(s.id!)
 				}
 			}
 		})
@@ -1155,4 +1206,196 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		self.addMessageField.text = pickerData[picker.selectedRow(inComponent: 0)]
 	}
 
+}
+
+
+
+extension AddNewAddressVC	//	search on type - countries
+{
+	@objc func showCountrySearchBox(_ field: UITextField?)
+	{
+		suggCountries.addSubview(suggCountriesStack)
+		view.addSubview(suggCountries)
+		NSLayoutConstraint.activate([
+			suggCountries.topAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: -2),
+			suggCountries.leadingAnchor.constraint(equalTo: country.textEdit.leadingAnchor, constant: 8),
+			suggCountries.bottomAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: 160),
+			suggCountries.trailingAnchor.constraint(equalTo: country.textEdit.trailingAnchor, constant: -10),
+			
+			suggCountriesStack.topAnchor.constraint(equalTo: suggCountries.topAnchor, constant: 5),
+			suggCountriesStack.leadingAnchor.constraint(equalTo: suggCountries.leadingAnchor, constant: 5),
+			suggCountriesStack.bottomAnchor.constraint(equalTo: suggCountries.bottomAnchor, constant: 5),
+			suggCountriesStack.trailingAnchor.constraint(equalTo: suggCountries.trailingAnchor, constant: 5),
+			])
+		filtered = store.countries
+		textChangedStateSearchBox(field!)
+	}
+
+	@objc func hideCountrySearchBox(_ field: UITextField?)
+	{
+		suggCountries.removeFromSuperview()
+	}
+
+	func hightlightSearchResult(searchString: String, resultString: String) -> NSMutableAttributedString
+	{
+		let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: resultString)
+		let pattern = searchString.lowercased()
+		let range: NSRange = NSMakeRange(0, resultString.count)
+		
+		let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options())
+		
+		regex.enumerateMatches(in: resultString.lowercased(), options: NSRegularExpression.MatchingOptions(), range: range) { (textCheckingResult, matchingFlags, stop) -> Void in
+			let subRange = textCheckingResult?.range
+			attributedString.addAttributes([NSAttributedStringKey.backgroundColor : UIColor.yellow, NSAttributedStringKey.foregroundColor : UIColor.red], range: subRange!)
+		}
+		return attributedString
+	}
+
+	@objc func textChangedCountrySearchBox(_ textField: UITextField)
+	{
+		if textField.text == nil || (textField.text?.isEmpty)!
+		{
+			filtered = store.countries
+		}
+		else
+		{
+			filtered.removeAll()
+			filtered = store.countries.filter({ (country) -> Bool in
+				return (store.valueById(object: country.name!, id: store.myLang)?.lowercased().contains(textField.text!.lowercased()))!
+			})
+			filteredAttr.removeAll()
+			filteredCountryIDs.removeAll()
+			filtered.forEach { (country) in
+				filteredCountryIDs.append(country.id!)
+				filteredAttr.append(hightlightSearchResult(searchString: textField.text!, resultString: store.valueById(object: country.name!, id: store.myLang)!))
+			}
+		}
+		suggCountriesStack.subviews.forEach { (sub) in
+			sub.removeFromSuperview()
+		}
+		for i in 0 ..< 5
+		{
+			let line = UILabel()
+			if filteredAttr.count > i
+			{
+				line.attributedText = filteredAttr[i]
+			}
+			else if filtered.count > i
+			{
+				line.text = store.valueById(object: filtered[i].name!, id: store.myLang)
+			}
+			if filteredCountryIDs.count > i
+			{
+				line.tag = filteredCountryIDs[i]
+			}
+			line.isUserInteractionEnabled = true
+			line.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectedSearchCountry(_:))))
+			suggCountriesStack.addArrangedSubview(line)
+		}
+		suggCountriesStack.addArrangedSubview(UIView(frame: .zero))
+	}
+	
+	@objc func selectedSearchCountry(_ sender: UITapGestureRecognizer)
+	{
+		let line = sender.view as! UILabel
+		country.textEdit.text = line.text
+		for i in 0 ..< 5
+		{
+			if store.valueById(object: filtered[i].name!, id: store.myLang) == line.text
+			{
+				searchSelectedCountry = filtered[i]
+				break
+			}	//	store selected
+		}
+		hideCountrySearchBox(nil)
+		countryId = line.tag
+		fillStates(countryId)
+	}
+
+}
+
+
+
+extension AddNewAddressVC	//	search on type - states
+{
+	@objc func showStateSearchBox(_ field: UITextField?)
+	{
+		if (country.textEdit.text?.isEmpty)! || searchSelectedCountry?.containsStates == false
+		{
+			myAlertOnlyDismiss(self, title: R.string.err, message: "\(R.string.select) \(R.string.country) \(R.string.first)")
+			state.resignFirstResponder()
+		}
+		else
+		{
+			suggStates.addSubview(suggStatesStack)
+			view.addSubview(suggStates)
+			NSLayoutConstraint.activate([
+				suggStates.topAnchor.constraint(equalTo: self.state.textEdit.bottomAnchor, constant: -2),
+				suggStates.leadingAnchor.constraint(equalTo: self.state.textEdit.leadingAnchor, constant: 8),
+				suggStates.bottomAnchor.constraint(equalTo: self.state.textEdit.bottomAnchor, constant: 160),
+				suggStates.trailingAnchor.constraint(equalTo: self.state.textEdit.trailingAnchor, constant: -10),
+				
+				suggStatesStack.topAnchor.constraint(equalTo: suggStates.topAnchor, constant: 5),
+				suggStatesStack.leadingAnchor.constraint(equalTo: suggStates.leadingAnchor, constant: 5),
+				suggStatesStack.bottomAnchor.constraint(equalTo: suggStates.bottomAnchor, constant: 5),
+				suggStatesStack.trailingAnchor.constraint(equalTo: suggStates.trailingAnchor, constant: 5),
+				])
+			filteredStates = pickerStateData
+			textChangedStateSearchBox(field!)
+		}
+	}
+	
+	@objc func hideStateSearchBox(_ field: UITextField?)
+	{
+		suggStates.removeFromSuperview()
+	}
+	
+	@objc func textChangedStateSearchBox(_ textField: UITextField)
+	{
+		if textField.text == nil || (textField.text?.isEmpty)!
+		{
+			filteredStates = pickerStateData
+		}
+		else
+		{
+			filteredStates.removeAll()
+			filteredStates = pickerStateData.filter({ (state) -> Bool in
+				return (state.lowercased().contains(textField.text!.lowercased()))
+			})
+			filteredStatesAttr.removeAll()
+//			filteredStatesIDs.removeAll()
+			filteredStates.forEach { (state) in
+//				filteredStatesIDs.append(2)
+				filteredStatesAttr.append(hightlightSearchResult(searchString: textField.text!, resultString: state))
+			}
+		}
+		suggStatesStack.subviews.forEach { (sub) in
+			sub.removeFromSuperview()
+		}
+		for i in 0 ..< 5
+		{
+			let line = UILabel()
+			if filteredStatesAttr.count > i
+			{
+				line.attributedText = filteredStatesAttr[i]
+			}
+			else if pickerStateData.count > i
+			{
+				line.text = pickerStateData[i]
+			}
+			line.isUserInteractionEnabled = true
+			line.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectedSearchState(_:))))
+			suggStatesStack.addArrangedSubview(line)
+		}
+		suggStatesStack.addArrangedSubview(UIView(frame: .zero))
+	}
+	
+	@objc func selectedSearchState(_ sender: UITapGestureRecognizer)
+	{
+		let line = sender.view as! UILabel
+		state.textEdit.text = line.text
+		hideStateSearchBox(nil)
+		stateId = (searchSelectedState?.id!)!
+	}
+	
 }
