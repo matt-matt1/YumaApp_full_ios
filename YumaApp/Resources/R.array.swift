@@ -14,8 +14,8 @@ extension R
 	{
 		static let help_add_address_guide: [String] = [
 			"Enter address details - an alias (nickname) is for easy reference",
-			"Press \"\(R.string.country)\" to select a country from the searchable list in the pop-up window",
-			"Optionally, press \"\(R.string.state)\" to select a state/province from the list in the pop-up window, if the selected country is separated as such",
+			"Press \"\(R.string.country)\" to select a country from the searchable list in the pop-up window or begin typing and the most similar countries will be listed",
+			"Optionally, press \"\(R.string.state)\" to select a state/province from the list in the pop-up window, if the selected country is separated as such, or begin typing and the most similar states will be listed",
 			"\"\(R.string.co)\", \"\(R.string.taxNo)\", \"\(R.string.addr2)\", \"\(R.string.state)\", \"\(R.string.ph)\", \"\(R.string.ph_mob)\" and \"\(R.string.other)\" are optional",//	\"\(R.string)\"
 			"TIP:  Enter your phone contact(s), so the couriers can notify the contact person, if required",
 			"Press \"\(R.string.addAddr.uppercased())\" to save the information you entered"
@@ -72,7 +72,7 @@ extension R
 			static let wide: [String] = [
 				"List the address(es) that belong to the account, if any",
 				"TIP:  The left pane has a preview and can be swiped left or right (side-to-side) to view another address, if available;  At the same time, the address will appear in the right pane - separate line to easily edit",
-				"Press \"\(R.string.country)\" to select a country from the searchable list in the pop-up window",
+				"Press \"\(R.string.country)\" to select a country from the searchable list in the pop-up window or begin typing and the most similar countries will be listed",
 				"Optionally, press \"\(R.string.state)\" to select a state/province from the list in the pop-up window, if the selected country is separated as such",
 				"Press the \"\(R.string.delete.uppercased())\" button to mark the address as deleted",
 				"If you have edited the address, press the \"\(R.string.upd.uppercased())\" button to set the changes",

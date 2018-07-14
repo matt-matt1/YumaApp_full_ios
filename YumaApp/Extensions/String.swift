@@ -11,6 +11,12 @@ import UIKit
 
 extension String
 {
+//	/// Detect if ESC was pressed
+//	var escapePressed: Bool
+//	{
+//		let char = self.cString(using: String.Encoding.utf8)!
+//		return char.elementsEqual([0])
+//	}
 	//https://stackoverflow.com/questions/25761344/how-to-hash-nsstring-with-sha1-in-swift
 //	func sha1() -> String
 //	{

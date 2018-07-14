@@ -10,6 +10,7 @@
 		77AEFEB52CCED4506475D0A9 /* Pods_YumaAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */; };
 		905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */; };
 		A476738C515BD60BDC29B509 /* Pods_YumaAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7B38EA7A1928E4038B0A36 /* Pods_YumaAppUITests.framework */; };
+		CF01E04820FA2D7600CFE767 /* SeachAsYouTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01E04720FA2D7600CFE767 /* SeachAsYouTypeViewController.swift */; };
 		CF058C5B20D1830600974E2B /* MyXMLParserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF058C5A20D1830600974E2B /* MyXMLParserDelegate.swift */; };
 		CF101FAA20A64ED8006917DA /* SetPW.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF101FA920A64ED8006917DA /* SetPW.swift */; };
 		CF126940204C4A6F008EFD04 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF12693F204C4A6F008EFD04 /* Categories.swift */; };
@@ -260,6 +261,7 @@
 		7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YumaAppUITests/Pods-YumaAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE1C6B3F93C3CDB25CE334C1 /* Pods-YumaApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YumaApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp.release.xcconfig"; sourceTree = "<group>"; };
 		C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YumaApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF01E04720FA2D7600CFE767 /* SeachAsYouTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeachAsYouTypeViewController.swift; sourceTree = "<group>"; };
 		CF058C5A20D1830600974E2B /* MyXMLParserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyXMLParserDelegate.swift; sourceTree = "<group>"; };
 		CF101FA920A64ED8006917DA /* SetPW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPW.swift; sourceTree = "<group>"; };
 		CF12693F204C4A6F008EFD04 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
@@ -944,6 +946,7 @@
 				CFD4E79220D5C4DF000BA1DF /* ProductTags.swift */,
 				CF32269F20D804040058B7DE /* ProductsViewController_Collection.swift */,
 				CF5A9DEA20E68D4A00659FCE /* FloatingAlertViewController.swift */,
+				CF01E04720FA2D7600CFE767 /* SeachAsYouTypeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1340,6 +1343,7 @@
 				CF717EA820A3946400E68F83 /* CustomizableAlertController.swift in Sources */,
 				CFA4AC0520C71A45006C098C /* Amazing+Tools.swift in Sources */,
 				CF5A9DE720E6759A00659FCE /* PrestashopXMLroot.swift in Sources */,
+				CF01E04820FA2D7600CFE767 /* SeachAsYouTypeViewController.swift in Sources */,
 				CF99DF2A20D7F5AE006492AF /* Dictionary.swift in Sources */,
 				CF384BF8205EBF74005CCD57 /* Endpoint.swift in Sources */,
 				CF601A1C204AEAE700217025 /* States.swift in Sources */,

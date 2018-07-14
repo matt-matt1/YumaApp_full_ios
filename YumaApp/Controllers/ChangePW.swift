@@ -790,6 +790,15 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 		buttonRight.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 	}
 
+	override var keyCommands: [UIKeyCommand]?
+	{
+		return [
+			UIKeyCommand(input: UIKeyInputEscape,
+						 modifierFlags: [],
+						 action: #selector(self.buttonLeftTapped),
+						 discoverabilityTitle: NSLocalizedString("CloseWindow", comment: "Close window"))
+		]
+	}
 
 	// MARK: Methods
 	private func drawTitle()
@@ -898,7 +907,7 @@ class ChangePW: UIViewController, UIGestureRecognizerDelegate
 	
 	
 	// MARK: Actions
-	@objc func buttonLeftTapped(_ sender: UITapGestureRecognizer)
+	@objc func buttonLeftTapped(_ sender: UITapGestureRecognizer?)
 	{
 		store.flexView(view: buttonLeft)
 		self.dismiss(animated: true, completion: nil)

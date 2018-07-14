@@ -33,7 +33,37 @@ enum inputType
 	case timeOnly
 }
 
+struct searchSuggestionElement
+{
+	let name: String
+	let id: Int
+}
 
+//		fieldFrame																//
+//						/-----------------------------\							//
+//						| ^							  |							//
+//						|(fieldFrameTop)			  |							//
+//						| v							  |							//
+// <--fieldFrameLeft-->	| ^							  | <--fieldFrameRight-->
+//						|(containerHeight)			  |							//
+//						|<---><--><---------------><->|							//
+//						|label |  container			  |							//
+//						| |	   |   |<-textEditLeft->  |							//
+//						| |	   |	|textEdit		  |							//
+//						| |	   |	 |<-textEditRight/3->						//
+//						| |	   |	  |eye(<-showHideSize->)					//
+//						| |	   |	   |<-textEditRight->						//
+//						| |  (<-gap->)				  |							//
+//						|(<-labelMaxWidth->)		  |							//
+//						|  ^						  |							//
+//						| (invalidGapTop)			  |							//
+//						|  v						  |							//
+//						|   --invalid--(invalidHeight)|							//
+//						|  ^						  |							//
+//						| (invalidGapBottom)		  |							//
+//						|  v						  |							//
+//						| v							  |							//
+//						\-----------------------------/							//
 class InputField: UIView
 {
 	var placeholder = ""
@@ -110,8 +140,8 @@ class InputField: UIView
 	var invalidHeight: Int = 20
 	/// Spacing between the invalid message's bottom and the whole field
 	var invalidGapBottom: Int = 2
-	/// Spacing below the whole field's bottom
-	var fieldFrameBottom: Int = 5
+//	/// Spacing below the whole field's bottom
+//	var fieldFrameBottom: Int = 5
 	var inputType: inputType?
 	var displayShowHideIcon = false
 	/// Size of font for Show/Hide icon
@@ -127,9 +157,27 @@ class InputField: UIView
 		return view
 	}()
 	var canSee = false
+	var suggestionBoxEnabled = false
+	var suggestionBoxOpen = false
+	let suggestionBox: UIView =
+	{
+		let view = UIView()
+		return view
+	}()
+	let suggestionStack: UIStackView =
+	{
+		let view = UIStackView()
+		return view
+	}()
+	var filtered: [searchSuggestionElement] = []
+	var completeData: [searchSuggestionElement] = []
+	var filteredAttr: [NSMutableAttributedString] = []
+	var filteredIDs: [Int] = []
+	var selectedIdFromSuggestions = -1
 
 
 	// MARK: Overrides
+
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)
@@ -144,11 +192,11 @@ class InputField: UIView
 		drawField()
 	}
 	
-	init(frame: CGRect, inputType: inputType = .textCapitalizeSentances, hasShowHideIcon: Bool = false, likeButton: Bool = false)
+	init(frame: CGRect, inputType: inputType = .textCapitalizeSentances, hasShowHideIcon: Bool = false, labelLooksLikeButton: Bool = false, searchAsYouType: Bool = false)
 	{
 		super.init(frame: frame)
 		self.displayShowHideIcon = hasShowHideIcon
-		if likeButton
+		if labelLooksLikeButton
 		{
 			label.backgroundColor = R.color.YumaYel.withAlphaComponent(0.5)
 			label.cornerRadius = 4
@@ -197,11 +245,42 @@ class InputField: UIView
 			textEdit.isSecureTextEntry = true
 			break
 		}
-		drawField()
+		self.suggestionBoxEnabled = searchAsYouType
+		main()
+//		drawField()
+//		if suggestionBoxEnabled
+//		{
+//			textEdit.addTarget(self, action: #selector(showSearchBox(_:)), for: UIControlEvents.editingDidBegin)
+//			textEdit.addTarget(self, action: #selector(hideSearchBox(_:)), for: UIControlEvents.editingDidEnd)
+//			textEdit.addTarget(self, action: #selector(textChangedSearchBox(_:)), for: UIControlEvents.editingChanged)
+//		}
+	}
+
+	required init?(coder aDecoder: NSCoder)
+	{
+		super.init(coder: aDecoder)
+		//fatalError("init(coder:) has not been implemented")
+		if inputType != nil && inputType == .hiddenLikePassword
+		{
+			textEdit.isSecureTextEntry = true
+		}
+		main()
 	}
 
 
 	// MARK: Methods
+
+	private func main()
+	{
+		drawField()
+		if suggestionBoxEnabled
+		{
+			textEdit.addTarget(self, action: #selector(showSearchBox(_:)), for: UIControlEvents.editingDidBegin)
+			textEdit.addTarget(self, action: #selector(hideSearchBox(_:)), for: UIControlEvents.editingDidEnd)
+			textEdit.addTarget(self, action: #selector(textChangedSearchBox(_:)), for: UIControlEvents.editingChanged)
+		}
+	}
+
 	private func drawField()
 	{
 		label.adjustsFontSizeToFitWidth = true
@@ -249,6 +328,22 @@ class InputField: UIView
 		addConstraintsWithFormat(format: "V:|[v0]|", views: fieldFrame)
 	}
 
+	
+	func hightlightSearchResult(searchString: String, resultString: String) -> NSMutableAttributedString
+	{
+		let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: resultString)
+		let pattern = searchString.lowercased()
+		let range: NSRange = NSMakeRange(0, resultString.count)
+		
+		let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options())
+		
+		regex.enumerateMatches(in: resultString.lowercased(), options: NSRegularExpression.MatchingOptions(), range: range) { (textCheckingResult, matchingFlags, stop) -> Void in
+			let subRange = textCheckingResult?.range
+			attributedString.addAttributes([NSAttributedStringKey.backgroundColor : UIColor.yellow, NSAttributedStringKey.foregroundColor : UIColor.red], range: subRange!)
+		}
+		return attributedString
+	}
+
 
 	@objc func toggleViewable(_ sender: AnyObject)
 	{
@@ -258,15 +353,98 @@ class InputField: UIView
 	}
 
 
-	required init?(coder aDecoder: NSCoder)
+	@objc func showSearchBox(_ field: UITextField?)
 	{
-		super.init(coder: aDecoder)
-		//fatalError("init(coder:) has not been implemented")
-		if inputType != nil && inputType == .hiddenLikePassword
+		//		if (country.textEdit.text?.isEmpty)! || searchSelectedCountry?.containsStates == false
+		//		{
+		//			myAlertOnlyDismiss(self, title: R.string.err, message: "\(R.string.select) \(R.string.country) \(R.string.first)")
+		//			state.resignFirstResponder()
+		//		}
+		//		else
+		//		{
+		if suggestionBoxEnabled
 		{
-			textEdit.isSecureTextEntry = true
+			suggestionBox.addSubview(suggestionStack)
+			addSubview(suggestionBox)
+			NSLayoutConstraint.activate([
+				suggestionBox.topAnchor.constraint(equalTo: textEdit.bottomAnchor, constant: -2),
+				suggestionBox.leadingAnchor.constraint(equalTo: textEdit.leadingAnchor, constant: 8),
+				suggestionBox.bottomAnchor.constraint(equalTo: textEdit.bottomAnchor, constant: 160),
+				suggestionBox.trailingAnchor.constraint(equalTo: textEdit.trailingAnchor, constant: -10),
+				
+				suggestionStack.topAnchor.constraint(equalTo: suggestionBox.topAnchor, constant: 5),
+				suggestionStack.leadingAnchor.constraint(equalTo: suggestionBox.leadingAnchor, constant: 5),
+				suggestionStack.bottomAnchor.constraint(equalTo: suggestionBox.bottomAnchor, constant: 5),
+				suggestionStack.trailingAnchor.constraint(equalTo: suggestionBox.trailingAnchor, constant: 5),
+				])
+			filtered = completeData
+			suggestionBoxOpen = true
+			textChangedSearchBox(field!)
 		}
-		drawField()
+	}
+	
+
+	@objc func hideSearchBox(_ field: UITextField?)
+	{
+		suggestionBoxOpen = false
+		suggestionBox.removeFromSuperview()
+	}
+	
+
+	@objc private func textChangedSearchBox(_ textField: UITextField)
+	{
+		if textField.text == nil || (textField.text?.isEmpty)!
+		{
+			filtered = completeData
+		}
+		else
+		{
+			filtered.removeAll()
+			filtered = completeData.filter({ (str) -> Bool in
+				return (str.name.lowercased().contains(textField.text!.lowercased()))
+			})
+			filteredAttr.removeAll()
+			filteredIDs.removeAll()
+			filtered.forEach { (str) in
+				filteredIDs.append(str.id)
+				filteredAttr.append(hightlightSearchResult(searchString: textField.text!, resultString: str.name))
+			}
+		}
+		suggestionStack.subviews.forEach { (sub) in
+			sub.removeFromSuperview()
+		}
+		for i in 0 ..< 5
+		{
+			let line = UILabel()
+			if filteredAttr.count > i
+			{
+				line.attributedText = filteredAttr[i]
+			}
+			else if completeData.count > i
+			{
+				line.text = completeData[i].name
+			}
+			line.isUserInteractionEnabled = true
+			line.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(selectedFromSearchBox(_:))))
+			suggestionStack.addArrangedSubview(line)
+		}
+		suggestionStack.addArrangedSubview(UIView(frame: .zero))
+	}
+	
+
+	@objc private func selectedFromSearchBox(_ sender: UITapGestureRecognizer)
+	{
+		let line = sender.view as! UILabel
+		textEdit.text = line.text
+		hideSearchBox(nil)
+		for i in 0 ..< 5
+		{
+			if filtered[i].name == line.text
+			{
+				selectedIdFromSuggestions = filtered[i].id
+				break
+			}
+		}
 	}
 
 }

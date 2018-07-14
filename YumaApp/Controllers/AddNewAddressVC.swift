@@ -8,9 +8,10 @@
 
 import UIKit
 import SWXMLHash
+//import Cocoa
 
 
-class AddNewAddressVC: UIViewController, UITextFieldDelegate
+class AddNewAddressVC: UIViewController, UITextFieldDelegate//, NSViewController
 {
 //	var navBar = UINavigationBar()
 //	var navClose = UIBarButtonItem()
@@ -194,7 +195,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let state: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, likeButton: true)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, labelLooksLikeButton: true)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -221,7 +222,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	}()
 	let country: InputField =
 	{
-		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, likeButton: true)
+		let view = InputField(frame: .zero, inputType: .textCapitalizeSentances, hasShowHideIcon: false, labelLooksLikeButton: true)
 		view.label.textColor = UIColor.darkGray
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.fieldFrame.borderWidth = 2
@@ -311,10 +312,12 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	var filteredAttr: [NSMutableAttributedString] = []
 	var filteredCountryIDs: [Int] = []
 	var searchSelectedCountry: Country?
+	var searchCountryBoxOpen = false
 	var filteredStates: [String] = []//[CountryState] = []
 	var filteredStatesAttr: [NSMutableAttributedString] = []
 	var filteredStatesIDs: [Int] = []
 	var searchSelectedState: CountryState?
+	var searchStateBoxOpen = false
 
 
 	// MARK: Overrides
@@ -369,6 +372,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //		self.navigationController?.navigationItem.hidesBackButton = true//self.navigationItem.hidesBackButton = true
 	}
 
+//	override func key
 
 	deinit
 	{
@@ -464,7 +468,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 
 	func setupFields()
 	{
-		stack = UIStackView(arrangedSubviews: [alias, firstname, lastname, company, vatNo, addr1, addr2, pc, city, state, country, phone, mob, other, gapBeforeButton, button])
+		stack = UIStackView(arrangedSubviews: [alias, firstname, lastname, company, vatNo, addr1, addr2, pc, city, country, state, phone, mob, other, gapBeforeButton, button])
 		stack.axis = .vertical
 //		stack.alignment = .fill
 //		stack.distribution = .fill
@@ -481,13 +485,13 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		scroll.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: stack)
 		scroll.addConstraintsWithFormat(format: "V:|-20-[v0]-10-|", views: stack)
 		
-		country.textEdit.addTarget(self, action: #selector(textChangedCountrySearchBox(_:)), for: .editingChanged)
-		country.textEdit.addTarget(self, action: #selector(showCountrySearchBox(_:)), for: .editingDidBegin)
-		country.textEdit.addTarget(self, action: #selector(hideCountrySearchBox(_:)), for: .editingDidEnd)
+		country.textEdit.addTarget(self, action: #selector(self.textChangedCountrySearchBox(_:)), for: .editingChanged)
+		country.textEdit.addTarget(self, action: #selector(self.showCountrySearchBox(_:)), for: .editingDidBegin)
+		country.textEdit.addTarget(self, action: #selector(self.hideCountrySearchBox(_:)), for: .editingDidEnd)
 		
-		state.textEdit.addTarget(self, action: #selector(textChangedStateSearchBox(_:)), for: .editingChanged)
-		state.textEdit.addTarget(self, action: #selector(showStateSearchBox(_:)), for: .editingDidBegin)
-		state.textEdit.addTarget(self, action: #selector(hideStateSearchBox(_:)), for: .editingDidEnd)
+		state.textEdit.addTarget(self, action: #selector(self.textChangedStateSearchBox(_:)), for: .editingChanged)
+		state.textEdit.addTarget(self, action: #selector(self.showStateSearchBox(_:)), for: .editingDidBegin)
+		state.textEdit.addTarget(self, action: #selector(self.hideStateSearchBox(_:)), for: .editingDidEnd)
 	}
 
 //	2018-06-23 14:08:14.322 YumaApp[45781:4422172] Unable to simultaneously satisfy constraints.
@@ -1016,7 +1020,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 //						state.alpha = 1
 //					}
 					fillStates(row.id!)
-					state.textEdit.placeholder = R.string.select
+					state.textEdit.placeholder = "- \(R.string.select) -"
 					OperationQueue.main.addOperation
 					{
 						// WHY CAN'T REMOVE GESTURE...
@@ -1082,7 +1086,9 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 			vc.buttonLeft.setTitle(R.string.finish.uppercased(), for: .normal)
 			vc.isModalInPopover = true
 			vc.modalPresentationStyle = .overFullScreen
-			self.present(vc, animated: true, completion: nil)
+			self.present(vc, animated: true, completion: {
+//				self.phone.becomeFirstResponder()
+			})
 		}
 	}
 	
@@ -1090,6 +1096,7 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 	{
 		if let row = sender.object as? CountryState
 		{
+//			phone.becomeFirstResponder()
 			if state.textEdit.text != row.name!
 			{
 				state.textEdit.text = row.name!
@@ -1160,11 +1167,11 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate
 		}
 	}
 
-	func textFieldShouldReturn(_ textField: UITextField) -> Bool
-	{	// force all fields to skip to next field when return-key is pressed, ie. only one line
-		textField.resignFirstResponder()
-		return true
-	}
+//	func textFieldShouldReturn(_ textField: UITextField) -> Bool
+//	{	// force all fields to skip to next field when return-key is pressed, ie. only one line
+//		textField.resignFirstResponder()
+//		return true
+//	}
 
 
 	@objc func dropdownList(_ sender: UITapGestureRecognizer)
@@ -1214,25 +1221,30 @@ extension AddNewAddressVC	//	search on type - countries
 {
 	@objc func showCountrySearchBox(_ field: UITextField?)
 	{
-		suggCountries.addSubview(suggCountriesStack)
-		view.addSubview(suggCountries)
-		NSLayoutConstraint.activate([
-			suggCountries.topAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: -2),
-			suggCountries.leadingAnchor.constraint(equalTo: country.textEdit.leadingAnchor, constant: 8),
-			suggCountries.bottomAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: 160),
-			suggCountries.trailingAnchor.constraint(equalTo: country.textEdit.trailingAnchor, constant: -10),
-			
-			suggCountriesStack.topAnchor.constraint(equalTo: suggCountries.topAnchor, constant: 5),
-			suggCountriesStack.leadingAnchor.constraint(equalTo: suggCountries.leadingAnchor, constant: 5),
-			suggCountriesStack.bottomAnchor.constraint(equalTo: suggCountries.bottomAnchor, constant: 5),
-			suggCountriesStack.trailingAnchor.constraint(equalTo: suggCountries.trailingAnchor, constant: 5),
-			])
-		filtered = store.countries
-		textChangedStateSearchBox(field!)
+		if field?.text == nil || (field?.text?.count)! > 0
+		{
+			suggCountries.addSubview(suggCountriesStack)
+			view.addSubview(suggCountries)
+			NSLayoutConstraint.activate([
+				suggCountries.topAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: -2),
+				suggCountries.leadingAnchor.constraint(equalTo: country.textEdit.leadingAnchor, constant: 8),
+				suggCountries.bottomAnchor.constraint(equalTo: country.textEdit.bottomAnchor, constant: 160),
+				suggCountries.trailingAnchor.constraint(equalTo: country.textEdit.trailingAnchor, constant: -10),
+				
+				suggCountriesStack.topAnchor.constraint(equalTo: suggCountries.topAnchor, constant: 5),
+				suggCountriesStack.leadingAnchor.constraint(equalTo: suggCountries.leadingAnchor, constant: 5),
+				suggCountriesStack.bottomAnchor.constraint(equalTo: suggCountries.bottomAnchor, constant: 5),
+				suggCountriesStack.trailingAnchor.constraint(equalTo: suggCountries.trailingAnchor, constant: 5),
+				])
+			filtered = store.countries
+			searchCountryBoxOpen = true
+			textChangedStateSearchBox(field!)
+		}
 	}
 
 	@objc func hideCountrySearchBox(_ field: UITextField?)
 	{
+		searchCountryBoxOpen = false
 		suggCountries.removeFromSuperview()
 	}
 
@@ -1259,6 +1271,10 @@ extension AddNewAddressVC	//	search on type - countries
 		}
 		else
 		{
+			if !searchCountryBoxOpen
+			{
+				showCountrySearchBox(textField)
+			}
 			filtered.removeAll()
 			filtered = store.countries.filter({ (country) -> Bool in
 				return (store.valueById(object: country.name!, id: store.myLang)?.lowercased().contains(textField.text!.lowercased()))!
@@ -1304,12 +1320,55 @@ extension AddNewAddressVC	//	search on type - countries
 			if store.valueById(object: filtered[i].name!, id: store.myLang) == line.text
 			{
 				searchSelectedCountry = filtered[i]
+				if searchSelectedCountry?.containsStates != nil && (searchSelectedCountry?.containsStates)!
+				{
+					state.textEdit.placeholder = "- \(R.string.select) -"
+					OperationQueue.main.addOperation
+					{
+						self.state.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+					}
+				}
+				else
+				{
+					state.textEdit.text = "N/A"
+					OperationQueue.main.addOperation
+					{
+						if self.state.textEdit.gestureRecognizers != nil && (self.state.textEdit.gestureRecognizers?.count)! > 0
+						{
+							self.state.removeGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.displaySelectAState(_:))))
+							self.pickerStateData.removeAll()
+						}
+					}
+				}
 				break
 			}	//	store selected
 		}
 		hideCountrySearchBox(nil)
 		countryId = line.tag
 		fillStates(countryId)
+	}
+
+	override var keyCommands: [UIKeyCommand]?
+	{
+		if searchStateBoxOpen
+		{
+			return [
+				UIKeyCommand(input: UIKeyInputEscape,
+							 modifierFlags: [],
+							 action: #selector(self.hideStateSearchBox(_:)),
+							 discoverabilityTitle: NSLocalizedString("CloseWindow", comment: "Close window"))
+			]
+		}
+		else if searchCountryBoxOpen
+		{
+			return [
+				UIKeyCommand(input: UIKeyInputEscape,
+							 modifierFlags: [],
+							 action: #selector(self.hideCountrySearchBox(_:)),
+							 discoverabilityTitle: NSLocalizedString("CloseWindow", comment: "Close window"))
+			]
+		}
+		return nil
 	}
 
 }
@@ -1320,7 +1379,7 @@ extension AddNewAddressVC	//	search on type - states
 {
 	@objc func showStateSearchBox(_ field: UITextField?)
 	{
-		if (country.textEdit.text?.isEmpty)! || searchSelectedCountry?.containsStates == false
+		if (country.textEdit.text?.isEmpty)! || searchSelectedCountry?.containsStates == false || field?.text == "N/A"
 		{
 			myAlertOnlyDismiss(self, title: R.string.err, message: "\(R.string.select) \(R.string.country) \(R.string.first)")
 			state.resignFirstResponder()
@@ -1341,12 +1400,14 @@ extension AddNewAddressVC	//	search on type - states
 				suggStatesStack.trailingAnchor.constraint(equalTo: suggStates.trailingAnchor, constant: 5),
 				])
 			filteredStates = pickerStateData
+			searchStateBoxOpen = true
 			textChangedStateSearchBox(field!)
 		}
 	}
 	
 	@objc func hideStateSearchBox(_ field: UITextField?)
 	{
+		searchStateBoxOpen = false
 		suggStates.removeFromSuperview()
 	}
 	
@@ -1395,7 +1456,10 @@ extension AddNewAddressVC	//	search on type - states
 		let line = sender.view as! UILabel
 		state.textEdit.text = line.text
 		hideStateSearchBox(nil)
-		stateId = (searchSelectedState?.id!)!
+		if searchSelectedState != nil
+		{
+			stateId = (searchSelectedState?.id!)!
+		}
 	}
 	
 }
