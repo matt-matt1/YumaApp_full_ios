@@ -34,7 +34,7 @@ extension MySQLite
 	{
 		case pri = "PRIMARY KEY"
 	}
-	enum ColumnCount: String
+	enum ColumnExtra: String
 	{
 		case autoInc = "AUTOINCREMENT"
 	}
@@ -42,11 +42,11 @@ extension MySQLite
 	struct Column
 	{
 		let name: String
-		var null: ColumnNull? = .notNull
+		var notNull: ColumnNull? = .notNull
 		let dataType: ColumnType?
 		var key: ColumnKey? = nil
-		var operation: ColumnCount? = nil
-		var isNotNull: Bool? = false
+		var extra: ColumnExtra? = nil
+//		var isNotNull: Bool? = false
 		var defaultValue: String? = nil
 		var isPrimaryKey: Bool? = false
 	}

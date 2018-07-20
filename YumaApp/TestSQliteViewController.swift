@@ -39,47 +39,62 @@ class TestSQliteViewController: UIViewController
 //		let db = Connect(DBFile)
 		if let db = try? sql.Connect(DBFile)
 		{
-			let results = sql.selectOrderedFrom(db, "Heros", columns: nil, where: nil, limit: nil)
-			if results != nil
-			{
-				var i = 0
-				for row in results!
-				{
-//					var output = "row\(i)="
-					var output = "|"
-					for value in row
-					{
-						output += "\(value)|"
-					}
-					print(output)
-					i += 1
-				}
-			}
-			else
-			{
-				print("no rows in table")
-			}
 			let myCreateStr = sql.createTable(db, name: "Heros", notExists: true, columns: [
-				MySQLite.Column(name: "id", null: .null, dataType: .integer, key: .pri, operation: .autoInc, isNotNull: false, defaultValue: nil, isPrimaryKey: true),
-				MySQLite.Column(name: "name", null: .null, dataType: .text, key: nil, operation: nil, isNotNull: false, defaultValue: nil, isPrimaryKey: false),
-				MySQLite.Column(name: "powerrank", null: .null, dataType: .integer, key: nil, operation: nil, isNotNull: false, defaultValue: nil, isPrimaryKey: false)], printOnly: false)
+				MySQLite.Column(name: "id", notNull: .null, dataType: .integer, key: .pri, extra: .autoInc, defaultValue: nil, isPrimaryKey: true),
+				MySQLite.Column(name: "name", notNull: .null, dataType: .text, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false),
+				MySQLite.Column(name: "powerrank", notNull: .null, dataType: .integer, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false)], printOnly: false)
 			if myCreateStr != nil
 			{
 				print("error " + myCreateStr!)
 			}
 			else
 			{
-				let insResult = sql.insertInto(db, "Heros", columns: ["name"], values: ["me", "myself", "I"])
+				print(sql.columnsIn(db, "Heros")!)//sql.columnsIn(db, "Heros")
+				let results = sql.selectOrderedFrom(db, "Heros", columns: nil, where: nil, limit: nil)
+				if results != nil
+				{
+					for row in results!
+					{								// each row
+						var output = "|"			// row beginning
+						for value in row
+						{							// each field
+							output += "\(value)|"	// add an ending pipe
+						}
+						print(output)				// print the row
+					}
+				}
+				else
+				{
+					print("no rows in table")
+				}
+				let insResult = sql.insertInto(db, "Heros", columns: ["name"], values: ["me", "myself", "I"], debugPrint: true)
 				if insResult != nil
 				{
 					print("error " + insResult!)
 				}
+				let results2 = sql.selectOrderedFrom(db, "Heros", columns: nil, where: nil, limit: nil)
+				if results2 != nil
+				{
+					for row in results2!
+					{
+						var output = "|"
+						for value in row
+						{
+							output += "\(value)|"
+						}
+						print(output)
+					}
+				}
+				else
+				{
+					print("no rows in table")
+				}
 			}
-			let myColsStr = sql.columnsIn(db, "Heros")
-			if myColsStr != nil
-			{
-				print("error \(myColsStr!)")
-			}
+//			let myColsStr = sql.columnsIn(db, "Heros")
+//			if myColsStr != nil
+//			{
+//				print("error \(myColsStr!)")
+//			}
 //			try! sql.Disconnect(db)
 			try? sql.Disconnect(db)
 		}

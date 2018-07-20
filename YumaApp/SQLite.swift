@@ -49,7 +49,7 @@ class MySQLite
 		{
 			createStr += "\t\(col.name) \(col.dataType!.rawValue)"
 			if col.key != nil			{		createStr += " \(col.key!.rawValue)"				}
-			if col.operation != nil		{		createStr += " \(col.operation!.rawValue)"			}
+			if col.extra != nil			{		createStr += " \(col.extra!.rawValue)"				}
 			if col.isPrimaryKey!		{		primaries += 1										}
 			if i < columns.count-1		{		createStr += ",\n"									}
 			i += 1
@@ -197,8 +197,8 @@ class MySQLite
 						pk = ColumnKey.pri
 					}
 				}
-				results.append(MySQLite.Column(name: nm, null: nn, dataType: ty, key: pk, operation: nil, isNotNull: nil, defaultValue: dv, isPrimaryKey: nil))
-				print(output)
+				results.append(MySQLite.Column(name: nm, notNull: nn, dataType: ty, key: pk, extra: nil, defaultValue: dv, isPrimaryKey: nil))
+//				print(output)
 				row += 1
 			}
 		}
@@ -280,7 +280,7 @@ class MySQLite
 	}
 
 	/// Inserts rows, (optionally)columns and related values for a database(db) table(table), optionally where a condition is met and returns nil on success otherwise returns an error message(String) (can accept multiple values per columns ie. insert... columns: ["name"], values: ["a", "b", "c"] ...)
-	func insertInto(_ db: OpaquePointer, _ table: String, columns: [String]?, values: [Any]) -> String?
+	func insertInto(_ db: OpaquePointer, _ table: String, columns: [String]?, values: [Any], debugPrint: Bool=false) -> String?
 	{
 		var stmt: OpaquePointer?
 		var c = 0
@@ -319,14 +319,22 @@ class MySQLite
 		}
 		queryString = String(queryString.dropLast().dropLast())
 		queryString += ")"
+		if debugPrint
+		{
+			print(queryString)
+		}
 		if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK
 		{
 			return (false) ? nil : "prepare statement \"\(queryString)\" - \(String(cString: sqlite3_errmsg(db)!))"
 		}
-		for cycle in 0 ..< (values.count - totalCycles + 1)
+		for cycle in 0 ..< values.count//(values.count - totalCycles + 1)
 		{
-			for k in cycle ..< c
+			for k in cycle ..< cycle + c
 			{
+				if debugPrint
+				{
+					print("\(k):\(values[k]), ")
+				}
 				if sqlite3_bind_text(stmt, 1, values[k] as! String, -1, SQLITE_TRANSIENT) != SQLITE_OK
 				{
 					return (false) ? nil : "binding error on row \(cycle) - trying \(queryString) - \(String(cString: sqlite3_errmsg(db)!))"
