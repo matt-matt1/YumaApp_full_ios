@@ -68,6 +68,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		
+//		let vc = TestSQliteViewController()
+//		self.present(vc, animated: false, completion: nil)
+
 		UserDefaults.standard.set(nil, forKey: "Orders3")
 		//UserDefaults.standard.set(nil, forKey: "Orders9Details")
 		//UserDefaults.standard.set(nil, forKey: "Orders10Details")
@@ -76,6 +79,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		//UserDefaults.standard.set(nil, forKey: "Orders7Details")
 		UserDefaults.standard.set(nil, forKey: "CustomerAddresses")
 		getValues()
+		readDB()
 		setDefaults()// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
 //		var ws = WebService()
 //		ws.startURL = R.string.WSbase
@@ -869,6 +873,144 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		}
 	}
 
+
+	func readDB()
+	{
+		var hardCoded = [String : String]()
+		hardCoded["ps_checkpayment"] = "Payment by check"//modules/ps_checkpayment/views/templates/hook/payment.tpl=>s'Pay by check'
+		hardCoded["ps_wirepayment"] = "Bank wire"//"Wire payment"//modules/ps_wirepayment/views/templates/hook/payment.tpl=>s='Pay by bank wire'
+		hardCoded["ps_cashondelivery"] = "Cash on delivery (COD)"//modules/ps_cashondelivery/views/templates/hook/ps_cashondelivery_intro.tpl=>s='You pay for the merchandise upon delivery'//modules/ps_cashondelivery/ps_cashondelivery.php=>$this->displayName = $this->trans('Cash on delivery (COD)', array(), 'Modules.Cashondelivery.Admin');
+//		let urlStr = "http://yumatechnical.com/prestashop.php"
+//		let urlStr = "http://yumatechnical.com/prestashop.php?debug=1"
+		var allowed = CharacterSet.alphanumerics
+		allowed.insert(charactersIn: ".-_")
+		let query = "SELECT m.name FROM `ps2_module`m JOIN `ps2_module_carrier`mc ON (m.id_module = mc.id_module) WHERE m.active = '1' AND mc.id_shop = '1' AND mc.id_reference = '1' ".addingPercentEncoding(withAllowedCharacters: allowed)
+		let urlStr = "http://yumatechnical.com/prestashop.php"//?query=\(query!)"
+		let dataStr = "query=\(query!)"
+		let data = dataStr.data(using: .utf8)
+//		let dataStr = "debug=1"
+//		print("posting:\(dataStr)")
+		SwipingController.getFromPrestashop(urlStr, post: data, completionHandler:
+//		SwipingController.getPayModules(urlStr, completionHandler:
+		{
+			(result, err) in
+
+			if err != nil
+			{
+				print(err.debugDescription)
+			}
+			if result != nil
+			{
+//				var row = 0
+				var payModuleName: [String] = []
+				for dict in result!
+				{
+//					print("\(row):")
+					for (_, v) in dict
+					{
+//						print("\(k) = \(v)")
+						payModuleName.append(v as! String)
+					}
+//					row += 1
+				}
+				for pay in payModuleName
+				{
+					let filePath = "http://yumatechnical.com/modules/\(pay)/\(pay).php"
+					print("\(pay)(\(filePath)), ")
+					if NSURL(string: filePath) != nil
+					{
+						DispatchQueue.global().async {
+//							do
+//							{
+								let contents = try? String(contentsOf: URL(string: filePath)!)
+								//$this->displayName = $this->trans('Cash on delivery (COD)', array(), 'Modules.Cashondelivery.Admin');
+								if contents != nil && !contents!.isEmpty
+								{
+									if contents!.contains("displayName")
+									{
+										let line = matches(for: "displayName = (.*)$", in: contents!)
+										print("\(filePath) => \(line)")
+									}
+								}
+//							}
+//							catch
+//							{
+//							}
+						}
+					}
+				}
+			}
+		})
+	}
+
+	class func getFromPrestashop(_ url: String, post: Data?, completionHandler: @escaping ([Dictionary<String, AnyObject>]?, Error?) -> Void)
+	{
+		var req = URLRequest(url: URL(string: url)!, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 60.0)
+		req.httpMethod = "POST"
+		req.httpBody = post
+		req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+		req.setValue("application/json", forHTTPHeaderField: "Accept")
+		let task = URLSession.shared.dataTask(with: req, completionHandler:
+		{
+			(data, response, error) in
+			
+			let response = response as! HTTPURLResponse
+			if response.statusCode == 200
+			{
+				let dataString = String(data: data!, encoding: .utf8)
+				if dataString != nil && !(dataString?.isEmpty)!
+				{
+					do
+					{
+						let dict = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [Dictionary<String, AnyObject>]
+						completionHandler(dict as [Dictionary<String, AnyObject>], nil)
+					}
+					catch let err
+					{
+						completionHandler(nil, err)//"not valid JSON" as? Error)
+					}
+				}
+				else
+				{
+					completionHandler([["error":"" as AnyObject]], nil)
+				}
+			}
+		})
+		task.resume()
+	}
+
+//	class func load(url: URL, to localUrl: URL, completion: @escaping () -> ())
+//	{
+//		let sessionConfig = URLSessionConfiguration.default
+//		let session = URLSession(configuration: sessionConfig)
+//		let request = try! URLRequest(url: url)
+//
+//		let task = session.dataTask(with: request)//.downloadTask(with: request)
+//		{
+//			(tempLocalUrl, response, error) in
+//			if let tempLocalUrl = tempLocalUrl, error == nil
+//			{
+//				if let statusCode = (response as? HTTPURLResponse)?.statusCode
+//				{
+//					print("Success: \(statusCode)")
+//				}
+//				do
+//				{
+//					try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+//					completion()
+//				}
+//				catch (let writeError)
+//				{
+//					print("error writing file \(localUrl) : \(writeError)")
+//				}
+//			}
+//			else if error != nil
+//			{
+//				print("Failure: %@", error!.localizedDescription)
+//			}
+//		}
+//		task.resume()
+//	}
 
 	func setDefaults()	// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
 	{

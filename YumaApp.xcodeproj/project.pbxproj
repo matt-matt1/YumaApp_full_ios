@@ -206,6 +206,8 @@
 		CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFF20C71A45006C098C /* Fonts.swift */; };
 		CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0020C71A45006C098C /* Crossplatform.swift */; };
 		CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0220C71A45006C098C /* Amazing.swift */; };
+		CFAE285420FFF17B0048E164 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE285320FFF17B0048E164 /* AnyDecodable.swift */; };
+		CFAE28582100E79D0048E164 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE28572100E79D0048E164 /* Downloader.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
 		CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAFC090201F6DA1002CBC1B /* LaunchScreen.storyboard */; };
 		CFAFC09D201F6DA1002CBC1B /* YumaAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC09C201F6DA1002CBC1B /* YumaAppTests.swift */; };
@@ -228,6 +230,13 @@
 		CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEC7B2E203DD33100F98C57 /* Entry.xib */; };
 		CFEC7B31203DFD3300F98C57 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEC7B30203DFD3300F98C57 /* Reachability.swift */; };
 		CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEE3AAD2047444700526D92 /* CartViewController.swift */; };
+		CFEF07CF20FD155F005BB642 /* TestSQliteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07CE20FD155F005BB642 /* TestSQliteViewController.swift */; };
+		CFEF07D120FE3468005BB642 /* SQLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07D020FE3468005BB642 /* SQLite.swift */; };
+		CFEF07D320FE3BB3005BB642 /* SQLiteEnumsStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07D220FE3BB3005BB642 /* SQLiteEnumsStructs.swift */; };
+		CFEF07D720FEB467005BB642 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEF07D620FEB467005BB642 /* SQLite.framework */; };
+		CFEF07D920FEB5DD005BB642 /* SQLDataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07D820FEB5DC005BB642 /* SQLDataAccess.swift */; };
+		CFEF07DB20FEB5ED005BB642 /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07DA20FEB5ED005BB642 /* DataConstants.swift */; };
+		CFEF07DE20FEB6C3005BB642 /* SQLiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF07DD20FEB6C2005BB642 /* SQLiteViewController.swift */; };
 		CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB52034E48600BEDEE4 /* DataStore.swift */; };
 		CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */; };
 		CFF4A8C0204EFFFB005AE5C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFF4A8BF204EFFFA005AE5C8 /* Assets.xcassets */; };
@@ -462,6 +471,8 @@
 		CFA4AC0020C71A45006C098C /* Crossplatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crossplatform.swift; sourceTree = "<group>"; };
 		CFA4AC0220C71A45006C098C /* Amazing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amazing.swift; sourceTree = "<group>"; };
 		CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeEnum.h; sourceTree = "<group>"; };
+		CFAE285320FFF17B0048E164 /* AnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
+		CFAE28572100E79D0048E164 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFAFC091201F6DA1002CBC1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -490,6 +501,14 @@
 		CFEC7B2E203DD33100F98C57 /* Entry.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Entry.xib; sourceTree = "<group>"; };
 		CFEC7B30203DFD3300F98C57 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		CFEE3AAD2047444700526D92 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		CFEF07CE20FD155F005BB642 /* TestSQliteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSQliteViewController.swift; sourceTree = "<group>"; };
+		CFEF07D020FE3468005BB642 /* SQLite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLite.swift; sourceTree = "<group>"; };
+		CFEF07D220FE3BB3005BB642 /* SQLiteEnumsStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteEnumsStructs.swift; sourceTree = "<group>"; };
+		CFEF07D620FEB467005BB642 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFEF07D820FEB5DC005BB642 /* SQLDataAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLDataAccess.swift; sourceTree = "<group>"; };
+		CFEF07DA20FEB5ED005BB642 /* DataConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
+		CFEF07DC20FEB686005BB642 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		CFEF07DD20FEB6C2005BB642 /* SQLiteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteViewController.swift; sourceTree = "<group>"; };
 		CFF3CFB02034C48700BEDEE4 /* Eureka.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Eureka.framework; path = "../../../../Users/yumausa/Library/Developer/Xcode/DerivedData/YumaApp-avolzrtwtmhajogusyiczqivwtce/Build/Products/Debug-iphoneos/Eureka.framework"; sourceTree = "<group>"; };
 		CFF3CFB52034E48600BEDEE4 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		CFF3CFB72035F00F00BEDEE4 /* MyAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
@@ -502,6 +521,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFEF07D720FEB467005BB642 /* SQLite.framework in Frameworks */,
 				905B9ADF2B12BF77F1CB7C8D /* Pods_YumaApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,6 +561,7 @@
 		28DB1A0CACEC912941C15AC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFEF07D620FEB467005BB642 /* SQLite.framework */,
 				CFF3CFB02034C48700BEDEE4 /* Eureka.framework */,
 				C310D4D5AC23CE8E97C74431 /* Pods_YumaApp.framework */,
 				450FA0398939E6DB72DC86CF /* Pods_YumaAppTests.framework */,
@@ -780,6 +801,10 @@
 		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CFEF07DA20FEB5ED005BB642 /* DataConstants.swift */,
+				CFEF07D820FEB5DC005BB642 /* SQLDataAccess.swift */,
+				CFEF07DC20FEB686005BB642 /* sqlite3.h */,
+				CFEF07DD20FEB6C2005BB642 /* SQLiteViewController.swift */,
 				CF9A1D6620E3C5A3003F2213 /* XMLParsing */,
 				CF2DDBF420A4C91500AF517D /* YumaApp-Bridging-Header.h */,
 				CF717EB120A3981100E68F83 /* SwiftyJSON.swift */,
@@ -795,12 +820,17 @@
 				CF7E863E2029EA760014B787 /* Views */,
 				CFAFC0E9201F911D002CBC1B /* Models */,
 				CF5A9DE420E674B900659FCE /* ParserBase.swift */,
+				CFAE28572100E79D0048E164 /* Downloader.swift */,
+				CFAE285320FFF17B0048E164 /* AnyDecodable.swift */,
 				CF5A9DE620E6759A00659FCE /* PrestashopXMLroot.swift */,
 				CF6DB04420E81D120084146A /* PS_Address.swift */,
 				CF5A9DE820E676E000659FCE /* PS_Error.swift */,
 				CF6DB04020E813130084146A /* PS_Customer.swift */,
 				CF6DB04220E818F20084146A /* PS_CustomerAssocations.swift */,
 				CF92B48F20EFD9BF00AEDEC8 /* Validate.swift */,
+				CFEF07CE20FD155F005BB642 /* TestSQliteViewController.swift */,
+				CFEF07D220FE3BB3005BB642 /* SQLiteEnumsStructs.swift */,
+				CFEF07D020FE3468005BB642 /* SQLite.swift */,
 			);
 			path = YumaApp;
 			sourceTree = "<group>";
@@ -1185,12 +1215,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AwesomeEnum/AwesomeEnum.framework",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwesomeEnum.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1211,6 +1243,7 @@
 				CF99DF2E20D7F62E006492AF /* String.swift in Sources */,
 				CF99DF4220D7F97D006492AF /* UIView.swift in Sources */,
 				CF99DF3020D7F687006492AF /* UIApplication.swift in Sources */,
+				CFEF07DE20FEB6C3005BB642 /* SQLiteViewController.swift in Sources */,
 				CF55B7D520B6F0A600917B85 /* AddNewAddressVC.swift in Sources */,
 				CF55FAF3208B9B0000B6CB3C /* HelpCell.swift in Sources */,
 				CF99DF3C20D7F861006492AF /* R.story.swift in Sources */,
@@ -1282,6 +1315,7 @@
 				CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */,
 				CF3226A020D804040058B7DE /* ProductsViewController_Collection.swift in Sources */,
 				CF75E7B820D2C53800A5FA12 /* MyAccOH_Collection.swift in Sources */,
+				CFAE28582100E79D0048E164 /* Downloader.swift in Sources */,
 				CF182DD0203340E50070B9E5 /* PSWebServices.swift in Sources */,
 				CF182DB92030F7FB0070B9E5 /* WebpageViewController.swift in Sources */,
 				CFC1D204203C569000343B25 /* ExpandMapViewController.swift in Sources */,
@@ -1289,6 +1323,7 @@
 				CFF4A8C2204F01A8005AE5C8 /* AnnotationPin.swift in Sources */,
 				CF601A1E204AEB7500217025 /* Tags.swift in Sources */,
 				CF904E47205850320086068E /* CustomerOrdersVC.swift in Sources */,
+				CFEF07D920FEB5DD005BB642 /* SQLDataAccess.swift in Sources */,
 				CF99DF1720D7F263006492AF /* R.attribute.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
 				CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */,
@@ -1300,6 +1335,7 @@
 				CF99DF3420D7F6F1006492AF /* UIColor.swift in Sources */,
 				CF601A06204ADBB800217025 /* Carriers.swift in Sources */,
 				CF6DB04520E81D120084146A /* PS_Address.swift in Sources */,
+				CFEF07D320FE3BB3005BB642 /* SQLiteEnumsStructs.swift in Sources */,
 				CF68979C208930E100998527 /* CustomerMessages.swift in Sources */,
 				CF60CAD9208E46F300B6D0EE /* ShopUrls.swift in Sources */,
 				CF60CAC7208E2BE200B6D0EE /* ImageTypes.swift in Sources */,
@@ -1312,6 +1348,7 @@
 				CF60CACD208E3CEE00B6D0EE /* ProductCustomizationFields.swift in Sources */,
 				CFC4BB2220EAF7EA00B927ED /* Data.swift in Sources */,
 				CF601A20204AEC6A00217025 /* Taxes.swift in Sources */,
+				CFAE285420FFF17B0048E164 /* AnyDecodable.swift in Sources */,
 				CF443851209FBF850028443B /* AssistanceController.swift in Sources */,
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,
 				CF99DF1520D7F1CF006492AF /* R.array.swift in Sources */,
@@ -1335,6 +1372,7 @@
 				CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,
 				CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */,
+				CFEF07CF20FD155F005BB642 /* TestSQliteViewController.swift in Sources */,
 				CF60CAC9208E369F00B6D0EE /* OrderSlips.swift in Sources */,
 				CF9A1D7820E3C5F2003F2213 /* EncodingErrorExtension.swift in Sources */,
 				CF4051A720419A8C00AE21BC /* SwipingController.swift in Sources */,
@@ -1367,6 +1405,7 @@
 				CF99DF2320D7F456006492AF /* R.segue.swift in Sources */,
 				CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */,
 				CF601A12204AE33900217025 /* OrderHistories.swift in Sources */,
+				CFEF07DB20FEB5ED005BB642 /* DataConstants.swift in Sources */,
 				CF472DB820AB334000189F35 /* ResourcesViewController.swift in Sources */,
 				CF126946204C8674008EFD04 /* Combinations.swift in Sources */,
 				CF601A08204ADEA100217025 /* IdValue.swift in Sources */,
@@ -1397,6 +1436,7 @@
 				CF443853209FC1BF0028443B /* AssistanceCell.swift in Sources */,
 				CF717EB220A3981100E68F83 /* SwiftyJSON.swift in Sources */,
 				CF99DF2820D7F552006492AF /* CALayer.swift in Sources */,
+				CFEF07D120FE3468005BB642 /* SQLite.swift in Sources */,
 				CF732EEC209DE918008A8741 /* RadioGroup.swift in Sources */,
 				CF99DF4620D7F9EB006492AF /* URLResponse.swift in Sources */,
 				CF126944204C8506008EFD04 /* CartRules.swift in Sources */,

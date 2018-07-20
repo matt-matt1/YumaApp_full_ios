@@ -11,6 +11,32 @@ import UIKit
 
 extension String
 {
+	//https://stackoverflow.com/questions/27880650/swift-extract-regex-matches
+	/// eg. "prefix12".matchingStrings("(?:prefix)?([0-9]+)") //[["prefix12", "12"]]
+	func matchingStrings(_ regex: String) -> [[String]]
+	{
+		guard let regex = try? NSRegularExpression(pattern: regex, options: []) else 	{ 	return [] 	}
+		let nsString = self as NSString
+		let results  = regex.matches(in: self, options: [], range: NSMakeRange(0, nsString.length))
+		return results.map
+			{
+				result in
+			(0..<result.numberOfRanges).map
+				{
+					result.range(at: $0).location != NSNotFound	? nsString.substring(with: result.range(at: $0))
+				: ""
+			}
+		}
+	}
+
+	//https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift
+	///eg. let s = "hello"; s[0]//h; s[1]//e; s[2]//l ...
+	subscript(_ i: Int) -> String
+	{
+		let idx1 = index(startIndex, offsetBy: i)
+		let idx2 = index(idx1, offsetBy: 1)
+		return String(self[idx1..<idx2])
+	}
 //	/// Detect if ESC was pressed
 //	var escapePressed: Bool
 //	{
