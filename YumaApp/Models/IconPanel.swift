@@ -10,17 +10,27 @@ import UIKit
 
 public class IconPanel
 {
-	public var id: 		Int
-	public var text: 	String
-	public var icon: 	String
-	public var target: 	String
+	public var id: 					Int
+	public var text: 				String
+	public var icon: 				String?
+	public var iconAttr: 			NSAttributedString?
+	public var menuPos: 			Int?
+	public var trailingSeparator: 	Bool?
+	public var target: 				Selector?
+	public var canFade: 			Bool
+	public var canAction: 			Bool
 	
-	init(id: Int, text: String, icon: String, target: String)
+	init(id: Int, text: String, icon: String?=nil, iconAttr: NSAttributedString?=nil, menuPos: Int?=nil, trailingSeparator: Bool?=nil, target: Selector?, canFade: Bool, canAction: Bool)
 	{
-		self.id = 		id
-		self.text = 	text
-		self.icon = 	icon
-		self.target = 	target
+		self.id = 					id
+		self.text = 				text
+		self.icon = 				icon
+		self.iconAttr = 			iconAttr
+		self.menuPos = 				menuPos
+		self.trailingSeparator = 	trailingSeparator
+		self.target = 				target
+		self.canFade = 				canFade
+		self.canAction = 			canAction
 	}
 }
 

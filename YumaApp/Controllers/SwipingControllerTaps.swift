@@ -11,10 +11,13 @@ import UIKit
 
 extension SwipingController
 {
-	@objc func gotoDebug(_ sender: UITapGestureRecognizer)
+	@objc func gotoDebug(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		//sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			//sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 		//		UIView.animate(withDuration: 1, animations:
 		//			{
@@ -30,10 +33,13 @@ extension SwipingController
 			})
 		//		self.present(ContactUsViewController(), animated: true, completion: nil)
 	}
-	@objc func loginTapped(_ sender: UITapGestureRecognizer)
+	@objc func loginTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -47,10 +53,13 @@ extension SwipingController
 			})
 	}
 	
-	@objc func cartTapped(_ sender: UITapGestureRecognizer)
+	@objc func cartTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -74,10 +83,13 @@ extension SwipingController
 		//		self.present(ContactUsViewController(), animated: true, completion: nil)
 	}
 
-	@objc func enTapped(_ sender: UITapGestureRecognizer)
+	@objc func enTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -94,10 +106,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func aboutTapped(_ sender: UITapGestureRecognizer)
+	@objc func aboutTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -114,10 +129,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func qcTapped(_ sender: UITapGestureRecognizer)
+	@objc func qcTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -134,10 +152,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func contactTapped(_ sender: UITapGestureRecognizer)
+	@objc func contactTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -151,10 +172,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func printTapped(_ sender: UITapGestureRecognizer)
+	@objc func printTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -172,10 +196,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func laptopTapped(_ sender: UITapGestureRecognizer)
+	@objc func laptopTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -193,10 +220,13 @@ extension SwipingController
 			})
 	}
 
-	@objc func servicesTapped(_ sender: UITapGestureRecognizer)
+	@objc func servicesTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{
@@ -214,10 +244,13 @@ extension SwipingController
 		})
 	}
 
-	@objc func tonersTapped(_ sender: UITapGestureRecognizer)
+	@objc func tonersTapped(_ sender: UITapGestureRecognizer?)
 	{
-		store.flexView(view: sender.view!)
-		sender.view?.backgroundColor = R.color.YumaRed
+		if sender != nil
+		{
+			store.flexView(view: sender!.view!)
+			sender!.view?.backgroundColor = R.color.YumaRed
+		}
 		let spin = UIViewController.displaySpinner(onView: self.view)
 //		UIView.animate(withDuration: 1, animations:
 //			{

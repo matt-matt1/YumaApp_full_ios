@@ -11,6 +11,16 @@ import UIKit
 
 extension String
 {
+	/// Reduce array to String
+	func implode(_ array: [Int], separater: String=", ") -> String
+	{
+		var str = ""
+		for val in array
+		{
+			str += "\(val),"
+		}
+		return String(str.dropLast())
+	}
 	//https://stackoverflow.com/questions/27880650/swift-extract-regex-matches
 	/// eg. "prefix12".matchingStrings("(?:prefix)?([0-9]+)") //[["prefix12", "12"]]
 	func matchingStrings(_ regex: String) -> [[String]]

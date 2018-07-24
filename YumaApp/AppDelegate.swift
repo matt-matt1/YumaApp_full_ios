@@ -21,26 +21,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//window = UIWindow()
 		window?.makeKeyAndVisible()
 
-//		let layout = UICollectionViewFlowLayout()
-//		layout.scrollDirection = .horizontal
-//		//let collection = CollectionViewController(collectionViewLayout: layout)
-//		let collection = SwipingController(collectionViewLayout: layout)
-//		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
-//		window?.rootViewController = collection
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		//let collection = CollectionViewController(collectionViewLayout: layout)
+		let collection = SwipingController(collectionViewLayout: layout)
+		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
+		window?.rootViewController = collection
 
 //		let vc = SQLiteViewController()
-		let vc = TestSQliteViewController()
-		window?.rootViewController = vc
+//		let vc = TestSQliteViewController()
+//		window?.rootViewController = vc
 		
 //		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
 //		{
 //			statusbar.backgroundColor = UIColor.lightGray
 //		}
 
-//		let myView = UIViewController()
-//		myView.view.backgroundColor = .purple
-//		window?.rootViewController = myView
-		
 		let shadow = NSShadow()
 		shadow.shadowColor = R.color.YumaDRed
 		shadow.shadowOffset = CGSize(width: 1, height: 1)

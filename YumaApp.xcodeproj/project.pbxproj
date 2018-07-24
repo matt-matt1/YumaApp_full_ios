@@ -70,6 +70,11 @@
 		CF55FAF3208B9B0000B6CB3C /* HelpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */; };
 		CF55FAF5208BA35100B6CB3C /* HelpMainPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */; };
 		CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */; };
+		CF58B67721062A17008D4C4D /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF58B67521062A17008D4C4D /* SWRevealViewController.m */; };
+		CF58B67B210677E1008D4C4D /* SlideUpMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58B67A210677E1008D4C4D /* SlideUpMenu.swift */; };
+		CF58B67D210686F1008D4C4D /* SlideUpMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58B67C210686F1008D4C4D /* SlideUpMenuCell.swift */; };
+		CF58B67F2107B325008D4C4D /* CustomFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58B67E2107B325008D4C4D /* CustomFlowLayout.swift */; };
+		CF58B6812107B3C8008D4C4D /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58B6802107B3C8008D4C4D /* SeparatorView.swift */; };
 		CF5A9DE520E674B900659FCE /* ParserBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5A9DE420E674B900659FCE /* ParserBase.swift */; };
 		CF5A9DE720E6759A00659FCE /* PrestashopXMLroot.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5A9DE620E6759A00659FCE /* PrestashopXMLroot.swift */; };
 		CF5A9DE920E676E000659FCE /* PS_Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5A9DE820E676E000659FCE /* PS_Error.swift */; };
@@ -111,6 +116,7 @@
 		CF60CADD208E4B7900B6D0EE /* SpecificPriceRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60CADC208E4B7900B6D0EE /* SpecificPriceRules.swift */; };
 		CF60CADF208E4D4C00B6D0EE /* SpecificPrices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60CADE208E4D4C00B6D0EE /* SpecificPrices.swift */; };
 		CF63DD302064079500025007 /* ProductOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF63DD2F2064079500025007 /* ProductOptions.swift */; };
+		CF6592F321038A4000A8DF6D /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6592F221038A4000A8DF6D /* Array.swift */; };
 		CF66957D20B89CD600A69D20 /* SelectCountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */; };
 		CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */; };
 		CF68979C208930E100998527 /* CustomerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979B208930E100998527 /* CustomerMessages.swift */; };
@@ -332,6 +338,12 @@
 		CF55FAF2208B9B0000B6CB3C /* HelpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCell.swift; sourceTree = "<group>"; };
 		CF55FAF4208BA35100B6CB3C /* HelpMainPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelpMainPanel.xib; sourceTree = "<group>"; };
 		CF55FAF6208BA3FC00B6CB3C /* HelpMainPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMainPanel.swift; sourceTree = "<group>"; };
+		CF58B67521062A17008D4C4D /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		CF58B67621062A17008D4C4D /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		CF58B67A210677E1008D4C4D /* SlideUpMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpMenu.swift; sourceTree = "<group>"; };
+		CF58B67C210686F1008D4C4D /* SlideUpMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideUpMenuCell.swift; sourceTree = "<group>"; };
+		CF58B67E2107B325008D4C4D /* CustomFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFlowLayout.swift; sourceTree = "<group>"; };
+		CF58B6802107B3C8008D4C4D /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		CF5A9DE420E674B900659FCE /* ParserBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserBase.swift; sourceTree = "<group>"; };
 		CF5A9DE620E6759A00659FCE /* PrestashopXMLroot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestashopXMLroot.swift; sourceTree = "<group>"; };
 		CF5A9DE820E676E000659FCE /* PS_Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS_Error.swift; sourceTree = "<group>"; };
@@ -373,6 +385,7 @@
 		CF60CADC208E4B7900B6D0EE /* SpecificPriceRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPriceRules.swift; sourceTree = "<group>"; };
 		CF60CADE208E4D4C00B6D0EE /* SpecificPrices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPrices.swift; sourceTree = "<group>"; };
 		CF63DD2F2064079500025007 /* ProductOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptions.swift; sourceTree = "<group>"; };
+		CF6592F221038A4000A8DF6D /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryCell.swift; sourceTree = "<group>"; };
 		CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryVC.swift; sourceTree = "<group>"; };
 		CF68979B208930E100998527 /* CustomerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMessages.swift; sourceTree = "<group>"; };
@@ -570,6 +583,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF58B674210629BE008D4C4D /* SWRevealViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF58B67621062A17008D4C4D /* SWRevealViewController.h */,
+				CF58B67521062A17008D4C4D /* SWRevealViewController.m */,
+			);
+			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
 		CF5C730C2049B932008763DB /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +614,7 @@
 				CF7BFD1220AF7844009FE1F8 /* ImageWindow.swift */,
 				CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */,
 				CFD4E78E20D5BCB8000BA1DF /* ProductLabelCell.swift */,
+				CF58B67C210686F1008D4C4D /* SlideUpMenuCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -630,6 +653,8 @@
 				CF9231C92035FF6000D44BB6 /* MyAccCSViewController.xib */,
 				CFB02E3B204F42ED00429798 /* Products.storyboard */,
 				CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */,
+				CF58B67E2107B325008D4C4D /* CustomFlowLayout.swift */,
+				CF58B6802107B3C8008D4C4D /* SeparatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -672,6 +697,7 @@
 		CF99DF2620D7F52F006492AF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				CF6592F221038A4000A8DF6D /* Array.swift */,
 				CF99DF2720D7F552006492AF /* CALayer.swift */,
 				CFC4BB2120EAF7EA00B927ED /* Data.swift */,
 				CF99DF2920D7F5AE006492AF /* Dictionary.swift */,
@@ -801,6 +827,7 @@
 		CFAFC086201F6DA1002CBC1B /* YumaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF58B674210629BE008D4C4D /* SWRevealViewController */,
 				CFEF07DA20FEB5ED005BB642 /* DataConstants.swift */,
 				CFEF07D820FEB5DC005BB642 /* SQLDataAccess.swift */,
 				CFEF07DC20FEB686005BB642 /* sqlite3.h */,
@@ -977,6 +1004,7 @@
 				CF32269F20D804040058B7DE /* ProductsViewController_Collection.swift */,
 				CF5A9DEA20E68D4A00659FCE /* FloatingAlertViewController.swift */,
 				CF01E04720FA2D7600CFE767 /* SeachAsYouTypeViewController.swift */,
+				CF58B67A210677E1008D4C4D /* SlideUpMenu.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1214,6 +1242,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-YumaApp/Pods-YumaApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AwesomeEnum/AwesomeEnum.framework",
+				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
@@ -1221,6 +1250,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwesomeEnum.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
@@ -1239,6 +1269,7 @@
 			files = (
 				CF99DF3A20D7F7CB006492AF /* UILabel.swift in Sources */,
 				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
+				CF58B67721062A17008D4C4D /* SWRevealViewController.m in Sources */,
 				CF601A14204AE4AD00217025 /* OrderInvoices.swift in Sources */,
 				CF99DF2E20D7F62E006492AF /* String.swift in Sources */,
 				CF99DF4220D7F97D006492AF /* UIView.swift in Sources */,
@@ -1327,6 +1358,8 @@
 				CF99DF1720D7F263006492AF /* R.attribute.swift in Sources */,
 				CF182DB62030F4C90070B9E5 /* GradientButton.swift in Sources */,
 				CF4823E62076C80D00DF3DB8 /* MakeTable.swift in Sources */,
+				CF58B67D210686F1008D4C4D /* SlideUpMenuCell.swift in Sources */,
+				CF58B67F2107B325008D4C4D /* CustomFlowLayout.swift in Sources */,
 				CF75E7BA20D2C55C00A5FA12 /* MyAccOH_Cell.swift in Sources */,
 				CF50A3E2207BFAC2008749F0 /* HelpVC.swift in Sources */,
 				CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */,
@@ -1342,6 +1375,7 @@
 				CF717EA120A3869400E68F83 /* ProductsViewControllerTaps.swift in Sources */,
 				CF9A1D8020E3C5F2003F2213 /* XMLDecoder.swift in Sources */,
 				CFD4E79320D5C4DF000BA1DF /* ProductTags.swift in Sources */,
+				CF6592F321038A4000A8DF6D /* Array.swift in Sources */,
 				CF99DF3820D7F79B006492AF /* UIImage.swift in Sources */,
 				CFF3CFB62034E48600BEDEE4 /* DataStore.swift in Sources */,
 				CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */,
@@ -1396,6 +1430,7 @@
 				CF9A1D7D20E3C5F2003F2213 /* XMLUnkeyedDecodingContainer.swift in Sources */,
 				CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */,
 				CF384BF0205EBB04005CCD57 /* APIClient.swift in Sources */,
+				CF58B67B210677E1008D4C4D /* SlideUpMenu.swift in Sources */,
 				CF4FD08C2078256400D92A07 /* OrderDetailsViewController.swift in Sources */,
 				CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */,
 				CF384BF2205EBB17005CCD57 /* APIError.swift in Sources */,
@@ -1423,6 +1458,7 @@
 				CF9A1D7E20E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift in Sources */,
 				CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */,
 				CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */,
+				CF58B6812107B3C8008D4C4D /* SeparatorView.swift in Sources */,
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
 				CF4B9AB720A1F27900AD1486 /* CartCell.swift in Sources */,
 				CF877BC820923E7400E871F9 /* arbitraryJSON.swift in Sources */,

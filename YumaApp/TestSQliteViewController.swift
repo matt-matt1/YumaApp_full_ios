@@ -36,21 +36,43 @@ class TestSQliteViewController: UIViewController
 		let sql = MySQLite()
         super.viewDidLoad()
 
-//		let db = Connect(DBFile)
+		let table = "Heros"
 		if let db = try? sql.Connect(DBFile)
 		{
-			let myCreateStr = sql.createTable(db, name: "Heros", notExists: true, columns: [
-				MySQLite.Column(name: "id", notNull: .null, dataType: .integer, key: .pri, extra: .autoInc, defaultValue: nil, isPrimaryKey: true),
-				MySQLite.Column(name: "name", notNull: .null, dataType: .text, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false),
-				MySQLite.Column(name: "powerrank", notNull: .null, dataType: .integer, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false)], printOnly: false)
-			if myCreateStr != nil
-			{
-				print("error " + myCreateStr!)
-			}
-			else
-			{
-				print(sql.columnsIn(db, "Heros")!)//sql.columnsIn(db, "Heros")
-				let results = sql.selectOrderedFrom(db, "Heros", columns: nil, where: nil, limit: nil)
+//			let myCreateStr = sql.createTable(db, name: table, notExists: true, columns: [
+//				MySQLite.SQLColumn(name: "id", notNull: .null, dataType: .integer, key: .pri, extra: .autoInc, defaultValue: nil, isPrimaryKey: true),
+//				MySQLite.SQLColumn(name: "name", notNull: .null, dataType: .text, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false),
+//				MySQLite.SQLColumn(name: "powerrank", notNull: .null, dataType: .integer, key: nil, extra: nil, defaultValue: nil, isPrimaryKey: false)])
+//			if myCreateStr != nil
+//			{
+//				print("error " + myCreateStr!)
+//			}
+//			else
+//			{
+//				let cols = sql.columnsIn(db, table)
+//				print("columns in \(table):")
+//				var num = 0
+//				for col in cols!
+//				{
+//					var output = "|\(num)|\(col.name)|"
+//					if col.dataType != nil		{		output += "\(col.dataType!.rawValue)"		}
+//					output += "|"
+//					if col.notNull != nil		{		output += "\(col.notNull!.rawValue)"		}
+//					output += "|"
+//					if col.defaultValue != nil	{		output += "\(col.defaultValue!)"			}
+//					output += "|"
+//					if col.key != nil			{		output += "\(col.key!.rawValue)"			}
+//					output += "|"
+//					print(output)
+//					num += 1
+//				}
+//				let deleteResults = sql.deleteFrom(db, table, whereClause: MySQLite.Where(columnName: "id", comparison: .lessThan, values: [30]))
+//				if deleteResults != nil
+//				{
+//					print("error " + deleteResults!)
+//				}
+				let results = sql.selectOrderedFrom(db, table)
+				print("data in \(table):")
 				if results != nil
 				{
 					for row in results!
@@ -67,35 +89,54 @@ class TestSQliteViewController: UIViewController
 				{
 					print("no rows in table")
 				}
-				let insResult = sql.insertInto(db, "Heros", columns: ["name"], values: ["me", "myself", "I"], debugPrint: true)
-				if insResult != nil
-				{
-					print("error " + insResult!)
-				}
-				let results2 = sql.selectOrderedFrom(db, "Heros", columns: nil, where: nil, limit: nil)
-				if results2 != nil
-				{
-					for row in results2!
-					{
-						var output = "|"
-						for value in row
-						{
-							output += "\(value)|"
-						}
-						print(output)
-					}
-				}
-				else
-				{
-					print("no rows in table")
-				}
-			}
-//			let myColsStr = sql.columnsIn(db, "Heros")
-//			if myColsStr != nil
-//			{
-//				print("error \(myColsStr!)")
+//				let insResult = sql.insertInto(db, table, columns: ["name"], values: ["me", "myself", "I"], debugPrint: .defaultNoPrint)
+//				if insResult != nil
+//				{
+//					print("error " + insResult!)
+//				}
+			let results2 = sql.selectOrderedFrom(db, table, columns: nil,
+												 join: [MySQLite.SQLJoinLine(joinType: .inner, tableName: table, ons: [MySQLite.SQLJoinOn(primaryColumn: "joinPri", primaryAlias: nil, linkedBy: .equals, secondary: "joinSecCol", secondaryAlias: nil), MySQLite.SQLJoinOn(primaryColumn: "priJoinOn2", primaryAlias: "priJoinOnAlias2", linkedBy: .equals, secondary: "secJoinOn2", secondaryAlias: nil)]), MySQLite.SQLJoinLine(joinType: .natural, tableName: table, ons: [MySQLite.SQLJoinOn(primaryColumn: "priJoin2", primaryAlias: "priJoinAlias2", linkedBy: .equals, secondary: "secJoin2", secondaryAlias: "secJoinAlias2")])],
+												 whereBy: [MySQLite.SQLWhereHaving(function: MySQLite.SQLFunc.count, columnName: "wheCol", comparison: .between, values: [2], betweenAnd: 4, alias: "whereAlias", direction: nil)],
+												 orderBy: [MySQLite.SQLColumnOrder(column_: MySQLite.SQLColumn_/*.position(2)*//**/.name("ordCol")/**/, direction: .asc)],
+												 limit: 3, offset: 4,
+												 groupBy: [MySQLite.SQLGroupBy(column_: MySQLite.SQLColumn_.name("grpCol"), applyFunc: .average, direction: .asc, alias: nil)],
+												 having: [MySQLite.SQLWhereHaving(function: MySQLite.SQLFunc.count, columnName: "havCol", comparison: .greaterThan, values: [3], betweenAnd: nil, alias: nil, direction: nil)],
+												 debugPrint: MySQLite.SQLAction.printOnly)
+//				print("data in \(table):")
+//				if results2 != nil
+//				{
+//					for row in results2!
+//					{
+//						var output = "|"
+//						for value in row
+//						{
+//							output += "\(value)|"
+//						}
+//						print(output)
+//					}
+//				}
+//				else
+//				{
+//					print("no rows in \(table)")
+//				}
 //			}
-//			try! sql.Disconnect(db)
+//			let eventModel_longDescription = "AB</p>C"
+//			let mutableAttributedString = NSMutableAttributedString(string: eventModel_longDescription)
+//			let eventDescription = mutableAttributedString.mutableString
+//				.replacingOccurrences(of: "</p>", with: "</p>\n")
+//				.replacingOccurrences(of: "<li>", with: "<li>•\t")
+//
+//			let paragraphStyle = NSMutableParagraphStyle()
+//			paragraphStyle.lineSpacing = 0.0
+//			paragraphStyle.minimumLineHeight = 22
+//			paragraphStyle.maximumLineHeight = 22
+//
+//			let range = NSMakeRange(0, eventDescription.count)
+//
+//			mutableAttributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: range)
+//			let date = Date()
+//			let timeAgo = String(date.secondsAgo)
+///////
 			try? sql.Disconnect(db)
 		}
 	}

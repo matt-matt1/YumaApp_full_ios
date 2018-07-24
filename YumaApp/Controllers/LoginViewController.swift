@@ -341,6 +341,7 @@ class LoginViewController: UIViewController
 	}
 	fileprivate func configureView()
 	{
+		setNeedsStatusBarAppearanceUpdate()
 //		if view.frame.width > 500
 //		{
 //			drawLayoutWide()

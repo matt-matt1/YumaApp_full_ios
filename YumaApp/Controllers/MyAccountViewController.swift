@@ -31,6 +31,7 @@ class MyAccountViewController: UIViewController
 	}()
 	let helpArray = R.array.help_product_list_guide
 	let helpScroll = UIScrollView()
+//	let slideUpMenu = SlideUpMenu()
 
 
 	// MARK: Overrides
@@ -113,6 +114,9 @@ class MyAccountViewController: UIViewController
 
 		delAccBtn.setTitle(R.string.delAcc, for: .normal)
 		delAccBtn.setTitle(R.string.delAcc, for: .highlighted)
+
+		slideMenu.drawIconBar()
+//		slideUpMenu.drawIconBar()
 	}
 
 	override func didReceiveMemoryWarning()
@@ -208,6 +212,7 @@ class MyAccountViewController: UIViewController
 		let str = arrayXML.joined()
 		return String(str.dropLast())
 	}
+	
 
 	fileprivate func deleteResource(_ ws: WebService, _ spinner: UIView)
 	{
@@ -820,7 +825,11 @@ class MyAccountViewController: UIViewController
 		viewC.title = "\(R.string.my_account.capitalized) \(R.string.help.capitalized)"
 		viewC.modalTransitionStyle = .crossDissolve
 		viewC.modalPresentationStyle = .overCurrentContext
-		self.present(viewC, animated: true, completion: nil)
+		self.present(viewC, animated: false, completion: nil)
+		viewC.dialogWindow.alpha = 0
+		UIView.animate(withDuration: 5.5, delay: 0, options: .curveEaseInOut, animations: {
+			viewC.dialogWindow.alpha = 1
+		}, completion: nil)
 	}
 	@IBAction func navCloseAct(_ sender: Any)
 	{

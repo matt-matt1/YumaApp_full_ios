@@ -28,6 +28,7 @@ pod 'AwesomeEnum', '~> 1.2.0'
 #pod 'XMLMapper'
 pod 'SWXMLHash', '~> 4.0.0'
 pod 'SQLite.swift', '~> 0.11.5'
+pod 'DateToolsSwift'
 
   target 'YumaAppTests' do
     inherit! :search_paths

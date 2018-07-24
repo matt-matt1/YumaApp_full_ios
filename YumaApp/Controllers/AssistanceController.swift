@@ -122,6 +122,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	var collectionViewHeight: CGFloat = 0
 	var dialogWidth: CGFloat = 0
 	var dialogHeight: CGFloat = 0
+	let store = DataStore.sharedInstance
 	
 	
     override func viewDidLoad()
@@ -213,6 +214,10 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	{
 		buttonSingle.setTitle(R.string.dismiss.uppercased(), for: .normal)
 		dialogWindow.addSubview(buttonSingle)
+//		buttonSingle.alpha = 0
+//		UIView.animate(withDuration: 5.5, delay: 0, options: .curveEaseInOut, animations: {
+//			self.buttonSingle.alpha = 1
+//		}, completion: nil)
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .width, relatedBy: .equal, toItem: dialogWindow, attribute: .width, multiplier: 0, constant: dialogWidth / 2))
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .centerX, relatedBy: .equal, toItem: dialogWindow, attribute: .centerX, multiplier: 1, constant: 0))
 		dialogWindow.addConstraint(NSLayoutConstraint(item: buttonSingle, attribute: .height, relatedBy: .equal, toItem: dialogWindow, attribute: .height, multiplier: 0, constant: buttonHeight))
@@ -223,6 +228,10 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	func drawDialog()
 	{
 		view.addSubview(dialogWindow)
+//		dialogWindow.alpha = 0
+//		UIView.animate(withDuration: 5.5, delay: 0, options: .curveEaseInOut, animations: {
+//			self.dialogWindow.alpha = 1
+//		}, completion: nil)
 		view.addConstraint(NSLayoutConstraint(item: dialogWindow, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 0, constant: dialogWidth))
 		view.addConstraint(NSLayoutConstraint(item: dialogWindow, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0, constant: dialogHeight))
 		view.addConstraint(NSLayoutConstraint(item: dialogWindow, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0))
@@ -240,6 +249,7 @@ class Assistance: UIViewController, UICollectionViewDataSource, UICollectionView
 	// MARK: Actions
 	@objc func buttonSingleTapped(_ sender: UITapGestureRecognizer)
 	{
+		store.flexView(view: buttonSingle)
 		self.dismiss(animated: true, completion: nil)
 	}
 	

@@ -1,5 +1,6 @@
 PODS:
   - AwesomeEnum (1.2.0)
+  - DateToolsSwift (4.0.0)
   - MGSwipeTableCell (1.6.6)
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
@@ -8,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - AwesomeEnum (~> 1.2.0)
+  - DateToolsSwift
   - MGSwipeTableCell
   - SQLite.swift (~> 0.11.5)
   - SWXMLHash (~> 4.0.0)
@@ -15,16 +17,18 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AwesomeEnum
+    - DateToolsSwift
     - MGSwipeTableCell
     - SQLite.swift
     - SWXMLHash
 
 SPEC CHECKSUMS:
   AwesomeEnum: fe633a08020f92ab57277956c1df4d52fbfa27e0
+  DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
   MGSwipeTableCell: c3bc6e261e7bc06c112909fe3fb8205de286082c
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
 
-PODFILE CHECKSUM: a514ab85ccf62d73c3ceb3503de8d4da9ea14e79
+PODFILE CHECKSUM: 8f2e8fc00c0566b981d1b5898f6129cec121b79c
 
 COCOAPODS: 1.5.3

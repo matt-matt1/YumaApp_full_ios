@@ -37,7 +37,7 @@ class MySQLite
 	}
 
 	/// Create a database(db) table(table), optionally if it exists, containing Columns, returns nil on success or if error a error message(String)
-	func createTable(_ db: OpaquePointer, name: String, notExists: Bool = true, columns: [Column], printOnly: Bool?) -> String?
+	func createTable(_ db: OpaquePointer, name: String, notExists: Bool = true, columns: [SQLColumn], debugPrint: SQLAction?=nil) -> String?
 	{
 		var createStr = "CREATE TABLE "
 		var i = 0
@@ -64,25 +64,28 @@ class MySQLite
 			createStr = String(createStr.dropLast()) + ")\n"
 		}
 		createStr += ")"
-		if printOnly != nil && printOnly!
+		if debugPrint != nil && (debugPrint == SQLAction.printAswell || debugPrint == .printOnly)
 		{
-			return createStr
+			print(createStr)
 		}
-		if sqlite3_exec(db, createStr, nil, nil, nil) != SQLITE_OK
+		if debugPrint == nil || debugPrint == SQLAction.defaultNoPrint || debugPrint == .printAswell
 		{
-			let errMsg = String(cString: sqlite3_errmsg(db)!)
-			return "error creating table: \(errMsg)"
+			if sqlite3_exec(db, createStr, nil, nil, nil) != SQLITE_OK
+			{
+				let errMsg = String(cString: sqlite3_errmsg(db)!)
+				return "error creating table: \(errMsg)"
+			}
 		}
 		return nil
 	}
 	
 	/// Returns an array of columns([Column]) in database(db) table(table)
-	func columnsIn(_ db: OpaquePointer, _ table: String) -> [Column]?
+	func columnsIn(_ db: OpaquePointer, _ table: String) -> [SQLColumn]?
 	{
 		let queryString = "PRAGMA table_info(\(table))"
 //		let queryString = "SELECT sql FROM sqlite_master WHERE name = \(table)"
 		var stmt: OpaquePointer?
-		var results: [Column] = []
+		var results: [SQLColumn] = []
 		
 		if sqlite3_prepare_v2(db, queryString, -1, &stmt, nil) != SQLITE_OK
 		{
@@ -197,7 +200,7 @@ class MySQLite
 						pk = ColumnKey.pri
 					}
 				}
-				results.append(MySQLite.Column(name: nm, notNull: nn, dataType: ty, key: pk, extra: nil, defaultValue: dv, isPrimaryKey: nil))
+				results.append(SQLColumn(name: nm, notNull: nn, dataType: ty, key: pk, extra: nil, defaultValue: dv, isPrimaryKey: nil))
 //				print(output)
 				row += 1
 			}
@@ -206,44 +209,219 @@ class MySQLite
 	}
 	
 	/// Select rows (with specific columns-or nil for all) for a database(db) table(table), optionally where a condition is met, optionally limit the results(limit-starting from row, number of rows) and return results as an array of dictionaries(the row number(Int) and value as a string)
-	func selectOrderedFrom(_ db: OpaquePointer, _ table: String, columns: [Column]?, where: [String : Any]?, limit: [Int]?) -> [[String]]?
+	func selectOrderedFrom(_ db: OpaquePointer, _ table: String, columns: [SQLColumn]?=nil, distinct: Bool?=false, join: [SQLJoinLine]?=nil, whereBy: [SQLWhereHaving]?=nil, orderBy: [SQLColumnOrder]?=nil, limit: Int?=nil, offset: Int?=nil, groupBy: [SQLGroupBy]?=nil, having: [SQLWhereHaving]?=nil, debugPrint: SQLAction?=nil) -> [[String]]?
 	{
 		var queryString = "SELECT "
 		var list: [[String]] = []
 		var stmt: OpaquePointer?
-//		var mycolumns: [Column]? = nil
+		var computerSelects: [String] = []
 		
+		if distinct != nil && distinct!
+		{
+			queryString += "DISTINCT "
+		}
 		if columns == nil
 		{
 			queryString += "* "
-//			mycolumns = columnsIn(db, table)
+//			let allCols: [String] = (0..<Int32(sqlite3_column_count(stmt))).map { String(cString: sqlite3_column_name(stmt, $0))}
+//			let colStr = allCols.implode(", ")
+//			print(colStr)
 		}
-		queryString += "FROM \(table)"
-		if sqlite3_prepare_v2(db, queryString, -1, &stmt, nil) != SQLITE_OK
+		else
 		{
-			let errmsg = String(cString: sqlite3_errmsg(db)!)
-			list[0].append(errmsg)
-			return list
-		}
-		while (sqlite3_step(stmt) == SQLITE_ROW)
-		{
-			var resultRow: [String] = []
-			let to = (columns != nil) ? columns?.count : Int(sqlite3_column_count(stmt))//mycolumns?.count
-			for i in 0 ..< to!
+			if groupBy != nil
 			{
-				if sqlite3_column_type(stmt, Int32(i)) != SQLITE_NULL
+				for (i,gb) in groupBy!.enumerated()
 				{
-					resultRow.append(String(cString: sqlite3_column_text(stmt, Int32(i))))
+					if gb.applyFunc != nil
+					{
+						queryString += ", \(gb.applyFunc!.rawValue)("//\(gb.column_.name))"
+						queryString += gb.column_.name
+						queryString += ")"
+						computerSelects.append("\(gb.applyFunc!.rawValue)(\(gb.column_.name))")
+					}
+					if gb.alias != nil
+					{
+						queryString += " \(gb.alias!)"
+					}
+					if i < groupBy!.count
+					{
+						queryString += ", "
+					}
 				}
 			}
-			list.append(resultRow)
+			if having != nil
+			{
+				for (i,h) in having!.enumerated()
+				{
+					if h.function != nil && groupBy != nil
+					{
+						if computerSelects.count < 1 && !computerSelects.contains("\(h.function!.rawValue)(\(h.columnName))")
+						{
+							queryString += ", \(h.function!.rawValue)(\(h.columnName))"
+							computerSelects.append("\(h.function!.rawValue)(\(h.columnName))")
+						}
+					}
+					if h.alias != nil
+					{
+						queryString += " \(h.alias!)"
+					}
+					if i < having!.count
+					{
+						queryString += ", "
+					}
+				}
+			}
 		}
-		sqlite3_finalize(stmt)
-		return list
+		queryString += "FROM \(table)"
+		if join != nil
+		{
+			for j in join!
+			{
+//				var i = 0
+				queryString += " \(j.joinType.rawValue) \(j.tableName) ON "
+				for (i,o) in j.ons!.enumerated()
+				{
+					queryString += "\(o.primaryColumn) "
+					if o.primaryAlias != nil
+					{
+						queryString += "\(o.primaryAlias!) "
+					}
+					queryString += "\(o.linkedBy.rawValue) \(o.secondary)"
+					if o.secondaryAlias != nil
+					{
+						queryString += " \(o.secondaryAlias!)"
+					}
+					if i < j.ons!.count-1
+					{
+						queryString += " AND "
+					}
+//					i += 1
+				}
+			}
+		}
+		if whereBy != nil
+		{
+			queryString += " WHERE "
+//			var i = 0
+			for (i,w) in whereBy!.enumerated()
+			{
+				queryString += "\(w.columnName) \(w.comparison.rawValue) \(w.values[i])"
+				if w.betweenAnd != nil
+				{
+					queryString += " AND \(w.betweenAnd!)"
+				}
+				if i < whereBy!.count-1
+				{
+					queryString += "AND "
+				}
+//				i += 1
+			}
+		}
+		if orderBy != nil
+		{
+			queryString += " ORDER BY "
+			for (i, ord) in orderBy!.enumerated()
+			{
+				queryString += ord.column_.name
+				if ord.direction != nil
+				{
+					queryString += " \(ord.direction!.rawValue)"
+				}
+				if i < orderBy!.count-1
+				{
+					queryString += ","
+				}
+			}
+		}
+		if limit != nil
+		{
+			queryString += " LIMIT \(limit!)"
+		}
+		if offset != nil
+		{
+			queryString += " OFFSET \(offset!)"
+		}
+		if groupBy != nil
+		{
+			queryString += " GROUP BY "
+			for (i,gb) in groupBy!.enumerated()
+			{
+				if gb.applyFunc != nil
+				{
+					queryString += "\(gb.applyFunc!.rawValue)(\(gb.column_))"
+				}
+				else
+				{
+					queryString += gb.column_.name
+				}
+				if gb.direction != nil
+				{
+					queryString += " \(gb.direction!.rawValue)"
+				}
+				if i < orderBy!.count-1
+				{
+					queryString += ","
+				}
+			}
+		}
+		if having != nil
+		{
+			queryString += " HAVING "
+			for (i,h) in having!.enumerated()
+			{
+				if h.function != nil
+				{
+					queryString += "\(h.function!.rawValue)(\(h.columnName))"
+				}
+				else
+				{
+					queryString += "\(h.columnName)"
+				}
+				queryString += " \(h.comparison.rawValue) \(h.values[0])"
+				if h.betweenAnd != nil
+				{
+					queryString += " AND \(h.betweenAnd!)"
+				}
+				if i < having!.count
+				{
+					queryString += ", "
+				}
+			}
+		}
+		if debugPrint != nil && (debugPrint == .printAswell || debugPrint == .printOnly)
+		{
+			print(queryString)
+		}
+		if debugPrint == nil || debugPrint == SQLAction.defaultNoPrint || debugPrint == .printAswell
+		{
+			if sqlite3_prepare_v2(db, queryString, -1, &stmt, nil) != SQLITE_OK
+			{
+				let errmsg = String(cString: sqlite3_errmsg(db)!)
+				list[0].append(errmsg)
+				return list
+			}
+			while (sqlite3_step(stmt) == SQLITE_ROW)
+			{
+				var resultRow: [String] = []
+				let to = (columns != nil) ? columns?.count : Int(sqlite3_column_count(stmt))//mycolumns?.count
+				for i in 0 ..< to!
+				{
+					if sqlite3_column_type(stmt, Int32(i)) != SQLITE_NULL
+					{
+						resultRow.append(String(cString: sqlite3_column_text(stmt, Int32(i))))
+					}
+				}
+				list.append(resultRow)
+			}
+			sqlite3_finalize(stmt)
+			return list
+		}
+		return nil
 	}
 	
 	/// Select rows (with specific columns-or nil for all) for a database(db) table(table), optionally where a condition is met, optionally limit the results(limit-starting from row, number of rows) and return results as an array of dictionaries(the column name(String) and value as a String)
-	func selectAsArrayFrom(_ db: OpaquePointer, _ table: String, columns: [Column]?, where: [String : Any]?, limit: [Int]?) -> [[String : String]]?
+	func selectAsArrayFrom(_ db: OpaquePointer, _ table: String, columns: [SQLColumn]?, where: [String : Any]?, limit: [Int]?) -> [[String : String]]?
 	{
 		var queryString = "SELECT "
 		var list: [[String]] = []
@@ -280,7 +458,7 @@ class MySQLite
 	}
 
 	/// Inserts rows, (optionally)columns and related values for a database(db) table(table), optionally where a condition is met and returns nil on success otherwise returns an error message(String) (can accept multiple values per columns ie. insert... columns: ["name"], values: ["a", "b", "c"] ...)
-	func insertInto(_ db: OpaquePointer, _ table: String, columns: [String]?, values: [Any], debugPrint: Bool=false) -> String?
+	func insertInto(_ db: OpaquePointer, _ table: String, columns: [String]?, values: [Any], debugPrint: SQLAction?=nil) -> String?
 	{
 		var stmt: OpaquePointer?
 		var c = 0
@@ -319,41 +497,44 @@ class MySQLite
 		}
 		queryString = String(queryString.dropLast().dropLast())
 		queryString += ")"
-		if debugPrint
+		if debugPrint != nil && (debugPrint == .printAswell || debugPrint == .printOnly)
 		{
 			print(queryString)
 		}
-		if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK
+		if debugPrint == nil || debugPrint == SQLAction.defaultNoPrint || debugPrint == .printAswell
 		{
-			return (false) ? nil : "prepare statement \"\(queryString)\" - \(String(cString: sqlite3_errmsg(db)!))"
-		}
-		for cycle in 0 ..< values.count//(values.count - totalCycles + 1)
-		{
-			for k in cycle ..< cycle + c
+			for cycle in 0 ..< values.count//(values.count - totalCycles + 1)
 			{
-				if debugPrint
+				if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK
 				{
-					print("\(k):\(values[k]), ")
+					return "prepare statement \"\(queryString)\" - \(String(cString: sqlite3_errmsg(db)!))"
 				}
-				if sqlite3_bind_text(stmt, 1, values[k] as! String, -1, SQLITE_TRANSIENT) != SQLITE_OK
+				for k in cycle ..< cycle + c
 				{
-					return (false) ? nil : "binding error on row \(cycle) - trying \(queryString) - \(String(cString: sqlite3_errmsg(db)!))"
+					if debugPrint != nil && (debugPrint == .printAswell || debugPrint == .printOnly)
+					{
+						print("\(k):\(values[k]), ")
+					}
+					if sqlite3_bind_text(stmt, 1, values[k] as! String, -1, SQLITE_TRANSIENT) != SQLITE_OK
+					{
+						return "binding error on row \(cycle) - trying \(queryString) - \(String(cString: sqlite3_errmsg(db)!))"
+					}
+				}
+				if sqlite3_step(stmt) != SQLITE_DONE
+				{
+					return "insert error on row \(cycle) - trying \(queryString) - \(String(cString: sqlite3_errmsg(db)!))"
 				}
 			}
-			if sqlite3_step(stmt) != SQLITE_DONE
+			if sqlite3_finalize(stmt) != SQLITE_OK
 			{
-				return (false) ? nil : "insert error on row \(cycle) - trying \(queryString) - \(String(cString: sqlite3_errmsg(db)!))"
+				return "finalize statement \"\(queryString)\" - \(String(cString: sqlite3_errmsg(db)!))"
 			}
 		}
-		if sqlite3_finalize(stmt) != SQLITE_OK
-		{
-			return (false) ? nil : "finalize statement \"\(queryString)\" - \(String(cString: sqlite3_errmsg(db)!))"
-		}
-		return (false) ? nil : "error - \(String(cString: sqlite3_errmsg(db)!))"
+		return nil// : "error - \(String(cString: sqlite3_errmsg(db)!))"
 	}
 	
 	/// Inserts rows DIRECTLY, (optionally)columns and related values for a database(db) table(table), optionally where a condition is met and returns nil on success otherwise returns an error message(String)
-	func insertDirectInto(_ db: OpaquePointer, _ table: String, columns: [String], values: [Any]) -> String?
+	func insertDirectInto(_ db: OpaquePointer, _ table: String, columns: [String], values: [Any], debugPrint: SQLAction?=nil) -> String?
 	{
 		var queryString = "INSERT INTO \(table) ("
 //		var stmt: OpaquePointer?
@@ -379,11 +560,51 @@ class MySQLite
 			j += 1
 		}
 		queryString += ")"
-		if sqlite3_exec(db, queryString, nil, nil, nil) != SQLITE_OK
+		if debugPrint != nil && (debugPrint == SQLAction.printAswell || debugPrint == SQLAction.printOnly)
 		{
-			return (false) ? nil : String(cString: sqlite3_errmsg(db)!)
+			print(queryString)
 		}
-		return (false) ? nil : String(cString: sqlite3_errmsg(db)!)
+		if debugPrint == nil || debugPrint == SQLAction.defaultNoPrint || debugPrint == SQLAction.printAswell
+		{
+			if sqlite3_exec(db, queryString, nil, nil, nil) != SQLITE_OK
+			{
+				return String(cString: sqlite3_errmsg(db)!)
+			}
+		}
+		return nil// : String(cString: sqlite3_errmsg(db)!)
+	}
+
+	/// Remove a database row or muliple
+	func deleteFrom(_ db: OpaquePointer, _ table: String, whereClause: SQLWhereHaving) -> String?
+	{
+		if whereClause.comparison == .inside || whereClause.comparison == .notIn
+		{
+			if sqlite3_exec(db, "DELETE FROM \(table) WHERE \(whereClause.columnName) \(whereClause.comparison.rawValue) (\(whereClause.values.implode())", nil, nil, nil) != SQLITE_OK
+			{
+				return (false) ? nil : String(cString: sqlite3_errmsg(db)!)
+			}
+			var str = ""
+			for val in whereClause.values
+			{
+				str += "\(val),"
+			}
+			str = String(str.dropLast())
+			if sqlite3_exec(db, "DELETE FROM \(table) WHERE \(whereClause.columnName) \(whereClause.comparison.rawValue) (\(str)", nil, nil, nil) != SQLITE_OK
+			{
+				return (false) ? nil : String(cString: sqlite3_errmsg(db)!)
+			}
+		}
+		else
+		{
+			for val in whereClause.values
+			{
+				if sqlite3_exec(db, "DELETE FROM \(table) WHERE \(whereClause.columnName) \(whereClause.comparison.rawValue) \(val)", nil, nil, nil) != SQLITE_OK
+				{
+					return (false) ? nil : String(cString: sqlite3_errmsg(db)!)
+				}
+			}
+		}
+		return nil
 	}
 
 	/// Remove a table(table) AND ALL CONTAINING DATA from the database(db)
@@ -415,7 +636,7 @@ class MySQLite
 	}
 
 	/// Adds (a) primary key(s) to an existing table
-	func addPrimary(_ db: OpaquePointer, _ table: String, primaryKey: [Column]) -> String?
+	func addPrimary(_ db: OpaquePointer, _ table: String, primaryKey: [SQLColumn]) -> String?
 	{
 		if sqlite3_exec(db, "PRAGMA foreign_keys=off", nil, nil, nil) != SQLITE_OK
 		{
@@ -449,7 +670,7 @@ class MySQLite
 						}
 						i += 1
 					}
-					let createResult = createTable(db, name: table, notExists: false, columns: cols!, printOnly: false)	//create table with primaries
+					let createResult = createTable(db, name: table, notExists: false, columns: cols!)	//create table with primaries
 					if createResult != nil
 					{
 						return (false) ? nil : String(cString: sqlite3_errmsg(db)!)

@@ -11,6 +11,14 @@ import AwesomeEnum
 //import AwesomeSwift
 //import PCLBlurEffectAlert
 
+var menuItems: [IconPanel] = []
+/*lazy*/ var slideMenu: SlideUpMenu =
+	{
+		let vc = SlideUpMenu()
+		//		vc.parent = self
+		return vc
+}()
+
 
 class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout, XMLParserDelegate
 {
@@ -19,6 +27,28 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		//SwipingControllerTaps
 	
 	//MARK: Properties
+	var viewIsDark = Bool()
+	func makeViewDarkAndStatusBarTextLight()
+	{
+		viewIsDark = true
+		setNeedsStatusBarAppearanceUpdate()
+	}
+	func makeViewLightAndStatusBarTextDark()
+	{
+		viewIsDark = false
+		setNeedsStatusBarAppearanceUpdate()
+	}
+	override var preferredStatusBarStyle: UIStatusBarStyle
+	{
+		if viewIsDark
+		{
+			return .lightContent
+		}
+		else
+		{
+			return .default
+		}
+	}
 	var cellId = 			"cellID"
 	let pageContent: 		[Slide] = [
 		Slide(id: 1, image: "home-slider-printers", caption1: "Laser Printers", caption2: "", target: #selector(printTapped)),
@@ -56,6 +86,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
+		slideMenu.parent = self
 		self.view.backgroundColor = UIColor.white
 		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
 		{
@@ -68,8 +99,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		collectionView?.isPagingEnabled = true
 		collectionView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
 		
-//		let vc = TestSQliteViewController()
-//		self.present(vc, animated: false, completion: nil)
+		makeViewLightAndStatusBarTextDark()
 
 		UserDefaults.standard.set(nil, forKey: "Orders3")
 		//UserDefaults.standard.set(nil, forKey: "Orders9Details")
@@ -81,85 +111,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		getValues()
 		readDB()
 		setDefaults()// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
-//		var ws = WebService()
-//		ws.startURL = R.string.WSbase
-//		ws.resource = APIResource.addresses
-//		ws.keyAPI = R.string.APIkey
-//		ws.filter = ["id" : [4]]
-//		//ws.filter = [(Addresses_filter.alias as! String):["Q"]]
-//		//ws.filter = ["firstname":["john"], "lastname":["DOE%"]]
-//		//ws.display = ["birthday"]
-//		ws.display = ["full"]
-//		//ws.sort = ["firstname" : Direction.DESC]
-//		//ws.outputAs = OutputFormat.JSON
-//		//ws.limit = [6]
-//		ws.printURL()
-//		print("----")
-//		ws.get 	{ 	(result) in
-//			if result.data != nil
-//			{
-//				let data = String(data: result.data! as Data, encoding: .utf8)
-//				print(data!)
-//				print("----get^")
-//				ws.xml = data
-//					// parse XML
-//				let xmlParser = XMLParser(data: (data?.data(using: .utf8))!)
-//				xmlParser.delegate = self
-//				let success: Bool = xmlParser.parse()
-//				//print("xml \(success ? "parsed" : "failed")")
-//				if success
-//				{
-//					print("XML parsed")
-//				}
-//				else
-//				{
-//					print(xmlParser.parserError.debugDescription)
-//				}
-//				print("----")
-//				//print(xmlParser.value(forKey: "address")!)
-//				let newRow: Any?
-//					// Edit the given row
-//				ws.id = 4
-//				newRow = self.store.carriers[0]
-//				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: false)
-//				//print(ws.xml)
-//				ws.printURL()
-//				ws.edit() 	{ 	(result) in
-//					if result.data != nil
-//					{
-//						let data = String(data: result.data! as Data, encoding: .utf8)
-//						print(data!)
-//						print("----edit^")
-//					}
-//				}
-//				// Add a row
-////				ws.schema = Schema.blank
-////				ws.xml = PSWebServices.object2psxml(object: newRow!, resource: "\(ws.resource!)", resource2: ws.resource2(resource: "\(ws.resource!)"), excludeId: true)
-////				ws.printURL()
-////				ws.add() 	{ 	(result) in
-////					if result.data != nil
-////					{
-////						let data = String(data: result.data! as Data, encoding: .utf8)
-////						print(data!)
-////						print("----add^")
-////					}
-////				}
-//					// Delete a row
-////				ws.delete(completionHandler: 	{ 	(result) in
-////					if result.data != nil
-////					{
-////						let data = String(data: result.data! as Data, encoding: .utf8)
-////						print(data!)
-////						print("----delete^")
-////					}
-////				})
-//			}
-//		}
-//		if ws.resource != nil
-//		{
-//			let res = "\(ws.resource!)".capitalized
-//			print("\(res):\(ws.listProperties(resource: ws.resource!))")//ws.resource!.rawValue
-//		}
 
 		Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(handleCycle), userInfo: nil, repeats: true)
 	}
@@ -608,21 +559,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			print("data store has \(store.currencies.count) currencies")
 		}
-//		let myClient = MyClient()
-//		myClient.getREST(from: .addresses(filters: [
-//			Addresses_filter.idCustomer : "3",
-//			Addresses_filter.idCountry : "4",
-//			//Addresses_filter.idManufacturer : "0",
-//			]), completion:
-//			{ 	(addr) in
-//				print("got addr for cust3,country4")
-//			}
-//		)
-		//			myClient.getREST(from: .addresses(nil, nil), completion: { (addr) in
-		//				//
-		//			})
-		//let str = collect.addresses(addresses_filter.idCustomer, "3")
-		//print("\(str)")
 		if store.taxes.count < 1	//check if not already in data store
 		{
 			let items = UserDefaults.standard.string(forKey: "Taxes")
@@ -702,7 +638,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		else
 		{
 			print("data store has \(store.configurations.count) configurations")
-//			let configDict = store.config2Dict()
 		}
 		if store.tags.count < 1	//check if not already in data store
 		{
@@ -771,8 +706,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 				{
 					store.storeContacts.removeAll()
 					let all = try JSONDecoder().decode(Contacts.self, from: (items?.data(using: .utf8))!)
-					//let array = all.contacts as! [Contact]
-					//for t in array
 					for t in all.contacts!
 					{
 						store.storeContacts.append(t)
@@ -901,17 +834,13 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			}
 			if result != nil
 			{
-//				var row = 0
 				var payModuleName: [String] = []
 				for dict in result!
 				{
-//					print("\(row):")
 					for (_, v) in dict
 					{
-//						print("\(k) = \(v)")
 						payModuleName.append(v as! String)
 					}
-//					row += 1
 				}
 				for pay in payModuleName
 				{
@@ -920,22 +849,16 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 					if NSURL(string: filePath) != nil
 					{
 						DispatchQueue.global().async {
-//							do
-//							{
-								let contents = try? String(contentsOf: URL(string: filePath)!)
-								//$this->displayName = $this->trans('Cash on delivery (COD)', array(), 'Modules.Cashondelivery.Admin');
-								if contents != nil && !contents!.isEmpty
+							let contents = try? String(contentsOf: URL(string: filePath)!)
+							//$this->displayName = $this->trans('Cash on delivery (COD)', array(), 'Modules.Cashondelivery.Admin');
+							if contents != nil && !contents!.isEmpty
+							{
+								if contents!.contains("displayName")
 								{
-									if contents!.contains("displayName")
-									{
-										let line = matches(for: "displayName = (.*)$", in: contents!)
-										print("\(filePath) => \(line)")
-									}
+									let line = matches(for: "displayName = (.*)$", in: contents!)
+									print("\(filePath) => \(line)")
 								}
-//							}
-//							catch
-//							{
-//							}
+							}
 						}
 					}
 				}
@@ -979,38 +902,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		task.resume()
 	}
 
-//	class func load(url: URL, to localUrl: URL, completion: @escaping () -> ())
-//	{
-//		let sessionConfig = URLSessionConfiguration.default
-//		let session = URLSession(configuration: sessionConfig)
-//		let request = try! URLRequest(url: url)
-//
-//		let task = session.dataTask(with: request)//.downloadTask(with: request)
-//		{
-//			(tempLocalUrl, response, error) in
-//			if let tempLocalUrl = tempLocalUrl, error == nil
-//			{
-//				if let statusCode = (response as? HTTPURLResponse)?.statusCode
-//				{
-//					print("Success: \(statusCode)")
-//				}
-//				do
-//				{
-//					try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
-//					completion()
-//				}
-//				catch (let writeError)
-//				{
-//					print("error writing file \(localUrl) : \(writeError)")
-//				}
-//			}
-//			else if error != nil
-//			{
-//				print("Failure: %@", error!.localizedDescription)
-//			}
-//		}
-//		task.resume()
-//	}
 
 	func setDefaults()	// instead use -eg. store.configValue(forKey: "PS_PASSWD_RESET_VALIDITY")
 	{
@@ -1849,32 +1740,25 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		view.addSubview(stack)
 
 		stack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//		if #available(iOS 11.0, *) {
-//			NSLayoutConstraint.activate([
-//				stack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//				stack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-//				stack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-//				])
-//		} else {
-			stack.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 150/*(view.frame.height/3)-1*/).isActive = true
-			stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-			//stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-			if view.frame.height > view.frame.width
-			{
-				stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0)
-				stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
-			}
-			else
-			{
-				stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-				stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-			}
-//		}
+		stack.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 150/*(view.frame.height/3)-1*/).isActive = true
+		stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		if view.frame.height > view.frame.width
+		{
+			stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0)
+			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+		}
+		else
+		{
+			stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+		}
 		return stack
 	}
 	
-	func drawIconPanel(iconText: String, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
+	func drawIconPanel(iconText: String, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool, menuPos: Int?, trailingSeparator: Bool?=nil) -> UIView
 	{
+		menuItems.insert(IconPanel(id: menuPos ?? 0, text: labelText, icon: iconText, menuPos: menuPos, trailingSeparator: trailingSeparator, target: actionSelector, canFade: canFade, canAction: canAction), at: menuPos ?? 0)
+		
 		let myIcon = UILabel()
 		myIcon.translatesAutoresizingMaskIntoConstraints = false
 		myIcon.attributedText = NSMutableAttributedString(string: iconText, attributes: R.attribute.iconText)
@@ -1959,18 +1843,17 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			myViewStack.bottomAnchor.constraint(equalTo: myView.bottomAnchor, constant: -3),
 			myViewStack.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -3),
 			myView.heightAnchor.constraint(equalToConstant: 120),
-			//myView.widthAnchor.constraint(equalToConstant: 90)	// trows wobbly
+			//myView.widthAnchor.constraint(equalToConstant: 90)	// throws wobbly
 			])
 		return myView
 	}
 	
-	func drawIconPanel2(iconImage: UIImage, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
+	func drawIconPanel2(iconImage: UIImage, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool, menuPos: Int?, trailingSeparator: Bool?=nil) -> UIView
 	{
+		menuItems.insert(IconPanel(id: menuPos ?? 0, text: labelText, icon: iconImage.accessibilityIdentifier ?? "", menuPos: menuPos, trailingSeparator: trailingSeparator, target: actionSelector, canFade: canFade, canAction: canAction), at: menuPos ?? 0)
+
 		let myIcon = UIImageView(image: iconImage)
-//		myIcon.addSubview(img)
 		myIcon.translatesAutoresizingMaskIntoConstraints = false
-//		myIcon.attributedText = NSMutableAttributedString(string: iconText, attributes: R.attribute.iconText)
-//		myIcon.textAlignment = .center
 		myIcon.shadowColor = R.color.YumaYel
 		myIcon.shadowOffset = CGSize(width: 2, height: 2)
 		
@@ -2051,18 +1934,18 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			myViewStack.bottomAnchor.constraint(equalTo: myView.bottomAnchor, constant: -3),
 			myViewStack.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -3),
 			myView.heightAnchor.constraint(equalToConstant: 120),
-			//myView.widthAnchor.constraint(equalToConstant: 90)	// trows wobbly
+			//myView.widthAnchor.constraint(equalToConstant: 90)	// throws wobbly
 			])
 		return myView
 	}
 	
-	func drawIconPanel3(iconAttr: NSAttributedString, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool) -> UIView
+	func drawIconPanel3(iconAttr: NSAttributedString, labelText: String, actionSelector: Selector, canFade: Bool, canAction: Bool, menuPos: Int?=nil, trailingSeparator: Bool?=nil) -> UIView
 	{
+		menuItems.insert(IconPanel(id: menuPos ?? 0, text: labelText, icon: iconAttr.string, menuPos: menuPos, trailingSeparator: trailingSeparator, target: actionSelector, canFade: canFade, canAction: canAction), at: menuPos ?? 0)//, canFade: canFade, canAction: canAction
+
 		let myIcon = UILabel()
-		//		myIcon.addSubview(img)
 		myIcon.translatesAutoresizingMaskIntoConstraints = false
 		myIcon.attributedText = iconAttr
-		//		myIcon.textAlignment = .center
 		myIcon.shadowColor = R.color.YumaYel
 		myIcon.shadowOffset = CGSize(width: 2, height: 2)
 		
@@ -2143,14 +2026,14 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			myViewStack.bottomAnchor.constraint(equalTo: myView.bottomAnchor, constant: -3),
 			myViewStack.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -3),
 			myView.heightAnchor.constraint(equalToConstant: 120),
-			//myView.widthAnchor.constraint(equalToConstant: 90)	// trows wobbly
+			//myView.widthAnchor.constraint(equalToConstant: 90)	// throws wobbly
 			])
 		return myView
 	}
 
 	func drawTopStack() -> UIStackView
 	{
-		let loginPanel = drawIconPanel3(iconAttr: Awesome.solid.user.asAttributedText(fontSize: 32, color: R.color.YumaRed, backgroundColor: .clear), labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
+		let loginPanel = drawIconPanel3(iconAttr: Awesome.solid.user.asAttributedText(fontSize: 32, color: R.color.YumaRed, backgroundColor: .clear), labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true, menuPos: 0, trailingSeparator: true)
 //		let loginPanel = drawIconPanel2(iconImage: Awesome.solid.handScissors.asImage(size: 30), labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
 //		let loginPanel = drawIconPanel(iconText: FontAwesome.user.rawValue, labelText: R.string.login, actionSelector: #selector(loginTapped(_:)), canFade: false, canAction: true)
 		loginPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true
@@ -2162,25 +2045,13 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		myLogo.contentMode = .scaleAspectFit
 		myLogo.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(gotoDebug)))
 
-		let cartPanel = drawIconPanel(iconText: FontAwesome.shoppingCart.rawValue, labelText: R.string.cart, actionSelector: #selector(cartTapped(_:)), canFade: true, canAction: true)
+		let cartPanel = drawIconPanel(iconText: FontAwesome.shoppingCart.rawValue, labelText: R.string.cart, actionSelector: #selector(cartTapped(_:)), canFade: true, canAction: true, menuPos: 1, trailingSeparator: true)
 		cartPanel.widthAnchor.constraint(equalToConstant: 90).isActive = true
 		let cartGap = UIView()
 		let cartStack = UIStackView(arrangedSubviews: [cartGap, cartPanel])
 		let topStack = UIStackView(arrangedSubviews: [loginStack, myLogo, cartStack])
 		topStack.translatesAutoresizingMaskIntoConstraints = false
 		topStack.distribution = UIStackViewDistribution.fillEqually
-		//topStack.addArrangedSubview(loginStack)
-		//topStack.addArrangedSubview(myLogo)
-		//topStack.addArrangedSubview(cartStack)
-		//loginStack.widthAnchor.constraint(equalToConstant: 90).isActive = true
-		//loginStack.heightAnchor.constraint(equalToConstant: 120).isActive = true
-
-//		NSLayoutConstraint.activate([
-//			loginStack.topAnchor.constraint(equalTo: topStack.topAnchor),
-//			loginStack.leadingAnchor.constraint(equalTo: topStack.leadingAnchor),
-//			loginStack.widthAnchor.constraint(equalToConstant: 90),
-//			loginStack.heightAnchor.constraint(equalToConstant: 120)
-//			])
 		return topStack
 	}
 	
@@ -2188,10 +2059,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	func drawButtonsTop() -> UIStackView
 	{
 		let topRow = UIStackView(arrangedSubviews: [
-			drawIconPanel(iconText: FontAwesome.home.rawValue, 			labelText: R.string.en, 		actionSelector: #selector(enTapped(_:)), 				canFade: true, canAction: false),
-			drawIconPanel(iconText: FontAwesome.certificate.rawValue, 	labelText: R.string.about, 		actionSelector: #selector(aboutTapped(_:)), 			canFade: true, canAction: false),
-			drawIconPanel(iconText: FontAwesome.flag.rawValue, 			labelText: R.string.qc, 		actionSelector: #selector(qcTapped(_:)), 				canFade: true, canAction: false),
-			drawIconPanel(iconText: FontAwesome.phone.rawValue, 		labelText: R.string.contact, 	actionSelector: #selector(contactTapped(_:)), 			canFade: false, canAction: true)
+			drawIconPanel(iconText: FontAwesome.home.rawValue, 			labelText: R.string.en, 		actionSelector: #selector(enTapped(_:)), 				canFade: true, canAction: false, menuPos: 2, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.certificate.rawValue, 	labelText: R.string.about, 		actionSelector: #selector(aboutTapped(_:)), 			canFade: true, canAction: false, menuPos: 3, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.flag.rawValue, 			labelText: R.string.qc, 		actionSelector: #selector(qcTapped(_:)), 				canFade: true, canAction: false, menuPos: 4, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.phone.rawValue, 		labelText: R.string.contact, 	actionSelector: #selector(contactTapped(_:)), 			canFade: false, canAction: true, menuPos: 5, trailingSeparator: true)
 			])
 		topRow.translatesAutoresizingMaskIntoConstraints = false
 		topRow.distribution = UIStackViewDistribution.fillEqually
@@ -2202,10 +2073,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	func drawButtonsBottom() -> UIStackView
 	{
 		let bottomRow = UIStackView(arrangedSubviews: [
-			drawIconPanel(iconText: FontAwesome.print.rawValue, 	labelText: R.string.printers, 	actionSelector: #selector(printTapped(_:)), 		canFade: false, canAction: true),
-			drawIconPanel(iconText: FontAwesome.laptop.rawValue, 	labelText: R.string.laptops, 	actionSelector: #selector(laptopTapped(_:)), 		canFade: false, canAction: true),
-			drawIconPanel(iconText: FontAwesome.wrench.rawValue, 	labelText: R.string.services, 	actionSelector: #selector(servicesTapped(_:)), 		canFade: false, canAction: true),
-			drawIconPanel(iconText: FontAwesome.cubes.rawValue, 	labelText: R.string.toners, 	actionSelector: #selector(tonersTapped(_:)), 		canFade: false, canAction: true)
+			drawIconPanel(iconText: FontAwesome.print.rawValue, 	labelText: R.string.printers, 	actionSelector: #selector(printTapped(_:)), 		canFade: false, canAction: true, 		menuPos: 6, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.laptop.rawValue, 	labelText: R.string.laptops, 	actionSelector: #selector(laptopTapped(_:)), 		canFade: false, canAction: true, 		menuPos: 7, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.wrench.rawValue, 	labelText: R.string.services, 	actionSelector: #selector(servicesTapped(_:)), 		canFade: false, canAction: true, 		menuPos: 8, trailingSeparator: false),
+			drawIconPanel(iconText: FontAwesome.cubes.rawValue, 	labelText: R.string.toners, 	actionSelector: #selector(tonersTapped(_:)), 		canFade: false, canAction: true, 		menuPos: 9, trailingSeparator: true)
 			])
 		bottomRow.translatesAutoresizingMaskIntoConstraints = false
 		bottomRow.distribution = UIStackViewDistribution.fillEqually
@@ -2217,8 +2088,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	{
 		let topStack = drawTopStack()
 		topStack.translatesAutoresizingMaskIntoConstraints = false
-		//topStack.backgroundColor = UIColor.green
-		//view.addSubview(topStack)
 
 		let buttonsTop = drawButtonsTop()
 		let buttonsBottom = drawButtonsBottom()
@@ -2239,11 +2108,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		buttonsTop.topAnchor.constraint(equalTo: buttons.topAnchor, constant: 0).isActive = true
 		buttonsBottom.bottomAnchor.constraint(equalTo: buttons.bottomAnchor).isActive = true
 		buttonsTop.widthAnchor.constraint(equalTo: buttonsBottom.widthAnchor, multiplier: 1).isActive = true
-		//view.addSubview(buttons)
 
 		let controls = setUpControls()
 		controls.translatesAutoresizingMaskIntoConstraints = false
-		//self.view.addSubview(controls)
 		
 		let collArea = UIView()
 		collArea.translatesAutoresizingMaskIntoConstraints = false
@@ -2295,73 +2162,26 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //			{
 			buttons.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 0),
 			])
-//		if #available(iOS 11.0, *) {
-//			NSLayoutConstraint.activate([
-//				topStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//				topStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//				topStack.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//				])
-//		} else {
-//			//			topStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-//			if view.frame.height > view.frame.width
-//			{
-//				topStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-//				topStack.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//				topStack.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//			}
-//			else
-//			{
-//				topStack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-//				topStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-//				topStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-//			}
-//		}
-
-		//was above
-//		if #available(iOS 11.0, *) {
-//			NSLayoutConstraint.activate([
-//				buttons.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -240),
-//				buttons.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//				buttons.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//				buttons.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//				])
-//		} else {
-//			buttons.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-//			if view.frame.height > view.frame.width
-//			{
-//				buttons.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -240).isActive = true
-//				buttons.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-//				buttons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//				buttons.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//			}
-//			else
-//			{
-//				buttons.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
-//				buttons.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//				buttons.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-//				buttons.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-//			}
-//		}
 	}
 	
 }
 
 //unused
-class VerticalTopAlignLabel: UILabel
-{
-	override func drawText(in rect:CGRect)
-	{
-		guard let labelText = text else { 	return super.drawText(in: rect) 	}
-		
-		let attributedText = NSAttributedString(string: labelText, attributes: [NSAttributedStringKey.font: font])
-		var newRect = rect
-		newRect.size.height = attributedText.boundingRect(with: rect.size, options: .usesLineFragmentOrigin, context: nil).size.height
-		
-		if numberOfLines != 0
-		{
-			newRect.size.height = min(newRect.size.height, CGFloat(numberOfLines) * font.lineHeight)
-		}
-		super.drawText(in: newRect)
-	}
-	
-}
+//class VerticalTopAlignLabel: UILabel
+//{
+//	override func drawText(in rect:CGRect)
+//	{
+//		guard let labelText = text else { 	return super.drawText(in: rect) 	}
+//		
+//		let attributedText = NSAttributedString(string: labelText, attributes: [NSAttributedStringKey.font: font])
+//		var newRect = rect
+//		newRect.size.height = attributedText.boundingRect(with: rect.size, options: .usesLineFragmentOrigin, context: nil).size.height
+//		
+//		if numberOfLines != 0
+//		{
+//			newRect.size.height = min(newRect.size.height, CGFloat(numberOfLines) * font.lineHeight)
+//		}
+//		super.drawText(in: newRect)
+//	}
+//	
+//}
