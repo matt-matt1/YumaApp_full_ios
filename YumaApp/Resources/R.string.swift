@@ -113,6 +113,7 @@ extension R
 		static let failed = "failed"
 		static let auto = "Automatic"
 		static let noChange = "no change"
+		static let list = "list"
 		// MARK:		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"

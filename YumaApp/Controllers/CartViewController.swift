@@ -41,11 +41,11 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 	{
         super.viewDidLoad()
 
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
-		navClose.title = FontAwesome.close.rawValue
-		navHelp.title = FontAwesome.questionCircle.rawValue
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navClose.title = FontAwesome.close.rawValue
+//		navHelp.title = FontAwesome.questionCircle.rawValue
+//		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
 //		if #available (iOS 10.0, *)
 //		{
 //			navHelp.setTitleTextAttributes([
@@ -54,11 +54,11 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 //		}
 //		else
 //		{
-			navHelp.setTitleTextAttributes([
-				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-				], for: UIControlState.highlighted)
-//		}
-		navigationItem.title = R.string.cart
+//			navHelp.setTitleTextAttributes([
+//				NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//				], for: UIControlState.highlighted)
+////		}
+//		navigationItem.title = R.string.cart
 		NotificationCenter.default.addObserver(self, selector: #selector(calcTotalWrapper), name: CartViewController.noteName, object: nil)
 		tableView.layoutIfNeeded()
 		totalPcsLbl.text = R.string.pieces

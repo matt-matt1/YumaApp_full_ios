@@ -70,11 +70,11 @@ class ContactUsViewController: UIViewController
 		location.requestWhenInUseAuthorization()
 		location.requestAlwaysAuthorization()
 		//set label/buttons to our strings
-		navTitle.title = R.string.contact
+//		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
 		if #available(iOS 11.0, *)
 		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		}
 		else
 		{
@@ -100,13 +100,13 @@ class ContactUsViewController: UIViewController
 //			print("constraint\(i):1stItem=\"\(constraint.firstItem)\", 1stAttr=\"\(constraint.firstAttribute)\"")
 //			i += 1
 //		}
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		navClose.title = FontAwesome.close.rawValue
-		navHelp.title = FontAwesome.questionCircle.rawValue
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navHelp.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.highlighted)
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		navClose.title = FontAwesome.close.rawValue
+//		navHelp.title = FontAwesome.questionCircle.rawValue
+//		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navHelp.setTitleTextAttributes([
+//			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//			], for: UIControlState.highlighted)
 		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
 		phoneBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)

@@ -115,6 +115,7 @@ class MyAccountViewController: UIViewController
 		delAccBtn.setTitle(R.string.delAcc, for: .normal)
 		delAccBtn.setTitle(R.string.delAcc, for: .highlighted)
 
+//		slideMenu.parent = self
 		slideMenu.drawIconBar()
 //		slideUpMenu.drawIconBar()
 	}

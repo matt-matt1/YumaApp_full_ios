@@ -21,31 +21,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//window = UIWindow()
 		window?.makeKeyAndVisible()
 
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		//let collection = CollectionViewController(collectionViewLayout: layout)
-		let collection = SwipingController(collectionViewLayout: layout)
-		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
-		window?.rootViewController = collection
+//		let layout = UICollectionViewFlowLayout()
+//		layout.scrollDirection = .horizontal
+//		//let collection = CollectionViewController(collectionViewLayout: layout)
+//		let collection = SwipingController(collectionViewLayout: layout)
+//		//let collection = UINavigationController(rootViewController: CheckoutCollection(collectionViewLayout: layout))
+//		window?.rootViewController = collection
 
 //		let vc = SQLiteViewController()
 //		let vc = TestSQliteViewController()
-//		window?.rootViewController = vc
+//		let vc = ProductsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+		let vc = ProductsPreviewController()
+//		window?.rootViewController = UINavigationController(rootViewController: vc)
+		window?.rootViewController = vc
 		
 //		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
 //		{
 //			statusbar.backgroundColor = UIColor.lightGray
 //		}
 
-		let shadow = NSShadow()
-		shadow.shadowColor = R.color.YumaDRed
-		shadow.shadowOffset = CGSize(width: 1, height: 1)
-		shadow.shadowBlurRadius = 3
+		let navTitleShadow = NSShadow()
+		navTitleShadow.shadowColor = R.color.YumaDRed
+		navTitleShadow.shadowOffset = CGSize(width: 1, height: 1)
+		navTitleShadow.shadowBlurRadius = 3
 		let navBarAppearance = UINavigationBar.appearance()
+		navBarAppearance.backgroundColor = R.color.YumaRed
 		navBarAppearance.tintColor = UIColor.white
 //		navBarAppearance.barTintColor = UIColor.lightGray//R.color.YumaRed
 		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor : R.color.YumaYel,
-												NSAttributedStringKey.shadow : shadow]
+												NSAttributedStringKey.shadow : navTitleShadow]
 		navBarAppearance.shadowImage = UIImage()
 		navBarAppearance.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 		//UIBarButtonItem.appearance().setTitleTextAttributes([
@@ -53,7 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		//	], for: .normal)
 
 		UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-		
+//		navBarAppearance.applyNavigationGradient(colors: [UIColor.blue, UIColor.blueApple], isVertical: true)
+
 //		let statusBarBackground = UIView()
 //		statusBarBackground.backgroundColor = UIColor.gray//UIColor(red: 194/255, green: 31/255, blue: 31/255, alpha: 1)
 //		window?.addSubview(statusBarBackground)

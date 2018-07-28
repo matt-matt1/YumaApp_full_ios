@@ -27,29 +27,29 @@ class ExpandMapViewController: UIViewController, CLLocationManagerDelegate
 	{
         super.viewDidLoad()
 
-		navTitle.title = R.string.contact
-		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		navClose.title = FontAwesome.close.rawValue
-		navBar.translatesAutoresizingMaskIntoConstraints = false
-		navHelp.title = FontAwesome.questionCircle.rawValue
-		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
-		navHelp.setTitleTextAttributes([
-			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
-			], for: UIControlState.highlighted)
-		if #available(iOS 11.0, *)
-		{
-			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		navTitle.title = R.string.contact
+//		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+//		navClose.title = FontAwesome.close.rawValue
+//		navBar.translatesAutoresizingMaskIntoConstraints = false
+//		navHelp.title = FontAwesome.questionCircle.rawValue
+//		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
+//		navHelp.setTitleTextAttributes([
+//			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
+//			], for: UIControlState.highlighted)
+//		if #available(iOS 11.0, *)
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 //			navBar.superview?.constraints.forEach(
 //				{ (constraint) in
 //					if constraint.firstItem === navBar && constraint.firstAttribute == .top
 //					{
 //						navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 //					}})
-		}
+//		}
 		myMap.showsScale = true
 		myMap.showsPointsOfInterest = true
 		myMap.showsUserLocation = true

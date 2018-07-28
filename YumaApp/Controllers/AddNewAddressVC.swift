@@ -409,26 +409,14 @@ class AddNewAddressVC: UIViewController, UITextFieldDelegate//, NSViewController
 		viewPanel.addSubview(scroll)
 		viewPanel.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: scroll)
 		viewPanel.addConstraintsWithFormat(format: "V:|-10-[v0]-5-|", views: scroll)
-//		scroll.topAnchor.constraint(equalTo: viewPanel.topAnchor, constant: 10).isActive = true
-//		scroll.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
-//		scroll.bottomAnchor.constraint(equalTo: viewPanel.bottomAnchor, constant: -5).isActive = true
-//		scroll.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
 
 		stackPanel.addSubview(viewPanel)
 		stackPanel.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: viewPanel)
 		stackPanel.addConstraintsWithFormat(format: "V:|-0-[v0]-0-|", views: viewPanel)
-//		viewPanel.topAnchor.constraint(equalTo: stackPanel.topAnchor, constant: 0).isActive = true
-//		viewPanel.leadingAnchor.constraint(equalTo: stackPanel.leadingAnchor, constant: 0).isActive = true
-//		viewPanel.bottomAnchor.constraint(equalTo: stackPanel.bottomAnchor, constant: 0).isActive = true
-//		viewPanel.trailingAnchor.constraint(equalTo: stackPanel.trailingAnchor, constant: 0).isActive = true
 		
 		viewOuter.addSubview(stackPanel)
 		viewOuter.addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: stackPanel)
 		viewOuter.addConstraintsWithFormat(format: "V:|-0-[v0]-5-|", views: stackPanel)
-//		stackPanel.topAnchor.constraint(equalTo: viewOuter.topAnchor, constant: 0).isActive = true
-//		stackPanel.leadingAnchor.constraint(equalTo: viewOuter.leadingAnchor, constant: 5).isActive = true
-//		stackPanel.bottomAnchor.constraint(equalTo: viewOuter.bottomAnchor, constant: -5).isActive = true
-//		stackPanel.trailingAnchor.constraint(equalTo: viewOuter.trailingAnchor, constant: -5).isActive = true
 		
 		stackAll.addArrangedSubview(viewOuter)
 		

@@ -46,8 +46,8 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		self.navigationItem.title = self.pageTitle
 		//navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
 		activityLabel.text = (pageTitle == "") ? R.string.our_bus : pageTitle
-		closeIcon.font = R.font.FontAwesomeOfSize(pointSize: 22)
-		closeIcon.text = FontAwesome.times.rawValue//.windowCloseO.rawValue
+//		closeIcon.font = R.font.FontAwesomeOfSize(pointSize: 22)
+//		closeIcon.text = FontAwesome.times.rawValue//.windowCloseO.rawValue
 		if Reachability.isConnectedToNetwork()
 		{
 			webView.delegate = self
@@ -106,7 +106,7 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 //			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
 //		}
 //		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeView(sender:))))
+//		closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeView(sender:))))
         webView.delegate = self
     }
 

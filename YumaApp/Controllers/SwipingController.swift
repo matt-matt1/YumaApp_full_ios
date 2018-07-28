@@ -80,12 +80,14 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		pc.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(gotoDebug(_:))))
 		return pc
 	}()
+//	var rootVC = UIViewController()
 	
 	
 	//MARK: Methods
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
+//		rootVC = (UIApplication.shared.keyWindow?.rootViewController)!
 		slideMenu.parent = self
 		self.view.backgroundColor = UIColor.white
 		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView

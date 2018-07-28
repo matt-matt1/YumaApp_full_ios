@@ -11,6 +11,13 @@ import UIKit
 
 extension UINavigationBar
 {
+//	func setGradientBackground(colors: [UIColor])
+//	{
+//		var updatedFrame = bounds
+//		updatedFrame.size.height += self.frame.maxY//44//navigationBar.frame.maxY
+//		let gradientLayer = CAGradientLayer(frame: updatedFrame, colors: colors)
+//		setBackgroundImage(gradientLayer.createGradientImage(), for: UIBarMetrics.default)
+//	}
 	/// Applies a background gradient with the given colors
 	//
 	//eg.
@@ -19,7 +26,9 @@ extension UINavigationBar
 	func applyNavigationGradient(colors: [UIColor], isVertical: Bool = true)
 	{
 		var frameAndStatusBar: CGRect = self.bounds
-		frameAndStatusBar.size.height += 20 // add 20 to account for the status bar
+//		frameAndStatusBar.size.height += 20 // add 20 to account for the status bar
+//		frameAndStatusBar.size.height += 44
+		//let a = self.frame.maxY
 		
 		if (isVertical)
 		{

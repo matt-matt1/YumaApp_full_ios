@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -10,11 +10,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="FontAwesome.ttf">
-            <string>FontAwesome</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WebpageViewController" customModule="YumaApp" customModuleProvider="target">
             <connections>
@@ -22,8 +17,6 @@
                 <outlet property="activitySpinner" destination="NXq-F8-zeY" id="K7a-c4-6k2"/>
                 <outlet property="allStack" destination="eCv-7Z-2zt" id="BIl-6Q-YbU"/>
                 <outlet property="allView" destination="URE-0A-wue" id="gNh-q2-dh2"/>
-                <outlet property="closeIcon" destination="5eB-vc-jeE" id="hhR-5m-EEI"/>
-                <outlet property="closeView" destination="pfP-z5-oo8" id="sdb-wr-V3y"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webView" destination="gYR-Hu-dlo" id="dC8-he-l9c"/>
             </connections>
@@ -36,22 +29,15 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eCv-7Z-2zt">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vsK-WK-QlG" userLabel="top line">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
-                            <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="yhb-gD-CdO"/>
-                            </constraints>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URE-0A-wue">
-                            <rect key="frame" x="0.0" y="1" width="375" height="646"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
                                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYR-Hu-dlo">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="646"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </webView>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Dne-y0-ffz">
-                                    <rect key="frame" x="0.0" y="286.5" width="375" height="73"/>
+                                    <rect key="frame" x="0.0" y="287" width="375" height="73"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="NXq-F8-zeY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="37"/>
@@ -65,29 +51,9 @@
                                         </label>
                                     </subviews>
                                 </stackView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pfP-z5-oo8">
-                                    <rect key="frame" x="0.0" y="0.0" width="49" height="49"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5eB-vc-jeE">
-                                            <rect key="frame" x="16.5" y="14" width="16.5" height="21"/>
-                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="21"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstItem="5eB-vc-jeE" firstAttribute="centerX" secondItem="pfP-z5-oo8" secondAttribute="centerX" id="ALF-CG-i6G"/>
-                                        <constraint firstAttribute="height" constant="49" id="Hfe-y2-42b"/>
-                                        <constraint firstAttribute="width" constant="49" id="N8H-nj-0VS"/>
-                                        <constraint firstItem="5eB-vc-jeE" firstAttribute="centerY" secondItem="pfP-z5-oo8" secondAttribute="centerY" id="aJi-ag-325"/>
-                                    </constraints>
-                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="pfP-z5-oo8" firstAttribute="top" secondItem="URE-0A-wue" secondAttribute="top" id="6EZ-wh-1Xr"/>
-                                <constraint firstItem="pfP-z5-oo8" firstAttribute="leading" secondItem="URE-0A-wue" secondAttribute="leading" id="9Pa-35-f29"/>
                                 <constraint firstAttribute="trailing" secondItem="gYR-Hu-dlo" secondAttribute="trailing" id="beV-ce-3G1"/>
                                 <constraint firstItem="gYR-Hu-dlo" firstAttribute="leading" secondItem="URE-0A-wue" secondAttribute="leading" id="feN-t5-yMf"/>
                                 <constraint firstItem="Dne-y0-ffz" firstAttribute="centerY" secondItem="URE-0A-wue" secondAttribute="centerY" id="qeY-ic-Is1"/>
@@ -98,9 +64,6 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="vsK-WK-QlG" secondAttribute="trailing" id="2RM-Ye-rdU"/>
-                        <constraint firstItem="vsK-WK-QlG" firstAttribute="top" secondItem="eCv-7Z-2zt" secondAttribute="top" id="DVn-fs-pIf"/>
-                        <constraint firstItem="vsK-WK-QlG" firstAttribute="leading" secondItem="eCv-7Z-2zt" secondAttribute="leading" id="He2-aA-h1Z"/>
                         <constraint firstItem="Dne-y0-ffz" firstAttribute="width" secondItem="eCv-7Z-2zt" secondAttribute="width" id="g4m-lC-TfN"/>
                     </constraints>
                 </stackView>

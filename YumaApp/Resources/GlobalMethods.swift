@@ -220,3 +220,11 @@ func matches(for regex: String, in text: String) -> [String]
 		return []
 	}
 }
+
+
+func showVC(_ viewController: UIViewController)
+{
+	let window = UIApplication.shared.keyWindow
+	let rootViewController = window?.rootViewController
+	rootViewController?.present(viewController, animated: true, completion: nil)
+}

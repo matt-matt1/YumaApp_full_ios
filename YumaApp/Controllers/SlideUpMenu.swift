@@ -56,7 +56,7 @@ class SlideUpMenu: NSObject, UICollectionViewDataSource, UICollectionViewDelegat
 	let cellHeight: CGFloat = 50
 	var control: UIControl!
 	let maxWidth: CGFloat = 320
-	var parent: SwipingController?
+	var parent: UIViewController?//SwipingController?
 //	lazy var swipingController: SwipingController =
 //	{
 //		let vc = SwipingController()
@@ -192,7 +192,10 @@ class SlideUpMenu: NSObject, UICollectionViewDataSource, UICollectionViewDelegat
 //				var a = 3
 //				UIApplication.shared.sendAction(self.spacedMenuItems[indexPath.item].target!, to: SwipingController.self, from: nil, for: nil)
 //				UIApplication.shared.sendAction(menuItems[indexPath.item].target!, to: SwipingController.self, from: nil, for: nil)
-				UIApplication.shared.sendAction(menuItems[indexPath.item].target!, to: self.parent, from: nil, for: nil)
+				showVC(ContactUsViewController())//showVC(menuItems[indexPath.item].target)
+//				self.parent?.dismiss(animated: false, completion: {
+//					UIApplication.shared.sendAction(menuItems[indexPath.item].target!, to: /*SwipingController.self*//*nil*/self.parent, from: /*MyAccountViewController.self*/nil, for: nil)
+//				})
 //				DispatchQueue.main.async {
 //				let timer = Timer.scheduledTimer(timeInterval: 0.1, target: SwipingController(), selector: self.spacedMenuItems[indexPath.item].target!, userInfo: nil, repeats: false)
 //				let timer = Timer.scheduledTimer(timeInterval: 0.1, target: SwipingController(), selector: menuItems[indexPath.item].target!, userInfo: nil, repeats: false)

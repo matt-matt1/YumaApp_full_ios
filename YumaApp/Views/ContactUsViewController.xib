@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -27,10 +27,6 @@
                 <outlet property="labelMyLocation" destination="wVw-Vd-b0B" id="slv-uk-dXv"/>
                 <outlet property="mapZoomSlider" destination="YpU-dY-ouD" id="GK7-6t-tQ3"/>
                 <outlet property="myMap" destination="gYX-p5-9Yn" id="CIG-aN-bQc"/>
-                <outlet property="navBar" destination="2Sk-ZW-fqK" id="mSb-TX-mmE"/>
-                <outlet property="navClose" destination="Lms-Bk-23t" id="oVv-SU-aXN"/>
-                <outlet property="navHelp" destination="Sad-ue-jp2" id="XH5-rH-2bL"/>
-                <outlet property="navTitle" destination="HG9-Lp-Rvo" id="dpK-vt-sjs"/>
                 <outlet property="phoneBtn" destination="WwN-Ty-50Z" id="79d-pv-KHp"/>
                 <outlet property="phoneIcon" destination="TCT-xv-sgx" id="co7-Uh-RFF"/>
                 <outlet property="phoneNumber" destination="WX4-vV-F0j" id="IFo-cU-NCv"/>
@@ -46,40 +42,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="O3q-Id-xFe">
-                    <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                    <rect key="frame" x="0.0" y="66" width="768" height="958"/>
                     <subviews>
-                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Sk-ZW-fqK">
-                            <rect key="frame" x="0.0" y="0.0" width="768" height="46"/>
-                            <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="46" id="BzW-b4-tF1"/>
-                            </constraints>
-                            <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textShadowColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <offsetWrapper key="textShadowOffset" horizontal="2" vertical="2"/>
-                            </textAttributes>
-                            <items>
-                                <navigationItem title="Contact Us" id="HG9-Lp-Rvo">
-                                    <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="Lms-Bk-23t">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="closeViewWithSender:" destination="-1" id="3DC-DQ-dM3"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem key="rightBarButtonItem" title="help" id="Sad-ue-jp2">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="navHelpAct:" destination="-1" id="4ps-hF-upz"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sad-yE-exX">
-                            <rect key="frame" x="0.0" y="46" width="768" height="958"/>
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="958"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="k0j-dd-37l">
                                     <rect key="frame" x="5" y="0.0" width="758" height="958"/>
@@ -463,9 +429,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="2Sk-ZW-fqK" firstAttribute="leading" secondItem="O3q-Id-xFe" secondAttribute="leading" id="INV-pR-j92"/>
                         <constraint firstItem="sad-yE-exX" firstAttribute="leading" secondItem="O3q-Id-xFe" secondAttribute="leading" id="WTC-y5-iMz"/>
-                        <constraint firstAttribute="trailing" secondItem="2Sk-ZW-fqK" secondAttribute="trailing" id="eZQ-Dz-TB7"/>
                         <constraint firstAttribute="trailing" secondItem="sad-yE-exX" secondAttribute="trailing" id="ljD-dA-tYl"/>
                     </constraints>
                 </stackView>
