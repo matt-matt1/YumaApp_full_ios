@@ -126,6 +126,8 @@
 		CF6592F321038A4000A8DF6D /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6592F221038A4000A8DF6D /* Array.swift */; };
 		CF66957D20B89CD600A69D20 /* SelectCountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */; };
 		CF66957F20B89D7300A69D20 /* SelectCountryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */; };
+		CF688003210F9F63003DBD96 /* ProductsMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF688002210F9F62003DBD96 /* ProductsMenuBar.swift */; };
+		CF688005210F9F8A003DBD96 /* ProductMenuBarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF688004210F9F8A003DBD96 /* ProductMenuBarCell.swift */; };
 		CF68979C208930E100998527 /* CustomerMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979B208930E100998527 /* CustomerMessages.swift */; };
 		CF68979E2089354200998527 /* CustomerThreads.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979D2089354200998527 /* CustomerThreads.swift */; };
 		CF6897A020893BD300998527 /* Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF68979F20893BD300998527 /* Contacts.swift */; };
@@ -403,6 +405,8 @@
 		CF6592F221038A4000A8DF6D /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		CF66957C20B89CD600A69D20 /* SelectCountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryCell.swift; sourceTree = "<group>"; };
 		CF66957E20B89D7300A69D20 /* SelectCountryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCountryVC.swift; sourceTree = "<group>"; };
+		CF688002210F9F62003DBD96 /* ProductsMenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductsMenuBar.swift; path = "../../../../../../Users/yumausa/Library/Autosave Information/YumaFeedView/Views/ProductsMenuBar.swift"; sourceTree = "<group>"; };
+		CF688004210F9F8A003DBD96 /* ProductMenuBarCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductMenuBarCell.swift; sourceTree = "<group>"; };
 		CF68979B208930E100998527 /* CustomerMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMessages.swift; sourceTree = "<group>"; };
 		CF68979D2089354200998527 /* CustomerThreads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerThreads.swift; sourceTree = "<group>"; };
 		CF68979F20893BD300998527 /* Contacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
@@ -646,6 +650,7 @@
 		CF7E863E2029EA760014B787 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CF688002210F9F62003DBD96 /* ProductsMenuBar.swift */,
 				CF717EAF20A3975200E68F83 /* CustomProductView.swift */,
 				CF5C730C2049B932008763DB /* Cells */,
 				CF6019EA2049CE4E00217025 /* AddrStoryboard.storyboard */,
@@ -667,6 +672,7 @@
 				CF182DB82030F7FB0070B9E5 /* WebpageViewController.xib */,
 				CF58B67E2107B325008D4C4D /* CustomFlowLayout.swift */,
 				CF58B6802107B3C8008D4C4D /* SeparatorView.swift */,
+				CF688004210F9F8A003DBD96 /* ProductMenuBarCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1342,6 +1348,7 @@
 				CF717EAE20A3954D00E68F83 /* UIImage+Extension.swift in Sources */,
 				CF182DC820321DD70070B9E5 /* Order.swift in Sources */,
 				CFD4E78F20D5BCB8000BA1DF /* ProductLabelCell.swift in Sources */,
+				CF688003210F9F63003DBD96 /* ProductsMenuBar.swift in Sources */,
 				CF7E864C202A0FBA0014B787 /* Countries.swift in Sources */,
 				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */,
@@ -1469,6 +1476,7 @@
 				CF601A08204ADEA100217025 /* IdValue.swift in Sources */,
 				CF717EAA20A394DD00E68F83 /* MobileDataItem.swift in Sources */,
 				CF55FAF7208BA3FC00B6CB3C /* HelpMainPanel.swift in Sources */,
+				CF688005210F9F8A003DBD96 /* ProductMenuBarCell.swift in Sources */,
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
 				CF92B49020EFD9BF00AEDEC8 /* Validate.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,

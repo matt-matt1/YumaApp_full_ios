@@ -114,8 +114,9 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.setImage(Awesome.solid.chevronLeft.asImage(size: 35, color: R.color.YumaYel, backgroundColor: UIColor.clear), for: UIControlState.normal)
 //		view.setTitle("list", for: .normal)
 		view.setTitleColor(UIColor.white, for: .normal)
-		view.setAttributedTitle(NSAttributedString(string: "list", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15), NSAttributedStringKey.foregroundColor : UIColor.white]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: "product\nlist", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15), NSAttributedStringKey.foregroundColor : UIColor.white]), for: .normal)
 		view.backgroundColor = UIColor.clear
+		view.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
 		return view
 	}()
 	
@@ -159,7 +160,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		lbl.translatesAutoresizingMaskIntoConstraints = false
 		lbl.font = UIFont.systemFont(ofSize: 18)
 		lbl.textAlignment = .center
-		lbl.text = "$$$$"
+		lbl.text = "Product Price"
 		lbl.backgroundColor = UIColor.white
 		lbl.textColor = UIColor.darkGray
 		return lbl
@@ -183,29 +184,33 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		let iv = UIImageView()
 		iv.translatesAutoresizingMaskIntoConstraints = false
-		iv.backgroundColor = UIColor.purple
+//		iv.backgroundColor = UIColor.purple
 		iv.contentMode = .scaleAspectFit
 		return iv
 	}()
-	let manufacturerView: UILabel =
+	let manufacturerName: UILabel =
 	{
 		let lab = UILabel()
 		lab.translatesAutoresizingMaskIntoConstraints = false
-		lab.text = "manufacturerView"
+		lab.text = "Manufacturer: Yuma"
+		lab.textColor = UIColor.darkGray
 		return lab
 	}()
+	var manufacturerStack: UIStackView!
 	let descLong: UILabel =
 	{
 		let lab = UILabel()
 		lab.translatesAutoresizingMaskIntoConstraints = false
-		lab.text = "descLong"
+		lab.text = "description"
+		lab.textColor = UIColor.darkGray
 		return lab
 	}()
 	let descShort: UILabel =
 	{
 		let lab = UILabel()
 		lab.translatesAutoresizingMaskIntoConstraints = false
-		lab.text = "descShort"
+		lab.text = "short description"
+		lab.textColor = UIColor.darkGray
 		return lab
 	}()
 	var categories: [aCategory] = []
@@ -232,7 +237,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		view.isPagingEnabled = true
 		return view
 	}()
-	var linkRewrite = ""
+//	var linkRewrite = ""
 	let productOptionValuesView:  UICollectionView =
 	{
 		let layout = UICollectionViewFlowLayout()
@@ -268,14 +273,9 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		scrollView.delegate = self	// enable zomming
 		setZoomScale()
 		setupZoomGestureRecognizer()
-//		tagsCollectionView.delegate = self
-//		tagsCollectionView.dataSource = self
-//		catsCollectionView.delegate = self
-//		catsCollectionView.dataSource = self
-//		imagesCollectionView.delegate = self
-//		imagesCollectionView.dataSource = self
+		prepareCollectionViews()
 		drawNavigation()
-		positionAndAddViews()
+		placeSubviews()
 		if prod != nil
 		{
 			fillProductDetails()
@@ -284,13 +284,20 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		{
 			navigationBar.topItem?.title = "Product Name"
 		}
-		print(prod)
-		print(store.myLang)
-		if prod != nil
-		{
-			print(prod.name?[0].value)
-		}
+//		print(prod)
+//		print(store.myLang)
+//		if prod != nil
+//		{
+//			print(prod.name?[0].value)
+//		}
     }
+
+	override func viewDidAppear(_ animated: Bool)
+	{
+		super.viewDidAppear(animated)
+		
+//		backButton.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+	}
 
 	override func viewDidLayoutSubviews()
 	{
@@ -307,6 +314,28 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 	// MARK: Methods
 
+	fileprivate func prepareCollectionViews()
+	{
+		tagsCollectionView.register(ProductTagsCollectionViewCell.self, forCellWithReuseIdentifier: tagsCellId)
+		tagsCollectionView.delegate = self
+		tagsCollectionView.dataSource = self
+		catsCollectionView.register(ProductCategoriesCollectionViewCell.self, forCellWithReuseIdentifier: catsCellId)
+		catsCollectionView.delegate = self
+		catsCollectionView.dataSource = self
+//		imagesCollectionView.register(ProductImagesCollectionCell.self, forCellWithReuseIdentifier: imagesCellId)
+		imagesCollectionView.delegate = self
+		imagesCollectionView.dataSource = self
+//		combinationsView.register(ProductCombinationsCollectionCell.self, forCellWithReuseIdentifier: combinationsCellId)
+		combinationsView.delegate = self
+		combinationsView.dataSource = self
+//		shareView.register(ProductShareCollectionCell.self, forCellWithReuseIdentifier: shareCellId)
+		shareView.delegate = self
+		shareView.dataSource = self
+//		productOptionValuesView.register(ProductOptionValuesViewCell.self, forCellWithReuseIdentifier: productOptionValuesCellId)
+		productOptionValuesView.delegate = self
+		productOptionValuesView.dataSource = self
+	}
+	
 	func viewForZooming(in scrollView: UIScrollView) -> UIView?
 	{
 		return prodImage
@@ -444,10 +473,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		stackAll.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0).isActive = true
 	}
 	
-	fileprivate func positionAndAddViews()
+	fileprivate func placeSubviews()
 	{
 		setViews()
-		stack = UIStackView(arrangedSubviews: [prodImage, prodName, prodPrice, tagsCollectionView, prodManImage, manufacturerView, descLong, descShort, catsCollectionView, combinationsView, shareView, productOptionValuesView, imagesView])
+		manufacturerStack = UIStackView(arrangedSubviews: [prodManImage, manufacturerName])
+		manufacturerStack.distribution = .fillEqually
+		stack = UIStackView(arrangedSubviews: [prodImage, prodName, prodPrice, tagsCollectionView, manufacturerStack, descLong, descShort, catsCollectionView, combinationsView, shareView, productOptionValuesView/*, imagesView*/])
 		stack.axis = .vertical
 		stack.spacing = 5
 //		stack.backgroundColor = UIColor.green
@@ -458,15 +489,15 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//prodName
 		//prodPrice
 		tagsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-		prodManImage.heightAnchor.constraint(equalToConstant: 30).isActive = true//purple
-		manufacturerView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//		prodManImage.heightAnchor.constraint(equalToConstant: 30).isActive = true//purple
+		manufacturerStack.heightAnchor.constraint(equalToConstant: 30).isActive = true
 		//descLong
 		//descShort
 		catsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 		combinationsView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 		shareView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 		productOptionValuesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-		imagesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
+//		imagesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 
 		stack.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
 		stack.trailingAnchor.constraint(equalTo: viewPanel.trailingAnchor, constant: -5).isActive = true
@@ -477,9 +508,41 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 	fileprivate func fillProductDetails()
 	{
-		manufacturerView.text = prod.manufacturerName
-		descLong.text = prod.description?[store.myLang].value
-		descShort.text = prod.descriptionShort?[store.myLang].value
+//		self.prodName.text = store.valueById(object: prod.name!, id: store.myLang)
+		self.prodName.text = prod.name?[store.myLang].value
+		navigationBar.topItem?.title = self.prodName.text//prod.name?[store.myLang].value
+//		navigationBar.topItem?.title = store.valueById(object: prod.name!, id: store.myLang)
+		if prod.manufacturerName != nil && !prod.manufacturerName!.isEmpty
+		{
+			manufacturerName.text = "(\(prod.manufacturerName!))"
+		}
+		if prod.idManufacturer != nil && prod.idManufacturer! > 0
+		{
+			let imageName = "\(R.string.URLbase)img/m/\(prod.idManufacturer!).jpg"
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				{
+					(data, response, error) in
+					
+					guard let data = data, error == nil else { return }
+					DispatchQueue.main.async()
+						{
+							//							let i = self.view.tag - 10
+							let imageToCache = UIImage(data: data)
+							self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+							self.prodManImage.image = imageToCache
+							//view.prodImage.image = UIImage(data: data)
+							//self.prod_image = data
+							//							if i > 0 && i < self.store.products.count
+							//							{
+							//								self.store.products[i].associations?.imageData = data
+							//							}
+					}
+			})
+		}
+		//		descLong.text = prod.description?[store.myLang].value
+		descLong.attributedText = (prod.description?[store.myLang].value)?.htmlToAttributedString
+		//		descShort.text = prod.descriptionShort?[store.myLang].value
+		descShort.attributedText = (prod.descriptionShort?[store.myLang].value)?.htmlToAttributedString
 		if prod.associations?.imageData != nil
 		{
 			self.prodImage.image = UIImage(data: (prod.associations?.imageData)!)
@@ -493,36 +556,33 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 				imageName.append("/\(ch)")
 			}
 			imageName.append("/\(imgName ?? "").jpg")
-//			if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
-//			{
-//				self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
-//			}
-//			else
-//			{
-				store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
-					{
-						(data, response, error) in
-						
-						guard let data = data, error == nil else { return }
-						DispatchQueue.main.async()
+			//			if let imageFromCache = store.imageDataCache.object(forKey: imageName as AnyObject)
+			//			{
+			//				self.prodImage.image = UIImage(data: (imageFromCache as? Data)!)
+			//			}
+			//			else
+			//			{
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				{
+					(data, response, error) in
+					
+					guard let data = data, error == nil else { return }
+					DispatchQueue.main.async()
+						{
+							let i = self.view.tag - 10
+							let imageToCache = UIImage(data: data)
+							self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
+							self.prodImage.image = imageToCache
+							//view.prodImage.image = UIImage(data: data)
+							//self.prod_image = data
+							if i > 0 && i < self.store.products.count
 							{
-								let i = self.view.tag - 10
-								let imageToCache = UIImage(data: data)
-								self.store.imageDataCache.setObject(imageToCache!, forKey: imageName as AnyObject)
-								self.prodImage.image = imageToCache
-								//view.prodImage.image = UIImage(data: data)
-								//self.prod_image = data
-								if i > 0 && i < self.store.products.count
-								{
-									self.store.products[i].associations?.imageData = data
-								}
-						}
-				})
-//			}
+								self.store.products[i].associations?.imageData = data
+							}
+					}
+			})
+			//			}
 		}
-//		self.prodName.text = store.valueById(object: prod.name!, id: store.myLang)
-		self.prodName.text = prod.name?[store.myLang].value
-		navigationBar.topItem?.title = store.valueById(object: prod.name!, id: store.myLang)
 		if prod.showPrice != nil && prod.showPrice! /*!= "0"*/ && prod.price != nil && prod.price! > 0
 		{
 			//let prodPrice = NumberFormatter().number(from: prod.price!)?.doubleValue
@@ -535,21 +595,21 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		}
 		if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
 		{
-//			let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
-//			self.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
-//			self.categoriesView.translatesAutoresizingMaskIntoConstraints = false
-//			NSLayoutConstraint.activate([
-//				self.categoriesView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-//				self.categoriesView.trailingAnchor.constraint(lessThanOrEqualTo: self.categoriesView.trailingAnchor, constant: 0)
-//				])
-//			view.addConstraintsWithFormat(format: "H:|[v0]", views: view.categoriesView)
-//			view.addConstraintsWithFormat(format: "V:[v0]", views: view.categoriesView)
+			//			let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
+			//			self.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
+			//			self.categoriesView.translatesAutoresizingMaskIntoConstraints = false
+			//			NSLayoutConstraint.activate([
+			//				self.categoriesView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+			//				self.categoriesView.trailingAnchor.constraint(lessThanOrEqualTo: self.categoriesView.trailingAnchor, constant: 0)
+			//				])
+			//			view.addConstraintsWithFormat(format: "H:|[v0]", views: view.categoriesView)
+			//			view.addConstraintsWithFormat(format: "V:[v0]", views: view.categoriesView)
 		}
 		if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
 		{
-//			self.tagsView.translatesAutoresizingMaskIntoConstraints = false
-//			formTagsView2(tagIDs: (prod.associations?.tags)!)
-//			self.tagsView.addArrangedSubview(collectionTags)
+			//			self.tagsView.translatesAutoresizingMaskIntoConstraints = false
+			//			formTagsView2(tagIDs: (prod.associations?.tags)!)
+			//			self.tagsView.addArrangedSubview(collectionTags)
 		}
 		var attrText: NSAttributedString
 		if prod.description != nil && store.valueById(object: prod.description!, id: store.myLang) != nil//prod.description![store.myLang].value != nil
@@ -579,15 +639,15 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//				view.linkRewrite = prod.link_rewrite![store.myLang].value!
 		if prod.associations != nil && prod.associations?.combinations != nil && (prod.associations?.combinations?.count)! > 0
 		{
-//			self.combinationsView.addArrangedSubview(formCombinationView(combinationsIDs: (prod.associations?.combinations)!))
+			//			self.combinationsView.addArrangedSubview(formCombinationView(combinationsIDs: (prod.associations?.combinations)!))
 		}
 		if prod.associations != nil && prod.associations?.images != nil && (prod.associations?.images?.count)! > 0
 		{
-//			self.imagesView.addArrangedSubview(formImageViews(imageIDs: (prod.associations?.images)!))
+			//			self.imagesView.addArrangedSubview(formImageViews(imageIDs: (prod.associations?.images)!))
 		}
 		if prod.associations != nil && prod.associations?.product_option_values != nil && (prod.associations?.product_option_values?.count)! > 0
 		{
-//			self.productOptionValuesView.addArrangedSubview(formProductOptionValues(ValueIDs: (prod.associations?.product_option_values)!))
+			//			self.productOptionValuesView.addArrangedSubview(formProductOptionValues(ValueIDs: (prod.associations?.product_option_values)!))
 		}
 	}
 

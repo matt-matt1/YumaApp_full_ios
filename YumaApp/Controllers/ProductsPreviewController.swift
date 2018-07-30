@@ -20,15 +20,27 @@ class ProductsPreviewController: UIViewController
 //	let headerId = "prodCollHeader"
 //	let footerId = "prodCollFooter"
 	let products: [aProduct] = []
-	var collectionView: UICollectionView =
+	var prodsCollection: UICollectionView =
 	{
 		let layout = UICollectionViewFlowLayout()
-//		layout.scrollDirection = .horizontal
 		layout.minimumLineSpacing = 8
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//		view.translatesAutoresizingMaskIntoConstraintsvarfalse
-		view.backgroundColor = UIColor.lightGray//.white
-//		view.isPagingEnabled = true
+		view.backgroundColor = UIColor(hex: "d7d7d7")//.lightGray//.white
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = .zero
+		view.shadowRadius = 3
+		view.shadowOpacity = 0.7
+		return view
+	}()
+	var panelsCollection: UICollectionView =
+	{
+		let layout = UICollectionViewFlowLayout()
+		layout.scrollDirection = .horizontal
+		layout.minimumLineSpacing = 8
+		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		//		view.translatesAutoresizingMaskIntoConstraintsvarfalse
+//		view.backgroundColor = UIColor.lightGray//.white
+		view.isPagingEnabled = true
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = .zero
 		view.shadowRadius = 3
@@ -45,11 +57,7 @@ class ProductsPreviewController: UIViewController
 	let store = DataStore.sharedInstance
 //	let headerCell = ProductsPreviewHeaderCell()
 	//	let footerCell = ProvartsPreviewFooterCell()
-	var header: UIStackView =
-	{
-		let lbl = UIStackView()
-		return lbl
-	}()
+	var header: UIStackView!
 	let headerLbl: UILabel =
 	{
 		let lbl = UILabel()
@@ -61,15 +69,16 @@ class ProductsPreviewController: UIViewController
 		lbl.backgroundColor = R.color.YumaRed
 		return lbl
 	}()
-	var headerStack2: UIStackView!
+	var updateLine: UIStackView!
 	let leftLbl: UILabel =
 	{	//	says updated
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = UIFont.systemFont(ofSize: 14)
+		lbl.font = UIFont.systemFont(ofSize: 15)
 		lbl.textAlignment = .center
 		lbl.text = "Left"
-		lbl.backgroundColor = R.color.YumaRed
+		lbl.backgroundColor = UIColor.red//R.color.YumaRed
+		lbl.textColor = UIColor.white
 		return lbl
 	}()
 	let centerLbl: UILabel =
@@ -79,7 +88,8 @@ class ProductsPreviewController: UIViewController
 		lbl.font = UIFont.systemFont(ofSize: 21)
 		lbl.textAlignment = .center
 		lbl.text = "Center"
-		lbl.backgroundColor = R.color.YumaRed
+		lbl.backgroundColor = UIColor.red//R.color.YumaRed
+		lbl.textColor = R.color.YumaYel
 		return lbl
 	}()
 	let rightLbl: UILabel =
@@ -89,10 +99,12 @@ class ProductsPreviewController: UIViewController
 		lbl.font = UIFont.systemFont(ofSize: 16)
 		lbl.textAlignment = .center
 		lbl.text = "Right"
-		lbl.backgroundColor = R.color.YumaRed
+		lbl.backgroundColor = UIColor.red//R.color.YumaRed
+		lbl.textColor = UIColor.white
 		return lbl
 	}()
-	let footer: UILabel =
+	var footer: UIStackView!
+	let footerLbl: UILabel =
 	{
 		let lbl = UILabel()
 		lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -107,27 +119,42 @@ class ProductsPreviewController: UIViewController
 		lbl.shadowOpacity = 0.2
 		return lbl
 	}()
+	let panelTitles: [String] = [R.string.printers, R.string.laptops, R.string.services, R.string.toners]
+	lazy var menuBar: ProductsMenuBar =
+		{
+			let view = ProductsMenuBar()
+			view.translatesAutoresizingMaskIntoConstraints = false
+			view.productsController = self
+			return view
+	}()
 
 
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
 
-		headerLbl.text = R.string.printers
+		view.backgroundColor = UIColor.lightGray
+//		headerLbl.text = R.string.printers
 		refresh()
 //		if #available(iOS 10.0, *) {
 //			collectionView.prefetchDataSource = self
 //		}
-		collectionView.register(ProductsPreviewCell.self, forCellWithReuseIdentifier: cellId)
+		prodsCollection.register(ProductsPreviewCell.self, forCellWithReuseIdentifier: cellId)
+//		panelsCollection.register(ProductsPanel, forCellWithReuseIdentifier: "")
 //		collectionView.register(ProductsPreviewHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
 //		collectionView.register(ProductsPreviewFooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
-		headerStack2 = UIStackView(arrangedSubviews: [leftLbl, centerLbl, rightLbl, UIView(frame: .zero)])
-		headerStack2.distribution = .fillProportionally
-		rightLbl.isUserInteractionEnabled = true
-		rightLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
-		header = UIStackView(arrangedSubviews: [headerLbl, headerStack2])
+		updateLine = UIStackView(arrangedSubviews: [leftLbl, centerLbl, rightLbl, UIView(frame: .zero)])
+		updateLine.distribution = .fillProportionally
+		centerLbl.isUserInteractionEnabled = true
+		centerLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
+		header = UIStackView(arrangedSubviews: [headerLbl, updateLine])
 		header.axis = .vertical
-		stack = UIStackView(arrangedSubviews: [header, collectionView, footer])
+		header = UIStackView(arrangedSubviews: [headerLbl, menuBar])
+		header.axis = .vertical
+		header.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
+		footer = UIStackView(arrangedSubviews: [footerLbl, updateLine])
+		footer.axis = .vertical
+		stack = UIStackView(arrangedSubviews: [header, prodsCollection, footer])
 		stack.axis = .vertical
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(stack)
@@ -144,6 +171,31 @@ class ProductsPreviewController: UIViewController
 		// Dispose of any resources that can be recreated.
 	}
 
+	func scrollViewDidScroll(_ scrollView: UIScrollView)
+	{
+		guard scrollView == prodsCollection 	else 	{ 	return 	}
+		let x = scrollView.contentOffset.x / CGFloat(menuBar.images.count)
+		menuBar.horizontalBarLeftConstraint?.constant = x
+	}
+	
+	func scrollToMenuIndex(_ menuIndex: Int)
+	{
+		let indexPath = NSIndexPath(item: menuIndex, section: 0)
+		panelsCollection.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.left, animated: true)
+	}
+	
+	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+	{
+		guard scrollView == prodsCollection 	else 	{ 	return 	}
+		let indexPath = NSIndexPath(item: Int(targetContentOffset.pointee.x / view.frame.width), section: 0)
+		menuBar.collectionView.selectItem(at: indexPath as IndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
+		headerLbl.text = panelTitles[indexPath.item]
+//		refresh(/*nil, {
+//			//			self.productPanelCell.collectionView.reloadData()
+//			//			UIWindow().rootViewController = self
+//		}*/)
+	}
+	
 	func cannotGet()
 	{
 		myAlertOnlyDismiss(self, title: R.string.err, message: R.string.empty)
@@ -168,8 +220,8 @@ class ProductsPreviewController: UIViewController
 					self.cannotGet()
 					return
 				}
-				self.collectionView.delegate = self
-				self.collectionView.dataSource = self
+				self.prodsCollection.delegate = self
+				self.prodsCollection.dataSource = self
 		}
 	}
 
@@ -239,19 +291,42 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
 	{
-//		return 7
-		return self.store.products.count
+		if collectionView == prodsCollection
+		{
+			return self.store.products.count
+		}
+		else if collectionView == panelsCollection
+		{
+			return self.panelTitles.count
+		}
+		else
+		{
+			return 0
+		}
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
 	{
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ProductsPreviewCell
-		if indexPath.item > 0 && indexPath.item < self.store.products.count
+		if collectionView == prodsCollection
 		{
-			let prod = self.store.products[indexPath.item]
-			cell.fillData(prod)
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ProductsPreviewCell
+			if indexPath.item > -1 && indexPath.item < self.store.products.count
+			{
+				let prod = self.store.products[indexPath.item]
+				cell.fillData(prod)
+			}
+			return cell
 		}
-		return cell
+		else if collectionView == panelsCollection
+		{
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+			return cell
+		}
+		else
+		{
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+			return cell
+		}
 	}
 
 //	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
@@ -280,17 +355,37 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{	//	Collection cell's size
-		return CGSize(width: max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), height: max(minCellHeight, min(max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), maxCellHeight)) + 40)
+		if collectionView == prodsCollection
+		{
+			return CGSize(width: max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), height: max(minCellHeight, min(max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), maxCellHeight)) + 30)
+		}
+		else if collectionView == panelsCollection	// each panel has whole view
+		{
+			return CGSize(width: view.frame.width, height: view.frame.height)
+		}
+		else
+		{
+			return CGSize(width: view.frame.width, height: view.frame.height)
+		}
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
 	{
-		let productDetailsViewController = ProductDetailsViewController()
-		if indexPath.item > 0 && indexPath.item < self.store.products.count
+		if collectionView == prodsCollection	//	selected a product
 		{
-			productDetailsViewController.prod = self.store.products[indexPath.item]
+			let productDetailsViewController = ProductDetailsViewController()
+			if indexPath.item > -1 && indexPath.item < self.store.products.count
+			{
+				productDetailsViewController.prod = self.store.products[indexPath.item]
+			}
+			self.present(productDetailsViewController, animated: true, completion: nil)
 		}
-		self.present(productDetailsViewController, animated: true, completion: nil)
+		else if collectionView == panelsCollection	//	ignore panel
+		{
+		}
+		else
+		{
+		}
 	}
 
 	// MARK: UICollectionViewDataSourcePrefetching

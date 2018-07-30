@@ -11,6 +11,24 @@ import UIKit
 
 extension String
 {
+	/// Returns an HTML string
+	//https://stackoverflow.com/questions/37048759/swift-display-html-data-in-a-label-or-textview
+	var htmlToAttributedString: NSAttributedString?
+	{
+		guard let data = data(using: .utf8) 	else 	{ 	return NSAttributedString() 	}
+		do
+		{
+			return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding:String.Encoding.utf8.rawValue], documentAttributes: nil)
+		}
+		catch
+		{
+			return NSAttributedString()
+		}
+	}
+	var htmlToString: String
+	{
+		return htmlToAttributedString?.string ?? ""
+	}
 	/// Reduce array to String
 	func implode(_ array: [Int], separater: String=", ") -> String
 	{
