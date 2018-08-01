@@ -22,11 +22,13 @@ class ProductTagsCollectionViewCell: BaseCell//UICollectionViewCell
 	{
 		super.setupViews()
 		addSubview(label)
-		NSLayoutConstraint.activate([
-			label.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
-			label.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
-			label.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 10),
-			label.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5)
-			])
+		self.addConstraintsWithFormat(format: "H:|-20-[v0]-10-|", views: label)
+		self.addConstraintsWithFormat(format: "V:|-2-[v0]-2-|", views: label)
+//		NSLayoutConstraint.activate([
+//			label.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+//			label.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+//			label.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
+//			label.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0)
+//			])
 	}
 }

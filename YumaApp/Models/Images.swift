@@ -9,11 +9,11 @@
 import Foundation
 
 
-struct Images: Decodable
+struct ProductImages: Decodable
 {
-	let image_types: Image_Types?
+	let image_types: ProductImageTypes?
 }
-struct Image_Types: Decodable
+struct ProductImageTypes: Decodable
 {
 	let general: 			ImageTypeDetails?
 	let products: 			ImageTypeDetails?

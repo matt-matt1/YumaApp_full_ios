@@ -237,6 +237,7 @@ extension R
 		static let notYou = "Not you?"
 		// MARK:		<!--product-->
 		static let prod = "Product"
+		static let prods = "Products"
 		static let prodImage = "Product Image"
 		static let prodDesc = "Product Description"
 		static let prodID = "Product ID number"

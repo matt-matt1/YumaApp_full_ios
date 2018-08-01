@@ -21,6 +21,15 @@ extension R
 			"Press \"\(R.string.addAddr.uppercased())\" to save the information you entered"
 		]
 		
+		static let help_cart_guide: [String] = [
+			"Displays each item in your cart including, quantity, product name, thumbnail image, and if room, the unit price",
+			"The total is placed at the bottom including the number of pieces, weight and price",
+			"TIP:  The \"\(R.string.checkOut.uppercased())\" button will only be bright when you have at least one item of value in the cart",
+			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
+			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed, the item, and all it's quantities, can then be removed from your cart",
+			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
+			"When the list is complete including the desired quantity for each item, press the \"\(R.string.checkOut.uppercased())\" to finalize and pay"]
+		
 		static let help_checkout_guide: [String] = [
 			"There are some simple steps to complete for the items in your cart to be dispatched:",
 			"Each step number is contained in the bar near the top; also every step has a tick mark that will become bright when the step is completed",
@@ -136,14 +145,14 @@ extension R
 			"Press the cart icon, next to this help icon, to open an expanded view of your cart.  (Each item in in the shopping cart can also be clicked to open the expanded cart view)",
 			"When finished, press the \"\(R.string.checkOut.uppercased())\" to finalize and pay"]
 		
-		static let help_cart_guide: [String] = [
-			"Displays each item in your cart including, quantity, product name, thumbnail image, and if room, the unit price",
-			"The total is placed at the bottom including the number of pieces, weight and price",
-			"TIP:  The \"\(R.string.checkOut.uppercased())\" button will only be bright when you have at least one item of value in the cart",
-			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
-			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed, the item, and all it's quantities, can then be removed from your cart",
-			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
-			"When the list is complete including the desired quantity for each item, press the \"\(R.string.checkOut.uppercased())\" to finalize and pay"]
+		static let help_product_details_guide: [String] = [
+			"Displays detailed information about the product including, main picture, product name, unit price - if available, manufacturer, description and more.",
+//			"The total is placed at the bottom including the number of pieces, weight and price",
+//			"TIP:  The \"\(R.string.checkOut.uppercased())\" button will only be bright when you have at least one item of value in the cart",
+//			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
+//			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed, the item, and all it's quantities, can then be removed from your cart",
+//			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
+			"Press the \"\(R.string.add2cart.uppercased())\" button to add this product to your cart."]
 		
 		fileprivate init() {}
 	}

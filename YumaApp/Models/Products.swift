@@ -54,12 +54,18 @@ struct ProductBundle: Codable
 }
 struct ProductsAssociations: Codable
 {
+	/// eg. [id: "2", ...]
 	let categories: 			[IdAsString]?//[CategoryID]?
+	/// eg. [id: "24", ...]
 	let images: 				[IdAsString]?//[ImageID]?
+	/// eg. [id: "46", ...]
 	let combinations: 			[IdAsString]?//[CombinationID]?
+	/// eg. [id: "25", ...]
 	let product_option_values: 	[IdAsString]?//[ProductOptionValueID]?
 	let product_features: 		[IdAsString]?//[ProductFeatureID]?
+	/// eg. [id: "1", ...]
 	let tags: 					[IdAsString]?//[TagID]?
+	/// eg. [[id: "117", id_product_attribute: "0"], ...]
 	let stock_availables: 		[StockAvailable]?
 	let accessories:			[Accessories]?
 	let product_bundle:			[ProductBundle]?
@@ -145,69 +151,133 @@ struct aProduct: Codable
 */
 struct aProduct: Codable
 {
+	/// eg. 8
 	var id: 						Int
+	/// eg. "2"
 	var idManufacturer: 			Int?/*String?*/
+	/// eg. "0"
 	var idSupplier: 				Int?/*String?*/
+	/// eg. "12"
 	var idCategoryDefault: 			Int?/*String?*/
+	/// eg. null
 	var new: 						Bool?/*String?*/
+	/// eg. "46"
 	var cacheDefaultAttribute: 		Int?/*String?*/
+	/// eg. "24"
 	var idDefaultImage: 			Int?/*String?*/
+	/// eg. "46"
 	var idDefaultCombination: 		/*String?*/Int?
+	/// eg. "1"
 	var idTaxRulesGroup: 			Int?/*String?*/
+	/// eg. "0"
 	var positionInCategory: 		Int?/*String?*/
+	/// eg. "HP"
 	var manufacturerName: 			String?//read_only
+	/// eg. "0"
 	var quantity: 					Int?/*String?*///read_only
+	/// eg. "simple"
 	let type: 						String?
+	/// eg. "1"
 	var idShopDefault: 				Int?/*String?*/
+	/// eg. null
 	var reference: 					String?//..32
+	/// eg. null
 	var supplierReference: 			String?//..32
+	/// eg. null
 	var location: 					String?//..64
+	/// eg. "0.000000"
 	var width: 						Float?/*String?*///Float
+	/// eg. "0.000000"
 	var height: 					Float?/*String?*///Float
+	/// eg. "0.000000"
 	var depth: 						Float?/*String?*///Float
+	/// eg. "0.000000"
 	var weight: 					Float?/*String?*///Float
+	/// eg. "0"
 	var quantityDiscount: 			Bool?/*String?*///Bool
+	/// eg. null
 	var ean13: 						String?//..13
+	/// eg. null
 	var isbn: 						String?//..32
+	/// eg. null
 	var upc: 						String?//..12
+	/// eg. "0"
 	var cacheIsPack: 				Bool?/*String?*///Bool
+	/// eg. "0"
 	var cacheHasAttachments: 		Bool?/*String?*///Bool
+	/// eg. "0"
 	var isVirtual: 					Bool?/*String?*///Bool
+	/// eg. "1"
 	let state: 						String?
+	/// eg. "0"
 	var onSale: 					Bool?/*String?*///Bool
+	/// eg. "0"
 	var onlineOnly: 				Bool?/*String?*///Bool
+	/// eg. "0.000000"
 	var ecotax: 					Float?/*String?*/
+	/// eg. "1"
 	let minimalQuantity: 			String?
+	/// eg. "1799.000000"
 	var price: 						Float?/*String?*/
+	/// eg. "0.000000"
 	var wholesalePrice: 			Float?/*String?*/
+	/// eg. null
 	let unity: 						String?
+	/// eg. "0.000000"
 	var unitPriceRatio: 			Float?/*String?*/
+	/// eg. "0.00"
 	var additionalShippingCost: 	Float?/*String?*/
+	/// eg. "0"
 	var customizable: 				Int?/*String?*///Int
+	/// eg. "0"
 	var textFields: 				Int?/*String?*///Int
+	/// eg. "0"
 	var uploadableFiles: 			Int?/*String?*///Int
+	/// eg. "1"
 	var active: 					Bool?/*String?*///Bool
+	/// eg. "404"
 	let redirectType: 				String?
+	/// eg. "0"
 	var idTypeRedirected: 			Int?/*String?*/
+	/// eg. "1"
 	var availableForOrder: 			Bool?/*String?*///Bool
+	/// eg. "0000-00-00"
 	var availableDate: 				Date?/*String?*///date
+	/// eg. "1"
 	var showCondition: 				Bool?/*String?*///Bool
+	/// eg. "refurbished"
 	let condition: 					String?
+	/// eg. "1"
 	var showPrice: 					Bool?/*String?*///Bool
+	/// eg. "1"
 	var indexed: 					Bool?/*String?*///Bool
+	/// eg. "both"
 	let visibility: 				String?
+	/// eg. "0"
 	var advancedStockManagement: 	Bool?/*String?*///Bool
+	/// eg. "2016-12-18 22:42:51"
 	var dateAdd: 					Date?/*String?*///date
+	/// eg. "2017-02-05-12:36:01"
 	var dateUpd: 					Date?/*String?*///date
+	/// eg. "3"
 	var packStockType: 				Int?/*String?*///Int
+	/// eg. [id: "1", value: null]
 	let metaDescription: 			[IdValue]?//..255
+	/// eg. [id: "1", value: null]
 	let metaKeywords: 				[IdValue]?//..255
+	/// eg. [id: "1", value: null]
 	let metaTitle: 					[IdValue]?//..128
+	/// eg. [id: "1", value: "hp-color-laserjet-5550-hdn"]
 	let linkRewrite: 				[IdValue]?//..128
+	/// eg. [id: "1", value: "HP Color LaserJet 5550 hdn"]
 	let name: 						[IdValue]?//..128
+	/// eg. [id: "1", value: "<p>HP Color LaserJet 5550 hdn</p>"]
 	let description: 				[IdValue]?//html
+	/// eg. [id: "1", value: "<p>Color Laser Printer</p>\n<p>network print server</p>\n<p>40GB..."]
 	let descriptionShort: 			[IdValue]?//html
+	/// eg. [id: "1", value: null]
 	let availableNow: 				[IdValue]?//..255
+	/// eg. [id: "1", value: null]
 	let availableLater: 			[IdValue]?//..255
 	var associations: 				ProductsAssociations?
 

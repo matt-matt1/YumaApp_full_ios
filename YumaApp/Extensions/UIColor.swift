@@ -11,6 +11,19 @@ import UIKit
 
 extension UIColor
 {
+	//https://medium.com/@valv0/a-swift-extension-for-string-and-html-8cfb7477a510
+	var hexString: String?
+	{
+		if let components = self.cgColor.components
+		{
+			let r = components[0]
+			let g = components[1]
+			let b = components[2]
+			return  String(format: "%02X%02X%02X", (Int)(r * 255), (Int)(g * 255), (Int)(b * 255))
+		}
+		return nil
+	}
+
 	/// eg. (hex: "ffffff, alpha: 3.0) or (hex: "#ffffff, alpha: 3.0)
 	convenience init(hex: String, alpha: CGFloat = 1.0)
 	{

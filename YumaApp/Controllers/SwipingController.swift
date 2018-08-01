@@ -118,7 +118,7 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	}
 
 
-	fileprivate func getValues()
+	/*fileprivate*/ func getValues()
 	{
 		if store.countries.count < 1	//check if not already in data store
 		{

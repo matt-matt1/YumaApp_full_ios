@@ -50,6 +50,7 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		//lbl.sizeToFit()
 		return lbl
 	}()
+	var showPrice = true
 	let prodPrice: UILabel =
 	{
 		let lbl = UILabel()
@@ -61,6 +62,25 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		lbl.textColor = UIColor.darkGray
 		return lbl
 	}()
+	let add2cart: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		let mutableAttributedString = NSMutableAttributedString(attributedString: Awesome.solid.shoppingCart.asAttributedText(fontSize: 16, color: UIColor.white, backgroundColor: UIColor.clear))
+		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
+		let str = NSAttributedString(string: "     \(R.string.add2cart)", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
+		mutableAttributedString.append(str)
+		view.setAttributedTitle(mutableAttributedString, for: .normal)
+		view.borderWidth = 2
+		view.borderColor = R.color.YumaRed
+		view.cornerRadius = 2
+		view.backgroundColor = UIColor(hex: "f8c03f")
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowRadius = 3
+		view.shadowOpacity = 0.9
+		return view
+	}()
 
 
 	override func setupViews()
@@ -71,7 +91,7 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 			panel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
 			panel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
 			panel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-			panel.heightAnchor.constraint(equalToConstant: self.frame.width),
+//			panel.heightAnchor.constraint(equalToConstant: self.frame.width),
 			])
 		backgroundColor = UIColor.white	//not needed - only in-case
 		cornerRadius = 4
@@ -82,6 +102,10 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		panel.addSubview(prodImage)
 		panel.addSubview(prodName)
 		panel.addSubview(prodPrice)
+//		if price is greater than 0 && showPrice
+//		{
+		panel.addSubview(add2cart)
+//		}
 		
 		NSLayoutConstraint.activate([
 			prodImage.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
@@ -99,13 +123,29 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 			prodPrice.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
 			prodPrice.heightAnchor.constraint(equalToConstant: 20),
 			])
+//		if price is greater than 0 && showPrice
+//		{
+		NSLayoutConstraint.activate([
+			add2cart.topAnchor.constraint(equalTo: prodPrice.bottomAnchor, constant: 3),
+			add2cart.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
+			add2cart.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
+			add2cart.heightAnchor.constraint(equalToConstant: 30),
+			])
+//		}
 	}
 
 	func fillData(_ prod: aProduct)
 	{
 //		self.prodName.text = self.store.valueById(object: prod.name!, id: self.store.myLang)
 		self.prodName.text = prod.name![self.store.myLang].value
-		self.prodPrice.text = self.store.formatCurrency(amount: NSNumber(value: prod.price!))
+		if (prod.showPrice == nil || prod.showPrice!) && prod.price != nil && prod.price! > 0.0
+		{
+			self.prodPrice.text = self.store.formatCurrency(amount: NSNumber(value: prod.price!))
+		}
+		else
+		{
+			self.prodPrice.text = R.string.noPrice
+		}
 		if prod.associations?.imageData != nil
 		{
 			self.prodImage.image = UIImage(data: (prod.associations?.imageData)!)

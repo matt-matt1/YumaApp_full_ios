@@ -82,6 +82,7 @@ final class DataStore
 	var blankSchemaXML: 		[String : String] = 	[:]
 	var passwdTimeResetValidity:TimeInterval = 			0
 	var groups: 				[Group] = 				[]
+//	var productImages:			[ProductImages] = 		[]
 
 
 	/// Sets the parameters for product shares

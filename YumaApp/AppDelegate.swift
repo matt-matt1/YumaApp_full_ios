@@ -31,8 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //		let vc = SQLiteViewController()
 //		let vc = TestSQliteViewController()
 //		let vc = ProductsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-		let vc = ProductsPreviewController()
-		vc.headerLbl.text = R.string.printers
+//		let vc = ProductsPreviewController()
+		let vc = TabBarController()
+//		vc.headerLbl.text = R.string.printers
 		//vc.headerLbl.text = R.string.laptops
 		//vc.headerLbl.text = R.string.toners
 		//vc.headerLbl.text = R.string.services

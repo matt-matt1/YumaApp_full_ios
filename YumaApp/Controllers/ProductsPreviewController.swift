@@ -25,7 +25,7 @@ class ProductsPreviewController: UIViewController
 		let layout = UICollectionViewFlowLayout()
 		layout.minimumLineSpacing = 8
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		view.backgroundColor = UIColor(hex: "d7d7d7")//.lightGray//.white
+		view.backgroundColor = UIColor(hex: "dedede")//.lightGray//.white
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = .zero
 		view.shadowRadius = 3
@@ -60,14 +60,27 @@ class ProductsPreviewController: UIViewController
 	var header: UIStackView!
 	let headerLbl: UILabel =
 	{
-		let lbl = UILabel()
-		lbl.translatesAutoresizingMaskIntoConstraints = false
-		lbl.font = UIFont.boldSystemFont(ofSize: 21)
-		lbl.textAlignment = .center
-		lbl.text = "\(R.string.prod) \(R.string.list)"
-		lbl.textColor = R.color.YumaYel
-		lbl.backgroundColor = R.color.YumaRed
-		return lbl
+		let view = UILabel()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = R.color.YumaRed
+		view.text = "\(R.string.prod) \(R.string.list)"
+		view.textColor = R.color.YumaYel
+		view.textAlignment = .center
+		view.layer.masksToBounds = true
+		let titleShadow: NSShadow =
+		{
+			let view = NSShadow()
+			view.shadowColor = UIColor.black
+			view.shadowOffset = CGSize(width: 1, height: 1)
+			return view
+		}()
+		view.attributedText = NSAttributedString(string: view.text!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 20)!, NSAttributedStringKey.shadow : titleShadow])
+		view.font = UIFont(name: "ArialRoundedMTBold", size: 20)
+		view.shadowColor = UIColor.black
+		view.shadowRadius = 3
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowOpacity = 0.9
+		return view
 	}()
 	var updateLine: UIStackView!
 	let leftLbl: UILabel =
@@ -134,7 +147,12 @@ class ProductsPreviewController: UIViewController
 		super.viewDidLoad()
 
 		view.backgroundColor = UIColor.lightGray
-//		headerLbl.text = R.string.printers
+//		print()
+		navigationController?.navigationBar.topItem?.title = R.string.printers
+		if headerLbl.text == "\(R.string.prod) \(R.string.list)"
+		{
+			headerLbl.text = R.string.printers
+		}
 		refresh()
 //		if #available(iOS 10.0, *) {
 //			collectionView.prefetchDataSource = self
@@ -147,9 +165,9 @@ class ProductsPreviewController: UIViewController
 		updateLine.distribution = .fillProportionally
 		centerLbl.isUserInteractionEnabled = true
 		centerLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(refresh)))
-		header = UIStackView(arrangedSubviews: [headerLbl, updateLine])
-		header.axis = .vertical
-		header = UIStackView(arrangedSubviews: [headerLbl, menuBar])
+//		header = UIStackView(arrangedSubviews: [headerLbl, updateLine])
+//		header.axis = .vertical
+		header = UIStackView(arrangedSubviews: [/*headerLbl,*/ menuBar])
 		header.axis = .vertical
 		header.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
 		footer = UIStackView(arrangedSubviews: [footerLbl, updateLine])
@@ -181,7 +199,8 @@ class ProductsPreviewController: UIViewController
 	func scrollToMenuIndex(_ menuIndex: Int)
 	{
 		let indexPath = NSIndexPath(item: menuIndex, section: 0)
-		panelsCollection.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.left, animated: true)
+//		panelsCollection.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.left, animated: true)
+		menuBar.collectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.left, animated: true)
 	}
 	
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
@@ -222,6 +241,7 @@ class ProductsPreviewController: UIViewController
 				}
 				self.prodsCollection.delegate = self
 				self.prodsCollection.dataSource = self
+				self.prodsCollection.reloadData()
 		}
 	}
 
@@ -357,7 +377,7 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-			return CGSize(width: max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), height: max(minCellHeight, min(max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), maxCellHeight)) + 30)
+			return CGSize(width: max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), height: max(minCellHeight, min(max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), maxCellHeight)) + 30 + 30)
 		}
 		else if collectionView == panelsCollection	// each panel has whole view
 		{

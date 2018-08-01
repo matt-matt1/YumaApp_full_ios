@@ -26,6 +26,31 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.backgroundColor = UIColor.lightGray
 		return view
 	}()
+	let navigationBar = UINavigationBar()
+	let navTitle: UINavigationItem =
+	{
+		let view = UINavigationItem()
+		return view
+	}()
+	let statusAndNavigationBars: UIView =
+	{
+		let view = UIView()
+		view.backgroundColor = UIColor.lightGray
+		view.frame = UIApplication.shared.statusBarFrame
+		return view
+	}()
+	let backButton: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.setImage(Awesome.solid.chevronLeft.asImage(size: 35, color: R.color.YumaYel, backgroundColor: UIColor.clear), for: UIControlState.normal)
+		//		view.setTitle("list", for: .normal)
+		view.setTitleColor(UIColor.white, for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: "product\nlist", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15), NSAttributedStringKey.foregroundColor : UIColor.white]), for: .normal)
+		view.backgroundColor = UIColor.clear
+		view.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+		return view
+	}()
 	let stackPanel: UIStackView =
 	{
 		let view = UIStackView()
@@ -44,82 +69,6 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.shadowOpacity = 1
 		return view
 	}()
-	var stack: UIStackView = UIStackView()
-
-	let tagsCellId = "tagsCellId"
-	var tagsCollectionView: UICollectionView =
-	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
-		return view
-	}()
-	var wholsTags: [myTag] = []
-	let catsCellId = "catsCellId"
-	var catsCollectionView: UICollectionView =
-	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
-		return view
-	}()
-	var cats: [Category] = []
-	let imagesCellId = "imagesCellId"
-	var imagesCollectionView: UICollectionView =
-	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
-		return view
-	}()
-	var images: [Images] = []
-	let navigationBar = UINavigationBar()//UIView()
-	let navTitle: UINavigationItem =
-	{
-		let view = UINavigationItem()
-		return view
-	}()
-	let statusAndNavigationBars: UIView =
-	{
-		let view = UIView()
-		view.backgroundColor = UIColor.lightGray
-		view.frame = UIApplication.shared.statusBarFrame
-		return view
-	}()
-	let store = DataStore.sharedInstance
-	var prod: aProduct!
-	let backPanel: UIView =
-	{
-		let view = UIView()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = R.color.YumaRed//UIColor.clear
-		return view
-	}()
-	let backButton: UIButton =
-	{
-		let view = UIButton()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.setImage(Awesome.solid.chevronLeft.asImage(size: 35, color: R.color.YumaYel, backgroundColor: UIColor.clear), for: UIControlState.normal)
-//		view.setTitle("list", for: .normal)
-		view.setTitleColor(UIColor.white, for: .normal)
-		view.setAttributedTitle(NSAttributedString(string: "product\nlist", attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15), NSAttributedStringKey.foregroundColor : UIColor.white]), for: .normal)
-		view.backgroundColor = UIColor.clear
-		view.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-		return view
-	}()
-	
 	let scrollView: UIScrollView =
 	{
 		let view = UIScrollView()
@@ -127,13 +76,20 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.backgroundColor = UIColor.clear
 		return view
 	}()
-
+	var stack: UIStackView = UIStackView()
+	
+	let store = DataStore.sharedInstance
+	let productsView = ProductsViewController()
+	var prod: aProduct!
 	let prodImage: UIImageView =
 	{
 		let iv = UIImageView()
 		iv.translatesAutoresizingMaskIntoConstraints = false
 		iv.contentMode = .scaleAspectFit
-//		iv.backgroundColor = UIColor.red
+		iv.shadowColor = UIColor.gray
+		iv.shadowOffset = CGSize(width: 1, height: 1)
+		iv.shadowRadius = 3
+		iv.shadowOpacity = 0.75
 		//iv.sizeToFit()
 		return iv
 	}()
@@ -165,21 +121,65 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		lbl.textColor = UIColor.darkGray
 		return lbl
 	}()
+	let add2cart: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		let mutableAttributedString = NSMutableAttributedString(attributedString: Awesome.solid.shoppingCart.asAttributedText(fontSize: 26, color: UIColor.white, backgroundColor: UIColor.clear))
+		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
+		let str = NSAttributedString(string: "     \(R.string.add2cart)", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 21), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
+		mutableAttributedString.append(str)
+		view.setAttributedTitle(mutableAttributedString, for: .normal)
+		view.borderWidth = 2
+		view.borderColor = R.color.YumaRed
+		view.cornerRadius = 2
+		view.backgroundColor = UIColor(hex: "f8c03f")
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowRadius = 5
+		view.shadowOpacity = 0.9
+		return view
+	}()
+	var tagsStack: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 0
+		//		view.backgroundColor = UIColor.orange
+		return view
+	}()
+	var catsStack: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 0
+		return view
+	}()
+	var imagesStack: UIStackView =
+	{
+		let view = UIStackView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.axis = .vertical
+		view.spacing = 0
+		return view
+	}()
 
-	let imageView: UIView =
-	{
-		let view = UIView()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
-	let imageFrame: UIView =
-	{
-		let view = UIView()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		return view
-	}()
+//	let imageView: UIView =
+//	{
+//		let view = UIView()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		return view
+//	}()
+//	let imageFrame: UIView =
+//	{
+//		let view = UIView()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		return view
+//	}()
 	
-	var tags: [String] = []
+//	var tags: [String] = []
 	let prodManImage: UIImageView =
 	{
 		let iv = UIImageView()
@@ -192,7 +192,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		let lab = UILabel()
 		lab.translatesAutoresizingMaskIntoConstraints = false
-		lab.text = "Manufacturer: Yuma"
+		lab.text = ""//Manufacturer: Yuma"
 		lab.textColor = UIColor.darkGray
 		return lab
 	}()
@@ -213,53 +213,42 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		lab.textColor = UIColor.darkGray
 		return lab
 	}()
-	var categories: [aCategory] = []
-	var combinations: [Combination] = []
-	let combinationsView: UICollectionView =
+//	var categories: [aCategory] = []
+	var combinationsStack: UIStackView =
 	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		let view = UIStackView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
+		view.axis = .vertical
+		view.spacing = 0
 		return view
 	}()
-	let shareView: UICollectionView =
+	var shareStack: UIStackView =
 	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		let view = UIStackView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
+		view.axis = .vertical
+		view.spacing = 0
 		return view
 	}()
-//	var linkRewrite = ""
-	let productOptionValuesView:  UICollectionView =
+	var productOptionValuesStack: UIStackView =
 	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+		let view = UIStackView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
+		view.axis = .vertical
+		view.spacing = 0
 		return view
 	}()
-	let imagesView:  UICollectionView =
-	{
-		let layout = UICollectionViewFlowLayout()
-		layout.scrollDirection = .horizontal
-		layout.minimumLineSpacing = 8
-		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.backgroundColor = UIColor.red
-		//		view.isPagingEnabled = true
-		return view
-	}()
+//	let imagesView:  UICollectionView =
+//	{
+//		let layout = UICollectionViewFlowLayout()
+//		layout.scrollDirection = .horizontal
+//		layout.minimumLineSpacing = 8
+//		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.backgroundColor = UIColor.red
+//		//		view.isPagingEnabled = true
+//		return view
+//	}()
 
 
 	override func viewDidLoad()
@@ -273,7 +262,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		scrollView.delegate = self	// enable zomming
 		setZoomScale()
 		setupZoomGestureRecognizer()
-		prepareCollectionViews()
+		let swipe = SwipingController()
+		swipe.getValues()
+//		prepareCollectionViews()
+		prepareTags()
+		prepareCats()
+		prepareMoreImages()
 		drawNavigation()
 		placeSubviews()
 		if prod != nil
@@ -314,26 +308,59 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 	// MARK: Methods
 
+	private func prepareTags()
+	{
+		if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
+		{
+			tagsStack = productsView.formTagsView(tagIDs: (prod.associations?.tags)!, maxWidth: view.frame.width, maxHeight: 100)
+			tagsStack.distribution = .fill
+			tagsStack.alignment = .top
+		}
+	}
+
+	private func prepareCats()
+	{
+		if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
+		{
+			catsStack = productsView.formCategoriesView(categorieIDs: (prod.associations?.categories)!)
+			catsStack.distribution = .fill
+			catsStack.alignment = .top
+		}
+	}
+	
+	private func prepareMoreImages()
+	{
+		if self.prod != nil && self.prod.associations != nil && self.prod.associations?.images != nil
+		{
+			let productsView = ProductsViewController()
+			imagesStack = productsView.formImageViews(imageIDs: (prod.associations?.images)!)
+			imagesStack.distribution = .fill
+			imagesStack.alignment = .top
+//			imagesStack.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 749), for: UILayoutConstraintAxis.horizontal)
+//			imagesStack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: UILayoutConstraintAxis.horizontal)
+		}
+	}
+	
 	fileprivate func prepareCollectionViews()
 	{
-		tagsCollectionView.register(ProductTagsCollectionViewCell.self, forCellWithReuseIdentifier: tagsCellId)
-		tagsCollectionView.delegate = self
-		tagsCollectionView.dataSource = self
-		catsCollectionView.register(ProductCategoriesCollectionViewCell.self, forCellWithReuseIdentifier: catsCellId)
-		catsCollectionView.delegate = self
-		catsCollectionView.dataSource = self
+//		tagsCollectionView.register(ProductTagsCollectionViewCell.self, forCellWithReuseIdentifier: tagsCellId)
+//		tagsCollectionView.delegate = self
+//		tagsCollectionView.dataSource = self
+//		catsCollectionView.register(ProductCategoriesCollectionViewCell.self, forCellWithReuseIdentifier: catsCellId)
+//		catsCollectionView.delegate = self
+//		catsCollectionView.dataSource = self
 //		imagesCollectionView.register(ProductImagesCollectionCell.self, forCellWithReuseIdentifier: imagesCellId)
-		imagesCollectionView.delegate = self
-		imagesCollectionView.dataSource = self
+//		imagesCollectionView.delegate = self
+//		imagesCollectionView.dataSource = self
 //		combinationsView.register(ProductCombinationsCollectionCell.self, forCellWithReuseIdentifier: combinationsCellId)
-		combinationsView.delegate = self
-		combinationsView.dataSource = self
+//		combinationsView.delegate = self
+//		combinationsView.dataSource = self
 //		shareView.register(ProductShareCollectionCell.self, forCellWithReuseIdentifier: shareCellId)
-		shareView.delegate = self
-		shareView.dataSource = self
+//		shareView.delegate = self
+//		shareView.dataSource = self
 //		productOptionValuesView.register(ProductOptionValuesViewCell.self, forCellWithReuseIdentifier: productOptionValuesCellId)
-		productOptionValuesView.delegate = self
-		productOptionValuesView.dataSource = self
+//		productOptionValuesView.delegate = self
+//		productOptionValuesView.dataSource = self
 	}
 	
 	func viewForZooming(in scrollView: UIScrollView) -> UIView?
@@ -400,11 +427,11 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		let gradient = CAGradientLayer()
 		if #available(iOS 11.0, *)
 		{
-			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: 44)
+			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
 		}
 		else
 		{
-			gradient.frame = CGRect(x: 0, y: 44, width: view.frame.width, height: 44)
+			gradient.frame = CGRect(x: 0, y: view.frame.height>811 ? 44 : 20, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
 		}
 		gradient.colors = [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor]
 		gradient.startPoint = CGPoint(x: 0, y: 0)
@@ -437,6 +464,22 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		else
 		{
 			view.insertSubview(statusAndNavigationBars, at: 0)
+		}
+		let gradient = CAGradientLayer()
+		if #available(iOS 11.0, *)
+		{
+			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
+		}
+		else
+		{
+			gradient.frame = CGRect(x: 0, y: view.frame.height>811 ? 44 : 20, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
+		}
+		gradient.colors = [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor]
+		gradient.startPoint = CGPoint(x: 0, y: 0)
+		gradient.endPoint = CGPoint(x: 0, y: 1)
+		if let image = imageFromLayer(gradient)
+		{
+			navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
 		}
 	}
 
@@ -478,25 +521,29 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		setViews()
 		manufacturerStack = UIStackView(arrangedSubviews: [prodManImage, manufacturerName])
 		manufacturerStack.distribution = .fillEqually
-		stack = UIStackView(arrangedSubviews: [prodImage, prodName, prodPrice, tagsCollectionView, manufacturerStack, descLong, descShort, catsCollectionView, combinationsView, shareView, productOptionValuesView/*, imagesView*/])
+		stack = UIStackView(arrangedSubviews: [prodImage, prodName, imagesStack, add2cart, prodPrice, manufacturerStack, catsStack, tagsStack, descLong, descShort, combinationsStack, shareStack, productOptionValuesStack/*, imagesView*/])
 		stack.axis = .vertical
-		stack.spacing = 5
-//		stack.backgroundColor = UIColor.green
+		stack.spacing = 10
 		scrollView.addSubview(stack)
 		prodImage.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0).isActive = true
 		prodImage.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0).isActive = true
 		prodImage.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 		//prodName
+		add2cart.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: (view.frame.width - 260)/2).isActive = true	// centre button with width = 260
+		add2cart.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -((view.frame.width - 260)/2)).isActive = true
+		add2cart.heightAnchor.constraint(equalToConstant: 50).isActive = true
 		//prodPrice
-		tagsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-//		prodManImage.heightAnchor.constraint(equalToConstant: 30).isActive = true//purple
-		manufacturerStack.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		manufacturerStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//		catsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
+//		tagsStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0).isActive = true
+//		tagsStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0).isActive = true
+//		tagsStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//		tagsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 		//descLong
 		//descShort
-		catsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-		combinationsView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-		shareView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
-		productOptionValuesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
+//		combinationsView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
+//		shareView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
+//		productOptionValuesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 //		imagesView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red
 
 		stack.leadingAnchor.constraint(equalTo: viewPanel.leadingAnchor, constant: 5).isActive = true
@@ -543,7 +590,11 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		descLong.attributedText = (prod.description?[store.myLang].value)?.htmlToAttributedString
 		//		descShort.text = prod.descriptionShort?[store.myLang].value
 		descShort.attributedText = (prod.descriptionShort?[store.myLang].value)?.htmlToAttributedString
-		if prod.associations?.imageData != nil
+//		if prod.associations?.images != nil
+//		{
+//			prepareMoreImages()
+//		}
+		if prod.associations?.imageData != nil	// maion image
 		{
 			self.prodImage.image = UIImage(data: (prod.associations?.imageData)!)
 		}
@@ -593,24 +644,31 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		{
 			self.prodPrice.text = R.string.noPrice
 		}
-		if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
-		{
-			//			let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
-			//			self.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
-			//			self.categoriesView.translatesAutoresizingMaskIntoConstraints = false
-			//			NSLayoutConstraint.activate([
-			//				self.categoriesView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-			//				self.categoriesView.trailingAnchor.constraint(lessThanOrEqualTo: self.categoriesView.trailingAnchor, constant: 0)
-			//				])
-			//			view.addConstraintsWithFormat(format: "H:|[v0]", views: view.categoriesView)
-			//			view.addConstraintsWithFormat(format: "V:[v0]", views: view.categoriesView)
-		}
-		if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
-		{
-			//			self.tagsView.translatesAutoresizingMaskIntoConstraints = false
-			//			formTagsView2(tagIDs: (prod.associations?.tags)!)
-			//			self.tagsView.addArrangedSubview(collectionTags)
-		}
+//		if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
+//		{
+//			catsStack = productsView.formCategoriesView(categorieIDs: (prod.associations?.categories)!)
+//			catsStack.distribution = .fill
+//			catsStack.alignment = .top
+//			//			let stack = formCategoriesView(categorieIDs: (prod.associations?.categories)!)
+//			//			self.categoriesView.addArrangedSubview(formCategoriesView(categorieIDs: (prod.associations?.categories)!))
+//			//			self.categoriesView.translatesAutoresizingMaskIntoConstraints = false
+//			//			NSLayoutConstraint.activate([
+//			//				self.categoriesView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+//			//				self.categoriesView.trailingAnchor.constraint(lessThanOrEqualTo: self.categoriesView.trailingAnchor, constant: 0)
+//			//				])
+//			//			view.addConstraintsWithFormat(format: "H:|[v0]", views: view.categoriesView)
+//			//			view.addConstraintsWithFormat(format: "V:[v0]", views: view.categoriesView)
+//		}
+//		if prod.associations != nil && prod.associations?.tags != nil && (prod.associations?.tags?.count)! > 0
+//		{
+////			let productsView = ProductsViewController()
+//			self.tagsStack = productsView.formTagsView(tagIDs: (prod.associations?.tags)!, maxWidth: view.frame.width, maxHeight: 100)
+//			self.tagsStack.distribution = .fill
+//			self.tagsStack.alignment = .top
+//			//			self.tagsView.translatesAutoresizingMaskIntoConstraints = false
+//			//			formTagsView2(tagIDs: (prod.associations?.tags)!)
+//			//			self.tagsView.addArrangedSubview(collectionTags)
+//		}
 		var attrText: NSAttributedString
 		if prod.description != nil && store.valueById(object: prod.description!, id: store.myLang) != nil//prod.description![store.myLang].value != nil
 		{
@@ -673,49 +731,95 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 
 
-extension ProductDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-{
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-	{
-		switch collectionView
-		{
-		case tagsCollectionView:
-			return (prod.associations != nil && prod.associations?.tags != nil) ? (prod.associations?.tags!.count)! : 0
-		case catsCollectionView:
-			return (prod.associations != nil && prod.associations?.categories != nil) ? (prod.associations?.categories?.count)! : 0
-		case imagesCollectionView:
-			return (prod.associations != nil && prod.associations?.images != nil) ? (prod.associations?.images?.count)! : 0
-		default:
-			return 0
-		}
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-	{
-		switch collectionView
-		{
-		case tagsCollectionView:
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagsCellId, for: indexPath) as! ProductTagsCollectionViewCell
-			if self.prod != nil && self.prod.associations != nil && self.prod.associations?.tags != nil
-			{
-				cell.label.text = (self.prod.associations?.tags![indexPath.item])!.id
-			}
-			return cell
-		case catsCollectionView:
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: catsCellId, for: indexPath) as! ProductCategoriesCollectionViewCell
-			if self.prod != nil && self.prod.associations != nil && self.prod.associations?.categories != nil
-			{
-				cell.label.text = (self.prod.associations?.categories![indexPath.item])!.id
-			}
-			return cell
-		case imagesCollectionView:
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: imagesCellId, for: indexPath)
-			return cell
-		default:
-			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-			return cell
-		}
-	}
-	
-	//
-}
+//extension ProductDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+//{
+//	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+//	{
+//		switch collectionView
+//		{
+//		case tagsCollectionView:
+////			let num = (prod.associations != nil && prod.associations?.tags != nil) ? (prod.associations?.tags!.count)! : 0
+////			print("tags:\(num)")
+//			return /*num*/(prod.associations != nil && prod.associations?.tags != nil) ? (prod.associations?.tags!.count)! : 0
+//		case catsCollectionView:
+////			let num = (prod.associations != nil && prod.associations?.categories != nil) ? (prod.associations?.categories!.count)! : 0
+////			print("categories:\(num)")
+//			return /*num*/(prod.associations != nil && prod.associations?.categories != nil) ? (prod.associations?.categories?.count)! : 0
+//		case imagesCollectionView:
+////			let num = (prod.associations != nil && prod.associations?.images != nil) ? (prod.associations?.images!.count)! : 0
+////			print("images:\(num)")
+//			return /*num*/(prod.associations != nil && prod.associations?.images != nil) ? (prod.associations?.images?.count)! : 0
+//		default:
+//			return 0
+//		}
+//	}
+//
+//	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+//	{
+//		switch collectionView
+//		{
+//		case tagsCollectionView:
+//			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagsCellId, for: indexPath) as! ProductTagsCollectionViewCell
+//			if self.prod != nil && self.prod.associations != nil && self.prod.associations?.tags != nil
+//			{
+//				let tid = (self.prod.associations?.tags![indexPath.item])!.id
+////				cell.label.text = (self.prod.associations?.tags![indexPath.item])!.id
+//				for tag in self.store.tags
+//				{
+//					if tag.id != nil && tag.id! == Int(tid) && tag.name != nil
+//					{
+//						cell.label.text = tag.name!
+//					}
+//				}
+////				if cell.label.text == nil || cell.label.text!.isEmpty
+////				{
+////					cell.label.text = tid
+////				}
+//			}
+////			print("tag-\(cell.label.text ?? ""), ")
+//			return cell
+//		case catsCollectionView:
+//			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: catsCellId, for: indexPath) as! ProductCategoriesCollectionViewCell
+//			if self.prod != nil && self.prod.associations != nil && self.prod.associations?.categories != nil
+//			{
+////				cell.label.text = (self.prod.associations?.categories![indexPath.item])!.id
+//				let cat = (self.prod.associations?.categories![indexPath.item])!.id
+//				for tag in self.store.tags
+//				{
+//					if tag.id != nil && tag.id! == Int(cat) && tag.name != nil
+//					{
+//						cell.label.text = tag.name!
+//					}
+//				}
+////				if cell.label.text == nil || cell.label.text!.isEmpty
+////				{
+////					cell.label.text = cat
+////				}
+//			}
+////			print("categories-\(cell.label.text ?? ""), ")
+//			return cell
+//		case imagesCollectionView:
+//			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: imagesCellId, for: indexPath)
+//			return cell
+//		default:
+//			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
+//			return cell
+//		}
+//	}
+//
+////	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+////	{
+////		switch collectionView
+////		{
+////		case tagsCollectionView:
+////			return CGSize(width: 100, height: 20)
+////		case catsCollectionView:
+////			return CGSize(width: 100, height: 20)
+////		case imagesCollectionView:
+////			return CGSize(width: 100, height: 20)
+////		default:
+////			return CGSize(width: 100, height: 20)
+////		}
+////	}
+//	//
+//}

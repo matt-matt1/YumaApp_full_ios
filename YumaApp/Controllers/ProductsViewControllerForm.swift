@@ -45,6 +45,9 @@ extension ProductsViewController
 		stack.spacing = 8
 		stack.backgroundColor = UIColor.white
 		stack.distribution = .fill
+		stack.alignment = .top
+		stack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: .horizontal)
+		stack.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 749), for: .horizontal)
 		for prodTag in tagIDs
 		{
 			let find = Int(prodTag.id)!
@@ -104,25 +107,55 @@ extension ProductsViewController
 //		return stack
 	}
 
-	func formImageViews(imageIDs: [IdAsString]) -> UIStackView
+	func formImageViews(imageIDs: [IdAsString], imageChar: String="p") -> UIStackView
 	{
 		let stack = UIStackView()
-		//stack.translatesAutoresizingMaskIntoConstraints = false
-		//		for prodComb in imageIDs
-		//		{
-		//			let find = Int(prodComb.id)!
-		//			if find < store.images.count
-		//			{
-		//				for co in store.images
-		//				{
-		//					if co.id == find
-		//					{
-		//						view.imagesWidgets.append(co)
-		//						break
-		//					}
-		//				}
-		//			}
-		//		}
+		stack.spacing = 5
+//		stack.axis = .horizontal
+//		stack.alignment = .center
+//		stack.translatesAutoresizingMaskIntoConstraints = false
+		for img in imageIDs
+		{
+			var imageName = "\(R.string.URLbase)img/\(imageChar)"
+			for ch in img.id
+			{
+				imageName.append("/\(ch)")
+			}
+			imageName.append("/\(img.id).jpg")
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				{
+					(data, response, error) in
+					
+					guard let data = data, error == nil else { return }
+					DispatchQueue.main.async()
+						{
+							//							let i = self.view.tag - 10
+							let imageToCache = UIImage(data: data)
+							self.store.imageDataCache.setObject(imageToCache!, forKey: "\(imageChar)\(img.id)" as AnyObject)
+							let imageInFrame = UIImageView(image: imageToCache)
+							imageInFrame.contentMode = .scaleAspectFit
+							imageInFrame.borderColor = UIColor.lightGray
+							imageInFrame.borderWidth = 3
+							imageInFrame.tag = Int(img.id)!
+							imageInFrame.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.expandPicture(_:))))
+							imageInFrame.translatesAutoresizingMaskIntoConstraints = false
+							stack.addArrangedSubview(imageInFrame)
+							NSLayoutConstraint.activate([
+								imageInFrame.topAnchor.constraint(equalTo: stack.topAnchor, constant: 0),
+								imageInFrame.heightAnchor.constraint(equalToConstant: 100),
+//								imageInFrame.leadingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+								imageInFrame.widthAnchor.constraint(equalToConstant: 100),
+								])
+//							stack.addConstraintsWithFormat(format: "H:[v0(100)]", views: imageInFrame)
+//							stack.addConstraintsWithFormat(format: "V:[v0(100)]", views: imageInFrame)
+							//							if i > 0 && i < self.store.products.count
+							//							{
+							//								self.store.products[i].associations?.imageData = data
+							//							}
+					}
+			})
+		}
+		stack.addArrangedSubview(UIView(frame: .zero))
 		return stack
 	}
 	
@@ -173,33 +206,35 @@ extension ProductsViewController
 					{
 						if first == false
 						{
-							first = false
+//							first = false
 							let sep = UILabel()
-							sep.translatesAutoresizingMaskIntoConstraints = false
+//							sep.translatesAutoresizingMaskIntoConstraints = false
 							sep.text = " > "
 							sep.textColor = UIColor.gray
 							stack.addArrangedSubview(sep)
 							//stack.addSubview(sep)
 							//stack.contentSize.width += 53
-							//print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
+//							print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
 						}
 						let wrapperLbl = UIView()
-						wrapperLbl.translatesAutoresizingMaskIntoConstraints = false
+//						wrapperLbl.translatesAutoresizingMaskIntoConstraints = false
 						let lbl = UILabel()
 						lbl.translatesAutoresizingMaskIntoConstraints = false
-						lbl.text = store.valueById(object: cat.name!, id: store.myLang)//cat.name![store.myLang].value
+						lbl.text = cat.name![self.store.myLang].value//store.valueById(object: cat.name!, id: store.myLang)//cat.name![store.myLang].value
 						wrapperLbl.addSubview(lbl)
+//						wrapperLbl.addConstraintsWithFormat(format: "H:|[v0]|", views: lbl)
+//						wrapperLbl.addConstraintsWithFormat(format: "V:|[v0]|", views: lbl)
 						NSLayoutConstraint.activate([
-							wrapperLbl.topAnchor.constraint(equalTo: lbl.topAnchor),
-							wrapperLbl.leadingAnchor.constraint(equalTo: lbl.leadingAnchor),
-							wrapperLbl.bottomAnchor.constraint(equalTo: lbl.bottomAnchor),
-							wrapperLbl.trailingAnchor.constraint(equalTo: lbl.trailingAnchor),
+							lbl.topAnchor.constraint(equalTo: wrapperLbl.topAnchor),
+							lbl.leadingAnchor.constraint(equalTo: wrapperLbl.leadingAnchor),
+							lbl.bottomAnchor.constraint(equalTo: wrapperLbl.bottomAnchor),
+							lbl.trailingAnchor.constraint(equalTo: wrapperLbl.trailingAnchor),
 							])
-						wrapperLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displayCat(_:))))
+//						wrapperLbl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(displayCat(_:))))
 						stack.addArrangedSubview(wrapperLbl)
 						//stack.addSubview(wrapperLbl)
 						//stack.contentSize.width += CGFloat(((lbl.text?.count)! * 17) + 2)
-						//print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
+//						print("stack contentSize w:\(stack.contentSize.width), h:\(stack.contentSize.height)")
 						first = false
 						break
 					}

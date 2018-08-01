@@ -71,8 +71,8 @@ class TabBarController: UITabBarController
 	{
         super.viewDidLoad()
 		
-		drawNavigation()
 		fillArray()
+		drawNavigation()
 		decorateTabBar()
 		makeTabsFromArray()//makeTabs()
     }
@@ -115,6 +115,7 @@ class TabBarController: UITabBarController
 		french.pageTitle = R.string.qc
 		french.pageURL = R.string.qcweb
 		array = [
+			TabIcons(textName: R.string.prods, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.bars.asImage(size: 30), viewController: ProductsPreviewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsPreviewController.self, helpAction: nil/*#selector(ProductsPreviewController.)*/),
 			TabIcons(textName: "Contact Us", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.phone.asImage(size: 30), viewController: ContactUsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ContactUsViewController.self, helpAction: #selector(ContactUsViewController.navHelpAct(_:))),
 			TabIcons(textName: "Home", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.home.asImage(size: 30), viewController: SwipingController(collectionViewLayout: layout), canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 			TabIcons(textName: "Login", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCircle.asImage(size: 30), viewController: LoginViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: LoginViewController.self, helpAction: #selector(LoginViewController.helpBtnAct(_:))),
@@ -128,101 +129,74 @@ class TabBarController: UITabBarController
 
 	fileprivate func drawNavigation()
 	{
-		//		let home = SwipingController()
-		//		home.title = "Home"
-		//		home.tabBarItem.image = Awesome.solid.home.asImage(size: 30)
-
 		let navigationBar = UINavigationBar()//UIView()
-		//		navigationBar.backgroundColor = R.color.YumaRed
+//				navigationBar.backgroundColor = UIColor.green//R.color.YumaRed
 		//		navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
 		let gradient = CAGradientLayer()
-		//		var bounds = navigationBar.bounds
-		//		bounds.size.height += UIApplication.shared.statusBarFrame.size.height
-		//		gradient.frame = bounds
 		if #available(iOS 11.0, *)
 		{
-			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: 44)
+			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
 		}
 		else
 		{
-			gradient.frame = CGRect(x: 0, y: 44, width: view.frame.width, height: 44)
+			gradient.frame = CGRect(x: 0, y: view.frame.height>811 ? 44 : 20, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
 		}
 		gradient.colors = [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor]
 		gradient.startPoint = CGPoint(x: 0, y: 0)
 		gradient.endPoint = CGPoint(x: 0, y: 1)
 		if let image = imageFromLayer(gradient)
 		{
-			//			navigationBar.navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
 			navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
 		}
-		//		navigationBar.isTranslucent = false
-		//		navigationBar.navigationBar.shadowColor = UIColor.darkGray
-		//		navigationBar.navigationBar.shadowOffset = CGSize(width: 0, height: 2)
-		//		navigationBar.navigationBar.shadowRadius = 2
-		//		navigationBar.navigationBar.shadowOpacity = 1
+//				navigationBar.isTranslucent = false
 		navigationBar.shadowColor = UIColor.darkGray
 		navigationBar.shadowOffset = CGSize(width: 0, height: 2)
 		navigationBar.shadowRadius = 3
 		navigationBar.shadowOpacity = 1
-//		navigationBar.items = [UINavigationItem(title: "Title")]
-		
-		//		navigationBar.backItem = navClose
-		//		navigationBar.topItem?.backBarButtonItem = navClose
-//		let navItem = UINavigationItem(title: "")
-//		navClose.action = #selector(ContactUsViewController.dismiss(animated:completion:))
-		navHelp.action = #selector(ContactUsViewController.navHelpAct(_:))
-		myClose = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.stop, target: ContactUsViewController.self, action: nil)
-//		navigationBar.topItem?.rightBarButtonItems = [navHelp]
-		navTitle.rightBarButtonItems = [navHelp]
-		navTitle.leftBarButtonItems = [myClose]
+		if array[0].canClose
+		{
+			let leftNavBtn = UIBarButtonItem(barButtonSystemItem: .stop, target: array[0].closeTarget, action: array[0].closeAction)
+			navTitle.leftBarButtonItems = [leftNavBtn]
+		}
+		if array[0].canHelp
+		{
+			navHelp.action = array[0].helpAction
+			navHelp.target = array[0].helpTarget as AnyObject
+			navTitle.rightBarButtonItems = [navHelp]
+		}
 		navigationBar.setItems([navTitle], animated: false)
-		//		navigationBar.navigationItem.title = "AbC"
 		navigationBar.translatesAutoresizingMaskIntoConstraints = false
-		//		view.addSubview(navigationBar.navigationBar)
 		view.addSubview(navigationBar)
 		NSLayoutConstraint.activate([
 			navigationBar.topAnchor.constraint(equalTo: view.safeTopAnchor),
 			navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//			navigationBar.heightAnchor.constraint(equalTo: view, multiplier: 1)
-			navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height>2000) ? 44 : 20)
+			navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height>811) ? 44 : 20)
 			])
-//		let statusAndNavigationBars = UIView()
-//		statusAndNavigationBars.backgroundColor = UIColor.gray
-//		statusAndNavigationBars.frame = UIApplication.shared.statusBarFrame
-		//		statusAndNavigationBars.translatesAutoresizingMaskIntoConstraints = false
-		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
-		{
-			view.insertSubview(statusAndNavigationBars, at: 0)
-		}
-		//.addSubview(statusAndNavigationBars)
-		//		NSLayoutConstraint.activate([
-		//			statusAndNavigationBars.topAnchor.constraint(equalTo: view.topAnchor),
-		//			statusAndNavigationBars.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-		//			statusAndNavigationBars.bottomAnchor.constraint(equalTo: navigationBar)
-		//			])
-		
-		//UINavigationBar.appearance()..navigationBar.applyNavigationGradient(colors: [UIColor.red , UIColor.yellow])
+//		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
+//		{
+//			view.insertSubview(statusAndNavigationBars, at: 0)
+//		}
 	}
 
 	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 	{
 		super.willTransition(to: newCollection, with: coordinator)
-		if UIDevice.current.orientation.isLandscape
-		{
-			//print("Landscape")
-			statusAndNavigationBars.removeFromSuperview()
-		}
-		else
-		{
-			//print("Portrait")
-			view.insertSubview(statusAndNavigationBars, at: 0)
-		}
+//		if UIDevice.current.orientation.isLandscape
+//		{
+//			//print("Landscape")
+//			statusAndNavigationBars.removeFromSuperview()
+//		}
+//		else
+//		{
+//			//print("Portrait")
+//			view.insertSubview(statusAndNavigationBars, at: 0)
+//		}
 	}
 
 	fileprivate func decorateTabBar()
 	{
-		tabBar.barTintColor = R.color.YumaYel
+		tabBar.barTintColor = R.color.YumaDYel
 		tabBar.tintColor = R.color.YumaRed
 		tabBar.shadowColor = UIColor.darkGray
 		tabBar.shadowOffset = .zero
@@ -235,17 +209,24 @@ class TabBarController: UITabBarController
 		navTitle.leftBarButtonItems = nil
 		navTitle.rightBarButtonItems = nil
 		navTitle.title = item.title
-//		if tab.canClose
-//		{
-//			let leftNavBtn = UIBarButtonItem(barButtonSystemItem: .stop, target: tab.closeTarget, action: tab.closeAction)
-//			navTitle.leftBarButtonItems = [leftNavBtn]
-//		}
-//		if tab.canHelp
-//		{
-//			navHelp.action = tab.helpAction
-//			navHelp.target = tab.helpTarget as AnyObject
-//			navTitle.rightBarButtonItems = [navHelp]
-//		}
+		for tab in array
+		{
+			if tab.textName == item.title
+			{
+				if tab.canClose
+				{
+					let leftNavBtn = UIBarButtonItem(barButtonSystemItem: .stop, target: tab.closeTarget, action: tab.closeAction)
+					navTitle.leftBarButtonItems = [leftNavBtn]
+				}
+				if tab.canHelp
+				{
+					navHelp.action = tab.helpAction
+					navHelp.target = tab.helpTarget as AnyObject
+					navTitle.rightBarButtonItems = [navHelp]
+				}
+				break
+			}
+		}
 	}
 
 	func makeTabsFromArray()

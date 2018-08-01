@@ -17,6 +17,7 @@ extension R
 		//aa0018
 		static let YumaYel = UIColor(red: 0.99942404029999998, green: 0.98555368190000003, blue: 0.0, alpha: 1)
 		//f5bf2b
+		static let YumaDYel = UIColor(hex: "f8c03f")
 		static let YumaDRed = UIColor(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
 		// #colorLiteral(red: 0.2352150381, green: 0.01725785062, blue: 0.005341128446, alpha: 1)
 		//static let YumaDRed2 = UIColor(hex: "#2d0202")
