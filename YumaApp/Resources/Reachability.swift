@@ -55,7 +55,8 @@ public class Reachability
 	}
 
 	
-	class func isInternetAvailable(website: String?, completionHandler: @escaping(Bool) -> Void)
+	class func isInternetAvailable(website: String?="https://www.google.com",
+								   completionHandler: @escaping(Bool) -> Void)
 	{
 		// 1. Check the WiFi Connection
 		guard isConnectedToNetwork() else

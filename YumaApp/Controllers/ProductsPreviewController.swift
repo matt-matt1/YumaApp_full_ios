@@ -11,6 +11,7 @@ import UIKit
 
 class ProductsPreviewController: UIViewController
 {
+	var tabsBar: TabBarController?
 	var stack: UIStackView =
 	{
 		let lbl = UIStackView()
@@ -184,6 +185,37 @@ class ProductsPreviewController: UIViewController
 			])
 	}
 	
+	override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?)
+	{
+		super.traitCollectionDidChange(previousTraitCollection)
+		
+		guard let previousTraitCollection = previousTraitCollection, traitCollection.verticalSizeClass != previousTraitCollection.verticalSizeClass ||
+			traitCollection.horizontalSizeClass != previousTraitCollection.horizontalSizeClass else {
+				return
+		}
+		if traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular
+		{
+			// iPad portrait and landscape
+		}
+		if traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
+		{
+			// iPhone portrait
+		}
+		if traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .compact
+		{
+			// iPhone landscape
+		}
+		menuBar.collectionView.collectionViewLayout.invalidateLayout()
+//		menuBar.collectionView.reloadData()
+//		let selectedIndexPath = menuBar.collectionView.indexPathsForSelectedItems != nil ? menuBar.collectionView.indexPathsForSelectedItems! : [IndexPath(item: 0, section: 0)]
+		if let selectedIndex = menuBar.collectionView.indexPathsForSelectedItems?[0].item
+		{
+			print("reselected menuBar item: \(selectedIndex).")
+			scrollToMenuIndex(selectedIndex)
+		}
+//		menuBar.horizontalBar.invalidateIntrinsicContentSize()
+	}
+
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
@@ -191,7 +223,7 @@ class ProductsPreviewController: UIViewController
 
 	func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
-		guard scrollView == prodsCollection 	else 	{ 	return 	}
+		guard scrollView != prodsCollection 	else 	{ 	return 	}
 		let x = scrollView.contentOffset.x / CGFloat(menuBar.images.count)
 		menuBar.horizontalBarLeftConstraint?.constant = x
 	}
@@ -205,7 +237,7 @@ class ProductsPreviewController: UIViewController
 	
 	func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
 	{
-		guard scrollView == prodsCollection 	else 	{ 	return 	}
+		guard scrollView != prodsCollection 	else 	{ 	return 	}
 		let indexPath = NSIndexPath(item: Int(targetContentOffset.pointee.x / view.frame.width), section: 0)
 		menuBar.collectionView.selectItem(at: indexPath as IndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
 		headerLbl.text = panelTitles[indexPath.item]
@@ -247,7 +279,8 @@ class ProductsPreviewController: UIViewController
 
 	@objc func refresh()//(_ sender: Any)
 	{
-		if Reachability.isConnectedToNetwork()
+		if Reachability/*.isInternetAvailable(website: nil, completionHandler: { (_) in
+		})*/.isConnectedToNetwork()
 		{
 			let sv = UIViewController.displaySpinner(onView: self.view)
 			leftLbl.text = ""
@@ -330,6 +363,11 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		if collectionView == prodsCollection
 		{
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ProductsPreviewCell
+			cell.btnTapAction = {
+				() in
+				print("Add to cart button tapped in cell", indexPath)
+				// start your edit process here...
+			}
 			if indexPath.item > -1 && indexPath.item < self.store.products.count
 			{
 				let prod = self.store.products[indexPath.item]
@@ -377,7 +415,10 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-			return CGSize(width: max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), height: max(minCellHeight, min(max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth), maxCellHeight)) + 30 + 30)
+			let cellWidth = max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth)
+			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth, maxCellHeight)) + 30 + 30)
+			//height: max(200, min(401, 500)) + 30 + 30) - landscape  = 461
+			//height: max(200, min(182.5, 500)) + 30 + 30) - portrait = 242.5
 		}
 		else if collectionView == panelsCollection	// each panel has whole view
 		{
@@ -394,6 +435,7 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		if collectionView == prodsCollection	//	selected a product
 		{
 			let productDetailsViewController = ProductDetailsViewController()
+//			if productDetailsViewController.add2cart.
 			if indexPath.item > -1 && indexPath.item < self.store.products.count
 			{
 				productDetailsViewController.prod = self.store.products[indexPath.item]

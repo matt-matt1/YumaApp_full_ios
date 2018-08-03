@@ -31,8 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //		let vc = SQLiteViewController()
 //		let vc = TestSQliteViewController()
 //		let vc = ProductsCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//		let vc = ProductsPreviewController()
+		let vc1 = ProductsPreviewController()
 		let vc = TabBarController()
+		vc1.tabsBar = vc.self
 //		vc.headerLbl.text = R.string.printers
 		//vc.headerLbl.text = R.string.laptops
 		//vc.headerLbl.text = R.string.toners
@@ -40,23 +41,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 //		window?.rootViewController = UINavigationController(rootViewController: vc)
 		window?.rootViewController = vc
 		
-//		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
-//		{
-//			statusbar.backgroundColor = UIColor.lightGray
-//		}
+		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+		{
+			statusbar.backgroundColor = UIColor.lightGray
+		}
 
 		let navTitleShadow = NSShadow()
 		navTitleShadow.shadowColor = R.color.YumaDRed
 		navTitleShadow.shadowOffset = CGSize(width: 1, height: 1)
 		navTitleShadow.shadowBlurRadius = 3
 		let navBarAppearance = UINavigationBar.appearance()
-		navBarAppearance.backgroundColor = R.color.YumaRed
+//		navBarAppearance.backgroundColor = R.color.YumaRed
+		let gradient = CAGradientLayer()
+		if #available(iOS 11.0, *)
+		{
+			gradient.frame = CGRect(x: 0, y: (window?.safeAreaLayoutGuide.layoutFrame.origin.y)!, width: (window?.frame.width)!, height: window?.frame.height==812 ? 44 : 20)
+		}
+		else
+		{
+			gradient.frame = CGRect(x: 0, y: 0/*view.frame.height==812 ? 44 : 20*/, width: (window?.frame.width)!, height: window?.frame.height==812 ? 44 : 20)
+		}
+		gradient.colors = [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor]
+		gradient.startPoint = CGPoint(x: 0, y: 0)
+		gradient.endPoint = CGPoint(x: 0, y: 1)
+		if let image = imageFromLayer(gradient)
+		{
+			navBarAppearance.setBackgroundImage(image, for: UIBarMetrics.default)
+		}
+/**/
 		navBarAppearance.tintColor = UIColor.white
 //		navBarAppearance.barTintColor = UIColor.lightGray//R.color.YumaRed
 		navBarAppearance.titleTextAttributes = [NSAttributedStringKey.foregroundColor : R.color.YumaYel,
 												NSAttributedStringKey.shadow : navTitleShadow]
 		navBarAppearance.shadowImage = UIImage()
-		navBarAppearance.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//		navBarAppearance.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 		//UIBarButtonItem.appearance().setTitleTextAttributes([
 		//	NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 30)
 		//	], for: .normal)

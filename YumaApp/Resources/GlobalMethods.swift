@@ -31,6 +31,21 @@ func md5(_ string: String) -> String
 import UIKit
 
 
+func imageFromLayer(_ layer: CALayer) -> UIImage?
+{
+	var gradientImage: UIImage?
+	UIGraphicsBeginImageContext(layer.frame.size)
+	if let context = UIGraphicsGetCurrentContext()
+	{
+		layer.render(in: context)
+		gradientImage = UIGraphicsGetImageFromCurrentImageContext()?.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: UIImageResizingMode.stretch)
+	}
+	UIGraphicsEndImageContext()
+	return gradientImage
+}
+
+
+
 /// Display an alert dialog where the only choice is DISMISS - dismissAction closure done on press
 func myAlertOnlyDismiss(_ self: UIViewController, title: String, message: String, dismissTitle: String? = nil, dismissAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
 {

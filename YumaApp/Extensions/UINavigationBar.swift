@@ -25,7 +25,7 @@ extension UINavigationBar
 	//
 	func applyNavigationGradient(colors: [UIColor], isVertical: Bool = true)
 	{
-		var frameAndStatusBar: CGRect = self.bounds
+		let frameAndStatusBar: CGRect = self.bounds
 //		frameAndStatusBar.size.height += 20 // add 20 to account for the status bar
 //		frameAndStatusBar.size.height += 44
 		//let a = self.frame.maxY

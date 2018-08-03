@@ -72,7 +72,7 @@ class ContactUsViewController: UIViewController
 		//set label/buttons to our strings
 //		navTitle.title = R.string.contact
 		tempLabel.isHidden = true
-		if #available(iOS 11.0, *)
+/*		if #available(iOS 11.0, *)
 		{
 //			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		}
@@ -107,7 +107,7 @@ class ContactUsViewController: UIViewController
 //		navHelp.setTitleTextAttributes([
 //			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 //			], for: UIControlState.highlighted)
-		phoneIcon.text = FontAwesome.phone.rawValue
+*/		phoneIcon.text = FontAwesome.phone.rawValue
 		phoneNumber.text = R.string.our_ph
 		phoneBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		phoneBtn.setTitle(R.string.phoneAct.uppercased(), for: .normal)

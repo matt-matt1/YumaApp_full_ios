@@ -238,8 +238,11 @@ extension R
 		// MARK:		<!--product-->
 		static let prod = "Product"
 		static let prods = "Products"
+		static let prodList = "product list"
+		static let prodnList = "product\nlist"
 		static let prodImage = "Product Image"
 		static let prodDesc = "Product Description"
+		static let prodShortDesc = "Product Short Description"
 		static let prodID = "Product ID number"
 		static let prodPriceFloat = "Product Price as a number"
 		static let prodName = "Product Name"

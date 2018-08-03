@@ -146,11 +146,15 @@ extension R
 			"When finished, press the \"\(R.string.checkOut.uppercased())\" to finalize and pay"]
 		
 		static let help_product_details_guide: [String] = [
-			"Displays detailed information about the product including, main picture, product name, unit price - if available, manufacturer, description and more.",
-//			"The total is placed at the bottom including the number of pieces, weight and price",
-//			"TIP:  The \"\(R.string.checkOut.uppercased())\" button will only be bright when you have at least one item of value in the cart",
-//			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
-//			"Each item can be swiped to the left to reveal the \"\(R.string.delete)\" button, if pressed, the item, and all it's quantities, can then be removed from your cart",
+			"Displays detailed information about the product including, main picture, product name, unit price - if available, manufacturer, description and more",
+			"If this list of items is longer than the screen, the list can be scrolled by swiping up or down",
+			"The product name is on the top bar - next to this help button, also, on the left, is a '<' (less-than symbol) with '\(R.string.prodList)' that when pressed will return you to the list",
+			"Press a small (thumbnail) supplimentory image, if available, to see it larger (it'll be put in place of the main image)",
+			"TIP:  If the list of thumbnail images exceed the width of the screen, it can be shifted left or right - by swiping hortzontally",
+			"The product details also indicate the category/categories it is contained within (each category is separated by a '>' greater-than symbol)",
+			"TIP:  Press a category to see all the item(s) in that category",
+			"The product details also list the associated tag(s) (each tag is on like a luggage-tag)",
+			"TIP:  Press a tag to see all the item(s) with that tag",
 //			"TIP:  Press the \"+ / -\" buttons to increase / decrease the item quantity - if you decrease the quantity below 1, a window will appear asking to remove that item",
 			"Press the \"\(R.string.add2cart.uppercased())\" button to add this product to your cart."]
 		

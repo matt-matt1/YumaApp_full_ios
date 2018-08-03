@@ -27,6 +27,7 @@ struct TabIcons
 
 class TabBarController: UITabBarController
 {
+	let navigationBar = UINavigationBar()//UIView()
 	let statusAndNavigationBars: UIView =
 	{
 		let view = UIView()
@@ -70,7 +71,7 @@ class TabBarController: UITabBarController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-		
+
 		fillArray()
 		drawNavigation()
 		decorateTabBar()
@@ -85,24 +86,24 @@ class TabBarController: UITabBarController
 
 	@objc func navCloseAct(_ sender: UITapGestureRecognizer)
 	{
-		//
+		print("tried to close")
 	}
 
 
 	// MARK: Methods
 
-	func imageFromLayer(_ layer: CALayer) -> UIImage?
-	{
-		var gradientImage: UIImage?
-		UIGraphicsBeginImageContext(layer.frame.size)
-		if let context = UIGraphicsGetCurrentContext()
-		{
-			layer.render(in: context)
-			gradientImage = UIGraphicsGetImageFromCurrentImageContext()?.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: UIImageResizingMode.stretch)
-		}
-		UIGraphicsEndImageContext()
-		return gradientImage
-	}
+//	func imageFromLayer(_ layer: CALayer) -> UIImage?
+//	{
+//		var gradientImage: UIImage?
+//		UIGraphicsBeginImageContext(layer.frame.size)
+//		if let context = UIGraphicsGetCurrentContext()
+//		{
+//			layer.render(in: context)
+//			gradientImage = UIGraphicsGetImageFromCurrentImageContext()?.resizableImage(withCapInsets: UIEdgeInsets.zero, resizingMode: UIImageResizingMode.stretch)
+//		}
+//		UIGraphicsEndImageContext()
+//		return gradientImage
+//	}
 
 	func fillArray()
 	{
@@ -114,41 +115,23 @@ class TabBarController: UITabBarController
 		let french = WebpageViewController()
 		french.pageTitle = R.string.qc
 		french.pageURL = R.string.qcweb
+		let en_web = WebpageViewController()
+		en_web.pageTitle = R.string.en
+		en_web.pageURL = R.string.enweb
 		array = [
-			TabIcons(textName: R.string.prods, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.bars.asImage(size: 30), viewController: ProductsPreviewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsPreviewController.self, helpAction: nil/*#selector(ProductsPreviewController.)*/),
-			TabIcons(textName: "Contact Us", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.phone.asImage(size: 30), viewController: ContactUsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ContactUsViewController.self, helpAction: #selector(ContactUsViewController.navHelpAct(_:))),
-			TabIcons(textName: "Home", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.home.asImage(size: 30), viewController: SwipingController(collectionViewLayout: layout), canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
-			TabIcons(textName: "Login", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCircle.asImage(size: 30), viewController: LoginViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: LoginViewController.self, helpAction: #selector(LoginViewController.helpBtnAct(_:))),
-			TabIcons(textName: "Cart", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.shoppingCart.asImage(size: 30), viewController: CartViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: CartViewController.self, helpAction: #selector(CartViewController.navHelpAct(_:))),
-			TabIcons(textName: "About Us", iconText: nil, iconAttr: Awesome.solid.certificate.asAttributedText(fontSize: 30), iconImage: Awesome.solid.certificate.asImage(size: 30), viewController: AboutVC/*WebpageViewController()*/, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
-			TabIcons(textName: "Printers", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.print.asImage(size: 30), viewController: ProductsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsViewController.self, helpAction: #selector(ProductsViewController.navHelpAct(_:))),
-			TabIcons(textName: "Cartridges", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.cubes.asImage(size: 30), viewController: ProductsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsViewController.self, helpAction: #selector(ProductsViewController.navHelpAct(_:))),
-			TabIcons(textName: "French-Canadian", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: french, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
-			TabIcons(textName: "Laptops", iconText: nil, iconAttr: nil, iconImage: Awesome.solid.laptop.asImage(size: 30), viewController: ProductsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsViewController.self, helpAction: #selector(ProductsViewController.navHelpAct(_:)))]
+			TabIcons(textName: R.string.prods, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.bars.asImage(size: 30), viewController: ProductsPreviewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsPreviewController.self, helpAction: nil),
+			TabIcons(textName: R.string.contact, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.phone.asImage(size: 30), viewController: ContactUsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ContactUsViewController.self, helpAction: #selector(ContactUsViewController.navHelpAct(_:))),
+			TabIcons(textName: R.string.Home, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.home.asImage(size: 30), viewController: SwipingController(collectionViewLayout: layout), canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+			TabIcons(textName: R.string.login, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCircle.asImage(size: 30), viewController: LoginViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: LoginViewController.self, helpAction: #selector(LoginViewController.helpBtnAct(_:))),
+			TabIcons(textName: R.string.cart, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.shoppingCart.asImage(size: 30), viewController: CartViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: CartViewController.self, helpAction: #selector(CartViewController.navHelpAct(_:))),
+			TabIcons(textName: R.string.about, iconText: nil, iconAttr: nil/*Awesome.solid.certificate.asAttributedText(fontSize: 30)*/, iconImage: Awesome.solid.certificate.asImage(size: 30), viewController: AboutVC, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+			TabIcons(textName: R.string.en, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: en_web, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+			TabIcons(textName: R.string.qc, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: french, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+		]
 	}
 
 	fileprivate func drawNavigation()
 	{
-		let navigationBar = UINavigationBar()//UIView()
-//				navigationBar.backgroundColor = UIColor.green//R.color.YumaRed
-		//		navigationBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		let gradient = CAGradientLayer()
-		if #available(iOS 11.0, *)
-		{
-			gradient.frame = CGRect(x: 0, y: view.safeAreaLayoutGuide.layoutFrame.origin.y, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
-		}
-		else
-		{
-			gradient.frame = CGRect(x: 0, y: view.frame.height>811 ? 44 : 20, width: view.frame.width, height: view.frame.height>811 ? 44 : 20)
-		}
-		gradient.colors = [R.color.YumaDRed.cgColor, R.color.YumaRed.cgColor]
-		gradient.startPoint = CGPoint(x: 0, y: 0)
-		gradient.endPoint = CGPoint(x: 0, y: 1)
-		if let image = imageFromLayer(gradient)
-		{
-			navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
-		}
-//				navigationBar.isTranslucent = false
 		navigationBar.shadowColor = UIColor.darkGray
 		navigationBar.shadowOffset = CGSize(width: 0, height: 2)
 		navigationBar.shadowRadius = 3
@@ -178,7 +161,7 @@ class TabBarController: UITabBarController
 //			view.insertSubview(statusAndNavigationBars, at: 0)
 //		}
 	}
-
+/*
 	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 	{
 		super.willTransition(to: newCollection, with: coordinator)
@@ -193,7 +176,7 @@ class TabBarController: UITabBarController
 //			view.insertSubview(statusAndNavigationBars, at: 0)
 //		}
 	}
-
+*/
 	fileprivate func decorateTabBar()
 	{
 		tabBar.barTintColor = R.color.YumaDYel
@@ -260,7 +243,7 @@ class TabBarController: UITabBarController
 		}
 		navTitle.title = array[0].textName
 	}
-
+/*
 	fileprivate func makeTabs()	// not used
 	{
 		let aboutVC = WebpageViewController()
@@ -279,7 +262,7 @@ class TabBarController: UITabBarController
 		navAbout.navigationItem.leftBarButtonItems = [navClose]
 		//		navTitle.leftBarButtonItems = [navClose]
 		navAbout.navigationItem.rightBarButtonItems = [navHelp]
-		
+
 		let contactVC = ContactUsViewController()
 		//		childVC.tabBarItem.image = Awesome.regular.addressBook.asImage(size: 30)
 		//		childVC.title = "Contact Us"
@@ -287,16 +270,16 @@ class TabBarController: UITabBarController
 		navContact.navigationItem.title = R.string.contact
 		navContact.title = R.string.contact//"Contact Us"
 		navContact.tabBarItem.image = Awesome.regular.addressBook.asImage(size: 30)
-		
+
 		//		let menuVC = slideMenu()
 		//		let menuNav = UINavigationController(rootViewController: menuVC)
-		
+
 		//		let maNav = UINavigationController(rootViewController: MyAccountViewController())
 		//		maNav.title = "Login"
 		//		maNav.tabBarItem.image = Awesome.regular.userCircle.asImage(size: 23)
-		
+
 		viewControllers = [navContact, navAbout]
 		//		viewControllers = [/*home,*/ aboutVC, childVC]
 	}
-
+*/
 }

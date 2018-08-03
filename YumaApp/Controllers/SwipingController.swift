@@ -90,10 +90,10 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //		rootVC = (UIApplication.shared.keyWindow?.rootViewController)!
 		slideMenu.parent = self
 		self.view.backgroundColor = UIColor.white
-		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
-		{
-			statusbar.backgroundColor = UIColor.clear
-		}
+//		if let statusbar = UIApplication.shared.value(forKey: "statusBar") as? UIView
+//		{
+//			statusbar.backgroundColor = UIColor.clear
+//		}
 		drawLayout()
 		
 		collectionView?.backgroundColor = UIColor.white
@@ -879,25 +879,27 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 		{
 			(data, response, error) in
 			
-			let response = response as! HTTPURLResponse
-			if response.statusCode == 200
+			if let response = response as? HTTPURLResponse
 			{
-				let dataString = String(data: data!, encoding: .utf8)
-				if dataString != nil && !(dataString?.isEmpty)!
+				if response.statusCode == 200
 				{
-					do
+					let dataString = String(data: data!, encoding: .utf8)
+					if dataString != nil && !(dataString?.isEmpty)!
 					{
-						let dict = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [Dictionary<String, AnyObject>]
-						completionHandler(dict as [Dictionary<String, AnyObject>], nil)
+						do
+						{
+							let dict = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [Dictionary<String, AnyObject>]
+							completionHandler(dict as [Dictionary<String, AnyObject>], nil)
+						}
+						catch let err
+						{
+							completionHandler(nil, err)//"not valid JSON" as? Error)
+						}
 					}
-					catch let err
+					else
 					{
-						completionHandler(nil, err)//"not valid JSON" as? Error)
+						completionHandler([["error":"" as AnyObject]], nil)
 					}
-				}
-				else
-				{
-					completionHandler([["error":"" as AnyObject]], nil)
 				}
 			}
 		})
