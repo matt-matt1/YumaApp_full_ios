@@ -132,6 +132,7 @@ class TabBarController: UITabBarController
 
 	fileprivate func drawNavigation()
 	{
+//		print("frame=\(view.frame)")
 		navigationBar.shadowColor = UIColor.darkGray
 		navigationBar.shadowOffset = CGSize(width: 0, height: 2)
 		navigationBar.shadowRadius = 3
@@ -150,12 +151,21 @@ class TabBarController: UITabBarController
 		navigationBar.setItems([navTitle], animated: false)
 		navigationBar.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(navigationBar)
-		NSLayoutConstraint.activate([
-			navigationBar.topAnchor.constraint(equalTo: view.safeTopAnchor),
-			navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-			navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height==812) ? 44 : 20)
-			])
+		if #available(iOS 11.0, *) {
+			NSLayoutConstraint.activate([
+				navigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+				navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height==812) ? 44 : 20)
+				])
+		} else {
+			NSLayoutConstraint.activate([
+				navigationBar.topAnchor.constraint(equalTo: view.topAnchor),
+				navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+				navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+				navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height==812) ? 44 : 20)
+				])
+		}
 //		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
 //		{
 //			view.insertSubview(statusAndNavigationBars, at: 0)

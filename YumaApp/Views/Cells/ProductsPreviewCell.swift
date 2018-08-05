@@ -125,21 +125,25 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 				}
 			}
 		}
+//		print("prodName.font.pointSize=\(prodName.font.pointSize)")
+//		print("prodPrice.font.pointSize=\(prodPrice.font.pointSize)")
+//		print("prodImage.frame=\(prodImage.frame)")
+//		print("self.frame=\(self.frame)")
 		NSLayoutConstraint.activate([
 			prodImage.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
 			prodImage.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
 			prodImage.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
-			prodImage.heightAnchor.constraint(equalToConstant: self.frame.width-5),
+			prodImage.heightAnchor.constraint(equalToConstant: self.frame.width),
 			
 			prodName.topAnchor.constraint(equalTo: prodImage.bottomAnchor, constant: 0),
 			prodName.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
 			prodName.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
-			prodName.heightAnchor.constraint(equalToConstant: 20),
+			prodName.heightAnchor.constraint(equalToConstant: 21/*prodName.font.pointSize+4*/),
 			
 			prodPrice.topAnchor.constraint(equalTo: prodName.bottomAnchor, constant: 0),
 			prodPrice.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
 			prodPrice.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
-			prodPrice.heightAnchor.constraint(equalToConstant: 20),
+			prodPrice.heightAnchor.constraint(equalToConstant: 21/*prodPrice.font.pointSize+4*/),
 			])
 		if showAdd2CartButton != .noShow
 		{

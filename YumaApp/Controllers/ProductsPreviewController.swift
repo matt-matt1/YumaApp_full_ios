@@ -23,8 +23,11 @@ class ProductsPreviewController: UIViewController
 	let products: [aProduct] = []
 	var prodsCollection: UICollectionView =
 	{
-		let layout = UICollectionViewFlowLayout()
-		layout.minimumLineSpacing = 8
+		let layout = DSSCollectionViewFlowLayout()//UICollectionViewFlowLayout()
+		layout.minimumLineSpacing = 10
+//		layout.estimatedItemSize = CGSize(width: 200, height: 200)
+//		layout.placeEqualSpaceAroundAllCells = true
+//		layout.sectionInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 2)
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		view.backgroundColor = UIColor(hex: "dedede")//.lightGray//.white
 		view.shadowColor = UIColor.darkGray
@@ -35,9 +38,10 @@ class ProductsPreviewController: UIViewController
 	}()
 	var panelsCollection: UICollectionView =
 	{
-		let layout = UICollectionViewFlowLayout()
+		let layout = DSSCollectionViewFlowLayout()//UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
 		layout.minimumLineSpacing = 8
+		layout.placeEqualSpaceAroundAllCells = false
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		//		view.translatesAutoresizingMaskIntoConstraintsvarfalse
 //		view.backgroundColor = UIColor.lightGray//.white
@@ -50,11 +54,16 @@ class ProductsPreviewController: UIViewController
 	}()
 	let numberCellsPerRow: CGFloat = 2
 	/// Amount reduced from the whole width, before divided by numberCellPerRow. Minimum value is 10
-	let verticalDividerWidth: CGFloat = 10
 	let minCellWidth: CGFloat = 120
 	let maxCellWidth: CGFloat = 1000
 	let minCellHeight: CGFloat = 200
-	let maxCellHeight: CGFloat = 500
+	let maxCellHeight: CGFloat = 600
+	let cellsBottomMargin: CGFloat = 5
+	let cellsLeftMargin: CGFloat = 5
+	let cellsTopMargin: CGFloat = 5
+	let cellsRightMargin: CGFloat = 5
+	let cellLeftMargin: CGFloat = 0
+	let cellRightMargin: CGFloat = 0	// for every cell
 	let store = DataStore.sharedInstance
 //	let headerCell = ProductsPreviewHeaderCell()
 	//	let footerCell = ProvartsPreviewFooterCell()
@@ -175,6 +184,8 @@ class ProductsPreviewController: UIViewController
 		header.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
 		footer = UIStackView(arrangedSubviews: [footerLbl, updateLine])
 		footer.axis = .vertical
+		prodsCollection.contentInset = UIEdgeInsets(top: cellsTopMargin, left: cellsLeftMargin, bottom: cellsBottomMargin, right: cellsRightMargin)
+		(prodsCollection.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0, left: cellLeftMargin, bottom: 0, right: cellRightMargin)
 		stack = UIStackView(arrangedSubviews: [header, prodsCollection, footer])
 		stack.axis = .vertical
 		stack.translatesAutoresizingMaskIntoConstraints = false
@@ -417,8 +428,9 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-			let cellWidth = max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth)
-			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth, maxCellHeight)) + 30)
+			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * CGFloat(1.5) * min(1, (numberCellsPerRow - 1))) - (cellsLeftMargin / CGFloat(2)), minCellWidth)
+			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth - cellsTopMargin - cellsBottomMargin, maxCellHeight)) + 90 / UIScreen.main.scale)
+			//+60 (density:1), +20 (density:3)
 			//height: max(200, min(401, 500)) + 30 + 30) - landscape  = 461
 			//height: max(200, min(182.5, 500)) + 30 + 30) - portrait = 242.5
 		}

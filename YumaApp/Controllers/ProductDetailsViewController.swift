@@ -353,6 +353,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		print("scrollView frame=\(scrollView.frame), contentSize=\(scrollView.contentSize)")
 		//		print("prodImage frame=\(prodImage.frame)")
 		updateMinZoomScaleFor(prodImageScroll, innerObjectSize: prodImage.bounds.size)
+		view.layoutIfNeeded()
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -431,7 +432,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{	// A zoom scale of 1.0 indicates that the content is displayed at normal size. A zoom scale less than one shows the content zoomed out, and a zoom scale greater than one shows the content zoomed in.
 //		let imageViewSize: CGSize = prodImage.bounds.size
 //		let scrollViewSize: CGSize = prodImageScroll.bounds.size
-//		if (imageViewSize.width + imageViewSize.height) > 0 && (scrollViewSize.width + scrollViewSize.height) > 0
+		guard (innerObjectSize.width + innerObjectSize.height) > 0 && (scrollView.bounds.size.width + scrollView.bounds.size.height) > 0 	else 	{ 	return 	}
 //		{
 			let widthScale = scrollView.bounds.width / innerObjectSize.width//imageViewSize.width
 			let heightScale = scrollView.bounds.height / innerObjectSize.height//imageViewSize.height

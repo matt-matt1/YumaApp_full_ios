@@ -90,6 +90,7 @@
 		CF5C72AD204851A3008763DB /* SwipingControllerTaps.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */; };
 		CF5C73092049AB32008763DB /* CartStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF5C73082049AB32008763DB /* CartStoryboard.storyboard */; };
 		CF5C730B2049B338008763DB /* CartViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5C730A2049B338008763DB /* CartViewCell.swift */; };
+		CF5F1FF5211760D50087D3F7 /* DSSCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5F1FF4211760D50087D3F7 /* DSSCollectionViewFlowLayout.swift */; };
 		CF6019EB2049CE4E00217025 /* AddrStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF6019EA2049CE4E00217025 /* AddrStoryboard.storyboard */; };
 		CF601A06204ADBB800217025 /* Carriers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF601A05204ADBB800217025 /* Carriers.swift */; };
 		CF601A08204ADEA100217025 /* IdValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF601A07204ADEA100217025 /* IdValue.swift */; };
@@ -369,6 +370,7 @@
 		CF5C72AC204851A3008763DB /* SwipingControllerTaps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingControllerTaps.swift; sourceTree = "<group>"; };
 		CF5C73082049AB32008763DB /* CartStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CartStoryboard.storyboard; sourceTree = "<group>"; };
 		CF5C730A2049B338008763DB /* CartViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewCell.swift; sourceTree = "<group>"; };
+		CF5F1FF4211760D50087D3F7 /* DSSCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSSCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		CF6019EA2049CE4E00217025 /* AddrStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddrStoryboard.storyboard; sourceTree = "<group>"; };
 		CF601A05204ADBB800217025 /* Carriers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carriers.swift; sourceTree = "<group>"; };
 		CF601A07204ADEA100217025 /* IdValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdValue.swift; sourceTree = "<group>"; };
@@ -1007,6 +1009,7 @@
 				CF5719BA210B5DBA008AE8B2 /* ProductCategoriesCollectionViewController.swift */,
 				CF5719BE210B6980008AE8B2 /* ProductDetailsViewController.swift */,
 				CF6B52AA210A90C200F00B8C /* ProductsPreviewController.swift */,
+				CF5F1FF4211760D50087D3F7 /* DSSCollectionViewFlowLayout.swift */,
 				CFB02E3D204F445A00429798 /* ProductsViewController.swift */,
 				CF32269F20D804040058B7DE /* ProductsViewController_Collection.swift */,
 				CF717EA220A38A6400E68F83 /* ProductsViewControllerForm.swift */,
@@ -1500,6 +1503,7 @@
 				CFB02E3E204F445A00429798 /* ProductsViewController.swift in Sources */,
 				CF717E9F20A32F3300E68F83 /* ChangePW.swift in Sources */,
 				CF60CAC1208E1EAF00B6D0EE /* Employees.swift in Sources */,
+				CF5F1FF5211760D50087D3F7 /* DSSCollectionViewFlowLayout.swift in Sources */,
 				CF5719B5210B5D47008AE8B2 /* ThumbnailCollectionViewCell.swift in Sources */,
 				CF5927FE2108DBD5005DD462 /* TabBarController.swift in Sources */,
 				CF126942204C7B76008EFD04 /* Images.swift in Sources */,
