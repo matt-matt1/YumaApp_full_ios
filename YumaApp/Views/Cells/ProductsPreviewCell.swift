@@ -28,7 +28,6 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		iv.translatesAutoresizingMaskIntoConstraints = false
 		iv.contentMode = .scaleAspectFit
 		iv.backgroundColor = UIColor.white
-		//iv.sizeToFit()
 		return iv
 	}()
 	let prodName: UILabel =
@@ -40,7 +39,7 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		//lbl.adjustsFontSizeToFitWidth = true
 		lbl.textAlignment = .center
 		lbl.backgroundColor = UIColor.white
-		lbl.font = UIFont.init(name: "AvenirNext-Bold", size: 14)//.boldSystemFont(ofSize: 25)
+		lbl.font = R.font.avenirNextBold14//.boldSystemFont(ofSize: 25)
 		lbl.textColor = R.color.YumaRed
 		lbl.text = "Product Name"
 		lbl.shadowColor = R.color.YumaYel
@@ -62,6 +61,13 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		lbl.textColor = UIColor.darkGray
 		return lbl
 	}()
+	enum ShowAdd2CartButton
+	{
+		case noShow
+		case closureAction
+		case gestureAction
+	}
+	let showAdd2CartButton: ShowAdd2CartButton = .noShow
 	let add2cart: UIButton =
 	{
 		let view = UIButton()
@@ -102,21 +108,23 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 		panel.addSubview(prodImage)
 		panel.addSubview(prodName)
 		panel.addSubview(prodPrice)
-		//		if showAdd2CartButton
-		//		{
-		panel.addSubview(add2cart)
-		add2cart.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(btnTapped)))
-//		add2cart.addTapGestureRecognizer {
-//			if self.prodName.text != nil
-//			{
-//				print("TODO: add \(self.prodName.text!) to cart")
-//			}
-//		}
-		//		add2cart.addTapGestureRecognizer(action: {
-		//			print("TODO: Add this item to cart")
-		//		})
-		//		}
-		
+		if showAdd2CartButton != .noShow
+		{
+			panel.addSubview(add2cart)
+			if showAdd2CartButton == .gestureAction
+			{
+				add2cart.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(btnTapped)))
+			}
+			else
+			{
+				add2cart.addTapGestureRecognizer {
+					if self.prodName.text != nil
+					{
+						print("TODO: add \(self.prodName.text!) to cart")
+					}
+				}
+			}
+		}
 		NSLayoutConstraint.activate([
 			prodImage.topAnchor.constraint(equalTo: panel.topAnchor, constant: 0),
 			prodImage.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
@@ -133,15 +141,15 @@ class ProductsPreviewCell: BaseCell//UICollectionViewCell
 			prodPrice.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
 			prodPrice.heightAnchor.constraint(equalToConstant: 20),
 			])
-		//		if showAdd2CartButton
-		//		{
-		NSLayoutConstraint.activate([
-			add2cart.topAnchor.constraint(equalTo: prodPrice.bottomAnchor, constant: 3),
-			add2cart.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
-			add2cart.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
-			add2cart.heightAnchor.constraint(equalToConstant: 30),
-			])
-		//		}
+		if showAdd2CartButton != .noShow
+		{
+			NSLayoutConstraint.activate([
+				add2cart.topAnchor.constraint(equalTo: prodPrice.bottomAnchor, constant: 3),
+				add2cart.leadingAnchor.constraint(equalTo: panel.leadingAnchor, constant: 0),
+				add2cart.trailingAnchor.constraint(equalTo: panel.trailingAnchor, constant: 0),
+				add2cart.heightAnchor.constraint(equalToConstant: 30),
+				])
+		}
 	}
 	
 	@objc func btnTapped()

@@ -30,7 +30,7 @@ class ProductMenuBarCell: BaseCell
 		{
 //			let yellowAttr = [NSAttributedStringKey.foregroundColor : R.color.YumaYel]
 //			let grayAttr = [NSAttributedStringKey.foregroundColor : UIColor.gray]
-			imageView.tintColor = isHighlighted ? R.color.YumaDYel/*UIColor.yellow*/ : UIColor.gray
+			imageView.tintColor = isHighlighted ? R.color.YumaYel/*UIColor.yellow*/ : UIColor.gray
 //			label.attributedText.removeAttribute(NSAttributedStringKey.foregroundColor, range: NSRange(location: 0, length: label.text?.count))
 //			if label.text != nil
 //			{
@@ -42,7 +42,7 @@ class ProductMenuBarCell: BaseCell
 	{
 		didSet
 		{
-			imageView.tintColor = isSelected ? R.color.YumaDYel/*UIColor.yellow*/ : UIColor.gray
+			imageView.tintColor = isSelected ? R.color.YumaYel/*UIColor.yellow*/ : UIColor.gray
 //			label.attributedText.removeAttribute(NSAttributedStringKey.foregroundColor, range: NSRange(location: 0, length: label.text?.count))
 //			if label.text != nil
 //			{

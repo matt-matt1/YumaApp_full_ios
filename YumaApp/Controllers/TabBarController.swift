@@ -119,13 +119,13 @@ class TabBarController: UITabBarController
 		en_web.pageTitle = R.string.en
 		en_web.pageURL = R.string.enweb
 		array = [
-			TabIcons(textName: R.string.prods, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.bars.asImage(size: 30), viewController: ProductsPreviewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsPreviewController.self, helpAction: nil),
+			TabIcons(textName: R.string.prods, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.boxes.asImage(size: 30), viewController: ProductsPreviewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ProductsPreviewController.self, helpAction: nil),
 			TabIcons(textName: R.string.contact, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.phone.asImage(size: 30), viewController: ContactUsViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: ContactUsViewController.self, helpAction: #selector(ContactUsViewController.navHelpAct(_:))),
 			TabIcons(textName: R.string.Home, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.home.asImage(size: 30), viewController: SwipingController(collectionViewLayout: layout), canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 			TabIcons(textName: R.string.login, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCircle.asImage(size: 30), viewController: LoginViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: LoginViewController.self, helpAction: #selector(LoginViewController.helpBtnAct(_:))),
 			TabIcons(textName: R.string.cart, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.shoppingCart.asImage(size: 30), viewController: CartViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: CartViewController.self, helpAction: #selector(CartViewController.navHelpAct(_:))),
-			TabIcons(textName: R.string.about, iconText: nil, iconAttr: nil/*Awesome.solid.certificate.asAttributedText(fontSize: 30)*/, iconImage: Awesome.solid.certificate.asImage(size: 30), viewController: AboutVC, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
-			TabIcons(textName: R.string.en, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: en_web, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+			TabIcons(textName: R.string.about, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.certificate.asImage(size: 30), viewController: AboutVC, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
+			TabIcons(textName: R.string.en, iconText: nil, iconAttr: nil, iconImage: Awesome.regular.flag.asImage(size: 30), viewController: en_web, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 			TabIcons(textName: R.string.qc, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: french, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 		]
 	}
@@ -154,7 +154,7 @@ class TabBarController: UITabBarController
 			navigationBar.topAnchor.constraint(equalTo: view.safeTopAnchor),
 			navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 			navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-			navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height>811) ? 44 : 20)
+			navigationBar.heightAnchor.constraint(equalToConstant: (view.frame.height==812) ? 44 : 20)
 			])
 //		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
 //		{
@@ -179,7 +179,7 @@ class TabBarController: UITabBarController
 */
 	fileprivate func decorateTabBar()
 	{
-		tabBar.barTintColor = R.color.YumaDYel
+		tabBar.barTintColor = R.color.YumaYel
 		tabBar.tintColor = R.color.YumaRed
 		tabBar.shadowColor = UIColor.darkGray
 		tabBar.shadowOffset = .zero

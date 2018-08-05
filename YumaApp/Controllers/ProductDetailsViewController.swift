@@ -84,15 +84,14 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		let view = UIScrollView()
 		view.translatesAutoresizingMaskIntoConstraints = false
-		view.contentMode = .scaleAspectFit
-		//iv.sizeToFit()
+//		view.contentMode = .scaleAspectFit
 		return view
 	}()
 	let prodImage: UIImageView =
 	{
 		let iv = UIImageView()
 		iv.translatesAutoresizingMaskIntoConstraints = false
-		iv.contentMode = .scaleAspectFit
+//		iv.contentMode = .scaleAspectFit
 		iv.shadowColor = UIColor.gray
 		iv.shadowOffset = CGSize(width: 1, height: 1)
 		iv.shadowRadius = 3
@@ -109,9 +108,9 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//lbl.adjustsFontSizeToFitWidth = true
 		lbl.textAlignment = .center
 		lbl.backgroundColor = UIColor.white
-		lbl.font = R.font.averinaNextBold16//UIFont.init(name: "AvenirNext-Bold", size: 16)//.boldSystemFont(ofSize: 25)
+		lbl.font = R.font.avenirNextBold16//.boldSystemFont(ofSize: 25)
 		lbl.textColor = R.color.YumaRed
-		lbl.text = R.string.prodName//"Product Name"
+		lbl.text = R.string.prodName
 		lbl.shadowColor = R.color.YumaYel
 		lbl.shadowOffset = CGSize(width: 1, height: 1)
 		lbl.shadowRadius = 4.0
@@ -123,10 +122,50 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		lbl.translatesAutoresizingMaskIntoConstraints = false
 		lbl.font = UIFont.systemFont(ofSize: 18)
 		lbl.textAlignment = .center
-		lbl.text = R.string.prodPrice//"Product Price"
+		lbl.text = R.string.prodPrice
 		lbl.backgroundColor = UIColor.white
 		lbl.textColor = UIColor.darkGray
 		return lbl
+	}()
+	var prodQty = 1
+	let addQty: UITextField =
+	{
+		let view = UITextField()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.font = UIFont.systemFont(ofSize: 17)
+//		view.textAlignment = .center
+		view.text = "1"
+		view.backgroundColor = UIColor.white
+		view.textColor = UIColor.darkGray
+		view.borderStyle = UITextBorderStyle.none
+		return view
+	}()
+	let addBox: UIView =
+	{
+		let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.white
+//		view.shadowColor = UIColor.darkGray
+//		view.shadowOffset = .zero
+//		view.shadowRadius = 2
+//		view.shadowOpacity = 0.8
+		view.borderColor = UIColor.lightGray
+		view.borderWidth = 1
+		return view
+	}()
+	let addUpDown: UIStepper =
+	{
+		let view = UIStepper()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.white
+		view.borderColor = UIColor.lightGray
+		view.borderWidth = 1
+		view.cornerRadius = 4
+		view.setIncrementImage(Awesome.solid.caretUp.asImage(size: 20), for: .normal)
+		view.setDecrementImage(Awesome.solid.caretDown.asImage(size: 20), for: .normal)
+		view.tintColor = UIColor.darkGray
+		view.value = 1
+		return view
 	}()
 	let add2cart: UIButton =
 	{
@@ -140,11 +179,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.borderWidth = 2
 		view.borderColor = R.color.YumaRed
 		view.cornerRadius = 2
-		view.backgroundColor = R.color.YumaDYel//UIColor(hex: "f8c03f")
+		view.backgroundColor = R.color.YumaYel//UIColor(hex: "f8c03f")
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
 		view.shadowRadius = 5
 		view.shadowOpacity = 0.9
+		view.autoresizingMask = [.flexibleWidth]
 		return view
 	}()
 	var tagsStack: UIStackView =
@@ -260,17 +300,24 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	//		return view
 	//	}()
 	
-	
+
+	// MARK: Overrides
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
 		
 		backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack(_:))))
 		view.backgroundColor = UIColor.lightGray
+//		UIStepper.appearance().borderColor = UIColor.red
 		scrollView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-		scrollView.delegate = self	// enable zomming
-		setZoomScale()
-		setupZoomGestureRecognizer()
+		scrollView.delegate = self
+		prodImageScroll.delegate = self	// enable zomming
+//		updateMinZoomScaleForSize()
+//		prodImage.contentMode = .scaleAspectFit
+//		prodImageScroll.zoomScale = 4.0
+//		prodImageScroll.maximumZoomScale = 0.5	// can be pinched small
+//		setupZoomGestureRecognizer()
 		let swipe = SwipingController()
 		swipe.getValues()
 		//		prepareCollectionViews()
@@ -278,6 +325,10 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		prepareCats()
 		prepareMoreImages()
 		drawNavigation()
+		addUpDown.setDividerImage(UIImage(color: UIColor(hex: "cfcfcf"), size: CGSize(width: 1, height: addUpDown.frame.height)), forLeftSegmentState: UIControlState.normal, rightSegmentState: UIControlState.normal)
+		addUpDown.maximumValue = 10
+		addUpDown.minimumValue = 1
+		addUpDown.addTarget(self, action: #selector(stepperChanged(_:)), for: .valueChanged)
 		placeSubviews()
 		if prod != nil
 		{
@@ -297,9 +348,11 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	
 	override func viewDidLayoutSubviews()
 	{
+		super.viewDidLayoutSubviews()
 		//		scrollView.contentSize.width = scrollView.frame.width
 		//		print("scrollView frame=\(scrollView.frame), contentSize=\(scrollView.contentSize)")
 		//		print("prodImage frame=\(prodImage.frame)")
+		updateMinZoomScaleFor(prodImageScroll, innerObjectSize: prodImage.bounds.size)
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -365,7 +418,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		productOptionValuesView.dataSource = self
 	}
 	
-	func viewForZooming(in scrollView: UIScrollView) -> UIView?
+	func viewForZooming(in scrollView: UIScrollView) -> UIView?	// support pinch zoom
 	{
 		if prodImageScroll == scrollView
 		{
@@ -374,48 +427,63 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		return nil
 	}
 	
-	func setZoomScale()
-	{
-		let imageViewSize = prodImage.bounds.size
-		let scrollViewSize = prodImageScroll.bounds.size
-		let widthScale = scrollViewSize.width / imageViewSize.width
-		let heightScale = scrollViewSize.height / imageViewSize.height
-		
-		prodImageScroll.minimumZoomScale = min(widthScale, heightScale)
-		prodImageScroll.zoomScale = 1.0
+	func updateMinZoomScaleFor(_ scrollView: UIScrollView, innerObjectSize: CGSize)
+	{	// A zoom scale of 1.0 indicates that the content is displayed at normal size. A zoom scale less than one shows the content zoomed out, and a zoom scale greater than one shows the content zoomed in.
+//		let imageViewSize: CGSize = prodImage.bounds.size
+//		let scrollViewSize: CGSize = prodImageScroll.bounds.size
+//		if (imageViewSize.width + imageViewSize.height) > 0 && (scrollViewSize.width + scrollViewSize.height) > 0
+//		{
+			let widthScale = scrollView.bounds.width / innerObjectSize.width//imageViewSize.width
+			let heightScale = scrollView.bounds.height / innerObjectSize.height//imageViewSize.height
+			
+//			let zoomScale = min(widthScale, heightScale)
+//			print("imageViewSize=\(imageViewSize), scrollViewSize=\(scrollViewSize), widthScale=\(widthScale), heightScale=\(heightScale)")
+//			print("widthScale=\(widthScale), heightScale=\(heightScale), zoomScale=\(zoomScale)")
+//			imageViewSize=(899.0, 1600.0), scrollViewSize=(355.0, 355.0)
+//			widthScale=0.394883203559511, heightScale=0.221875, min=0.221875
+			let minZoom = min(widthScale, heightScale)
+			scrollView.minimumZoomScale = minZoom	// cannot zoom image smaller than whole image in frame - zoom-out limit
+//			print("prodImageScroll.minimumZoomScale=\(prodImageScroll.minimumZoomScale)")
+	//		prodImageScroll.maximumZoomScale = min(widthScale, heightScale)	// zoom-in limit
+	//		prodImageScroll.zoomScale = 1.0	// initial zoom ratio (totally zoomed-in - very large)
+			scrollView.zoomScale = minZoom
+			print("scrollView.zoomScale=\(scrollView.zoomScale)")
+//		}
 	}
 	
 	func scrollViewDidZoom(_ scrollView: UIScrollView)
 	{
 		if prodImageScroll == scrollView
 		{
+//			updateMinZoomScaleForSize(prodImageScroll.bounds.size)
 			let imageViewSize = prodImage.frame.size
-			let scrollViewSize = prodImageScroll.bounds.size
+			let scrollViewSize = scrollView.bounds.size
 			let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
 			let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
 
-			prodImageScroll.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+			scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+			view.layoutIfNeeded()
 		}
 	}
 	
-	func setupZoomGestureRecognizer()
-	{
-		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
-		doubleTap.numberOfTapsRequired = 2
-		prodImageScroll.addGestureRecognizer(doubleTap)
-	}
-	
-	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
-	{
-		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
-		{
-			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
-		}
-		else
-		{
-			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
-		}
-	}
+//	func setupZoomGestureRecognizer()
+//	{
+//		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+//		doubleTap.numberOfTapsRequired = 2
+//		prodImageScroll.addGestureRecognizer(doubleTap)
+//	}
+//
+//	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
+//	{
+//		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
+//		{
+//			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
+//		}
+//		else
+//		{
+//			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
+//		}
+//	}
 	
 	func imageFromLayer(_ layer: CALayer) -> UIImage?
 	{
@@ -469,7 +537,14 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			view.insertSubview(statusAndNavigationBars, at: 0)
 		}
 */	}
-	
+
+	@objc func stepperChanged(_ sender: UIStepper)
+	{
+		let value = Int(sender.value)
+		addQty.text = String(value)
+		prod.quantity = value
+	}
+
 //	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 //	{
 //		super.willTransition(to: newCollection, with: coordinator)
@@ -536,6 +611,25 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		setViews()
 		prodImageScroll.addSubview(prodImage)
+		addBox.addSubview(addQty)
+		NSLayoutConstraint.activate([
+			addQty.topAnchor.constraint(equalTo: addBox.topAnchor, constant: 5),
+			addQty.leadingAnchor.constraint(equalTo: addBox.leadingAnchor, constant: 20),
+			addQty.bottomAnchor.constraint(equalTo: addBox.bottomAnchor, constant: -5),
+			addQty.trailingAnchor.constraint(equalTo: addBox.trailingAnchor, constant: -5),
+			])
+		let falseEnd = UIView(frame: .zero)
+		falseEnd.translatesAutoresizingMaskIntoConstraints = false
+		let addLine = UIStackView(arrangedSubviews: [falseEnd, addBox, addUpDown, add2cart, falseEnd])
+		addLine.spacing = 5
+		addLine.alignment = .center
+		addLine.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+		let btnWidth = min(view.frame.width - 82 - addUpDown.frame.width, 350)
+//		addLine.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(50)]-5-[v1(\(addUpDown.frame.width+5))]-3-[v2(\(btnWidth))][v3]", views: addBox, addUpDown, add2cart, falseEnd)
+//		addLine.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(50)]-5-[v2(\(addUpDown.frame.width+2))]-3-[v3(\(btnWidth))][v4]", views: falseEnd, addBox, addUpDown, add2cart, falseEnd)
+		addLine.addConstraintsWithFormat(format: "H:|-2-[v0(50)]-5-[v1(\(addUpDown.frame.width+2))]-3-[v2(\(btnWidth))][v3]", views: addBox, addUpDown, add2cart, falseEnd)
+		addLine.addConstraintsWithFormat(format: "V:[v0(50)]", views: addBox)
+//		addLine.addArrangedSubview(falseEnd)
 		NSLayoutConstraint.activate([
 			prodImage.topAnchor.constraint(equalTo: prodImageScroll.topAnchor, constant: 0),
 			prodImage.leadingAnchor.constraint(equalTo: prodImageScroll.leadingAnchor, constant: 0),
@@ -543,25 +637,36 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			prodImage.trailingAnchor.constraint(equalTo: prodImageScroll.trailingAnchor, constant: 0),
 			])
 		manufacturerStack = UIStackView(arrangedSubviews: [prodManImage, manufacturerName])
-		manufacturerStack.distribution = .fillEqually
-		imagesScroll.addSubview(imagesStack)
-		NSLayoutConstraint.activate([
-			imagesStack.topAnchor.constraint(equalTo: imagesScroll.topAnchor, constant: 0),
-			//			imagesStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
-			imagesStack.bottomAnchor.constraint(equalTo: imagesScroll.bottomAnchor, constant: 0),
-			//			imagesStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0)
-			])
-		stack = UIStackView(arrangedSubviews: [prodImageScroll, /*prodImage,*/ prodName, imagesScroll/*imagesStack*/, add2cart, prodPrice, manufacturerStack, catsStack, tagsStack, descLong, descShort, combinationsStack, shareStack, productOptionValuesStack/*, imagesView*/])
+		manufacturerStack.distribution = .fill
+		manufacturerStack.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+//		imagesStack.insertArrangedSubview(falseEnd, at: 0)
+//		imagesStack.addArrangedSubview(falseEnd)
+		imagesStack.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+		imagesStack.distribution = .fill
+//		imagesScroll.addSubview(imagesStack)
+//		NSLayoutConstraint.activate([
+//			imagesStack.topAnchor.constraint(equalTo: imagesScroll.topAnchor, constant: 0),
+////			imagesStack.leadingAnchor.constraint(equalTo: imagesScroll.leadingAnchor, constant: 0),
+////			imagesStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0),
+//			imagesStack.bottomAnchor.constraint(equalTo: imagesScroll.bottomAnchor, constant: 0),
+////			imagesStack.trailingAnchor.constraint(equalTo: imagesScroll.trailingAnchor, constant: 0),
+////			imagesStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+//			])
+		stack = UIStackView(arrangedSubviews: [prodImageScroll, /*prodImage,*/ prodName, imagesScroll, imagesStack, addLine/*add2cart*/, prodPrice, manufacturerStack, catsStack, tagsStack, descLong, descShort, combinationsStack, shareStack, productOptionValuesStack/*, imagesView*/])
 		stack.axis = .vertical
 		stack.spacing = 10
 		scrollView.addSubview(stack)
 		prodImageScroll.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 0).isActive = true
 		prodImageScroll.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0).isActive = true
-		prodImageScroll.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+		prodImageScroll.heightAnchor.constraint(equalTo: prodImageScroll.widthAnchor, multiplier: 1).isActive = true
+//		prodImageScroll.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 		//prodName
-		add2cart.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: (view.frame.width - max(260, view.frame.width/3))/2).isActive = true	// centre button with min.width = 260
-		add2cart.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -((view.frame.width - max(260, view.frame.width/3))/2)).isActive = true
+//		imagesScroll.heightAnchor.constraint(equalToConstant: 100).isActive = true
+		imagesStack.heightAnchor.constraint(equalToConstant: 100).isActive = true
+//		add2cart.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: (view.frame.width - max(260, view.frame.width/3))/2).isActive = true	// centre button with min.width = 260
+//		add2cart.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -((view.frame.width - max(260, view.frame.width/3))/2)).isActive = true
 		add2cart.heightAnchor.constraint(equalToConstant: 50).isActive = true
+		addLine.heightAnchor.constraint(equalToConstant: 50).isActive = true
 		//prodPrice
 		manufacturerStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		//		catsCollectionView.heightAnchor.constraint(equalToConstant: 30).isActive = true//red

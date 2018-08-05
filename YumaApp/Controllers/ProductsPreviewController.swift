@@ -143,6 +143,8 @@ class ProductsPreviewController: UIViewController
 	}()
 
 
+	// MARK: Overrides
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -416,7 +418,7 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		if collectionView == prodsCollection
 		{
 			let cellWidth = max(((view.frame.width - verticalDividerWidth) / numberCellsPerRow), minCellWidth)
-			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth, maxCellHeight)) + 30 + 30)
+			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth, maxCellHeight)) + 30)
 			//height: max(200, min(401, 500)) + 30 + 30) - landscape  = 461
 			//height: max(200, min(182.5, 500)) + 30 + 30) - portrait = 242.5
 		}

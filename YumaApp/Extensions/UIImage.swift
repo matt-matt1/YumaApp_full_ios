@@ -11,6 +11,21 @@ import UIKit
 
 extension UIImage
 {
+	//https://stackoverflow.com/questions/26542035/create-uiimage-with-solid-color-in-swift
+	
+	/// Create an solid image of a color and optional size
+	public convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1))
+	{
+		let rect = CGRect(origin: .zero, size: size)
+		UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+		color.setFill()
+		UIRectFill(rect)
+		let image = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
+		guard let cgImage = image?.cgImage 	else 	{ 	return nil 	}
+		self.init(cgImage: cgImage)
+	}
+	
 	//https://stackoverflow.com/questions/40882487/how-to-rotate-image-in-swift-3
 	
 	/// Rotates an image (by Radians). Eg. let rotatedImage = image.rotate(radians: .pi)

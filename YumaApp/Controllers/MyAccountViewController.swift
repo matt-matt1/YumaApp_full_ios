@@ -90,7 +90,7 @@ class MyAccountViewController: UIViewController
 		orderHistBtn.setTitle("", for: .normal)
 		orderHistBtn.setTitle("", for: .highlighted)
 		let orderHistBtnlbl = UILabel(frame: CGRect(x: 5, y: 0, width: 55, height: orderHistBtn.frame.height))
-		orderHistBtnlbl.attributedText = Awesome.regular.calendarAlt.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
+		orderHistBtnlbl.attributedText = Awesome.solid.boxOpen/*.regular.calendarAlt*/.asAttributedText(fontSize: 30, color: R.color.YumaYel/*.YumaRed*/, backgroundColor: .clear)
 		orderHistBtnlbl.textColor = R.color.YumaYel
 		orderHistBtn.addSubview(orderHistBtnlbl)
 		let orderHistBtnlbl1 = UILabel(frame: CGRect(x: 60, y: 0, width: orderHistBtn.frame.width-60, height: orderHistBtn.frame.height))
