@@ -24,7 +24,7 @@ class ProductsPreviewController: UIViewController
 	var prodsCollection: UICollectionView =
 	{
 		let layout = DSSCollectionViewFlowLayout()//UICollectionViewFlowLayout()
-		layout.minimumLineSpacing = 10
+		layout.minimumLineSpacing = 8
 //		layout.estimatedItemSize = CGSize(width: 200, height: 200)
 //		layout.placeEqualSpaceAroundAllCells = true
 //		layout.sectionInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 2)

@@ -11,10 +11,10 @@ import Foundation
 
 struct CartRow: Decodable
 {
-	var idProduct: 				String?
-	var idProductAttribute: 	String?
-	var idAddressDelivery: 		String?
-	var quantity: 				String?
+	var idProduct: 				Int?//String?
+	var idProductAttribute: 	Int?//String?
+	var idAddressDelivery: 		Int?//String?
+	var quantity: 				Int?//String?
 	
 	enum MemberKeys: String, CodingKey
 	{
@@ -31,22 +31,22 @@ struct CartAssociations: Decodable
 struct aCart: Decodable
 {
 	var id: 					Int?
-	var idAddressDelivery: 		String?
-	var idAddressInvoice: 		String?
-	var idCurrency: 			String?
-	var idCustomer: 			String?
-	var idGuest: 				String?
-	var idLang: 				String?
-	var idShopGroup: 			String?
-	var idShop: 				String?
-	var idCarrier: 				String?
-	var recyclable: 			String?//Bool
-	var gift: 					String?//Bool
+	var idAddressDelivery: 		Int?//String?
+	var idAddressInvoice: 		Int?//String?
+	var idCurrency: 			Int?//String?
+	var idCustomer: 			Int?//String?
+	var idGuest: 				Int?//String?
+	var idLang: 				Int?//String?
+	var idShopGroup: 			Int?//String?
+	var idShop: 				Int?//String?
+	var idCarrier: 				Int?//String?
+	var recyclable: 			Bool?//String?//Bool
+	var gift: 					Bool?//String?//Bool
 	var giftMessage: 			String?
-	var mobileTheme: 			String?//Bool
+	var mobileTheme: 			Bool?//String?//Bool
 	var deliveryOption: 		String?
-	var secureKey: 				String?//..32
-	var allowSeperatedPackage: 	String?//Bool
+	var secureKey: 				Int32?//String?//..32
+	var allowSeperatedPackage: 	Bool?//String?//Bool
 	var dateAdd: 				String?//date
 	var dateUpd: 				String?//date
 	var associations: 			CartAssociations?

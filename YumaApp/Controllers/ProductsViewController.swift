@@ -164,8 +164,8 @@ class ProductsViewController: UIViewController, UIScrollViewDelegate
 				{
 					if latestIsUpdate
 					{
-						let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
-						cell.prodQty.text = latest?.product_quantity
+						let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)) as! CartCell
+						cell.prodQty.text = "\((latest?.productQuantity)!)"
 						store.flexView(view: cell) { (done) in
 							self.store.flexView(view: cell.prodQty.superview!)
 						}

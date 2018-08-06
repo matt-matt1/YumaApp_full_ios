@@ -42,7 +42,7 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         super.viewDidLoad()
 
 //		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
-		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
+//		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)////////unknown
 //		navClose.title = FontAwesome.close.rawValue
 //		navHelp.title = FontAwesome.questionCircle.rawValue
 //		navHelp.setTitleTextAttributes([NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)], for: .normal)
@@ -60,8 +60,8 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 ////		}
 //		navigationItem.title = R.string.cart
 		NotificationCenter.default.addObserver(self, selector: #selector(calcTotalWrapper), name: CartViewController.noteName, object: nil)
-		tableView.layoutIfNeeded()
-		totalPcsLbl.text = R.string.pieces
+//		tableView.layoutIfNeeded()////////unknown
+//		totalPcsLbl.text = R.string.pieces////////unknown
 		totalLbl.text = " = "
 		totalWtLbl.text = store.weightUnit//R.string.kg
 		if store.myOrderRows.count < 1
@@ -100,7 +100,8 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		var i = 0
 		for row in store.myOrderRows
 		{
-			if row.product_id == String(sender.tag)
+//			if row.product_id == String(sender.tag)
+			if row.productId == sender.tag
 			{
 				break
 			}
@@ -109,7 +110,8 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		if value < 1
 		{
 			sender.value = 1
-			store.myOrderRows[i].product_quantity = String(1)
+//			store.myOrderRows[i].product_quantity = String(1)
+			store.myOrderRows[i].productQuantity = 1
 			if let prodTitle = (sender.superview?.superview?.subviews[1].subviews[0] as? UILabel)?.text//, let qty = (sender.superview?.subviews.first.subviews.first.subviews.first as? UITextFiled)?.text
 			{
 				askToDelete(message: "\(R.string.delete) \"\(prodTitle)\"", row: i)
@@ -121,7 +123,8 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 		}
 		else
 		{
-			store.myOrderRows[i].product_quantity = String(Int(value))
+//			store.myOrderRows[i].product_quantity = String(Int(value))
+			store.myOrderRows[i].productQuantity = Int(value)
 			calcTotal()
 		}
 	}
@@ -145,11 +148,13 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 			for row in store.myOrderRows
 			{
 				//total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
-				total += (Float(Int(row.product_quantity!)!) * Float(row.product_price!)!)
-				pcs += Int(row.product_quantity!)!
+				total += Float(Int(row.productQuantity!)) * Float(row.productPrice!)
+//				pcs += Int(row.product_quantity!)!
+				pcs += Int(row.productQuantity!)
 				for p in store.products
 				{
-					if String(p.id) == row.product_id! && p.weight != nil
+//					if String(p.id) == row.product_id! && p.weight != nil
+					if p.id == row.productId! && p.weight != nil
 					{
 						wt += p.weight!
 	//					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
@@ -396,10 +401,10 @@ class CartViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
 extension CartViewController: UITableViewDataSource, UITableViewDelegate
 {
-	func numberOfSections(in tableView: UITableView) -> Int
-	{
-		return 1
-	}
+//	func numberOfSections(in tableView: UITableView) -> Int
+//	{
+//		return 1
+//	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{

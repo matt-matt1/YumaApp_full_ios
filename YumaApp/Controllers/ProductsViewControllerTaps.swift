@@ -233,11 +233,14 @@ extension ProductsViewController
 		for i in 0..<store.myOrderRows.count
 		{
 			//check if product already exists
-			if Int(store.myOrderRows[i].product_id!) == prod.id
+//			if Int(store.myOrderRows[i].product_id!) == prod.id
+			if Int(store.myOrderRows[i].productId!) == prod.id
 			{
-				qty = Int(store.myOrderRows[i].product_quantity!)!
+//				qty = Int(store.myOrderRows[i].product_quantity!)!
+				qty = Int(store.myOrderRows[i].productQuantity!)
 				//print("qty was \(qty)")
-				store.myOrderRows[i].product_quantity = "\(qty + 1)"
+//				store.myOrderRows[i].product_quantity = "\(qty + 1)"
+				store.myOrderRows[i].productQuantity = qty + 1
 				latest = store.myOrderRows[i]
 				latestIsUpdate = true
 				found = true
@@ -275,7 +278,8 @@ extension ProductsViewController
 			//					)
 			//				}
 			//			}
-			let row = OrderRow(id: "\(count)", product_id: "\(prod.id)", product_attribute_id: prod.cacheHasAttachments! == true ? "1" : "", product_quantity: "\(qty)", product_name: "\(store.valueById(object: prod.name!, id: store.myLang) ?? "")", product_reference: String(prod.reference!), product_ean13: String(prod.ean13!), product_isbn: String(prod.isbn!), product_upc: String(prod.upc!), product_price: String(prod.price!), unit_price_tax_incl: String(prod.price!), unit_price_tax_excl: String(prod.price!), productImage: prod_image)//prod.name![store.myLang].value ?? ""
+//			let row = OrderRow(id: "\(count)", product_id: "\(prod.id)", product_attribute_id: prod.cacheHasAttachments! == true ? "1" : "", product_quantity: "\(qty)", product_name: "\(store.valueById(object: prod.name!, id: store.myLang) ?? "")", product_reference: String(prod.reference!), product_ean13: String(prod.ean13!), product_isbn: String(prod.isbn!), product_upc: String(prod.upc!), product_price: String(prod.price!), unit_price_tax_incl: String(prod.price!), unit_price_tax_excl: String(prod.price!), productImage: prod_image)//prod.name![store.myLang].value ?? ""
+			let row = OrderRow(id: count, productId: prod.id, productAttributeId: prod.cacheHasAttachments! == true ? 1 : 0, productQuantity: qty, productName: store.valueById(object: prod.name!, id: store.myLang) ?? "", productReference: String(prod.reference!), productEan13: String(prod.ean13!), productIsbn: String(prod.isbn!), productUpc: String(prod.upc!), productPrice: prod.price!, unitPriceTaxIncl: prod.price!, unitPriceTaxExcl: prod.price!, productImage: prod_image)//prod.name![store.myLang].value ?? ""
 			store.myOrderRows.append(row)
 			latest = row
 			latestIsUpdate = false

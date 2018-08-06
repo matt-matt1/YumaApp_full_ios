@@ -19,11 +19,14 @@ extension ProductsViewController
 		for row in store.myOrderRows
 		{
 			//total += (Double(Int(row.product_quantity!)!) * Double(row.product_price!)!)
-			total += (Float(Int(row.product_quantity!)!) * Float(row.product_price!)!)
-			pcs += Int(row.product_quantity!)!
+//			total += (Float(Int(row.product_quantity!)!) * Float(row.product_price!)!)
+			total += Float(Int(row.productQuantity!)) * Float(row.productPrice!)
+//			pcs += Int(row.product_quantity!)!
+			pcs += Int(row.productQuantity!)
 			for p in store.products
 			{
-				if String(p.id) == row.product_id! && p.weight != nil
+//				if String(p.id) == row.product_id! && p.weight != nil
+				if p.id == row.productId! && p.weight != nil
 				{
 					wt += p.weight!
 					//					let prodWeight = NumberFormatter().number(from: p.weight!)?.doubleValue
@@ -88,10 +91,12 @@ extension ProductsViewController
 		{
 			latest = store.myOrderRows[i!]
 		}
-		let name = latest?.product_name//thisOrder.productName//prod.name![0].value
+//		let name = latest?.product_name//thisOrder.productName//prod.name![0].value
+		let name = latest?.productName//thisOrder.productName//prod.name![0].value
 		view.prodName.text = name
 		view.prodName.lineBreakMode = .byTruncatingHead
-		view.tag = Int((latest?.product_id)!)!
+//		view.tag = Int((latest?.product_id)!)!
+		view.tag = Int((latest?.productId)!)
 		//		if prod.showPrice != "0" && Double(prod.price!)! > 0
 		//		{
 		//			view.prodPrice.text = prod.price
@@ -116,7 +121,8 @@ extension ProductsViewController
 			view.prodImage.image = UIImage(data: (latest?.productImage)!)
 		}
 		//print("prod.quantity=\(prod.quantity)")
-		view.prodQty.text = latest?.product_quantity//thisOrder.productQuantity//prod.quantity
+//		view.prodQty.text = latest?.product_quantity//thisOrder.productQuantity//prod.quantity
+		view.prodQty.text = "\((latest?.productQuantity)!)"//thisOrder.productQuantity//prod.quantity
 		cartScroll.addSubview(view)
 		//prod_2
 		//		var categoryStr = ""//"\(store.categories[Int(prod.idCategoryDefault)])"
@@ -184,8 +190,10 @@ extension ProductsViewController
 			{
 				if latestIsUpdate
 				{
-					let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
-					cell.prodQty.text = latest?.product_quantity
+//					let cell = self.cartScroll.viewWithTag(Int((latest?.product_id)!)!) as! CartCell
+					let cell = self.cartScroll.viewWithTag(Int((latest?.productId)!)) as! CartCell
+//					cell.prodQty.text = latest?.product_quantity
+					cell.prodQty.text = "\((latest?.productQuantity)!)"
 					store.flexView(view: cell) { (done) in
 						self.store.flexView(view: cell.prodQty.superview!)
 					}

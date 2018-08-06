@@ -307,17 +307,19 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		super.viewDidLoad()
 		
-		backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack(_:))))
+//		backButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack(_:))))
+		backButton.addTapGestureRecognizer {
+			self.dismiss(animated: true, completion: nil)
+		}
 		view.backgroundColor = UIColor.lightGray
-//		UIStepper.appearance().borderColor = UIColor.red
 		scrollView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
 		scrollView.delegate = self
 		prodImageScroll.delegate = self	// enable zomming
-//		updateMinZoomScaleForSize()
+		updateMinZoomScaleFor(prodImageScroll, innerObjectSize: prodImage.bounds.size)
 //		prodImage.contentMode = .scaleAspectFit
 //		prodImageScroll.zoomScale = 4.0
 //		prodImageScroll.maximumZoomScale = 0.5	// can be pinched small
-//		setupZoomGestureRecognizer()
+		setupZoomGestureRecognizer()
 		let swipe = SwipingController()
 		swipe.getValues()
 		//		prepareCollectionViews()
@@ -392,6 +394,11 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			imagesStack = productsView.formImageViews(imageIDs: (prod.associations?.images)!)
 			imagesStack.distribution = .fill
 			imagesStack.alignment = .top
+			imagesStack.subviews.forEach { (extraImg) in
+				extraImg.addTapGestureRecognizer(action: {
+					self.prodImage.image = extraImg.subviews[0] as? UIImage
+				})
+			}
 			//			imagesStack.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 749), for: UILayoutConstraintAxis.horizontal)
 			//			imagesStack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: UILayoutConstraintAxis.horizontal)
 		}
@@ -448,7 +455,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	//		prodImageScroll.maximumZoomScale = min(widthScale, heightScale)	// zoom-in limit
 	//		prodImageScroll.zoomScale = 1.0	// initial zoom ratio (totally zoomed-in - very large)
 			scrollView.zoomScale = minZoom
-			print("scrollView.zoomScale=\(scrollView.zoomScale)")
+//			print("scrollView.zoomScale=\(scrollView.zoomScale)")
 //		}
 	}
 	
@@ -467,24 +474,24 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		}
 	}
 	
-//	func setupZoomGestureRecognizer()
-//	{
-//		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
-//		doubleTap.numberOfTapsRequired = 2
-//		prodImageScroll.addGestureRecognizer(doubleTap)
-//	}
-//
-//	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
-//	{
-//		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
-//		{
-//			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
-//		}
-//		else
-//		{
-//			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
-//		}
-//	}
+	func setupZoomGestureRecognizer()
+	{
+		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+		doubleTap.numberOfTapsRequired = 2
+		prodImageScroll.addGestureRecognizer(doubleTap)
+	}
+
+	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
+	{
+		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
+		{
+			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
+		}
+		else
+		{
+			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
+		}
+	}
 	
 	func imageFromLayer(_ layer: CALayer) -> UIImage?
 	{
@@ -532,7 +539,10 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			backButton.bottomAnchor.constraint(equalTo: navigationBar.bottomAnchor, constant: 0).isActive = true
 		}
 		//		navigationBar.translatesAutoresizingMaskIntoConstraints = false
-		navTitle.setRightBarButton(UIBarButtonItem(image: Awesome.solid.questionCircle.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:))), animated: true)
+		let navHelp = UIBarButtonItem(image: Awesome.solid.questionCircle.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:)))
+		let navCart = UIBarButtonItem(image: Awesome.solid.shoppingCart.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayCart(_:)))
+		navTitle.setRightBarButtonItems([navHelp, navCart], animated: false)
+//		navTitle.setRightBarButton(UIBarButtonItem(image: Awesome.solid.questionCircle.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:))), animated: true)
 /*		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
 		{
 			view.insertSubview(statusAndNavigationBars, at: 0)
@@ -848,9 +858,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			//			self.productOptionValuesView.addArrangedSubview(formProductOptionValues(ValueIDs: (prod.associations?.product_option_values)!))
 		}
 		add2cart.addTapGestureRecognizer {
-			if self.prod.name != nil
+			if self.prod.name != nil && self.prod.price != nil && self.prod.name![self.store.myLang].value != nil
 			{
-				print("TODO: add prod \"\(self.prod.name![self.store.myLang].value!)\" to cart")
+				self.store.myCartRows.append(CartRow(idProduct: self.prod.id, idProductAttribute: self.prod.cacheDefaultAttribute, idAddressDelivery: nil, quantity: self.prodQty/* self.prod.quantity*/))
+//				print("TODO: add prod \"\(self.prod.name![self.store.myLang].value!)\" to cart")
+				self.store.myOrderRows.append(OrderRow(id: 0, productId: self.prod.id, productAttributeId: self.prod.cacheDefaultAttribute/*nil*/, productQuantity: self.prodQty/*self.prodQty*/, productName: self.prod.name![self.store.myLang].value!, productReference: self.prod.reference, productEan13: self.prod.ean13, productIsbn: self.prod.isbn, productUpc: self.prod.upc, productPrice: self.prod.price!, unitPriceTaxIncl: self.prod.price, unitPriceTaxExcl: self.prod.price, productImage: nil))
+				print(self.store.myOrderRows)
 			}
 			else
 			{
@@ -866,7 +879,15 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		self.dismiss(animated: true, completion: nil)
 	}
-	
+
+	@objc func displayCart(_ sender: UITapGestureRecognizer)
+	{
+		let vc = CartViewControl()
+		self.present(vc, animated: false) {
+		}
+//		tabBarController?.selectedIndex = 3
+	}
+
 	@objc func displayHelp(_ sender: UITapGestureRecognizer)
 	{
 		let viewC = Assistance()

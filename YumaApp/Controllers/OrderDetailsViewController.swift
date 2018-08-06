@@ -354,39 +354,39 @@ class OrderDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 			if order?.associations?.order_rows != nil && (order?.associations?.order_rows?.count)! > 0
 			{
 				var pos = 1
-				addMessageField.text = (order?.associations?.order_rows![0].product_name)	//insert first product
+				addMessageField.text = (order?.associations?.order_rows![0].productName)	//insert first product
 				for row in (order?.associations?.order_rows)!
 				{
 					let prod = UILabel()
-					prod.text = row.product_name
+					prod.text = row.productName
 					prod.textColor = R.color.YumaRed
 					prod.adjustsFontSizeToFitWidth = true
 					let qty = UILabel()
 					qty.textAlignment = .center
 					qty.textColor = R.color.YumaRed
-					qty.text = row.product_quantity
+					qty.text = "\((row.productQuantity)!)"
 					let up = UILabel()
 					up.textColor = R.color.YumaRed
 					up.textAlignment = .right
-					if let currency = Double(row.unit_price_tax_excl!)
-					{
+					/*if*/ let currency = Double(row.unitPriceTaxExcl!)
+//					{
 						up.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
 						unit = currency
-					}
+//					}
 					let tp = UILabel()
 					tp.textAlignment = .right
 					tp.textColor = R.color.YumaRed
-					if let currency = Double(row.product_price!)
-					{
-						tp.text = self.store.formatCurrency(amount: NSNumber(value: currency), iso: self.store.locale)
-						sub += currency
+					/*if*/ let currency2 = Double(row.productPrice!)
+//					{
+						tp.text = self.store.formatCurrency(amount: NSNumber(value: currency2), iso: self.store.locale)
+						sub += currency2
 						total += sub
-						tax += Double(row.unit_price_tax_incl!)! - unit
-					}
+						tax += Double(row.unitPriceTaxIncl!) - unit
+//					}
 					let stack = UIStackView(arrangedSubviews: [prod, qty, up, tp])
 					stack.distribution = .fillEqually
 					orderListAdd2.insertArrangedSubview(stack, at: pos)
-					pickerData.append(row.product_name!)
+					pickerData.append(row.productName!)
 //				var msgs: [String] = [String]()
 //				if row.productReference != nil
 //				{

@@ -14,55 +14,55 @@ struct AssociationsOrders: Decodable
 	var order_rows: [OrderRow]
 }
 
+struct OrderRow: Decodable
+{
+	var id: 					Int?//!
+	var productId: 				Int?//!
+	var productAttributeId: 	Int?//!
+	var productQuantity: 		Int?//!
+	var productName: 			String?//read_only
+	var productReference: 		String?//read_only
+	var productEan13: 			String?//read_only
+	var productIsbn: 			String?//read_only
+	var productUpc: 			String?//read_only
+	var productPrice: 			Float?//read_only
+	var unitPriceTaxIncl: 		Float?//read_only
+	var unitPriceTaxExcl: 		Float?//read_only
+	var productImage:			Data?
+
+	enum MemberKeys: String, CodingKey
+	{
+		case id
+		case productId = 			"product_id"
+		case productAttributeId = 	"product_attribute_id"
+		case productQuantity = 		"product_quantity"
+		case productName = 			"product_name"
+		case productReference = 	"product_reference"
+		case productEan13 = 		"product_ean13"
+		case productIsbn = 			"product_isbn"
+		case productUpc = 			"product_upc"
+		case productPrice = 		"product_price"
+		case unitPriceTaxIncl = 	"unit_price_tax_incl"
+		case unitPriceTaxExcl = 	"unit_price_tax_excl"
+		case productImage
+	}
+}
 //struct OrderRow: Decodable
 //{
 //	var id: 					String?//!
-//	var productId: 				String?//!
-//	var productAttributeId: 	String?//!
-//	var productQuantity: 		String?//!
-//	var productName: 			String?//read_only
-//	var productReference: 		String?//read_only
-//	var productEan13: 			String?//read_only
-//	var productIsbn: 			String?//read_only
-//	var productUpc: 			String?//read_only
-//	var productPrice: 			String?//read_only
-//	var unitPriceTaxIncl: 		String?//read_only
-//	var unitPriceTaxExcl: 		String?//read_only
+//	var product_id: 			String?//!
+//	var product_attribute_id: 	String?//!
+//	var product_quantity: 		String?//!
+//	var product_name: 			String?//read_only
+//	var product_reference: 		String?//read_only
+//	var product_ean13: 			String?//read_only
+//	var product_isbn: 			String?//read_only
+//	var product_upc: 			String?//read_only
+//	var product_price: 			String?//read_only
+//	var unit_price_tax_incl: 	String?//read_only
+//	var unit_price_tax_excl: 	String?//read_only
 //	var productImage:			Data?
-//
-//	enum MemberKeys: String, CodingKey
-//	{
-//		case id
-//		case productId = 			"product_id"
-//		case productAttributeId = 	"product_attribute_id"
-//		case productQuantity = 		"product_quantity"
-//		case productName = 			"product_name"
-//		case productReference = 	"product_reference"
-//		case productEan13 = 		"product_ean13"
-//		case productIsbn = 			"product_isbn"
-//		case productUpc = 			"product_upc"
-//		case productPrice = 		"product_price"
-//		case unitPriceTaxIncl = 	"unit_price_tax_incl"
-//		case unitPriceTaxExcl = 	"unit_price_tax_excl"
-//		case productImage
-//	}
 //}
-struct OrderRow: Decodable
-{
-	var id: 					String?//!
-	var product_id: 			String?//!
-	var product_attribute_id: 	String?//!
-	var product_quantity: 		String?//!
-	var product_name: 			String?//read_only
-	var product_reference: 		String?//read_only
-	var product_ean13: 			String?//read_only
-	var product_isbn: 			String?//read_only
-	var product_upc: 			String?//read_only
-	var product_price: 			String?//read_only
-	var unit_price_tax_incl: 	String?//read_only
-	var unit_price_tax_excl: 	String?//read_only
-	var productImage:			Data?
-}
 struct OrdersAssociations: Decodable
 {
 	var order_rows: [OrderRow]?
