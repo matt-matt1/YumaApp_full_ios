@@ -209,6 +209,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.translatesAutoresizingMaskIntoConstraints = false
 		return view
 	}()
+	var images: [NSData?] = []
 	var imagesStack: UIStackView =
 	{
 		let view = UIStackView()
@@ -390,20 +391,69 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	{
 		if self.prod != nil && self.prod.associations != nil && self.prod.associations?.images != nil
 		{
-			let productsView = ProductsViewController()
-			imagesStack = productsView.formImageViews(imageIDs: (prod.associations?.images)!)
+			self.images.removeAll()
+			imagesStack = makeStackFromImageIds(ids: (self.prod.associations?.images)!, enlargedDestination: prodImage)
 			imagesStack.distribution = .fill
 			imagesStack.alignment = .top
-			imagesStack.subviews.forEach { (extraImg) in
-				extraImg.addTapGestureRecognizer(action: {
-					self.prodImage.image = extraImg.subviews[0] as? UIImage
-				})
-			}
-			//			imagesStack.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 749), for: UILayoutConstraintAxis.horizontal)
-			//			imagesStack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: UILayoutConstraintAxis.horizontal)
+//			//			imagesStack.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 749), for: UILayoutConstraintAxis.horizontal)
+//			//			imagesStack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: UILayoutConstraintAxis.horizontal)
 		}
 	}
-	
+
+	func makeStackFromImageIds(ids: [IdAsString], imageChar: String="p", enlargedDestination: UIImageView) -> UIStackView
+	{
+		let stack = UIStackView()
+		stack.spacing = 5
+		for (index, img) in ids.enumerated()
+		{
+			var imageName = "\(R.string.URLbase)img/\(imageChar)"
+			for ch in img.id
+			{
+				imageName.append("/\(ch)")
+			}
+			imageName.append("/\(img.id).jpg")
+			store.getImageFromUrl(url: URL(string: imageName)!, session: URLSession(configuration: .default), completion:
+				{
+					(data, response, error) in
+					
+					guard let data = data, error == nil else { return }
+					DispatchQueue.main.async()
+						{
+							//							let i = self.view.tag - 10
+							let imageToCache = UIImage(data: data)
+							self.store.imageDataCache.setObject(imageToCache!, forKey: "\(imageChar)\(img.id)" as AnyObject)
+							self.images.append(data as NSData)
+							let imageInFrame = UIImageView(image: imageToCache)
+							imageInFrame.contentMode = .scaleAspectFit
+							imageInFrame.borderColor = UIColor.lightGray
+							imageInFrame.borderWidth = 3
+							imageInFrame.tag = index
+							imageInFrame.addTapGestureRecognizer(action: {
+								enlargedDestination.image = UIImage(data: data)//self.images[imageInFrame.tag]
+							})
+							//		imageInFrame.tag = Int(idAsString)!
+							imageInFrame.translatesAutoresizingMaskIntoConstraints = false
+							stack.addArrangedSubview(imageInFrame)
+							NSLayoutConstraint.activate([
+								imageInFrame.topAnchor.constraint(equalTo: stack.topAnchor, constant: 0),
+								imageInFrame.heightAnchor.constraint(equalToConstant: 100),
+//								imageInFrame.leadingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 0),
+								imageInFrame.widthAnchor.constraint(equalToConstant: 100),
+								])
+							stack.addConstraintsWithFormat(format: "H:[v0(100)]", views: imageInFrame)
+							stack.addConstraintsWithFormat(format: "V:[v0(100)]", views: imageInFrame)
+							//							if i > 0 && i < self.store.products.count
+							//							{
+							//								self.store.products[i].associations?.imageData = data
+							//							}
+//							retnValue = data as NSData//imageToCache
+							stack.addArrangedSubview(imageInFrame)
+					}
+			})
+		}
+		return stack
+	}
+
 	fileprivate func prepareCollectionViews()
 	{
 		//		tagsCollectionView.register(ProductTagsCollectionViewCell.self, forCellWithReuseIdentifier: tagsCellId)
@@ -860,9 +910,51 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		add2cart.addTapGestureRecognizer {
 			if self.prod.name != nil && self.prod.price != nil && self.prod.name![self.store.myLang].value != nil
 			{
-				self.store.myCartRows.append(CartRow(idProduct: self.prod.id, idProductAttribute: self.prod.cacheDefaultAttribute, idAddressDelivery: nil, quantity: self.prodQty/* self.prod.quantity*/))
+//				if self.store.myCartRows.count < 1 //&& self.store.myCart == nil
+//				{
+//					//make new cart
+//				}
+//				var found = false
+//				for item in self.store.myCartRows
+//				{
+//					if item.idProduct == self.prod.id
+//					{
+//						found = true
+//						break
+//					}
+//				}
+//				if !found
+//				{
+//					self.store.myCartRows.append(CartRow(idProduct: self.prod.id, idProductAttribute: self.prod.cacheDefaultAttribute, idAddressDelivery: nil, quantity: self.prodQty/* self.prod.quantity*/))
+//				}
+//				else
+//				{
+//					//update quantity
+//				}
 //				print("TODO: add prod \"\(self.prod.name![self.store.myLang].value!)\" to cart")
-				self.store.myOrderRows.append(OrderRow(id: 0, productId: self.prod.id, productAttributeId: self.prod.cacheDefaultAttribute/*nil*/, productQuantity: self.prodQty/*self.prodQty*/, productName: self.prod.name![self.store.myLang].value!, productReference: self.prod.reference, productEan13: self.prod.ean13, productIsbn: self.prod.isbn, productUpc: self.prod.upc, productPrice: self.prod.price!, unitPriceTaxIncl: self.prod.price, unitPriceTaxExcl: self.prod.price, productImage: nil))
+				if self.store.myOrderRows.count < 1 && self.store.myOrder == nil
+				{
+					let date = Date()
+					self.store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: self.store.defaultCurr, idLang: self.store.myLang, idCustomer: (self.store.customer != nil) ? self.store.customer?.id : -1, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: date, deliveryNumber: "", deliveryDate: date, valid: 1, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: self.store.idShopGroup, idShop: self.store.idShop, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: 0, totalPaidReal: 0, totalProducts: 0, totalProductsWt: 0, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 1, reference: "", associations: OrdersAssociations(order_rows: self.store.myOrderRows))
+				}
+				var found = false
+				for (i, item) in self.store.myOrderRows.enumerated()
+				{
+					if item.productId == self.prod.id
+					{
+						found = true
+						self.store.myOrderRows[i].productQuantity = self.store.myOrderRows[i].productQuantity! + 1
+						break
+					}
+				}
+				if !found
+				{
+					self.store.myOrderRows.append(OrderRow(id: 0, productId: self.prod.id, productAttributeId: self.prod.cacheDefaultAttribute/*nil*/, productQuantity: self.prodQty/*self.prodQty*/, productName: self.prod.name![self.store.myLang].value!, productReference: self.prod.reference, productEan13: self.prod.ean13, productIsbn: self.prod.isbn, productUpc: self.prod.upc, productPrice: self.prod.price!, unitPriceTaxIncl: self.prod.price, unitPriceTaxExcl: self.prod.price, productImage: nil))
+				}
+//				else
+//				{
+//					//update quantity
+//				}
 				print(self.store.myOrderRows)
 			}
 			else

@@ -18,16 +18,46 @@ class ProductsPreviewController: UIViewController
 		return lbl
 	}()
 	let cellId = "prodColl"
-//	let headerId = "prodCollHeader"
-//	let footerId = "prodCollFooter"
+	let headerId = "prodCollHeader"
+	let footerId = "prodCollFooter"
 	let products: [aProduct] = []
+	let headerTitle: UILabel =
+	{
+		let lbl = UILabel()
+		lbl.translatesAutoresizingMaskIntoConstraints = false
+		lbl.textAlignment = .center
+		lbl.text = R.string.laserPrints
+		lbl.textAlignment = .left
+		lbl.lineBreakMode = .byWordWrapping
+		lbl.numberOfLines = 0
+		return lbl
+	}()
+	let headerTitleShadow: NSShadow =
+	{
+		let view = NSShadow()
+		view.shadowColor = UIColor.gray
+		view.shadowOffset = CGSize(width: 2, height: 2)
+		view.shadowBlurRadius = 3
+		return view
+	}()
+	let toTopButton: UIButton =
+	{
+		let view = UIButton()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.setImage(Awesome.solid.arrowCircleUp.asImage(size: 32), for: .normal)
+		view.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+		view.setTitle(R.string.gotop, for: .normal)
+		view.borderColor = R.color.YumaRed
+		view.borderWidth = 2
+		view.setTitleColor(R.color.YumaDRed, for: .normal)
+		return view
+	}()
 	var prodsCollection: UICollectionView =
 	{
 		let layout = DSSCollectionViewFlowLayout()//UICollectionViewFlowLayout()
 		layout.minimumLineSpacing = 8
 //		layout.estimatedItemSize = CGSize(width: 200, height: 200)
 //		layout.placeEqualSpaceAroundAllCells = true
-//		layout.sectionInset = UIEdgeInsets(top: 5, left: 3, bottom: 5, right: 2)
 		let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
 		view.backgroundColor = UIColor(hex: "dedede")//.lightGray//.white
 		view.shadowColor = UIColor.darkGray
@@ -65,7 +95,7 @@ class ProductsPreviewController: UIViewController
 	let cellLeftMargin: CGFloat = 0
 	let cellRightMargin: CGFloat = 0	// for every cell
 	let store = DataStore.sharedInstance
-//	let headerCell = ProductsPreviewHeaderCell()
+	let headerCell = ProductsPreviewHeaderCell()
 	//	let footerCell = ProvartsPreviewFooterCell()
 	var header: UIStackView!
 	let headerLbl: UILabel =
@@ -150,6 +180,15 @@ class ProductsPreviewController: UIViewController
 			view.productsController = self
 			return view
 	}()
+	let headerImageView: UIImageView =
+	{
+		let view = UIImageView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.backgroundColor = UIColor.white
+		view.contentMode = .top//.scaleAspectFit
+		view.image = UIImage(named: "home-slider-printers")
+		return view
+	}()
 
 
 	// MARK: Overrides
@@ -171,8 +210,14 @@ class ProductsPreviewController: UIViewController
 //		}
 		prodsCollection.register(ProductsPreviewCell.self, forCellWithReuseIdentifier: cellId)
 //		panelsCollection.register(ProductsPanel, forCellWithReuseIdentifier: "")
-//		collectionView.register(ProductsPreviewHeaderCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-//		collectionView.register(ProductsPreviewFooterCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+		prodsCollection.register(UICollectionViewCell.self/*ProductsPreviewHeaderCell.self*/, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+		prodsCollection.register(UICollectionViewCell.self/*ProductsPreviewFooterCell.self*/, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+		toTopButton.addTapGestureRecognizer {
+			UIView.animate(withDuration: 0.5, animations: {
+				self.prodsCollection.contentOffset.y = 0
+			})
+			//.scrollToItem(at: IndexPath(item: 0, section: 0), at: UICollectionViewScrollPosition.top, animated: true)
+		}
 		updateLine = UIStackView(arrangedSubviews: [leftLbl, centerLbl, rightLbl, UIView(frame: .zero)])
 		updateLine.distribution = .fillProportionally
 		centerLbl.isUserInteractionEnabled = true
@@ -184,7 +229,7 @@ class ProductsPreviewController: UIViewController
 		header.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
 		footer = UIStackView(arrangedSubviews: [footerLbl, updateLine])
 		footer.axis = .vertical
-		prodsCollection.contentInset = UIEdgeInsets(top: cellsTopMargin, left: cellsLeftMargin, bottom: cellsBottomMargin, right: cellsRightMargin)
+		prodsCollection.contentInset = UIEdgeInsets(top: 0/*cellsTopMargin*/, left: cellsLeftMargin, bottom: cellsBottomMargin, right: cellsRightMargin)
 		(prodsCollection.collectionViewLayout as? UICollectionViewFlowLayout)?.sectionInset = UIEdgeInsets(top: 0, left: cellLeftMargin, bottom: 0, right: cellRightMargin)
 		stack = UIStackView(arrangedSubviews: [header, prodsCollection, footer])
 		stack.axis = .vertical
@@ -223,10 +268,16 @@ class ProductsPreviewController: UIViewController
 //		let selectedIndexPath = menuBar.collectionView.indexPathsForSelectedItems != nil ? menuBar.collectionView.indexPathsForSelectedItems! : [IndexPath(item: 0, section: 0)]
 		if let selectedIndex = menuBar.collectionView.indexPathsForSelectedItems?[0].item
 		{
-			print("reselected menuBar item: \(selectedIndex).")
+//			print("reselected menuBar item: \(selectedIndex).")
 			scrollToMenuIndex(selectedIndex)
 		}
 //		menuBar.horizontalBar.invalidateIntrinsicContentSize()
+	}
+
+	override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
+	{
+		super.viewWillTransition(to: size, with: coordinator)
+		prodsCollection.collectionViewLayout.invalidateLayout()
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -400,36 +451,109 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		}
 	}
 
-//	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
-//	{	//	Apply header / footer cell id
-//		if kind == UICollectionElementKindSectionHeader
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
+	{	//	Apply header / footer cell id
+		guard collectionView == prodsCollection 	else 	{ 	return UICollectionReusableView() 	}
+//		if collectionView == prodsCollection
 //		{
-//			let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-//			return header
+			if kind == UICollectionElementKindSectionHeader
+			{
+				let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
+				headerCell.subviews.forEach { (view) in
+					view.removeFromSuperview()
+				}
+				let headerTitleAttrs: [NSAttributedStringKey : Any] =
+					[NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 36)!,
+					 NSAttributedStringKey.shadow : headerTitleShadow,
+					 NSAttributedStringKey.strokeColor : R.color.YumaRed,
+					 NSAttributedStringKey.foregroundColor : R.color.YumaYel,
+					 NSAttributedStringKey.strokeWidth : -3.5
+				]
+				switch headerLbl.text//navTitle.title
+				{
+				case R.string.printers?:
+					headerImageView.image = UIImage(named: "home-slider-printers")
+					headerTitle.attributedText = NSAttributedString(string: R.string.laserPrints.uppercased(), attributes: headerTitleAttrs)
+					break
+				case R.string.laptops?:
+					headerImageView.image = UIImage(named: "home-slider-laptops")
+					headerTitle.attributedText = NSAttributedString(string: R.string.compLaptops.uppercased(), attributes: headerTitleAttrs)
+					break
+				case R.string.toners?:
+					headerImageView.image = UIImage(named: "home-slider-cartridges")
+					headerTitle.text = R.string.qltyCarts
+					headerTitle.attributedText = NSAttributedString(string: R.string.qltyCarts.uppercased(), attributes: headerTitleAttrs)
+					break
+				case R.string.services?:
+					headerImageView.image = nil
+	//				header.addSubview(UIImageView(image: UIImage(named: "")))
+					headerTitle.attributedText = NSAttributedString(string: R.string.services.uppercased(), attributes: headerTitleAttrs)
+					break
+				default:
+					print("unknown products cat. title")
+				}
+				if headerImageView.image != nil
+				{
+					headerCell.addSubview(headerImageView)
+					headerCell.addSubview(headerTitle)
+				}
+				NSLayoutConstraint.activate([
+					headerImageView.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
+					headerImageView.centerXAnchor.constraint(equalTo: headerCell.centerXAnchor, constant: 0),
+	//				headerImageView.heightAnchor.constraint(equalToConstant: 211),
+					headerTitle.leadingAnchor.constraint(equalTo: headerCell.leadingAnchor, constant: view.frame.width * 0.12),
+					headerTitle.trailingAnchor.constraint(equalTo: headerCell.trailingAnchor, constant: -15),
+//					headerTitle.widthAnchor.constraint(equalToConstant: view.frame.width - (view.frame.width * 0.12)),
+					headerTitle.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
+					headerTitle.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
+//					headerTitle.centerYAnchor.constraint(equalTo: headerCell.centerYAnchor, constant: 0),
+					])
+				return headerCell
+			}
+			else
+			{
+				let footerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
+				footerCell.addSubview(toTopButton)
+				NSLayoutConstraint.activate([
+					toTopButton.topAnchor.constraint(equalTo: footerCell.topAnchor, constant: 5),
+					toTopButton.leadingAnchor.constraint(equalTo: footerCell.leadingAnchor, constant: 0),
+					toTopButton.bottomAnchor.constraint(equalTo: footerCell.bottomAnchor, constant: 0),
+					toTopButton.trailingAnchor.constraint(equalTo: footerCell.trailingAnchor, constant: 0),
+					])
+				return footerCell
+			}
 //		}
-//		else
-//		{
-//			let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-//			return footer
-//		}
-//	}
-//
-//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
-//	{	//	Header size
-//		return CGSize(width: view.frame.width, height: 50)
-//	}
-//
-//	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize
-//	{	//	Footer size
-//		return CGSize(width: view.frame.width, height: 50)
-//	}
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
+	{	//	Header size
+		switch headerLbl.text//navTitle.title
+		{
+		case R.string.printers?:
+			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+		case R.string.laptops?:
+			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+		case R.string.toners?:
+			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+		case R.string.services?:
+			return CGSize(width: view.frame.width, height: /*212*//*headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin :*/ 0)
+		default:
+			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+		}
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize
+	{	//	Footer size
+		return CGSize(width: min(300, view.frame.width), height: 50)
+	}
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * CGFloat(1.5) * min(1, (numberCellsPerRow - 1))) - (cellsLeftMargin / CGFloat(2)), minCellWidth)
-			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth - cellsTopMargin - cellsBottomMargin, maxCellHeight)) + 90 / UIScreen.main.scale)
+//			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * CGFloat(1.5) * min(1, (numberCellsPerRow - 1))) - (cellsLeftMargin / CGFloat(2)), minCellWidth)
+			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * min(1, (numberCellsPerRow - 1))) - cellsLeftMargin, minCellWidth)
+			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth - cellsTopMargin - cellsBottomMargin, maxCellHeight)) + 93 / UIScreen.main.scale)
 			//+60 (density:1), +20 (density:3)
 			//height: max(200, min(401, 500)) + 30 + 30) - landscape  = 461
 			//height: max(200, min(182.5, 500)) + 30 + 30) - portrait = 242.5

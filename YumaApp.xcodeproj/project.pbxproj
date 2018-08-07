@@ -224,6 +224,9 @@
 		CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFF20C71A45006C098C /* Fonts.swift */; };
 		CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0020C71A45006C098C /* Crossplatform.swift */; };
 		CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0220C71A45006C098C /* Amazing.swift */; };
+		CFAD4DF0211A564700C4E5E4 /* CAShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */; };
+		CFAD4DF2211A56A500C4E5E4 /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */; };
+		CFAD4DF4211A578800C4E5E4 /* UIBarButtonItem+Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DF3211A578800C4E5E4 /* UIBarButtonItem+Badge.swift */; };
 		CFAE285420FFF17B0048E164 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE285320FFF17B0048E164 /* AnyDecodable.swift */; };
 		CFAE28582100E79D0048E164 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE28572100E79D0048E164 /* Downloader.swift */; };
 		CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */; };
@@ -509,6 +512,9 @@
 		CFA4AC0020C71A45006C098C /* Crossplatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crossplatform.swift; sourceTree = "<group>"; };
 		CFA4AC0220C71A45006C098C /* Amazing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amazing.swift; sourceTree = "<group>"; };
 		CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeEnum.h; sourceTree = "<group>"; };
+		CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAShapeLayer.swift; sourceTree = "<group>"; };
+		CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
+		CFAD4DF3211A578800C4E5E4 /* UIBarButtonItem+Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Badge.swift"; sourceTree = "<group>"; };
 		CFAE285320FFF17B0048E164 /* AnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		CFAE28572100E79D0048E164 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		CFAFC084201F6DA1002CBC1B /* YumaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YumaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -739,6 +745,8 @@
 				CF99DF4120D7F97D006492AF /* UIView.swift */,
 				CF99DF4320D7F9B0006492AF /* UIViewController.swift */,
 				CF99DF4520D7F9EB006492AF /* URLResponse.swift */,
+				CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */,
+				CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -828,6 +836,7 @@
 		CFAFC07B201F6DA1002CBC1B = {
 			isa = PBXGroup;
 			children = (
+				CFAD4DF3211A578800C4E5E4 /* UIBarButtonItem+Badge.swift */,
 				CFAFC086201F6DA1002CBC1B /* YumaApp */,
 				CFF4A8BF204EFFFA005AE5C8 /* Assets.xcassets */,
 				CF8DC9BF20765CBA00D06575 /* ISSUES.md */,
@@ -1300,6 +1309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF99DF3A20D7F7CB006492AF /* UILabel.swift in Sources */,
+				CFAD4DF2211A56A500C4E5E4 /* UIBarButtonItem.swift in Sources */,
 				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
 				CF601A14204AE4AD00217025 /* OrderInvoices.swift in Sources */,
 				CF99DF2E20D7F62E006492AF /* String.swift in Sources */,
@@ -1362,6 +1372,7 @@
 				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */,
 				CF68979E2089354200998527 /* CustomerThreads.swift in Sources */,
+				CFAD4DF0211A564700C4E5E4 /* CAShapeLayer.swift in Sources */,
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
 				CF42562B20D41FC30002AF12 /* MyAccCS_ViewController.swift in Sources */,
 				CF331F5F209A3D8200992F92 /* MenuCell.swift in Sources */,
@@ -1491,6 +1502,7 @@
 				CF688005210F9F8A003DBD96 /* ProductMenuBarCell.swift in Sources */,
 				CF384BE1205D55B4005CCD57 /* Languages.swift in Sources */,
 				CF92B49020EFD9BF00AEDEC8 /* Validate.swift in Sources */,
+				CFAD4DF4211A578800C4E5E4 /* UIBarButtonItem+Badge.swift in Sources */,
 				CF601A10204AE21300217025 /* OrderDetails.swift in Sources */,
 				CF717EA320A38A6400E68F83 /* ProductsViewControllerForm.swift in Sources */,
 				CF9A1D7520E3C5F2003F2213 /* XMLKey.swift in Sources */,

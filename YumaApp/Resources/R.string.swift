@@ -22,8 +22,11 @@ extension R
 		static let services = "Services"
 		static let qc = "Website (French-Canadian)"
 		static let printers = "Printers"
+		static let laserPrints = "Laser Printers"
 		static let laptops = "Laptops"
+		static let compLaptops = "Computer Laptops"
 		static let toners = "Cartridges"
+		static let qltyCarts = "Quality Toner Cartridges"
 		
 		static let our_lat = "43.7443124"
 		static let our_lat2 = "43.7443085"
@@ -114,6 +117,7 @@ extension R
 		static let auto = "Automatic"
 		static let noChange = "no change"
 		static let list = "list"
+		static let gotop = "Go to list top"
 		// MARK:		<!--actions-->
 		static let send = "Send"
 		static let phoneAct = "Call"
