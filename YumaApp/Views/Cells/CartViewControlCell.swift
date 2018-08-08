@@ -73,6 +73,7 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textColor = UIColor.darkGray
 		view.font = UIFont.systemFont(ofSize: 12)
+		view.textAlignment = .center
 		view.text = R.string.each
 		return view
 	}()
@@ -81,11 +82,21 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		let view = UILabel()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.textColor = UIColor.darkGray
+		view.textAlignment = .right
 		view.text = "eachAmt"
 		return view
 	}()
+	let sepater: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.lightGray
+		return view
+	}()
 
-	
+
+	// MARK: Override Methods
+
 	override func prepareForReuse()
 	{
 		super.prepareForReuse()
@@ -145,6 +156,13 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		////			searchToners(object.product_id!)
 		//			searchToners(object.productId!)
 		//		}
+//		NSLayoutConstraint.activate([
+//			self.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+//			self.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+//			self.heightAnchor.constraint(equalToConstant: 150),
+////			self.widthAnchor.constraint(equalToConstant: self.frame.width-10),
+//			self.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+//			])
 		drawView()
 	}
 
@@ -154,7 +172,7 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		prodQtyBox.addSubview(prodQtyEdit)
 		NSLayoutConstraint.activate([
 			prodQtyEdit.topAnchor.constraint(equalTo: prodQtyBox.topAnchor, constant: 5),
-			prodQtyEdit.leadingAnchor.constraint(equalTo: prodQtyBox.leadingAnchor, constant: 20),
+			prodQtyEdit.leadingAnchor.constraint(equalTo: prodQtyBox.leadingAnchor, constant: 15),
 			prodQtyEdit.bottomAnchor.constraint(equalTo: prodQtyBox.bottomAnchor, constant: -5),
 			prodQtyEdit.trailingAnchor.constraint(equalTo: prodQtyBox.trailingAnchor, constant: -5),
 			])
@@ -167,22 +185,42 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		leftSection.axis = .vertical
 		leftSection.alignment = .center
 		leftSection.spacing = 10
-		let midSection = UIStackView(arrangedSubviews: [prodTitle, prodImage])
-		midSection.translatesAutoresizingMaskIntoConstraints = false
-		midSection.axis = .vertical
-		midSection.spacing = 10
-		let together = UIStackView(arrangedSubviews: [leftSection, midSection])
-		together.translatesAutoresizingMaskIntoConstraints = false
+//		let midSection = UIStackView(arrangedSubviews: [prodImage])
+//		NSLayoutConstraint.activate([
+//			prodImage.topAnchor.constraint(equalTo: midSection.topAnchor, constant: 0),
+//			prodImage.leadingAnchor.constraint(equalTo: midSection.leadingAnchor, constant: 0),
+//			prodImage.bottomAnchor.constraint(equalTo: midSection.bottomAnchor, constant: 0),
+//			prodImage.trailingAnchor.constraint(equalTo: midSection.trailingAnchor, constant: 0),
+//			])
+//		midSection.translatesAutoresizingMaskIntoConstraints = false
+//		midSection.axis = .vertical
+//		midSection.spacing = 10
+		let lower = UIStackView(arrangedSubviews: [leftSection, prodImage/*midSection*/])
+		lower.translatesAutoresizingMaskIntoConstraints = false
 		if eachAmt.text != nil && !(eachAmt.text?.isEmpty)!
 		{
 			let rightSection = UIStackView(arrangedSubviews: [eachLabel, eachAmt])
 			rightSection.translatesAutoresizingMaskIntoConstraints = false
 			rightSection.axis = .vertical
-			together.addArrangedSubview(rightSection)
+			lower.addArrangedSubview(rightSection)
+//			NSLayoutConstraint.activate([
+//				rightSection.topAnchor.constraint(equalTo: lower.topAnchor, constant: 0),
+//				rightSection.leadingAnchor.constraint(equalTo: lower.leadingAnchor, constant: 0),
+//				rightSection.bottomAnchor.constraint(equalTo: lower.bottomAnchor, constant: 0),
+//				rightSection.trailingAnchor.constraint(equalTo: lower.trailingAnchor, constant: -5),
+//				])
 		}
+		let together = UIStackView(arrangedSubviews: [prodTitle, lower, sepater])
+		together.axis = .vertical
+		together.translatesAutoresizingMaskIntoConstraints = false
 		together.spacing = 10
 		self.addSubview(together)
 		NSLayoutConstraint.activate([
+			sepater.leadingAnchor.constraint(equalTo: together.leadingAnchor, constant: 10),
+			sepater.trailingAnchor.constraint(equalTo: together.trailingAnchor, constant: -10),
+			sepater.heightAnchor.constraint(equalToConstant: 1),
+			sepater.bottomAnchor.constraint(equalTo: together.bottomAnchor, constant: 0),
+			
 			together.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
 			together.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
 			together.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),

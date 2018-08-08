@@ -1378,7 +1378,7 @@ class MyAccInfoViewController: UIViewController, UITextFieldDelegate
 										parser.parse()
 										for node in ps.customers
 										{
-											print(node.firstname)
+											print(node.firstname ?? "")
 										}
 									}
 								})

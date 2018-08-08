@@ -111,6 +111,10 @@ class CartViewControl: UIViewController
 		{
 			calcTotal()
 		}
+//		tableView.contentInset = UIEdgeInsets(top: 2, left: 5, bottom: 2, right: 5)
+		tableView.rowHeight = 180
+//		tableView.rowHeight = UITableViewAutomaticDimension
+//		tableView.estimatedRowHeight = 150
     }
 
 
@@ -180,7 +184,7 @@ class CartViewControl: UIViewController
 			totalPcs.text = "\(pcs)"
 			let date = Date()
 			store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: 0, idLang: (store.customer?.idLang != nil) ? (store.customer?.idLang)! : 0, idCustomer: (store.customer?.idCustomer != nil) ? (store.customer?.idCustomer)! : 0, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: nil, deliveryNumber: "", deliveryDate: nil, valid: 0, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: 0, idShop: 0, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: total, totalPaidReal: 0, totalProducts: pcs, totalProductsWt: wt, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 0, reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
-			print(store.myOrder)
+			print(store.myOrder ?? "")
 		}
 	}
 	
@@ -346,7 +350,7 @@ extension CartViewControl: UITableViewDelegate, UITableViewDataSource
 {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-		print(self.store.myOrderRows.count)
+//		print(self.store.myOrderRows.count)
 		return self.store.myOrderRows.count
 	}
 	

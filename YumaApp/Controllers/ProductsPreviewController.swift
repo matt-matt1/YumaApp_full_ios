@@ -180,13 +180,21 @@ class ProductsPreviewController: UIViewController
 			view.productsController = self
 			return view
 	}()
-	let headerImageView: UIImageView =
+	var headerImageView: UIImageView =
 	{
 		let view = UIImageView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 //		view.backgroundColor = UIColor.white
 		view.contentMode = .top//.scaleAspectFit
+		view.clipsToBounds = true
 		view.image = UIImage(named: "home-slider-printers")
+		return view
+	}()
+	let headerImageBase: UIView =
+	{
+		let view = UIView()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.backgroundColor = UIColor.black
 		return view
 	}()
 
@@ -454,75 +462,91 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
 	{	//	Apply header / footer cell id
 		guard collectionView == prodsCollection 	else 	{ 	return UICollectionReusableView() 	}
-//		if collectionView == prodsCollection
-//		{
-			if kind == UICollectionElementKindSectionHeader
+		if kind == UICollectionElementKindSectionHeader
+		{
+			let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
+			headerCell.subviews.forEach { (view) in
+				view.removeFromSuperview()
+			}
+			let headerTitleAttrs: [NSAttributedStringKey : Any] =
+				[NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 36)!,
+				 NSAttributedStringKey.shadow : headerTitleShadow,
+				 NSAttributedStringKey.strokeColor : R.color.YumaRed,
+				 NSAttributedStringKey.foregroundColor : R.color.YumaYel,
+				 NSAttributedStringKey.strokeWidth : -3.5
+			]
+			switch headerLbl.text
 			{
-				let headerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-				headerCell.subviews.forEach { (view) in
-					view.removeFromSuperview()
-				}
-				let headerTitleAttrs: [NSAttributedStringKey : Any] =
-					[NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 36)!,
-					 NSAttributedStringKey.shadow : headerTitleShadow,
-					 NSAttributedStringKey.strokeColor : R.color.YumaRed,
-					 NSAttributedStringKey.foregroundColor : R.color.YumaYel,
-					 NSAttributedStringKey.strokeWidth : -3.5
-				]
-				switch headerLbl.text//navTitle.title
-				{
-				case R.string.printers?:
-					headerImageView.image = UIImage(named: "home-slider-printers")
-					headerTitle.attributedText = NSAttributedString(string: R.string.laserPrints.uppercased(), attributes: headerTitleAttrs)
-					break
-				case R.string.laptops?:
-					headerImageView.image = UIImage(named: "home-slider-laptops")
-					headerTitle.attributedText = NSAttributedString(string: R.string.compLaptops.uppercased(), attributes: headerTitleAttrs)
-					break
-				case R.string.toners?:
-					headerImageView.image = UIImage(named: "home-slider-cartridges")
-					headerTitle.text = R.string.qltyCarts
-					headerTitle.attributedText = NSAttributedString(string: R.string.qltyCarts.uppercased(), attributes: headerTitleAttrs)
-					break
-				case R.string.services?:
-					headerImageView.image = nil
-	//				header.addSubview(UIImageView(image: UIImage(named: "")))
-					headerTitle.attributedText = NSAttributedString(string: R.string.services.uppercased(), attributes: headerTitleAttrs)
-					break
-				default:
-					print("unknown products cat. title")
-				}
-				if headerImageView.image != nil
-				{
-					headerCell.addSubview(headerImageView)
-					headerCell.addSubview(headerTitle)
-				}
+			case R.string.printers?:
+				headerImageView.image = UIImage(named: "home-slider-printers")
+				headerTitle.attributedText = NSAttributedString(string: R.string.laserPrints.uppercased(), attributes: headerTitleAttrs)
+				break
+			case R.string.laptops?:
+				headerImageView.image = UIImage(named: "home-slider-laptops")
+				headerTitle.attributedText = NSAttributedString(string: R.string.compLaptops.uppercased(), attributes: headerTitleAttrs)
+				break
+			case R.string.toners?:
+				headerImageView.image = UIImage(named: "home-slider-cartridges")
+				headerTitle.text = R.string.qltyCarts
+				headerTitle.attributedText = NSAttributedString(string: R.string.qltyCarts.uppercased(), attributes: headerTitleAttrs)
+				break
+			case R.string.services?:
+				headerImageView.image = nil
+//				header.addSubview(UIImageView(image: UIImage(named: "")))
+				headerTitle.attributedText = NSAttributedString(string: R.string.services.uppercased(), attributes: headerTitleAttrs)
+				break
+			default:
+				print("unknown products cat. title")
+			}
+			if headerImageView.image != nil
+			{
+				headerCell.addSubview(headerImageView)
+			}
+			headerCell.addSubview(headerTitle)
+			if headerImageView.image != nil
+			{
 				NSLayoutConstraint.activate([
 					headerImageView.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
 					headerImageView.centerXAnchor.constraint(equalTo: headerCell.centerXAnchor, constant: 0),
-	//				headerImageView.heightAnchor.constraint(equalToConstant: 211),
-					headerTitle.leadingAnchor.constraint(equalTo: headerCell.leadingAnchor, constant: view.frame.width * 0.12),
-					headerTitle.trailingAnchor.constraint(equalTo: headerCell.trailingAnchor, constant: -15),
-//					headerTitle.widthAnchor.constraint(equalToConstant: view.frame.width - (view.frame.width * 0.12)),
-					headerTitle.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
-					headerTitle.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
-//					headerTitle.centerYAnchor.constraint(equalTo: headerCell.centerYAnchor, constant: 0),
+					headerImageView.heightAnchor.constraint(equalToConstant: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215))),
 					])
-				return headerCell
+				let maskLayer = CAGradientLayer()
+				maskLayer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215)))//headerImageView.bounds
+				maskLayer.shadowRadius = 15
+				maskLayer.shadowPath = CGPath(roundedRect: maskLayer.frame.insetBy(dx: 0, dy: 55), cornerWidth: 0, cornerHeight: 0, transform: nil)
+				maskLayer.shadowOpacity = 1
+				maskLayer.shadowOffset = CGSize.zero
+				maskLayer.shadowColor = UIColor.white.cgColor
+				headerImageView.layer.mask = maskLayer
 			}
-			else
-			{
-				let footerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-				footerCell.addSubview(toTopButton)
-				NSLayoutConstraint.activate([
-					toTopButton.topAnchor.constraint(equalTo: footerCell.topAnchor, constant: 5),
-					toTopButton.leadingAnchor.constraint(equalTo: footerCell.leadingAnchor, constant: 0),
-					toTopButton.bottomAnchor.constraint(equalTo: footerCell.bottomAnchor, constant: 0),
-					toTopButton.trailingAnchor.constraint(equalTo: footerCell.trailingAnchor, constant: 0),
-					])
-				return footerCell
-			}
-//		}
+			NSLayoutConstraint.activate([
+				headerTitle.leadingAnchor.constraint(equalTo: headerCell.leadingAnchor, constant: view.frame.width * 0.12),
+				headerTitle.trailingAnchor.constraint(equalTo: headerCell.trailingAnchor, constant: -view.frame.width * 0.02/*15*/),
+				headerTitle.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
+				headerTitle.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
+//				headerTitle.centerYAnchor.constraint(equalTo: headerCell.centerYAnchor, constant: 0),
+				])
+			headerCell.addSubview(headerImageBase)
+			NSLayoutConstraint.activate([
+				headerImageBase.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
+				headerImageBase.heightAnchor.constraint(equalToConstant: 2),
+				headerImageBase.leadingAnchor.constraint(equalTo: headerImageView.leadingAnchor, constant: 0),
+				headerImageBase.trailingAnchor.constraint(equalTo: headerImageView.trailingAnchor, constant: 0),
+				])
+			return headerCell
+		}
+		else
+		{
+			let footerCell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
+			footerCell.addSubview(toTopButton)
+			NSLayoutConstraint.activate([
+				toTopButton.topAnchor.constraint(equalTo: footerCell.topAnchor, constant: 5),
+				toTopButton.leadingAnchor.constraint(equalTo: footerCell.leadingAnchor, constant: 0),
+				toTopButton.bottomAnchor.constraint(equalTo: footerCell.bottomAnchor, constant: 0),
+				toTopButton.trailingAnchor.constraint(equalTo: footerCell.trailingAnchor, constant: 0),
+				])
+			return footerCell
+		}
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize
@@ -530,15 +554,15 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		switch headerLbl.text//navTitle.title
 		{
 		case R.string.printers?:
-			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+			return CGSize(width: view.frame.width, height: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215)))
 		case R.string.laptops?:
-			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+			return CGSize(width: view.frame.width, height: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215)))
 		case R.string.toners?:
-			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+			return CGSize(width: view.frame.width, height: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215)))
 		case R.string.services?:
-			return CGSize(width: view.frame.width, height: /*212*//*headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin :*/ 0)
+			return CGSize(width: view.frame.width, height: 35)
 		default:
-			return CGSize(width: view.frame.width, height: /*212*/(headerImageView.image?.size.height)! + cellsTopMargin)
+			return CGSize(width: view.frame.width, height: min(view.frame.height / 3, (headerImageView.image != nil ? (headerImageView.image?.size.height)! + cellsTopMargin : 215)))
 		}
 	}
 
@@ -551,12 +575,8 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-//			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * CGFloat(1.5) * min(1, (numberCellsPerRow - 1))) - (cellsLeftMargin / CGFloat(2)), minCellWidth)
 			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * min(1, (numberCellsPerRow - 1))) - cellsLeftMargin, minCellWidth)
 			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth - cellsTopMargin - cellsBottomMargin, maxCellHeight)) + 93 / UIScreen.main.scale)
-			//+60 (density:1), +20 (density:3)
-			//height: max(200, min(401, 500)) + 30 + 30) - landscape  = 461
-			//height: max(200, min(182.5, 500)) + 30 + 30) - portrait = 242.5
 		}
 		else if collectionView == panelsCollection	// each panel has whole view
 		{
@@ -588,14 +608,4 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 		}
 	}
 
-	// MARK: UICollectionViewDataSourcePrefetching
-	
-//	func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath])
-//	{
-//		for indexPath in indexPaths
-//		{
-//			let prod = self.store.products[indexPath.row]
-////			asyncFetcher.
-//		}
-//	}
 }

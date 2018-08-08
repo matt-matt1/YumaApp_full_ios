@@ -50,6 +50,17 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
 		return view
 	}()
+	let cartIcon: UIButton =
+	{
+		let view = UIButton(type: UIButtonType.custom)
+		view.setImage(Awesome.solid.shoppingCart.asImage(size: 30, color: UIColor.white, backgroundColor: UIColor.clear), for: .normal)
+		return view
+	}()
+	var navCart: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem()
+		return view
+	}()
 	let stackPanel: UIStackView =
 	{
 		let view = UIStackView()
@@ -68,6 +79,17 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.shadowOpacity = 1
 		return view
 	}()
+//	let cartIcon: UIButton =
+//	{
+//		let view = UIButton()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.setImage(Awesome.solid.shoppingCart.asImage(size: 30), for: .normal)
+////		view.shadowColor = UIColor.darkGray
+////		view.shadowOffset = .zero
+////		view.shadowRadius = 5
+////		view.shadowOpacity = 1
+//		return view
+//	}()
 	let scrollView: UIScrollView =
 	{
 		let view = UIScrollView()
@@ -312,6 +334,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		backButton.addTapGestureRecognizer {
 			self.dismiss(animated: true, completion: nil)
 		}
+		cartIcon.addTarget(self, action: #selector(displayCart(_:)), for: .touchUpInside)
+//		navCart.action = #selector(displayCart(_:))
 		view.backgroundColor = UIColor.lightGray
 		scrollView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
 		scrollView.delegate = self
@@ -323,25 +347,16 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		setupZoomGestureRecognizer()
 		let swipe = SwipingController()
 		swipe.getValues()
-		//		prepareCollectionViews()
-		prepareTags()
-		prepareCats()
-		prepareMoreImages()
-		drawNavigation()
 		addUpDown.setDividerImage(UIImage(color: UIColor(hex: "cfcfcf"), size: CGSize(width: 1, height: addUpDown.frame.height)), forLeftSegmentState: UIControlState.normal, rightSegmentState: UIControlState.normal)
 		addUpDown.maximumValue = 10
 		addUpDown.minimumValue = 1
 		addUpDown.addTarget(self, action: #selector(stepperChanged(_:)), for: .valueChanged)
+		guard prod != nil 	else 	{ 	return 	}
+		//		prepareCollectionViews()
+		prepareTags()
+		prepareCats()
+		prepareMoreImages()
 		placeSubviews()
-		if prod != nil
-		{
-			fillProductDetails()
-		}
-		else
-		{
-			navigationBar.topItem?.title = R.string.prodName
-		}
-		//		print(prod)
 	}
 	
 	override func viewDidAppear(_ animated: Bool)
@@ -355,6 +370,16 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		scrollView.contentSize.width = scrollView.frame.width
 		//		print("scrollView frame=\(scrollView.frame), contentSize=\(scrollView.contentSize)")
 		//		print("prodImage frame=\(prodImage.frame)")
+		drawNavigation()
+		if prod != nil
+		{
+			fillProductDetails()
+		}
+		else
+		{
+			navigationBar.topItem?.title = R.string.prodName
+		}
+		//		print(prod)
 		updateMinZoomScaleFor(prodImageScroll, innerObjectSize: prodImage.bounds.size)
 		view.layoutIfNeeded()
 	}
@@ -428,9 +453,16 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 							imageInFrame.borderColor = UIColor.lightGray
 							imageInFrame.borderWidth = 3
 							imageInFrame.tag = index
-							imageInFrame.addTapGestureRecognizer(action: {
-								enlargedDestination.image = UIImage(data: data)//self.images[imageInFrame.tag]
-							})
+							imageInFrame.addTapGestureRecognizer {
+								UIView.animate(withDuration: 0.2, animations: {
+									enlargedDestination.alpha = 0
+								}, completion: { (_) in
+									enlargedDestination.image = UIImage(data: data)//self.images[imageInFrame.tag]
+									UIView.animate(withDuration: 0.2, animations: {
+										enlargedDestination.alpha = 1
+									})
+								})
+							}
 							//		imageInFrame.tag = Int(idAsString)!
 							imageInFrame.translatesAutoresizingMaskIntoConstraints = false
 							stack.addArrangedSubview(imageInFrame)
@@ -590,9 +622,14 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		}
 		//		navigationBar.translatesAutoresizingMaskIntoConstraints = false
 		let navHelp = UIBarButtonItem(image: Awesome.solid.questionCircle.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:)))
-		let navCart = UIBarButtonItem(image: Awesome.solid.shoppingCart.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayCart(_:)))
-		navTitle.setRightBarButtonItems([navHelp, navCart], animated: false)
-//		navTitle.setRightBarButton(UIBarButtonItem(image: Awesome.solid.questionCircle.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:))), animated: true)
+//		let cartIcon = UIButton(type: UIButtonType.custom)
+//		cartIcon.setImage(Awesome.solid.shoppingCart.asImage(size: 30, color: UIColor.white, backgroundColor: UIColor.clear), for: .normal)
+//		cartIcon.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(displayCart(_:))))
+		navCart = UIBarButtonItem(customView: cartIcon)
+//		navCart.setBadge(text: "\(self.store.myOrderRows.count)", withOffsetFromTopRight: CGPoint(x: -6, y: 8), textColor: R.color.YumaYel, backgroundColor: R.color.YumaRed, backgroundFilled: false)
+//		let navCart = UIBarButtonItem(image: Awesome.solid.shoppingCart.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayCart(_:)))
+//		let navTry = UIBarButtonItem(image: Awesome.solid.addressBook.asImage(size: 20), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:)))
+		navTitle.setRightBarButtonItems([navHelp, UIBarButtonItem(customView: cartIcon)/*navTry*//*navCart*/], animated: false)
 /*		if UIDevice.current.orientation == UIDeviceOrientation.portrait || UIDevice.current.orientation == .portraitUpsideDown
 		{
 			view.insertSubview(statusAndNavigationBars, at: 0)
@@ -681,7 +718,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			])
 		let falseEnd = UIView(frame: .zero)
 		falseEnd.translatesAutoresizingMaskIntoConstraints = false
-		let addLine = UIStackView(arrangedSubviews: [falseEnd, addBox, addUpDown, add2cart, falseEnd])
+		let addLine = UIStackView(arrangedSubviews: [/*falseEnd,*/ addBox, addUpDown, add2cart, falseEnd])
 		addLine.spacing = 5
 		addLine.alignment = .center
 		addLine.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
@@ -956,6 +993,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 //					//update quantity
 //				}
 				print(self.store.myOrderRows)
+				self.navCart.setBadge(text: "\(self.store.myOrderRows.count)", withOffsetFromTopRight: CGPoint(x: -6/*10*/, y: 8), textColor: R.color.YumaYel, backgroundColor: R.color.YumaRed, backgroundFilled: false)
 			}
 			else
 			{
@@ -974,10 +1012,14 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 	@objc func displayCart(_ sender: UITapGestureRecognizer)
 	{
-		let vc = CartViewControl()
-		self.present(vc, animated: false) {
+//		self.tabBarController?.selectedIndex = 3
+		productsView.tabBarController?.selectedIndex = 3
+		self.dismiss(animated: true) {
 		}
-//		tabBarController?.selectedIndex = 3
+//		let vc = TabBarController()
+////		let vc = CartViewControl()
+//		self.present(vc, animated: false) {
+//		}
 	}
 
 	@objc func displayHelp(_ sender: UITapGestureRecognizer)
