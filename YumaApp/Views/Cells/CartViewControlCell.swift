@@ -55,18 +55,22 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 	{
 		let view = UIImageView()
 		view.translatesAutoresizingMaskIntoConstraints = false
+		view.contentMode = .scaleAspectFit
+		view.frame.size = CGSize(width: 100, height: 100)
+		view.clipsToBounds = true
 		return view
 	}()
 	var stepper: UIStepper =
 	{
 		let view = UIStepper()
 		view.translatesAutoresizingMaskIntoConstraints = false
+		view.setIncrementImage(Awesome.solid.caretUp.asImage(size: 20), for: .normal)
+		view.setDecrementImage(Awesome.solid.caretDown.asImage(size: 20), for: .normal)
 		view.tintColor = UIColor.lightGray
 		return view
 	}()
 	var found = false
 	let store = DataStore.sharedInstance
-	
 	var eachLabel: UILabel =
 	{
 		let view = UILabel()
@@ -86,13 +90,14 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		view.text = "eachAmt"
 		return view
 	}()
-	let sepater: UIView =
+	let separator: UIView =
 	{
 		let view = UIView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.backgroundColor = UIColor.lightGray
 		return view
 	}()
+	var prod: OrderRow?
 
 
 	// MARK: Override Methods
@@ -102,12 +107,17 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		super.prepareForReuse()
 		prodImage.image = nil
 	}
-	
+
+
+	// MARK: Methods
+
 	func setup(_ object: OrderRow)
 	{
+		self.prod = object
 		stepper.setDividerImage(UIImage(color: UIColor(hex: "cfcfcf"), size: CGSize(width: 1, height: stepper.frame.height)), forLeftSegmentState: UIControlState.normal, rightSegmentState: UIControlState.normal)
 		stepper.maximumValue = 10
 		stepper.minimumValue = 1
+		stepper.value = Double(object.productQuantity!)
 		stepper.addTarget(self, action: #selector(stepperAct(_:)), for: .valueChanged)
 		//		prodTitle.text = object.product_name
 		prodTitle.text = object.productName
@@ -115,7 +125,6 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		prodQtyEdit.text = "\((object.productQuantity!))"
 		prodQtyEdit.keyboardType = .numberPad
 		prodQtyEdit.returnKeyType = .done
-		//		let asDbl = object.product_price?.toDouble()!
 		let asDbl = Double(object.productPrice!)
 		if /*asDbl != nil &&*/ asDbl > 0
 		{
@@ -128,111 +137,84 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 			eachAmt.text = ""
 		}
 		stepper.autorepeat = true
-		//		if object.product_id != nil
 		if object.productId != nil
 		{
-			//			stepper.tag = Int(object.product_id!)!
 			stepper.tag = Int(object.productId!)
 		}
-		//		searchProducts(object.product_id!)
-		//		searchProducts(object.productId!)
-		//		if found == false
-		//		{
-		////			searchPrinters(object.product_id!)
-		//			searchPrinters(object.productId!)
-		//		}
-		//		if found == false
-		//		{
-		////			searchLaptops(object.product_id!)
-		//			searchLaptops(object.productId!)
-		//		}
-		//		if found == false
-		//		{
-		////			searchServices(object.product_id!)
-		//			searchServices(object.productId!)
-		//		}
-		//		if found == false
-		//		{
-		////			searchToners(object.product_id!)
-		//			searchToners(object.productId!)
-		//		}
-//		NSLayoutConstraint.activate([
-//			self.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-//			self.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-//			self.heightAnchor.constraint(equalToConstant: 150),
-////			self.widthAnchor.constraint(equalToConstant: self.frame.width-10),
-//			self.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
-//			])
+		searchProducts(object.productId!)
+		if found == false
+		{
+			searchPrinters(object.productId!)
+		}
+		if found == false
+		{
+			searchLaptops(object.productId!)
+		}
+		if found == false
+		{
+			searchServices(object.productId!)
+		}
+		if found == false
+		{
+			searchToners(object.productId!)
+		}
 		drawView()
 	}
 
+
 	func drawView()
 	{
-		self.separatorInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
 		prodQtyBox.addSubview(prodQtyEdit)
+		self.addSubview(prodTitle)
+		self.addSubview(prodQtyBox)
+		self.addSubview(stepper)
+		self.addSubview(prodImage)
+		self.addSubview(eachLabel)
+		self.addSubview(eachAmt)
+		self.addSubview(separator)
 		NSLayoutConstraint.activate([
+			prodTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+			prodTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+			prodTitle.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+			
 			prodQtyEdit.topAnchor.constraint(equalTo: prodQtyBox.topAnchor, constant: 5),
 			prodQtyEdit.leadingAnchor.constraint(equalTo: prodQtyBox.leadingAnchor, constant: 15),
 			prodQtyEdit.bottomAnchor.constraint(equalTo: prodQtyBox.bottomAnchor, constant: -5),
 			prodQtyEdit.trailingAnchor.constraint(equalTo: prodQtyBox.trailingAnchor, constant: -5),
-			])
-		let falseEnd = UIView(frame: .zero)
-		falseEnd.translatesAutoresizingMaskIntoConstraints = false
-		let leftSection = UIStackView(arrangedSubviews: [prodQtyBox, stepper])
-		prodQtyBox.heightAnchor.constraint(equalToConstant: 50).isActive = true
-		prodQtyBox.widthAnchor.constraint(equalToConstant: 50).isActive = true
-		leftSection.translatesAutoresizingMaskIntoConstraints = false
-		leftSection.axis = .vertical
-		leftSection.alignment = .center
-		leftSection.spacing = 10
-//		let midSection = UIStackView(arrangedSubviews: [prodImage])
-//		NSLayoutConstraint.activate([
-//			prodImage.topAnchor.constraint(equalTo: midSection.topAnchor, constant: 0),
-//			prodImage.leadingAnchor.constraint(equalTo: midSection.leadingAnchor, constant: 0),
-//			prodImage.bottomAnchor.constraint(equalTo: midSection.bottomAnchor, constant: 0),
-//			prodImage.trailingAnchor.constraint(equalTo: midSection.trailingAnchor, constant: 0),
-//			])
-//		midSection.translatesAutoresizingMaskIntoConstraints = false
-//		midSection.axis = .vertical
-//		midSection.spacing = 10
-		let lower = UIStackView(arrangedSubviews: [leftSection, prodImage/*midSection*/])
-		lower.translatesAutoresizingMaskIntoConstraints = false
-		if eachAmt.text != nil && !(eachAmt.text?.isEmpty)!
-		{
-			let rightSection = UIStackView(arrangedSubviews: [eachLabel, eachAmt])
-			rightSection.translatesAutoresizingMaskIntoConstraints = false
-			rightSection.axis = .vertical
-			lower.addArrangedSubview(rightSection)
-//			NSLayoutConstraint.activate([
-//				rightSection.topAnchor.constraint(equalTo: lower.topAnchor, constant: 0),
-//				rightSection.leadingAnchor.constraint(equalTo: lower.leadingAnchor, constant: 0),
-//				rightSection.bottomAnchor.constraint(equalTo: lower.bottomAnchor, constant: 0),
-//				rightSection.trailingAnchor.constraint(equalTo: lower.trailingAnchor, constant: -5),
-//				])
-		}
-		let together = UIStackView(arrangedSubviews: [prodTitle, lower, sepater])
-		together.axis = .vertical
-		together.translatesAutoresizingMaskIntoConstraints = false
-		together.spacing = 10
-		self.addSubview(together)
-		NSLayoutConstraint.activate([
-			sepater.leadingAnchor.constraint(equalTo: together.leadingAnchor, constant: 10),
-			sepater.trailingAnchor.constraint(equalTo: together.trailingAnchor, constant: -10),
-			sepater.heightAnchor.constraint(equalToConstant: 1),
-			sepater.bottomAnchor.constraint(equalTo: together.bottomAnchor, constant: 0),
 			
-			together.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-			together.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-			together.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0),
-			together.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+			prodQtyBox.topAnchor.constraint(equalTo: prodTitle.bottomAnchor, constant: 25),
+			prodQtyBox.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+			prodQtyBox.heightAnchor.constraint(equalToConstant: 50),
+			prodQtyBox.widthAnchor.constraint(equalToConstant: 50),
+			
+			stepper.topAnchor.constraint(equalTo: prodQtyBox.bottomAnchor, constant: 10),
+			stepper.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+			
+			prodImage.topAnchor.constraint(equalTo: prodTitle.bottomAnchor, constant: 10),
+			prodImage.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0),
+			prodImage.heightAnchor.constraint(equalToConstant: 135),
+			prodImage.widthAnchor.constraint(equalToConstant: 135),
+			
+			eachLabel.topAnchor.constraint(equalTo: prodTitle.bottomAnchor, constant: 40),
+			eachLabel.centerXAnchor.constraint(equalTo: eachAmt.centerXAnchor, constant: 0),
+			
+			eachAmt.topAnchor.constraint(equalTo: eachLabel.bottomAnchor, constant: 20),
+			eachAmt.leadingAnchor.constraint(equalTo: prodImage.trailingAnchor, constant: 5),
+			eachAmt.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+			
+			separator.heightAnchor.constraint(equalToConstant: 1),
+			separator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+			separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1),
+			separator.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
 			])
 	}
 
-	fileprivate func searchProducts(_ id: String)
+
+	fileprivate func searchProducts(_ id: Int)
 	{
 		for i in 0..<DataStore.sharedInstance.products.count
 		{
-			if "\(DataStore.sharedInstance.products[i].id)" == id
+			if DataStore.sharedInstance.products[i].id == id
 			{
 				let prod = DataStore.sharedInstance.products[i]
 				let imgName = prod.associations?.images![0].id
@@ -269,11 +251,11 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 	
-	fileprivate func searchPrinters(_ id: String)
+	fileprivate func searchPrinters(_ id: Int)
 	{
 		for i in 0..<DataStore.sharedInstance.printers.count
 		{
-			if "\(DataStore.sharedInstance.printers[i].id)" == id
+			if DataStore.sharedInstance.printers[i].id == id
 			{
 				let prod = DataStore.sharedInstance.printers[i]
 				let imgName = prod.associations?.images![0].id
@@ -309,11 +291,11 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 	
-	fileprivate func searchLaptops(_ id: String)
+	fileprivate func searchLaptops(_ id: Int)
 	{
 		for i in 0..<DataStore.sharedInstance.laptops.count
 		{
-			if "\(DataStore.sharedInstance.laptops[i].id)" == id
+			if DataStore.sharedInstance.laptops[i].id == id
 			{
 				let prod = DataStore.sharedInstance.laptops[i]
 				let imgName = prod.associations?.images![0].id
@@ -349,11 +331,11 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 	
-	fileprivate func searchServices(_ id: String)
+	fileprivate func searchServices(_ id: Int)
 	{
 		for i in 0..<DataStore.sharedInstance.services.count
 		{
-			if "\(DataStore.sharedInstance.services[i].id)" == id
+			if DataStore.sharedInstance.services[i].id == id
 			{
 				let prod = DataStore.sharedInstance.services[i]
 				let imgName = prod.associations?.images![0].id
@@ -389,11 +371,11 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 	
-	fileprivate func searchToners(_ id: String)
+	fileprivate func searchToners(_ id: Int)
 	{
 		for i in 0..<DataStore.sharedInstance.toners.count
 		{
-			if "\(DataStore.sharedInstance.toners[i].id )" == id
+			if DataStore.sharedInstance.toners[i].id == id
 			{
 				let prod = DataStore.sharedInstance.toners[i]
 				let imgName = prod.associations?.images![0].id
@@ -429,6 +411,9 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		}
 	}
 
+
+	// MARK: Actions
+
 	@objc func stepperAct(_ sender: UIStepper)
 	{
 		let value = Int(sender.value)
@@ -440,7 +425,7 @@ class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell
 		//		{
 		//			stepper.value = 1
 		//		}
-		NotificationCenter.default.post(name: CartViewController.noteName, object: sender)
+		NotificationCenter.default.post(name: CartViewControl.noteName, object: sender)
 	}
 }
 

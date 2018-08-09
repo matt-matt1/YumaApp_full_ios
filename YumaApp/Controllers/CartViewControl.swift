@@ -17,40 +17,69 @@ class CartViewControl: UIViewController
 	var pcs: Int = 0
 	var wt: Float = 0
 	let store = DataStore.sharedInstance
+	let totalsBar: UIToolbar =
+	{
+		let view = UIToolbar()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.isTranslucent = false
+		view.barTintColor = R.color.YumaRed
+		return view
+	}()
+	let smallFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 8.0
+		return view
+	}()
+	let bigFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 15.0
+		return view
+	}()
+	let flexibleSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+		return view
+	}()
 	var totalAmt: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
 		return view
 	}()
 	var totalLbl: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = UIColor.lightGray
 		return view
 	}()
 	var totalPcsLbl: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = UIColor.lightGray
+		view.text = R.string.pieces
 		return view
 	}()
 	var totalPcs: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
 		return view
 	}()
 	var totalWt: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
 		return view
 	}()
 	var totalWtLbl: UILabel =
 	{
 		let view = UILabel()
-		view.backgroundColor = UIColor.gray
+		view.textColor = UIColor.lightGray
 		return view
 	}()
 	var tableView: UITableView =
@@ -63,7 +92,7 @@ class CartViewControl: UIViewController
 	var navBar: UINavigationBar =
 	{
 		let view = UINavigationBar()
-		view.backgroundColor = UIColor.gray
+		view.backgroundColor = UIColor.lightGray
 		view.frame = UIApplication.shared.statusBarFrame
 		return view
 	}()
@@ -99,10 +128,11 @@ class CartViewControl: UIViewController
         super.viewDidLoad()
 
 		NotificationCenter.default.addObserver(self, selector: #selector(calcTotalWrapper), name: 
-			CartViewController.noteName, object: nil)
+			CartViewControl.noteName, object: nil)
 		totalLbl.text = " = "
 		totalWtLbl.text = store.weightUnit//R.string.kg
 		drawTable()
+		drawTotalsBar()
 		if store.myOrderRows.count < 1
 		{
 			alertEmpty()
@@ -118,7 +148,13 @@ class CartViewControl: UIViewController
     }
 
 
-    override func didReceiveMemoryWarning() {
+	override func viewDidLayoutSubviews()
+	{
+		tableView.reloadData()
+	}
+
+
+	override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -135,8 +171,43 @@ class CartViewControl: UIViewController
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
 			tableView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
-			tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
+			tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -50),
 			tableView.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0),
+			])
+	}
+
+
+	func drawTotalsBar()
+	{
+		view.addSubview(totalsBar)
+//		let smallFixedSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+//		smallFixedSpace.width = 5.0
+//		let bigFixedSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+//		bigFixedSpace.width = 15.0
+//		let flexibleSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		var items = [
+			UIBarButtonItem(customView: totalPcs),
+			smallFixedSpace,
+			UIBarButtonItem(customView: totalPcsLbl),
+			flexibleSpace,
+			UIBarButtonItem(customView: totalLbl),
+			bigFixedSpace,
+			UIBarButtonItem(customView: totalAmt)
+			]
+		if totalWt.text != nil && !(totalWt.text?.isEmpty)!
+		{
+			items += [
+				flexibleSpace,
+				UIBarButtonItem(customView: totalWt),
+				UIBarButtonItem(customView: totalWtLbl)
+			]
+		}
+		totalsBar.setItems(items, animated: false)
+		NSLayoutConstraint.activate([
+			totalsBar.topAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -50),
+			totalsBar.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
+			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
+			totalsBar.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0),
 			])
 	}
 
@@ -296,6 +367,9 @@ class CartViewControl: UIViewController
 	{
 		let sender = notify.object as! UIStepper
 		let value = sender.value
+		totalsBar.subviews.forEach { (sub) in
+			sub.layoutIfNeeded()
+		}
 		var i = 0
 		for row in store.myOrderRows
 		{
@@ -340,8 +414,7 @@ extension CartViewControl: UIPickerViewDelegate, UIPickerViewDataSource
 	{
 		return 1
 	}
-	
-	
+
 }
 
 
@@ -350,7 +423,6 @@ extension CartViewControl: UITableViewDelegate, UITableViewDataSource
 {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-//		print(self.store.myOrderRows.count)
 		return self.store.myOrderRows.count
 	}
 	
@@ -362,7 +434,7 @@ extension CartViewControl: UITableViewDelegate, UITableViewDataSource
 		cell.rightButtons = [MGSwipeButton(title: R.string.delete, backgroundColor: .red) {
 			(sender: MGSwipeTableCell!) -> Bool in
 			
-//			self.askToDelete(message: "\(R.string.delete) \"\(cell.prodQtyEdit.text!)x\(cell.prodTitle.text!)\"", row: indexPath.row)
+			self.askToDelete(message: "\(R.string.delete) \"\(cell.prodQtyEdit.text!)x\(cell.prodTitle.text!)\"", row: indexPath.row)
 			return true
 			}]
 		return cell

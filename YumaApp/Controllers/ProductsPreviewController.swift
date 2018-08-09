@@ -522,17 +522,26 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 			NSLayoutConstraint.activate([
 				headerTitle.leadingAnchor.constraint(equalTo: headerCell.leadingAnchor, constant: view.frame.width * 0.12),
 				headerTitle.trailingAnchor.constraint(equalTo: headerCell.trailingAnchor, constant: -view.frame.width * 0.02/*15*/),
-				headerTitle.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
-				headerTitle.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
-//				headerTitle.centerYAnchor.constraint(equalTo: headerCell.centerYAnchor, constant: 0),
+//				headerTitle.topAnchor.constraint(equalTo: headerCell.topAnchor, constant: 0),
+//				headerTitle.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
+				headerTitle.centerYAnchor.constraint(equalTo: headerCell.centerYAnchor, constant: 0),
 				])
-			headerCell.addSubview(headerImageBase)
-			NSLayoutConstraint.activate([
-				headerImageBase.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
-				headerImageBase.heightAnchor.constraint(equalToConstant: 2),
-				headerImageBase.leadingAnchor.constraint(equalTo: headerImageView.leadingAnchor, constant: 0),
-				headerImageBase.trailingAnchor.constraint(equalTo: headerImageView.trailingAnchor, constant: 0),
-				])
+			headerTitle.alpha = 0
+			UIView.animate(withDuration: 3.275, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [UIViewAnimationOptions.repeat, .curveEaseOut], animations: {
+				self.headerTitle.center.y += headerCell.center.y
+				self.headerTitle.alpha = 1
+			}) { (_) in
+			}
+			if headerImageView.image != nil
+			{
+				headerCell.addSubview(headerImageBase)
+				NSLayoutConstraint.activate([
+					headerImageBase.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
+					headerImageBase.heightAnchor.constraint(equalToConstant: 2),
+					headerImageBase.leadingAnchor.constraint(equalTo: headerImageView.leadingAnchor, constant: 0),
+					headerImageBase.trailingAnchor.constraint(equalTo: headerImageView.trailingAnchor, constant: 0),
+					])
+			}
 			return headerCell
 		}
 		else

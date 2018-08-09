@@ -58,10 +58,10 @@ import UIKit
 extension CAShapeLayer
 {
 	/// Draws a rounded-rectangle with an ouline of backgroundColor and filled with either the backgroundColor or white
-	func drawRoundedRect(rect: CGRect, backgroundColor color: UIColor, filled: Bool, fontSize: CGFloat)
+	func drawRoundedRect(rect: CGRect, borderColor: UIColor, backgroundColor color: UIColor, fontSize: CGFloat)
 	{
-		fillColor = filled ? color.cgColor : UIColor.white.cgColor
-		strokeColor = color.cgColor
+//		fillColor = fillColor/*filled ? color.cgColor : UIColor.white.cgColor*/
+		strokeColor = borderColor.cgColor/*color.cgColor*/
 		path = UIBezierPath(roundedRect: rect, cornerRadius: fontSize/3/*7*/).cgPath
 	}
 	
@@ -84,17 +84,17 @@ extension UIBarButtonItem
 	}
 	
 	/// Inserts a badge onto a UIBarButtonItem, containing text at offset in textColor and backgroundColor with fontSize
-	func setBadge(text: String?, withOffsetFromTopRight offset: CGPoint=CGPoint.zero, textColor: UIColor=UIColor.white, backgroundColor color: UIColor=UIColor.red, backgroundFilled filled: Bool=true, textFontSize fontSize: CGFloat=11)
+	func setBadge(text: String?, withOffsetFromTopRight offset: CGPoint=CGPoint.zero, textColor: UIColor=UIColor.red, borderColor border: UIColor=UIColor.red, backgroundColor color: UIColor=UIColor.white, textFontSize fontSize: CGFloat=11)
 	{
 		badgeLayer?.removeFromSuperlayer()
 		if text == nil || text == ""
 		{
 			return
 		}
-		addBadge(text: text!, withOffset: offset, textColor: textColor, backgroundColor: color, backgroundFilled: filled, textFontSize: fontSize)
+		addBadge(text: text!, withOffset: offset, textColor: textColor, borderColor: border, backgroundColor: color, textFontSize: fontSize)
 	}
 	
-	private func addBadge(text: String, withOffset offset: CGPoint, textColor: UIColor, backgroundColor color: UIColor, backgroundFilled filled: Bool, textFontSize fontSize: CGFloat)
+	private func addBadge(text: String, withOffset offset: CGPoint, textColor: UIColor, borderColor border: UIColor, backgroundColor color: UIColor, textFontSize fontSize: CGFloat)
 	{
 		guard let view = self.value(forKey: "view") as? UIView 	else 	{ 	return 	}
 		guard view.frame.width > 0 	else 	{ 	return 	}
@@ -119,7 +119,7 @@ extension UIBarButtonItem
 		//x position is offset from right-hand side
 		let x = (view.frame.width > 0) ? view.frame.width - width + offset.x : offset.x
 		let badgeFrame = CGRect(origin: CGPoint(x: x, y: offset.y), size: CGSize(width: width, height: height))
-		badge.drawRoundedRect(rect: badgeFrame, backgroundColor: color, filled: filled, fontSize: fontSize)
+		badge.drawRoundedRect(rect: badgeFrame, borderColor: border, backgroundColor: color, fontSize: fontSize)
 		view.layer.addSublayer(badge)
 		
 		//initialiaze Badge's label
@@ -129,8 +129,9 @@ extension UIBarButtonItem
 		label.font = font
 		label.fontSize = font.pointSize
 		label.frame = badgeFrame
-		label.foregroundColor = filled ? textColor/*UIColor.white*/.cgColor : color.cgColor
-		label.backgroundColor = UIColor.clear.cgColor
+//		label.foregroundColor = textColor != nil ? textColor/*UIColor.white*/.cgColor : color.cgColor
+		label.foregroundColor = textColor.cgColor
+		label.backgroundColor = color.cgColor/*UIColor.clear.cgColor*/
 		label.contentsScale = UIScreen.main.scale
 		badge.addSublayer(label)
 		

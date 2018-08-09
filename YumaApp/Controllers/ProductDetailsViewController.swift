@@ -11,6 +11,7 @@ import UIKit
 
 class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 {
+	var numItems = 0
 	let stackAll: UIStackView =
 	{
 		let view = UIStackView()
@@ -79,17 +80,6 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.shadowOpacity = 1
 		return view
 	}()
-//	let cartIcon: UIButton =
-//	{
-//		let view = UIButton()
-//		view.translatesAutoresizingMaskIntoConstraints = false
-//		view.setImage(Awesome.solid.shoppingCart.asImage(size: 30), for: .normal)
-////		view.shadowColor = UIColor.darkGray
-////		view.shadowOffset = .zero
-////		view.shadowRadius = 5
-////		view.shadowOpacity = 1
-//		return view
-//	}()
 	let scrollView: UIScrollView =
 	{
 		let view = UIScrollView()
@@ -118,7 +108,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		iv.shadowOffset = CGSize(width: 1, height: 1)
 		iv.shadowRadius = 3
 		iv.shadowOpacity = 0.75
-		//iv.sizeToFit()
+		iv.sizeToFit()
 		return iv
 	}()
 	let prodName: UILabel =
@@ -155,7 +145,6 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		let view = UITextField()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.font = UIFont.systemFont(ofSize: 17)
-//		view.textAlignment = .center
 		view.text = "1"
 		view.backgroundColor = UIColor.white
 		view.textColor = UIColor.darkGray
@@ -240,7 +229,6 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		view.spacing = 0
 		return view
 	}()
-	
 	//	let imageView: UIView =
 	//	{
 	//		let view = UIView()
@@ -253,12 +241,10 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	//		view.translatesAutoresizingMaskIntoConstraints = false
 	//		return view
 	//	}()
-	
 	let prodManImage: UIImageView =
 	{
 		let iv = UIImageView()
 		iv.translatesAutoresizingMaskIntoConstraints = false
-		//		iv.backgroundColor = UIColor.purple
 		iv.contentMode = .scaleAspectFit
 		return iv
 	}()
@@ -322,7 +308,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 	//		//		view.isPagingEnabled = true
 	//		return view
 	//	}()
-	
+
 
 	// MARK: Overrides
 
@@ -358,12 +344,14 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		prepareMoreImages()
 		placeSubviews()
 	}
-	
+
+
 	override func viewDidAppear(_ animated: Bool)
 	{
 		super.viewDidAppear(animated)
 	}
-	
+
+
 	override func viewDidLayoutSubviews()
 	{
 		super.viewDidLayoutSubviews()
@@ -383,15 +371,16 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		updateMinZoomScaleFor(prodImageScroll, innerObjectSize: prodImage.bounds.size)
 		view.layoutIfNeeded()
 	}
-	
+
+
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
-	
-	
+
+
 	// MARK: Methods
-	
+
 	private func prepareTags()
 	{
 		if prod.associations != nil && prod.associations!.tags != nil && prod.associations!.tags!.count > 0
@@ -401,7 +390,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			tagsStack.alignment = .top
 		}
 	}
-	
+
+
 	private func prepareCats()
 	{
 		if prod.associations != nil && prod.associations?.categories != nil && (prod.associations?.categories?.count)! > 0
@@ -411,7 +401,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			catsStack.alignment = .top
 		}
 	}
-	
+
+
 	private func prepareMoreImages()
 	{
 		if self.prod != nil && self.prod.associations != nil && self.prod.associations?.images != nil
@@ -424,6 +415,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 //			//			imagesStack.setContentHuggingPriority(UILayoutPriority(rawValue: 760), for: UILayoutConstraintAxis.horizontal)
 		}
 	}
+
 
 	func makeStackFromImageIds(ids: [IdAsString], imageChar: String="p", enlargedDestination: UIImageView) -> UIStackView
 	{
@@ -486,6 +478,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		return stack
 	}
 
+
 	fileprivate func prepareCollectionViews()
 	{
 		//		tagsCollectionView.register(ProductTagsCollectionViewCell.self, forCellWithReuseIdentifier: tagsCellId)
@@ -507,7 +500,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		productOptionValuesView.delegate = self
 		//		productOptionValuesView.dataSource = self
 	}
-	
+
+
 	func viewForZooming(in scrollView: UIScrollView) -> UIView?	// support pinch zoom
 	{
 		if prodImageScroll == scrollView
@@ -516,7 +510,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		}
 		return nil
 	}
-	
+
+
 	func updateMinZoomScaleFor(_ scrollView: UIScrollView, innerObjectSize: CGSize)
 	{	// A zoom scale of 1.0 indicates that the content is displayed at normal size. A zoom scale less than one shows the content zoomed out, and a zoom scale greater than one shows the content zoomed in.
 //		let imageViewSize: CGSize = prodImage.bounds.size
@@ -540,7 +535,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 //			print("scrollView.zoomScale=\(scrollView.zoomScale)")
 //		}
 	}
-	
+
+
 	func scrollViewDidZoom(_ scrollView: UIScrollView)
 	{
 		if prodImageScroll == scrollView
@@ -555,7 +551,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			view.layoutIfNeeded()
 		}
 	}
-	
+
+
 	func setupZoomGestureRecognizer()
 	{
 		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
@@ -563,18 +560,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		prodImageScroll.addGestureRecognizer(doubleTap)
 	}
 
-	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
-	{
-		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
-		{
-			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
-		}
-		else
-		{
-			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
-		}
-	}
-	
+
 	func imageFromLayer(_ layer: CALayer) -> UIImage?
 	{
 		var gradientImage: UIImage?
@@ -587,7 +573,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		UIGraphicsEndImageContext()
 		return gradientImage
 	}
-	
+
+
 	fileprivate func drawNavigation()
 	{
 /*		let gradient = CAGradientLayer()
@@ -626,7 +613,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 //		cartIcon.setImage(Awesome.solid.shoppingCart.asImage(size: 30, color: UIColor.white, backgroundColor: UIColor.clear), for: .normal)
 //		cartIcon.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(displayCart(_:))))
 		navCart = UIBarButtonItem(customView: cartIcon)
-//		navCart.setBadge(text: "\(self.store.myOrderRows.count)", withOffsetFromTopRight: CGPoint(x: -6, y: 8), textColor: R.color.YumaYel, backgroundColor: R.color.YumaRed, backgroundFilled: false)
+		updateBadge()
+//		self.numItems = 0
+//		self.store.myOrderRows.forEach({ (row) in
+//			self.numItems += row.productQuantity!
+//		})
+//		self.navCart.setBadge(text: "\(self.numItems)", withOffsetFromTopRight: CGPoint(x: -7/*10*/, y: 8), textColor: R.color.YumaRed, borderColor: R.color.YumaRed, backgroundColor: R.color.YumaYel)
 //		let navCart = UIBarButtonItem(image: Awesome.solid.shoppingCart.asImage(size: 30), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayCart(_:)))
 //		let navTry = UIBarButtonItem(image: Awesome.solid.addressBook.asImage(size: 20), style: UIBarButtonItemStyle.done, target: self, action: #selector(displayHelp(_:)))
 		navTitle.setRightBarButtonItems([navHelp, UIBarButtonItem(customView: cartIcon)/*navTry*//*navCart*/], animated: false)
@@ -635,13 +627,6 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			view.insertSubview(statusAndNavigationBars, at: 0)
 		}
 */	}
-
-	@objc func stepperChanged(_ sender: UIStepper)
-	{
-		let value = Int(sender.value)
-		addQty.text = String(value)
-		prod.quantity = value
-	}
 
 //	override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator)
 //	{
@@ -671,7 +656,18 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 //			navigationBar.setBackgroundImage(image, for: UIBarMetrics.default)
 //		}
 //	}
-	
+
+
+	func updateBadge()
+	{
+		self.numItems = 0
+		self.store.myOrderRows.forEach({ (row) in
+			self.numItems += row.productQuantity!
+		})
+		self.navCart.setBadge(text: "\(self.numItems)", withOffsetFromTopRight: CGPoint(x: -7/*10*/, y: 8), textColor: R.color.YumaRed, borderColor: R.color.YumaRed, backgroundColor: R.color.YumaYel)
+	}
+
+
 	fileprivate func setViews()
 	{
 		viewPanel.addSubview(scrollView)
@@ -704,7 +700,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		stackAll.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0).isActive = true
 		stackAll.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0).isActive = true
 	}
-	
+
+
 	fileprivate func placeSubviews()
 	{
 		setViews()
@@ -785,7 +782,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		scrollView.addConstraintsWithFormat(format: "H:|-0-[v0]-0-|", views: stack)
 		scrollView.addConstraintsWithFormat(format: "V:|-20-[v0]-10-|", views: stack)
 	}
-	
+
+
 	fileprivate func fillProductDetails()
 	{
 		if prod.availableForOrder == nil || !prod.availableForOrder!
@@ -945,55 +943,65 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			//			self.productOptionValuesView.addArrangedSubview(formProductOptionValues(ValueIDs: (prod.associations?.product_option_values)!))
 		}
 		add2cart.addTapGestureRecognizer {
+			self.store.flexView(view: self.add2cart)
 			if self.prod.name != nil && self.prod.price != nil && self.prod.name![self.store.myLang].value != nil
 			{
-//				if self.store.myCartRows.count < 1 //&& self.store.myCart == nil
-//				{
-//					//make new cart
-//				}
-//				var found = false
-//				for item in self.store.myCartRows
-//				{
-//					if item.idProduct == self.prod.id
-//					{
-//						found = true
-//						break
-//					}
-//				}
-//				if !found
-//				{
-//					self.store.myCartRows.append(CartRow(idProduct: self.prod.id, idProductAttribute: self.prod.cacheDefaultAttribute, idAddressDelivery: nil, quantity: self.prodQty/* self.prod.quantity*/))
-//				}
-//				else
-//				{
-//					//update quantity
-//				}
-//				print("TODO: add prod \"\(self.prod.name![self.store.myLang].value!)\" to cart")
-				if self.store.myOrderRows.count < 1 && self.store.myOrder == nil
-				{
-					let date = Date()
-					self.store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: self.store.defaultCurr, idLang: self.store.myLang, idCustomer: (self.store.customer != nil) ? self.store.customer?.id : -1, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: date, deliveryNumber: "", deliveryDate: date, valid: 1, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: self.store.idShopGroup, idShop: self.store.idShop, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: 0, totalPaidReal: 0, totalProducts: 0, totalProductsWt: 0, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 1, reference: "", associations: OrdersAssociations(order_rows: self.store.myOrderRows))
-				}
-				var found = false
-				for (i, item) in self.store.myOrderRows.enumerated()
-				{
-					if item.productId == self.prod.id
+				let beforeAnimation = self.prodImage.transform								//save state
+				let beforeCenterX = self.prodImage.center.x
+				let beforeCenterY = self.prodImage.center.y
+				self.prodImage.alpha = 0.75
+				UIView.animate(withDuration: 0.2, animations:
 					{
-						found = true
-						self.store.myOrderRows[i].productQuantity = self.store.myOrderRows[i].productQuantity! + 1
-						break
-					}
-				}
-				if !found
-				{
-					self.store.myOrderRows.append(OrderRow(id: 0, productId: self.prod.id, productAttributeId: self.prod.cacheDefaultAttribute/*nil*/, productQuantity: self.prodQty/*self.prodQty*/, productName: self.prod.name![self.store.myLang].value!, productReference: self.prod.reference, productEan13: self.prod.ean13, productIsbn: self.prod.isbn, productUpc: self.prod.upc, productPrice: self.prod.price!, unitPriceTaxIncl: self.prod.price, unitPriceTaxExcl: self.prod.price, productImage: nil))
-				}
-//				else
-//				{
-//					//update quantity
-//				}
-				print(self.store.myOrderRows)
-				self.navCart.setBadge(text: "\(self.store.myOrderRows.count)", withOffsetFromTopRight: CGPoint(x: -6/*10*/, y: 8), textColor: R.color.YumaYel, backgroundColor: R.color.YumaRed, backgroundFilled: false)
+						self.prodImage.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)	//reduce
+				},
+							   completion:
+					{
+						_ in
+						UIView.animate(withDuration: 0.65, /*delay: 1.0, usingSpringWithDamping: CGFloat(0), initialSpringVelocity: CGFloat(0), options: [.curveEaseInOut,.allowUserInteraction],*/ animations:
+							{
+								self.prodImage.center.x += self.prodImage.center.x + 10
+								self.prodImage.center.y -= self.prodImage.center.y - 10		//move towards cart
+								self.prodImage.alpha = 0.3
+						},
+									   completion:
+							{
+								_ in
+								if self.store.myOrderRows.count < 1 && self.store.myOrder == nil
+								{
+									let date = Date()
+									self.store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: self.store.defaultCurr, idLang: self.store.myLang, idCustomer: (self.store.customer != nil) ? self.store.customer?.id : -1, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: date, deliveryNumber: "", deliveryDate: date, valid: 1, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: self.store.idShopGroup, idShop: self.store.idShop, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: 0, totalPaidReal: 0, totalProducts: 0, totalProductsWt: 0, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 1, reference: "", associations: OrdersAssociations(order_rows: self.store.myOrderRows))
+								}
+								var found = false
+								for (i, item) in self.store.myOrderRows.enumerated()
+								{
+									if item.productId == self.prod.id
+									{
+										found = true
+										self.store.myOrderRows[i].productQuantity = self.store.myOrderRows[i].productQuantity! + 1
+										break
+									}
+								}
+								if !found
+								{
+									self.store.myOrderRows.append(OrderRow(id: 0, productId: self.prod.id, productAttributeId: self.prod.cacheDefaultAttribute/*nil*/, productQuantity: self.prodQty/*self.prodQty*/, productName: self.prod.name![self.store.myLang].value!, productReference: self.prod.reference, productEan13: self.prod.ean13, productIsbn: self.prod.isbn, productUpc: self.prod.upc, productPrice: self.prod.price!, unitPriceTaxIncl: self.prod.price, unitPriceTaxExcl: self.prod.price, productImage: nil))
+								}
+								//				else
+								//				{
+								//					//update quantity
+								//				}
+								print(self.store.myOrderRows)
+								self.updateBadge()
+//								self.numItems = 0
+//								self.store.myOrderRows.forEach({ (row) in
+//									self.numItems += row.productQuantity!
+//								})
+//								self.navCart.setBadge(text: "\(self.numItems)", withOffsetFromTopRight: CGPoint(x: -7/*10*/, y: 8), textColor: R.color.YumaRed, borderColor: R.color.YumaRed, backgroundColor: R.color.YumaYel)
+								self.prodImage.center.x = beforeCenterX
+								self.prodImage.center.y = beforeCenterY						//revert position
+								self.prodImage.transform = beforeAnimation					//revert size
+								self.prodImage.alpha = 1									//make vivid
+						})
+				})
 			}
 			else
 			{
@@ -1001,20 +1009,40 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 			}
 		}
 	}
-	
-	
+
+
 	// MARK: Actions
-	
-	@objc func goBack(_ sender: UITapGestureRecognizer)
+
+	@objc func handleDoubleTap(recognizer: UITapGestureRecognizer)
 	{
-		self.dismiss(animated: true, completion: nil)
+		if (prodImageScroll.zoomScale > prodImageScroll.minimumZoomScale)
+		{
+			prodImageScroll.setZoomScale(prodImageScroll.minimumZoomScale, animated: true)
+		}
+		else
+		{
+			prodImageScroll.setZoomScale(prodImageScroll.maximumZoomScale, animated: true)
+		}
 	}
+
+	@objc func stepperChanged(_ sender: UIStepper)
+	{
+		let value = Int(sender.value)
+		addQty.text = String(value)
+		prodQty = value
+//		prod.quantity = value
+	}
+
+//	@objc func goBack(_ sender: UITapGestureRecognizer)
+//	{
+//		self.dismiss(animated: true, completion: nil)
+//	}
 
 	@objc func displayCart(_ sender: UITapGestureRecognizer)
 	{
-//		self.tabBarController?.selectedIndex = 3
-		productsView.tabBarController?.selectedIndex = 3
 		self.dismiss(animated: true) {
+			self.tabBarController?.selectedIndex = 3
+//			self.productsView.tabBarController?.selectedIndex = 3
 		}
 //		let vc = TabBarController()
 ////		let vc = CartViewControl()

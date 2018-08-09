@@ -13,6 +13,8 @@ extension R
 {
 	struct font
 	{
+		static let avenirNextBold21 = UIFont.init(name: "AvenirNext-Bold", size: 21)
+		static let avenirNextBold18 = UIFont.init(name: "AvenirNext-Bold", size: 18)
 		static let avenirNextBold16 = UIFont.init(name: "AvenirNext-Bold", size: 16)
 		static let avenirNextBold14 = UIFont.init(name: "AvenirNext-Bold", size: 14)
 		//static let fontAwesome = Rswift.FontResource(fontName: "FontAwesome")
