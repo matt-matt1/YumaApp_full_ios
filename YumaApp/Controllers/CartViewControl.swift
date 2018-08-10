@@ -180,11 +180,6 @@ class CartViewControl: UIViewController
 	func drawTotalsBar()
 	{
 		view.addSubview(totalsBar)
-//		let smallFixedSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-//		smallFixedSpace.width = 5.0
-//		let bigFixedSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-//		bigFixedSpace.width = 15.0
-//		let flexibleSpace: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
 		var items = [
 			UIBarButtonItem(customView: totalPcs),
 			smallFixedSpace,
@@ -204,7 +199,7 @@ class CartViewControl: UIViewController
 		}
 		totalsBar.setItems(items, animated: false)
 		NSLayoutConstraint.activate([
-			totalsBar.topAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -50),
+			totalsBar.heightAnchor.constraint(equalToConstant: 50),
 			totalsBar.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
 			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
 			totalsBar.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0),
@@ -255,7 +250,7 @@ class CartViewControl: UIViewController
 			totalPcs.text = "\(pcs)"
 			let date = Date()
 			store.myOrder = Order(id: 0, idAddressDelivery: 0, idAddressInvoice: 0, idCart: 0, idCurrency: 0, idLang: (store.customer?.idLang != nil) ? (store.customer?.idLang)! : 0, idCustomer: (store.customer?.idCustomer != nil) ? (store.customer?.idCustomer)! : 0, idCarrier: 0, currentState: 0, module: "", invoiceNumber: "", invoiceDate: nil, deliveryNumber: "", deliveryDate: nil, valid: 0, dateAdd: date, dateUpd: date, shippingNumber: "", idShopGroup: 0, idShop: 0, secureKey: "", payment: "", recyclable: false, gift: false, giftMessage: "", mobileTheme: false, totalDiscounts: 0, totalDiscountsTaxIncl: 0, totalDiscountsTaxExcl: 0, totalPaid: 0, totalPaidTaxIncl: 0, totalPaidTaxExcl: total, totalPaidReal: 0, totalProducts: pcs, totalProductsWt: wt, totalShipping: 0, totalShippingTaxIncl: 0, totalShippingTaxExcl: 0, carrierTaxRate: 0, totalWrapping: 0, totalWrappingTaxIncl: 0, totalWrappingTaxExcl: 0, roundMode: 0, roundType: 0, conversionRate: 0, reference: "", associations: OrdersAssociations(order_rows: store.myOrderRows))
-			print(store.myOrder ?? "")
+//			print(store.myOrder ?? "")
 		}
 	}
 	

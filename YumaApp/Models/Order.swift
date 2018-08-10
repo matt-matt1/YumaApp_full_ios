@@ -30,7 +30,7 @@ struct OrderRow: Decodable
 	var unitPriceTaxExcl: 		Float?//read_only
 	var productImage:			Data?
 
-	enum MemberKeys: String, CodingKey
+	enum CodingKeys: String, CodingKey
 	{
 		case id
 		case productId = 			"product_id"
@@ -45,6 +45,152 @@ struct OrderRow: Decodable
 		case unitPriceTaxIncl = 	"unit_price_tax_incl"
 		case unitPriceTaxExcl = 	"unit_price_tax_excl"
 		case productImage
+	}
+	public init(from decoder: Decoder) throws
+	{
+		let parent = try decoder.container(keyedBy: CodingKeys.self)
+		id = 0
+		if let myNull = try? parent.decodeNil(forKey: .id)
+		{
+			if !myNull
+			{
+				if let myInt = try? parent.decode(UInt.self, forKey: .id)
+				{
+					id = Int(myInt)
+				}
+				else if let myInt = try? parent.decode(Int.self, forKey: .id)
+				{
+					id = myInt
+				}
+					//				else if (try? parent.decodeNil(forKey: .id)) != nil
+					//				{
+					//					id = myNull ? 5 : 4
+					//				}
+				else if let str = try? parent.decode(String.self, forKey: .id)
+				{
+					id = Int(str)!
+				}
+			}
+		}
+		productId = 0
+		if let myInt = try? parent.decode(Int.self, forKey: .productId)
+		{
+			productId = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .productId)
+		{
+			productId = Int(str)
+		}
+		productAttributeId = 0
+		if let myInt = try? parent.decode(Int.self, forKey: .productAttributeId)
+		{
+			productAttributeId = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .productAttributeId)
+		{
+			productAttributeId = Int(str)
+		}
+		productQuantity = 0
+		if let myInt = try? parent.decode(Int.self, forKey: .productQuantity)
+		{
+			productQuantity = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .productQuantity)
+		{
+			productQuantity = Int(str)
+		}
+		productName = ""
+		if let myInt = try? parent.decode(String.self, forKey: .productName)
+		{
+			productName = myInt
+		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .productName)
+		{
+			productName = ""
+		}
+		productReference = ""
+		if let myInt = try? parent.decode(String.self, forKey: .productReference)
+		{
+			productReference = myInt
+		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .productReference)
+		{
+			productReference = ""
+		}
+		productEan13 = ""
+		if let myInt = try? parent.decode(String.self, forKey: .productEan13)
+		{
+			productEan13 = myInt
+		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .productEan13)
+		{
+			productEan13 = ""
+		}
+		productIsbn = ""
+		if let myInt = try? parent.decode(String.self, forKey: .productIsbn)
+		{
+			productIsbn = myInt
+		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .productIsbn)
+		{
+			productIsbn = ""
+		}
+		productUpc = ""
+		if let myInt = try? parent.decode(String.self, forKey: .productUpc)
+		{
+			productUpc = myInt
+		}
+		else if let _ = try? parent.decode(Bool.self, forKey: .productUpc)
+		{
+			productUpc = ""
+		}
+		productPrice = 0
+		if let myInt = try? parent.decode(Float.self, forKey: .productPrice)
+		{
+			productPrice = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .productPrice)
+		{
+			productPrice = Float(str)
+		}
+		unitPriceTaxIncl = 0
+		if let myInt = try? parent.decode(Float.self, forKey: .unitPriceTaxIncl)
+		{
+			unitPriceTaxIncl = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .unitPriceTaxIncl)
+		{
+			unitPriceTaxIncl = Float(str)
+		}
+		unitPriceTaxExcl = 0
+		if let myInt = try? parent.decode(Float.self, forKey: .unitPriceTaxExcl)
+		{
+			unitPriceTaxExcl = myInt
+		}
+		else if let str = try? parent.decode(String.self, forKey: .unitPriceTaxExcl)
+		{
+			unitPriceTaxExcl = Float(str)
+		}
+		productImage = nil//try parent.decode(Data.self, forKey: .productImage)
+		if let myInt = try? parent.decode(Data.self, forKey: .productImage)
+		{
+			productImage = myInt
+		}
+	}
+	init(id: Int?, productId: Int?, productAttributeId: Int?, productQuantity: Int?, productName: String?, productReference: String?, productEan13: String?, productIsbn: String?, productUpc: String?, productPrice: Float?, unitPriceTaxIncl: Float?, unitPriceTaxExcl: Float?, productImage: Data?) {
+		self.id = id
+		self.productId = productId
+		self.productAttributeId = productAttributeId
+		self.productQuantity = productQuantity
+		self.productName = productName
+		self.productReference = productReference
+		self.productEan13 = productEan13
+		self.productIsbn = productIsbn
+		self.productUpc = productUpc
+		self.productPrice = productPrice
+		self.unitPriceTaxIncl = unitPriceTaxIncl
+		self.unitPriceTaxExcl = unitPriceTaxExcl
+		self.productImage = productImage
 	}
 }
 //struct OrderRow: Decodable
@@ -761,7 +907,6 @@ struct Order: Decodable, PropertyNames
 	self.conversionRate = conversionRate
 	self.reference = reference
 	self.associations = associations
-
 	}
 }
 struct Orders: Decodable

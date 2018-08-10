@@ -8,6 +8,7 @@
 
 import UIKit
 import SWXMLHash
+import AwesomeEnum
 //import Cocoa
 
 

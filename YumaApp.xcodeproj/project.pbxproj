@@ -215,18 +215,6 @@
 		CF9A1D8020E3C5F2003F2213 /* XMLDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */; };
 		CF9DB7E42061A79E00C1FAD3 /* ProductOptionValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */; };
 		CFA2115320D69446006E8830 /* SelectDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2115220D69446006E8830 /* SelectDate.swift */; };
-		CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF120C71961006C098C /* fa-brands-400.ttf */; };
-		CFA4ABF520C71961006C098C /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF220C71961006C098C /* fa-solid-900.ttf */; };
-		CFA4ABF620C71961006C098C /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFA4ABF320C71961006C098C /* fa-regular-400.ttf */; };
-		CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABF920C71A45006C098C /* Awesome.swift */; };
-		CFA4AC0420C71A45006C098C /* NSAttributedString+Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */; };
-		CFA4AC0520C71A45006C098C /* Amazing+Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */; };
-		CFA4AC0620C71A45006C098C /* Image+Awesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */; };
-		CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4ABFF20C71A45006C098C /* Fonts.swift */; };
-		CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0020C71A45006C098C /* Crossplatform.swift */; };
-		CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA4AC0220C71A45006C098C /* Amazing.swift */; };
-		CFAD4DF0211A564700C4E5E4 /* CAShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */; };
-		CFAD4DF2211A56A500C4E5E4 /* UIBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */; };
 		CFAD4DF4211A578800C4E5E4 /* UIBarButtonItem+Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAD4DF3211A578800C4E5E4 /* UIBarButtonItem+Badge.swift */; };
 		CFAE285420FFF17B0048E164 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE285320FFF17B0048E164 /* AnyDecodable.swift */; };
 		CFAE28582100E79D0048E164 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE28572100E79D0048E164 /* Downloader.swift */; };
@@ -503,19 +491,6 @@
 		CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLDecoder.swift; sourceTree = "<group>"; };
 		CF9DB7E32061A79E00C1FAD3 /* ProductOptionValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOptionValues.swift; sourceTree = "<group>"; };
 		CFA2115220D69446006E8830 /* SelectDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDate.swift; sourceTree = "<group>"; };
-		CFA4ABF120C71961006C098C /* fa-brands-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brands-400.ttf"; sourceTree = "<group>"; };
-		CFA4ABF220C71961006C098C /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
-		CFA4ABF320C71961006C098C /* fa-regular-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-regular-400.ttf"; sourceTree = "<group>"; };
-		CFA4ABF920C71A45006C098C /* Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Awesome.swift; sourceTree = "<group>"; };
-		CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Awesome.swift"; sourceTree = "<group>"; };
-		CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Amazing+Tools.swift"; sourceTree = "<group>"; };
-		CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Awesome.swift"; sourceTree = "<group>"; };
-		CFA4ABFF20C71A45006C098C /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
-		CFA4AC0020C71A45006C098C /* Crossplatform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crossplatform.swift; sourceTree = "<group>"; };
-		CFA4AC0220C71A45006C098C /* Amazing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Amazing.swift; sourceTree = "<group>"; };
-		CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeEnum.h; sourceTree = "<group>"; };
-		CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAShapeLayer.swift; sourceTree = "<group>"; };
-		CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItem.swift; sourceTree = "<group>"; };
 		CFAD4DF3211A578800C4E5E4 /* UIBarButtonItem+Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Badge.swift"; sourceTree = "<group>"; };
 		CFAE285320FFF17B0048E164 /* AnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		CFAE28572100E79D0048E164 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
@@ -742,14 +717,12 @@
 				CF99DF3320D7F6F1006492AF /* UIColor.swift */,
 				CF99DF3520D7F71D006492AF /* UICollectionView.swift */,
 				CF99DF3720D7F79B006492AF /* UIImage.swift */,
+				CF6FB7F4211B831900F13FD9 /* UIImageView.swift */,
 				CF99DF3920D7F7CB006492AF /* UILabel.swift */,
 				CF99DF3F20D7F94B006492AF /* UINavigationBar.swift */,
 				CF99DF4120D7F97D006492AF /* UIView.swift */,
 				CF99DF4320D7F9B0006492AF /* UIViewController.swift */,
 				CF99DF4520D7F9EB006492AF /* URLResponse.swift */,
-				CFAD4DEF211A564700C4E5E4 /* CAShapeLayer.swift */,
-				CFAD4DF1211A56A500C4E5E4 /* UIBarButtonItem.swift */,
-				CF6FB7F4211B831900F13FD9 /* UIImageView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -787,53 +760,6 @@
 				CF9A1D7420E3C5F2003F2213 /* XMLDecoder.swift */,
 			);
 			path = Decoder;
-			sourceTree = "<group>";
-		};
-		CFA4ABF720C71A45006C098C /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				CFA4AC0A20C71A7E006C098C /* AwesomeEnum.h */,
-				CFA4ABF820C71A45006C098C /* Enums */,
-				CFA4ABFA20C71A45006C098C /* Extensions */,
-				CFA4ABFE20C71A45006C098C /* Libs */,
-				CFA4AC0120C71A45006C098C /* Protocols */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		CFA4ABF820C71A45006C098C /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-				CFA4ABF920C71A45006C098C /* Awesome.swift */,
-			);
-			path = Enums;
-			sourceTree = "<group>";
-		};
-		CFA4ABFA20C71A45006C098C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				CFA4ABFB20C71A45006C098C /* NSAttributedString+Awesome.swift */,
-				CFA4ABFC20C71A45006C098C /* Amazing+Tools.swift */,
-				CFA4ABFD20C71A45006C098C /* Image+Awesome.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		CFA4ABFE20C71A45006C098C /* Libs */ = {
-			isa = PBXGroup;
-			children = (
-				CFA4ABFF20C71A45006C098C /* Fonts.swift */,
-				CFA4AC0020C71A45006C098C /* Crossplatform.swift */,
-			);
-			path = Libs;
-			sourceTree = "<group>";
-		};
-		CFA4AC0120C71A45006C098C /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				CFA4AC0220C71A45006C098C /* Amazing.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		CFAFC07B201F6DA1002CBC1B = {
@@ -875,7 +801,6 @@
 				CF99DF2620D7F52F006492AF /* Extensions */,
 				CF99DF1120D7EEB2006492AF /* Resources */,
 				CF717EA620A3943300E68F83 /* CustomizableAlertController-Medium */,
-				CFA4ABF720C71A45006C098C /* Classes */,
 				CFC1D201203B45F000343B25 /* Controllers */,
 				CF7E8675202E1D860014B787 /* YumaApp.entitlements */,
 				CFAFC087201F6DA1002CBC1B /* AppDelegate.swift */,
@@ -920,9 +845,6 @@
 		CFAFC0B5201F7857002CBC1B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				CFA4ABF120C71961006C098C /* fa-brands-400.ttf */,
-				CFA4ABF320C71961006C098C /* fa-regular-400.ttf */,
-				CFA4ABF220C71961006C098C /* fa-solid-900.ttf */,
 				CF7E863820290D2B0014B787 /* fontAwesomeIcons.swift */,
 				CFAFC0B6201F7943002CBC1B /* FontAwesome.ttf */,
 			);
@@ -1185,8 +1107,6 @@
 				CFAFC092201F6DA1002CBC1B /* LaunchScreen.storyboard in Resources */,
 				CFB02E3C204F42ED00429798 /* Products.storyboard in Resources */,
 				CF5C73092049AB32008763DB /* CartStoryboard.storyboard in Resources */,
-				CFA4ABF420C71961006C098C /* fa-brands-400.ttf in Resources */,
-				CFA4ABF520C71961006C098C /* fa-solid-900.ttf in Resources */,
 				CFF4A8C0204EFFFB005AE5C8 /* Assets.xcassets in Resources */,
 				CF26FFC220586C1300532C11 /* CustomerOrders.storyboard in Resources */,
 				CF75E7B620D2BBE000A5FA12 /* MyAccOrderHistory.xib in Resources */,
@@ -1201,7 +1121,6 @@
 				CFEC7B2F203DD33100F98C57 /* Entry.xib in Resources */,
 				CFC1D1FC203B442500343B25 /* ForgotPWViewController.xib in Resources */,
 				CF9231CB2035FF6000D44BB6 /* MyAccCSViewController.xib in Resources */,
-				CFA4ABF620C71961006C098C /* fa-regular-400.ttf in Resources */,
 				CF7E865E202A42800014B787 /* HeaderView.xib in Resources */,
 				CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */,
 			);
@@ -1288,6 +1207,7 @@
 				"${BUILT_PRODUCTS_DIR}/AwesomeEnum/AwesomeEnum.framework",
 				"${BUILT_PRODUCTS_DIR}/DateToolsSwift/DateToolsSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MGSwipeTableCell/MGSwipeTableCell.framework",
+				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
 			);
@@ -1296,6 +1216,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwesomeEnum.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateToolsSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MGSwipeTableCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
 			);
@@ -1312,7 +1233,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF99DF3A20D7F7CB006492AF /* UILabel.swift in Sources */,
-				CFAD4DF2211A56A500C4E5E4 /* UIBarButtonItem.swift in Sources */,
 				CFF3CFB92035F00F00BEDEE4 /* MyAccountViewController.swift in Sources */,
 				CF601A14204AE4AD00217025 /* OrderInvoices.swift in Sources */,
 				CF99DF2E20D7F62E006492AF /* String.swift in Sources */,
@@ -1359,8 +1279,6 @@
 				CF058C5B20D1830600974E2B /* MyXMLParserDelegate.swift in Sources */,
 				CF5719BB210B5DBA008AE8B2 /* ProductCategoriesCollectionViewController.swift in Sources */,
 				CFAFC088201F6DA1002CBC1B /* AppDelegate.swift in Sources */,
-				CFA4AC0420C71A45006C098C /* NSAttributedString+Awesome.swift in Sources */,
-				CFA4AC0620C71A45006C098C /* Image+Awesome.swift in Sources */,
 				CF99DF2120D7F409006492AF /* R.reuseIdentifier.swift in Sources */,
 				CF60CAD3208E409100B6D0EE /* ProductSuppliers.swift in Sources */,
 				CF60CADB208E490200B6D0EE /* Shops.swift in Sources */,
@@ -1375,7 +1293,6 @@
 				CF4D85462094C0C3001A1744 /* Http.swift in Sources */,
 				CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */,
 				CF68979E2089354200998527 /* CustomerThreads.swift in Sources */,
-				CFAD4DF0211A564700C4E5E4 /* CAShapeLayer.swift in Sources */,
 				CFEE3AAF2047444700526D92 /* CartViewController.swift in Sources */,
 				CF42562B20D41FC30002AF12 /* MyAccCS_ViewController.swift in Sources */,
 				CF331F5F209A3D8200992F92 /* MenuCell.swift in Sources */,
@@ -1414,7 +1331,6 @@
 				CF75E7BA20D2C55C00A5FA12 /* MyAccOH_Cell.swift in Sources */,
 				CF50A3E2207BFAC2008749F0 /* HelpVC.swift in Sources */,
 				CF6FB7F5211B831900F13FD9 /* UIImageView.swift in Sources */,
-				CFA4AC0920C71A45006C098C /* Amazing.swift in Sources */,
 				CF9A1D7A20E3C5F2003F2213 /* XMLEncodingStorage.swift in Sources */,
 				CF384BF6205EBBA9005CCD57 /* MyClient.swift in Sources */,
 				CF99DF3420D7F6F1006492AF /* UIColor.swift in Sources */,
@@ -1459,7 +1375,6 @@
 				CF4FD08E20790C9C00D92A07 /* AddressExpandedViewController.swift in Sources */,
 				CF6B52AB210A90C200F00B8C /* ProductsPreviewController.swift in Sources */,
 				CF182DCE203327880070B9E5 /* Customers.swift in Sources */,
-				CFA4AC0320C71A45006C098C /* Awesome.swift in Sources */,
 				CFEF07CF20FD155F005BB642 /* TestSQliteViewController.swift in Sources */,
 				CF60CAC9208E369F00B6D0EE /* OrderSlips.swift in Sources */,
 				CF9A1D7820E3C5F2003F2213 /* EncodingErrorExtension.swift in Sources */,
@@ -1468,7 +1383,6 @@
 				CF5719B3210B5D1C008AE8B2 /* ThumbnailCollectionViewController.swift in Sources */,
 				CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */,
 				CF717EA820A3946400E68F83 /* CustomizableAlertController.swift in Sources */,
-				CFA4AC0520C71A45006C098C /* Amazing+Tools.swift in Sources */,
 				CF5A9DE720E6759A00659FCE /* PrestashopXMLroot.swift in Sources */,
 				CF01E04820FA2D7600CFE767 /* SeachAsYouTypeViewController.swift in Sources */,
 				CF99DF2A20D7F5AE006492AF /* Dictionary.swift in Sources */,
@@ -1495,7 +1409,6 @@
 				CF9231CE20386CDF00D44BB6 /* MyAccOHViewController.swift in Sources */,
 				CF4B9AB520A1F13E00AD1486 /* CheckoutStepsCell.swift in Sources */,
 				CF99DF2320D7F456006492AF /* R.segue.swift in Sources */,
-				CFA4AC0720C71A45006C098C /* Fonts.swift in Sources */,
 				CF601A12204AE33900217025 /* OrderHistories.swift in Sources */,
 				CFEF07DB20FEB5ED005BB642 /* DataConstants.swift in Sources */,
 				CF472DB820AB334000189F35 /* ResourcesViewController.swift in Sources */,
@@ -1516,7 +1429,6 @@
 				CF99DF4020D7F94B006492AF /* UINavigationBar.swift in Sources */,
 				CF9A1D7E20E3C5F2003F2213 /* XMLKeyedDecodingContainer.swift in Sources */,
 				CF78CC0B2083FE620030789D /* PropertyNames.swift in Sources */,
-				CFA4AC0820C71A45006C098C /* Crossplatform.swift in Sources */,
 				CF58B6812107B3C8008D4C4D /* SeparatorView.swift in Sources */,
 				CF601A0C204AE0B300217025 /* Messages.swift in Sources */,
 				CF5719BD210B5DD2008AE8B2 /* ProductTagsCollectionViewController.swift in Sources */,
@@ -1739,6 +1651,7 @@
 		};
 		CFAFC0B0201F6DA1002CBC1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 392768AA0A60F91FDDB5AB8B /* Pods-YumaAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1756,6 +1669,7 @@
 		};
 		CFAFC0B1201F6DA1002CBC1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F16076F5CC5D486C6868E0A /* Pods-YumaAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1773,6 +1687,7 @@
 		};
 		CFAFC0B3201F6DA1002CBC1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7779EC198305B6B55E98D3CA /* Pods-YumaAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1789,6 +1704,7 @@
 		};
 		CFAFC0B4201F6DA1002CBC1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B61A020F0F62CB2AC7C5093 /* Pods-YumaAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

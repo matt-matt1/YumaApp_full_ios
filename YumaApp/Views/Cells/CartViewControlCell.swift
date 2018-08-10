@@ -8,6 +8,7 @@
 
 import UIKit
 import MGSwipeTableCell
+import AwesomeEnum
 
 
 class CartViewControlCell: /*UITableViewCell*/MGSwipeTableCell

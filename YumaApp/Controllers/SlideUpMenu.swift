@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AwesomeEnum
 
 
 fileprivate extension Selector

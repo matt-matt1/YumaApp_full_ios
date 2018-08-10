@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AwesomeEnum
 
 
 class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
@@ -989,7 +990,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 								//				{
 								//					//update quantity
 								//				}
-								print(self.store.myOrderRows)
+//								print(self.store.myOrderRows)
 								self.updateBadge()
 //								self.numItems = 0
 //								self.store.myOrderRows.forEach({ (row) in

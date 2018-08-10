@@ -12,6 +12,20 @@ class PSWebServices: NSObject
 {
 	// MARK: Variables
 	weak var timeout: Timer?
+//	var task: URLSessionDataTask =
+//	{
+//		let sessionConfig = URLSessionConfiguration.default
+//		sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+//		sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+//		return (Foundation.URLSession(configuration: sessionConfig) as? URLSessionDataTask)!//, delegate: self, delegateQueue: OperationQueue.main)
+//	}()
+//	var sessionWithTimeout: URLSession =
+//	{
+//		let sessionConfig = URLSessionConfiguration.default
+//		sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+//		sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+//		return URLSession(configuration: sessionConfig)
+//	}()
 	
 	
 	// MARK: API resources
@@ -31,7 +45,11 @@ class PSWebServices: NSObject
 //				completionHandler(nil, err)
 //				return
 //			}
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)//URLSession.shared.dataTask(with: myUrl)
 			{ 	(data, response, err) in
 //				if err
 //				else if response.status_code != 200
@@ -53,6 +71,14 @@ class PSWebServices: NSObject
 						//print("\(R.string.err) \(JSONerr)")
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 				return
 			}.resume()
@@ -106,6 +132,9 @@ class PSWebServices: NSObject
 			
 			let config = URLSessionConfiguration.default
 			let session = URLSession(configuration: config)
+//			session.timeoutIntervalForRequest = TimeInterval(15)
+//			session.timeoutIntervalForResource = TimeInterval(20)
+//			let sessionWithTimeout = URLSession(configuration: session)
 			let task = session.dataTask(with: request)
 			{
 				(responseData, response, responseError) in
@@ -140,7 +169,11 @@ class PSWebServices: NSObject
 	{
 		if let myUrl = URL(string: from)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -164,6 +197,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -175,7 +216,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)cart_rules&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -193,6 +238,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -203,7 +256,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)carts?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -227,6 +284,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -238,7 +303,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)categories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -257,6 +326,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -268,7 +345,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)categories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -296,6 +377,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -307,7 +396,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)combinations?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -331,6 +424,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -342,7 +443,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)configurations?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -360,6 +465,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -370,7 +483,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)contacts&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -389,6 +506,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -399,7 +524,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)content_management_system&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -417,6 +546,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -427,7 +564,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)countries?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -447,6 +588,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -457,7 +606,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)currencies?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -481,6 +634,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -492,7 +653,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)customer_messages&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -510,6 +675,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -520,7 +693,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)customer_threads&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -538,6 +715,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -547,7 +732,11 @@ class PSWebServices: NSObject
 	{
 		if let myUrl = URL(string: from)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{ (data, response, err) in
 				//if err
 				//else if response.status_code != 200
@@ -592,6 +781,14 @@ class PSWebServices: NSObject
 						}
 					}
 				}
+//				else if let error = err
+//				{
+//					if DataStore.sharedInstance.debug > 5
+//					{
+//						print(error.localizedDescription)
+//					}
+//					completionHandler(nil, error)
+//				}
 			}.resume()
 		}
 	}
@@ -602,7 +799,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)customizations&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -620,6 +821,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -630,7 +839,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)deliveries&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -648,6 +861,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -658,7 +879,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)employees&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -676,6 +901,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -686,7 +919,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)groups&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -704,6 +941,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -714,7 +959,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)guests&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -732,6 +981,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -742,7 +999,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)image_types&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -759,6 +1020,14 @@ class PSWebServices: NSObject
 					{
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 			}.resume()
 		}
@@ -798,7 +1067,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)languages?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -822,6 +1095,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -833,7 +1114,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)manufacturers?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -857,6 +1142,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -868,7 +1161,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)messages?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -892,6 +1189,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -903,7 +1208,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_carriers?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -926,6 +1235,14 @@ class PSWebServices: NSObject
 						print("\(R.string.err) \(JSONerr)")
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 				return
 			}.resume()
@@ -973,7 +1290,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_details?filter[id_order]=[\(id_order)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -997,6 +1318,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1008,7 +1337,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_histories?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1032,6 +1365,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1043,7 +1384,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_invoices?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1067,6 +1412,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1078,7 +1431,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_payments?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1102,6 +1459,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1113,7 +1478,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_slip?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1142,6 +1511,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1153,7 +1530,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)order_states?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1177,6 +1558,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1188,7 +1577,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)orders?filter[id_customer]=[\(id_customer)]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1198,7 +1591,7 @@ class PSWebServices: NSObject
 //					if saveName != nil && saveName != ""
 //					{
 					let dataStr = String(data: data, encoding: .utf8)
-						UserDefaults.standard.set(dataStr, forKey: "OrderCustomer\(id_customer)")
+						UserDefaults.standard.set(dataStr, forKey: "OrdersCustomer\(id_customer)")
 //					}
 					do
 					{
@@ -1208,9 +1601,20 @@ class PSWebServices: NSObject
 					}
 					catch let JSONerr
 					{
-						print("\(R.string.err) \(JSONerr)")
+						if DataStore.sharedInstance.debug > 5
+						{
+							print("\(R.string.err) \(JSONerr)")
+						}
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 				return
 			}.resume()
@@ -1223,7 +1627,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)price_ranges?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1247,6 +1655,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1258,7 +1674,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_customization_fields?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1282,6 +1702,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1293,7 +1721,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_feature_values?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1317,6 +1749,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1328,7 +1768,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_features?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1352,6 +1796,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1363,7 +1815,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_option_values?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1383,6 +1839,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1393,7 +1857,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_options?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1417,6 +1885,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1428,7 +1904,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)product_options?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				if let myData = data
@@ -1446,6 +1926,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 				return
 			}.resume()
 		}
@@ -1457,7 +1945,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[14]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1476,6 +1968,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1486,7 +1986,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[15]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1506,6 +2010,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1516,7 +2028,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[13]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1536,6 +2052,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1546,7 +2070,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)products?filter[id_category_default]=[12]&\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1580,6 +2108,22 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1590,7 +2134,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)search?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1608,6 +2156,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1618,7 +2174,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)shop_groups?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1636,6 +2196,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1646,7 +2214,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)shop_urls?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1664,6 +2236,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1674,7 +2254,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)shops?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1692,6 +2276,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1702,7 +2294,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)specific_price_rules?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1720,6 +2316,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1730,7 +2334,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)specific_prices?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1748,6 +2356,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1763,7 +2379,11 @@ class PSWebServices: NSObject
 		url.append("\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)")
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1782,6 +2402,14 @@ class PSWebServices: NSObject
 						//print("\(R.string.err) \(JSONerr)")
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 			}.resume()
 		}
@@ -1805,7 +2433,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)tags?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1824,6 +2456,14 @@ class PSWebServices: NSObject
 						completionHandler(nil, JSONerr)
 					}
 				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
+				}
 			}.resume()
 		}
 	}
@@ -1837,7 +2477,11 @@ class PSWebServices: NSObject
 		let url = "\(R.string.WSbase)taxes?\(R.string.API_key)&\(R.string.APIjson)&\(R.string.APIfull)"
 		if let myUrl = URL(string: url)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				
@@ -1855,6 +2499,14 @@ class PSWebServices: NSObject
 						//print("\(R.string.err) \(JSONerr)")
 						completionHandler(nil, JSONerr)
 					}
+				}
+				else if let error = err
+				{
+					if DataStore.sharedInstance.debug > 5
+					{
+						print(error.localizedDescription)
+					}
+					completionHandler(nil, error)
 				}
 			}.resume()
 		}
@@ -1883,7 +2535,11 @@ class PSWebServices: NSObject
 	{
 		if let myUrl = URL(string: fromUrl)
 		{
-			URLSession.shared.dataTask(with: myUrl)
+			let sessionConfig = URLSessionConfiguration.default
+			sessionConfig.timeoutIntervalForRequest = TimeInterval(15)
+			sessionConfig.timeoutIntervalForResource = TimeInterval(20)
+			let sessionWithTimeout = URLSession(configuration: sessionConfig)
+			sessionWithTimeout.dataTask(with: myUrl)
 			{
 				(data, response, err) in
 				//				if err
@@ -1904,6 +2560,14 @@ class PSWebServices: NSObject
 //						print("\(R.string.err) \(JSONerr)")
 //					}
 				}
+//				else if let error = err
+//				{
+//					if DataStore.sharedInstance.debug > 5
+//					{
+//						print(error.localizedDescription)
+//					}
+//					completionHandler(nil, error)
+//				}
 				return
 				}.resume()
 		}

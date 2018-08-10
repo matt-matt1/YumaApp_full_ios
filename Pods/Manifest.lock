@@ -1,34 +1,59 @@
 PODS:
-  - AwesomeEnum (1.2.0)
+  - AwesomeEnum (1.3.0)
   - DateToolsSwift (4.0.0)
-  - MGSwipeTableCell (1.6.6)
+  - MGSwipeTableCell (1.6.7)
+  - OHHTTPStubs/Core (6.1.0)
+  - OHHTTPStubs/Default (6.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (6.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (6.1.0)
+  - OHHTTPStubs/Swift (6.1.0):
+    - OHHTTPStubs/Default
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
-  - SWXMLHash (4.0.0)
+  - SWXMLHash (4.7.1)
 
 DEPENDENCIES:
-  - AwesomeEnum (~> 1.2.0)
+  - AwesomeEnum (from `https://github.com/LiveUI/Awesome.git`, tag `1.3.0`)
   - DateToolsSwift
   - MGSwipeTableCell
-  - SQLite.swift (~> 0.11.5)
-  - SWXMLHash (~> 4.0.0)
+  - OHHTTPStubs/Swift
+  - SQLite.swift
+  - SWXMLHash
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - AwesomeEnum
     - DateToolsSwift
     - MGSwipeTableCell
+    - OHHTTPStubs
     - SQLite.swift
     - SWXMLHash
 
-SPEC CHECKSUMS:
-  AwesomeEnum: fe633a08020f92ab57277956c1df4d52fbfa27e0
-  DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
-  MGSwipeTableCell: c3bc6e261e7bc06c112909fe3fb8205de286082c
-  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
-  SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
+EXTERNAL SOURCES:
+  AwesomeEnum:
+    :git: https://github.com/LiveUI/Awesome.git
+    :tag: 1.3.0
 
-PODFILE CHECKSUM: 8f2e8fc00c0566b981d1b5898f6129cec121b79c
+CHECKOUT OPTIONS:
+  AwesomeEnum:
+    :git: https://github.com/LiveUI/Awesome.git
+    :tag: 1.3.0
+
+SPEC CHECKSUMS:
+  AwesomeEnum: eb858cdc9f03f2af760e3fe12cfe607432b38343
+  DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
+  MGSwipeTableCell: fb20e983988bde2b8d0df29c2d9e1d8ffd10b74a
+  OHHTTPStubs: 1e21c7d2c084b8153fc53d48400d8919d2d432d0
+  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+  SWXMLHash: 661b67bc94a01fe71a6ad4ca690cf2cafa5d1d6f
+
+PODFILE CHECKSUM: 72de5c035dc0d5d822ec7acd08df238a4ff0c062
 
 COCOAPODS: 1.5.3

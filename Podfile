@@ -24,11 +24,13 @@ target 'YumaApp' do
 #pod 'PCLBlurEffectAlert'
 pod 'MGSwipeTableCell'
 #pod 'Awesome'
-pod 'AwesomeEnum', '~> 1.2.0'
+pod 'AwesomeEnum', :git => 'https://github.com/LiveUI/Awesome.git', :tag => '1.3.0'
+#pod 'AwesomeEnum'#, '~> 1.2.0'
 #pod 'XMLMapper'
-pod 'SWXMLHash', '~> 4.0.0'
-pod 'SQLite.swift', '~> 0.11.5'
+pod 'SWXMLHash'#, '~> 4.0.0'
+pod 'SQLite.swift'#, '~> 0.11.5'
 pod 'DateToolsSwift'
+pod 'OHHTTPStubs/Swift'
 
   target 'YumaAppTests' do
     inherit! :search_paths

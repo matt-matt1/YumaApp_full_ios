@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AwesomeEnum
 
 
 struct TabIcons
@@ -125,6 +126,9 @@ class TabBarController: UITabBarController
 			TabIcons(textName: R.string.cart, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.shoppingCart.asImage(size: 30), viewController: CartViewControl(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: CartViewController.self, helpAction: #selector(CartViewController.navHelpAct(_:))),
 			TabIcons(textName: R.string.login, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCircle.asImage(size: 30), viewController: LoginViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: LoginViewController.self, helpAction: #selector(LoginViewController.helpBtnAct(_:))),
 //			TabIcons(textName: R.string.cart, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.shoppingCart.asImage(size: 30), viewController: CartViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: CartViewController.self, helpAction: #selector(CartViewController.navHelpAct(_:))),
+			
+			TabIcons(textName: R.string.my_account, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.userCheck.asImage(size: 30), viewController: MyAccountViewController(), canClose: false, closeTarget: nil, closeAction: nil, canHelp: true, helpTarget: MyAccountViewController.self, helpAction: #selector(MyAccountViewController.navHelpAct(_:))),
+
 			TabIcons(textName: R.string.about, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.certificate.asImage(size: 30), viewController: AboutVC, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 			TabIcons(textName: R.string.en, iconText: nil, iconAttr: nil, iconImage: Awesome.regular.flag.asImage(size: 30), viewController: en_web, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),
 			TabIcons(textName: R.string.qc, iconText: nil, iconAttr: nil, iconImage: Awesome.solid.flag.asImage(size: 30), viewController: french, canClose: false, closeTarget: nil, closeAction: nil, canHelp: false, helpTarget: nil, helpAction: nil),

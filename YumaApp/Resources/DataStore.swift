@@ -520,10 +520,11 @@ final class DataStore
 				
 				if err != nil	//if has error
 				{
-					let dataStr = 				UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+//					let ord = UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
+					let dataStr = 		UserDefaults.standard.string(forKey: "OrdersCustomer\(id_customer)")
 					if dataStr == nil
 					{
-						OperationQueue.main.addOperation	{	completion(nil, nil)	}
+						OperationQueue.main.addOperation		{	completion(nil, nil)		}
 					}
 					else
 					{
@@ -544,8 +545,8 @@ final class DataStore
 				}
 				else
 				{
-					for ords in (result?.orders)!			{	self.orders.append(ords)	}
-					OperationQueue.main.addOperation		{	completion(result, nil)		}
+					for ords in (result?.orders)!				{	self.orders.append(ords)	}
+					OperationQueue.main.addOperation			{	completion(result, nil)		}
 				}
 			}
 		)

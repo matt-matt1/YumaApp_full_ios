@@ -20,7 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		window = UIWindow(frame: UIScreen.main.bounds)
 		//window = UIWindow()
 		window?.makeKeyAndVisible()
-
+		
+//	#if DEBUG
+//		networkActivityDisconnect()
+//		networkActivityMakeResponseSlow()
+//	#else
+//	#endif
+		
 //		let layout = UICollectionViewFlowLayout()
 //		layout.scrollDirection = .horizontal
 //		//let collection = CollectionViewController(collectionViewLayout: layout)

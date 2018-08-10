@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,10 +16,6 @@
                 <outlet property="creditSlipsBtn" destination="de7-V2-BSk" id="xgC-lY-oE5"/>
                 <outlet property="delAccBtn" destination="mFo-qa-3e9" id="zar-CI-6df"/>
                 <outlet property="infoBtn" destination="R1v-Zy-pfT" id="nQ3-dT-Phm"/>
-                <outlet property="navBar" destination="AmB-bw-upM" id="knz-Ys-g9G"/>
-                <outlet property="navClose" destination="m5p-cg-Wmw" id="Vlt-PD-uaI"/>
-                <outlet property="navHelp" destination="6xr-wu-F89" id="heE-Qd-BKv"/>
-                <outlet property="navTitle" destination="jwa-mx-KYB" id="OfX-vA-oOn"/>
                 <outlet property="orderHistBtn" destination="rQQ-Mc-FTL" id="2Zp-Xs-GPe"/>
                 <outlet property="signOutBtn" destination="DyX-Q4-dFV" id="QEi-dV-0W3"/>
                 <outlet property="view" destination="VCb-57-A10" id="raE-YU-ON3"/>
@@ -34,38 +29,8 @@
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6l4-Mc-kKG" userLabel="Stack View all">
                     <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
-                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AmB-bw-upM">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>
-                            <color key="backgroundColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="46" id="rQ0-Mx-pAh"/>
-                            </constraints>
-                            <color key="barTintColor" red="0.66666666669999997" green="0.0" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <color key="textColor" red="0.99942404029999998" green="0.98555368190000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textShadowColor" red="0.1764705882" green="0.0078431372550000003" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <offsetWrapper key="textShadowOffset" horizontal="2" vertical="2"/>
-                            </textAttributes>
-                            <items>
-                                <navigationItem title="My Account" id="jwa-mx-KYB">
-                                    <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="m5p-cg-Wmw">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="navCloseAct:" destination="-1" id="gt9-Y0-0j3"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem key="rightBarButtonItem" title="help" style="done" id="6xr-wu-F89">
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="navHelpAct:" destination="-1" id="POD-Pj-l3g"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
-                            </items>
-                        </navigationBar>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ir-vS-2mf" userLabel="View lower">
-                            <rect key="frame" x="0.0" y="46" width="375" height="601"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="nGh-hY-cdg" userLabel="Stack View panel">
                                     <rect key="frame" x="5" y="0.0" width="365" height="465"/>
@@ -333,9 +298,9 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="AmB-bw-upM" firstAttribute="leading" secondItem="6ir-vS-2mf" secondAttribute="leading" id="HSj-uz-YSn"/>
+                        <constraint firstAttribute="trailing" secondItem="6ir-vS-2mf" secondAttribute="trailing" id="Fw5-D0-gm2"/>
                         <constraint firstAttribute="bottom" secondItem="6ir-vS-2mf" secondAttribute="bottom" id="S3n-k4-579"/>
-                        <constraint firstItem="AmB-bw-upM" firstAttribute="leading" secondItem="6l4-Mc-kKG" secondAttribute="leading" id="njl-wU-c9X"/>
+                        <constraint firstItem="6ir-vS-2mf" firstAttribute="leading" secondItem="6l4-Mc-kKG" secondAttribute="leading" id="ecc-33-pby"/>
                     </constraints>
                 </stackView>
             </subviews>
@@ -344,8 +309,7 @@
                 <constraint firstItem="6l4-Mc-kKG" firstAttribute="leading" secondItem="sJL-NH-OFV" secondAttribute="leading" id="48R-BR-gh4"/>
                 <constraint firstItem="sJL-NH-OFV" firstAttribute="bottom" secondItem="6l4-Mc-kKG" secondAttribute="bottom" id="AUB-ER-M90"/>
                 <constraint firstItem="sJL-NH-OFV" firstAttribute="trailing" secondItem="6l4-Mc-kKG" secondAttribute="trailing" id="Yv8-OQ-V1i"/>
-                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" secondItem="VCb-57-A10" secondAttribute="topMargin" priority="250" id="soK-fW-Bis"/>
-                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VCb-57-A10" secondAttribute="top" priority="750" constant="20" id="zdS-v1-dJ9"/>
+                <constraint firstItem="6l4-Mc-kKG" firstAttribute="top" secondItem="sJL-NH-OFV" secondAttribute="top" id="soK-fW-Bis"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="sJL-NH-OFV"/>
             <point key="canvasLocation" x="27.5" y="-681.5"/>

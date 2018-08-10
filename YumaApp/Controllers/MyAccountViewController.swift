@@ -8,6 +8,7 @@
 
 import SWXMLHash
 import UIKit
+import AwesomeEnum
 
 
 class MyAccountViewController: UIViewController
@@ -39,14 +40,33 @@ class MyAccountViewController: UIViewController
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
-//		if #available(iOS 11.0, *)
-//		{
-//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//		}
-//		else
-//		{
-//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-//		}
+		//navigationBar()
+		frontButtons()
+
+//		slideMenu.parent = self
+		//slideMenu.drawIconBar()
+//		slideUpMenu.drawIconBar()
+	}
+
+	override func didReceiveMemoryWarning()
+	{
+		super.didReceiveMemoryWarning()
+		// Dispose of any resources that can be recreated.
+	}
+	
+
+	// Mark: Methods
+
+	fileprivate func navigationBar()
+	{
+		//		if #available(iOS 11.0, *)
+		//		{
+		//			navBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+		//		}
+		//		else
+		//		{
+		//			navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+		//		}
 		self.navigationItem.title = R.string.my_account//not working
 		navTitle.title = R.string.my_account
 		navHelp.title = FontAwesome.questionCircle.rawValue
@@ -55,7 +75,11 @@ class MyAccountViewController: UIViewController
 			NSAttributedStringKey.font : R.font.FontAwesomeOfSize(pointSize: 21)
 			], for: UIControlState.highlighted)
 		navBar.applyNavigationGradient(colors: [R.color.YumaDRed, R.color.YumaRed], isVertical: true)
+	}
 
+
+	fileprivate func frontButtons()
+	{
 		infoBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		infoBtn.setTitle("", for: .normal)
 		infoBtn.setTitle("", for: .highlighted)
@@ -68,7 +92,7 @@ class MyAccountViewController: UIViewController
 		lbl1.font = UIFont.systemFont(ofSize: 16)
 		lbl1.textColor = R.color.YumaYel
 		infoBtn.addSubview(lbl1)
-
+		
 		addrBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		addrBtn.setTitle("", for: .normal)
 		addrBtn.setTitle("", for: .highlighted)
@@ -85,7 +109,7 @@ class MyAccountViewController: UIViewController
 		{
 			addrBtn.alpha = 0.2
 		}
-
+		
 		orderHistBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		orderHistBtn.setTitle("", for: .normal)
 		orderHistBtn.setTitle("", for: .highlighted)
@@ -98,7 +122,7 @@ class MyAccountViewController: UIViewController
 		orderHistBtnlbl1.font = UIFont.systemFont(ofSize: 16)
 		orderHistBtnlbl1.textColor = R.color.YumaYel
 		orderHistBtn.addSubview(orderHistBtnlbl1)
-
+		
 		creditSlipsBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 4, isVertical: true)
 		creditSlipsBtn.setTitle("", for: .normal)
 		creditSlipsBtn.setTitle("", for: .highlighted)
@@ -111,23 +135,11 @@ class MyAccountViewController: UIViewController
 		creditSlipsBtnlbl1.font = UIFont.systemFont(ofSize: 16)
 		creditSlipsBtnlbl1.textColor = R.color.YumaYel
 		creditSlipsBtn.addSubview(creditSlipsBtnlbl1)
-
+		
 		delAccBtn.setTitle(R.string.delAcc, for: .normal)
 		delAccBtn.setTitle(R.string.delAcc, for: .highlighted)
-
-//		slideMenu.parent = self
-		slideMenu.drawIconBar()
-//		slideUpMenu.drawIconBar()
 	}
 
-	override func didReceiveMemoryWarning()
-	{
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
-	}
-	
-
-	// Mark: Methods
 
 	func insertValuesInBlank(_ str: String) -> String
 	{

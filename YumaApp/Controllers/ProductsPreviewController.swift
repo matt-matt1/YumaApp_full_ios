@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AwesomeEnum
 
 
 class ProductsPreviewController: UIViewController
@@ -369,7 +370,7 @@ class ProductsPreviewController: UIViewController
 				}
 				else
 				{
-					myAlertDialog(self, title: R.string.err, message: R.string.no_data, cancelTitle: R.string.dismiss.uppercased(), cancelAction: {
+					myAlertDialog(self, title: R.string.err, message: "\(R.string.no_data) (\(error?.localizedDescription ?? ""))", cancelTitle: R.string.dismiss.uppercased(), cancelAction: {
 						self.dismiss(animated: false, completion: nil)
 					}, okTitle: R.string.tryAgain.uppercased(), okAction: {
 						self.dismiss(animated: false, completion: nil)

@@ -6,7 +6,31 @@
 //  Copyright © 2018 Yuma Usa. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import OHHTTPStubs
+
+
+/// Disconnects network activity
+//https://github.com/AliSoftware/OHHTTPStubs/wiki/Usage-Examples
+func networkActivityDisconnect() //-> OHHTTPStubsResponse
+{
+	stub(condition: isHost("yumatechnical.com")) 	{ 	_ in
+		let notConnectedError = NSError(domain: NSURLErrorDomain, code: URLError.notConnectedToInternet.rawValue)
+		return OHHTTPStubsResponse(error:notConnectedError)
+	}
+}
+func networkActivityMakeResponseSlow()
+{
+	stub(condition: isHost("yumatechnical.com")) 	{ 	_ in
+		return OHHTTPStubsResponse().responseTime(OHHTTPStubsDownloadSpeed3G)/*(data: NSData() as Data, statusCode: 200, headers: nil)*/
+//			.responseTime(OHHTTPStubsDownloadSpeed3G)
+	}
+//	stub(condition: { (urlRequest) -> Bool in
+//		return true
+//	}) { (urlRequest2) -> OHHTTPStubsResponse in
+//		return OHHTTPStubsResponse.init()
+//	}
+}
 
 
 /// Returns a string coded with MD5 technology
@@ -28,9 +52,6 @@ func md5(_ string: String) -> String
 
 
 
-import UIKit
-
-
 func imageFromLayer(_ layer: CALayer) -> UIImage?
 {
 	var gradientImage: UIImage?
@@ -50,50 +71,6 @@ func imageFromLayer(_ layer: CALayer) -> UIImage?
 func myAlertOnlyDismiss(_ self: UIViewController, title: String, message: String, dismissTitle: String? = nil, dismissAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
 {
 	myAlertDialog(self, title: title, message: message, cancelTitle: (dismissTitle != nil) ? dismissTitle : R.string.dismiss.uppercased(), cancelAction: dismissAction, okTitle: nil, okAction: nil, completion: completion)
-//	OperationQueue.main.addOperation
-//	{
-//		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
-//		let coloredBG = 				UIView()
-//		let blurFx = 					UIBlurEffect(style: .dark)
-//		let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//		alert.view.superview?.backgroundColor = R.color.YumaRed
-//		alert.view.shadowColor = 		R.color.YumaDRed
-//		alert.view.shadowOffset = 		.zero
-//		alert.view.shadowRadius = 		5
-//		alert.view.shadowOpacity = 		1
-//		alert.view.backgroundColor = 	R.color.YumaYel
-//		alert.view.cornerRadius = 		15
-//		coloredBG.backgroundColor = 	R.color.YumaRed
-//		coloredBG.alpha = 				0.4
-//		coloredBG.frame = 				self.view.bounds
-//		self.view.addSubview(coloredBG)
-//		blurFxView.frame = 				self.view.bounds
-//		blurFxView.alpha = 				0.5
-//		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//		self.view.addSubview(blurFxView)
-//		alert.addAction(UIAlertAction(title: R.string.dismiss.uppercased(), style: .default, handler:
-//		{ 	(action) in
-//			coloredBG.removeFromSuperview()
-//			blurFxView.removeFromSuperview()
-//			//								self.dismiss(animated: false, completion: nil)
-//			if dismissAction != nil
-//			{
-//				_ = dismissAction
-//			}
-//		}))
-//		DispatchQueue.main.async
-//		{
-//			self.present(alert, animated: true, completion:
-//			{
-//				if completion != nil
-//				{
-//					_ = completion
-//				}
-//			})
-//		}
-//	}
 }
 
 
@@ -101,55 +78,6 @@ func myAlertOnlyDismiss(_ self: UIViewController, title: String, message: String
 func myAlertOKCancel(_ self: UIViewController, title: String, message: String, okAction: (() -> Void)?, cancelAction: (() -> Void)? = nil, completion: (() -> Void)? = nil)
 {
 	myAlertDialog(self, title: title, message: message, cancelTitle: R.string.cancel.uppercased(), cancelAction: cancelAction, okTitle: R.string.ok.uppercased(), okAction: okAction, completion: completion)
-//	OperationQueue.main.addOperation
-//		{
-//		let alert = 					UIAlertController(title: title, message: message, preferredStyle: .alert)
-//		let coloredBG = 				UIView()
-//		let blurFx = 					UIBlurEffect(style: .dark)
-//		let blurFxView = 				UIVisualEffectView(effect: blurFx)
-//		alert.titleAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: R.color.YumaRed)]
-//		alert.messageAttributes = 		[NSAttributedString.StringAttribute(key: .foregroundColor, value: UIColor.darkGray)]
-//		alert.view.superview?.backgroundColor = R.color.YumaRed
-//		alert.view.shadowColor = 		R.color.YumaDRed
-//		alert.view.shadowOffset = 		.zero
-//		alert.view.shadowRadius = 		5
-//		alert.view.shadowOpacity = 		1
-//		alert.view.backgroundColor = 	R.color.YumaYel
-//		alert.view.cornerRadius = 		15
-//		coloredBG.backgroundColor = 	R.color.YumaRed
-//		coloredBG.alpha = 				0.4
-//		coloredBG.frame = 				self.view.bounds
-//		self.view.addSubview(coloredBG)
-//		blurFxView.frame = 				self.view.bounds
-//		blurFxView.alpha = 				0.5
-//		blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
-//		self.view.addSubview(blurFxView)
-//		alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
-//			{ 	(action) in
-//				coloredBG.removeFromSuperview()
-//				blurFxView.removeFromSuperview()
-//				if cancelAction != nil
-//				{
-//					_ = cancelAction
-//				}
-//		}))
-//		alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler:
-//		{ 	(action) in
-//			coloredBG.removeFromSuperview()
-//			blurFxView.removeFromSuperview()
-//			if okAction != nil
-//			{
-//				_ = okAction
-//			}
-//		}))
-//		self.present(alert, animated: true, completion:
-//		{
-//			if completion != nil
-//			{
-//				_ = completion
-//			}
-//		})
-//	}
 }
 
 
@@ -186,7 +114,7 @@ func myAlertDialog(_ self: 			UIViewController,
 			blurFxView.alpha = 				0.5
 			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 			self.view.addSubview(blurFxView)
-			alert.addAction(UIAlertAction(title: R.string.cancel.uppercased(), style: .default, handler:
+			alert.addAction(UIAlertAction(title: cancelTitle/*R.string.cancel.uppercased()*/, style: .default, handler:
 				{ 	(action) in
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
@@ -197,7 +125,7 @@ func myAlertDialog(_ self: 			UIViewController,
 			}))
 			if okTitle != nil && okAction != nil
 			{
-				alert.addAction(UIAlertAction(title: R.string.ok.uppercased(), style: .default, handler:
+				alert.addAction(UIAlertAction(title: okTitle/*R.string.ok.uppercased()*/, style: .default, handler:
 				{ 	(action) in
 					coloredBG.removeFromSuperview()
 					blurFxView.removeFromSuperview()
@@ -237,9 +165,9 @@ func matches(for regex: String, in text: String) -> [String]
 }
 
 
-func showVC(_ viewController: UIViewController)
+func showVC(_ viewController: UIViewController, completion: (() -> Void)?=nil)
 {
 	let window = UIApplication.shared.keyWindow
 	let rootViewController = window?.rootViewController
-	rootViewController?.present(viewController, animated: true, completion: nil)
+	rootViewController?.present(viewController, animated: true, completion: completion != nil ? completion : nil)
 }

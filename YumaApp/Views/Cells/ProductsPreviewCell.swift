@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AwesomeEnum
+
 
 class ProductsPreviewCell: BaseCell//UICollectionViewCell
 {

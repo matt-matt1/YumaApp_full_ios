@@ -785,9 +785,9 @@ class LoginViewController: UIViewController
 				})
 			}
 		}
-		self.dismiss(animated: false, completion: {
-			presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
-		})
+//		self.dismiss(animated: false, completion: {
+//			presentingViewController?.present(MyAccountViewController(), animated: false, completion: nil)
+//		})
 	}
 	
 	
