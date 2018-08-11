@@ -188,9 +188,9 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		let str = NSAttributedString(string: "     \(R.string.add2cart)", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 21), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
 		mutableAttributedString.append(str)
 		view.setAttributedTitle(mutableAttributedString, for: .normal)
-		view.borderWidth = 2
+		view.borderWidth = 1
 		view.borderColor = R.color.YumaRed
-		view.cornerRadius = 2
+		view.cornerRadius = 3
 		view.backgroundColor = R.color.YumaYel//UIColor(hex: "f8c03f")
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
@@ -360,6 +360,8 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		//		print("scrollView frame=\(scrollView.frame), contentSize=\(scrollView.contentSize)")
 		//		print("prodImage frame=\(prodImage.frame)")
 		drawNavigation()
+		let _ = add2cart.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		add2cart.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		if prod != nil
 		{
 			fillProductDetails()
@@ -720,7 +722,7 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		addLine.spacing = 5
 		addLine.alignment = .center
 		addLine.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
-		let btnWidth = min(view.frame.width - 82 - addUpDown.frame.width, 350)
+		let btnWidth = min(view.frame.width - 82 - addUpDown.frame.width, 250)
 //		addLine.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(50)]-5-[v1(\(addUpDown.frame.width+5))]-3-[v2(\(btnWidth))][v3]", views: addBox, addUpDown, add2cart, falseEnd)
 //		addLine.addConstraintsWithFormat(format: "H:|[v0]-2-[v1(50)]-5-[v2(\(addUpDown.frame.width+2))]-3-[v3(\(btnWidth))][v4]", views: falseEnd, addBox, addUpDown, add2cart, falseEnd)
 		addLine.addConstraintsWithFormat(format: "H:|-2-[v0(50)]-5-[v1(\(addUpDown.frame.width+2))]-3-[v2(\(btnWidth))][v3]", views: addBox, addUpDown, add2cart, falseEnd)

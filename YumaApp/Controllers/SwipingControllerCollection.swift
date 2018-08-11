@@ -39,11 +39,19 @@ extension SwipingController
 			(_) in
 		}
 	}
+	//	var collectionViewWidthWithoutInsets: CGFloat
+	//	{
+	//		get
+	//		{
+	//			guard let collectionView = self.collectionView else { return 0 }
+	//			let collectionViewSize = collectionView.bounds.size
+	//			let widthWithoutInsets = collectionViewSize.width
+	//				- self.sectionInset.left - self.sectionInset.right
+	//				- collectionView.contentInset.left - collectionView.contentInset.right
+	//			return widthWithoutInsets
+	//		}
+	//	}
 	
-//	override func numberOfSections(in collectionView: UICollectionView) -> Int
-//	{
-//		return 1
-//	}
 	
 	override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return pageContent.count
@@ -53,13 +61,10 @@ extension SwipingController
 	{
 		return 0
 	}
-	
+
 	@objc /*override*/ func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		print("collectionView.contentSize.height=\(collectionView.contentSize.height)")
-//		print("collectionViewLayout.collectionViewContentSize.height=\(collectionViewLayout.collectionViewContentSize.height)")
-		return CGSize(width: view.frame.width, height: view.frame.height)
-//		return CGSize(width: view.frame.width/*UICollectionViewFlowLayout.collectionViewWidthWithoutInsets*/, height: /*collectionView.contentSize.height - collectionViewLayout.collectionViewContentSize.height - 1*/view.frame.height)
+		return CGSize(width: collectionView.frame.width, height: collectionView.frame.height-49)
 	}
 	
 	@objc override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -69,18 +74,5 @@ extension SwipingController
 		cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: pageContent[indexPath.item].target))
 		return cell
 	}
-
-//	var collectionViewWidthWithoutInsets: CGFloat
-//	{
-//		get
-//		{
-//			guard let collectionView = self.collectionView else { return 0 }
-//			let collectionViewSize = collectionView.bounds.size
-//			let widthWithoutInsets = collectionViewSize.width
-//				- self.sectionInset.left - self.sectionInset.right
-//				- collectionView.contentInset.left - collectionView.contentInset.right
-//			return widthWithoutInsets
-//		}
-//	}
 
 }

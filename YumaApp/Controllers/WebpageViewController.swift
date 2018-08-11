@@ -35,14 +35,15 @@ class WebpageViewController: UIViewController, UIWebViewDelegate
 		//progress.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 		activitySpinner.tintColor = R.color.YumaRed
 		activitySpinner.hidesWhenStopped = true
-		if #available(iOS 11.0, *)
-		{
-			allStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-		}
-		else
-		{
-			allStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-		}
+		allStack.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0).isActive = true
+//		if #available(iOS 11.0, *)
+//		{
+//			allStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//		}
+//		else
+//		{
+//			allStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+//		}
 		self.navigationItem.title = self.pageTitle
 		//navTitle.title = (pageTitle == "") ? R.string.our_bus : pageTitle
 		activityLabel.text = (pageTitle == "") ? R.string.our_bus : pageTitle

@@ -164,6 +164,7 @@
 		CF7E8664202B62A90014B787 /* R.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8663202B62A90014B787 /* R.swift */; };
 		CF7E8669202B88570014B787 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8667202B88570014B787 /* LoginViewController.swift */; };
 		CF7E866A202B88570014B787 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8668202B88570014B787 /* LoginViewController.xib */; };
+		CF83F1DB211F54950039F149 /* UIVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83F1DA211F54950039F149 /* UIVisualEffectView.swift */; };
 		CF8C656320D19D6400E12C88 /* MyXMLMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8C656220D19D6400E12C88 /* MyXMLMethods.swift */; };
 		CF8C656520D1A99F00E12C88 /* PrestashopError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8C656420D1A99F00E12C88 /* PrestashopError.swift */; };
 		CF8E241020BDAC750004A8A3 /* SelectStateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8E240F20BDAC750004A8A3 /* SelectStateVC.swift */; };
@@ -439,6 +440,7 @@
 		CF7E8667202B88570014B787 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CF7E8668202B88570014B787 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		CF7E8675202E1D860014B787 /* YumaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YumaApp.entitlements; sourceTree = "<group>"; };
+		CF83F1DA211F54950039F149 /* UIVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVisualEffectView.swift; sourceTree = "<group>"; };
 		CF8C656220D19D6400E12C88 /* MyXMLMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyXMLMethods.swift; sourceTree = "<group>"; };
 		CF8C656420D1A99F00E12C88 /* PrestashopError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrestashopError.swift; sourceTree = "<group>"; };
 		CF8DC9BF20765CBA00D06575 /* ISSUES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ISSUES.md; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				CF99DF3F20D7F94B006492AF /* UINavigationBar.swift */,
 				CF99DF4120D7F97D006492AF /* UIView.swift */,
 				CF99DF4320D7F9B0006492AF /* UIViewController.swift */,
+				CF83F1DA211F54950039F149 /* UIVisualEffectView.swift */,
 				CF99DF4520D7F9EB006492AF /* URLResponse.swift */,
 			);
 			path = Extensions;
@@ -1354,6 +1357,7 @@
 				CFAE285420FFF17B0048E164 /* AnyDecodable.swift in Sources */,
 				CF443851209FBF850028443B /* AssistanceController.swift in Sources */,
 				CF384BFA205EC0D5005CCD57 /* PSREST.swift in Sources */,
+				CF83F1DB211F54950039F149 /* UIVisualEffectView.swift in Sources */,
 				CF99DF1520D7F1CF006492AF /* R.array.swift in Sources */,
 				CF42562D20D420470002AF12 /* MyAccCS_Collection.swift in Sources */,
 				CF9A1D7F20E3C5F2003F2213 /* XMLDecodingStorage.swift in Sources */,

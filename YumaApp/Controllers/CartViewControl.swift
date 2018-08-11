@@ -8,6 +8,7 @@
 
 import UIKit
 import MGSwipeTableCell
+import AwesomeEnum
 
 
 class CartViewControl: UIViewController
@@ -87,6 +88,10 @@ class CartViewControl: UIViewController
 		let view = UITableView()
 		view.backgroundColor = UIColor.white
 		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.shadowColor = UIColor.darkGray
+//		view.shadowOffset = .zero
+//		view.shadowRadius = 5
+//		view.shadowOpacity = 0.9
 		return view
 	}()
 	var navBar: UINavigationBar =
@@ -111,9 +116,24 @@ class CartViewControl: UIViewController
 		let view = UIBarButtonItem()
 		return view
 	}()
-	var chkoutBtn: GradientButton =
+	var chkoutBtn: UIButton =
 	{
-		let view = GradientButton()
+		let view = UIButton()
+		view.backgroundColor = R.color.YumaYel//UIColor(hex: "f8c03f")
+		view.translatesAutoresizingMaskIntoConstraints = false
+		let mutableAttributedString = NSMutableAttributedString(attributedString: Awesome.solid.wallet.asAttributedText(fontSize: 26, color: UIColor.white, backgroundColor: UIColor.clear))
+		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
+		let str = NSAttributedString(string: "     \(R.string.checkOut.uppercased())", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 21), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
+		mutableAttributedString.append(str)
+		view.setAttributedTitle(mutableAttributedString, for: .normal)
+		view.borderWidth = 1
+		view.borderColor = R.color.YumaRed
+		view.cornerRadius = 3
+		view.shadowColor = UIColor.darkGray
+		view.shadowOffset = CGSize(width: 1, height: 1)
+		view.shadowRadius = 5
+		view.shadowOpacity = 0.9
+		view.autoresizingMask = [.flexibleWidth]
 		return view
 	}()
 	let picker = UIPickerView()
@@ -126,13 +146,14 @@ class CartViewControl: UIViewController
 	override func viewDidLoad()
 	{
         super.viewDidLoad()
-
+		view.backgroundColor = UIColor(hex: "e0e0e0")//.lightGray//.white
 		NotificationCenter.default.addObserver(self, selector: #selector(calcTotalWrapper), name: 
 			CartViewControl.noteName, object: nil)
 		totalLbl.text = " = "
 		totalWtLbl.text = store.weightUnit//R.string.kg
 		drawTable()
 		drawTotalsBar()
+		drawButton()
 		if store.myOrderRows.count < 1
 		{
 			alertEmpty()
@@ -150,17 +171,20 @@ class CartViewControl: UIViewController
 
 	override func viewDidLayoutSubviews()
 	{
+		super.viewDidLayoutSubviews()
+		let _ = chkoutBtn.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		tableView.reloadData()
 	}
-
-
+	
+	
 	override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
 
-	// MARK: Methods
+	// MARK: My Methods
 
 	func drawTable()
 	{
@@ -171,9 +195,16 @@ class CartViewControl: UIViewController
 		NSLayoutConstraint.activate([
 			tableView.topAnchor.constraint(equalTo: view.safeTopAnchor, constant: 0),
 			tableView.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
-			tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -50),
 			tableView.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0),
 			])
+		if #available(iOS 11, *)
+		{
+			tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -100).isActive = true
+		}
+		else
+		{
+			tableView.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -150).isActive = true
+		}
 	}
 
 
@@ -201,9 +232,51 @@ class CartViewControl: UIViewController
 		NSLayoutConstraint.activate([
 			totalsBar.heightAnchor.constraint(equalToConstant: 50),
 			totalsBar.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor, constant: 0),
-			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0),
 			totalsBar.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor, constant: 0),
 			])
+		if #available(iOS 11, *)
+		{
+			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0).isActive = true
+		}
+		else
+		{
+			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -50).isActive = true
+		}
+	}
+
+
+	func drawButton()
+	{
+		view.addSubview(chkoutBtn)
+		NSLayoutConstraint.activate([
+			chkoutBtn.heightAnchor.constraint(equalToConstant: 45),
+			chkoutBtn.widthAnchor.constraint(equalToConstant: 275),
+			chkoutBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			])
+		if #available(iOS 11, *)
+		{
+			chkoutBtn.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -52).isActive = true
+		}
+		else
+		{
+			chkoutBtn.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: -102).isActive = true
+		}
+		chkoutBtn.alpha = 0.2
+		chkoutBtn.addTapGestureRecognizer {
+			self.store.flexView(view: self.chkoutBtn)
+			if self.chkoutBtn.alpha == 1
+			{
+//				self.store.flexView(view: self.chkoutBtn)
+				self.store.myOrder?.totalProductsWt = self.wt
+				self.store.myOrder?.totalPaidTaxExcl = self.total
+				self.store.myOrder?.totalProducts = self.pcs
+				let layout = UICollectionViewFlowLayout()
+				//layout.scrollDirection = .horizontal
+				let root = CheckoutCollection(collectionViewLayout: layout)
+				let vc = UINavigationController(rootViewController: root)
+				self.present(vc, animated: false, completion: nil)
+			}
+		}
 	}
 
 
@@ -309,32 +382,7 @@ class CartViewControl: UIViewController
 				print(self.pickerData.joined(separator: ", "))
 				myAlertOnlyDismiss(self, title: R.string.err, message: "\(R.string.cart) \(R.string.empty)", dismissTitle: R.string.back.uppercased(), dismissAction: {
 					self.tabBarController?.selectedIndex = 0
-//					self.dismiss(animated: false, completion: nil)
-//					let sb = UIStoryboard(name: "HelpStoryboard", bundle: nil)
-//					let vc = sb.instantiateInitialViewController() as? PickerViewController
-//					if vc != nil
-//					{
-//						DispatchQueue.main.async
-//							{
-//								self.present(vc!, animated: true, completion: nil)
-//								vc?.view.addSubview(self.picker)
-//								self.picker.translatesAutoresizingMaskIntoConstraints = false
-//								NSLayoutConstraint.activate([
-//									self.picker.centerXAnchor.constraint(equalTo: (vc?.dialog.centerXAnchor)!),
-//									self.picker.centerYAnchor.constraint(equalTo: (vc?.dialog.centerYAnchor)!),
-//									])
-//								//				vc?.pickerView.removeFromSuperview()
-//								vc?.button.addTarget(self, action: #selector(self.writePickedValue(_:)), for: .touchUpInside)
-//						}
-//					}
-//					else
-//					{
-//						print("HelpStoryboard has no initial view controller")
-//					}
 				})
-				//			self.present(alert, animated: true, completion:
-				//			{
-				//			})
 		}
 	}
 

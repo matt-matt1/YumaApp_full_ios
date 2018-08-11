@@ -21,6 +21,7 @@
                 <outlet property="addrBtn" destination="eYl-JP-bZi" id="46D-UX-for"/>
                 <outlet property="addrIcon" destination="zJy-3H-Q8l" id="PPk-o4-RyL"/>
                 <outlet property="addrText" destination="W2j-qi-NiA" id="8q2-5E-39v"/>
+                <outlet property="allStack" destination="O3q-Id-xFe" id="6i8-ED-4L8"/>
                 <outlet property="emailAddr" destination="5Pa-r1-JDn" id="GH0-Tn-TTv"/>
                 <outlet property="emailBtn" destination="jB3-U5-awO" id="UBe-4B-v9K"/>
                 <outlet property="emailIcon" destination="3B4-c5-QMQ" id="V3F-Ou-xp6"/>
@@ -436,7 +437,7 @@
             </subviews>
             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="O3q-Id-xFe" secondAttribute="bottom" id="2Di-Wl-NEP"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="O3q-Id-xFe" secondAttribute="bottom" placeholder="YES" id="2Di-Wl-NEP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="O3q-Id-xFe" secondAttribute="trailing" id="8vW-fh-KRz"/>
                 <constraint firstItem="O3q-Id-xFe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" id="SN0-l2-cfa"/>
                 <constraint firstItem="O3q-Id-xFe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ekS-E3-IpT"/>

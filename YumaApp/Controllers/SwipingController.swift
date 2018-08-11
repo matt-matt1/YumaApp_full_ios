@@ -8,7 +8,6 @@
 
 import UIKit
 import AwesomeEnum
-//import AwesomeSwift
 //import PCLBlurEffectAlert
 
 var menuItems: [IconPanel] = []
@@ -83,7 +82,8 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 //	var rootVC = UIViewController()
 	
 	
-	//MARK: Methods
+	//MARK: Override Methods
+
 	override func viewDidLoad()
 	{
 		super.viewDidLoad()
@@ -118,6 +118,14 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	}
 
 
+	override func viewWillLayoutSubviews()
+	{
+		self.collectionView?.collectionViewLayout.invalidateLayout()
+	}
+
+
+	//MARK: Methods
+	
 	/*fileprivate*/ func getValues()
 	{
 		if store.countries.count < 1	//check if not already in data store
@@ -2110,6 +2118,14 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 			buttons.heightAnchor.constraint(equalToConstant: 120).isActive = true
 		}
 		buttonsTop.topAnchor.constraint(equalTo: buttons.topAnchor, constant: 0).isActive = true
+//		if #available(iOS 11, *)
+//		{
+//			buttonsBottom.bottomAnchor.constraint(equalTo: buttons.bottomAnchor).isActive = true
+//		}
+//		else
+//		{
+//			buttonsBottom.bottomAnchor.constraint(equalTo: buttons.bottomAnchor, constant: -50).isActive = true
+//		}
 		buttonsBottom.bottomAnchor.constraint(equalTo: buttons.bottomAnchor).isActive = true
 		buttonsTop.widthAnchor.constraint(equalTo: buttonsBottom.widthAnchor, multiplier: 1).isActive = true
 
@@ -2132,11 +2148,19 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 				mainStack.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
 				])
 		} else {
+//			let navBar = UINavigationBar()
+//			view.addSubview(navBar)
 			NSLayoutConstraint.activate([
-				mainStack.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
+//				navBar.topAnchor.constraint(equalTo: view.topAnchor, constant: -44),
+//				navBar.leadingAnchor.constraint(equalTo: view.safeLeadingAnchor),
+//				navBar.trailingAnchor.constraint(equalTo: view.safeTrailingAnchor),
+//				navBar.heightAnchor.constraint(equalToConstant: 44),
+//
+				mainStack.topAnchor.constraint(equalTo: self.view.safeTopAnchor, constant: 0),
+//				mainStack.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
 				mainStack.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
 				mainStack.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-				mainStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+				mainStack.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -50)
 				])
 		}
 
@@ -2169,23 +2193,3 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 	}
 	
 }
-
-//unused
-//class VerticalTopAlignLabel: UILabel
-//{
-//	override func drawText(in rect:CGRect)
-//	{
-//		guard let labelText = text else { 	return super.drawText(in: rect) 	}
-//		
-//		let attributedText = NSAttributedString(string: labelText, attributes: [NSAttributedStringKey.font: font])
-//		var newRect = rect
-//		newRect.size.height = attributedText.boundingRect(with: rect.size, options: .usesLineFragmentOrigin, context: nil).size.height
-//		
-//		if numberOfLines != 0
-//		{
-//			newRect.size.height = min(newRect.size.height, CGFloat(numberOfLines) * font.lineHeight)
-//		}
-//		super.drawText(in: newRect)
-//	}
-//	
-//}

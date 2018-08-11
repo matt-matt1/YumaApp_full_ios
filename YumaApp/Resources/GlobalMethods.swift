@@ -111,7 +111,11 @@ func myAlertDialog(_ self: 			UIViewController,
 			coloredBG.frame = 				self.view.bounds
 			self.view.addSubview(coloredBG)
 			blurFxView.frame = 				self.view.bounds
-			blurFxView.alpha = 				0.5
+			blurFxView.fadeInEffect()
+//			UIView.animate(withDuration: 0.1) {
+//				blurFxView.effect = UIBlurEffect(style: .light)
+//			}
+//			blurFxView.alpha = 				0.5
 			blurFxView.autoresizingMask = 	[.flexibleWidth, .flexibleHeight]
 			self.view.addSubview(blurFxView)
 			alert.addAction(UIAlertAction(title: cancelTitle/*R.string.cancel.uppercased()*/, style: .default, handler:
@@ -135,7 +139,7 @@ func myAlertDialog(_ self: 			UIViewController,
 					}
 				}))
 			}
-			self.present(alert, animated: true, completion:
+			self.present(alert, animated: false/*true*/, completion:
 				{
 					if completion != nil
 					{
@@ -169,5 +173,5 @@ func showVC(_ viewController: UIViewController, completion: (() -> Void)?=nil)
 {
 	let window = UIApplication.shared.keyWindow
 	let rootViewController = window?.rootViewController
-	rootViewController?.present(viewController, animated: true, completion: completion != nil ? completion : nil)
+	rootViewController?.present(viewController, animated: false/*true*/, completion: completion != nil ? completion : nil)
 }

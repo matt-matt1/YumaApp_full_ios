@@ -17,6 +17,72 @@ import UIKit
 
 class CheckoutStepsCell: UICollectionViewCell
 {
+	let totalsBar: UIToolbar =
+	{
+		let view = UIToolbar()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.isTranslucent = false
+		view.barTintColor = R.color.YumaRed
+		return view
+	}()
+	let smallFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 8.0
+		return view
+	}()
+	let bigFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 15.0
+		return view
+	}()
+	let flexibleSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+		return view
+	}()
+	var totalAmt: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		view.text = "="//R.string.Total
+		return view
+	}()
+	var totalPcsLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		view.text = R.string.pieces
+		return view
+	}()
+	var totalPcs: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalWt: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalWtLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		return view
+	}()
 	let store = DataStore.sharedInstance
 	var space: CGFloat = 20
 	var curr = 1
@@ -52,31 +118,28 @@ class CheckoutStepsCell: UICollectionViewCell
 		view.font = UIFont.systemFont(ofSize: 30)
 		return view
 	}()
-	let cont: GradientButton =
+	let cont: /*UIButton*/GradientButton =
 	{
-		let view = GradientButton()
+		let view = /*UIButton()*/GradientButton()
+		view.backgroundColor = R.color.YumaRed
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.markComp.uppercased(), for: .normal)
-		view.titleLabel?.shadowOffset = CGSize(width: 2, height: 2)
-		view.titleLabel?.shadowRadius = 3
 		view.titleLabel?.textColor = UIColor.white
-		view.setTitleShadowColor(R.color.YumaDRed, for: .normal)
-		view.backgroundColor = R.color.YumaRed
-		view.topGradientColor = R.color.YumaRed
-		view.bottomGradientColor = R.color.YumaDRed
+//		view.topGradientColor = R.color.YumaRed
+//		view.bottomGradientColor = R.color.YumaDRed
 		//		view.bottomGradientColor = R.color.YumaYel
 		view.cornerRadius = 3
 		view.shadowColor = UIColor.darkGray
 		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 3
-		view.shadowOpacity = 0.7
-		view.borderColor = R.color.YumaDRed
+		view.shadowRadius = 5
+		view.shadowOpacity = 0.9
+		view.borderColor = R.color.YumaRed
 		view.borderWidth = 1
-		view.widthAnchor.constraint(equalToConstant: 200).isActive = true
+		view.widthAnchor.constraint(equalToConstant: 250).isActive = true
 		let titleShadow: NSShadow =
 		{
 			let view = NSShadow()
-			view.shadowColor = UIColor.black
+			view.shadowColor = R.color.YumaDRed//UIColor.black
 			//			view.shadowRadius = 3
 			view.shadowOffset = CGSize(width: 1, height: 1)
 			return view
@@ -126,6 +189,7 @@ class CheckoutStepsCell: UICollectionViewCell
 
 
 	// MARK: Overrides
+
 	override init(frame: CGRect)
 	{
 		super.init(frame: frame)
@@ -135,6 +199,7 @@ class CheckoutStepsCell: UICollectionViewCell
 	
 	
 	// MARK: Methods
+
 	func setupContents(_ index: Int/*, vc: CheckoutCollection?*/)
 	{
 //		parent = vc
@@ -145,12 +210,12 @@ class CheckoutStepsCell: UICollectionViewCell
 //		setupBackground()
 		cont.isUserInteractionEnabled = true
 		cont.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(doCont(_:))))
-		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
-		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
-		addSubview(cont)
-		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+//		cont.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
+//		let _ = cont.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
+//		addSubview(cont)
+//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		//		cont.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(doCont(_:))))
 		switch index {
 		case 1:
@@ -172,14 +237,77 @@ class CheckoutStepsCell: UICollectionViewCell
 	}
 
 
+	func drawTotalsBar()
+	{
+		self.addSubview(totalsBar)
+//		print(store.myOrder)
+		totalPcs.text = "\(store.myOrder?.totalProducts ?? 0)"
+		if store.myOrder != nil && (store.myOrder?.totalProductsWt)! > Float(0)
+		{
+			totalWt.text = "\(store.myOrder?.totalProductsWt ?? 0)"
+			totalWtLbl.text = R.string.weight
+		}
+		var num: NSNumber = 0
+		if store.myOrder != nil
+		{
+			num = NSNumber(value: (store.myOrder?.totalPaidTaxExcl)!)
+			if num == 0 && (store.myOrder?.totalPaidReal)! > Float(0)
+			{
+				num = NSNumber(value: (store.myOrder?.totalPaidReal)!)
+			}
+			else if num == 0 && (store.myOrder?.totalPaid)! > Float(0)
+			{
+				num = NSNumber(value: (store.myOrder?.totalPaid)!)
+			}
+			else if num == 0 && (store.myOrder?.totalPaidTaxIncl)! > Float(0)
+			{
+				totalAmt.text = store.formatCurrency(amount: NSNumber(value: (store.myOrder?.totalPaidTaxIncl)!))
+				totalAmt.text?.append(" (inc. \(R.string.tax))")
+			}
+		}
+		totalAmt.text = store.formatCurrency(amount: num)
+		var items = [
+			UIBarButtonItem(customView: totalPcs),
+			smallFixedSpace,
+			UIBarButtonItem(customView: totalPcsLbl),
+			flexibleSpace,
+			UIBarButtonItem(customView: totalLbl),
+			bigFixedSpace,
+			UIBarButtonItem(customView: totalAmt)
+		]
+		if totalWt.text != nil && !(totalWt.text?.isEmpty)!
+		{
+			items += [
+				flexibleSpace,
+				UIBarButtonItem(customView: totalWt),
+				UIBarButtonItem(customView: totalWtLbl)
+			]
+		}
+		totalsBar.setItems(items, animated: false)
+//		NSLayoutConstraint.activate([
+//			totalsBar.heightAnchor.constraint(equalToConstant: 50),
+//			totalsBar.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 0),
+//			totalsBar.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: 0),
+//			])
+//		if #available(iOS 11, *)
+//		{
+//			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: 0).isActive = true
+//		}
+//		else
+//		{
+//			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: -50).isActive = true
+//		}
+	}
+	
+	
 	private func setupBackground()
 	{
-		let bg = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-		bg.translatesAutoresizingMaskIntoConstraints = false
-		bg.backgroundColor = UIColor.lightGray
-		addSubview(bg)
-		addConstraintsWithFormat(format: "H:|[v0]|", views: bg)
-		addConstraintsWithFormat(format: "V:|[v0]|", views: bg)
+//		let bg = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+//		bg.translatesAutoresizingMaskIntoConstraints = false
+//		bg.backgroundColor = UIColor.lightGray
+//		addSubview(bg)
+//		addConstraintsWithFormat(format: "H:|[v0]|", views: bg)
+//		addConstraintsWithFormat(format: "V:|[v0]|", views: bg)
 		let panel = UIView()
 		panel.translatesAutoresizingMaskIntoConstraints = false
 		panel.backgroundColor = UIColor.white
@@ -188,17 +316,33 @@ class CheckoutStepsCell: UICollectionViewCell
 		panel.shadowRadius = 5
 		panel.shadowOpacity = 1
 		addSubview(panel)
-		addConstraintsWithFormat(format: "H:|-5-[v0]-5-|", views: panel)
-		addConstraintsWithFormat(format: "V:|-50-[v0]", views: panel)
-		NSLayoutConstraint.activate([
-			panel.topAnchor.constraint(equalTo: topAnchor),
-			panel.bottomAnchor.constraint(equalTo: bottomAnchor),
-			])
 		addSubview(cont)
-		cont.translatesAutoresizingMaskIntoConstraints = false
-		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		drawTotalsBar()
+//		cont.translatesAutoresizingMaskIntoConstraints = false
+		NSLayoutConstraint.activate([
+			panel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+			panel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+			panel.bottomAnchor.constraint(equalTo: cont.topAnchor, constant: -5),
+			panel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+			
+//			cont.topAnchor.constraint(equalTo: panel.bottomAnchor, constant: 5),
+			cont.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			cont.heightAnchor.constraint(equalToConstant: 50),
+			cont.widthAnchor.constraint(equalToConstant: 250),
+			
+			totalsBar.topAnchor.constraint(equalTo: cont.bottomAnchor, constant: 5),
+			totalsBar.heightAnchor.constraint(equalToConstant: 50),
+			totalsBar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+			totalsBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+			])
+//		if #available(iOS 11.0, *) {
+//			totalsBar.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -1).isActive = true
+////			addConstraintsWithFormat(format: "V:|-15-[v0]-5-[v1(50)]-5-[v2(40)]-\(self.safeAreaInsets.bottom)-|", views: panel, cont, totalsBar)
+//		} else {
+			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: 0).isActive = true
+//			addConstraintsWithFormat(format: "V:|-15-[v0]-5-[v1(50)]-5-[v2(50)]-0-|", views: panel, cont, totalsBar)
+//		}
+//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
 	
 	
