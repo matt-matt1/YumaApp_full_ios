@@ -33,7 +33,14 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
 		
 		collectionView.register(MenuCell.self, forCellWithReuseIdentifier: "MenuBarCellId")
 		addSubview(collectionView)
-		addConstraintsWithFormat(format: "H:|[v0]|", views: collectionView)
+		if #available(iOS 11.0, *)
+		{
+			addConstraintsWithFormat(format: "H:|-\(safeAreaInsets.left)-[v0]|", views: collectionView)
+		}
+		else
+		{
+			addConstraintsWithFormat(format: "H:|-0-[v0]|", views: collectionView)
+		}
 		addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
 		let selected = NSIndexPath(item: 0, section: 0)
 		collectionView.selectItem(at: selected as IndexPath, animated: false, scrollPosition: [])
@@ -92,7 +99,14 @@ class MenuBar: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIC
 	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: frame.width/4, height: frame.height)
+		if #available(iOS 11.0, *)
+		{
+			return CGSize(width: (frame.width - safeAreaInsets.left - safeAreaInsets.right) / 4, height: frame.height)
+		}
+		else
+		{
+			return CGSize(width: (frame.width - 0 - 0) / 4, height: frame.height)
+		}
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

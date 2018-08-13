@@ -330,8 +330,9 @@ class ProductsPreviewController: UIViewController
 		OperationQueue.main.addOperation
 			{
 				self.leftLbl.text = " \(R.string.updated)"
-				self.centerLbl.text = FontAwesome.repeat.rawValue
-				self.centerLbl.font = R.font.FontAwesomeOfSize(pointSize: 21)
+				self.centerLbl.attributedText = Awesome.solid.syncAlt.asAttributedText(fontSize: 16, color: R.color.YumaYel, backgroundColor: UIColor.clear)
+				//self.centerLbl.text = FontAwesome.repeat.rawValue
+//				self.centerLbl.font = R.font.FontAwesomeOfSize(pointSize: 21)
 //				self.rightLbl.font = R.font.FontAwesomeOfSize(pointSize: 21)
 				let date = Date()
 				let df = DateFormatter()

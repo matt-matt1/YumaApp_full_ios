@@ -175,6 +175,8 @@ class CartViewControl: UIViewController
 		let _ = chkoutBtn.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		tableView.reloadData()
+		print("view.frame=\(view.frame)")
+		print(totalsBar.frame)
 	}
 	
 	

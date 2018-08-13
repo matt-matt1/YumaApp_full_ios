@@ -72,6 +72,12 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		setupCollectionView()
 		setupMenuBar()
 		getCustomer()
+		let window = UIApplication.shared.keyWindow
+		if #available(iOS 11.0, *) {
+			print("view=\(view.frame), window=\((window?.frame)!), left=\((window?.safeAreaInsets.left)!), right=\((window?.safeAreaInsets.right)!), top=\((window?.safeAreaInsets.top)!), bot=\((window?.safeAreaInsets.bottom)!)")
+		} else {
+			// Fallback on earlier versions
+		}
 		NotificationCenter.default.addObserver(self, selector: #selector(doAction), name: CheckoutCollection.noteName, object: nil)
     }
 
@@ -238,7 +244,6 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		}
 		collectionView?.backgroundColor = UIColor.lightGray//white
 		collectionView?.register(CheckoutStepsCell.self, forCellWithReuseIdentifier: "CheckoutCollectionCellId")
-		//collectionView?.register(StepsCell.self, forCellWithReuseIdentifier: "StepsCellId")
 		collectionView?.isPagingEnabled = true
 		collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
 		collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
@@ -250,9 +255,6 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		view.addSubview(menuBar)
 		view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
 		view.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
-//		stackAll.addSubview(menuBar)
-//		stackAll.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
-//		stackAll.addConstraintsWithFormat(format: "V:[v0(50)]", views: menuBar)
 		menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
 //		if #available(iOS 11.0, *)
 //		{
@@ -272,13 +274,31 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
-		return CGSize(width: view.frame.width, height: view.frame.height - 50 - 1)
+		if #available(iOS 11.0, *)
+		{
+			let width = view.frame.width - view.safeAreaInsets.left - view.safeAreaInsets.right
+			let height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - 50
+			return CGSize(width: width, height: height)
+		}
+		else
+		{
+			let width = view.frame.width - 0 - 0
+			let height = view.frame.height - 51
+			return CGSize(width: width, height: height)
+		}
 	}
 
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat
 	{
-		return 0
+		if #available(iOS 11.0, *)
+		{
+			return view.safeAreaInsets.left + view.safeAreaInsets.right
+		}
+		else
+		{
+			return 0 + 0
+		}
 	}
 
 

@@ -121,7 +121,7 @@ class CheckoutStepsCell: UICollectionViewCell
 	let cont: /*UIButton*/GradientButton =
 	{
 		let view = /*UIButton()*/GradientButton()
-		view.backgroundColor = R.color.YumaRed
+		view.backgroundColor = R.color.YumaYel//.YumaRed
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.markComp.uppercased(), for: .normal)
 		view.titleLabel?.textColor = UIColor.white
@@ -284,30 +284,11 @@ class CheckoutStepsCell: UICollectionViewCell
 			]
 		}
 		totalsBar.setItems(items, animated: false)
-//		NSLayoutConstraint.activate([
-//			totalsBar.heightAnchor.constraint(equalToConstant: 50),
-//			totalsBar.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 0),
-//			totalsBar.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: 0),
-//			])
-//		if #available(iOS 11, *)
-//		{
-//			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: 0).isActive = true
-//		}
-//		else
-//		{
-//			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: -50).isActive = true
-//		}
 	}
 	
 	
 	private func setupBackground()
 	{
-//		let bg = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-//		bg.translatesAutoresizingMaskIntoConstraints = false
-//		bg.backgroundColor = UIColor.lightGray
-//		addSubview(bg)
-//		addConstraintsWithFormat(format: "H:|[v0]|", views: bg)
-//		addConstraintsWithFormat(format: "V:|[v0]|", views: bg)
 		let panel = UIView()
 		panel.translatesAutoresizingMaskIntoConstraints = false
 		panel.backgroundColor = UIColor.white
@@ -318,31 +299,26 @@ class CheckoutStepsCell: UICollectionViewCell
 		addSubview(panel)
 		addSubview(cont)
 		drawTotalsBar()
-//		cont.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
-			panel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
-			panel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
-			panel.bottomAnchor.constraint(equalTo: cont.topAnchor, constant: -5),
-			panel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+			panel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+			panel.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 5),
+			panel.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: -5),
 			
-//			cont.topAnchor.constraint(equalTo: panel.bottomAnchor, constant: 5),
+			cont.topAnchor.constraint(equalTo: panel.bottomAnchor, constant: 5),
 			cont.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			cont.heightAnchor.constraint(equalToConstant: 50),
 			cont.widthAnchor.constraint(equalToConstant: 250),
 			
 			totalsBar.topAnchor.constraint(equalTo: cont.bottomAnchor, constant: 5),
 			totalsBar.heightAnchor.constraint(equalToConstant: 50),
-			totalsBar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-			totalsBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
+			totalsBar.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 0),
+			totalsBar.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: 0),
 			])
-//		if #available(iOS 11.0, *) {
-//			totalsBar.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -1).isActive = true
-////			addConstraintsWithFormat(format: "V:|-15-[v0]-5-[v1(50)]-5-[v2(40)]-\(self.safeAreaInsets.bottom)-|", views: panel, cont, totalsBar)
-//		} else {
-			totalsBar.bottomAnchor.constraint(equalTo: self.safeBottomAnchor, constant: 0).isActive = true
-//			addConstraintsWithFormat(format: "V:|-15-[v0]-5-[v1(50)]-5-[v2(50)]-0-|", views: panel, cont, totalsBar)
-//		}
-//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+		if #available(iOS 11.0, *) {
+			totalsBar.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+		} else {
+			totalsBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+		}
 	}
 	
 	
@@ -373,7 +349,9 @@ class CheckoutStepsCell: UICollectionViewCell
 			//addConstraintsWithFormat(format: "H:|-\(space)-[v0]-\(space)-[v1]", views: label, boldLabel)
 			addConstraintsWithFormat(format: "H:|-10-[v0]", views: label)
 			addConstraintsWithFormat(format: "H:|-20-[v0]", views: boldLabel)
-			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1(50)]-\(space)-[v2]", views: label, boldLabel, signoutLabel)
+//			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1(50)]-\(space)-[v2]", views: label, boldLabel, signoutLabel)
+			addConstraintsWithFormat(format: "V:|-10-[v0(50)]-10-[v1(50)]", views: label, boldLabel)
+			addConstraint(NSLayoutConstraint(item: signoutLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: -20))
 			//addConstraintsWithFormat(format: "V:|-\(space)", views: boldLabel)
 			label.text = R.string.logAs
 			if !(store.customer?.lastname?.isEmpty)! && !(store.customer?.firstname?.isEmpty)!
@@ -551,10 +529,10 @@ class CheckoutStepsCell: UICollectionViewCell
 		addSubview(table)
 		addConstraintsWithFormat(format: "H:|-10-[v0]", views: table)
 		addConstraintsWithFormat(format: "V:|-75-[v0]", views: table)
-		addSubview(cont)
-		addConstraintsWithFormat(format: "H:[v0]", views: cont)
-		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
-		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
+//		addSubview(cont)
+//		addConstraintsWithFormat(format: "H:[v0]", views: cont)
+//		addConstraintsWithFormat(format: "V:[v0(50)]-15-|", views: cont)
+//		addConstraint(NSLayoutConstraint(item: cont, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 	}
 
 

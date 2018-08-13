@@ -312,7 +312,7 @@ extension R
 		static let payByCash = "Pay by cash"
 		static let obligation = "Order with an obligation to pay"
 		static let chkInstr = "Choose a %s, then press Next"
-		static let markComp = "Mark complete"
+		static let markComp = "Mark step complete"
 		// MARK:		<!--prestashop-->
 		static let cookie_key = "DtMUx3asc8KUPENVAjmaWBNjZWQ8ONsInyIPeYevCnjManedCdobyVr8"
 		static let secret = "dv0YPxjVdDNn6f2RFQ7IgX63BJa9gdpcqHwO4JcuchMQKUrgqTSQvmr6"

@@ -1003,6 +1003,24 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 								self.prodImage.center.y = beforeCenterY						//revert position
 								self.prodImage.transform = beforeAnimation					//revert size
 								self.prodImage.alpha = 1									//make vivid
+
+								let upArrow = UIImageView(image: Awesome.regular.handPointUp.asImage(size: 45, color: R.color.YumaRed, backgroundColor: UIColor.clear))
+								self.view.addSubview(upArrow)
+//								upArrow.contentMode = .scaleAspectFit
+								//				upArrow.alpha = 0
+//								upArrow.topAnchor.constraint(equalTo: self.view.safeTopAnchor).isActive = true
+//								upArrow.leadingAnchor.constraint(equalTo: self.view.safeLeadingAnchor).isActive = true
+//								upArrow.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor).isActive = true
+//								upArrow.trailingAnchor.constraint(equalTo: self.view.safeTrailingAnchor).isActive = true
+								upArrow.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+								upArrow.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+								upArrow.widthAnchor.constraint(equalToConstant: 45).isActive = true
+								upArrow.heightAnchor.constraint(equalToConstant: 45).isActive = true
+								//				UIView.animate(withDuration: 3.0, delay: 3.0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [UIViewAnimationOptions.repeat, .curveEaseInOut], animations: {
+								//					upArrow.alpha = 1
+								//					upArrow.center.y -= self.view.frame.height / 3
+								//				}, completion: { (_) in
+								//				})
 						})
 				})
 			}
@@ -1043,14 +1061,18 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 
 	@objc func displayCart(_ sender: UITapGestureRecognizer)
 	{
-		self.dismiss(animated: true) {
-			self.tabBarController?.selectedIndex = 3
-//			self.productsView.tabBarController?.selectedIndex = 3
+		if let tabBarController = self.presentingViewController as? UITabBarController
+		{
+//			let navigationController = self.presentedViewController?.navigationController
+			tabBarController.selectedIndex = 3
+			if let navTitle = tabBarController as? TabBarController
+			{
+//				navTitle.title = R.string.cart
+				navTitle.title = R.string.cart
+			}
+			self.dismiss(animated: true) {
+			}
 		}
-//		let vc = TabBarController()
-////		let vc = CartViewControl()
-//		self.present(vc, animated: false) {
-//		}
 	}
 
 	@objc func displayHelp(_ sender: UITapGestureRecognizer)
