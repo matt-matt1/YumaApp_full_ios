@@ -184,19 +184,27 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 		let view = UIButton()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		let mutableAttributedString = NSMutableAttributedString(attributedString: Awesome.solid.shoppingCart.asAttributedText(fontSize: 26, color: UIColor.white, backgroundColor: UIColor.clear))
-		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
-		let str = NSAttributedString(string: "     \(R.string.add2cart)", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 21), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
+		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaDRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
+		let str = NSAttributedString(string: "     \(R.string.add2cart)", attributes: [
+			NSAttributedStringKey.foregroundColor 	: UIColor.white,
+			NSAttributedStringKey.font 				: UIFont.boldSystemFont(ofSize: 21),
+			NSAttributedStringKey.shadow 			: R.shadow.YumaDRed5_downright1(),
+			NSAttributedStringKey.baselineOffset 	: 2,
+//			NSAttributedStringKey.strokeColor 		: R.color.YumaDRed,
+//			NSAttributedStringKey.strokeWidth 		: 1,
+//			NSAttributedStringKey.backgroundColor 	: UIColor.white
+			])
 		mutableAttributedString.append(str)
 		view.setAttributedTitle(mutableAttributedString, for: .normal)
-		view.borderWidth = 1
-		view.borderColor = R.color.YumaRed
-		view.cornerRadius = 3
-		view.backgroundColor = R.color.YumaYel//UIColor(hex: "f8c03f")
-		view.shadowColor = UIColor.darkGray
-		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 5
-		view.shadowOpacity = 0.9
-		view.autoresizingMask = [.flexibleWidth]
+		view.borderWidth 		= 1
+		view.borderColor 		= R.color.YumaRed
+		view.cornerRadius 		= 3
+		view.backgroundColor 	= R.color.YumaYel//UIColor(hex: "f8c03f")
+		view.shadowColor 		= UIColor.darkGray
+		view.shadowOffset 		= CGSize(width: 1, height: 1)
+		view.shadowRadius 		= 5
+		view.shadowOpacity 		= 0.9
+		view.autoresizingMask 	= [.flexibleWidth]
 		return view
 	}()
 	var tagsStack: UIStackView =
@@ -1008,12 +1016,12 @@ class ProductDetailsViewController: UIViewController, UIScrollViewDelegate
 								self.view.addSubview(upArrow)
 //								upArrow.contentMode = .scaleAspectFit
 								//				upArrow.alpha = 0
-//								upArrow.topAnchor.constraint(equalTo: self.view.safeTopAnchor).isActive = true
-//								upArrow.leadingAnchor.constraint(equalTo: self.view.safeLeadingAnchor).isActive = true
-//								upArrow.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor).isActive = true
-//								upArrow.trailingAnchor.constraint(equalTo: self.view.safeTrailingAnchor).isActive = true
-								upArrow.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-								upArrow.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+								upArrow.topAnchor.constraint(equalTo: self.view.safeTopAnchor).isActive = true
+								upArrow.leadingAnchor.constraint(equalTo: self.view.safeLeadingAnchor).isActive = true
+								upArrow.bottomAnchor.constraint(equalTo: self.view.safeBottomAnchor).isActive = true
+								upArrow.trailingAnchor.constraint(equalTo: self.view.safeTrailingAnchor).isActive = true
+//								upArrow.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//								upArrow.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
 								upArrow.widthAnchor.constraint(equalToConstant: 45).isActive = true
 								upArrow.heightAnchor.constraint(equalToConstant: 45).isActive = true
 								//				UIView.animate(withDuration: 3.0, delay: 3.0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [UIViewAnimationOptions.repeat, .curveEaseInOut], animations: {

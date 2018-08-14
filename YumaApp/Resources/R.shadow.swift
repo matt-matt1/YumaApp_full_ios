@@ -31,6 +31,15 @@ extension R
 			return shadow
 		}
 		
+		static func YumaDRed5_downright1() -> NSShadow
+		{
+			let shadow = NSShadow()
+			shadow.shadowBlurRadius = 5
+			shadow.shadowOffset = CGSize(width: 1, height: 1)
+			shadow.shadowColor = R.color.YumaDRed
+			return shadow
+		}
+		
 		static func darkGray1_downright1() -> NSShadow
 		{
 			let shadow = NSShadow()

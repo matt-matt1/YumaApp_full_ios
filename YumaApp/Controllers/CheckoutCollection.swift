@@ -12,6 +12,72 @@ import AwesomeEnum
 
 class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFlowLayout
 {
+	let totalsBar: UIToolbar =
+	{
+		let view = UIToolbar()
+		view.translatesAutoresizingMaskIntoConstraints = false
+		view.isTranslucent = false
+		view.barTintColor = R.color.YumaRed
+		return view
+	}()
+	let smallFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 8.0
+		return view
+	}()
+	let bigFixedSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+		view.width = 15.0
+		return view
+	}()
+	let flexibleSpace: UIBarButtonItem =
+	{
+		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+		return view
+	}()
+	var totalAmt: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		view.text = "="//R.string.Total
+		return view
+	}()
+	var totalPcsLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		view.text = R.string.pieces
+		return view
+	}()
+	var totalPcs: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalWt: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = R.color.YumaYel
+		view.font = R.font.avenirNextBold21
+		return view
+	}()
+	var totalWtLbl: UILabel =
+	{
+		let view = UILabel()
+		view.textColor = UIColor.lightGray
+		return view
+	}()
 	let store = DataStore.sharedInstance
 	var customer: Customer?
 	static let noteName = Notification.Name("fromCheckoutCollCell")
@@ -71,13 +137,14 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		setupNavigation()
 		setupCollectionView()
 		setupMenuBar()
+		drawTotalsBar()
 		getCustomer()
-		let window = UIApplication.shared.keyWindow
-		if #available(iOS 11.0, *) {
-			print("view=\(view.frame), window=\((window?.frame)!), left=\((window?.safeAreaInsets.left)!), right=\((window?.safeAreaInsets.right)!), top=\((window?.safeAreaInsets.top)!), bot=\((window?.safeAreaInsets.bottom)!)")
-		} else {
-			// Fallback on earlier versions
-		}
+//		let window = UIApplication.shared.keyWindow
+//		if #available(iOS 11.0, *) {
+//			print("view=\(view.frame), window=\((window?.frame)!), left=\((window?.safeAreaInsets.left)!), right=\((window?.safeAreaInsets.right)!), top=\((window?.safeAreaInsets.top)!), bot=\((window?.safeAreaInsets.bottom)!)")
+//		} else {
+//			// Fallback on earlier versions
+//		}
 		NotificationCenter.default.addObserver(self, selector: #selector(doAction), name: CheckoutCollection.noteName, object: nil)
     }
 
@@ -100,7 +167,7 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 	override func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
-		menuBar.hbLeft?.constant = scrollView.contentOffset.x / 4
+		menuBar.hbLeft?.constant = scrollView.contentOffset.x / 4.2
 	}
 
 
@@ -236,6 +303,70 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 	}
 
 
+	func drawTotalsBar()
+	{
+		self.view.addSubview(totalsBar)
+		//		print(store.myOrder)
+		totalPcs.text = "\(store.myOrder?.totalProducts ?? 0)"
+		if store.myOrder != nil && (store.myOrder?.totalProductsWt)! > Float(0)
+		{
+			totalWt.text = "\(store.myOrder?.totalProductsWt ?? 0)"
+			totalWtLbl.text = R.string.weight
+		}
+		var num: NSNumber = 0
+		if store.myOrder != nil
+		{
+			num = NSNumber(value: (store.myOrder?.totalPaidTaxExcl)!)
+			if num == 0 && (store.myOrder?.totalPaidReal)! > Float(0)
+			{
+				num = NSNumber(value: (store.myOrder?.totalPaidReal)!)
+			}
+			else if num == 0 && (store.myOrder?.totalPaid)! > Float(0)
+			{
+				num = NSNumber(value: (store.myOrder?.totalPaid)!)
+			}
+			else if num == 0 && (store.myOrder?.totalPaidTaxIncl)! > Float(0)
+			{
+				totalAmt.text = store.formatCurrency(amount: NSNumber(value: (store.myOrder?.totalPaidTaxIncl)!))
+				totalAmt.text?.append(" (inc. \(R.string.tax))")
+			}
+		}
+		totalAmt.text = store.formatCurrency(amount: num)
+		var items = [
+			UIBarButtonItem(customView: totalPcs),
+			smallFixedSpace,
+			UIBarButtonItem(customView: totalPcsLbl),
+			flexibleSpace,
+			UIBarButtonItem(customView: totalLbl),
+			bigFixedSpace,
+			UIBarButtonItem(customView: totalAmt)
+		]
+		if totalWt.text != nil && !(totalWt.text?.isEmpty)!
+		{
+			items += [
+				flexibleSpace,
+				UIBarButtonItem(customView: totalWt),
+				UIBarButtonItem(customView: totalWtLbl)
+			]
+		}
+		totalsBar.setItems(items, animated: false)
+		NSLayoutConstraint.activate([
+//			totalsBar.topAnchor.constraint(equalTo: collectionView!.safeBottomAnchor, constant: 5),
+			totalsBar.heightAnchor.constraint(equalToConstant: 50),
+			totalsBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+			totalsBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+			])
+		if #available(iOS 11.0, *)
+		{
+			totalsBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+		}
+		else
+		{
+			totalsBar.bottomAnchor.constraint(equalTo: view.safeBottomAnchor, constant: 0).isActive = true
+		}
+	}
+	
+	
 	private func setupCollectionView()
 	{
 		if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
@@ -245,8 +376,16 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 		collectionView?.backgroundColor = UIColor.lightGray//white
 		collectionView?.register(CheckoutStepsCell.self, forCellWithReuseIdentifier: "CheckoutCollectionCellId")
 		collectionView?.isPagingEnabled = true
-		collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-		collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+//		if #available(iOS 11.0, *)
+//		{
+//			collectionView?.contentInset = UIEdgeInsets(top: 50, left: (UIApplication.shared.keyWindow?.safeAreaInsets.left)!, bottom: 0, right: 0)
+//			collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: (UIApplication.shared.keyWindow?.safeAreaInsets.left)!, bottom: 0, right: 0)
+//		}
+//		else
+//		{
+			collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+			collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+//		}
 	}
 
 
@@ -274,18 +413,19 @@ class CheckoutCollection: UICollectionViewController, UICollectionViewDelegateFl
 
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 	{
+		var width: CGFloat = 0
+		var height: CGFloat = 0
 		if #available(iOS 11.0, *)
 		{
-			let width = view.frame.width - view.safeAreaInsets.left - view.safeAreaInsets.right
-			let height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - 50
-			return CGSize(width: width, height: height)
+			width = view.frame.width - view.safeAreaInsets.left - view.safeAreaInsets.right
+			height = view.frame.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - 50
 		}
 		else
 		{
-			let width = view.frame.width - 0 - 0
-			let height = view.frame.height - 51
-			return CGSize(width: width, height: height)
+			width = view.frame.width - 0 - 0
+			height = view.frame.height - 51
 		}
+		return CGSize(width: width, height: height)
 	}
 
 

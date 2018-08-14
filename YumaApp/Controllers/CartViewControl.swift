@@ -118,22 +118,26 @@ class CartViewControl: UIViewController
 	}()
 	var chkoutBtn: UIButton =
 	{
-		let view = UIButton()
-		view.backgroundColor = R.color.YumaYel//UIColor(hex: "f8c03f")
+		let view 					= UIButton()
+		view.backgroundColor 		= R.color.YumaYel//UIColor(hex: "f8c03f")
 		view.translatesAutoresizingMaskIntoConstraints = false
 		let mutableAttributedString = NSMutableAttributedString(attributedString: Awesome.solid.wallet.asAttributedText(fontSize: 26, color: UIColor.white, backgroundColor: UIColor.clear))
-		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
-		let str = NSAttributedString(string: "     \(R.string.checkOut.uppercased())", attributes: [NSAttributedStringKey.foregroundColor : UIColor.white, NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 21), NSAttributedStringKey.shadow : R.shadow.YumaRed5_downright1(), NSAttributedStringKey.baselineOffset : 2])
+		mutableAttributedString.addAttributes([NSAttributedStringKey.shadow : R.shadow.YumaDRed5_downright1()], range: NSRange(location: 0, length: mutableAttributedString.length))
+		let str = NSAttributedString(string: "     \(R.string.checkOut.uppercased())", attributes: [
+			NSAttributedStringKey.foregroundColor 	: UIColor.white,
+			NSAttributedStringKey.font 				: UIFont.boldSystemFont(ofSize: 21),
+			NSAttributedStringKey.shadow 			: R.shadow.YumaDRed5_downright1(),
+			NSAttributedStringKey.baselineOffset 	: 2])
 		mutableAttributedString.append(str)
 		view.setAttributedTitle(mutableAttributedString, for: .normal)
-		view.borderWidth = 1
-		view.borderColor = R.color.YumaRed
-		view.cornerRadius = 3
-		view.shadowColor = UIColor.darkGray
-		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 5
-		view.shadowOpacity = 0.9
-		view.autoresizingMask = [.flexibleWidth]
+		view.borderWidth 			= 1
+		view.borderColor 			= R.color.YumaRed
+		view.cornerRadius 			= 3
+		view.shadowColor 			= UIColor.darkGray
+		view.shadowOffset 			= CGSize(width: 1, height: 1)
+		view.shadowRadius 			= 5
+		view.shadowOpacity 			= 0.9
+		view.autoresizingMask 		= [.flexibleWidth]
 		return view
 	}()
 	let picker = UIPickerView()
@@ -175,8 +179,8 @@ class CartViewControl: UIViewController
 		let _ = chkoutBtn.addBackgroundGradient(colors: [R.color.YumaRed.cgColor, R.color.YumaYel.cgColor], isVertical: true)
 		chkoutBtn.layer.addGradienBorder(colors: [R.color.YumaYel, R.color.YumaRed], width: 3.6, isVertical: true)
 		tableView.reloadData()
-		print("view.frame=\(view.frame)")
-		print(totalsBar.frame)
+//		print("view.frame=\(view.frame)")
+//		print(totalsBar.frame)
 	}
 	
 	

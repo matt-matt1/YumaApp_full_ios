@@ -539,7 +539,7 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 				headerCell.addSubview(headerImageBase)
 				NSLayoutConstraint.activate([
 					headerImageBase.bottomAnchor.constraint(equalTo: headerCell.bottomAnchor, constant: 0),
-					headerImageBase.heightAnchor.constraint(equalToConstant: 2),
+					headerImageBase.heightAnchor.constraint(equalToConstant: 1),
 					headerImageBase.leadingAnchor.constraint(equalTo: headerImageView.leadingAnchor, constant: 0),
 					headerImageBase.trailingAnchor.constraint(equalTo: headerImageView.trailingAnchor, constant: 0),
 					])
@@ -586,7 +586,21 @@ extension ProductsPreviewController: UICollectionViewDataSource, UICollectionVie
 	{	//	Collection cell's size
 		if collectionView == prodsCollection
 		{
-			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * min(1, (numberCellsPerRow - 1))) - cellsLeftMargin, minCellWidth)
+			var leftX: CGFloat = 0
+			var rightX: CGFloat = 0
+			if #available(iOS 11.0, *)
+			{
+				leftX = (UIApplication.shared.keyWindow?.safeAreaInsets.left)!
+				rightX = (UIApplication.shared.keyWindow?.safeAreaInsets.right)!
+			}
+			else
+			{
+				leftX = 0
+				rightX = 0
+			}
+//			print("leftX=\(leftX), rightX=\(rightX)")
+//			let cellWidth = max((view.frame.width / numberCellsPerRow) - (cellsRightMargin * min(1, (numberCellsPerRow - 1))) - cellsLeftMargin, minCellWidth)
+			let cellWidth = max(((view.frame.width - leftX - rightX) / numberCellsPerRow) - (cellsRightMargin * min(1, (numberCellsPerRow - 1))) - cellsLeftMargin, minCellWidth)
 			return CGSize(width: cellWidth, height: max(minCellHeight, min(cellWidth - cellsTopMargin - cellsBottomMargin, maxCellHeight)) + 93 / UIScreen.main.scale)
 		}
 		else if collectionView == panelsCollection	// each panel has whole view

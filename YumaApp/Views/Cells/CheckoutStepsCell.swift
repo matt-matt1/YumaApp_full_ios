@@ -17,72 +17,72 @@ import UIKit
 
 class CheckoutStepsCell: UICollectionViewCell
 {
-	let totalsBar: UIToolbar =
-	{
-		let view = UIToolbar()
-		view.translatesAutoresizingMaskIntoConstraints = false
-		view.isTranslucent = false
-		view.barTintColor = R.color.YumaRed
-		return view
-	}()
-	let smallFixedSpace: UIBarButtonItem =
-	{
-		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-		view.width = 8.0
-		return view
-	}()
-	let bigFixedSpace: UIBarButtonItem =
-	{
-		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
-		view.width = 15.0
-		return view
-	}()
-	let flexibleSpace: UIBarButtonItem =
-	{
-		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-		return view
-	}()
-	var totalAmt: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = R.color.YumaYel
-		view.font = R.font.avenirNextBold21
-		return view
-	}()
-	var totalLbl: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = UIColor.lightGray
-		view.text = "="//R.string.Total
-		return view
-	}()
-	var totalPcsLbl: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = UIColor.lightGray
-		view.text = R.string.pieces
-		return view
-	}()
-	var totalPcs: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = R.color.YumaYel
-		view.font = R.font.avenirNextBold21
-		return view
-	}()
-	var totalWt: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = R.color.YumaYel
-		view.font = R.font.avenirNextBold21
-		return view
-	}()
-	var totalWtLbl: UILabel =
-	{
-		let view = UILabel()
-		view.textColor = UIColor.lightGray
-		return view
-	}()
+//	let totalsBar: UIToolbar =
+//	{
+//		let view = UIToolbar()
+//		view.translatesAutoresizingMaskIntoConstraints = false
+//		view.isTranslucent = false
+//		view.barTintColor = R.color.YumaRed
+//		return view
+//	}()
+//	let smallFixedSpace: UIBarButtonItem =
+//	{
+//		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+//		view.width = 8.0
+//		return view
+//	}()
+//	let bigFixedSpace: UIBarButtonItem =
+//	{
+//		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.fixedSpace, target: nil, action: nil)
+//		view.width = 15.0
+//		return view
+//	}()
+//	let flexibleSpace: UIBarButtonItem =
+//	{
+//		let view = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+//		return view
+//	}()
+//	var totalAmt: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = R.color.YumaYel
+//		view.font = R.font.avenirNextBold21
+//		return view
+//	}()
+//	var totalLbl: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = UIColor.lightGray
+//		view.text = "="//R.string.Total
+//		return view
+//	}()
+//	var totalPcsLbl: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = UIColor.lightGray
+//		view.text = R.string.pieces
+//		return view
+//	}()
+//	var totalPcs: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = R.color.YumaYel
+//		view.font = R.font.avenirNextBold21
+//		return view
+//	}()
+//	var totalWt: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = R.color.YumaYel
+//		view.font = R.font.avenirNextBold21
+//		return view
+//	}()
+//	var totalWtLbl: UILabel =
+//	{
+//		let view = UILabel()
+//		view.textColor = UIColor.lightGray
+//		return view
+//	}()
 	let store = DataStore.sharedInstance
 	var space: CGFloat = 20
 	var curr = 1
@@ -120,31 +120,35 @@ class CheckoutStepsCell: UICollectionViewCell
 	}()
 	let cont: /*UIButton*/GradientButton =
 	{
-		let view = /*UIButton()*/GradientButton()
-		view.backgroundColor = R.color.YumaYel//.YumaRed
+		let view 					= /*UIButton()*/GradientButton()
+		view.backgroundColor 		= R.color.YumaYel//.YumaRed
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.setTitle(R.string.markComp.uppercased(), for: .normal)
-		view.titleLabel?.textColor = UIColor.white
+		view.titleLabel?.textColor 	= UIColor.white
 //		view.topGradientColor = R.color.YumaRed
 //		view.bottomGradientColor = R.color.YumaDRed
 		//		view.bottomGradientColor = R.color.YumaYel
-		view.cornerRadius = 3
-		view.shadowColor = UIColor.darkGray
-		view.shadowOffset = CGSize(width: 1, height: 1)
-		view.shadowRadius = 5
-		view.shadowOpacity = 0.9
-		view.borderColor = R.color.YumaRed
-		view.borderWidth = 1
+		view.cornerRadius 			= 3
+		view.shadowColor 			= UIColor.darkGray
+		view.shadowOffset 			= CGSize(width: 1, height: 1)
+		view.shadowRadius 			= 5
+		view.shadowOpacity 			= 0.9
+		view.borderColor 			= R.color.YumaRed
+		view.borderWidth 			= 1
 		view.widthAnchor.constraint(equalToConstant: 250).isActive = true
+		view.autoresizingMask 	= [.flexibleWidth]
 		let titleShadow: NSShadow =
 		{
 			let view = NSShadow()
-			view.shadowColor = R.color.YumaDRed//UIColor.black
+			view.shadowColor 		= R.color.YumaDRed//UIColor.black
 			//			view.shadowRadius = 3
-			view.shadowOffset = CGSize(width: 1, height: 1)
+			view.shadowOffset 		= CGSize(width: 1, height: 1)
 			return view
 		}()
-		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [NSAttributedStringKey.font : UIFont(name: "AvenirNext-Bold", size: 18)!, NSAttributedStringKey.shadow : titleShadow]), for: .normal)
+		view.setAttributedTitle(NSAttributedString(string: view.title(for: .normal)!, attributes: [
+			NSAttributedStringKey.font 		: UIFont(name: "AvenirNext-Bold", size: 18)!,
+			NSAttributedStringKey.shadow 	: /*R.shadow.YumaDRed5_downright1()*/titleShadow
+			]), for: .normal)
 		return view
 	}()
 //	let cont: /*UIButton*/GradientButton =
@@ -237,56 +241,56 @@ class CheckoutStepsCell: UICollectionViewCell
 	}
 
 
-	func drawTotalsBar()
-	{
-		self.addSubview(totalsBar)
-//		print(store.myOrder)
-		totalPcs.text = "\(store.myOrder?.totalProducts ?? 0)"
-		if store.myOrder != nil && (store.myOrder?.totalProductsWt)! > Float(0)
-		{
-			totalWt.text = "\(store.myOrder?.totalProductsWt ?? 0)"
-			totalWtLbl.text = R.string.weight
-		}
-		var num: NSNumber = 0
-		if store.myOrder != nil
-		{
-			num = NSNumber(value: (store.myOrder?.totalPaidTaxExcl)!)
-			if num == 0 && (store.myOrder?.totalPaidReal)! > Float(0)
-			{
-				num = NSNumber(value: (store.myOrder?.totalPaidReal)!)
-			}
-			else if num == 0 && (store.myOrder?.totalPaid)! > Float(0)
-			{
-				num = NSNumber(value: (store.myOrder?.totalPaid)!)
-			}
-			else if num == 0 && (store.myOrder?.totalPaidTaxIncl)! > Float(0)
-			{
-				totalAmt.text = store.formatCurrency(amount: NSNumber(value: (store.myOrder?.totalPaidTaxIncl)!))
-				totalAmt.text?.append(" (inc. \(R.string.tax))")
-			}
-		}
-		totalAmt.text = store.formatCurrency(amount: num)
-		var items = [
-			UIBarButtonItem(customView: totalPcs),
-			smallFixedSpace,
-			UIBarButtonItem(customView: totalPcsLbl),
-			flexibleSpace,
-			UIBarButtonItem(customView: totalLbl),
-			bigFixedSpace,
-			UIBarButtonItem(customView: totalAmt)
-		]
-		if totalWt.text != nil && !(totalWt.text?.isEmpty)!
-		{
-			items += [
-				flexibleSpace,
-				UIBarButtonItem(customView: totalWt),
-				UIBarButtonItem(customView: totalWtLbl)
-			]
-		}
-		totalsBar.setItems(items, animated: false)
-	}
-	
-	
+//	func drawTotalsBar()
+//	{
+//		self.addSubview(totalsBar)
+////		print(store.myOrder)
+//		totalPcs.text = "\(store.myOrder?.totalProducts ?? 0)"
+//		if store.myOrder != nil && (store.myOrder?.totalProductsWt)! > Float(0)
+//		{
+//			totalWt.text = "\(store.myOrder?.totalProductsWt ?? 0)"
+//			totalWtLbl.text = R.string.weight
+//		}
+//		var num: NSNumber = 0
+//		if store.myOrder != nil
+//		{
+//			num = NSNumber(value: (store.myOrder?.totalPaidTaxExcl)!)
+//			if num == 0 && (store.myOrder?.totalPaidReal)! > Float(0)
+//			{
+//				num = NSNumber(value: (store.myOrder?.totalPaidReal)!)
+//			}
+//			else if num == 0 && (store.myOrder?.totalPaid)! > Float(0)
+//			{
+//				num = NSNumber(value: (store.myOrder?.totalPaid)!)
+//			}
+//			else if num == 0 && (store.myOrder?.totalPaidTaxIncl)! > Float(0)
+//			{
+//				totalAmt.text = store.formatCurrency(amount: NSNumber(value: (store.myOrder?.totalPaidTaxIncl)!))
+//				totalAmt.text?.append(" (inc. \(R.string.tax))")
+//			}
+//		}
+//		totalAmt.text = store.formatCurrency(amount: num)
+//		var items = [
+//			UIBarButtonItem(customView: totalPcs),
+//			smallFixedSpace,
+//			UIBarButtonItem(customView: totalPcsLbl),
+//			flexibleSpace,
+//			UIBarButtonItem(customView: totalLbl),
+//			bigFixedSpace,
+//			UIBarButtonItem(customView: totalAmt)
+//		]
+//		if totalWt.text != nil && !(totalWt.text?.isEmpty)!
+//		{
+//			items += [
+//				flexibleSpace,
+//				UIBarButtonItem(customView: totalWt),
+//				UIBarButtonItem(customView: totalWtLbl)
+//			]
+//		}
+//		totalsBar.setItems(items, animated: false)
+//	}
+//
+//
 	private func setupBackground()
 	{
 		let panel = UIView()
@@ -298,27 +302,29 @@ class CheckoutStepsCell: UICollectionViewCell
 		panel.shadowOpacity = 1
 		addSubview(panel)
 		addSubview(cont)
-		drawTotalsBar()
+//		drawTotalsBar()
 		NSLayoutConstraint.activate([
 			panel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
 			panel.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 5),
 			panel.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: -5),
+			panel.bottomAnchor.constraint(equalTo: cont.topAnchor, constant: -5),
 			
-			cont.topAnchor.constraint(equalTo: panel.bottomAnchor, constant: 5),
+//			cont.topAnchor.constraint(equalTo: panel.bottomAnchor, constant: 5),
 			cont.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			cont.heightAnchor.constraint(equalToConstant: 50),
 			cont.widthAnchor.constraint(equalToConstant: 250),
-			
-			totalsBar.topAnchor.constraint(equalTo: cont.bottomAnchor, constant: 5),
-			totalsBar.heightAnchor.constraint(equalToConstant: 50),
-			totalsBar.leadingAnchor.constraint(equalTo: self.safeLeadingAnchor, constant: 0),
-			totalsBar.trailingAnchor.constraint(equalTo: self.safeTrailingAnchor, constant: 0),
+			cont.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -55),
+//
+//			totalsBar.topAnchor.constraint(equalTo: cont.bottomAnchor, constant: 5),
+//			totalsBar.heightAnchor.constraint(equalToConstant: 50),
+//			totalsBar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+//			totalsBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0),
 			])
-		if #available(iOS 11.0, *) {
-			totalsBar.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-		} else {
-			totalsBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-		}
+//		if #available(iOS 11.0, *) {
+//			totalsBar.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+//		} else {
+//			totalsBar.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+//		}
 	}
 	
 	

@@ -36,12 +36,13 @@ class MenuCell: BaseCell
 		view.font = R.font.FontAwesomeOfSize(pointSize: 20)
 		return view
 	}()
-//	let iconView: UIImageView =
-//	{
-//		let view = UIImageView()
+	let iconImageView: UIImageView =
+	{
+		let view = UIImageView()
+		view.tintColor = R.color.YumaRed
 //		view.image = UIImage(named: "home")
-//		return view
-//	}()
+		return view
+	}()
 	//	override var isHighlighted: Bool
 	//		{
 	//		didSet
@@ -56,7 +57,11 @@ class MenuCell: BaseCell
 			{
 				//iconView.tintColor = isSelected ? R.color.YumaYel : R.color.YumaRed
 				//iconView.alpha = isSelected ? 1 : 0.3
-				iconView.textColor = isSelected ? R.color.YumaYel : R.color.YumaRed
+				iconView.textColor = (isSelected) ? R.color.YumaYel : R.color.YumaRed
+//				if iconImageView.image != nil
+//				{
+					iconImageView.tintColor = (isSelected) ? R.color.YumaYel : R.color.YumaRed
+//				}
 			}
 		}
 	
@@ -77,11 +82,22 @@ class MenuCell: BaseCell
 		addConstraintsWithFormat(format: "V:[v0(28)]", views: iconView)
 		addConstraint(NSLayoutConstraint(item: iconView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0))
 		addConstraint(NSLayoutConstraint(item: iconView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
-		addSubview(separator)
-		addConstraintsWithFormat(format: "H:[v0]", views: separator)
-		addConstraintsWithFormat(format: "V:[v0]", views: separator)
-		addConstraint(NSLayoutConstraint(item: separator, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0))
-		addConstraint(NSLayoutConstraint(item: separator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+//		if iconImageView.image != nil
+//		{
+			addSubview(iconImageView)
+			addConstraintsWithFormat(format: "H:[v0(30)]", views: iconImageView)
+			addConstraintsWithFormat(format: "V:[v0(30)]", views: iconImageView)
+			addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.5, constant: 0))
+			addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+//		}
+		if iconView.text != "4"
+		{
+			addSubview(separator)
+			addConstraintsWithFormat(format: "H:[v0]", views: separator)
+			addConstraintsWithFormat(format: "V:[v0]", views: separator)
+			addConstraint(NSLayoutConstraint(item: separator, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0))
+			addConstraint(NSLayoutConstraint(item: separator, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
+		}
 		addSubview(tick)
 		tick.font = R.font.FontAwesomeOfSize(pointSize: Int(self.frame.height))
 		addConstraintsWithFormat(format: "H:[v0]", views: tick)
